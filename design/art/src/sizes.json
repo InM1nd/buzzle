@@ -1,0 +1,62 @@
+{
+ "t1_flat": {
+  "measured": {
+   "png": 98989,
+   "webp": 58968
+  },
+  "full_set_est": {
+   "png": 207362,
+   "webp": 123686
+  }
+ },
+ "t2_watercolor": {
+  "measured": {
+   "png": 648642,
+   "webp": 253004
+  },
+  "full_set_est": {
+   "png": 1320425,
+   "webp": 522473
+  }
+ },
+ "t3_clay": {
+  "measured": {
+   "png": 482230,
+   "webp": 149410
+  },
+  "full_set_est": {
+   "png": 971203,
+   "webp": 304533
+  }
+ },
+ "t4_pixel": {
+  "measured": {
+   "png": 12030,
+   "webp": 30626
+  },
+  "full_set_est": {
+   "png": 26550,
+   "webp": 65907
+  }
+ },
+ "t5_lineart": {
+  "measured": {
+   "png": 148535,
+   "webp": 68328
+  },
+  "full_set_est": {
+   "png": 311028,
+   "webp": 146046
+  }
+ },
+ "t6_papercut": {
+  "measured": {
+   "png": 704674,
+   "webp": 179106
+  },
+  "full_set_est": {
+   "png": 1391495,
+   "webp": 364982
+  }
+ }
+}

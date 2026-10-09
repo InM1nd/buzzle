@@ -1,0 +1,7 @@
+# GitHub Linguist: keep design mockups, rendered screenshots and the screenshot harness out of the
+# language statistics so the app's TypeScript shows as the main language.
+design/** linguist-documentation
+design/**/*.html linguist-generated
+screens/** linguist-documentation
+scripts/web-screens/** linguist-vendored
+*.html linguist-documentation

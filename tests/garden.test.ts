@@ -202,7 +202,7 @@ const V1_SAVE = {
 test("migration v1 → v2 keeps all progress and adds nectar, levels and the garden", () => {
   const m = migrate(JSON.parse(JSON.stringify(V1_SAVE)), T0);
   assert.equal(m.version, STATE_VERSION);
-  assert.equal(STATE_VERSION, 3);
+  assert.equal(STATE_VERSION, 4);
   assert.equal(m.honey, 1240); assert.equal(m.jelly, 7); assert.equal(m.nectar, 0);
   assert.deepEqual(m.hive.combs, V1_SAVE.hive.combs);
   assert.equal(m.hive.stored, 120);

@@ -1,3 +1,6 @@
+import { currentTasks } from "../logic/game";
+import { WEEKLY_TASKS } from "../logic/tasks";
+import { boxArt } from "../ui/lootUi";
 import React, { useRef } from "react";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { GameState, canClaimLogin, level, nextLoginIndex } from "../logic/game";
@@ -25,7 +28,7 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
   const lvl = level(s);
   const canLogin = canClaimLogin(s, now);
   const idx = canLogin ? nextLoginIndex(s, now) : s.login.index;
-  const tasks = tasksForDay(s.tasks.day);
+  const tasks = currentTasks(s);
   const doneCount = s.tasks.claimed.length;
   const midnight = new Date(now); midnight.setHours(24, 0, 0, 0);
   const loginRef = useRef<View>(null);
@@ -121,13 +124,21 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
           <Image source={ART.chest} style={{ width: 48, height: 48, opacity: s.tasks.bonus ? 0.5 : 1 }} />
           <View style={{ flex: 1 }}>
             <Txt v="h3">Сундук дня</Txt>
-            <Txt v="small" color={C.dim}>{s.tasks.bonus ? "Получен. Новый — завтра!" : `Выполните все 3 задания: ${fmt(br.honey ?? 0)} мёда и ${br.jelly} молочка`}</Txt>
+            <Txt v="small" color={C.dim}>{s.tasks.bonus ? "Получен. Новый — завтра!" : `Выполните все 3 задания: ${fmt(br.honey ?? 0)} мёда, ${br.jelly} молочка и деревянная сота-сюрприз`}</Txt>
           </View>
           <View ref={bonusRef} collapsable={false}>
             {!s.tasks.bonus ? (
               <GameButton small title={doneCount >= 3 ? "Открыть" : `${doneCount}/3`} color={doneCount >= 3 ? "honey" : "grey"} disabled={doneCount < 3}
                 onPress={async () => onClaimBonus(await centerOf(bonusRef.current))} style={{ width: 92 }} label="Открыть сундук дня" />
             ) : null}
+          </View>
+        </View>
+        <View style={[styles.bonus, { backgroundColor: "#F3EDFF" }]} accessibilityLabel={`Недельный сундук: ${Math.min(s.week.tasks, WEEKLY_TASKS)} из ${WEEKLY_TASKS}`}>
+          <Image source={boxArt("wax")} style={{ width: 48, height: 48, opacity: s.week.chest ? 0.5 : 1 }} />
+          <View style={{ flex: 1 }}>
+            <Txt v="h3">Недельный сундук</Txt>
+            <Bar progress={Math.min(1, s.week.tasks / WEEKLY_TASKS)} height={8} color={C.jelly} style={{ marginTop: 4 }} />
+            <Txt v="tiny" color={C.dim}>{s.week.chest ? "получен — новый в понедельник" : `${Math.min(s.week.tasks, WEEKLY_TASKS)}/${WEEKLY_TASKS} заданий за неделю · забрать во вкладке «Сюрпризы»`}</Txt>
           </View>
         </View>
       </Card>

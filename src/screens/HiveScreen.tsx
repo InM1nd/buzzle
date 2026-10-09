@@ -1,3 +1,5 @@
+import { shownDecos } from "../logic/game";
+import { DecoStrip } from "../ui/lootUi";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Animated, Easing, Image, Platform, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { GameState, cap, canBuildAt, clockRolledBack, combActionCost, level, rate, upgradeCostFor } from "../logic/game";
@@ -192,6 +194,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
       ) : null}
 
       {banner}
+      <DecoStrip ids={shownDecos(s, "hive")} ground="#F6E3BC" />
       {/* hive */}
       <View style={[styles.hiveArea, { height: areaH + 46 }]}>
         <View style={styles.hiveHead}>

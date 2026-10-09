@@ -12,7 +12,7 @@ const URL = process.argv[2] || "http://127.0.0.1:8098/buzzle/";
 const ROUNDS = +(process.argv[3] || 6);
 const OUT = __dirname + "/../../screens/telegram";
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-const TABS = ["Улей", "Головоломка", "Пчёлы", "Задания"];
+const TABS = ["Улей", "Головоломка", "Пчёлы", "Сюрпризы", "Задания"];
 
 (async () => {
   const browser = await puppeteer.launch({ executablePath: process.env.CHROME || "/usr/bin/google-chrome", headless: true, args: ["--no-sandbox"] });

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, ScrollView, StyleSheet, useWindowDimensions, View } from "react-native";
-import { GameState, dayColorInfo, flowerUnlocked, level, nextBedCost, seedPrice } from "../logic/game";
+import { GameState, dayColorInfo, flowerUnlocked, level, nextBedCost, seedPrice, seedsOwned, shownDecos } from "../logic/game";
+import { DecoStrip, RARITY_UI } from "../ui/lootUi";
 import {
   Bed, BED_HIVE_BONUS, canWater, FLOWER_BY_ID, FLOWERS, isReady, MAX_BEDS, progress, stageOf, WATER_HOURS,
 } from "../logic/garden";
@@ -141,6 +142,7 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
         </View>
       </View>
 
+      <DecoStrip ids={shownDecos(s, "garden")} ground="#DDEFC8" />
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
         {beds.map((b, i) => <BedTile key={i} b={b} i={i} w={bw} selected={sel === i} onPress={(r) => tap(i, r)} />)}
         {bedCost !== null ? (
@@ -174,20 +176,24 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
         ) : (
           <Card warm style={{ borderWidth: 2, borderColor: C.honey }}>
             <Txt v="h3" style={{ marginBottom: 8 }}>Что посадим?</Txt>
-            {FLOWERS.map((f) => {
-              const unlocked = flowerUnlocked(s, f.id);
+            {FLOWERS.filter((f) => !f.rare || seedsOwned(s, f.id) > 0).map((f) => {
+              const pocket = seedsOwned(s, f.id);
+              const unlocked = pocket > 0 || flowerUnlocked(s, f.id);
               const price = seedPrice(s, f.id);
               return (
                 <View key={f.id} style={styles.seedRow}>
                   <Image source={GARDEN_ART[`${f.id}_bloom`]} style={{ width: 52, height: 52, opacity: unlocked ? 1 : 0.4 }} />
                   <View style={{ flex: 1 }}>
                     <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-                      <Txt v="h3">{f.name}</Txt>
+                      <Txt v="h3" color={f.rare ? RARITY_UI.rare.color : undefined}>{f.name}</Txt>
                       <View style={[styles.dot, { backgroundColor: COLOR_HEX[f.color] }]} />
                     </View>
-                    <Txt v="small" color={C.dim}>{f.growHours} ч роста · +{f.nectar} нектара</Txt>
+                    <Txt v="small" color={C.dim}>{f.growHours} ч роста · +{f.nectar} нектара{pocket ? ` · в кармане ×${pocket}` : ""}</Txt>
                   </View>
-                  {unlocked ? (
+                  {pocket > 0 ? (
+                    <GameButton small title="Даром" icon={ART.seed} color="green" onPress={() => { if (onPlant(sel, f.id)) setSel(null); }}
+                      label={`Посадить из кармана: ${f.name}`} style={{ minWidth: 92 }} />
+                  ) : unlocked ? (
                     <GameButton small title={fmt(price)} icon={ART.honey} disabled={s.honey < price} onPress={() => { if (onPlant(sel, f.id)) setSel(null); }}
                       label={`Посадить: ${f.name}`} style={{ minWidth: 92 }} />
                   ) : <Txt v="small" color={C.faint}>с {f.minLevel} ур. улья</Txt>}

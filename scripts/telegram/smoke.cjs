@@ -119,7 +119,19 @@ const shot = (page, n) => page.screenshot({ path: `${OUT}/${n}.png` }).then(() =
       await shot(page, "tg-06-garden");
       const meta = await page.evaluate(() => localStorage.getItem("__cloud__:bzz_meta"));
       check(!!meta, "existing local save migrated to CloudStorage");
+      // v1.3: surprise tab, invite via openTelegramLink, wooden comb opening
+      await tap(page, { label: "Соты" }, 400);
+      await tap(page, { label: "Сюрпризы" }, 900);
+      check(!!(await byText(page, "Соты-сюрпризы")), "surprise tab renders");
+      await shot(page, "loot-01-tab");
+      await page.evaluate(() => document.querySelector('[aria-label="Пригласить друга"]').scrollIntoView({ block: "center" }));
+      await sleep(400);
+      await tap(page, { label: "Пригласить друга" }, 600);
+      const link = await page.evaluate(() => window.__tg.calls.find((c) => c.startsWith("openTelegramLink:")) || "");
+      check(link.startsWith("openTelegramLink:https://t.me/share/url?url=") && decodeURIComponent(link).includes("https://t.me/Buzzle_game_bot/Buzzle"), "invite uses openTelegramLink → t.me/share/url with the bot link");
+
       // v1.2.1: rename a bee
+      await tap(page, { label: "Улей" }, 600);
       await tap(page, { label: "Соты" }, 500);
       await tap(page, { label: "Пчёлы" }, 900);
       await tap(page, { label: "Пушинка" }, 900);

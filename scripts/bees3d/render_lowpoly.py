@@ -27,7 +27,11 @@ SPECIES = {
     "sonya":     dict(body=(0.50, 0.52, 0.80), stripe=(0.14, 0.15, 0.36), acc="mask", sleepy=True),
     "zorkaya":   dict(body=(0.33, 0.80, 0.80), stripe=(0.06, 0.30, 0.34), acc="goggles"),
     "margo":     dict(body=(0.62, 0.40, 0.88), stripe=(1.0, 0.78, 0.25), wide=1.07, acc="ruff"),
+    # v1.3: the 13th bee, assembled from 10 fragments from the surprise combs
+    "nochka":    dict(body=(0.24, 0.27, 0.55), stripe=(0.80, 0.83, 1.0), acc="crescent", night=True),
 }
+# v1.3 skins: shared overlays (rendered on Zhuzha per view, body as holdout, like the crown)
+SKINS = ["scarf", "bow", "glasses", "backpack", "wreath", "beret", "headphones", "halo"]
 
 def mat(name, color, rough=0.45, emit=0.0, **kw):
     m = bpy.data.materials.new(name); m.use_nodes = True
@@ -125,7 +129,7 @@ def build(job):
     def surf(x, z, out=0.0):  # any point on the front/back hemisphere by angle
         return front(x, z, out)
 
-    groups = {"body": [], "eyes": [], "wingL": [], "wingR": [], "goldL": [], "goldR": [], "crown": []}
+    groups = {"body": [], "eyes": [], "wingL": [], "wingR": [], "goldL": [], "goldR": [], "crown": [], **{f"skin_{k}": [] for k in SKINS}}
     body = ico("body", (0, 0, 0), (A, B, C), stripe_material(sp, C), sub=2)
     groups["body"].append(body)
     dark_m, _ = mat("dark", (0.22, 0.12, 0.06), 0.5)
@@ -172,6 +176,8 @@ def build(job):
             G.append(star_mesh(f"star{i}", tp, 0.23, mat("starm", (1.0, 0.8, 0.2), 0.25, emit=0.6, Metallic=0.5)[0]))
         elif sp.get("sleepy"):
             G.append(ico(f"moon{i}", tp, (0.12,) * 3, mat("moon", (1.0, 0.9, 0.45), 0.4, emit=0.4)[0]))
+        elif sp.get("night"):
+            G.append(star_mesh(f"nstar{i}", tp, 0.17, mat("nstarm", (0.85, 0.9, 1.0), 0.3, emit=1.2, Metallic=0.4)[0]))
         else:
             G.append(ico(f"tip{i}", tp, (0.085,) * 3, dark_m))
     G.append(cone("sting", (0, 0.02, -C - 0.08), 0.11, 0, 0.26, mat("sting", (0.25, 0.15, 0.08), 0.35)[0], verts=8, rot=(math.pi, 0, 0)))
@@ -252,6 +258,20 @@ def build(job):
             p, n = front(t * 0.78 * A, -0.12 - 0.05 * (1 - t * t), 0.02)
             G.append(ico(f"ruff{i}", p, (0.11, 0.07, 0.09), white_m))
         G.append(ico("gem", front(0, -0.22, 0.05)[0], (0.07, 0.05, 0.09), mat("gem", (0.95, 0.2, 0.35), 0.1, emit=0.3)[0], sub=1))
+    elif acc == "crescent":
+        # crescent moon on the head: an arc of shrinking chunks, softly glowing
+        mm, _ = mat("cres", (1.0, 0.88, 0.42), 0.35, emit=1.6)
+        for i in range(7):
+            t = -1 + 2 * i / 6; a = t * 1.25
+            r_ = 0.2 * K
+            pp = head + Vector((math.cos(a + math.pi) * r_ * 0.55 + 0.02, -0.26, math.sin(a) * r_ + 0.1))
+            k_ = (1 - 0.6 * abs(t)) * 0.1 * K
+            G.append(ico(f"cres{i}", pp, (k_, k_ * 0.8, k_), mm))
+    if sp.get("night"):
+        # a few glowing star freckles on the body
+        sm, _ = mat("freckle", (0.9, 0.93, 1.0), 0.3, emit=2.0)
+        for i, (x, z) in enumerate(((-0.55, -0.35), (0.5, -0.55), (-0.2, -0.7), (0.62, 0.42), (-0.68, 0.2))):
+            G.append(ico(f"fr{i}", front(x, z, 0.0)[0], (0.035,) * 3, sm))
     if sp.get("fluff"):
         fm, _ = mat("fluff", (1.0, 1.0, 0.97), 0.7)
         for i, (x, z, s_) in enumerate(((0, 1.0, 0.16), (-0.13, 0.97, 0.12), (0.14, 0.98, 0.13), (0.05, 1.08, 0.1))):
@@ -288,6 +308,79 @@ def build(job):
             w = ico(f"{grp}", (0, 0, 0), (0.56, 0.035, 0.37), m_)
             w.parent = piv; w.location = (sx * 0.52, 0, 0.0); w.rotation_euler = (0, 0, sx * math.radians(-12))
             groups[grp].append(w)
+
+    # ---------------- v1.3 skins (overlay layers, rendered with the body as holdout) ----------------
+    def ring(z, out):
+        k = math.sqrt(max(0.0, 1 - (z / C) ** 2)); return A * k + out, B * k + out
+    S_ = groups
+    # scarf: chunky knitted ring under the smile + two hanging ends
+    red, _ = mat("scarf", (0.88, 0.22, 0.24), 0.75); cream, _ = mat("scarf2", (1.0, 0.93, 0.8), 0.75)
+    zs = -0.14; rx, ry = ring(zs, 0.05)
+    for i in range(20):
+        a = 2 * math.pi * i / 20
+        o = ico(f"sc{i}", (math.sin(a) * rx, -math.cos(a) * ry, zs), (0.14, 0.11, 0.11), red if i % 4 < 2 else cream)
+        o.rotation_euler = (0, 0, a); S_["skin_scarf"].append(o)
+    for j, (x, z) in enumerate(((0.42, -0.36), (0.47, -0.56))):
+        p, n = front(x, z, 0.09); o = ico(f"sce{j}", p, (0.11, 0.06, 0.13), red if j == 0 else cream)
+        o.rotation_euler = (0, math.radians(-14), 0); S_["skin_scarf"].append(o)
+    # bow on the left side of the head
+    pink, _ = mat("bow", (1.0, 0.45, 0.66), 0.5)
+    bc, bn = front(-0.42, 0.8, 0.05)
+    for sx in (-1, 1):
+        o = ico(f"bowl{sx}", bc + Vector((sx * 0.15, -0.02, 0.02 * sx)), (0.15, 0.06, 0.11), pink); o.rotation_euler = (0, sx * math.radians(-18), 0)
+        S_["skin_bow"].append(o)
+    S_["skin_bow"].append(ico("bowc", bc + Vector((0, -0.05, 0)), (0.06, 0.05, 0.06), mat("bowc", (0.9, 0.3, 0.5), 0.5)[0]))
+    # round glasses over the eyes
+    fr_, _ = mat("gframe", (0.2, 0.12, 0.08), 0.35)
+    lens, lb = mat("glens", (0.75, 0.9, 1.0), 0.05); lb.inputs["Alpha"].default_value = 0.35
+    for sx in (-1, 1):
+        p, n = front(sx * 0.34, 0.3, 0.11)
+        rot = Vector((0, 0, 1)).rotation_difference(-n).to_euler()
+        S_["skin_glasses"].append(torus(f"gl{sx}", p, 0.17, 0.03, fr_, rot=rot))
+        S_["skin_glasses"].append(cyl(f"gll{sx}", p, 0.16, 0.01, lens, verts=12, rot=rot))
+        a0, _ = front(sx * 0.51, 0.34, 0.09); a1, _ = front(sx * 0.8, 0.36, 0.02)
+        S_["skin_glasses"].append(curve(f"glt{sx}", [tuple(a0), tuple((a0 + a1) / 2), tuple(a1)], 0.022, fr_))
+    b0, _ = front(-0.17, 0.33, 0.12); b1, _ = front(0.17, 0.33, 0.12)
+    S_["skin_glasses"].append(curve("glb", [tuple(b0), (0, b0.y - 0.04, 0.37), tuple(b1)], 0.022, fr_))
+    # backpack on the back + straps near the sides
+    bag, _ = mat("bag", (0.25, 0.55, 0.88), 0.6); bag2, _ = mat("bag2", (1.0, 0.75, 0.2), 0.5)
+    S_["skin_backpack"].append(ico("bag", (0, B * 0.9 + 0.16, 0.12), (0.62, 0.26, 0.62), bag, sub=1))
+    S_["skin_backpack"].append(ico("bagflap", (0, B * 0.9 + 0.22, 0.62), (0.52, 0.22, 0.2), bag2))
+    S_["skin_backpack"].append(ico("bagpocket", (0, B * 0.9 + 0.36, -0.08), (0.32, 0.12, 0.26), bag2))
+    for sx in (-1, 1):
+        pts = [tuple(front(sx * 0.6, z, 0.03)[0]) for z in (0.62, 0.3, -0.05, -0.4)]
+        pts = [(sx * 0.42, 0.55, 0.78)] + pts
+        S_["skin_backpack"].append(curve(f"strap{sx}", pts, 0.055, bag2))
+    # flower wreath around the top of the head
+    leafm, _ = mat("wleaf", (0.35, 0.72, 0.32), 0.5)
+    pet = [mat("wp1", (1.0, 0.97, 0.92), 0.5)[0], mat("wp2", (1.0, 0.6, 0.75), 0.5)[0], mat("wp3", (0.7, 0.62, 1.0), 0.5)[0]]
+    mid, _ = mat("wmid", (1.0, 0.8, 0.2), 0.45)
+    zw = 0.8; rx, ry = ring(zw, 0.04)
+    for i in range(12):
+        a = 2 * math.pi * i / 12
+        c0 = Vector((math.sin(a) * rx, -math.cos(a) * ry, zw + 0.03))
+        if i % 2 == 0:
+            m_ = pet[(i // 2) % 3]
+            for k in range(5):
+                b = 2 * math.pi * k / 5
+                S_["skin_wreath"].append(ico(f"wr{i}{k}", c0 + Vector((math.cos(b) * 0.06, 0, math.sin(b) * 0.06)), (0.05, 0.035, 0.05), m_))
+            S_["skin_wreath"].append(ico(f"wrm{i}", c0 + Vector((0, -0.03, 0)), (0.035,) * 3, mid))
+        else:
+            o = ico(f"wl{i}", c0, (0.1, 0.04, 0.05), leafm); o.rotation_euler = (0, 0, a); S_["skin_wreath"].append(o)
+    # beret, tilted
+    ber, _ = mat("beret", (0.36, 0.28, 0.68), 0.7)
+    o = ico("beret", (0.1, -0.02, 1.0), (0.56, 0.5, 0.14), ber, sub=2); o.rotation_euler = (math.radians(-8), math.radians(14), 0); S_["skin_beret"].append(o)
+    S_["skin_beret"].append(cone("beretstem", (0.14, -0.02, 1.15), 0.035, 0.015, 0.1, ber, verts=5))
+    # headphones
+    band, _ = mat("hband", (0.98, 0.97, 0.95), 0.4); cup, _ = mat("hcup", (0.32, 0.8, 0.7), 0.4)
+    zc = 0.42; rxc, _ry = ring(zc, 0.0)
+    S_["skin_headphones"].append(curve("hb", [(-rxc - 0.06, 0.02, zc + 0.05), (-0.55, 0.02, 0.98), (0, 0.02, 1.13), (0.55, 0.02, 0.98), (rxc + 0.06, 0.02, zc + 0.05)], 0.05, band))
+    for sx in (-1, 1):
+        S_["skin_headphones"].append(cyl(f"hc{sx}", (sx * (rxc + 0.04), 0.0, zc), 0.2, 0.14, cup, verts=10, rot=(0, math.pi / 2, 0)))
+        S_["skin_headphones"].append(cyl(f"hp{sx}", (sx * (rxc + 0.12), 0.0, zc), 0.12, 0.04, band, verts=10, rot=(0, math.pi / 2, 0)))
+    # golden halo
+    hm, _ = mat("halo", (1.0, 0.84, 0.32), 0.25, emit=1.4, Metallic=0.6)
+    S_["skin_halo"].append(torus("halo", (0, 0.0, 1.5), 0.36, 0.055, hm, rot=(math.radians(72), 0, 0)))
 
     # crown (level 10 overlay)
     cr = Vector((0, -0.06, 0.95)); CK = 1.4
@@ -353,6 +446,9 @@ def build(job):
         "wingL": (groups["wingL"], ()), "wingR": (groups["wingR"], ()),
         "goldL": (groups["goldL"], ()), "goldR": (groups["goldR"], ()),
         "crown": (groups["crown"], [body]),
+        **{f"skin_{k}": (groups[f"skin_{k}"], [body]) for k in SKINS},
+        # previews for checking a skin on the whole bee
+        **{f"preview_{k}": (groups["body"] + groups["eyes"] + groups["wingL"] + groups["wingR"] + groups[f"skin_{k}"], ()) for k in SKINS},
         "full": (groups["body"] + groups["eyes"] + groups["wingL"] + groups["wingR"], ()),
         "fullgold": (groups["body"] + groups["eyes"] + groups["goldL"] + groups["goldR"] + groups["crown"], ()),
     }

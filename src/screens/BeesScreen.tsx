@@ -1,3 +1,4 @@
+import { SKIN_BY_ID } from "../logic/loot";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, ScrollView, StyleSheet, TextInput, useWindowDimensions, View } from "react-native";
 import { GameState, beeDisplayName, beeLevel, beeLevelCost, graphemes, MAX_BEE_NAME } from "../logic/game";
@@ -15,9 +16,9 @@ const RARITY: Record<Rarity, { name: string; color: string; bg: string }> = {
   legendary: { name: "легендарная", color: "#D27A00", bg: "#FFEBC2" },
 };
 
-interface Props { s: GameState; onUnlock: (id: string) => boolean; onLevelUp: (id: string) => boolean; onRename?: (id: string, name: string) => boolean; onGarden?: () => void }
+interface Props { s: GameState; onSkin?: (bee: string, skin: string | null) => boolean; onAssemble?: () => boolean; onUnlock: (id: string) => boolean; onLevelUp: (id: string) => boolean; onRename?: (id: string, name: string) => boolean; onGarden?: () => void }
 
-export default function BeesScreen({ s, onUnlock, onLevelUp, onRename, onGarden }: Props) {
+export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp, onRename, onGarden }: Props) {
   const { width } = useWindowDimensions();
   const [open, setOpen] = useState<BeeSpecies | null>(null);
   const [justUnlocked, setJust] = useState<string | null>(null);
@@ -58,7 +59,7 @@ export default function BeesScreen({ s, onUnlock, onLevelUp, onRename, onGarden 
                 accessibilityRole="button" accessibilityLabel={custom ? `${shown} (${b.name})` : `${b.name}${has ? "" : ", закрыта"}`}>
                 <View style={[styles.beeBg, { backgroundColor: has ? r.bg : "#F2E6D0" }]}>
                   {has ? (
-                    <CardBee id={b.id} i={i} level={lvl} />
+                    <CardBee id={b.id} i={i} level={lvl} skin={s.beeSkins[b.id]} />
                   ) : (
                     <BeeSprite id={b.id} size={86} tint="#DCC7A3" />
                   )}
@@ -75,6 +76,11 @@ export default function BeesScreen({ s, onUnlock, onLevelUp, onRename, onGarden 
                 <Txt v="small" color={C.dim} numberOfLines={2} style={{ minHeight: 34, marginTop: 2 }}>{has ? abilityAt(b, lvl) : b.ability}</Txt>
                 {has ? (
                   <View style={styles.ownedTag}><Image source={ART.check} style={{ width: 16, height: 16 }} /><Txt v="tiny" color={C.greenDark}>В УЛЬЕ</Txt></View>
+                ) : b.fragments ? (
+                  <View style={[styles.costTag, s.loot.fragments >= b.fragments && { backgroundColor: "#5B5FC7" }]}>
+                    <Image source={ART.fragment} style={{ width: 18, height: 18 }} />
+                    <Txt v="small" color={s.loot.fragments >= b.fragments ? "#fff" : "#5B5FC7"}>{Math.min(s.loot.fragments, b.fragments)}/{b.fragments}</Txt>
+                  </View>
                 ) : (
                   <View style={[styles.costTag, can && { backgroundColor: C.jelly }]}>
                     <Image source={ART.jelly} style={{ width: 18, height: 18 }} />
@@ -89,6 +95,9 @@ export default function BeesScreen({ s, onUnlock, onLevelUp, onRename, onGarden 
       <Overlay visible={!!open} onClose={() => setOpen(null)}>
         {open ? (
           <BeeDetail bee={open} has={owned.has(open.id)} jelly={s.jelly} nectar={s.nectar} level={beeLevel(s, open.id)}
+            skin={s.beeSkins[open.id] ?? null} skins={s.loot.owned.filter((x) => SKIN_BY_ID[x])} fragments={s.loot.fragments}
+            onSkin={onSkin ? (k) => onSkin(open.id, k) : undefined}
+            onAssemble={() => { if (onAssemble?.()) { setJust(open.id); setTimeout(() => setJust(null), 1600); } }}
             name={beeDisplayName(s, open.id)} custom={!!s.beeNames[open.id]}
             onRename={onRename ? (n) => onRename(open.id, n) : undefined}
             onUnlock={() => { if (onUnlock(open.id)) { setJust(open.id); setTimeout(() => setJust(null), 1600); } }}
@@ -101,11 +110,11 @@ export default function BeesScreen({ s, onUnlock, onLevelUp, onRename, onGarden 
 }
 
 /** Idle bee on a collection card: hover + flapping wings + an occasional blink / glance. */
-function CardBee({ id, i, level }: { id: string; i: number; level: number }) {
+function CardBee({ id, i, level, skin }: { id: string; i: number; level: number; skin?: string }) {
   const face = useFace(true, i * 13 + 5);
   return (
     <Hover amp={3} sway={2.5} period={1500 + i * 97} phase={(i * 0.37) % 1}>
-      <BeeSprite id={id} size={86} seed={i} face={face} level={level} turn={i % 2 ? 0.5 : -0.5} />
+      <BeeSprite id={id} size={86} seed={i} face={face} level={level} skin={skin} turn={i % 2 ? 0.5 : -0.5} />
     </Hover>
   );
 }
@@ -150,7 +159,8 @@ function Sparkle() {
   );
 }
 
-function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onLevelUp, onRename, onClose }: {
+function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onLevelUp, onRename, onClose, skin, skins, fragments, onSkin, onAssemble }: {
+  skin: string | null; skins: string[]; fragments: number; onSkin?: (k: string | null) => boolean; onAssemble: () => void;
   bee: BeeSpecies; has: boolean; jelly: number; nectar: number; level: number; name: string; custom: boolean;
   onUnlock: () => void; onLevelUp: () => boolean; onRename?: (name: string) => boolean; onClose: () => void;
 }) {
@@ -181,7 +191,7 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
         {has && wasLocked ? <Sparkle /> : null}
         {burst ? <LevelBurst key={burst} level={level} /> : null}
         <Animated.View style={{ transform: [{ scale: pop }] }}>
-          {has ? <Mascot id={bee.id} size={156} seed={bee.id.length * 7 + 1} level={level} /> : <BeeSprite id={bee.id} size={156} tint="#D8C29C" />}
+          {has ? <Mascot id={bee.id} size={156} seed={bee.id.length * 7 + 1} level={level} skin={skin ?? undefined} /> : <BeeSprite id={bee.id} size={156} tint="#D8C29C" />}
         </Animated.View>
       </View>
       {has && editing && onRename ? (
@@ -212,8 +222,26 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
         {has && level > 1 ? <Txt v="small" color="#6B4CA8" center>и +{Math.round(LEVEL_HIVE_BONUS * 100 * (level - 1))}% к мёду улья за уровни</Txt> : null}
         {cost ? <Txt v="small" color={C.dim} center>{`Дальше: ${abilityAt(bee, level + 1)}`}</Txt> : null}
       </View>
+      {has && onSkin ? (
+        <View style={{ alignSelf: "stretch", marginBottom: 10 }} accessibilityLabel="Наряды">
+          <Txt v="tiny" color={C.dim}>НАРЯД</Txt>
+          {skins.length ? (
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 6, paddingVertical: 6 }}>
+              <Press onPress={() => onSkin(null)} style={[styles.skin, !skin && styles.skinOn]} accessibilityRole="radio" accessibilityState={{ selected: !skin }} accessibilityLabel="Без наряда">
+                <Txt v="tiny" color={C.dim} center>БЕЗ{"\n"}НАРЯДА</Txt>
+              </Press>
+              {skins.map((k) => (
+                <Press key={k} onPress={() => onSkin(k)} style={[styles.skin, skin === k && styles.skinOn]} accessibilityRole="radio" accessibilityState={{ selected: skin === k }} accessibilityLabel={SKIN_BY_ID[k].name}>
+                  <BeeSprite id={bee.id} size={46} skin={k} level={level} />
+                  <Txt v="tiny" numberOfLines={1} center>{SKIN_BY_ID[k].name}</Txt>
+                </Press>
+              ))}
+            </ScrollView>
+          ) : <Txt v="small" color={C.dim}>Наряды выпадают из сот-сюрпризов (вкладка «Сюрпризы»).</Txt>}
+        </View>
+      ) : null}
       <Txt v="body" color={C.dim} center style={{ marginBottom: 12 }}>
-        {!has ? "Откройте за маточное молочко, чтобы познакомиться." : nextLook ? `${bee.flavor} На ${nextLook}-м уровне — ${nextLook === 5 ? "золотые крылья" : "корона"}.` : bee.flavor}
+        {!has && bee.fragments ? `${bee.flavor} Собирается из ${bee.fragments} фрагментов из сот-сюрпризов — за молочко не купить.` : !has ? "Откройте за маточное молочко, чтобы познакомиться." : nextLook ? `${bee.flavor} На ${nextLook}-м уровне — ${nextLook === 5 ? "золотые крылья" : "корона"}.` : bee.flavor}
       </Txt>
       {has ? (
         cost ? (
@@ -230,6 +258,9 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
         ) : (
           <GameButton title="Максимальный уровень!" color="white" onPress={onClose} style={{ alignSelf: "stretch" }} />
         )
+      ) : bee.fragments ? (
+        <GameButton title={`Собрать · ${Math.min(fragments, bee.fragments)}/${bee.fragments}`} icon={ART.fragment} color={fragments >= bee.fragments ? "purple" : "grey"}
+          disabled={fragments < bee.fragments} onPress={onAssemble} style={{ alignSelf: "stretch" }} label="Собрать Ночную пчелу из фрагментов" />
       ) : (
         <GameButton
           title={`Открыть · ${bee.cost}`}
@@ -286,6 +317,8 @@ function RenameBox({ species, current, custom, onSave, onCancel }: {
 }
 
 const styles = StyleSheet.create({
+  skin: { width: 70, borderRadius: 14, borderWidth: 2, borderColor: C.line, alignItems: "center", justifyContent: "center", padding: 4, minHeight: 72, backgroundColor: "#fff" },
+  skinOn: { borderColor: C.honey, backgroundColor: "#FFF3D6" },
   titleRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6, marginTop: 8, maxWidth: "100%" },
   pencil: { width: 36, height: 36, borderRadius: 18, backgroundColor: "#FFF1D6", alignItems: "center", justifyContent: "center" },
   renameBox: { alignSelf: "stretch", marginTop: 8, marginBottom: 2 },

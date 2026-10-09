@@ -13,7 +13,7 @@ module.exports = `(() => {
   window.Telegram = { WebApp: {
     initData: "query_id=TEST&user=%7B%22id%22%3A1%7D&auth_date=1&hash=x", platform: "android", version: "8.0",
     isVersionAtLeast: (v) => parseFloat(v) <= 8.0,
-    ready: rec("ready"), expand: rec("expand"), requestFullscreen: () => { calls.push("requestFullscreen"); }, lockOrientation: rec("lockOrientation"),
+    ready: rec("ready"), openTelegramLink: (u) => { calls.push("openTelegramLink:" + u); }, openLink: rec("openLink"), expand: rec("expand"), requestFullscreen: () => { calls.push("requestFullscreen"); }, lockOrientation: rec("lockOrientation"),
     disableVerticalSwipes: rec("disableVerticalSwipes"), setHeaderColor: rec("setHeaderColor"), setBackgroundColor: rec("setBackgroundColor"), setBottomBarColor: rec("setBottomBarColor"),
     safeAreaInset: { top: 24, bottom: 16, left: 0, right: 0 }, contentSafeAreaInset: { top: 46, bottom: 0, left: 0, right: 0 },
     onEvent: (e, f) => { (ev[e] = ev[e] || []).push(f); }, offEvent: (e, f) => { ev[e] = (ev[e] || []).filter((x) => x !== f); },

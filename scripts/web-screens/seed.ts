@@ -36,7 +36,7 @@ function mid(): GameState {
         { flower: "sunflower", growth: 0.3, water: 0 },
       ],
     },
-    daily: { lastDay: DAY - 1, streak: 4, best: 6, results: { [DAY - 1]: { stars: 2, score: 2140 }, [DAY - 2]: { stars: 3, score: 3010 } } },
+    daily: { lastDay: DAY - 1, streak: 4, best: 6, results: { [DAY - 1]: { stars: 2, score: 2140 }, [DAY - 2]: { stars: 3, score: 3010 } }, freeze: 0 },
     login: { lastDay: DAY, index: 3, streak: 4 },
     tasks: { day: DAY, progress: { [t[0].id]: t[0].target, [t[1].id]: Math.ceil(t[1].target / 2) }, claimed: [], bonus: false },
     stats: { rounds: 23, bestScore: 3420, longestChain: 11, totalHoney: 5230, bombs: 17, collects: 31, harvests: 9, totalNectar: 96, levelUps: 3 },

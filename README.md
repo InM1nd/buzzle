@@ -24,6 +24,18 @@ everything is stored on the device. UI language: Russian.
   per planted bed. A planted flower of the **colour of the day** turns on ×1.5 for that colour in the puzzle.
   Optional garden reminders ("цветы распустились" / "сад хочет пить") follow the existing reminder setting and
   quiet hours.
+- **Surprise combs (v1.3)** — loot boxes for in-game play only (no purchases): wooden (3 daily tasks), wax (3★ daily
+  puzzle, weekly chest, weekend puzzle), golden (every 7-day streak, 3★ weekend, rare bonus inside wax/wood), royal
+  (locked until seasons). Drops: honey/nectar/jelly, seeds incl. rare **лунный мак** and **золотой подсолнух**,
+  8 bee skins (overlay layers per view, any bee), 8 hive/garden decorations, boosters (+3 moves, start bomb,
+  shuffle — free play only), fragments of the 13th bee **Ночная пчела** (10 = bee). Rarities common/rare/epic/
+  legendary with odds shown in game, pity (epic ≤10, legendary ≤30 golden combs), duplicates → collection pollen
+  for the shop, collection album with page bonuses. Deterministic seeded RNG (no re-rolls), 3-tap opening with
+  bees gathering, burst + haptics, «Открыть все».
+- **Weekly layer (v1.3)** — weekly chest for 15 tasks, weekend puzzle (Sat/Sun, 30 moves, own stars), streak
+  freeze (4 jelly, once a week), new task types for the garden and bee levels.
+- **Save export/import (v1.3)** — text code `BUZZLE1.…` with checksum (Android share sheet / web clipboard + .txt
+  file); «Пригласить друга» via Telegram `openTelegramLink` → t.me/share/url, system share on Android.
 - **Daily loop** — 7-day login calendar with a chest, 3 daily tasks + daily chest, optional reminders
   ("hive is full", "daily puzzle is waiting").
 - **Living bees (v1.1)** — layered bee sprites (body + flapping wings + blinking eyes) fly organic curved
@@ -135,8 +147,8 @@ npx tsc --noEmit && npm test && npx jest
 CI=1 npx expo prebuild --platform android --clean --no-install
 ./scripts/configure-android.sh     # arm64-only, R8, stored 16 KB-aligned libs, release signing v1+v2+v3
 cd android && ./gradlew assembleRelease --no-daemon --console=plain
-cd .. && cp android/app/build/outputs/apk/release/app-release.apk Buzzle-v1.2.1.apk
-scripts/verify-apk.sh Buzzle-v1.2.1.apk   # aapt, apksigner, zipalign -P 16, ELF alignment, JS bundle
+cd .. && cp android/app/build/outputs/apk/release/app-release.apk Buzzle-v1.3.0.apk
+scripts/verify-apk.sh Buzzle-v1.3.0.apk   # aapt, apksigner, zipalign -P 16, ELF alignment, JS bundle
 ```
 
 ### Low-poly bee art

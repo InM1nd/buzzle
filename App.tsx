@@ -6,16 +6,22 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
   GameState, buyUpgrade, canClaimLogin, claimBonus, claimLogin, claimTask, collectHive, combAction, finishRound, freeMoves,
   level, newState, nextLoginIndex, RoundReward, RoundSummary, tick, unlockBee,
+  RoundBoosters, RoundMode, startFreeRound, useShuffle, openBox, openAllBoxes, claimWeekly, buyFreeze, assembleNightBee,
+  shopBuyItem, shopBuyBooster, shopBuyFragment, setSkin, toggleDeco, currentTasks,
   dayColorInfo, harvestAction, levelUpBee, renameBee, plantFlower, unlockBed, waterAllAction, waterBedAction,
 } from "./src/logic/game";
 import { canWater, isReady } from "./src/logic/garden";
 import { boostsFor, rulesFor } from "./src/logic/bees";
-import { dailySeed, DAILY_MOVES } from "./src/logic/day";
+import { dailySeed, DAILY_MOVES, weekendSeed, WEEKEND_MOVES } from "./src/logic/day";
+import { BoxKind } from "./src/logic/loot";
+import { adoptImported, decodeSave, encodeSave } from "./src/logic/saveCode";
+import { inviteFriend } from "./src/platform/share";
+import LootScreen from "./src/screens/LootScreen";
+import BoxOpen from "./src/screens/BoxOpen";
 import { loginReward, Reward } from "./src/logic/tasks";
 import { UpgradeId } from "./src/logic/economy";
 import { planNotifications } from "./src/logic/notifyPlan";
 import { today as todayOf, cap as capOf } from "./src/logic/game";
-import { tasksForDay } from "./src/logic/tasks";
 import { flushCloud, loadState, saveState } from "./src/ui/store";
 import { addBackListener, dispatchBack } from "./src/platform/back";
 import { useInsets } from "./src/platform/insets";
@@ -40,11 +46,12 @@ SplashScreen.preventAutoHideAsync().catch(() => {});
 pinArt();          // web: keep all art in memory so remounts never refetch (no-op on Android)
 initTelegram(C.bg); // web inside Telegram: ready/expand/fullscreen, no swipe-to-close, header colour
 
-type Tab = "hive" | "puzzle" | "bees" | "tasks";
+type Tab = "hive" | "puzzle" | "bees" | "loot" | "tasks";
 const TABS: { id: Tab; label: string; icon: number }[] = [
   { id: "hive", label: "Улей", icon: ART.tabHive },
   { id: "puzzle", label: "Головоломка", icon: ART.tabPuzzle },
   { id: "bees", label: "Пчёлы", icon: ART.tabBee },
+  { id: "loot", label: "Сюрпризы", icon: ART.tabBox },
   { id: "tasks", label: "Задания", icon: ART.tabTasks },
 ];
 
@@ -66,7 +73,8 @@ function Main() {
   const [now, setNow] = useState(Date.now());
   const [tab, setTab] = useState<Tab>("hive");
   const [hiveView, setHiveView] = useState<"hive" | "garden">("hive");
-  const [game, setGame] = useState<{ mode: "daily" | "free"; seed: number; key: number } | null>(null);
+  const [game, setGame] = useState<{ mode: RoundMode; seed: number; key: number; extraMoves: number; bomb: boolean } | null>(null);
+  const [boxOpen, setBoxOpen] = useState<BoxKind | null>(null);
   const [showTutorial, setShowTutorial] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -147,6 +155,7 @@ function Main() {
   useEffect(() => {
     const sub = addBackListener(() => {
       if (game) return false; // GameScreen handles its own back
+      if (boxOpen) return false; // BoxOpen handles its own back
       if (showSettings) { setShowSettings(false); return true; }
       if (showLogin) { setShowLogin(false); return true; }
       if (tab !== "hive") { setTab("hive"); return true; }
@@ -154,9 +163,9 @@ function Main() {
       return false;
     });
     return () => sub.remove();
-  }, [game, showSettings, showLogin, tab, hiveView]);
+  }, [game, boxOpen, showSettings, showLogin, tab, hiveView]);
   // Telegram's BackButton mirrors in-app navigation (hidden on the home screen)
-  const canBack = !!game || showSettings || showLogin || tab !== "hive" || hiveView !== "hive";
+  const canBack = !!game || !!boxOpen || showSettings || showLogin || tab !== "hive" || hiveView !== "hive";
   useEffect(() => setBackButton(canBack, () => { dispatchBack(); }), [canBack]);
 
   // ----- reward flight to the currency pills -----
@@ -335,10 +344,57 @@ function Main() {
       applyPlan([]).catch(() => {});
       setTimeout(() => setShowTutorial(true), 300);
     },
-    play: (mode: "daily" | "free") => {
-      if (!s) return;
-      const seed = mode === "daily" ? dailySeed(todayOf(s, Date.now())) : (Date.now() ^ 0x5bd1e995) >>> 0;
-      setGame({ mode, seed, key: Date.now() });
+    play: (mode: RoundMode, boosters?: RoundBoosters) => {
+      const cur = sRef.current;
+      if (!cur) return;
+      const d = todayOf(cur, Date.now());
+      const seed = mode === "daily" ? dailySeed(d) : mode === "weekend" ? weekendSeed(d) : (Date.now() ^ 0x5bd1e995) >>> 0;
+      let extraMoves = 0, bomb = false;
+      if (mode === "free" && boosters && (boosters.moves || boosters.bomb)) {
+        const r = startFreeRound(cur, boosters);
+        commit(r.state); extraMoves = r.extraMoves; bomb = r.bomb;
+      }
+      setGame({ mode, seed, key: Date.now(), extraMoves, bomb });
+    },
+    shuffle: () => {
+      const cur = sRef.current;
+      const n = cur && useShuffle(cur);
+      if (!n) return false;
+      commit(n); return true;
+    },
+    openBox: (kind: BoxKind) => {
+      const cur = sRef.current;
+      const r = cur && openBox(cur, kind, Date.now());
+      if (!r) { hError(); return null; }
+      commit(r.state); return r.drops;
+    },
+    openAll: (kind: BoxKind) => {
+      const cur = sRef.current;
+      const r = cur && openAllBoxes(cur, kind, Date.now());
+      if (!r) { hError(); return null; }
+      commit(r.state); return r.drops;
+    },
+    simple: (f: (cur: GameState) => GameState | null) => {
+      const cur = sRef.current;
+      const n = cur && f(cur);
+      if (!n) { hError(); return false; }
+      commit(n); hSuccess(); return true;
+    },
+    weekly: (from: Pt | null) => {
+      const cur = sRef.current;
+      const n = cur && claimWeekly(cur, Date.now());
+      if (!n) return;
+      commit(n); hSuccess();
+      flyReward(from, { jelly: n.jelly - cur!.jelly }, cur!);
+    },
+    importCode: (code: string): string | null => {
+      const cur = sRef.current;
+      if (!cur) return "Игра ещё загружается";
+      const r = decodeSave(code, Date.now());
+      if (!r.ok) { hError(); return r.error; }
+      const n = tick(adoptImported(cur, r.state), Date.now());
+      commit(n); hSuccess(); setHaptics(n.settings.haptics);
+      return null;
     },
     finish: (r: RoundSummary): RoundReward => {
       const cur = sRef.current!;
@@ -377,10 +433,13 @@ function Main() {
           key={game.key}
           mode={game.mode}
           seed={game.seed}
-          moves={game.mode === "daily" ? DAILY_MOVES : freeMoves(s)}
-          rules={rulesFor(game.mode, b, dayColorInfo(s, now).active ? dayColorInfo(s, now).color : null)}
-          best={game.mode === "daily" ? s.daily.results[todayOf(s, now)]?.score ?? 0 : s.stats.bestScore}
-          title={game.mode === "daily" ? "Головоломка дня" : "Свободная игра"}
+          moves={game.mode === "daily" ? DAILY_MOVES : game.mode === "weekend" ? WEEKEND_MOVES : freeMoves(s) + game.extraMoves}
+          startBomb={game.bomb}
+          shuffles={game.mode === "free" ? s.loot.boosters.shuffle : 0}
+          onShuffle={act.shuffle}
+          rules={rulesFor(game.mode === "free" ? "free" : "daily", b, dayColorInfo(s, now).active ? dayColorInfo(s, now).color : null)}
+          best={game.mode === "daily" ? s.daily.results[todayOf(s, now)]?.score ?? 0 : game.mode === "weekend" ? s.week.weekendBest : s.stats.bestScore}
+          title={game.mode === "daily" ? "Головоломка дня" : game.mode === "weekend" ? "Головоломка выходного дня" : "Свободная игра"}
           onFinish={act.finish}
           onExit={act.exitGame}
           onReplay={() => { setHold({}); pendingFly.current = null; act.play(game.mode); }}
@@ -450,7 +509,20 @@ function Main() {
         ) : tab === "puzzle" ? (
           <PuzzleScreen s={s} now={now} onPlay={act.play} />
         ) : tab === "bees" ? (
-          <BeesScreen s={s} onUnlock={act.unlock} onLevelUp={act.levelUp} onRename={act.rename} onGarden={() => { setTab("hive"); setHiveView("garden"); }} />
+          <BeesScreen s={s} onSkin={(bee, k) => act.simple((c) => setSkin(c, bee, k))} onAssemble={() => act.simple((c) => assembleNightBee(c, Date.now()))} onUnlock={act.unlock} onLevelUp={act.levelUp} onRename={act.rename} onGarden={() => { setTab("hive"); setHiveView("garden"); }} />
+        ) : tab === "loot" ? (
+          <LootScreen s={s} now={now}
+            onOpenBox={(k) => setBoxOpen(k)}
+            onClaimWeekly={act.weekly}
+            onBuyFreeze={() => act.simple((c) => buyFreeze(c, Date.now()))}
+            onPlayWeekend={() => act.play("weekend")}
+            onAssemble={() => act.simple((c) => assembleNightBee(c, Date.now()))}
+            onBuyItem={(id) => act.simple((c) => shopBuyItem(c, id))}
+            onBuyBooster={(bid) => act.simple((c) => shopBuyBooster(c, bid))}
+            onBuyFragment={() => act.simple((c) => shopBuyFragment(c))}
+            onToggleDeco={(id) => act.simple((c) => toggleDeco(c, id))}
+            onInvite={() => { inviteFriend().catch(() => {}); }}
+          />
         ) : (
           <TasksScreen s={s} now={now} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} onNotifications={act.notifications} notifBlocked={notifBlocked} />
         )}
@@ -460,7 +532,7 @@ function Main() {
       <View style={[styles.tabs, { paddingBottom: Math.max(insets.bottom, 8) }]}>
         {TABS.map((t) => {
           const on = tab === t.id;
-          const badge = t.id === "tasks" ? tasksReady || canClaimLogin(s, now) : t.id === "puzzle" ? !s.daily.results[todayOf(s, now)]?.stars : t.id === "hive" ? (s.hive.stored >= 1 && s.hive.stored >= 0.999 * capOf(s)) || gardenBadge : false;
+          const badge = t.id === "loot" ? s.loot.boxes.wood + s.loot.boxes.wax + s.loot.boxes.gold > 0 || (!s.week.chest && s.week.tasks >= 15) : t.id === "tasks" ? tasksReady || canClaimLogin(s, now) : t.id === "puzzle" ? !s.daily.results[todayOf(s, now)]?.stars : t.id === "hive" ? (s.hive.stored >= 1 && s.hive.stored >= 0.999 * capOf(s)) || gardenBadge : false;
           return (
             <Press key={t.id} onPress={() => setTab(t.id)} style={styles.tab} accessibilityRole="tab" accessibilityLabel={t.label} accessibilityState={{ selected: on }} scaleTo={0.9}>
               <View style={[styles.tabIcon, on && styles.tabIconOn]}>
@@ -488,13 +560,19 @@ function Main() {
         onTutorial={() => { setShowSettings(false); setTimeout(() => setShowTutorial(true), 250); }}
         onReset={act.reset}
         onClose={() => setShowSettings(false)}
+        getCode={() => encodeSave(sRef.current ?? s)}
+        onImport={act.importCode}
       />
+      {boxOpen ? (
+        <BoxOpen key={boxOpen} kind={boxOpen} left={s.loot.boxes[boxOpen]} bees={s.bees} skins={s.beeSkins}
+          onOpen={() => act.openBox(boxOpen)} onOpenAll={() => act.openAll(boxOpen)} onClose={() => setBoxOpen(null)} />
+      ) : null}
     </View>
   );
 }
 
 function taskBadge(s: GameState) {
-  const ts = tasksForDay(s.tasks.day);
+  const ts = currentTasks(s);
   const ready = ts.some((t) => !s.tasks.claimed.includes(t.id) && (s.tasks.progress[t.id] ?? 0) >= t.target);
   return ready || (!s.tasks.bonus && s.tasks.claimed.length >= 3);
 }

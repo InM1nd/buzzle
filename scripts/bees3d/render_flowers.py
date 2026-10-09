@@ -121,15 +121,48 @@ def nectar():
     c = cone((0, 0, 1.25), 0.36, 0.0, 0.6, m, verts=10)
     ico((-0.14, -0.33, 0.9), (0.08, 0.05, 0.11), mat("hi", (1, 1, 1), emit=5))
 
-out, size = sys.argv[sys.argv.index("--") + 1], int(sys.argv[sys.argv.index("--") + 2])
-os.makedirs(out, exist_ok=True)
-jobs = [("sprout", lambda: sprout(), 1.7)]
-for name, fn in (("sunflower", sunflower), ("clover", clover), ("lavender", lavender), ("cornflower", cornflower), ("mint", mint)):
-    for st in ("bud", "bloom"):
-        jobs.append((f"{name}_{st}", (lambda fn=fn, st=st: fn(st)), 1.0))
-jobs.append(("nectar", nectar, 1.0))
-for name, fn, zoom in jobs:
-    reset(); fn()
-    scene(size, zoom=zoom, target=(0, 0, 0.3 if name == "sprout" else (0.72 if name != "nectar" else 0.85)))
-    bpy.context.scene.render.filepath = os.path.join(out, name + ".png")
-    bpy.ops.render.render(write_still=True); print("RENDERED", name, flush=True)
+def moonpoppy(stage):
+    """v1.3 rare: лунный мак — silvery-blue poppy with a glowing centre"""
+    base_plant(1.1, 2)
+    c = Vector((0, -0.05, 1.18))
+    if stage == "bud":
+        ico(c, (0.13, 0.11, 0.17), mat("b", (0.4, 0.6, 0.45))); ico(c + Vector((0, -0.02, 0.1)), (0.08, 0.07, 0.08), mat("bb", (0.55, 0.6, 1.0), emit=0.3)); return
+    pm = mat("p", (0.45, 0.52, 0.98), 0.35, emit=0.15); pl = mat("p2", (0.72, 0.78, 1.0), 0.35, emit=0.2)
+    for i in range(6):
+        a = 2 * math.pi * i / 6 + 0.3
+        ico(c + Vector((math.cos(a) * 0.22, 0.02 * (i % 2), math.sin(a) * 0.22)), (0.24, 0.05, 0.17), pm if i % 2 else pl, rot=(0, -a, 0))
+    ico(c + Vector((0, -0.06, 0)), (0.1, 0.07, 0.1), mat("c", (1.0, 0.95, 0.65), emit=2.2))
+    for i in range(6):
+        a = 2 * math.pi * i / 6
+        ico(c + Vector((math.cos(a) * 0.12, -0.1, math.sin(a) * 0.12)), (0.02,) * 3, mat("st", (0.25, 0.2, 0.45)))
+def goldsun(stage):
+    """v1.3 rare: золотой подсолнух — metallic gold petals, honey centre"""
+    base_plant(1.25, 3)
+    if stage == "bud":
+        ico((0, 0, 1.3), (0.18, 0.15, 0.18), mat("b", (0.5, 0.72, 0.25)))
+        for i in range(6):
+            a = 2 * math.pi * i / 6; ico((math.cos(a) * 0.09, -0.07, 1.34 + math.sin(a) * 0.09), (0.07, 0.04, 0.1), mat("p", (1.0, 0.82, 0.2), 0.25, Metallic=0.8))
+        return
+    pm = mat("p", (1.0, 0.8, 0.2), 0.22, Metallic=0.85); pd = mat("pd", (1.0, 0.62, 0.08), 0.25, Metallic=0.8)
+    c = Vector((0, -0.05, 1.32))
+    for i in range(16):
+        a = 2 * math.pi * i / 16
+        ico(c + Vector((math.cos(a) * 0.33, 0.01 * (i % 2), math.sin(a) * 0.33)), (0.19, 0.04, 0.085), pm if i % 2 else pd, rot=(0, -a, 0))
+    ico(c + Vector((0, -0.05, 0)), (0.22, 0.08, 0.22), mat("c", (0.85, 0.45, 0.05), 0.2, emit=0.4))
+    ico(c + Vector((-0.07, -0.13, 0.08)), (0.05, 0.03, 0.05), mat("hi", (1, 1, 1), emit=4))
+
+if __name__ == "__main__":
+    out, size = sys.argv[sys.argv.index("--") + 1], int(sys.argv[sys.argv.index("--") + 2])
+    os.makedirs(out, exist_ok=True)
+    jobs = [("sprout", lambda: sprout(), 1.7)]
+    only = sys.argv[sys.argv.index("--") + 3:]   # optional: render only these names
+    for name, fn in (("sunflower", sunflower), ("clover", clover), ("lavender", lavender), ("cornflower", cornflower), ("mint", mint), ("moonpoppy", moonpoppy), ("goldsun", goldsun)):
+        for st in ("bud", "bloom"):
+            jobs.append((f"{name}_{st}", (lambda fn=fn, st=st: fn(st)), 1.0))
+    jobs.append(("nectar", nectar, 1.0))
+    for name, fn, zoom in jobs:
+        if only and name not in only: continue
+        reset(); fn()
+        scene(size, zoom=zoom, target=(0, 0, 0.3 if name == "sprout" else (0.72 if name != "nectar" else 0.85)))
+        bpy.context.scene.render.filepath = os.path.join(out, name + ".png")
+        bpy.ops.render.render(write_still=True); print("RENDERED", name, flush=True)

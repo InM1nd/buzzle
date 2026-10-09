@@ -3,7 +3,7 @@
 export type Rect = [number, number, number, number]; // x, y, w, h as fractions of the render frame
 export type Layer = [number, Rect];
 export interface BeeView { yaw: number; body: Layer; eyes?: Layer; pivotL: [number, number]; pivotR: [number, number] }
-export interface SharedView { wingL: Layer; wingR: Layer; goldL: Layer; goldR: Layer; crown: Layer; pivotL: [number, number]; pivotR: [number, number] }
+export interface SharedView { wingL: Layer; wingR: Layer; goldL: Layer; goldR: Layer; crown: Layer; skins: Record<string, Layer>; pivotL: [number, number]; pivotR: [number, number] }
 const R0 = require("../../assets/art/bees/zhuzha_0_body.webp");
 const R1 = require("../../assets/art/bees/zhuzha_0_eyes.webp");
 const R2 = require("../../assets/art/bees/zhuzha_16_body.webp");
@@ -77,31 +77,77 @@ const R69 = require("../../assets/art/bees/margo_32_body.webp");
 const R70 = require("../../assets/art/bees/margo_32_eyes.webp");
 const R71 = require("../../assets/art/bees/margo_62_body.webp");
 const R72 = require("../../assets/art/bees/margo_62_eyes.webp");
-const R73 = require("../../assets/art/bees/shared_62_wingL.webp");
-const R74 = require("../../assets/art/bees/shared_62_wingR.webp");
-const R75 = require("../../assets/art/bees/shared_62_goldL.webp");
-const R76 = require("../../assets/art/bees/shared_62_goldR.webp");
-const R77 = require("../../assets/art/bees/shared_62_crown.webp");
-const R78 = require("../../assets/art/bees/shared_32_wingL.webp");
-const R79 = require("../../assets/art/bees/shared_32_wingR.webp");
-const R80 = require("../../assets/art/bees/shared_32_goldL.webp");
-const R81 = require("../../assets/art/bees/shared_32_goldR.webp");
-const R82 = require("../../assets/art/bees/shared_32_crown.webp");
-const R83 = require("../../assets/art/bees/shared_0_wingL.webp");
-const R84 = require("../../assets/art/bees/shared_0_wingR.webp");
-const R85 = require("../../assets/art/bees/shared_0_goldL.webp");
-const R86 = require("../../assets/art/bees/shared_0_goldR.webp");
-const R87 = require("../../assets/art/bees/shared_0_crown.webp");
-const R88 = require("../../assets/art/bees/shared_16_wingL.webp");
-const R89 = require("../../assets/art/bees/shared_16_wingR.webp");
-const R90 = require("../../assets/art/bees/shared_16_goldL.webp");
-const R91 = require("../../assets/art/bees/shared_16_goldR.webp");
-const R92 = require("../../assets/art/bees/shared_16_crown.webp");
-const R93 = require("../../assets/art/bees/shared_47_wingL.webp");
-const R94 = require("../../assets/art/bees/shared_47_wingR.webp");
-const R95 = require("../../assets/art/bees/shared_47_goldL.webp");
-const R96 = require("../../assets/art/bees/shared_47_goldR.webp");
-const R97 = require("../../assets/art/bees/shared_47_crown.webp");
+const R73 = require("../../assets/art/bees/nochka_0_body.webp");
+const R74 = require("../../assets/art/bees/nochka_0_eyes.webp");
+const R75 = require("../../assets/art/bees/nochka_32_body.webp");
+const R76 = require("../../assets/art/bees/nochka_32_eyes.webp");
+const R77 = require("../../assets/art/bees/nochka_62_body.webp");
+const R78 = require("../../assets/art/bees/nochka_62_eyes.webp");
+const R79 = require("../../assets/art/bees/shared_62_wingL.webp");
+const R80 = require("../../assets/art/bees/shared_62_wingR.webp");
+const R81 = require("../../assets/art/bees/shared_62_goldL.webp");
+const R82 = require("../../assets/art/bees/shared_62_goldR.webp");
+const R83 = require("../../assets/art/bees/shared_62_crown.webp");
+const R84 = require("../../assets/art/bees/skin_62_scarf.webp");
+const R85 = require("../../assets/art/bees/skin_62_bow.webp");
+const R86 = require("../../assets/art/bees/skin_62_glasses.webp");
+const R87 = require("../../assets/art/bees/skin_62_backpack.webp");
+const R88 = require("../../assets/art/bees/skin_62_wreath.webp");
+const R89 = require("../../assets/art/bees/skin_62_beret.webp");
+const R90 = require("../../assets/art/bees/skin_62_headphones.webp");
+const R91 = require("../../assets/art/bees/skin_62_halo.webp");
+const R92 = require("../../assets/art/bees/shared_32_wingL.webp");
+const R93 = require("../../assets/art/bees/shared_32_wingR.webp");
+const R94 = require("../../assets/art/bees/shared_32_goldL.webp");
+const R95 = require("../../assets/art/bees/shared_32_goldR.webp");
+const R96 = require("../../assets/art/bees/shared_32_crown.webp");
+const R97 = require("../../assets/art/bees/skin_32_scarf.webp");
+const R98 = require("../../assets/art/bees/skin_32_bow.webp");
+const R99 = require("../../assets/art/bees/skin_32_glasses.webp");
+const R100 = require("../../assets/art/bees/skin_32_backpack.webp");
+const R101 = require("../../assets/art/bees/skin_32_wreath.webp");
+const R102 = require("../../assets/art/bees/skin_32_beret.webp");
+const R103 = require("../../assets/art/bees/skin_32_headphones.webp");
+const R104 = require("../../assets/art/bees/skin_32_halo.webp");
+const R105 = require("../../assets/art/bees/shared_0_wingL.webp");
+const R106 = require("../../assets/art/bees/shared_0_wingR.webp");
+const R107 = require("../../assets/art/bees/shared_0_goldL.webp");
+const R108 = require("../../assets/art/bees/shared_0_goldR.webp");
+const R109 = require("../../assets/art/bees/shared_0_crown.webp");
+const R110 = require("../../assets/art/bees/skin_0_scarf.webp");
+const R111 = require("../../assets/art/bees/skin_0_bow.webp");
+const R112 = require("../../assets/art/bees/skin_0_glasses.webp");
+const R113 = require("../../assets/art/bees/skin_0_backpack.webp");
+const R114 = require("../../assets/art/bees/skin_0_wreath.webp");
+const R115 = require("../../assets/art/bees/skin_0_beret.webp");
+const R116 = require("../../assets/art/bees/skin_0_headphones.webp");
+const R117 = require("../../assets/art/bees/skin_0_halo.webp");
+const R118 = require("../../assets/art/bees/shared_16_wingL.webp");
+const R119 = require("../../assets/art/bees/shared_16_wingR.webp");
+const R120 = require("../../assets/art/bees/shared_16_goldL.webp");
+const R121 = require("../../assets/art/bees/shared_16_goldR.webp");
+const R122 = require("../../assets/art/bees/shared_16_crown.webp");
+const R123 = require("../../assets/art/bees/skin_16_scarf.webp");
+const R124 = require("../../assets/art/bees/skin_16_bow.webp");
+const R125 = require("../../assets/art/bees/skin_16_glasses.webp");
+const R126 = require("../../assets/art/bees/skin_16_backpack.webp");
+const R127 = require("../../assets/art/bees/skin_16_wreath.webp");
+const R128 = require("../../assets/art/bees/skin_16_beret.webp");
+const R129 = require("../../assets/art/bees/skin_16_headphones.webp");
+const R130 = require("../../assets/art/bees/skin_16_halo.webp");
+const R131 = require("../../assets/art/bees/shared_47_wingL.webp");
+const R132 = require("../../assets/art/bees/shared_47_wingR.webp");
+const R133 = require("../../assets/art/bees/shared_47_goldL.webp");
+const R134 = require("../../assets/art/bees/shared_47_goldR.webp");
+const R135 = require("../../assets/art/bees/shared_47_crown.webp");
+const R136 = require("../../assets/art/bees/skin_47_scarf.webp");
+const R137 = require("../../assets/art/bees/skin_47_bow.webp");
+const R138 = require("../../assets/art/bees/skin_47_glasses.webp");
+const R139 = require("../../assets/art/bees/skin_47_backpack.webp");
+const R140 = require("../../assets/art/bees/skin_47_wreath.webp");
+const R141 = require("../../assets/art/bees/skin_47_beret.webp");
+const R142 = require("../../assets/art/bees/skin_47_headphones.webp");
+const R143 = require("../../assets/art/bees/skin_47_halo.webp");
 export const BEE_VIEWS: Record<string, BeeView[]> = {
   zhuzha: [
     { yaw: 0, body: [R0, [0.2188, 0.0703, 0.5625, 0.9062]], eyes: [R1, [0.3411, 0.4818, 0.3177, 0.1146]], pivotL: [0.3691, 0.3935], pivotR: [0.6309, 0.3935] },
@@ -165,25 +211,52 @@ export const BEE_VIEWS: Record<string, BeeView[]> = {
     { yaw: 32, body: [R69, [0.1992, 0.0625, 0.6328, 0.9141]], eyes: [R70, [0.4883, 0.4688, 0.2812, 0.1367]], pivotL: [0.325, 0.4041], pivotR: [0.5651, 0.3868] },
     { yaw: 62, body: [R71, [0.2148, 0.0586, 0.5898, 0.9219]], eyes: [R72, [0.6211, 0.4531, 0.1875, 0.1445]], pivotL: [0.3402, 0.4149], pivotR: [0.478, 0.3854] },
   ],
+  nochka: [
+    { yaw: 0, body: [R73, [0.2148, 0.043, 0.5664, 0.9336]], eyes: [R74, [0.3398, 0.4805, 0.3203, 0.1211]], pivotL: [0.3691, 0.3936], pivotR: [0.6309, 0.3936] },
+    { yaw: 32, body: [R75, [0.2148, 0.0391, 0.5625, 0.9375]], eyes: [R76, [0.4805, 0.4688, 0.2812, 0.1328]], pivotL: [0.3331, 0.4036], pivotR: [0.5575, 0.3873] },
+    { yaw: 62, body: [R77, [0.2266, 0.0352, 0.543, 0.9453]], eyes: [R78, [0.6133, 0.4531, 0.1875, 0.1406]], pivotL: [0.3449, 0.4139], pivotR: [0.4738, 0.3864] },
+  ],
 };
 export const SHARED_VIEWS: Record<number, SharedView> = {
-  0: { wingL: [R83, [0.0521, 0.2214, 0.3307, 0.2214]], wingR: [R84, [0.6406, 0.2214, 0.2839, 0.2214]], goldL: [R85, [0.0495, 0.2214, 0.3359, 0.224]], goldR: [R86, [0.6406, 0.2214, 0.2839, 0.224]], crown: [R87, [0.3464, 0.151, 0.3203, 0.2057]], pivotL: [0.3691, 0.3935], pivotR: [0.6309, 0.3935] },
-  16: { wingL: [R88, [0.0365, 0.2292, 0.3151, 0.2266]], wingR: [R89, [0.6016, 0.2161, 0.276, 0.2161]], goldL: [R90, [0.0365, 0.2266, 0.3151, 0.2292]], goldR: [R91, [0.6016, 0.2161, 0.276, 0.2188]], crown: [R92, [0.3646, 0.1484, 0.3099, 0.2109]], pivotL: [0.3454, 0.3982], pivotR: [0.5977, 0.3898] },
-  32: { wingL: [R78, [0.0573, 0.2344, 0.2708, 0.2344]], wingR: [R79, [0.5521, 0.2109, 0.2578, 0.2188]], goldL: [R80, [0.0573, 0.2344, 0.2734, 0.2344]], goldR: [R81, [0.5495, 0.2109, 0.2578, 0.2188]], crown: [R82, [0.3646, 0.1484, 0.3047, 0.2109]], pivotL: [0.3331, 0.4036], pivotR: [0.5575, 0.3873] },
-  47: { wingL: [R93, [0.112, 0.2396, 0.2083, 0.2396]], wingR: [R94, [0.5, 0.2057, 0.2266, 0.2214]], goldL: [R95, [0.112, 0.2396, 0.2083, 0.2396]], goldR: [R96, [0.5, 0.2057, 0.2266, 0.224]], crown: [R97, [0.3646, 0.1484, 0.3021, 0.2109]], pivotL: [0.3332, 0.4088], pivotR: [0.5161, 0.3862] },
-  62: { wingL: [R73, [0.1979, 0.2448, 0.1276, 0.2448]], wingR: [R74, [0.4505, 0.2031, 0.1797, 0.2266]], goldL: [R75, [0.1979, 0.2448, 0.1276, 0.2448]], goldR: [R76, [0.4505, 0.2005, 0.1797, 0.2292]], crown: [R77, [0.3594, 0.1484, 0.3099, 0.2109]], pivotL: [0.3449, 0.4139], pivotR: [0.4737, 0.3864] },
+  0: { wingL: [R105, [0.0521, 0.2214, 0.3307, 0.2214]], wingR: [R106, [0.6406, 0.2214, 0.2839, 0.2214]], goldL: [R107, [0.0495, 0.2214, 0.3359, 0.224]], goldR: [R108, [0.6406, 0.2214, 0.2839, 0.224]], crown: [R109, [0.3464, 0.151, 0.3203, 0.2057]], skins: { scarf: [R110, [0.1667, 0.5911, 0.6667, 0.2812]], bow: [R111, [0.2552, 0.3021, 0.1927, 0.0911]], glasses: [R112, [0.224, 0.4635, 0.5521, 0.1432]], backpack: [R113, [0.2734, 0.3151, 0.4531, 0.4583]], wreath: [R114, [0.2995, 0.2917, 0.4036, 0.1042]], beret: [R115, [0.362, 0.2161, 0.3438, 0.1328]], headphones: [R116, [0.1875, 0.2474, 0.625, 0.2891]], halo: [R117, [0.362, 0.0, 0.276, 0.2526]] }, pivotL: [0.3691, 0.3935], pivotR: [0.6309, 0.3935] },
+  16: { wingL: [R118, [0.0365, 0.2292, 0.3151, 0.2266]], wingR: [R119, [0.6016, 0.2161, 0.276, 0.2161]], goldL: [R120, [0.0365, 0.2266, 0.3151, 0.2292]], goldR: [R121, [0.6016, 0.2161, 0.276, 0.2188]], crown: [R122, [0.3646, 0.1484, 0.3099, 0.2109]], skins: { scarf: [R123, [0.1693, 0.5911, 0.6615, 0.2682]], bow: [R124, [0.2917, 0.3047, 0.1927, 0.0938]], glasses: [R125, [0.2552, 0.4583, 0.526, 0.1536]], backpack: [R126, [0.2812, 0.3203, 0.487, 0.4635]], wreath: [R127, [0.2891, 0.2839, 0.4271, 0.112]], beret: [R128, [0.3542, 0.2161, 0.3568, 0.1276]], headphones: [R129, [0.1901, 0.2448, 0.6146, 0.3047]], halo: [R130, [0.3672, 0.0, 0.2656, 0.2552]] }, pivotL: [0.3454, 0.3982], pivotR: [0.5977, 0.3898] },
+  32: { wingL: [R92, [0.0573, 0.2344, 0.2708, 0.2344]], wingR: [R93, [0.5521, 0.2109, 0.2578, 0.2188]], goldL: [R94, [0.0573, 0.2344, 0.2734, 0.2344]], goldR: [R95, [0.5495, 0.2109, 0.2578, 0.2188]], crown: [R96, [0.3646, 0.1484, 0.3047, 0.2109]], skins: { scarf: [R97, [0.1745, 0.5938, 0.651, 0.2526]], bow: [R98, [0.349, 0.3073, 0.1719, 0.0964]], glasses: [R99, [0.3047, 0.4505, 0.4896, 0.1615]], backpack: [R100, [0.2057, 0.3125, 0.5833, 0.4766]], wreath: [R101, [0.2865, 0.2865, 0.4271, 0.1094]], beret: [R102, [0.3568, 0.2135, 0.3438, 0.1276]], headphones: [R103, [0.2057, 0.2448, 0.5755, 0.3151]], halo: [R104, [0.3802, 0.0, 0.237, 0.2552]] }, pivotL: [0.3331, 0.4036], pivotR: [0.5575, 0.3873] },
+  47: { wingL: [R131, [0.112, 0.2396, 0.2083, 0.2396]], wingR: [R132, [0.5, 0.2057, 0.2266, 0.2214]], goldL: [R133, [0.112, 0.2396, 0.2083, 0.2396]], goldR: [R134, [0.5, 0.2057, 0.2266, 0.224]], crown: [R135, [0.3646, 0.1484, 0.3021, 0.2109]], skins: { scarf: [R136, [0.1797, 0.5938, 0.638, 0.237]], bow: [R137, [0.4115, 0.3073, 0.1458, 0.099]], glasses: [R138, [0.3646, 0.4427, 0.4479, 0.1667]], backpack: [R139, [0.1667, 0.3151, 0.625, 0.4766]], wreath: [R140, [0.2969, 0.2839, 0.401, 0.1146]], beret: [R141, [0.3568, 0.2135, 0.3385, 0.1224]], headphones: [R142, [0.2396, 0.2448, 0.5026, 0.3229]], halo: [R143, [0.3984, 0.0, 0.2005, 0.2552]] }, pivotL: [0.3332, 0.4088], pivotR: [0.5161, 0.3862] },
+  62: { wingL: [R79, [0.1979, 0.2448, 0.1276, 0.2448]], wingR: [R80, [0.4505, 0.2031, 0.1797, 0.2266]], goldL: [R81, [0.1979, 0.2448, 0.1276, 0.2448]], goldR: [R82, [0.4505, 0.2005, 0.1797, 0.2292]], crown: [R83, [0.3594, 0.1484, 0.3099, 0.2109]], skins: { scarf: [R84, [0.1849, 0.5938, 0.625, 0.224]], bow: [R85, [0.4818, 0.3073, 0.1068, 0.099]], glasses: [R86, [0.4375, 0.4349, 0.3776, 0.1667]], backpack: [R87, [0.1406, 0.3125, 0.6354, 0.4766]], wreath: [R88, [0.3099, 0.2891, 0.3802, 0.1094]], beret: [R89, [0.3516, 0.2135, 0.3333, 0.1146]], headphones: [R90, [0.2917, 0.2448, 0.3021, 0.3307]], halo: [R91, [0.4141, 0.0, 0.1693, 0.2552]] }, pivotL: [0.3449, 0.4139], pivotR: [0.4737, 0.3864] },
 };
 export const GARDEN_ART: Record<string, number> = {
   "clover_bloom": require("../../assets/art/garden/clover_bloom.webp"),
   "clover_bud": require("../../assets/art/garden/clover_bud.webp"),
   "cornflower_bloom": require("../../assets/art/garden/cornflower_bloom.webp"),
   "cornflower_bud": require("../../assets/art/garden/cornflower_bud.webp"),
+  "goldsun_bloom": require("../../assets/art/garden/goldsun_bloom.webp"),
+  "goldsun_bud": require("../../assets/art/garden/goldsun_bud.webp"),
   "lavender_bloom": require("../../assets/art/garden/lavender_bloom.webp"),
   "lavender_bud": require("../../assets/art/garden/lavender_bud.webp"),
   "mint_bloom": require("../../assets/art/garden/mint_bloom.webp"),
   "mint_bud": require("../../assets/art/garden/mint_bud.webp"),
+  "moonpoppy_bloom": require("../../assets/art/garden/moonpoppy_bloom.webp"),
+  "moonpoppy_bud": require("../../assets/art/garden/moonpoppy_bud.webp"),
   "nectar": require("../../assets/art/garden/nectar.webp"),
   "sprout": require("../../assets/art/garden/sprout.webp"),
   "sunflower_bloom": require("../../assets/art/garden/sunflower_bloom.webp"),
   "sunflower_bud": require("../../assets/art/garden/sunflower_bud.webp"),
+};
+/** v1.3 items: decorations (cropped), surprise combs and wax-crack stages (full comb frame) */
+export const ITEM_ART: Record<string, { src: number; w: number; h: number }> = {
+  "deco_barrel": { src: require("../../assets/art/items/deco_barrel.webp"), w: 114, h: 168 },
+  "deco_bench": { src: require("../../assets/art/items/deco_bench.webp"), w: 168, h: 123 },
+  "deco_flags": { src: require("../../assets/art/items/deco_flags.webp"), w: 168, h: 129 },
+  "deco_fountain": { src: require("../../assets/art/items/deco_fountain.webp"), w: 138, h: 168 },
+  "deco_gnome": { src: require("../../assets/art/items/deco_gnome.webp"), w: 97, h: 168 },
+  "deco_lanterns": { src: require("../../assets/art/items/deco_lanterns.webp"), w: 102, h: 168 },
+  "deco_mushroom": { src: require("../../assets/art/items/deco_mushroom.webp"), w: 168, h: 135 },
+  "deco_pinwheel": { src: require("../../assets/art/items/deco_pinwheel.webp"), w: 86, h: 168 },
+  "box_gold": { src: require("../../assets/art/items/box_gold.webp"), w: 220, h: 220 },
+  "box_royal": { src: require("../../assets/art/items/box_royal.webp"), w: 220, h: 220 },
+  "box_wax": { src: require("../../assets/art/items/box_wax.webp"), w: 220, h: 220 },
+  "box_wood": { src: require("../../assets/art/items/box_wood.webp"), w: 220, h: 220 },
+  "crack1": { src: require("../../assets/art/items/crack1.webp"), w: 220, h: 220 },
+  "crack2": { src: require("../../assets/art/items/crack2.webp"), w: 220, h: 220 },
+  "crack3": { src: require("../../assets/art/items/crack3.webp"), w: 220, h: 220 },
 };

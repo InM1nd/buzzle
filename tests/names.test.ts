@@ -55,12 +55,12 @@ test("names survive a round trip and are re-validated on load", () => {
   assert.deepEqual(bad.beeNames, { pushinka: "x".repeat(16) });
 });
 
-test("migration v2 (1.2.0) -> v3: no names, everything else kept", () => {
+test("migration v2 (1.2.0) -> current: no names, everything else kept", () => {
   const v2 = { ...newState(T), version: 2, honey: 4321, beeLevels: { zhuzha: 7 } } as Record<string, unknown>;
   delete v2.beeNames;
   const m = migrate(JSON.parse(JSON.stringify(v2)), T);
-  assert.equal(STATE_VERSION, 3);
-  assert.equal(m.version, 3);
+  assert.equal(STATE_VERSION, 4);
+  assert.equal(m.version, 4);
   assert.deepEqual(m.beeNames, {});
   assert.equal(m.honey, 4321);
   assert.equal(m.beeLevels.zhuzha, 7);

@@ -1,5 +1,5 @@
 /**
- * Balance simulation (v1.2): bots play Buzzle day by day through the real game actions
+ * Balance simulation (v1.2 + v1.3 surprise combs / weekly layer): bots play Buzzle day by day through the real game actions
  * (hive, puzzle rewards, tasks, login, garden, bee unlocks and levels) for 30/60/90 days.
  *   npx tsx scripts/simulate.ts            → table for the casual and active bot
  *   npx tsx scripts/simulate.ts --json     → raw numbers
@@ -8,24 +8,32 @@ import {
   GameState, newState, tick, collectHive, combActionCost, combAction, canBuildAt, buyUpgrade, upgradeCostFor, finishRound,
   claimLogin, claimTask, claimBonus, unlockBee, levelUpBee, beeLevelCost, unlockBed, nextBedCost, plantFlower, seedPrice,
   flowerUnlocked, waterAllAction, harvestAction, rate, cap, level, freeMoves,
+  openAllBoxes, claimWeekly, canClaimWeekly, assembleNightBee, shopBuyItem, buyFreeze, canBuyFreeze, currentTasks, startFreeRound,
+  weekendOpen, RoundMode,
 } from "../src/logic/game";
+import { BOX_KINDS, ITEMS, PAGES, SHOP_PRICE, pageDone, NIGHT_BEE, BoxKind } from "../src/logic/loot";
 import { BEES, MAX_BEE_LEVEL } from "../src/logic/bees";
-import { FLOWERS, isReady, FLOWER_BY_ID, WATER_HOURS } from "../src/logic/garden";
-import { tasksForDay } from "../src/logic/tasks";
+import { SHOP_FLOWERS as FLOWERS, WATER_HOURS } from "../src/logic/garden";
 import { HIVE_SLOTS } from "../src/logic/hex";
 import { Rng } from "../src/logic/rng";
 import { UpgradeId } from "../src/logic/economy";
 
 const H = 3600_000;
-interface Profile { name: string; sessions: number[]; dailyScore: [number, number]; freeRounds: number; freeScore: [number, number]; tasks: number }
+interface Profile {
+  name: string; sessions: number[]; dailyScore: [number, number]; freeRounds: number; freeScore: [number, number]; tasks: number;
+  /** v1.3: weekend puzzle score (mean, sd); buys the weekly streak freeze */
+  weekendScore: [number, number]; freeze: boolean;
+}
 export const PROFILES: Profile[] = [
   // casual: 3 visits a day, average daily puzzle (≈1 star), 2 of 3 tasks
-  { name: "casual", sessions: [9, 13.5, 20.5], dailyScore: [900, 200], freeRounds: 0.5, freeScore: [900, 200], tasks: 2 },
+  { name: "casual", sessions: [9, 13.5, 20.5], dailyScore: [900, 200], freeRounds: 0.5, freeScore: [900, 200], tasks: 2, weekendScore: [1300, 250], freeze: false },
+  // regular (v1.3): 4 visits, ≈1–2 stars, all 3 tasks most days
+  { name: "regular", sessions: [8.5, 12.5, 17, 21], dailyScore: [1500, 400], freeRounds: 1, freeScore: [1300, 300], tasks: 3, weekendScore: [2600, 500], freeze: true },
   // active: 6 visits a day, strong daily (≈2 stars), 2 free rounds, all tasks + chest
-  { name: "active", sessions: [8, 11, 14, 17, 20, 23], dailyScore: [2200, 500], freeRounds: 2, freeScore: [1700, 400], tasks: 3 },
+  { name: "active", sessions: [8, 11, 14, 17, 20, 23], dailyScore: [2200, 500], freeRounds: 2, freeScore: [1700, 400], tasks: 3, weekendScore: [3900, 700], freeze: true },
 ];
 
-function round(s: GameState, mode: "daily" | "free", mean: number, sd: number, rng: Rng, now: number) {
+function round(s: GameState, mode: RoundMode, mean: number, sd: number, rng: Rng, now: number) {
   const score = Math.max(200, Math.round(mean + sd * (rng.next() + rng.next() + rng.next() - 1.5) * 1.4));
   const cells = Math.round(score / 28);
   const by = [0, 0, 0, 0, 0];
@@ -85,7 +93,7 @@ function garden(s: GameState, now: number, nextGapH: number): GameState {
 
 function spendJellyNectar(s: GameState, now: number): GameState {
   for (let guard = 0; guard < 100; guard++) {
-    const locked = BEES.filter((b) => !s.bees.includes(b.id)).sort((a, b) => a.cost - b.cost);
+    const locked = BEES.filter((b) => !s.bees.includes(b.id) && !b.fragments).sort((a, b) => a.cost - b.cost);
     if (locked.length && s.jelly >= locked[0].cost) { s = unlockBee(s, locked[0].id, now) ?? s; continue; }
     // level the bee with the cheapest next level; while bees are still locked, keep jelly for them
     const opts = s.bees.map((id) => ({ id, c: beeLevelCost(s, id) })).filter((o) => o.c && s.nectar >= o.c.nectar && s.jelly >= o.c.jelly && !(o.c.jelly && locked.length))
@@ -101,7 +109,14 @@ export function simulate(p: Profile, days: number, seed = 7) {
   const start = new Date(2026, 9, 12, 0, 0, 0).getTime();
   let s = newState(start + p.sessions[0] * H);
   s = { ...s, settings: { ...s.settings, tutorialDone: true } };
-  const marks: Record<string, number | null> = { allBees: null, firstL5: null, firstL10: null, allL5: null, allL10: null, beds6: null };
+  const marks: Record<string, number | null> = {
+    allBees: null, firstL5: null, firstL10: null, allL5: null, allL10: null, beds6: null,
+    nightBee: null, album50: null, album75: null, albumFull: null, ...Object.fromEntries(PAGES.map((pg) => [`page_${pg.id}`, null])),
+  };
+  const boxes: Record<BoxKind, number> = { wood: 0, wax: 0, gold: 0, royal: 0 };
+  let dupPollen = 0, shopBuys = 0, legendaries = 0, epics = 0, maxNoEpic = 0, maxNoLeg = 0;
+  const albumOwned = (st: GameState) => new Set([...st.loot.owned, ...(st.bees.includes(NIGHT_BEE) ? [NIGHT_BEE] : [])]);
+  const albumTotal = PAGES.reduce((a, pg) => a + pg.items.length, 0);
   const snaps: Record<number, any> = {};
   let honeyEarned = 0, jellyEarned = 0;
   for (let d = 0; d < days; d++) {
@@ -110,16 +125,54 @@ export function simulate(p: Profile, days: number, seed = 7) {
       const nextH = k + 1 < p.sessions.length ? p.sessions[k + 1] - p.sessions[k] : 24 - p.sessions[k] + p.sessions[0];
       s = tick(s, now);
       const h0 = s.honey, j0 = s.jelly;
-      if (k === 0) { const l = claimLogin(s, now); if (l) s = l.state; s = round(s, "daily", p.dailyScore[0], p.dailyScore[1], rng, now); }
+      const box0 = { ...s.loot.boxes };
+      if (k === 0) {
+        const l = claimLogin(s, now); if (l) s = l.state;
+        if (p.freeze && canBuyFreeze(s) && s.jelly >= 10) s = buyFreeze(s, now) ?? s;
+        // the casual bot forgets the daily puzzle one day in five (that's what the streak freeze is for)
+        if (p.name !== "casual" || rng.next() > 0.2) s = round(s, "daily", p.dailyScore[0], p.dailyScore[1], rng, now);
+        if (weekendOpen(s, now) && s.week.weekendStars < 3) s = round(s, "weekend", p.weekendScore[0], p.weekendScore[1], rng, now);
+      }
       const c = collectHive(s, now); s = c.state;
-      if (rng.next() < p.freeRounds / p.sessions.length) s = round(s, "free", p.freeScore[0], p.freeScore[1], rng, now);
+      if (rng.next() < p.freeRounds / p.sessions.length) {
+        s = startFreeRound(s, { moves: s.loot.boosters.moves > 0, bomb: s.loot.boosters.bomb > 0 }).state;
+        s = round(s, "free", p.freeScore[0], p.freeScore[1], rng, now);
+      }
       if (k === p.sessions.length - 1) {
-        const ts = tasksForDay(s.tasks.day);
+        const ts = currentTasks(s);
         for (let t = 0; t < p.tasks; t++) {
           s = { ...s, tasks: { ...s.tasks, progress: { ...s.tasks.progress, [ts[t].id]: ts[t].target } } };
           const r = claimTask(s, ts[t].id); if (r) s = r.state;
         }
         const b = claimBonus(s); if (b) s = b.state;
+        if (canClaimWeekly(s)) s = claimWeekly(s, now) ?? s;
+      }
+      for (const kk of BOX_KINDS) boxes[kk] += Math.max(0, s.loot.boxes[kk] - box0[kk]);
+      // open everything (golden combs found inside are opened right away too)
+      for (let pass = 0; pass < 3; pass++) for (const kind of ["wood", "wax", "gold"] as BoxKind[]) {
+        const before = s.loot.boxes.gold;
+        const r = openAllBoxes(s, kind, now);
+        if (!r) continue;
+        s = r.state;
+        if (kind !== "gold") boxes.gold += Math.max(0, s.loot.boxes.gold - before);
+        for (const ds of r.drops) {
+          const hasEpic = ds.some((d) => d.t === "item" || d.t === "fragment" || d.t === "seed" || d.t === "booster" ? d.rarity === "epic" || d.rarity === "legendary" : false);
+          const hasLeg = ds.some((d) => (d.t === "item" || d.t === "fragment") && d.rarity === "legendary");
+          for (const d of ds) {
+            if (d.t === "item" && d.dup) dupPollen += d.pollen;
+            if (d.t === "item" && d.rarity === "legendary") legendaries++;
+            if (d.t === "item" && d.rarity === "epic") epics++;
+          }
+          if (kind === "gold") { maxNoEpic = hasEpic ? 0 : maxNoEpic + 1; maxNoLeg = hasLeg ? 0 : maxNoLeg + 1; marks.maxGoldNoEpic = Math.max(marks.maxGoldNoEpic ?? 0, maxNoEpic); marks.maxGoldNoLeg = Math.max(marks.maxGoldNoLeg ?? 0, maxNoLeg); }
+        }
+      }
+      s = assembleNightBee(s, now) ?? s;
+      // pollen shop: the cheapest missing item
+      for (;;) {
+        const miss = ITEMS.filter((it) => !s.loot.owned.includes(it.id)).sort((a, b) => SHOP_PRICE[a.rarity] - SHOP_PRICE[b.rarity]);
+        const n = miss.length ? shopBuyItem(s, miss[0].id) : null;
+        if (!n) break;
+        s = n; shopBuys++;
       }
       honeyEarned += Math.max(0, s.honey - h0); jellyEarned += Math.max(0, s.jelly - j0);
       s = garden(s, now, nextH);
@@ -135,6 +188,13 @@ export function simulate(p: Profile, days: number, seed = 7) {
     if (marks.allL5 === null && s.bees.length === BEES.length && lv.every((l) => l >= 5)) marks.allL5 = day;
     if (marks.allL10 === null && s.bees.length === BEES.length && lv.every((l) => l >= MAX_BEE_LEVEL)) marks.allL10 = day;
     if (marks.beds6 === null && s.garden.beds.length >= 6) marks.beds6 = day;
+    const own = albumOwned(s);
+    if (marks.nightBee === null && s.bees.includes(NIGHT_BEE)) marks.nightBee = day;
+    for (const pg of PAGES) if (marks[`page_${pg.id}`] === null && pageDone(own, pg)) marks[`page_${pg.id}`] = day;
+    const got = PAGES.reduce((a, pg) => a + pg.items.filter((i) => own.has(i)).length, 0);
+    if (marks.album50 === null && got >= albumTotal * 0.5) marks.album50 = day;
+    if (marks.album75 === null && got >= albumTotal * 0.75) marks.album75 = day;
+    if (marks.albumFull === null && got >= albumTotal) marks.albumFull = day;
     if ([7, 14, 30, 45, 60, 90].includes(day)) {
       snaps[day] = {
         hiveLvl: level(s), rate: Math.round(rate(s)), cap: cap(s), beds: s.garden.beds.length, bees: s.bees.length,
@@ -142,14 +202,41 @@ export function simulate(p: Profile, days: number, seed = 7) {
         nectarEarned: s.stats.totalNectar, nectarPerDay: Math.round(s.stats.totalNectar / day), harvests: s.stats.harvests,
         jellyEarned, honeyEarned: Math.round(honeyEarned), honey: Math.round(s.honey), jelly: s.jelly, nectar: s.nectar,
         freeMoves: freeMoves(s),
+        boxesPerDay: +((boxes.wood + boxes.wax + boxes.gold) / day).toFixed(2), wood: boxes.wood, wax: boxes.wax, gold: boxes.gold,
+        album: `${got}/${albumTotal}`, pollen: s.loot.pollen, dupPollen, shopBuys, legendaries, epics, fragments: s.loot.fragments,
+        boosters: s.loot.boosters.moves + s.loot.boosters.bomb + s.loot.boosters.shuffle,
       };
     }
   }
   return { profile: p.name, days, marks, snaps };
 }
 
+/** v1.3: loot balance over many seeds (luck matters): combs/day, album milestones, legendaries */
+export function lootSummary(p: Profile, seeds: number) {
+  const runs = Array.from({ length: seeds }, (_, i) => simulate(p, 90, 1000 + i * 17));
+  const q = (xs: number[], f: number) => { const a = xs.slice().sort((x, y) => x - y); return a[Math.min(a.length - 1, Math.floor(f * (a.length - 1) + 0.5))]; };
+  const day = (v: number | null) => (v === null ? 91 : v);
+  const pick = (k: string) => runs.map((r) => day(r.marks[k] as number | null));
+  const at = (d: number, k: string) => runs.map((r) => r.snaps[d][k] as number);
+  const albumAt = (d: number) => runs.map((r) => Number(String(r.snaps[d].album).split("/")[0]));
+  return {
+    profile: p.name,
+    combsPerDay: { d30: q(at(30, "boxesPerDay"), 0.5), d60: q(at(60, "boxesPerDay"), 0.5), d90: q(at(90, "boxesPerDay"), 0.5) },
+    album: { d30: q(albumAt(30), 0.5), d60: q(albumAt(60), 0.5), d90: q(albumAt(90), 0.5), total: PAGES.reduce((a, pg) => a + pg.items.length, 0) },
+    albumFullDay: { p10: q(pick("albumFull"), 0.1), p50: q(pick("albumFull"), 0.5), p90: q(pick("albumFull"), 0.9), doneBy90: runs.filter((r) => r.marks.albumFull !== null).length + "/" + seeds },
+    album75Day: q(pick("album75"), 0.5), nightBeeDay: q(pick("nightBee"), 0.5),
+    pages: Object.fromEntries(PAGES.map((pg) => [pg.id, q(pick(`page_${pg.id}`), 0.5)])),
+    legendaryItems90: { p10: q(at(90, "legendaries"), 0.1), p50: q(at(90, "legendaries"), 0.5), p90: q(at(90, "legendaries"), 0.9) },
+    maxGoldWithoutEpic: Math.max(...runs.map((r) => (r.marks.maxGoldNoEpic as number) ?? 0)),
+    maxGoldWithoutLegendary: Math.max(...runs.map((r) => (r.marks.maxGoldNoLeg as number) ?? 0)),
+  };
+}
+
 const isMain = process.argv[1]?.endsWith("simulate.ts");
-if (isMain) {
+if (isMain && process.argv.includes("--loot")) {
+  const n = Number(process.argv[process.argv.indexOf("--loot") + 1]) || 20;
+  for (const p of PROFILES) console.log(JSON.stringify(lootSummary(p, n)));
+} else if (isMain) {
   const days = 90;
   const res = PROFILES.map((p) => simulate(p, days));
   if (process.argv.includes("--json")) console.log(JSON.stringify(res, null, 1));
@@ -159,6 +246,10 @@ if (isMain) {
       console.log("day | hive lvl | honey/h | beds | bees | Σlevels | ≥L5 | L10 | nectar/day | nectar total | jelly earned | honey earned");
       for (const [d, x] of Object.entries(r.snaps) as [string, any][]) {
         console.log([d, x.hiveLvl, x.rate, x.beds, x.bees, x.levelSum, x.atL5, x.atL10, x.nectarPerDay, x.nectarEarned, x.jellyEarned, x.honeyEarned].join(" | "));
+      }
+      console.log("day | combs/day | wood | wax | gold | album | pollen left | pollen from dups | shop buys | epic items | legendary items | fragments | boosters left");
+      for (const [d, x] of Object.entries(r.snaps) as [string, any][]) {
+        console.log([d, x.boxesPerDay, x.wood, x.wax, x.gold, x.album, x.pollen, x.dupPollen, x.shopBuys, x.epics, x.legendaries, x.fragments, x.boosters].join(" | "));
       }
     }
   }

@@ -6,11 +6,14 @@
  * (-1 … 1, may be animated) picks the view with native opacity cross-fades and mirrors the bee for the
  * other side, so bees turn toward where they fly without any JS per frame.
  * Bee levels: ≥5 golden shiny wings, 10 also a crown.
+ * v1.3 skins: one more shared overlay per view (rendered on the same frame with the body as holdout);
+ * hats (beret, wreath) replace the crown.
  */
 import React, { useEffect, useMemo, useRef } from "react";
 import { Animated, Easing, StyleProp, View, ViewStyle } from "react-native";
 import { sinDeg, sinRange, useAnimActive, useCycle, useFlapClock } from "./anim";
 import { BEE_VIEWS, BeeView, Layer, SHARED_VIEWS } from "./beeArt";
+import { SKIN_BY_ID } from "../logic/loot";
 
 const MAX_YAW = 62;
 type AV = Animated.Value | Animated.AnimatedInterpolation<number>;
@@ -31,6 +34,8 @@ export interface BeeProps {
   turn?: number | AV;
   /** bee level: ≥5 shiny wings, 10 crown */
   level?: number;
+  /** v1.3: worn skin id (scarf, glasses, …) */
+  skin?: string;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -47,8 +52,8 @@ function Img({ l, size, style, tint, extra }: { l: Layer; size: number; style?: 
 }
 
 /** one yaw view: wings + body + eyes + crown */
-function ViewLayers({ v, size, wave, wingAlpha, wingSquash, anim, tint, face, level, sleepy }: {
-  v: BeeView; size: number; wave: AV; wingAlpha: AV; wingSquash: AV; anim: boolean; tint?: string; face?: Face; level: number; sleepy: boolean;
+function ViewLayers({ v, size, wave, wingAlpha, wingSquash, anim, tint, face, level, sleepy, skin }: {
+  v: BeeView; size: number; wave: AV; wingAlpha: AV; wingSquash: AV; anim: boolean; tint?: string; face?: Face; level: number; sleepy: boolean; skin?: string;
 }) {
   const sh = SHARED_VIEWS[v.yaw] ?? SHARED_VIEWS[0];
   const gold = level >= 5 && !tint;
@@ -87,12 +92,13 @@ function ViewLayers({ v, size, wave, wingAlpha, wingSquash, anim, tint, face, le
       {wing("L")}{wing("R")}
       <Img l={v.body} size={size} tint={tint} />
       {v.eyes && !tint && !sleepy ? <Img l={v.eyes} size={size} extra={{ transform: eyeTf }} /> : null}
-      {level >= 10 && !tint ? <Img l={sh.crown} size={size} /> : null}
+      {level >= 10 && !tint && !(skin && SKIN_BY_ID[skin]?.hat) ? <Img l={sh.crown} size={size} /> : null}
+      {skin && !tint && sh.skins[skin] ? <Img l={sh.skins[skin]} size={size} /> : null}
     </>
   );
 }
 
-export function BeeSprite({ id, size, flap = true, seed = 0, rest, tint, face, turn = 0, level = 1, style }: BeeProps) {
+export function BeeSprite({ id, size, flap = true, seed = 0, rest, tint, face, turn = 0, level = 1, skin, style }: BeeProps) {
   const clock = useFlapClock(seed, flap && !tint);
   const anim = flap && !tint;
   const wave = useMemo(() => {
@@ -104,7 +110,7 @@ export function BeeSprite({ id, size, flap = true, seed = 0, rest, tint, face, t
   const wingSquash = useMemo(() => clock.interpolate({ inputRange: [0, 0.35, 0.6, 1], outputRange: [1, 0.62, 0.7, 1] }), [clock]);
   const vs = viewsOf(id);
   const sleepy = id === "sonya";
-  const common = { size, wave, wingAlpha, wingSquash, anim, tint, face, level, sleepy };
+  const common = { size, wave, wingAlpha, wingSquash, anim, tint, face, level, sleepy, skin };
 
   if (typeof turn === "number") {
     const v = nearest(vs, Math.abs(turn) * MAX_YAW);
@@ -232,12 +238,12 @@ export function useTurn(on = true, seed = 1) {
 }
 
 /** A hovering, blinking, looking-around bee that sometimes turns its head (tutorial, tasks, bee details). */
-export function Mascot({ id = "zhuzha", size, seed = 3, level = 1, style }: { id?: string; size: number; seed?: number; level?: number; style?: StyleProp<ViewStyle> }) {
+export function Mascot({ id = "zhuzha", size, seed = 3, level = 1, skin, style }: { id?: string; size: number; seed?: number; level?: number; skin?: string; style?: StyleProp<ViewStyle> }) {
   const face = useFace(true, seed);
   const turn = useTurn(true, seed);
   return (
     <Hover amp={size * 0.035} sway={3} period={1900 + (seed % 5) * 140} phase={(seed % 7) / 7} style={style}>
-      <BeeSprite id={id} size={size} seed={seed} face={face} turn={turn} level={level} />
+      <BeeSprite id={id} size={size} seed={seed} face={face} turn={turn} level={level} skin={skin} />
     </Hover>
   );
 }

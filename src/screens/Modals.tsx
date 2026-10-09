@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Animated, Image, Linking, StyleSheet, View } from "react-native";
+import { Animated, Image, Linking, StyleSheet, TextInput, View } from "react-native";
+import { CAN_PICK_FILE, exportSaveCode, inviteFriend, pickSaveFile } from "../platform/share";
+import { F } from "../ui/theme";
 import { Reward } from "../logic/tasks";
 import { ART } from "../ui/art";
 import { BeeSprite, Hover, Mascot } from "../ui/BeeSprite";
@@ -118,12 +120,26 @@ export function LoginModal({ visible, index, reward, streak, onClaim, onClose }:
 }
 
 // ---------- settings ----------
-export function SettingsModal({ visible, notifications, gardenReminders, haptics, notifBlocked, onNotifications, onGardenReminders, onHaptics, onTutorial, onReset, onClose }: {
+export function SettingsModal({ visible, notifications, gardenReminders, haptics, notifBlocked, onNotifications, onGardenReminders, onHaptics, onTutorial, onReset, onClose, getCode, onImport }: {
+  /** v1.3 save export / import */
+  getCode: () => string; onImport: (code: string) => string | null;
   visible: boolean; notifications: boolean; gardenReminders: boolean; haptics: boolean; notifBlocked: boolean;
   onNotifications: (v: boolean) => void; onGardenReminders: (v: boolean) => void; onHaptics: (v: boolean) => void; onTutorial: () => void; onReset: () => void; onClose: () => void;
 }) {
   const [confirm, setConfirm] = useState(0);
-  useEffect(() => { if (!visible) setConfirm(0); }, [visible]);
+  const [imp, setImp] = useState<null | string>(null);
+  const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  useEffect(() => { if (!visible) { setConfirm(0); setImp(null); setMsg(null); } }, [visible]);
+  const doExport = async () => {
+    const r = await exportSaveCode(getCode());
+    setMsg(r === "failed" ? { ok: false, text: "Не получилось — попробуйте ещё раз." } : r === "dismissed" ? null
+      : { ok: true, text: r === "downloaded" ? "Код скопирован и сохранён файлом." : r === "copied" ? "Код скопирован — сохраните его в заметках или отправьте себе." : "Код отправлен." });
+  };
+  const doImport = (code: string) => {
+    const err = onImport(code);
+    setMsg(err ? { ok: false, text: err } : { ok: true, text: "Прогресс загружен!" });
+    if (!err) setImp(null);
+  };
   return (
     <Overlay visible={visible} onClose={onClose}>
       <View accessibilityLabel="Настройки">
@@ -152,12 +168,29 @@ export function SettingsModal({ visible, notifications, gardenReminders, haptics
           <Toggle value={haptics} onChange={onHaptics} label="Вибрация" />
         </Row>
         <View style={{ gap: 10, marginTop: 14 }}>
+          <GameButton small title="Пригласить друга" icon={ART.share} color="green" onPress={() => { inviteFriend().catch(() => {}); }} label="Пригласить друга" />
+          <View style={{ flexDirection: "row", gap: 8 }}>
+            <GameButton small title="Экспорт" icon={ART.save} color="white" onPress={doExport} style={{ flex: 1 }} label="Экспорт сохранения" />
+            <GameButton small title="Импорт" color="white" onPress={() => { setImp(imp === null ? "" : null); setMsg(null); }} style={{ flex: 1 }} label="Импорт сохранения" />
+          </View>
+          {imp !== null ? (
+            <View>
+              <TextInput value={imp} onChangeText={setImp} placeholder="Вставьте код BUZZLE1…" placeholderTextColor="#C9AE86" multiline autoCorrect={false} autoCapitalize="none"
+                accessibilityLabel="Код сохранения" style={[F.xbold, styles.code]} />
+              <Txt v="tiny" color={C.dim}>Текущий прогресс на этом устройстве будет заменён.</Txt>
+              <View style={{ flexDirection: "row", gap: 8, marginTop: 6 }}>
+                {CAN_PICK_FILE ? <GameButton small title="Из файла" color="white" style={{ flex: 1 }} onPress={async () => { const t = await pickSaveFile(); if (t) doImport(t); }} /> : null}
+                <GameButton small title="Загрузить" color="honey" disabled={!imp.trim()} style={{ flex: 1 }} onPress={() => doImport(imp)} label="Загрузить сохранение" />
+              </View>
+            </View>
+          ) : null}
+          {msg ? <Txt v="small" color={msg.ok ? C.greenDark : C.red}>{msg.text}</Txt> : null}
           <GameButton small title="Показать обучение" color="white" onPress={onTutorial} />
           <GameButton small title={confirm === 0 ? "Сбросить прогресс" : confirm === 1 ? "Точно? Нажмите ещё раз" : "Сброс…"} color={confirm ? "honey" : "white"}
             onPress={() => { if (confirm === 0) setConfirm(1); else { setConfirm(2); onReset(); } }} />
         </View>
         <Txt v="tiny" color={C.faint} center style={{ marginTop: 14 }}>
-          {inTelegram() ? "Buzzle 1.2.1 · прогресс сохраняется в Telegram" : "Buzzle 1.2.1 · данные хранятся только на устройстве"}
+          {inTelegram() ? "Buzzle 1.3.0 · прогресс сохраняется в Telegram" : "Buzzle 1.3.0 · данные на устройстве — делайте экспорт"}
         </Txt>
       </View>
     </Overlay>
@@ -177,6 +210,7 @@ function Row({ title, sub, children }: { title: string; sub: string; children: R
 }
 
 const styles = StyleSheet.create({
+  code: { minHeight: 70, maxHeight: 120, fontSize: 12, color: C.text, backgroundColor: "#FFF8EA", borderRadius: 14, borderWidth: 2, borderColor: C.honey, padding: 8, textAlignVertical: "top" },
   dots: { flexDirection: "row", justifyContent: "center", gap: 6, marginVertical: 16 },
   dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: "#EBD6B0" },
   dotOn: { width: 24, backgroundColor: C.honeyDeep },

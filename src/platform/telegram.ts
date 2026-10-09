@@ -39,6 +39,9 @@ export interface TgWebApp {
     selectionChanged(): void;
   };
   CloudStorage?: TgCloudStorage;
+  /** opens a t.me link inside Telegram (e.g. the share sheet t.me/share/url) */
+  openTelegramLink?(url: string): void;
+  openLink?(url: string): void;
 }
 
 function find(): TgWebApp | null {

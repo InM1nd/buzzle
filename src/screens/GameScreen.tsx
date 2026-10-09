@@ -3,11 +3,13 @@ import { Animated, Easing, Image, PanResponder, StyleSheet, Text, useWindowDimen
 import { useInsets } from "../platform/insets";
 import { addBackListener } from "../platform/back";
 import {
-  applyPath, Board, Cell, createBoard, findBestPath, isValidPath, MoveResult, pathColor, PuzzleRules, stepPath,
+  applyPath, Board, Cell, createBoard, shuffleBoard, findBestPath, isValidPath, MoveResult, pathColor, PuzzleRules, stepPath,
 } from "../logic/board";
 import { boardSize, cellCenter, COLS, hitTest, Pos, ROWS } from "../logic/hex";
-import { DAILY_STARS, starsFor } from "../logic/day";
-import { RoundReward, RoundSummary } from "../logic/game";
+import { DAILY_STARS, starsFor, WEEKEND_STARS } from "../logic/day";
+import { BOX_INFO } from "../logic/loot";
+import { boxArt } from "../ui/lootUi";
+import { RoundMode, RoundReward, RoundSummary } from "../logic/game";
 import { ART } from "../ui/art";
 import { BeeSprite } from "../ui/BeeSprite";
 import { C, F, shadow } from "../ui/theme";
@@ -18,7 +20,11 @@ const SQ3 = Math.sqrt(3);
 const PATH_COLORS = ["#E39A00", "#E04585", "#7A4FD6", "#1F7FE0", "#25A35C"];
 
 interface Props {
-  mode: "daily" | "free";
+  mode: RoundMode;
+  /** v1.3 free-play boosters */
+  startBomb?: boolean;
+  shuffles?: number;
+  onShuffle?: () => boolean;
   seed: number;
   moves: number;
   rules: PuzzleRules;
@@ -205,7 +211,14 @@ export default function GameScreen(props: Props) {
   const size = boardSize(s);
   const H = SQ3 * s;
 
-  const [board, setBoard] = useState<Board>(() => createBoard(props.seed, props.rules));
+  const [board, setBoard] = useState<Board>(() => {
+    const b = createBoard(props.seed, props.rules);
+    if (!props.startBomb) return b;
+    const c = Math.floor(COLS / 2), r = Math.floor(ROWS / 2);
+    const cells = b.cells.map((col) => col.slice());
+    cells[c][r] = { ...cells[c][r], kind: "bomb" };
+    return { ...b, cells };
+  });
   const [path, setPath] = useState<Pos[]>([]);
   const [movesLeft, setMovesLeft] = useState(props.moves);
   const [score, setScore] = useState(0);
@@ -423,8 +436,14 @@ export default function GameScreen(props: Props) {
   const chainLen = path.length;
   const preview = chainLen >= 3 ? `${chainLen}${chainLen >= props.rules.bombAt ? " · бомба!" : ""}` : chainLen ? `${chainLen}` : "";
 
-  const isDaily = props.mode === "daily";
-  const maxBar = isDaily ? DAILY_STARS[2] * 1.12 : Math.max(props.best, 1000);
+  const isDaily = props.mode !== "free";
+  const STARS = props.mode === "weekend" ? WEEKEND_STARS : DAILY_STARS;
+  const shuffle = () => {
+    if (busy.current || finished || !props.onShuffle || !props.onShuffle()) { hError(); return; }
+    hLight(); setPath([]); setHint([]);
+    setBoard((b) => shuffleBoard(b));
+  };
+  const maxBar = isDaily ? STARS[2] * 1.12 : Math.max(props.best, 1000);
   const tooFew = path.length > 0 && path.length < 3;
 
   return (
@@ -446,7 +465,7 @@ export default function GameScreen(props: Props) {
       {/* score bar */}
       <View style={{ width: size.width, alignSelf: "center", marginTop: 4, marginBottom: 6 }}>
         <Bar progress={score / maxBar} height={14} color={C.honey} />
-        {isDaily ? DAILY_STARS.map((t, i) => (
+        {isDaily ? STARS.map((t, i) => (
           <View key={i} style={{ position: "absolute", left: (t / maxBar) * size.width - 11, top: -4 }}>
             <Image source={starsNow > i ? ART.star : ART.starOff} style={{ width: 22, height: 22 }} />
           </View>
@@ -515,6 +534,9 @@ export default function GameScreen(props: Props) {
           ))}
         </View>
       </Animated.View>
+      {props.mode === "free" && (props.shuffles ?? 0) > 0 && !finished ? (
+        <GameButton small title={`Перемешать (${props.shuffles})`} icon={ART.boostShuffle} color="white" onPress={shuffle} style={{ marginTop: 8, alignSelf: "center" }} label={`Перемешать поле, осталось ${props.shuffles}`} />
+      ) : null}
       <Txt v="small" color={C.dim} center style={{ marginTop: 8 }}>
         {isDaily ? "Ведите пальцем по 3+ сотам одного цвета" : "Цепочка из " + props.rules.bombAt + "+ сот оставляет бомбу"}
       </Txt>
@@ -537,10 +559,11 @@ export default function GameScreen(props: Props) {
   );
 }
 
-function ResultCard({ mode, score, reward, onExit, onReplay }: { mode: "daily" | "free"; score: number; reward: RoundReward; onExit: () => void; onReplay: () => void }) {
+function ResultCard({ mode, score, reward, onExit, onReplay }: { mode: RoundMode; score: number; reward: RoundReward; onExit: () => void; onReplay: () => void }) {
   const bee = useRef(new Animated.Value(0)).current;
   useEffect(() => { Animated.spring(bee, { toValue: 1, useNativeDriver: true, bounciness: 12, speed: 6 }).start(); }, [bee]);
-  const daily = mode === "daily";
+  const daily = mode !== "free";
+  const STARS = mode === "weekend" ? WEEKEND_STARS : DAILY_STARS;
   const title = daily
     ? reward.stars === 3 ? "Идеально!" : reward.stars > 0 ? "Головоломка пройдена!" : "Почти получилось!"
     : reward.record ? "Новый рекорд!" : "Раунд окончен";
@@ -551,7 +574,7 @@ function ResultCard({ mode, score, reward, onExit, onReplay }: { mode: "daily" |
       {daily ? <View style={{ marginTop: 10 }}><Stars n={reward.stars} size={46} gap={8} animate /></View> : null}
       <Txt v="tiny" color={C.dim} style={{ marginTop: 14 }}>ОЧКИ</Txt>
       <CountUp value={score} duration={900} style={[F.black, { fontSize: 40, lineHeight: 46, color: C.text }]} />
-      {daily && reward.stars === 0 ? <Txt v="small" color={C.dim} center>Для звезды нужно {fmt(DAILY_STARS[0])} очков — попробуйте ещё раз!</Txt> : null}
+      {daily && reward.stars === 0 ? <Txt v="small" color={C.dim} center>Для звезды нужно {fmt(STARS[0])} очков — попробуйте ещё раз!</Txt> : null}
       <View style={styles.rewardRow}>
         <View style={styles.rewardItem}>
           <Image source={ART.honey} style={{ width: 34, height: 34 }} />
@@ -564,7 +587,15 @@ function ResultCard({ mode, score, reward, onExit, onReplay }: { mode: "daily" |
           </View>
         ) : null}
       </View>
-      {daily && reward.stars > 0 && reward.streak > 0 ? (
+      {reward.boxes.length ? (
+        <View style={[styles.rewardRow, { marginTop: 10 }]} accessibilityLabel={`Соты-сюрпризы: ${reward.boxes.map((b) => BOX_INFO[b].name).join(", ")}`}>
+          {reward.boxes.map((b, i) => (
+            <View key={i} style={styles.rewardItem}><Image source={boxArt(b)} style={{ width: 38, height: 38 }} /><Txt v="small">{BOX_INFO[b].name}</Txt></View>
+          ))}
+        </View>
+      ) : null}
+      {reward.froze ? <Txt v="small" color="#3B7CC4" center style={{ marginTop: 6 }}>Заморозка спасла серию!</Txt> : null}
+      {mode === "daily" && reward.stars > 0 && reward.streak > 0 ? (
         <View style={[styles.chip, { marginTop: 10 }]}>
           <Image source={ART.flame} style={{ width: 18, height: 18 }} />
           <Txt v="small" color={C.honeyDark}>Серия: {reward.streak} дн.</Txt>

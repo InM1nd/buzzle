@@ -8,7 +8,12 @@ export type TaskEvent =
   | { type: "build" }
   | { type: "daily" }
   | { type: "bomb"; n: number }
-  | { type: "cells"; color: number; n: number };
+  | { type: "cells"; color: number; n: number }
+  // v1.3: garden and bee levels
+  | { type: "harvest"; nectar: number }
+  | { type: "water"; n: number }
+  | { type: "plant" }
+  | { type: "levelup" };
 
 export interface TaskDef {
   id: string;
@@ -37,10 +42,34 @@ const POOL: TaskDef[] = [
   { id: "honey", group: "any", target: 400, text: "Заработай 400 мёда в головоломке", progress: (e) => (e.type === "round" ? e.honey : 0) },
 ];
 
-/** Three tasks for a given day (deterministic): one puzzle, one hive, one more from the rest. */
-export function tasksForDay(day: number): TaskDef[] {
+/** v1.3 garden tasks (count as "hive" — things you do at home) */
+const GARDEN: TaskDef[] = [
+  { id: "harvest2", group: "hive", target: 2, text: "Собери урожай в саду 2 раза", progress: (e) => (e.type === "harvest" ? 1 : 0) },
+  { id: "water3", group: "hive", target: 3, text: "Полей грядки 3 раза", progress: (e) => (e.type === "water" ? e.n : 0) },
+  { id: "plant2", group: "hive", target: 2, text: "Посади 2 цветка", progress: (e) => (e.type === "plant" ? 1 : 0) },
+  { id: "nectar20", group: "hive", target: 20, text: "Собери 20 нектара", progress: (e) => (e.type === "harvest" ? e.nectar : 0) },
+];
+/** v1.3 bee level task (once levelling has started) */
+const LEVELS: TaskDef[] = [
+  { id: "levelup", group: "any", target: 1, text: "Повысь уровень любой пчелы", progress: (e) => (e.type === "levelup" ? 1 : 0) },
+];
+const BY_ID: Record<string, TaskDef> = Object.fromEntries([...POOL, ...GARDEN, ...LEVELS].map((t) => [t.id, t]));
+/** look a task up by id (colour tasks are `cells<colour>`) */
+export function taskById(id: string): TaskDef | null {
+  if (BY_ID[id]) return BY_ID[id];
+  const m = /^cells([0-4])$/.exec(id);
+  return m ? colorTask(Number(m[1])) : null;
+}
+export interface TaskPool { garden?: boolean; levels?: boolean }
+
+/**
+ * Three tasks for a given day (deterministic): one puzzle, one hive, one more from the rest.
+ * The pool grows with the player (garden tasks after the first harvests, a level task once bees level up);
+ * with an empty `pool` the pick is exactly the v1.2 one, so a migrated save keeps today's tasks.
+ */
+export function tasksForDay(day: number, opts: TaskPool = {}): TaskDef[] {
   const rng = new Rng(hashString(`bzz-tasks-${day}`));
-  const pool = [...POOL, colorTask(rng.int(5))];
+  const pool = [...POOL, ...(opts.garden ? GARDEN : []), ...(opts.levels ? LEVELS : []), colorTask(rng.int(5))];
   const pick = (f: (t: TaskDef) => boolean, taken: TaskDef[]) => {
     const opts = pool.filter((t) => f(t) && !taken.includes(t));
     return opts[rng.int(opts.length)];
@@ -55,6 +84,8 @@ export function tasksForDay(day: number): TaskDef[] {
 export interface Reward { honey?: number; jelly?: number }
 export const taskReward = (hiveLvl: number): Reward => ({ honey: 40 * hiveLvl, jelly: 1 });
 export const bonusReward = (hiveLvl: number): Reward => ({ honey: 150 * hiveLvl, jelly: 2 });
+/** v1.3 weekly chest: claimed tasks in a calendar week (Mon–Sun) */
+export const WEEKLY_TASKS = 15;
 
 /** 7-day login calendar; honey scales with hive level. */
 export const LOGIN_REWARDS: Reward[] = [

@@ -9,6 +9,8 @@ export interface BeeSpecies {
   ability: string;
   flavor: string;
   effect: Partial<Boosts> & { color?: number };
+  /** v1.3: not bought with jelly — assembled from this many fragments from the surprise combs */
+  fragments?: number;
 }
 
 export interface Boosts {
@@ -36,6 +38,7 @@ export const BEES: BeeSpecies[] = [
   { id: "sonya", name: "Соня", rarity: "rare", cost: 16, ability: "Хранилище улья +4 ч", flavor: "Спит днём, но мёд стережёт.", effect: { capHours: 4 } },
   { id: "zorkaya", name: "Разведчица Зоркая", rarity: "epic", cost: 22, ability: "+25% мёда из головоломки", flavor: "Видит цветы за три луга.", effect: { puzzleHoneyMult: 0.25 } },
   { id: "margo", name: "Королева Марго", rarity: "legendary", cost: 32, ability: "Бомба уже из 5 сот", flavor: "Её величество любит, когда всё взрывается.", effect: { bombAt: 5 } },
+  { id: "nochka", name: "Ночная пчела", rarity: "legendary", cost: 0, fragments: 10, ability: "+20% к мёду улья", flavor: "Работает, пока все спят. Пришла на свет лунного мака.", effect: { prodMult: 0.2 } },
 ];
 export const BEE_BY_ID = Object.fromEntries(BEES.map((b) => [b.id, b]));
 

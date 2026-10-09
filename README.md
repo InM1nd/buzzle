@@ -1,64 +1,86 @@
-# Бзз — улей + медовая головоломка (Android)
+# Buzzle — cozy hive + honeycomb puzzle (Android)
 
-Бзз — уютная казуальная игра для телефона в портретной ориентации. Пчелиный улей-idle сочетается в ней с головоломкой на шестиугольных сотах.
-Сделано на Expo SDK 57, React Native 0.86 (new architecture, Hermes) и TypeScript. APK собирается локально через Gradle, без EAS.
+**Buzzle** is a cozy portrait-mode casual game: grow a bee hive that makes honey even while the app is
+closed, and earn more by solving a daily hexagonal honeycomb puzzle. Fully offline, no account, no ads —
+everything is stored on the device. UI language: Russian.
 
-- **Пакет:** `com.zabolotny.bzz` · versionName 1.0.0 · versionCode 1
-- **APK:** `Bzz-v1.0.0.apk` (только arm64-v8a, подписи v1+v2+v3, .so хранятся несжатыми с выравниванием по 16 KB, R8 + сжатие ресурсов)
-- **Язык интерфейса:** русский
+![Buzzle overview](screens/overview.png)
 
-## Игра
+## Features
 
-| Вкладка | Что там |
+- **Hive idle** — 19 comb slots on a hex grid; build next to existing combs and upgrade each up to level 20.
+  Bees produce honey offline up to the storage limit; four global upgrades (workers, storage, flower
+  meadow, queen's chamber).
+- **Honeycomb puzzle** — drag across 3+ neighbouring cells of one colour. Chains of 6+ leave a royal-jelly
+  bomb (bombs can chain-react), rainbow jokers, combo multiplier for 5+ chains.
+  - **Daily puzzle**: one seed per calendar day for everyone, 20 moves, 1–3 stars, day streaks.
+  - **Free play**: unlimited rounds with all bee bonuses active.
+- **12 bee species** with permanent bonuses, unlocked with royal jelly.
+- **Daily loop** — 7-day login calendar with a chest, 3 daily tasks + daily chest, optional reminders
+  ("hive is full", "daily puzzle is waiting").
+- **Living bees (v1.1)** — layered bee sprites (body + flapping wings + blinking eyes) fly organic curved
+  loops around the hive, bank into turns, land on combs for a little "work" wiggle, swarm to the honey
+  counter when you collect, and zip across the board on big combos. All motion runs on the native
+  animation driver and pauses in the background.
+- Clock-rollback protection, tolerant save migration with backups, haptics, all art drawn in code.
+
+## Screenshots
+
+| Hive & bees | Honey swarm | Daily puzzle | Big combo | Bee collection | Tasks |
+|---|---|---|---|---|---|
+| ![](screens/17-hive-bees-flight.png) | ![](screens/19-hive-collect-swarm.png) | ![](screens/08-puzzle-hub.png) | ![](screens/20-game-combo-zip.png) | ![](screens/13-bees.png) | ![](screens/15-tasks.png) |
+
+All screenshots in `screens/` are rendered from the real app code (react-native-web + puppeteer with a
+fixed clock and seeded save; the puzzle is played with real drag gestures). Style explorations live in
+`design/` (`buzzle-*.png`, `art-*.png`).
+
+## Tech stack
+
+- **Expo SDK 57**, **React Native 0.86** (New Architecture, Hermes), **TypeScript**
+- Animations: React Native `Animated` with `useNativeDriver` only — pre-computed Catmull-Rom flight paths
+  (`src/logic/flight.ts`) sampled into native interpolations, shared wing-flap clocks, no JS per frame
+- `@react-native-async-storage/async-storage`, `expo-notifications`, `expo-haptics`
+- Art generated with Python/Pillow (`scripts/make_art.py`); Nunito font (SIL OFL 1.1)
+- Tests: `node:test` via `tsx` (game logic, puzzle, flight paths) and Jest + React Native Testing Library (UI)
+- Local Gradle release build (no EAS): arm64-v8a only, R8 + resource shrinking, uncompressed 16 KB-aligned
+  native libraries, APK signature schemes v1 + v2 + v3
+
+## Project layout
+
+| Path | What |
 |---|---|
-| **Улей** | 19 ячеек сот (шестиугольник радиуса 2). Новые соты строятся рядом с уже построенными, каждую можно улучшать до 20-го уровня. Пчёлы производят мёд, в том числе пока игра закрыта; запас ограничен хранилищем: 6 ч, с улучшениями больше. Мёд собирается кнопкой, капли летят в счётчик. Глобальные улучшения: рабочие пчёлы, хранилище, цветочный луг, покои матки. |
-| **Головоломка** | Нужно провести пальцем по 3+ соседним сотам одного цвета. Собранные соты исчезают, новые падают сверху. Цепочка из 6+ сот оставляет бомбу маточного молочка: если включить её в цепочку, она взрывает соседей, бомбы могут взрываться цепной реакцией. Есть радужный джокер. Цепочки из 5+ подряд дают комбо-множитель. **Головоломка дня:** один сид на календарный день (у всех одинаковый), 20 ходов, 1–3 звезды (1000 / 1800 / 2800 очков), серия дней. Бонусы пчёл в ней влияют только на награду мёдом, так что условия равные. **Свободная игра:** без ограничений, 20 ходов плюс бонусы, все бонусы пчёл активны. Очки превращаются в мёд. |
-| **Пчёлы** | 12 видов с бонусами: производство, ходы, ×2 очков за свой цвет, чаще джокеры, хранилище, мёд из головоломки, бомба уже из 5 сот. Пчёлы открываются за маточное молочко. |
-| **Задания** | Календарь входа на 7 дней (на 7-й день сундук), 3 задания дня (по одному на головоломку и улей и одно любое), сундук дня, переключатель напоминаний, статистика. |
+| `src/logic/` | pure game logic: hex grid, board/puzzle, economy, bees, tasks, daily seed, notifications plan, flight paths |
+| `src/screens/` | Hive, Puzzle hub, Game, Bees, Tasks, modals (tutorial, rewards, settings) |
+| `src/ui/` | theme, components, `BeeSprite` / `anim` (animation plumbing), reward flights, notifications |
+| `assets/art/` | generated PNGs (bee bodies, wings, eyes, combs, icons) |
+| `scripts/` | art & font generators, `configure-android.sh`, `verify-apk.sh`, web screenshot harness |
+| `tests/`, `tests-rn/` | logic tests and UI tests |
 
-- **Первый запуск:** обучение из 4 слайдов, затем награда за вход.
-- **Уведомления** (по желанию, нужен POST_NOTIFICATIONS):
-  - «улей полон»;
-  - «головоломка дня ждёт», в 19:00, если сегодня ещё не пройдена;
-  - «новая головоломка», завтра в 10:00.
+## Build
 
-  Пересчитываются при каждом уходе приложения в фон. Используются неточные будильники, отдельное разрешение на точные не нужно.
-- **Защита от перевода часов:** `lastTick` улья никогда не идёт назад, поэтому перевод часов назад не даёт мёда. День для ежедневных механик — это `max(сегодня, maxDay)`. Если часы переведены назад больше чем на 10 минут, в улье показывается предупреждение.
-- **Сохранение:** всё хранится локально в AsyncStorage (`bzz:state:v1`). Миграция терпима к ошибкам: недостающие поля заполняются значениями по умолчанию. Перед перезаписью несовместимого или повреждённого сохранения делается резервная копия. Если хранилище не удалось прочитать, оно не перезаписывается.
-
-## Ключ подписи (релизный)
-
-- Файл: `keystore/bzz-release.jks` · alias `bzz`
-- Пароли хранилища и ключа: в локальном файле `keystore/SECRETS.local.md` (не в git)
-- Gradle читает параметры из `keystore/keystore.properties`.
-- Сертификат: CN=Bzz, OU=Personal, O=Alexander Zabolotny, L=Wien, C=AT
-- SHA-256: `79:0C:F7:3C:A6:6C:F9:7B:E3:A1:0C:27:0E:79:6F:1C:9D:6C:67:57:A2:39:F5:72:3B:6E:97:AE:E1:37:7B:DC`
-
-Сохраните резервную копию keystore: без него нельзя выпустить обновление, которое встанет поверх установленной версии.
-
-## Сборка
+Requirements: Node 22, JDK 17, Android SDK + NDK (`env.sh` puts them on the PATH).
 
 ```bash
-. ./env.sh                         # Node 22, JDK 17, Android SDK
+. ./env.sh
 npm install
 npx tsc --noEmit && npm test && npx jest
+
+# release APK
 CI=1 npx expo prebuild --platform android --clean --no-install
-./scripts/configure-android.sh     # arm64, R8, 16 KB stored libs, release signing
+./scripts/configure-android.sh     # arm64-only, R8, stored 16 KB-aligned libs, release signing v1+v2+v3
 cd android && ./gradlew assembleRelease --no-daemon --console=plain
-cp app/build/outputs/apk/release/app-release.apk ../Bzz-v1.0.0.apk
+cd .. && cp android/app/build/outputs/apk/release/app-release.apk Buzzle-v1.1.0.apk
+scripts/verify-apk.sh Buzzle-v1.1.0.apk   # aapt, apksigner, zipalign -P 16, ELF alignment, JS bundle
 ```
 
-Отчёт проверки (aapt, apksigner, zipalign -P 16, выравнивание ELF, бандл) лежит в `build-logs/apk-verify-v1.0.0.txt`.
+### Signing
 
-## Тесты
+Release signing reads `keystore/keystore.properties`, which is **not** in git. Copy
+`keystore/keystore.properties.example`, put your keystore next to it and fill in your own passwords — see
+`keystore/README.md`. Updates only install over an existing app when signed with the same key, so keep a
+backup of the keystore. Keystores, passwords, APKs and large build logs are git-ignored.
 
-- `npm test` — логика (node:test): смежность гексов, hit-test, корректность пути, детерминированная гравитация и досыпание по сиду, бомбы и цепные взрывы, подсчёт очков, гарантия наличия хода, offline-лимит улья, защита от перевода часов, сид и звёзды головоломки дня, серия, вход, задания, миграция, план уведомлений.
-- `npx jest` — UI (RNTL): обучение, награда за вход, постройка и улучшение сот, сбор offline-мёда, головоломка дня → итоги, бонусы свободной игры, открытие пчелы, задания и напоминания, настройки и сброс.
-- `scripts/calibrate.ts` — симуляция ботов для калибровки порогов звёзд.
-
-## Скриншоты
-
-Скриншоты в `screens/` отрендерены из настоящего кода через react-native-web и puppeteer. Часы подменены на 08.10.2026 08:40, состояние засеяно. Партия в головоломке дня проходит настоящими жестами-перетаскиваниями по жадной цепочке.
+### Screenshots
 
 ```bash
 npx tsx scripts/web-screens/seed.ts                 # -> /tmp/bzz-seeds.json
@@ -69,7 +91,6 @@ node scripts/web-screens/shoot.mjs                  # needs puppeteer-core + Chr
 python3 scripts/web-screens/overview.py
 ```
 
-## Графика и шрифты
+## License
 
-- Вся графика нарисована кодом (`scripts/make_art.py`, Pillow): соты, пчёлы, иконки, иконка приложения. Сторонних картинок нет.
-- Шрифт Nunito (SIL OFL 1.1, см. `assets/fonts/LICENSE.txt`), подмножество собрано скриптом `scripts/make_fonts.py`.
+No license chosen yet (all rights reserved). Font: Nunito, SIL Open Font License 1.1 (`assets/fonts/LICENSE.txt`).

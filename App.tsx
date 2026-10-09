@@ -51,6 +51,7 @@ export default function App() {
 function Main() {
   const insets = useSafeAreaInsets();
   const { fly } = useFly();
+  const [cheer, setCheer] = useState(0);
   const [s, setS] = useState<GameState | null>(null);
   const [now, setNow] = useState(Date.now());
   const [tab, setTab] = useState<Tab>("hive");
@@ -135,7 +136,7 @@ function Main() {
   }, [game, showSettings, showLogin, tab]);
 
   // ----- reward flight to the currency pills -----
-  const flyReward = useCallback(async (from: Pt | null, r: Reward, prev: GameState) => {
+  const flyReward = useCallback(async (from: Pt | null, r: Reward, prev: GameState, bees?: string[]) => {
     const tasks: Promise<void>[] = [];
     const run = async (kind: "honey" | "jelly", amount: number | undefined) => {
       if (!amount) return;
@@ -144,6 +145,7 @@ function Main() {
       if (!from || !to) { setHold((h) => ({ ...h, [kind]: undefined })); setBump((b) => ({ ...b, [kind]: b[kind] + 1 })); return; }
       fly({
         from, to, n: kind === "honey" ? Math.min(12, 4 + Math.ceil(Math.log2(amount + 1))) : Math.min(8, 2 + amount), img: kind === "honey" ? ART.honey : ART.jelly,
+        bees: kind === "honey" ? bees : undefined,
         onArrive: () => { setHold((h) => ({ ...h, [kind]: undefined })); setBump((b) => ({ ...b, [kind]: b[kind] + 1 })); },
       });
     };
@@ -158,7 +160,9 @@ function Main() {
       const r = collectHive(s, Date.now());
       if (r.amount <= 0) return;
       commit(r.state); hSuccess();
-      flyReward(from, { honey: r.amount }, s);
+      setCheer((c) => c + 1);
+      const swarm = (s.bees.length ? s.bees : ["zhuzha"]);
+      flyReward(from, { honey: r.amount }, s, [0, 1, 2].map((k) => swarm[k % swarm.length]));
     },
     comb: (slot: number) => {
       if (!s) return false;
@@ -296,6 +300,7 @@ function Main() {
           onFinish={act.finish}
           onExit={act.exitGame}
           onReplay={() => { setHold({}); pendingFly.current = null; act.play(game.mode); }}
+          beeIds={s.bees}
         />
       </View>
     );
@@ -323,7 +328,7 @@ function Main() {
         {tab === "hive" ? (
           <HiveScreen
             s={s} now={now}
-            onCollect={act.collect} onComb={act.comb} onUpgrade={act.upgrade}
+            onCollect={act.collect} onComb={act.comb} onUpgrade={act.upgrade} cheer={cheer}
             banner={showNotifPrompt ? (
               <View style={[styles.banner, shadow]}>
                 <Image source={ART.clock} style={{ width: 26, height: 26, tintColor: C.honeyDeep }} />

@@ -4,14 +4,22 @@ import { GameState, cap, canBuildAt, clockRolledBack, combActionCost, level, rat
 import { capHours, combRate, MAX_COMB_LEVEL, msUntilFull, UPGRADES, UpgradeId } from "../logic/economy";
 import { HIVE_SLOTS, hiveCenter } from "../logic/hex";
 import { boostsFor } from "../logic/bees";
-import { ART, BEE_ART } from "../ui/art";
+import { ART } from "../ui/art";
+import { BeeSprite } from "../ui/BeeSprite";
+import { sinRange, useAnimActive, useCycle } from "../ui/anim";
+import { buildFlight } from "../logic/flight";
 import { C, F, shadow } from "../ui/theme";
-import { Bar, Bobbing, Card, fmt, GameButton, Press, Txt } from "../ui/components";
+import { Bar, Card, fmt, GameButton, Press, Txt } from "../ui/components";
 import { centerOf, Pt } from "../ui/Fly";
 import { duration, rateFmt } from "../ui/format";
 
 const SQ3 = Math.sqrt(3);
-const UP_ICON: Record<UpgradeId, number> = { workers: BEE_ART.zhuzha, storage: ART.honey, flowers: ART.cells[2], queen: BEE_ART.margo };
+const UP_ICON: Record<UpgradeId, React.ReactNode> = {
+  workers: <BeeSprite id="zhuzha" size={44} flap={false} />,
+  storage: <Image source={ART.honey} style={{ width: 40, height: 40 }} />,
+  flowers: <Image source={ART.cells[2]} style={{ width: 40, height: 40 }} />,
+  queen: <BeeSprite id="margo" size={44} flap={false} />,
+};
 
 interface Props {
   s: GameState;
@@ -20,6 +28,8 @@ interface Props {
   onComb: (slot: number) => boolean;
   onUpgrade: (id: UpgradeId) => boolean;
   banner?: React.ReactNode;
+  /** bumps on every honey collect: hive bees hop and spin */
+  cheer?: number;
 }
 
 function CombTile({ slot, lvl, x, y, s, state, selected, onPress }: {
@@ -74,32 +84,60 @@ function CombTile({ slot, lvl, x, y, s, state, selected, onPress }: {
   );
 }
 
-function FlyingBee({ id, i, w, h }: { id: string; i: number; w: number; h: number }) {
-  const a = useRef(new Animated.Value(0)).current;
-  const spots = [[0.1, 0.12], [0.86, 0.18], [0.08, 0.78], [0.88, 0.8], [0.5, 0.02], [0.5, 0.9]];
-  const [sx, sy] = spots[i % spots.length];
+/** A bee flying a pre-computed curved loop around the hive, sometimes landing on a comb to work. */
+function HiveBee({ id, seed, w, h, size, land, cheer, on }: {
+  id: string; seed: number; w: number; h: number; size: number; land: Pt | null; cheer: number; on: boolean;
+}) {
+  const path = useMemo(() => buildFlight({ w, h, seed, land, margin: size * 0.45, speed: 70 + (seed % 5) * 9 }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [w, h, seed, size, land?.x, land?.y]);
+  const v = useRef(new Animated.Value(0)).current;
+  const bob = useRef(new Animated.Value(0)).current;
+  const hop = useRef(new Animated.Value(0)).current;
+  useCycle(v, path.duration, on, (seed % 997) / 997);
+  useCycle(bob, 780 + (seed % 7) * 70, on, (seed % 13) / 13);
+  const firstCheer = useRef(cheer);
   useEffect(() => {
-    const l = Animated.loop(Animated.sequence([
-      Animated.timing(a, { toValue: 1, duration: 2600 + i * 400, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
-      Animated.timing(a, { toValue: 0, duration: 2600 + i * 400, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
-    ]));
-    l.start();
-    return () => l.stop();
-  }, [a, i]);
-  const size = 46;
+    if (cheer === firstCheer.current) return;
+    hop.setValue(0);
+    const a = Animated.timing(hop, { toValue: 1, duration: 950, delay: (seed % 6) * 70, easing: Easing.out(Easing.quad), useNativeDriver: true });
+    a.start();
+    return () => a.stop();
+  }, [cheer, hop, seed]);
+  const anim = useMemo(() => {
+    const t = path.t;
+    const half = size / 2;
+    const rest = v.interpolate({ inputRange: t, outputRange: path.rest });
+    const flip = v.interpolate({ inputRange: t, outputRange: path.flip });
+    return {
+      x: v.interpolate({ inputRange: t, outputRange: path.x.map((p) => p - half) }),
+      y: v.interpolate({ inputRange: t, outputRange: path.y.map((p) => p - half) }),
+      rot: v.interpolate({ inputRange: t, outputRange: path.rot.map((r) => `${r}deg`) }),
+      scaleX: flip.interpolate({ inputRange: [-1, -0.06, 0.06, 1], outputRange: [-1, -0.42, 0.42, 1] }),
+      bobY: Animated.multiply(bob.interpolate(sinRange(size * 0.07)), Animated.subtract(1, rest)),
+      rest,
+      look: flip.interpolate({ inputRange: [-1, 1], outputRange: [-size * 0.035, size * 0.035] }),
+      hopY: hop.interpolate({ inputRange: [0, 0.3, 0.55, 0.8, 1], outputRange: [0, -size * 0.55, -size * 0.1, -size * 0.25, 0] }),
+      spin: hop.interpolate({ inputRange: [0, 0.55, 1], outputRange: ["0deg", "360deg", "360deg"] }),
+      pop: hop.interpolate({ inputRange: [0, 0.3, 0.6, 1], outputRange: [1, 1.25, 0.95, 1] }),
+    };
+  }, [path, v, bob, hop, size]);
   return (
     <Animated.View pointerEvents="none" style={{
-      position: "absolute", left: sx * w - size / 2, top: sy * h - size / 2,
-      transform: [{ translateX: a.interpolate({ inputRange: [0, 1], outputRange: [-14, 14] }) }, { scaleX: a.interpolate({ inputRange: [0, 0.5, 0.501, 1], outputRange: [1, 1, -1, -1] }) }],
+      position: "absolute", left: 0, top: 0, width: size, height: size,
+      transform: [
+        { translateX: anim.x }, { translateY: anim.y }, { translateY: anim.bobY }, { translateY: anim.hopY },
+        { rotate: anim.rot }, { rotate: anim.spin }, { scale: anim.pop }, { scaleX: anim.scaleX },
+      ],
     }}>
-      <Bobbing amp={4} period={1200 + i * 170} delay={i * 90}>
-        <Image source={BEE_ART[id]} style={{ width: size, height: size }} />
-      </Bobbing>
+      <BeeSprite id={id} size={size} seed={seed} rest={anim.rest} face={{ lookX: anim.look }} />
     </Animated.View>
   );
 }
 
-export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banner }: Props) {
+const hash = (str: string, i: number) => { let x = 2166136261 ^ i; for (let k = 0; k < str.length; k++) x = Math.imul(x ^ str.charCodeAt(k), 16777619); return (x >>> 0) % 100000 + 1; };
+
+export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banner, cheer = 0 }: Props) {
   const { width } = useWindowDimensions();
   const [sel, setSel] = useState<number | null>(null);
   const collectRef = useRef<View>(null);
@@ -114,15 +152,9 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
   const rolled = clockRolledBack(s, now);
 
   const glow = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    if (!isFull) { glow.setValue(0); return; }
-    const l = Animated.loop(Animated.sequence([
-      Animated.timing(glow, { toValue: 1, duration: 600, useNativeDriver: true }),
-      Animated.timing(glow, { toValue: 0, duration: 600, useNativeDriver: true }),
-    ]));
-    l.start();
-    return () => l.stop();
-  }, [isFull, glow]);
+  const activeNow = useAnimActive();
+  useCycle(glow, 1200, isFull && activeNow);
+  useEffect(() => { if (!isFull) glow.setValue(0); }, [isFull, glow]);
 
   const tiles = useMemo(() => HIVE_SLOTS.map((p, i) => {
     const { x, y } = hiveCenter(p.q, p.r, hs);
@@ -131,7 +163,24 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
     return { i, x: x + areaW / 2, y: y + areaH / 2, lvl, st };
   }), [s, hs, areaW, areaH]);
 
-  const flyingBees = s.bees.slice(0, 6);
+  const act = activeNow;
+  const beeSize = Math.round(Math.max(34, Math.min(46, hs * 0.95)));
+  const builtKey = tiles.filter((t) => t.st === "built").map((t) => t.i).join(",");
+  const flyers = useMemo(() => {
+    const owned = s.bees.length ? s.bees : ["zhuzha"];
+    const built = tiles.filter((t) => t.st === "built");
+    const n = Math.min(8, Math.max(3, built.length + 1));
+    // land on distinct built combs, spread over the hive
+    const order = built.map((t, k) => ({ t, h: hash("comb", t.i * 31 + k) })).sort((a, b) => a.h - b.h).map((o) => o.t);
+    let li = 0;
+    return Array.from({ length: n }, (_, i) => {
+      const id = owned[i % owned.length];
+      const seed = hash(id, i);
+      const comb = i % 2 === 1 && li < order.length ? order[li++] : null;
+      return { key: `${id}-${i}`, id, seed, land: comb ? { x: comb.x, y: comb.y - hs * 0.25 } : null };
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [s.bees.join(","), builtKey, hs, areaW, areaH]);
 
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 28, gap: 14 }} showsVerticalScrollIndicator={false}>
@@ -153,7 +202,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
             <CombTile key={t.i} slot={t.i} lvl={t.lvl} x={t.x} y={t.y} s={hs} state={t.st} selected={sel === t.i}
               onPress={() => setSel(sel === t.i ? null : t.i)} />
           ))}
-          {flyingBees.map((id, i) => <FlyingBee key={id} id={id} i={i} w={areaW} h={areaH} />)}
+          {flyers.map((b) => <HiveBee key={b.key} id={b.id} seed={b.seed} w={areaW} h={areaH} size={beeSize} land={b.land} cheer={cheer} on={act} />)}
         </Pressable>
       </View>
 
@@ -164,7 +213,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
 
       <Card>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
-          <Animated.Image source={ART.honey} style={{ width: 54, height: 54, transform: [{ scale: glow.interpolate({ inputRange: [0, 1], outputRange: [1, 1.1] }) }] }} />
+          <Animated.Image source={ART.honey} style={{ width: 54, height: 54, transform: [{ scale: glow.interpolate({ inputRange: [0, 0.5, 1], outputRange: [1, 1.1, 1] }) }] }} />
           <View style={{ flex: 1 }}>
             <Txt v="h3">{isFull ? "Улей полон!" : "Мёд в улье"}</Txt>
             <Txt v="num" color={C.honeyDark}>{fmt(stored)} <Txt v="small" color={C.dim}>/ {fmt(c)}</Txt></Txt>
@@ -192,7 +241,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
         const cost = upgradeCostFor(s, u.id);
         return (
           <Card key={u.id} style={styles.upRow}>
-            <View style={styles.upIcon}><Image source={UP_ICON[u.id]} style={{ width: 40, height: 40 }} /></View>
+            <View style={styles.upIcon}>{UP_ICON[u.id]}</View>
             <View style={{ flex: 1 }}>
               <Txt v="h3" numberOfLines={1}>{u.name}</Txt>
               <Txt v="tiny" color={C.honeyDark}>УРОВЕНЬ {lvl}/{u.max}</Txt>

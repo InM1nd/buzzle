@@ -8,6 +8,7 @@ import { Bar, Card, fmt, GameButton, Txt } from "../ui/components";
 import { centerOf, Pt } from "../ui/Fly";
 import { duration } from "../ui/format";
 import { Toggle } from "../ui/Toggle";
+import { Mascot } from "../ui/BeeSprite";
 
 interface Props {
   s: GameState;
@@ -30,9 +31,22 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
   const bonusRef = useRef<View>(null);
   const taskRefs = useRef<Record<string, View | null>>({});
   const tr = taskReward(lvl), br = bonusReward(lvl);
+  const readyCount = tasks.filter((t) => !s.tasks.claimed.includes(t.id) && (s.tasks.progress[t.id] ?? 0) >= t.target).length;
+  const say = canLogin ? "Награда за вход ждёт — забирай!"
+    : readyCount > 0 ? "Задание выполнено! Забирай награду."
+    : doneCount >= tasks.length ? "Все задания на сегодня готовы. Ты лучше всех!"
+    : `Выполнено ${doneCount} из ${tasks.length}. Полетели дальше!`;
 
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 28, gap: 14 }} showsVerticalScrollIndicator={false}>
+      {/* mascot */}
+      <View style={styles.mascotRow}>
+        <Mascot id="zhuzha" size={84} seed={9} />
+        <View style={styles.bubble}>
+          <View style={styles.bubbleTail} />
+          <Txt v="small" color={C.text}>{say}</Txt>
+        </View>
+      </View>
       {/* login calendar */}
       <Card>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -126,7 +140,7 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
           </View>
           <Toggle value={s.settings.notifications} onChange={onNotifications} label="Напоминания" />
         </View>
-        {notifBlocked ? <Txt v="small" color={C.red} style={{ marginTop: 8 }}>Уведомления запрещены в настройках Android для «Бзз».</Txt> : null}
+        {notifBlocked ? <Txt v="small" color={C.red} style={{ marginTop: 8 }}>Уведомления запрещены в настройках Android для «Buzzle».</Txt> : null}
       </Card>
 
       {/* stats */}
@@ -155,6 +169,9 @@ function Stat({ label, value }: { label: string; value: string }) {
 }
 
 const styles = StyleSheet.create({
+  mascotRow: { flexDirection: "row", alignItems: "center", gap: 6, marginBottom: -4 },
+  bubble: { flex: 1, backgroundColor: "#FFFDF6", borderRadius: 18, paddingHorizontal: 14, paddingVertical: 10, borderWidth: 2, borderColor: "#F6D594" },
+  bubbleTail: { position: "absolute", left: -8, top: "50%", marginTop: -7, width: 14, height: 14, backgroundColor: "#FFFDF6", borderLeftWidth: 2, borderBottomWidth: 2, borderColor: "#F6D594", transform: [{ rotate: "45deg" }] },
   streak: { flexDirection: "row", alignItems: "center", gap: 3, backgroundColor: "#FFF1D4", borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3 },
   week: { flexDirection: "row", gap: 5, marginVertical: 12 },
   day: { flex: 1, alignItems: "center", gap: 3, backgroundColor: "#FFF6E3", borderRadius: 14, paddingVertical: 8, borderWidth: 2, borderColor: "#F3E1BE" },

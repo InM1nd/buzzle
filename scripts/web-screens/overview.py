@@ -3,8 +3,8 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 import os
 D = "screens"
 ITEMS = [
-    ("04-hive.png", "Улей"), ("07-hive-collect-flight.png", "Сбор мёда"), ("08-puzzle-hub.png", "Головоломка дня"),
-    ("10-game-drag.png", "Цепочка сот"), ("11-game-pop.png", "Комбо и частицы"), ("12-round-result.png", "Итоги раунда"),
+    ("17-hive-bees-flight.png", "Улей и пчёлы"), ("19-hive-collect-swarm.png", "Сбор мёда"), ("08-puzzle-hub.png", "Головоломка дня"),
+    ("10-game-drag.png", "Цепочка сот"), ("20-game-combo-zip.png", "Комбо"), ("12-round-result.png", "Итоги раунда"),
     ("13-bees.png", "Коллекция пчёл"), ("15-tasks.png", "Задания и награды"),
 ]
 W, H = 330, 714
@@ -22,8 +22,8 @@ cap = ImageFont.truetype(F + "Nunito-ExtraBold.ttf", 28)
 icon = Image.open("assets/icon.png").convert("RGBA").resize((110, 110), Image.LANCZOS)
 m = Image.new("L", icon.size, 0); ImageDraw.Draw(m).rounded_rectangle([0, 0, 109, 109], 26, fill=255)
 canvas.paste(icon, (GAP, 34), m)
-d.text((GAP + 134, 30), "Бзз", font=title, fill=(74, 44, 18))
-d.text((GAP + 138, 116), "улей + медовая головоломка · Android · v1.0.0", font=sub, fill=(156, 123, 91))
+d.text((GAP + 134, 30), "Buzzle", font=title, fill=(74, 44, 18))
+d.text((GAP + 138, 116), "улей + медовая головоломка · Android · v1.1.0", font=sub, fill=(156, 123, 91))
 for i, (f, label) in enumerate(ITEMS):
     r, c = divmod(i, COLS)
     x = GAP + c * (W + GAP)

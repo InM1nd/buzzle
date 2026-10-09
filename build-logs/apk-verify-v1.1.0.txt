@@ -1,0 +1,105 @@
+== file
+-rw-r--r-- 1 box box 23162370 Oct  9 02:01 Buzzle-v1.1.0.apk
+23162370
+d8ade84d0824ab2bfdf4c2b01862ab67e15a2bbf65c74f80b70da7dec7393eea  Buzzle-v1.1.0.apk
+== aapt badging
+package: name='com.zabolotny.bzz' versionCode='2' versionName='1.1.0' platformBuildVersionName='16' platformBuildVersionCode='36' compileSdkVersion='36' compileSdkVersionCodename='16'
+sdkVersion:'24'
+targetSdkVersion:'36'
+uses-permission: name='android.permission.INTERNET'
+uses-permission: name='android.permission.VIBRATE'
+uses-permission: name='android.permission.RECEIVE_BOOT_COMPLETED'
+uses-permission: name='android.permission.POST_NOTIFICATIONS'
+uses-permission: name='android.permission.ACCESS_NETWORK_STATE'
+uses-permission: name='android.permission.WAKE_LOCK'
+uses-permission: name='com.zabolotny.bzz.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION'
+application-label:'Buzzle'
+launchable-activity: name='com.zabolotny.bzz.MainActivity'  label='' icon=''
+native-code: 'arm64-v8a'
+== apksigner
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): true
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+Signer #1 certificate DN: CN=Bzz, OU=Personal, O=Alexander Zabolotny, L=Wien, C=AT
+Signer #1 certificate SHA-256 digest: 790cf73ca66cf97be3a10c270e796f1c9d6c6757a239f5723b6e97aee1377bdc
+Signer #1 certificate SHA-1 digest: e76bf19f5dd78c6e9522ef8eaee3cbf4a4a50f97
+Signer #1 certificate MD5 digest: 61cb00f330131dd3e8395c9168e6455d
+Signer #1 key algorithm: RSA
+Signer #1 key size (bits): 2048
+Signer #1 public key SHA-256 digest: 63f4e581ea55994e59b5c248d72d27580c346c172a700d8ba38ea0f1e4668f40
+Signer #1 public key SHA-1 digest: 96d995ff686267098df1460e1a0bf71a06909a97
+Signer #1 public key MD5 digest: ee82a4e8c334a7017d50639c4df7f103
+== apksigner (minSdk 21 -> v1 JAR signature)
+Verifies
+Verified using v1 scheme (JAR signing): true
+== zipalign -c -P 16 -v 4
+ 3325952 lib/arm64-v8a/libappmodules.so (OK)
+ 3506176 lib/arm64-v8a/libc++_shared.so (OK)
+ 4800512 lib/arm64-v8a/libdatastore_shared_counter.so (OK)
+ 4816896 lib/arm64-v8a/libexpo-modules-core.so (OK)
+ 6275072 lib/arm64-v8a/libfbjni.so (OK)
+ 6455296 lib/arm64-v8a/libgifimage.so (OK)
+ 6782976 lib/arm64-v8a/libhermestooling.so (OK)
+ 6930432 lib/arm64-v8a/libhermesvm.so (OK)
+ 9420800 lib/arm64-v8a/libimagepipeline.so (OK)
+ 9437184 lib/arm64-v8a/libjsi.so (OK)
+ 9863168 lib/arm64-v8a/libnative-filters.so (OK)
+ 9895936 lib/arm64-v8a/libnative-imagetranscoder.so (OK)
+10485760 lib/arm64-v8a/libreact_codegen_safeareacontext.so (OK)
+10649600 lib/arm64-v8a/libreactnative.so (OK)
+17645568 lib/arm64-v8a/libstatic-webp.so (OK)
+18153472 lib/arm64-v8a/libzstd-kmp.so (OK)
+Verification successful
+== native libs (must be Stored)
+  168704  Stored   168704   0% 1981-01-01 01:01 91c0e8c8  lib/arm64-v8a/libappmodules.so
+ 1292904  Stored  1292904   0% 1981-01-01 01:01 e7c24752  lib/arm64-v8a/libc++_shared.so
+    7112  Stored     7112   0% 1981-01-01 01:01 4f56ac38  lib/arm64-v8a/libdatastore_shared_counter.so
+ 1457240  Stored  1457240   0% 1981-01-01 01:01 84ab1b73  lib/arm64-v8a/libexpo-modules-core.so
+  177000  Stored   177000   0% 1981-01-01 01:01 67ad3e05  lib/arm64-v8a/libfbjni.so
+  318992  Stored   318992   0% 1981-01-01 01:01 dc8f7846  lib/arm64-v8a/libgifimage.so
+  141432  Stored   141432   0% 1981-01-01 01:01 e9c8c0e3  lib/arm64-v8a/libhermestooling.so
+ 2477320  Stored  2477320   0% 1981-01-01 01:01 9c86543a  lib/arm64-v8a/libhermesvm.so
+    8760  Stored     8760   0% 1981-01-01 01:01 ba5a5bd2  lib/arm64-v8a/libimagepipeline.so
+  412696  Stored   412696   0% 1981-01-01 01:01 9db4052e  lib/arm64-v8a/libjsi.so
+   23712  Stored    23712   0% 1981-01-01 01:01 5e99aaab  lib/arm64-v8a/libnative-filters.so
+  585376  Stored   585376   0% 1981-01-01 01:01 104fb448  lib/arm64-v8a/libnative-imagetranscoder.so
+  159208  Stored   159208   0% 1981-01-01 01:01 7f560340  lib/arm64-v8a/libreact_codegen_safeareacontext.so
+ 6985168  Stored  6985168   0% 1981-01-01 01:01 f251f56a  lib/arm64-v8a/libreactnative.so
+  501856  Stored   501856   0% 1981-01-01 01:01 4e0f02ff  lib/arm64-v8a/libstatic-webp.so
+  731872  Stored   731872   0% 1981-01-01 01:01 334dc250  lib/arm64-v8a/libzstd-kmp.so
+== ELF LOAD alignment
+libappmodules.so                         0x4000 
+libc++_shared.so                         0x4000 
+libdatastore_shared_counter.so           0x4000 
+libexpo-modules-core.so                  0x4000 
+libfbjni.so                              0x4000 
+libgifimage.so                           0x4000 
+libhermestooling.so                      0x4000 
+libhermesvm.so                           0x4000 
+libimagepipeline.so                      0x4000 
+libjsi.so                                0x4000 
+libnative-filters.so                     0x4000 
+libnative-imagetranscoder.so             0x4000 
+libreact_codegen_safeareacontext.so      0x4000 
+libreactnative.so                        0x4000 
+libstatic-webp.so                        0x4000 
+libzstd-kmp.so                           0x4000 
+== JS bundle
+  1425508  1981-01-01 01:01   assets/index.android.bundle
+== fonts
+    resource 0x7f080000 font/nunito_black
+    resource 0x7f080001 font/nunito_bold
+    resource 0x7f080002 font/nunito_extra_bold
+    resource 0x7f080003 font/xml_nunito
+== dex
+  7320188  1981-01-01 01:01   classes.dex
+   787844  1981-01-01 01:01   classes2.dex
+== bundle format
+ c6 1f bc 03 c1 03 19 1f
+== drawable art (sample)
+42

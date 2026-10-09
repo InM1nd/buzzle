@@ -5,6 +5,7 @@ import {
 import { C, F, shadow } from "./theme";
 import { ART } from "./art";
 import { hLight } from "./haptics";
+import { sinDeg, sinRange, useAnimActive, useCycle } from "./anim";
 
 // ---------- text ----------
 type V = "title" | "h1" | "h2" | "h3" | "body" | "small" | "tiny" | "num";
@@ -183,17 +184,15 @@ export function Card({ children, style, warm }: { children: React.ReactNode; sty
 
 /** Gentle bob + slight wobble, for bees. */
 export function Bobbing({ children, amp = 5, period = 1600, delay = 0, style }: { children: React.ReactNode; amp?: number; period?: number; delay?: number; style?: StyleProp<ViewStyle> }) {
+  // one native loop (no JS between iterations), paused in the background
   const a = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    const loop = Animated.loop(Animated.sequence([
-      Animated.timing(a, { toValue: 1, duration: period / 2, delay, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
-      Animated.timing(a, { toValue: 0, duration: period / 2, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
-    ]));
-    loop.start();
-    return () => loop.stop();
-  }, [a, period, delay]);
+  const act = useAnimActive();
+  useCycle(a, period, act && amp > 0, ((delay / Math.max(1, period)) % 1 + 1) % 1);
   return (
-    <Animated.View style={[style, { transform: [{ translateY: a.interpolate({ inputRange: [0, 1], outputRange: [-amp, amp] }) }, { rotate: a.interpolate({ inputRange: [0, 1], outputRange: ["-3deg", "3deg"] }) }] }]}>
+    <Animated.View style={[style, { transform: [
+      { translateY: a.interpolate(sinRange(amp, 0.75)) },
+      { rotate: a.interpolate(sinDeg(3, 0.75)) },
+    ] }]}>
       {children}
     </Animated.View>
   );

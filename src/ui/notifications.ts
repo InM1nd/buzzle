@@ -11,7 +11,7 @@ Notifications.setNotificationHandler({
 export async function ensureChannel() {
   if (Platform.OS !== "android") return;
   await Notifications.setNotificationChannelAsync(CHANNEL_ID, {
-    name: "Улей и ежедневная головоломка",
+    name: "Buzzle: улей и головоломка дня",
     description: "Когда улей полон и когда готова новая ежедневная головоломка",
     importance: Notifications.AndroidImportance.DEFAULT,
   });

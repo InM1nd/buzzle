@@ -91,6 +91,35 @@ try {
     await shot(p, "07-hive-collect-flight");
     await p.close();
   }
+  if (want("flight")) {
+    // v1.1: bees on curved flight paths, some resting on combs; then the collect swarm
+    p = await open("mid");
+    await sleep(2600);
+    await shot(p, "17-hive-bees-flight");
+    await sleep(1900);
+    await shot(p, "18-hive-bees-flight-2");
+    await p.close();
+    p = await open("full");
+    await p.mouse.move(206, 600); await p.mouse.wheel({ deltaY: 300 }); await sleep(600);
+    await tap(p, "Собрать мёд", { label: true, wait: 820 });
+    await shot(p, "19-hive-collect-swarm");
+    await p.close();
+  }
+  if (want("zip")) {
+    p = await open("mid");
+    await tap(p, "Головоломка", { label: true, wait: 700 });
+    await tap(p, "Играть ежедневную головоломку", { label: true, wait: 2200 });
+    const best = seeds.moves.reduce((bi, m, i) => (m.length > seeds.moves[bi].length ? i : bi), 0);
+    for (let i = 0; i <= best; i++) {
+      const pts = await boardPts(p, seeds.moves[i]);
+      await p.mouse.move(pts[0].x, pts[0].y); await p.mouse.down();
+      for (const q of pts.slice(1)) { await p.mouse.move(q.x, q.y, { steps: 4 }); await sleep(40); }
+      await p.mouse.up();
+      if (i === best) { await sleep(620); await shot(p, "20-game-combo-zip"); }
+      else await sleep(750);
+    }
+    await p.close();
+  }
   if (want("puzzle")) {
     p = await open("mid");
     await tap(p, "Головоломка", { label: true, wait: 700 });

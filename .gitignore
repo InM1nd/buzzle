@@ -40,6 +40,13 @@ yarn-error.*
 /ios
 /android
 
-# build outputs
+# ---- release artefacts & secrets (never commit) ----
 *.apk
-build-logs/gradle-*.log
+*.aab
+*.keystore
+*.jks
+keystore/*
+!keystore/keystore.properties.example
+!keystore/README.md
+*.local.md
+build-logs/*.log

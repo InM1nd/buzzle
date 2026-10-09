@@ -29,17 +29,4 @@ export const ART = {
   clock: require("../../assets/art/clock.png"),
 };
 
-export const BEE_ART: Record<string, number> = {
-  zhuzha: require("../../assets/art/bee_zhuzha.png"),
-  pushinka: require("../../assets/art/bee_pushinka.png"),
-  boris: require("../../assets/art/bee_boris.png"),
-  solnyshko: require("../../assets/art/bee_solnyshko.png"),
-  klevera: require("../../assets/art/bee_klevera.png"),
-  lavanda: require("../../assets/art/bee_lavanda.png"),
-  vasilek: require("../../assets/art/bee_vasilek.png"),
-  myatka: require("../../assets/art/bee_myatka.png"),
-  iskorka: require("../../assets/art/bee_iskorka.png"),
-  sonya: require("../../assets/art/bee_sonya.png"),
-  zorkaya: require("../../assets/art/bee_zorkaya.png"),
-  margo: require("../../assets/art/bee_margo.png"),
-};
+// v1.1: bees are drawn by ui/BeeSprite (body + wings + eyes); the full bee_<id>.png files are only used for icons/design boards.

@@ -1,7 +1,7 @@
-"""All game art for Бзз, drawn in code (no external assets): pollen cells, hive combs, 12 bees,
+"""All game art for Buzzle, drawn in code (no external assets): pollen cells, hive combs, 12 bees,
 UI icons, background tile, app icon / adaptive / monochrome / splash / notification icon."""
 import math, os
-from PIL import Image, ImageDraw, ImageFilter, ImageChops
+from PIL import Image, ImageDraw, ImageFilter, ImageChops, ImageFont
 
 ART = "assets/art"
 os.makedirs(ART, exist_ok=True)
@@ -211,7 +211,7 @@ BEE_SPECS = {
 def star_poly(cx, cy, r1, r2, n=5, rot=-90):
     return [(cx + math.cos(math.radians(rot + 180 / n * i)) * (r1 if i % 2 == 0 else r2), cy + math.sin(math.radians(rot + 180 / n * i)) * (r1 if i % 2 == 0 else r2)) for i in range(2 * n)]
 
-def bee(spec, size=256, silhouette=None):
+def bee(spec, size=256, silhouette=None, wings=True, eyes=True):
     S = size * SS
     im = Image.new("RGBA", (S, S), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
@@ -221,6 +221,7 @@ def bee(spec, size=256, silhouette=None):
     body, stripe = rgba(spec["body"]), rgba(spec["stripe"])
     outline = darken(stripe, 0.25)
     lw = int(S * 0.018)
+    wings_on = wings
     # wings (behind)
     wings = Image.new("RGBA", (S, S), (0, 0, 0, 0))
     wd = ImageDraw.Draw(wings)
@@ -230,8 +231,8 @@ def bee(spec, size=256, silhouette=None):
         ImageDraw.Draw(wl).ellipse([wx - S * 0.16, wy - S * 0.12, wx + S * 0.16, wy + S * 0.12], fill=(235, 248, 255, 215), outline=(150, 200, 235, 255), width=lw)
         wl = wl.rotate(-sx * 25, center=(wx, wy), resample=Image.BICUBIC)
         wings = Image.alpha_composite(wings, wl)
-    # shine on wings
-    im = Image.alpha_composite(im, wings)
+    if wings_on:
+        im = Image.alpha_composite(im, wings)
     d = ImageDraw.Draw(im)
     # antennae
     for sx in (-1, 1):
@@ -274,7 +275,7 @@ def bee(spec, size=256, silhouette=None):
         for sx in (-1, 1):
             x = cx + sx * ex
             d.arc([x - er, ey - er * 0.6, x + er, ey + er * 0.9], 200, 340, fill=outline, width=lw)
-    else:
+    elif eyes:
         for sx in (-1, 1):
             x = cx + sx * ex
             d.ellipse([x - er, ey - er * 1.1, x + er, ey + er * 1.1], fill=(40, 24, 10, 255))
@@ -337,6 +338,31 @@ def bee(spec, size=256, silhouette=None):
 
 for name, spec in BEE_SPECS.items():
     bee(spec).save(f"{ART}/bee_{name}.png", optimize=True)
+    # animation parts (v1.1): body without wings and (unless sleepy) without eyes
+    bee(spec, wings=False, eyes=False).save(f"{ART}/bee_{name}_body.png", optimize=True)
+
+def bee_wing(scale=2):
+    """one unrotated wing; RN places/rotates/flaps two copies (geometry mirrored in src/ui/BeeSprite.tsx)."""
+    base = 256 * SS
+    lw = int(base * 0.018)
+    W, H = int(base * 0.32) + 2 * lw, int(base * 0.24) + 2 * lw
+    im = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    ImageDraw.Draw(im).ellipse([lw, lw, W - lw, H - lw], fill=(235, 248, 255, 215), outline=(150, 200, 235, 255), width=lw)
+    return im.resize((int(W / SS * scale), int(H / SS * scale)), Image.LANCZOS)
+
+def bee_eye(scale=2):
+    base = 256 * SS
+    er = base * 0.055
+    W, H = int(er * 2 + 4), int(er * 2.2 + 4)
+    im = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    x, ey = W / 2, H / 2
+    d.ellipse([x - er, ey - er * 1.1, x + er, ey + er * 1.1], fill=(40, 24, 10, 255))
+    d.ellipse([x - er * 0.55, ey - er * 0.8, x - er * 0.05, ey - er * 0.3], fill=(255, 255, 255, 255))
+    d.ellipse([x + er * 0.2, ey + er * 0.2, x + er * 0.45, ey + er * 0.45], fill=(255, 255, 255, 200))
+    return im.resize((int(W / SS * scale), int(H / SS * scale)), Image.LANCZOS)
+
+bee_wing().save(f"{ART}/bee_wing.png", optimize=True)
+bee_eye().save(f"{ART}/bee_eye.png", optimize=True)
 
 # ---------------- icons ----------------
 def icon_canvas(n=128):
@@ -529,7 +555,25 @@ fg.save("assets/android-icon-foreground.png")
 monob = bee(BEE_SPECS["zhuzha"], 560, silhouette=(255, 255, 255))
 mono_ = Image.new("RGBA", (I, I), (0, 0, 0, 0)); mono_.alpha_composite(monob, ((I - 560) // 2, (I - 560) // 2 + 10))
 mono_.save("assets/android-icon-monochrome.png")
-bee(BEE_SPECS["zhuzha"], 512).save("assets/splash-icon.png")
+def splash():
+    """Zhuzha + "Buzzle" wordmark, kept inside the central circle Android 12+ shows on the splash screen."""
+    S = 512
+    im = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    bb = bee(BEE_SPECS["zhuzha"], 250)
+    im.alpha_composite(bb, ((S - 250) // 2, 96))
+    font = ImageFont.truetype("assets/fonts/Nunito-Black.ttf", 76)
+    text = "Buzzle"
+    d = ImageDraw.Draw(im)
+    l, t, r, b = d.textbbox((0, 0), text, font=font)
+    x, y = (S - (r - l)) // 2 - l, 318 - t
+    # soft shadow, honey outline, brown fill
+    sh = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    ImageDraw.Draw(sh).text((x, y + 5), text, font=font, fill=(150, 80, 0, 110), stroke_width=7, stroke_fill=(150, 80, 0, 110))
+    im = Image.alpha_composite(sh.filter(ImageFilter.GaussianBlur(3)), im)
+    d = ImageDraw.Draw(im)
+    d.text((x, y), text, font=font, fill=(110, 58, 12, 255), stroke_width=7, stroke_fill=(255, 201, 74, 255))
+    return im
+splash().save("assets/splash-icon.png")
 icon.resize((48, 48), Image.LANCZOS).convert("RGB").save("assets/favicon.png")
 nb = bee(BEE_SPECS["zhuzha"], 96, silhouette=(255, 255, 255))
 nb.save("assets/notification-icon.png")

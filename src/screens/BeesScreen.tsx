@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, ScrollView, StyleSheet, useWindowDimensions, View } from "react-native";
 import { GameState } from "../logic/game";
 import { BEES, BeeSpecies, Rarity } from "../logic/bees";
-import { ART, BEE_ART } from "../ui/art";
+import { ART } from "../ui/art";
+import { BeeSprite, Hover, Mascot, useFace } from "../ui/BeeSprite";
 import { C, shadow } from "../ui/theme";
-import { Bobbing, CloseBtn, GameButton, Overlay, Press, Txt } from "../ui/components";
+import { CloseBtn, GameButton, Overlay, Press, Txt } from "../ui/components";
 
 const RARITY: Record<Rarity, { name: string; color: string; bg: string }> = {
   common: { name: "обычная", color: "#7A8A3A", bg: "#EEF5D8" },
@@ -44,9 +45,9 @@ export default function BeesScreen({ s, onUnlock }: Props) {
                 accessibilityRole="button" accessibilityLabel={`${b.name}${has ? "" : ", закрыта"}`}>
                 <View style={[styles.beeBg, { backgroundColor: has ? r.bg : "#F2E6D0" }]}>
                   {has ? (
-                    <Bobbing amp={3} period={1500 + i * 90} delay={i * 70}><Image source={BEE_ART[b.id]} style={{ width: 82, height: 82 }} /></Bobbing>
+                    <CardBee id={b.id} i={i} />
                   ) : (
-                    <Image source={BEE_ART[b.id]} style={{ width: 82, height: 82, tintColor: "#DCC7A3" }} />
+                    <BeeSprite id={b.id} size={86} tint="#DCC7A3" />
                   )}
                   {justUnlocked === b.id ? <Sparkle /> : null}
                 </View>
@@ -74,6 +75,16 @@ export default function BeesScreen({ s, onUnlock }: Props) {
         ) : null}
       </Overlay>
     </>
+  );
+}
+
+/** Idle bee on a collection card: hover + flapping wings + an occasional blink / glance. */
+function CardBee({ id, i }: { id: string; i: number }) {
+  const face = useFace(true, i * 13 + 5);
+  return (
+    <Hover amp={3} sway={2.5} period={1500 + i * 97} phase={(i * 0.37) % 1}>
+      <BeeSprite id={id} size={86} seed={i} face={face} />
+    </Hover>
   );
 }
 
@@ -105,9 +116,7 @@ function BeeDetail({ bee, has, jelly, onUnlock, onClose }: { bee: BeeSpecies; ha
       <View style={[styles.detailBg, { backgroundColor: has ? r.bg : "#F2E6D0" }]}>
         {has && wasLocked ? <Sparkle /> : null}
         <Animated.View style={{ transform: [{ scale: pop }] }}>
-          <Bobbing amp={has ? 5 : 0}>
-            <Image source={BEE_ART[bee.id]} style={{ width: 150, height: 150, tintColor: has ? undefined : "#D8C29C" }} />
-          </Bobbing>
+          {has ? <Mascot id={bee.id} size={156} seed={bee.id.length * 7 + 1} /> : <BeeSprite id={bee.id} size={156} tint="#D8C29C" />}
         </Animated.View>
       </View>
       <Txt v="h1" center style={{ marginTop: 10 }}>{has ? bee.name : "Неизвестная пчела"}</Txt>

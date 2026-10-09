@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, Linking, StyleSheet, View } from "react-native";
 import { Reward } from "../logic/tasks";
-import { ART, BEE_ART } from "../ui/art";
+import { ART } from "../ui/art";
+import { BeeSprite, Hover, Mascot } from "../ui/BeeSprite";
 import { C } from "../ui/theme";
 import { Bobbing, CloseBtn, fmt, GameButton, Overlay, Press, Txt } from "../ui/components";
 import { Toggle } from "../ui/Toggle";
@@ -9,14 +10,14 @@ import { centerOf, Pt } from "../ui/Fly";
 
 // ---------- tutorial ----------
 const SLIDES = [
-  { title: "Привет, я Жужа!", text: "Добро пожаловать в «Бзз» — уютный улей, который растёт с каждым днём." },
+  { title: "Привет, я Жужа!", text: "Добро пожаловать в «Buzzle» — уютный улей, который растёт с каждым днём." },
   { title: "Собирайте пыльцу", text: "Ведите пальцем по 3 и более соседним сотам одного цвета. Чем длиннее цепочка, тем больше очков — а из 6+ сот получается бомба." },
   { title: "Стройте улей", text: "Очки превращаются в мёд. Стройте и улучшайте соты — пчёлы собирают мёд, даже когда вы не в игре." },
   { title: "Возвращайтесь каждый день", text: "Новая головоломка дня, три задания и награды за вход. Звёзды дают маточное молочко — на него открываются новые пчёлы." },
 ];
 
 function SlideArt({ i }: { i: number }) {
-  if (i === 0) return <Bobbing amp={6}><Image source={BEE_ART.zhuzha} style={{ width: 150, height: 150 }} /></Bobbing>;
+  if (i === 0) return <Mascot id="zhuzha" size={156} seed={4} />;
   if (i === 1) {
     const s = 34, pts = [[0, 0], [1.5, 0.866], [3, 0], [4.5, 0.866]];
     return (
@@ -30,7 +31,9 @@ function SlideArt({ i }: { i: number }) {
           const len = Math.hypot(bx - ax, by - ay), ang = Math.atan2(by - ay, bx - ax);
           return <View key={`l${k}`} style={{ position: "absolute", left: (ax + bx) / 2 - len / 2, top: (ay + by) / 2 - 6, width: len, height: 12, borderRadius: 6, backgroundColor: "#E04585", borderWidth: 2.5, borderColor: "#fff", transform: [{ rotate: `${ang}rad` }] }} />;
         })}
-        <Image source={BEE_ART.klevera} style={{ position: "absolute", right: -6, top: -14, width: 60, height: 60 }} />
+        <Hover amp={4} sway={4} period={1300} style={{ position: "absolute", right: -8, top: -18 }}>
+          <BeeSprite id="klevera" size={64} seed={1} />
+        </Hover>
       </View>
     );
   }
@@ -142,7 +145,7 @@ export function SettingsModal({ visible, notifications, haptics, notifBlocked, o
             onPress={() => { if (confirm === 0) setConfirm(1); else { setConfirm(2); onReset(); } }} />
         </View>
         <Txt v="tiny" color={C.faint} center style={{ marginTop: 14 }}>
-          Бзз 1.0.0 · данные хранятся только на устройстве
+          Buzzle 1.1.0 · данные хранятся только на устройстве
         </Txt>
       </View>
     </Overlay>

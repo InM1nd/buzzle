@@ -8,6 +8,7 @@ import { boardSize, cellCenter, COLS, hitTest, Pos, ROWS } from "../logic/hex";
 import { DAILY_STARS, starsFor } from "../logic/day";
 import { RoundReward, RoundSummary } from "../logic/game";
 import { ART } from "../ui/art";
+import { BeeSprite } from "../ui/BeeSprite";
 import { C, F, shadow } from "../ui/theme";
 import { Bar, CountUp, fmt, GameButton, Overlay, Press, Stars, Txt } from "../ui/components";
 import { hError, hHeavy, hLight, hSuccess, hTick } from "../ui/haptics";
@@ -25,6 +26,8 @@ interface Props {
   onFinish: (r: RoundSummary) => RoundReward;
   onExit: () => void;
   onReplay: () => void;
+  /** owned bees: one of them zips across the board on big combos */
+  beeIds?: string[];
 }
 
 // ---------- cell ----------
@@ -136,6 +139,61 @@ function FloatText({ x, y, text, color, big, onDone, id }: { x: number; y: numbe
 }
 
 // ---------- screen ----------
+/** A bee zipping across the board along a wavy line, leaving a sparkle trail (one native timing). */
+function ZipBee({ id, w, h, dir, y0, big, onEnd }: { id: string; w: number; h: number; dir: 1 | -1; y0: number; big: boolean; onEnd: () => void }) {
+  const a = useRef(new Animated.Value(0)).current;
+  const size = Math.round(Math.min(64, Math.max(44, w * 0.13)));
+  const end = useRef(onEnd);
+  end.current = onEnd;
+  const look = useRef(new Animated.Value(dir * size * 0.04)).current;
+  useEffect(() => {
+    const t = Animated.timing(a, { toValue: 1, duration: big ? 1250 : 1050, easing: Easing.inOut(Easing.sin), useNativeDriver: true });
+    t.start(({ finished }) => { if (finished) end.current(); });
+    return () => t.stop();
+  }, [a, big]);
+  const p = useMemo(() => {
+    const N = 24, waves = big ? 2.5 : 1.5, amp = h * (big ? 0.16 : 0.1);
+    const t: number[] = [], x: number[] = [], y: number[] = [], rot: string[] = [];
+    for (let i = 0; i <= N; i++) {
+      const u = i / N;
+      const px = dir > 0 ? -size + (w + 2 * size) * u : w + size - (w + 2 * size) * u;
+      const ph = Math.PI * 2 * waves * u;
+      t.push(u); x.push(px); y.push(y0 + Math.sin(ph) * amp);
+      const slope = (Math.cos(ph) * amp * Math.PI * 2 * waves) / (w + 2 * size);
+      rot.push(`${(Math.atan(slope) * 180 / Math.PI * dir * 0.8).toFixed(1)}deg`);
+    }
+    return { t, x, y, rot };
+  }, [w, h, dir, y0, big, size]);
+  const trail = [0.05, 0.1, 0.15, 0.2, 0.26];
+  return (
+    <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+      {trail.map((d, k) => (
+        <Animated.Image key={k} source={ART.star} style={{
+          position: "absolute", left: -8, top: -8, width: 16, height: 16,
+          opacity: a.interpolate({ inputRange: [0, d, d + 0.02, 0.92, 1], outputRange: [0, 0, 0.9 - k * 0.14, 0.5, 0], extrapolate: "clamp" }),
+          transform: [
+            { translateX: a.interpolate({ inputRange: p.t.map((u) => u + d), outputRange: p.x, extrapolate: "clamp" }) },
+            { translateY: a.interpolate({ inputRange: p.t.map((u) => u + d), outputRange: p.y.map((v, i) => v + size * 0.12 + (i % 2 ? 4 : -4)), extrapolate: "clamp" }) },
+            { scale: 1 - k * 0.13 },
+            { rotate: a.interpolate({ inputRange: [0, 1], outputRange: ["0deg", `${dir * 300}deg`] }) },
+          ],
+        }} />
+      ))}
+      <Animated.View style={{
+        position: "absolute", left: -size / 2, top: -size / 2, width: size, height: size,
+        transform: [
+          { translateX: a.interpolate({ inputRange: p.t, outputRange: p.x }) },
+          { translateY: a.interpolate({ inputRange: p.t, outputRange: p.y }) },
+          { rotate: a.interpolate({ inputRange: p.t, outputRange: p.rot }) },
+          { scaleX: dir },
+        ],
+      }}>
+        <BeeSprite id={id} size={size} seed={2} face={{ lookX: look }} />
+      </Animated.View>
+    </View>
+  );
+}
+
 export default function GameScreen(props: Props) {
   const { width, height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
@@ -151,6 +209,8 @@ export default function GameScreen(props: Props) {
   const [movesLeft, setMovesLeft] = useState(props.moves);
   const [score, setScore] = useState(0);
   const [combo, setCombo] = useState(0);
+  const [zips, setZips] = useState<{ key: number; id: string; dir: 1 | -1; y0: number; big: boolean }[]>([]);
+  const zipId = useRef(1);
   const [pops, setPops] = useState<PopFx[]>([]);
   const [texts, setTexts] = useState<{ id: number; x: number; y: number; text: string; color: string; big?: boolean }[]>([]);
   const [hint, setHint] = useState<Pos[]>([]);
@@ -257,6 +317,11 @@ export default function GameScreen(props: Props) {
     else if (len >= 8) { addText(size.width / 2, size.height * 0.42, "Потрясающе!", C.honeyDeep, true); hSuccess(); }
     else if (len >= 6) { addText(size.width / 2, size.height * 0.42, "Отлично!", C.honeyDeep, true); hSuccess(); }
     else hLight();
+    if (len >= 6 || res.bombsExploded) {
+      const ids = props.beeIds?.length ? props.beeIds : ["zhuzha"];
+      const z = { key: zipId.current++, id: ids[Math.floor(Math.random() * ids.length)], dir: (Math.random() < 0.5 ? 1 : -1) as 1 | -1, y0: size.height * (0.25 + Math.random() * 0.45), big: len >= 10 || res.bombsExploded > 1 };
+      setTimeout(() => setZips((q) => [...q.slice(-1), z]), 180);
+    }
     if (res.newBomb) setTimeout(() => hTick(), 300);
     if (res.shuffled) {
       setTimeout(() => { addText(size.width / 2, size.height * 0.55, "Перемешиваем!", C.brown, true); setPulse((x) => x + 1); }, 450);
@@ -283,7 +348,7 @@ export default function GameScreen(props: Props) {
       }
       return n;
     });
-  }, [combo, props.rules, s, H, size.width, size.height, addText, shake, movesPulse]);
+  }, [combo, props.rules, props.beeIds, s, H, size.width, size.height, addText, shake, movesPulse]);
 
   // ----- end of round -----
   const onFinishRef = useRef(props.onFinish);
@@ -441,6 +506,12 @@ export default function GameScreen(props: Props) {
           ))}
           {pops.map((fx) => <Pop key={fx.key} fx={fx} onDone={removePop} />)}
           {texts.map((t) => <FloatText key={t.id} {...t} onDone={removeText} />)}
+        </View>
+        <View pointerEvents="none" style={{ position: "absolute", left: 6, top: 6, width: size.width, height: size.height }}>
+          {zips.map((z) => (
+            <ZipBee key={z.key} id={z.id} w={size.width} h={size.height} dir={z.dir} y0={z.y0} big={z.big}
+              onEnd={() => setZips((q) => q.filter((x) => x.key !== z.key))} />
+          ))}
         </View>
       </Animated.View>
       <Txt v="small" color={C.dim} center style={{ marginTop: 8 }}>

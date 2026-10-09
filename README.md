@@ -30,6 +30,10 @@ everything is stored on the device. UI language: Russian.
   loops around the hive, bank into turns, land on combs for a little "work" wiggle, swarm to the honey
   counter when you collect, and zip across the board on big combos. All motion runs on the native
   animation driver and pauses in the background.
+- **Bee names (v1.2.1).** Tap the pencil in a bee's detail sheet to rename it: up to 16 characters, emoji count as
+  one character, and an empty name resets it. The custom name replaces the species name everywhere it is shown, and
+  the species stays as the subtitle. Names are saved with the rest of the game, in the Android save and in Telegram
+  CloudStorage.
 - **Low-poly bees (v1.2)** — every bee (hive, puzzle zip, collection, tutorial, tasks, splash, app icon) is
   rendered in Blender as baked layers (body, wings, eyes, plus golden wings and a crown for levels). Each
   species has 3 views (Жужа has 5), so bees turn toward their flight direction.
@@ -72,6 +76,14 @@ The same build works in a normal mobile browser: https://inm1nd.github.io/buzzle
   - `localStorage` stays as a cache and as the store outside Telegram.
   - An existing browser save is uploaded on the first Telegram launch. When a newer save exists on another device,
     it wins.
+- **Reliable images (1.2.1).** react-native-web's `<Image>` reloads its URL on every mount and stays blank if that one
+  request fails. The tab bar remounts after each puzzle round, so on a flaky mobile connection its icons could vanish.
+  Two fixes:
+  - Tab icons are now pre-tinted inline data URIs (`src/ui/TabIcon.web.tsx`), so they never touch the network and
+    need no SVG tint filter.
+  - All other art is loaded once at startup and kept in memory, with retries (`src/platform/pinArt.web.ts`).
+  `scripts/telegram/tabs-stress.cjs` checks this: it switches tabs, plays rounds, backgrounds and resizes the app on a
+  flaky network, and after every step verifies that each tab icon is actually drawn.
 - **Reminders** are not available on the web yet (no backend); the settings show «скоро».
 - **Performance.** The JS bundle is ≈ 724 KB (≈ 207 KB gzipped) and the whole site ≈ 1.6 MB (WebP art). An HTML boot
   screen with Жужа shows until the save is loaded. Web animations run on the JS thread, so the hive shows 4 flying bees
@@ -80,6 +92,7 @@ The same build works in a normal mobile browser: https://inm1nd.github.io/buzzle
 ```bash
 scripts/telegram/build-web.sh                 # -> dist-web/ (base path /buzzle; BZZ_WEB_BASE overrides)
 NODE_PATH=/path/to/node_modules node scripts/telegram/smoke.cjs http://127.0.0.1:8098/buzzle/   # mocked Telegram + plain browser
+NODE_PATH=/path/to/node_modules node scripts/telegram/tabs-stress.cjs http://127.0.0.1:8098/buzzle/ 6  # tab icons stress test
 scripts/telegram/deploy-pages.sh              # dist-web -> gh-pages branch (GITHUB_TOKEN_PUSH)
 node scripts/telegram/setup-bot.mjs           # menu button «Играть», descriptions, /start (TELEGRAM_BOT_TOKEN)
 ```
@@ -122,8 +135,8 @@ npx tsc --noEmit && npm test && npx jest
 CI=1 npx expo prebuild --platform android --clean --no-install
 ./scripts/configure-android.sh     # arm64-only, R8, stored 16 KB-aligned libs, release signing v1+v2+v3
 cd android && ./gradlew assembleRelease --no-daemon --console=plain
-cd .. && cp android/app/build/outputs/apk/release/app-release.apk Buzzle-v1.2.0.apk
-scripts/verify-apk.sh Buzzle-v1.2.0.apk   # aapt, apksigner, zipalign -P 16, ELF alignment, JS bundle
+cd .. && cp android/app/build/outputs/apk/release/app-release.apk Buzzle-v1.2.1.apk
+scripts/verify-apk.sh Buzzle-v1.2.1.apk   # aapt, apksigner, zipalign -P 16, ELF alignment, JS bundle
 ```
 
 ### Low-poly bee art

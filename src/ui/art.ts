@@ -31,6 +31,7 @@ export const ART = {
   can: require("../../assets/art/can.png"),
   seed: require("../../assets/art/seed.png"),
   shovel: require("../../assets/art/shovel.png"),
+  pencil: require("../../assets/art/pencil.png"),
   nectar: require("../../assets/art/garden/nectar.webp"),
 };
 

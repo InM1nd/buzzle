@@ -157,7 +157,7 @@ export function SettingsModal({ visible, notifications, gardenReminders, haptics
             onPress={() => { if (confirm === 0) setConfirm(1); else { setConfirm(2); onReset(); } }} />
         </View>
         <Txt v="tiny" color={C.faint} center style={{ marginTop: 14 }}>
-          {inTelegram() ? "Buzzle 1.2.0 · прогресс сохраняется в Telegram" : "Buzzle 1.2.0 · данные хранятся только на устройстве"}
+          {inTelegram() ? "Buzzle 1.2.1 · прогресс сохраняется в Telegram" : "Buzzle 1.2.1 · данные хранятся только на устройстве"}
         </Txt>
       </View>
     </Overlay>

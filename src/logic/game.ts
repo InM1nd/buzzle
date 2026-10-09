@@ -16,12 +16,12 @@ import { bonusReward, loginReward, Reward, TaskEvent, tasksForDay, taskReward } 
 
 /** v2 (Buzzle 1.2): nectar, bee levels, garden. The storage key stays the same; v1 saves are migrated on load
  * (and backed up under bzz:backup:v1 by ui/store). */
-export const STATE_VERSION = 2 as const;
+export const STATE_VERSION = 3 as const;
 export const STORAGE_KEY = "bzz:state:v1";
 
 export interface DailyResult { stars: number; score: number }
 export interface GameState {
-  version: 2;
+  version: 3;
   honey: number;
   jelly: number;
   nectar: number;
@@ -30,6 +30,8 @@ export interface GameState {
   bees: string[];
   /** level per owned bee (1..10); missing = 1 */
   beeLevels: Record<string, number>;
+  /** v3 (1.2.1): player-given bee names; missing = species name */
+  beeNames: Record<string, string>;
   garden: Garden;
   daily: { lastDay: number | null; streak: number; best: number; results: Record<string, DailyResult> };
   login: { lastDay: number | null; index: number; streak: number };
@@ -51,6 +53,7 @@ export function newState(now: number): GameState {
     upgrades: { workers: 0, storage: 0, flowers: 0, queen: 0 },
     bees: ["zhuzha"],
     beeLevels: { zhuzha: 1 },
+    beeNames: {},
     garden: newGarden(now),
     daily: { lastDay: null, streak: 0, best: 0, results: {} },
     login: { lastDay: null, index: -1, streak: 0 },
@@ -76,6 +79,13 @@ export function migrate(raw: unknown, now: number): GameState {
   const rawLv = obj(s.beeLevels);
   const beeLevels: Record<string, number> = {};
   for (const id of bees) beeLevels[id] = Math.max(1, Math.min(MAX_BEE_LEVEL, num(rawLv[id], 1) | 0));
+  const rawNames = obj(s.beeNames);
+  const beeNames: Record<string, string> = {};
+  for (const id of Object.keys(rawNames)) {
+    if (!BEE_BY_ID[id] || typeof rawNames[id] !== "string") continue;
+    const n = cleanBeeName(rawNames[id]);
+    if (n && n !== BEE_BY_ID[id].name) beeNames[id] = n;
+  }
   const clockMax = Math.max(num(obj(s.clock).maxSeen, 0), 0) || now;
   return {
     version: STATE_VERSION,
@@ -88,6 +98,7 @@ export function migrate(raw: unknown, now: number): GameState {
     },
     bees,
     beeLevels,
+    beeNames,
     // a v1 save has no garden: start it at the newest time the game has seen, so a rolled-back clock can't pre-grow it
     garden: s.garden ? migrateGarden(s.garden, now) : newGarden(Math.max(now, clockMax)),
     daily: { ...d.daily, ...obj(s.daily), results: { ...obj(obj(s.daily).results) } },
@@ -333,4 +344,44 @@ export function claimLogin(s0: GameState, now: number): { state: GameState; rewa
 export function dailyStreak(s: GameState, now: number): number {
   const d = today(s, now);
   return s.daily.lastDay !== null && s.daily.lastDay >= d - 1 ? s.daily.streak : 0;
+}
+
+// ---------------------------------------------------------------- bee names (v1.2.1)
+export const MAX_BEE_NAME = 16;
+/** split into user-perceived characters (emoji with ZWJ / skin tones / flags count as one) */
+export function graphemes(t: string): string[] {
+  const Seg = (Intl as unknown as { Segmenter?: new (l?: string, o?: { granularity: string }) => { segment(s: string): Iterable<{ segment: string }> } }).Segmenter;
+  if (Seg) return Array.from(new Seg(undefined, { granularity: "grapheme" }).segment(t), (x) => x.segment);
+  // fallback (older Hermes): attach combining marks, variation selectors, skin tones, ZWJ sequences, tag chars and flag pairs
+  const out: string[] = [];
+  let joinNext = false;
+  for (const ch of Array.from(t)) {
+    const cp = ch.codePointAt(0)!;
+    const extend = (cp >= 0x300 && cp <= 0x36f) || (cp >= 0xfe00 && cp <= 0xfe0f) || (cp >= 0x1f3fb && cp <= 0x1f3ff) || (cp >= 0xe0020 && cp <= 0xe007f) || cp === 0x20e3;
+    const ri = cp >= 0x1f1e6 && cp <= 0x1f1ff;
+    const last = out[out.length - 1];
+    const lastRi = last !== undefined && Array.from(last).length === 1 && last.codePointAt(0)! >= 0x1f1e6 && last.codePointAt(0)! <= 0x1f1ff;
+    if (out.length && (joinNext || extend || cp === 0x200d || (ri && lastRi))) out[out.length - 1] += ch;
+    else out.push(ch);
+    joinNext = cp === 0x200d;
+  }
+  return out;
+}
+/** trim, single spaces, no control / invisible line characters, at most MAX_BEE_NAME characters */
+export function cleanBeeName(raw: string): string {
+  const t = String(raw).replace(/[\u0000-\u001F\u007F-\u009F\u2028\u2029\u200B\uFEFF]/g, " ").replace(/\s+/g, " ").trim();
+  const g = graphemes(t);
+  return (g.length > MAX_BEE_NAME ? g.slice(0, MAX_BEE_NAME).join("") : t).trim();
+}
+export const beeNameLength = (raw: string) => graphemes(raw.replace(/\s+/g, " ").trim()).length;
+/** the name shown for a bee: the player's name or the species name */
+export const beeDisplayName = (s: GameState, id: string) => s.beeNames?.[id] || BEE_BY_ID[id]?.name || id;
+/** rename an owned bee; an empty name or the species name resets to the default */
+export function renameBee(s: GameState, id: string, name: string): GameState | null {
+  if (!s.bees.includes(id) || !BEE_BY_ID[id]) return null;
+  const n = cleanBeeName(name);
+  const beeNames = { ...s.beeNames };
+  if (!n || n === BEE_BY_ID[id].name) delete beeNames[id];
+  else beeNames[id] = n;
+  return { ...s, beeNames };
 }

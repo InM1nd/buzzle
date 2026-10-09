@@ -6,7 +6,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
   GameState, buyUpgrade, canClaimLogin, claimBonus, claimLogin, claimTask, collectHive, combAction, finishRound, freeMoves,
   level, newState, nextLoginIndex, RoundReward, RoundSummary, tick, unlockBee,
-  dayColorInfo, harvestAction, levelUpBee, plantFlower, unlockBed, waterAllAction, waterBedAction,
+  dayColorInfo, harvestAction, levelUpBee, renameBee, plantFlower, unlockBed, waterAllAction, waterBedAction,
 } from "./src/logic/game";
 import { canWater, isReady } from "./src/logic/garden";
 import { boostsFor, rulesFor } from "./src/logic/bees";
@@ -19,10 +19,12 @@ import { tasksForDay } from "./src/logic/tasks";
 import { flushCloud, loadState, saveState } from "./src/ui/store";
 import { addBackListener, dispatchBack } from "./src/platform/back";
 import { useInsets } from "./src/platform/insets";
+import { pinArt } from "./src/platform/pinArt";
 import { hideBootScreen, initTelegram, NOTIFICATIONS_SUPPORTED, onHide, setBackButton } from "./src/platform/telegram";
 import { applyPlan, ensureChannel, getPermission, requestPermission } from "./src/ui/notifications";
 import { hError, hSuccess, setHaptics } from "./src/ui/haptics";
 import { ART } from "./src/ui/art";
+import { TabIcon } from "./src/ui/TabIcon";
 import { C, F, shadow } from "./src/ui/theme";
 import { GameButton, Pill, Press, Txt } from "./src/ui/components";
 import { centerOf, FlyProvider, Pt, useFly } from "./src/ui/Fly";
@@ -35,6 +37,7 @@ import GameScreen from "./src/screens/GameScreen";
 import { LoginModal, SettingsModal, Tutorial } from "./src/screens/Modals";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
+pinArt();          // web: keep all art in memory so remounts never refetch (no-op on Android)
 initTelegram(C.bg); // web inside Telegram: ready/expand/fullscreen, no swipe-to-close, header colour
 
 type Tab = "hive" | "puzzle" | "bees" | "tasks";
@@ -203,6 +206,14 @@ function Main() {
     unlock: (id: string) => {
       if (!s) return false;
       const n = unlockBee(s, id, Date.now());
+      if (!n) { hError(); return false; }
+      commit(n); hSuccess();
+      return true;
+    },
+    rename: (id: string, name: string) => {
+      const cur = sRef.current;
+      if (!cur) return false;
+      const n = renameBee(cur, id, name);
       if (!n) { hError(); return false; }
       commit(n); hSuccess();
       return true;
@@ -439,7 +450,7 @@ function Main() {
         ) : tab === "puzzle" ? (
           <PuzzleScreen s={s} now={now} onPlay={act.play} />
         ) : tab === "bees" ? (
-          <BeesScreen s={s} onUnlock={act.unlock} onLevelUp={act.levelUp} onGarden={() => { setTab("hive"); setHiveView("garden"); }} />
+          <BeesScreen s={s} onUnlock={act.unlock} onLevelUp={act.levelUp} onRename={act.rename} onGarden={() => { setTab("hive"); setHiveView("garden"); }} />
         ) : (
           <TasksScreen s={s} now={now} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} onNotifications={act.notifications} notifBlocked={notifBlocked} />
         )}
@@ -453,7 +464,7 @@ function Main() {
           return (
             <Press key={t.id} onPress={() => setTab(t.id)} style={styles.tab} accessibilityRole="tab" accessibilityLabel={t.label} accessibilityState={{ selected: on }} scaleTo={0.9}>
               <View style={[styles.tabIcon, on && styles.tabIconOn]}>
-                <Image source={t.icon} style={{ width: 26, height: 26, tintColor: on ? "#fff" : "#C49A62" }} />
+                <TabIcon id={t.id} on={on} />
                 {badge ? <View style={styles.badge} /> : null}
               </View>
               <Text style={[F.xbold, { fontSize: 11, color: on ? C.honeyDark : "#B08C5E", marginTop: 2 }]} numberOfLines={1}>{t.label}</Text>

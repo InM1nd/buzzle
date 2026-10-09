@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Animated, Image, ScrollView, StyleSheet, useWindowDimensions, View } from "react-native";
-import { GameState, beeLevel, beeLevelCost } from "../logic/game";
+import { Animated, Image, ScrollView, StyleSheet, TextInput, useWindowDimensions, View } from "react-native";
+import { GameState, beeDisplayName, beeLevel, beeLevelCost, graphemes, MAX_BEE_NAME } from "../logic/game";
 import { abilityAt, levelCost, BEES, BeeSpecies, LEVEL_HIVE_BONUS, MAX_BEE_LEVEL, Rarity } from "../logic/bees";
 import { ART } from "../ui/art";
 import { BeeSprite, Hover, Mascot, useFace } from "../ui/BeeSprite";
@@ -15,9 +15,9 @@ const RARITY: Record<Rarity, { name: string; color: string; bg: string }> = {
   legendary: { name: "легендарная", color: "#D27A00", bg: "#FFEBC2" },
 };
 
-interface Props { s: GameState; onUnlock: (id: string) => boolean; onLevelUp: (id: string) => boolean; onGarden?: () => void }
+interface Props { s: GameState; onUnlock: (id: string) => boolean; onLevelUp: (id: string) => boolean; onRename?: (id: string, name: string) => boolean; onGarden?: () => void }
 
-export default function BeesScreen({ s, onUnlock, onLevelUp, onGarden }: Props) {
+export default function BeesScreen({ s, onUnlock, onLevelUp, onRename, onGarden }: Props) {
   const { width } = useWindowDimensions();
   const [open, setOpen] = useState<BeeSpecies | null>(null);
   const [justUnlocked, setJust] = useState<string | null>(null);
@@ -51,9 +51,11 @@ export default function BeesScreen({ s, onUnlock, onLevelUp, onGarden }: Props) 
             const lc = has ? beeLevelCost(s, b.id) : null;
             const canLvl = !!lc && s.nectar >= lc.nectar && s.jelly >= lc.jelly;
             const r = RARITY[b.rarity];
+            const custom = has && !!s.beeNames[b.id];
+            const shown = beeDisplayName(s, b.id);
             return (
               <Press key={b.id} onPress={() => setOpen(b)} style={[styles.card, shadow, { width: colW }, !has && { backgroundColor: "#FBF3E4" }]}
-                accessibilityRole="button" accessibilityLabel={`${b.name}${has ? "" : ", закрыта"}`}>
+                accessibilityRole="button" accessibilityLabel={custom ? `${shown} (${b.name})` : `${b.name}${has ? "" : ", закрыта"}`}>
                 <View style={[styles.beeBg, { backgroundColor: has ? r.bg : "#F2E6D0" }]}>
                   {has ? (
                     <CardBee id={b.id} i={i} level={lvl} />
@@ -68,8 +70,8 @@ export default function BeesScreen({ s, onUnlock, onLevelUp, onGarden }: Props) 
                   ) : null}
                   {canLvl ? <View style={styles.upDot}><Text style={[F.black, { color: "#fff", fontSize: 13, lineHeight: 16 }]}>↑</Text></View> : null}
                 </View>
-                <Txt v="h3" numberOfLines={1} style={{ marginTop: 8 }}>{has ? b.name : "???"}</Txt>
-                <Txt v="tiny" color={r.color}>{r.name.toUpperCase()}</Txt>
+                <Txt v="h3" numberOfLines={1} style={{ marginTop: 8 }}>{has ? shown : "???"}</Txt>
+                <Txt v="tiny" color={r.color} numberOfLines={1}>{custom ? `${b.name.toUpperCase()} · ` : ""}{r.name.toUpperCase()}</Txt>
                 <Txt v="small" color={C.dim} numberOfLines={2} style={{ minHeight: 34, marginTop: 2 }}>{has ? abilityAt(b, lvl) : b.ability}</Txt>
                 {has ? (
                   <View style={styles.ownedTag}><Image source={ART.check} style={{ width: 16, height: 16 }} /><Txt v="tiny" color={C.greenDark}>В УЛЬЕ</Txt></View>
@@ -87,6 +89,8 @@ export default function BeesScreen({ s, onUnlock, onLevelUp, onGarden }: Props) 
       <Overlay visible={!!open} onClose={() => setOpen(null)}>
         {open ? (
           <BeeDetail bee={open} has={owned.has(open.id)} jelly={s.jelly} nectar={s.nectar} level={beeLevel(s, open.id)}
+            name={beeDisplayName(s, open.id)} custom={!!s.beeNames[open.id]}
+            onRename={onRename ? (n) => onRename(open.id, n) : undefined}
             onUnlock={() => { if (onUnlock(open.id)) { setJust(open.id); setTimeout(() => setJust(null), 1600); } }}
             onLevelUp={() => onLevelUp(open.id)}
             onClose={() => setOpen(null)} />
@@ -146,9 +150,11 @@ function Sparkle() {
   );
 }
 
-function BeeDetail({ bee, has, jelly, nectar, level, onUnlock, onLevelUp, onClose }: {
-  bee: BeeSpecies; has: boolean; jelly: number; nectar: number; level: number; onUnlock: () => void; onLevelUp: () => boolean; onClose: () => void;
+function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onLevelUp, onRename, onClose }: {
+  bee: BeeSpecies; has: boolean; jelly: number; nectar: number; level: number; name: string; custom: boolean;
+  onUnlock: () => void; onLevelUp: () => boolean; onRename?: (name: string) => boolean; onClose: () => void;
 }) {
+  const [editing, setEditing] = useState(false);
   const r = RARITY[bee.rarity];
   const pop = useRef(new Animated.Value(has ? 1 : 0.9)).current;
   const [wasLocked] = useState(!has);
@@ -178,8 +184,20 @@ function BeeDetail({ bee, has, jelly, nectar, level, onUnlock, onLevelUp, onClos
           {has ? <Mascot id={bee.id} size={156} seed={bee.id.length * 7 + 1} level={level} /> : <BeeSprite id={bee.id} size={156} tint="#D8C29C" />}
         </Animated.View>
       </View>
-      <Txt v="h1" center style={{ marginTop: 8 }}>{has ? bee.name : "Неизвестная пчела"}</Txt>
-      <Txt v="tiny" color={r.color}>{r.name.toUpperCase()}{has ? ` · УРОВЕНЬ ${level}/${MAX_BEE_LEVEL}` : ""}</Txt>
+      {has && editing && onRename ? (
+        <RenameBox species={bee.name} current={name} custom={custom}
+          onSave={(n) => { if (onRename(n)) setEditing(false); }} onCancel={() => setEditing(false)} />
+      ) : (
+        <View style={styles.titleRow}>
+          <Txt v="h1" center numberOfLines={1} style={{ flexShrink: 1 }}>{has ? name : "Неизвестная пчела"}</Txt>
+          {has && onRename ? (
+            <Press onPress={() => setEditing(true)} style={styles.pencil} accessibilityRole="button" accessibilityLabel="Переименовать пчелу" scaleTo={0.85}>
+              <Image source={ART.pencil} style={{ width: 22, height: 22 }} />
+            </Press>
+          ) : null}
+        </View>
+      )}
+      <Txt v="tiny" color={r.color} center>{has && custom ? `${bee.name.toUpperCase()} · ` : ""}{r.name.toUpperCase()}{has ? ` · УРОВЕНЬ ${level}/${MAX_BEE_LEVEL}` : ""}</Txt>
       {burst ? (
         <>
           <Txt v="h2" color={C.honeyDeep} center style={{ marginTop: 4 }}>{`Уровень ${level}!`}</Txt>
@@ -228,7 +246,50 @@ function BeeDetail({ bee, has, jelly, nectar, level, onUnlock, onLevelUp, onClos
   );
 }
 
+/** Inline name editor: up to MAX_BEE_NAME characters (emoji count as one), reset to the species name. */
+function RenameBox({ species, current, custom, onSave, onCancel }: {
+  species: string; current: string; custom: boolean; onSave: (name: string) => void; onCancel: () => void;
+}) {
+  const [draft, setDraft] = useState(custom ? current : "");
+  const n = graphemes(draft.replace(/\s+/g, " ").trim()).length;
+  const change = (t: string) => {
+    const g = graphemes(t.replace(/[\r\n]/g, " "));
+    setDraft(g.length > MAX_BEE_NAME ? g.slice(0, MAX_BEE_NAME).join("") : g.join(""));
+  };
+  return (
+    <View style={styles.renameBox}>
+      <Txt v="small" color={C.dim} center>Как зовут вашу пчелу?</Txt>
+      <TextInput
+        value={draft}
+        onChangeText={change}
+        placeholder={species}
+        placeholderTextColor="#C9AE86"
+        autoFocus
+        maxLength={64}
+        returnKeyType="done"
+        onSubmitEditing={() => onSave(draft)}
+        accessibilityLabel="Имя пчелы"
+        style={[F.black, styles.input]}
+      />
+      <Txt v="tiny" color={n >= MAX_BEE_NAME ? C.honeyDeep : C.faint} center>{n}/{MAX_BEE_NAME}</Txt>
+      <View style={{ flexDirection: "row", gap: 8, marginTop: 8, alignSelf: "stretch" }}>
+        <GameButton small title="Отмена" color="white" onPress={onCancel} style={{ flex: 1 }} label="Отменить переименование" />
+        <GameButton small title="Сохранить" color="green" onPress={() => onSave(draft)} style={{ flex: 1 }} label="Сохранить имя" />
+      </View>
+      {custom ? (
+        <Press onPress={() => onSave("")} style={{ marginTop: 10 }} accessibilityRole="button" accessibilityLabel={`Вернуть имя ${species}`}>
+          <Txt v="small" color={C.honeyDark} center>{`Вернуть имя «${species}»`}</Txt>
+        </Press>
+      ) : null}
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
+  titleRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6, marginTop: 8, maxWidth: "100%" },
+  pencil: { width: 36, height: 36, borderRadius: 18, backgroundColor: "#FFF1D6", alignItems: "center", justifyContent: "center" },
+  renameBox: { alignSelf: "stretch", marginTop: 8, marginBottom: 2 },
+  input: { marginTop: 6, fontSize: 24, color: C.text, textAlign: "center", backgroundColor: "#FFF8EA", borderRadius: 16, borderWidth: 2, borderColor: C.honey, paddingVertical: 8, paddingHorizontal: 12 },
   head: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
   nectarHint: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: "#FFE6F0", borderRadius: 16, padding: 10, marginBottom: 10 },
   lvlBadge: { position: "absolute", left: 8, top: 8, backgroundColor: C.jelly, borderRadius: 10, paddingHorizontal: 7, paddingVertical: 2 },

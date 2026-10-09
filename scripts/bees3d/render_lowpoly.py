@@ -281,7 +281,8 @@ def build(job):
     for sx, key in ((-1, "L"), (1, "R")):
         piv = bpy.data.objects.new(f"wpiv{sx}", None); sc.collection.objects.link(piv)
         piv.location = (sx * 0.42 * wide, 0.32, 0.62)
-        piv.rotation_euler = (0, -sx * math.radians(22), 0)
+        # job["flap"]: extra wing lift in degrees (0 = the in-game rest pose; covers use a mid-flap ~18)
+        piv.rotation_euler = (0, -sx * math.radians(22 + job.get("flap", 0)), 0)
         piv.parent = root; pivots[key] = piv
         for m_, grp in ((wm, "wing" + key), (gm, "gold" + key)):
             w = ico(f"{grp}", (0, 0, 0), (0.56, 0.035, 0.37), m_)

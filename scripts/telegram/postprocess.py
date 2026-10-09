@@ -43,6 +43,7 @@ head = f'''
       body{{position:fixed;inset:0;margin:0}}
       *{{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none}}
       img{{-webkit-user-drag:none;pointer-events:none}}
+      input,textarea{{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}} input:focus,textarea:focus{{outline:none}}
       [aria-label="Игровое поле"]{{touch-action:none}}
       #bzz-boot{{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;
         background:{BG};transition:opacity .3s ease;font-family:Nunito,system-ui,sans-serif}}

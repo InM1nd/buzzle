@@ -220,10 +220,54 @@ test("v1.1 save is migrated on load and backed up", async () => {
   await fireEvent.press(screen.getByText("Понятно"));
   await waitFor(async () => {
     const s = await stored();
-    expect(s.version).toBe(2);
+    expect(s.version).toBe(3);
     expect(s.honey).toBe(777);
     expect(s.beeLevels).toEqual({ zhuzha: 1, boris: 1 });
     expect(s.garden.beds).toHaveLength(1);
     expect(s.settings.gardenIntroDone).toBe(true);
+  });
+});
+
+test("bees: rename Zhuzha (emoji ok, 16 chars max), name shows on the card, then reset", async () => {
+  await seed((s) => s);
+  await boot();
+  await fireEvent.press(screen.getByLabelText("Пчёлы"));
+  await fireEvent.press(await screen.findByLabelText("Жужа"));
+  await fireEvent.press(await screen.findByLabelText("Переименовать пчелу"));
+  await fireEvent.changeText(screen.getByLabelText("Имя пчелы"), "Королева Бзз 👑 и ещё длинный хвост ");
+  expect(screen.getByText("16/16")).toBeTruthy();
+  await fireEvent.press(screen.getByLabelText("Сохранить имя"));
+  await waitFor(async () => expect((await stored()).beeNames).toEqual({ zhuzha: "Королева Бзз 👑 и" }));
+  // the sheet shows the new name with the species as subtitle
+  expect((await screen.findAllByText("Королева Бзз 👑 и")).length).toBe(2); // card + sheet
+  expect(screen.getByText(/ЖУЖА · ОБЫЧНАЯ · УРОВЕНЬ 1/)).toBeTruthy();
+  await fireEvent.press(screen.getByLabelText("Закрыть"));
+  // the collection card uses the custom name too
+  expect(await screen.findByLabelText("Королева Бзз 👑 и (Жужа)")).toBeTruthy();
+  await fireEvent.press(screen.getByLabelText("Королева Бзз 👑 и (Жужа)"));
+  await fireEvent.press(await screen.findByLabelText("Переименовать пчелу"));
+  await fireEvent.press(screen.getByLabelText("Вернуть имя Жужа"));
+  await waitFor(async () => expect((await stored()).beeNames).toEqual({}));
+});
+
+test("v1.2.0 save (v2) migrates to v3 with bee names and keeps progress", async () => {
+  const now = Date.now();
+  const s = newState(now);
+  const { beeNames: _b, ...rest } = s;
+  const v2 = { ...rest, version: 2, honey: 999, nectar: 55, settings: { ...s.settings, tutorialDone: true, gardenIntroDone: true }, login: { lastDay: today(s, now), index: 0, streak: 1 } };
+  await AsyncStorage.setItem(KEY, JSON.stringify(v2));
+  await boot();
+  expect(await AsyncStorage.getItem("bzz:backup:v2")).toBe(JSON.stringify(v2));
+  await fireEvent.press(screen.getByLabelText("Пчёлы"));
+  await fireEvent.press(await screen.findByLabelText("Жужа"));
+  await fireEvent.press(await screen.findByLabelText("Переименовать пчелу"));
+  await fireEvent.changeText(screen.getByLabelText("Имя пчелы"), "Бзз");
+  await fireEvent.press(screen.getByLabelText("Сохранить имя"));
+  await waitFor(async () => {
+    const st = await stored();
+    expect(st.version).toBe(3);
+    expect(st.honey).toBe(999);
+    expect(st.nectar).toBe(55);
+    expect(st.beeNames).toEqual({ zhuzha: "Бзз" });
   });
 });

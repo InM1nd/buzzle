@@ -93,4 +93,4 @@ python3 scripts/web-screens/overview.py
 
 ## License
 
-No license chosen yet (all rights reserved). Font: Nunito, SIL Open Font License 1.1 (`assets/fonts/LICENSE.txt`).
+MIT, see [LICENSE](LICENSE). Font: Nunito, SIL Open Font License 1.1 (`assets/fonts/LICENSE.txt`).

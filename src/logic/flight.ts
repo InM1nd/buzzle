@@ -21,6 +21,7 @@ export interface FlightPath {
   rot: number[];             // bank angle, deg
   flip: number[];            // facing: -1 (left) … 1 (right), passes through 0 when turning
   rest: number[];            // 0 flying … 1 resting
+  yaw: number[];             // view: 0 = facing the camera … ±1 = near profile to the right/left (v1.2 multi-view bees)
   landAt: number | null;     // normalised time of touch-down
 }
 
@@ -34,7 +35,7 @@ function catmull(p0: P, p1: P, p2: P, p3: P, u: number): P {
   return { x: f(p0.x, p1.x, p2.x, p3.x), y: f(p0.y, p1.y, p2.y, p3.y) };
 }
 
-interface S { time: number; x: number; y: number; rot: number; dir: number; rest: number; fly: boolean }
+interface S { time: number; x: number; y: number; rot: number; dir: number; rest: number; fly: boolean; yaw?: number }
 
 export function buildFlight(o: FlightOpts): FlightPath {
   const rng = new Rng((o.seed >>> 0) || 1);
@@ -122,6 +123,14 @@ export function buildFlight(o: FlightOpts): FlightPath {
     return s / (2 * W + 1);
   });
   samples.forEach((s, i) => { s.dir = flip[i]; });
+  // yaw: turn toward the flight direction; fast horizontal flight shows the near-profile, slow or
+  // vertical flight a three-quarter view, a reversal passes through the front view
+  const yawRaw = samples.map((s, i) => s.dir * (0.3 + 0.7 * clamp(Math.abs(vel[i].vx) / speed, 0, 1)));
+  samples.forEach((s, i) => {
+    let a = 0;
+    for (let d = -W; d <= W; d++) a += yawRaw[(i + d + N) % N];
+    s.yaw = a / (2 * W + 1);
+  });
 
   // insert the landing: touch-down, wiggle bursts, take-off
   let out: S[] = samples;
@@ -131,7 +140,7 @@ export function buildFlight(o: FlightOpts): FlightPath {
     const L = samples[landDense];
     hold = 1.8 + 1.6 * rng.next();
     const extra: S[] = [];
-    const base = { x: L.x, y: L.y, dir: L.dir, fly: false };
+    const base = { x: L.x, y: L.y, dir: L.dir, fly: false, yaw: 0.12 * Math.sign(L.dir || 1) };
     extra.push({ ...base, time: L.time + 0.22, rot: 0, rest: 1 });
     let t = L.time + 0.4;
     const end = L.time + hold - 0.25;
@@ -166,6 +175,7 @@ export function buildFlight(o: FlightOpts): FlightPath {
     rot: out.map((s) => +s.rot.toFixed(2)),
     flip: out.map((s) => +s.dir.toFixed(3)),
     rest: out.map((s) => s.rest),
+    yaw: out.map((s) => +(s.yaw ?? 0).toFixed(3)),
     landAt: landAt === null ? null : landAt / Tn,
   };
 }

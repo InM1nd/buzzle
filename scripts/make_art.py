@@ -2,6 +2,9 @@
 UI icons, background tile, app icon / adaptive / monochrome / splash / notification icon."""
 import math, os
 from PIL import Image, ImageDraw, ImageFilter, ImageChops, ImageFont
+# v1.2: bees and the app icon / splash / notification icon now come from the low-poly Blender pipeline
+# (scripts/bees3d/pack.py). The old flat bees and icons are only written with BZZ_LEGACY_BEES=1.
+LEGACY = os.environ.get("BZZ_LEGACY_BEES") == "1"
 
 ART = "assets/art"
 os.makedirs(ART, exist_ok=True)
@@ -337,9 +340,9 @@ def bee(spec, size=256, silhouette=None, wings=True, eyes=True):
     return out
 
 for name, spec in BEE_SPECS.items():
-    bee(spec).save(f"{ART}/bee_{name}.png", optimize=True)
+    if LEGACY: bee(spec).save(f"{ART}/bee_{name}.png", optimize=True)
     # animation parts (v1.1): body without wings and (unless sleepy) without eyes
-    bee(spec, wings=False, eyes=False).save(f"{ART}/bee_{name}_body.png", optimize=True)
+    if LEGACY: bee(spec, wings=False, eyes=False).save(f"{ART}/bee_{name}_body.png", optimize=True)
 
 def bee_wing(scale=2):
     """one unrotated wing; RN places/rotates/flaps two copies (geometry mirrored in src/ui/BeeSprite.tsx)."""
@@ -361,8 +364,9 @@ def bee_eye(scale=2):
     d.ellipse([x + er * 0.2, ey + er * 0.2, x + er * 0.45, ey + er * 0.45], fill=(255, 255, 255, 200))
     return im.resize((int(W / SS * scale), int(H / SS * scale)), Image.LANCZOS)
 
-bee_wing().save(f"{ART}/bee_wing.png", optimize=True)
-bee_eye().save(f"{ART}/bee_eye.png", optimize=True)
+if LEGACY:
+    bee_wing().save(f"{ART}/bee_wing.png", optimize=True)
+    bee_eye().save(f"{ART}/bee_eye.png", optimize=True)
 
 # ---------------- icons ----------------
 def icon_canvas(n=128):
@@ -546,15 +550,15 @@ bg = icon_bg()
 icon = bg.copy()
 b = bee(BEE_SPECS["zhuzha"], 760)
 icon.alpha_composite(b, ((I - 760) // 2, (I - 760) // 2 + 10))
-icon.convert("RGB").save("assets/icon.png")
+if LEGACY: icon.convert("RGB").save("assets/icon.png")
 bg.convert("RGB").save("assets/android-icon-background.png")
 fg = Image.new("RGBA", (I, I), (0, 0, 0, 0))
 b2 = bee(BEE_SPECS["zhuzha"], 560)
 fg.alpha_composite(b2, ((I - 560) // 2, (I - 560) // 2 + 10))
-fg.save("assets/android-icon-foreground.png")
+if LEGACY: fg.save("assets/android-icon-foreground.png")
 monob = bee(BEE_SPECS["zhuzha"], 560, silhouette=(255, 255, 255))
 mono_ = Image.new("RGBA", (I, I), (0, 0, 0, 0)); mono_.alpha_composite(monob, ((I - 560) // 2, (I - 560) // 2 + 10))
-mono_.save("assets/android-icon-monochrome.png")
+if LEGACY: mono_.save("assets/android-icon-monochrome.png")
 def splash():
     """Zhuzha + "Buzzle" wordmark, kept inside the central circle Android 12+ shows on the splash screen."""
     S = 512
@@ -573,8 +577,8 @@ def splash():
     d = ImageDraw.Draw(im)
     d.text((x, y), text, font=font, fill=(110, 58, 12, 255), stroke_width=7, stroke_fill=(255, 201, 74, 255))
     return im
-splash().save("assets/splash-icon.png")
-icon.resize((48, 48), Image.LANCZOS).convert("RGB").save("assets/favicon.png")
+if LEGACY: splash().save("assets/splash-icon.png")
+if LEGACY: icon.resize((48, 48), Image.LANCZOS).convert("RGB").save("assets/favicon.png")
 nb = bee(BEE_SPECS["zhuzha"], 96, silhouette=(255, 255, 255))
-nb.save("assets/notification-icon.png")
+if LEGACY: nb.save("assets/notification-icon.png")
 print("art ok")

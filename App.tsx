@@ -6,7 +6,9 @@ import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-cont
 import {
   GameState, buyUpgrade, canClaimLogin, claimBonus, claimLogin, claimTask, collectHive, combAction, finishRound, freeMoves,
   level, newState, nextLoginIndex, RoundReward, RoundSummary, tick, unlockBee,
+  dayColorInfo, harvestAction, levelUpBee, plantFlower, unlockBed, waterAllAction, waterBedAction,
 } from "./src/logic/game";
+import { canWater, isReady } from "./src/logic/garden";
 import { boostsFor, rulesFor } from "./src/logic/bees";
 import { dailySeed, DAILY_MOVES } from "./src/logic/day";
 import { loginReward, Reward } from "./src/logic/tasks";
@@ -25,6 +27,7 @@ import HiveScreen from "./src/screens/HiveScreen";
 import PuzzleScreen from "./src/screens/PuzzleScreen";
 import BeesScreen from "./src/screens/BeesScreen";
 import TasksScreen from "./src/screens/TasksScreen";
+import GardenScreen from "./src/screens/GardenScreen";
 import GameScreen from "./src/screens/GameScreen";
 import { LoginModal, SettingsModal, Tutorial } from "./src/screens/Modals";
 
@@ -55,19 +58,21 @@ function Main() {
   const [s, setS] = useState<GameState | null>(null);
   const [now, setNow] = useState(Date.now());
   const [tab, setTab] = useState<Tab>("hive");
+  const [hiveView, setHiveView] = useState<"hive" | "garden">("hive");
   const [game, setGame] = useState<{ mode: "daily" | "free"; seed: number; key: number } | null>(null);
   const [showTutorial, setShowTutorial] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [notifBlocked, setNotifBlocked] = useState(false);
-  const [hold, setHold] = useState<{ honey?: number; jelly?: number }>({});
-  const [bump, setBump] = useState({ honey: 0, jelly: 0 });
+  const [hold, setHold] = useState<{ honey?: number; jelly?: number; nectar?: number }>({});
+  const [bump, setBump] = useState({ honey: 0, jelly: 0, nectar: 0 });
   const sRef = useRef<GameState | null>(null);
   sRef.current = s;
   const writable = useRef(false);
   const lastSave = useRef(0);
   const honeyIcon = useRef<View | null>(null);
   const jellyIcon = useRef<View | null>(null);
+  const nectarIcon = useRef<View | null>(null);
   const pendingFly = useRef<Reward | null>(null);
 
   /** Replace state; persist now (actions) or at most every 15 s (ticks). */
@@ -136,20 +141,21 @@ function Main() {
   }, [game, showSettings, showLogin, tab]);
 
   // ----- reward flight to the currency pills -----
-  const flyReward = useCallback(async (from: Pt | null, r: Reward, prev: GameState, bees?: string[]) => {
+  const flyReward = useCallback(async (from: Pt | null, r: Reward & { nectar?: number }, prev: GameState, bees?: string[]) => {
     const tasks: Promise<void>[] = [];
-    const run = async (kind: "honey" | "jelly", amount: number | undefined) => {
+    const run = async (kind: "honey" | "jelly" | "nectar", amount: number | undefined) => {
       if (!amount) return;
       setHold((h) => ({ ...h, [kind]: prev[kind] })); // keep the pill at the old value until the drops land
-      const to = await centerOf(kind === "honey" ? honeyIcon.current : jellyIcon.current);
+      const to = await centerOf(kind === "honey" ? honeyIcon.current : kind === "jelly" ? jellyIcon.current : nectarIcon.current);
       if (!from || !to) { setHold((h) => ({ ...h, [kind]: undefined })); setBump((b) => ({ ...b, [kind]: b[kind] + 1 })); return; }
       fly({
-        from, to, n: kind === "honey" ? Math.min(12, 4 + Math.ceil(Math.log2(amount + 1))) : Math.min(8, 2 + amount), img: kind === "honey" ? ART.honey : ART.jelly,
-        bees: kind === "honey" ? bees : undefined,
+        from, to, n: kind === "honey" ? Math.min(12, 4 + Math.ceil(Math.log2(amount + 1))) : kind === "nectar" ? Math.min(8, 3 + Math.ceil(amount / 6)) : Math.min(8, 2 + amount),
+        img: kind === "honey" ? ART.honey : kind === "jelly" ? ART.jelly : ART.nectar,
+        bees: kind === "honey" || kind === "nectar" ? bees : undefined,
         onArrive: () => { setHold((h) => ({ ...h, [kind]: undefined })); setBump((b) => ({ ...b, [kind]: b[kind] + 1 })); },
       });
     };
-    tasks.push(run("honey", r.honey), run("jelly", r.jelly));
+    tasks.push(run("honey", r.honey), run("jelly", r.jelly), run("nectar", r.nectar));
     await Promise.all(tasks);
   }, [fly]);
 
@@ -184,6 +190,57 @@ function Main() {
       if (!n) { hError(); return false; }
       commit(n); hSuccess();
       return true;
+    },
+    levelUp: (id: string) => {
+      if (!s) return false;
+      const n = levelUpBee(s, id, Date.now());
+      if (!n) { hError(); return false; }
+      commit(n); hSuccess();
+      return true;
+    },
+    plant: (bed: number, flower: string) => {
+      if (!s) return false;
+      const n = plantFlower(s, bed, flower, Date.now());
+      if (!n) { hError(); return false; }
+      commit(n); hSuccess();
+      return true;
+    },
+    water: (bed: number) => {
+      if (!s) return false;
+      const n = waterBedAction(s, bed, Date.now());
+      if (!n) { hError(); return false; }
+      commit(n); hSuccess();
+      return true;
+    },
+    waterAll: () => {
+      if (!s) return false;
+      const r = waterAllAction(s, Date.now());
+      if (!r) { hError(); return false; }
+      commit(r.state); hSuccess();
+      return true;
+    },
+    harvest: (bed: number, from: Pt | null) => {
+      if (!s) return false;
+      const r = harvestAction(s, bed, Date.now());
+      if (!r) return false;
+      commit(r.state); hSuccess();
+      flyReward(from, { nectar: r.nectar }, s, [s.bees[bed % s.bees.length] ?? "zhuzha"]);
+      return true;
+    },
+    unlockBed: () => {
+      if (!s) return false;
+      const n = unlockBed(s, Date.now());
+      if (!n) { hError(); return false; }
+      commit(n); hSuccess();
+      return true;
+    },
+    gardenIntroDone: () => {
+      const cur = sRef.current;
+      if (cur) commit({ ...cur, settings: { ...cur.settings, gardenIntroDone: true } });
+    },
+    gardenReminders: (on: boolean) => {
+      const cur = sRef.current;
+      if (cur) commit({ ...cur, settings: { ...cur.settings, gardenReminders: on } });
     },
     login: (from: Pt | null) => {
       if (!s) return;
@@ -294,13 +351,14 @@ function Main() {
           mode={game.mode}
           seed={game.seed}
           moves={game.mode === "daily" ? DAILY_MOVES : freeMoves(s)}
-          rules={rulesFor(game.mode, b)}
+          rules={rulesFor(game.mode, b, dayColorInfo(s, now).active ? dayColorInfo(s, now).color : null)}
           best={game.mode === "daily" ? s.daily.results[todayOf(s, now)]?.score ?? 0 : s.stats.bestScore}
           title={game.mode === "daily" ? "Головоломка дня" : "Свободная игра"}
           onFinish={act.finish}
           onExit={act.exitGame}
           onReplay={() => { setHold({}); pendingFly.current = null; act.play(game.mode); }}
           beeIds={s.bees}
+          beeLevels={s.beeLevels}
         />
       </View>
     );
@@ -309,6 +367,7 @@ function Main() {
   const loginIdx = nextLoginIndex(s, now);
   const tasksReady = taskBadge(s);
   const showNotifPrompt = !s.settings.notifications && !s.settings.notifPromptDismissed && s.stats.rounds >= 1;
+  const gardenBadge = s.garden.beds.some((b) => isReady(b) || (canWater(b) && b.water <= 0));
 
   return (
     <View style={{ flex: 1, backgroundColor: C.bg }}>
@@ -317,6 +376,7 @@ function Main() {
       <View style={[styles.top, { paddingTop: insets.top + 8 }]}>
         <Pill icon={ART.honey} value={hold.honey ?? s.honey} bump={bump.honey} label="Мёд" onLayoutIcon={(r) => { honeyIcon.current = r; }} />
         <Pill icon={ART.jelly} value={hold.jelly ?? s.jelly} bump={bump.jelly} label="Маточное молочко" color="#7B52C2" onLayoutIcon={(r) => { jellyIcon.current = r; }} />
+        <Pill icon={ART.nectar} value={hold.nectar ?? s.nectar} bump={bump.nectar} label="Нектар" color="#B03A68" onLayoutIcon={(r) => { nectarIcon.current = r; }} />
         <View style={{ flex: 1 }} />
         <View style={styles.lvl} accessibilityLabel={`Уровень улья ${level(s)}`}><Text style={[F.black, { color: "#fff", fontSize: 15, transform: [{ rotate: "-45deg" }] }]}>{level(s)}</Text></View>
         <Press onPress={() => setShowSettings(true)} style={styles.gear} accessibilityRole="button" accessibilityLabel="Настройки">
@@ -326,6 +386,21 @@ function Main() {
 
       <View style={{ flex: 1 }}>
         {tab === "hive" ? (
+          <View style={{ flex: 1 }}>
+          <View style={styles.seg} accessibilityRole="tablist">
+            {(["hive", "garden"] as const).map((v) => (
+              <Press key={v} onPress={() => setHiveView(v)} style={[styles.segBtn, hiveView === v && styles.segOn]} scaleTo={0.96}
+                accessibilityRole="tab" accessibilityLabel={v === "hive" ? "Соты" : "Сад"} accessibilityState={{ selected: hiveView === v }}>
+                <Image source={v === "hive" ? ART.tabHive : ART.seed} style={{ width: 18, height: 18, tintColor: hiveView === v ? "#fff" : "#C49A62" }} />
+                <Text style={[F.black, { fontSize: 14, color: hiveView === v ? "#fff" : "#A07A4C" }]}>{v === "hive" ? "Соты" : "Сад"}</Text>
+                {v === "garden" && (gardenBadge || !s.settings.gardenIntroDone) ? <View style={[styles.badge, { top: 4, right: 10 }]} /> : null}
+              </Press>
+            ))}
+          </View>
+          {hiveView === "garden" ? (
+            <GardenScreen s={s} now={now} onPlant={act.plant} onWater={act.water} onWaterAll={act.waterAll} onHarvest={act.harvest}
+              onUnlockBed={act.unlockBed} onIntroDone={act.gardenIntroDone} />
+          ) : (
           <HiveScreen
             s={s} now={now}
             onCollect={act.collect} onComb={act.comb} onUpgrade={act.upgrade} cheer={cheer}
@@ -343,10 +418,12 @@ function Main() {
               </View>
             ) : null}
           />
+          )}
+          </View>
         ) : tab === "puzzle" ? (
           <PuzzleScreen s={s} now={now} onPlay={act.play} />
         ) : tab === "bees" ? (
-          <BeesScreen s={s} onUnlock={act.unlock} />
+          <BeesScreen s={s} onUnlock={act.unlock} onLevelUp={act.levelUp} onGarden={() => { setTab("hive"); setHiveView("garden"); }} />
         ) : (
           <TasksScreen s={s} now={now} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} onNotifications={act.notifications} notifBlocked={notifBlocked} />
         )}
@@ -356,7 +433,7 @@ function Main() {
       <View style={[styles.tabs, { paddingBottom: Math.max(insets.bottom, 8) }]}>
         {TABS.map((t) => {
           const on = tab === t.id;
-          const badge = t.id === "tasks" ? tasksReady || canClaimLogin(s, now) : t.id === "puzzle" ? !s.daily.results[todayOf(s, now)]?.stars : t.id === "hive" ? s.hive.stored >= 1 && s.hive.stored >= 0.999 * capOf(s) : false;
+          const badge = t.id === "tasks" ? tasksReady || canClaimLogin(s, now) : t.id === "puzzle" ? !s.daily.results[todayOf(s, now)]?.stars : t.id === "hive" ? (s.hive.stored >= 1 && s.hive.stored >= 0.999 * capOf(s)) || gardenBadge : false;
           return (
             <Press key={t.id} onPress={() => setTab(t.id)} style={styles.tab} accessibilityRole="tab" accessibilityLabel={t.label} accessibilityState={{ selected: on }} scaleTo={0.9}>
               <View style={[styles.tabIcon, on && styles.tabIconOn]}>
@@ -375,6 +452,8 @@ function Main() {
       <SettingsModal
         visible={showSettings}
         notifications={s.settings.notifications}
+        gardenReminders={s.settings.gardenReminders}
+        onGardenReminders={act.gardenReminders}
         haptics={s.settings.haptics}
         notifBlocked={notifBlocked}
         onNotifications={act.notifications}
@@ -403,4 +482,7 @@ const styles = StyleSheet.create({
   tabIconOn: { backgroundColor: C.honey },
   badge: { position: "absolute", top: 2, right: 8, width: 10, height: 10, borderRadius: 5, backgroundColor: C.red, borderWidth: 2, borderColor: "#fff" },
   banner: { flexDirection: "row", gap: 12, backgroundColor: "#fff", borderRadius: 22, padding: 14 },
+  seg: { flexDirection: "row", marginHorizontal: 16, marginTop: 4, marginBottom: 2, backgroundColor: "#F6E3BF", borderRadius: 18, padding: 4, gap: 4 },
+  segBtn: { flex: 1, flexDirection: "row", gap: 6, alignItems: "center", justifyContent: "center", height: 36, borderRadius: 14 },
+  segOn: { backgroundColor: C.honeyDeep },
 });

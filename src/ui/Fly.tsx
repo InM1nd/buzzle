@@ -84,7 +84,13 @@ export function swarmPath(from: Pt, to: Pt, i: number, n = 40) {
     rot.push(Math.max(-22, Math.min(22, (vx / v) * 20 + (vy / v) * 6 * dir)));
     face.push(dir);
   }
-  return { t: pts.map((p) => p.t), x: pts.map((p) => p.x), y: pts.map((p) => p.y), rot, face };
+  // view: three-quarter / profile toward the heading, front-ish while circling up or down
+  const yaw = pts.map((_, k) => {
+    const a = pts[Math.max(0, k - 1)], b = pts[Math.min(pts.length - 1, k + 1)];
+    const vx = b.x - a.x, v = Math.hypot(vx, b.y - a.y) || 1;
+    return +(face[k] * (0.3 + 0.7 * Math.min(1, Math.abs(vx) / v))).toFixed(3);
+  });
+  return { t: pts.map((p) => p.t), x: pts.map((p) => p.x), y: pts.map((p) => p.y), rot, face, yaw };
 }
 
 function SwarmBee({ f, id, i, onEnd }: { f: Flight; id: string; i: number; onEnd: () => void }) {
@@ -105,10 +111,9 @@ function SwarmBee({ f, id, i, onEnd }: { f: Flight; id: string; i: number; onEnd
         { translateY: a.interpolate({ inputRange: p.t, outputRange: p.y }) },
         { rotate: a.interpolate({ inputRange: p.t, outputRange: p.rot.map((r) => `${r.toFixed(1)}deg`) }) },
         { scale: a.interpolate({ inputRange: [0, 0.15, 0.85, 1], outputRange: [0.5, 1, 1, 0.4] }) },
-        { scaleX: a.interpolate({ inputRange: p.t, outputRange: p.face }) },
       ],
     }}>
-      <BeeSprite id={id} size={size} seed={i + 1} />
+      <BeeSprite id={id} size={size} seed={i + 1} turn={a.interpolate({ inputRange: p.t, outputRange: p.yaw })} />
     </Animated.View>
   );
 }

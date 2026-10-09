@@ -64,3 +64,14 @@ test("arcPath: starts and ends at the given points", () => {
   assert.deepEqual([p[0].x, p[0].y], [0, 0]);
   assert.ok(Math.abs(p[p.length - 1].x - 100) < 1e-9 && Math.abs(p[p.length - 1].y - 50) < 1e-9);
 });
+
+test("v1.2 yaw: bees face their flight direction, front-ish while resting", async () => {
+  const { buildFlight } = await import("../src/logic/flight");
+  const p = buildFlight({ w: 340, h: 300, seed: 4242, land: { x: 170, y: 150 }, margin: 20 });
+  assert.equal(p.yaw.length, p.t.length);
+  assert.ok(p.yaw.every((y) => y >= -1 && y <= 1));
+  assert.ok(p.yaw.some((y) => Math.abs(y) > 0.6), "near-profile during fast horizontal flight");
+  p.rest.forEach((r, i) => { if (r === 1) assert.ok(Math.abs(p.yaw[i]) <= 0.15); });
+  // yaw sign follows the facing
+  p.flip.forEach((f, i) => { if (Math.abs(f) > 0.9 && p.rest[i] === 0) assert.equal(Math.sign(p.yaw[i]), Math.sign(f)); });
+});

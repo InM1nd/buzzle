@@ -117,9 +117,9 @@ export function LoginModal({ visible, index, reward, streak, onClaim, onClose }:
 }
 
 // ---------- settings ----------
-export function SettingsModal({ visible, notifications, haptics, notifBlocked, onNotifications, onHaptics, onTutorial, onReset, onClose }: {
-  visible: boolean; notifications: boolean; haptics: boolean; notifBlocked: boolean;
-  onNotifications: (v: boolean) => void; onHaptics: (v: boolean) => void; onTutorial: () => void; onReset: () => void; onClose: () => void;
+export function SettingsModal({ visible, notifications, gardenReminders, haptics, notifBlocked, onNotifications, onGardenReminders, onHaptics, onTutorial, onReset, onClose }: {
+  visible: boolean; notifications: boolean; gardenReminders: boolean; haptics: boolean; notifBlocked: boolean;
+  onNotifications: (v: boolean) => void; onGardenReminders: (v: boolean) => void; onHaptics: (v: boolean) => void; onTutorial: () => void; onReset: () => void; onClose: () => void;
 }) {
   const [confirm, setConfirm] = useState(0);
   useEffect(() => { if (!visible) setConfirm(0); }, [visible]);
@@ -130,6 +130,9 @@ export function SettingsModal({ visible, notifications, haptics, notifBlocked, o
         <Txt v="h1" style={{ marginBottom: 12 }}>Настройки</Txt>
         <Row title="Напоминания" sub="Улей полон · новая головоломка">
           <Toggle value={notifications} onChange={onNotifications} label="Напоминания" />
+        </Row>
+        <Row title="Сад" sub={notifications ? "Цветы распустились · грядки высохли" : "Работает, когда включены напоминания"}>
+          <Toggle value={notifications && gardenReminders} onChange={(v) => { onGardenReminders(v); if (v && !notifications) onNotifications(true); }} label="Напоминания о саде" />
         </Row>
         {notifBlocked ? (
           <Press onPress={() => Linking.openSettings().catch(() => {})} style={{ marginBottom: 8 }}>
@@ -145,7 +148,7 @@ export function SettingsModal({ visible, notifications, haptics, notifBlocked, o
             onPress={() => { if (confirm === 0) setConfirm(1); else { setConfirm(2); onReset(); } }} />
         </View>
         <Txt v="tiny" color={C.faint} center style={{ marginTop: 14 }}>
-          Buzzle 1.1.0 · данные хранятся только на устройстве
+          Buzzle 1.2.0 · данные хранятся только на устройстве
         </Txt>
       </View>
     </Overlay>

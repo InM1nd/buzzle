@@ -160,6 +160,37 @@ try {
     await shot(p, "16-settings");
     await p.close();
   }
+  if (want("v12")) {
+    // v1.2: low-poly bees turning in flight, the garden, a bee level-up
+    p = await open("mid");
+    await sleep(2400);
+    await shot(p, "21-hive-lowpoly-bees");
+    await tap(p, "Сад", { label: true, wait: 900 });
+    await shot(p, "22-garden");
+    await tap(p, "Грядка 2", { wait: 600 }).catch(async () => {
+      const lbl = await p.evaluate(() => [...document.querySelectorAll("[aria-label^='Грядка 2']")].map((e) => e.getAttribute("aria-label"))[0]);
+      await tap(p, lbl, { label: true, wait: 600 });
+    });
+    await p.mouse.move(206, 600); await p.mouse.wheel({ deltaY: 500 }); await sleep(600);
+    await shot(p, "23-garden-bed");
+    await p.close();
+    p = await open("gardenNew");
+    await tap(p, "Сад", { label: true, wait: 900 });
+    await shot(p, "24-garden-intro");
+    await p.close();
+    p = await open("levelUp");
+    await tap(p, "Пчёлы", { label: true, wait: 800 });
+    await shot(p, "25-bees-levels");
+    await tap(p, "Пушинка", { label: true, wait: 700 });
+    await shot(p, "26-bee-detail-level");
+    await tap(p, "Повысить уровень пчелы до 5", { label: true, wait: 650 });
+    await shot(p, "27-bee-level-up");
+    await p.close();
+    p = await open("mid");
+    await tap(p, "Головоломка", { label: true, wait: 700 });
+    await shot(p, "28-puzzle-day-colour");
+    await p.close();
+  }
 } finally {
   await browser.close();
 }

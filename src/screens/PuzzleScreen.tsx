@@ -1,6 +1,7 @@
 import React from "react";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
-import { GameState, boosts, dailyStreak, freeMoves, puzzleHoneyMult, today } from "../logic/game";
+import { GameState, boosts, dailyStreak, dayColorInfo, freeMoves, puzzleHoneyMult, today } from "../logic/game";
+import { FLOWERS } from "../logic/garden";
 import { DAILY_MOVES, DAILY_STARS } from "../logic/day";
 import { COLOR_NAMES } from "../logic/bees";
 import { ART } from "../ui/art";
@@ -30,7 +31,8 @@ export default function PuzzleScreen({ s, now, onPlay }: Props) {
   const date = new Date(now);
   const chips: string[] = [];
   if (freeMoves(s) > 20) chips.push(`+${freeMoves(s) - 20} ход.`);
-  b.colorMult.forEach((m, i) => { if (m > 1) chips.push(`${COLOR_NAMES[i]} ×2`); });
+  b.colorMult.forEach((m, i) => { if (m > 1) chips.push(`${COLOR_NAMES[i]} ×${String(Math.round(m * 100) / 100).replace(".", ",")}`); });
+  const dc = dayColorInfo(s, now);
   if (b.wildChance > 0) chips.push("больше джокеров");
   if (b.bombAt < 6) chips.push(`бомба из ${b.bombAt}`);
   const honeyBonus = Math.round((puzzleHoneyMult(s) - 1) * 100);
@@ -77,6 +79,18 @@ export default function PuzzleScreen({ s, now, onPlay }: Props) {
           label="Играть ежедневную головоломку"
         />
       </View>
+
+      <Card style={{ flexDirection: "row", alignItems: "center", gap: 12, borderWidth: 2, borderColor: dc.active ? C.pollen[dc.color] : C.line }}>
+        <Image source={ART.cells[dc.color]} style={{ width: 46, height: 40, opacity: dc.active ? 1 : 0.55 }} />
+        <View style={{ flex: 1 }} accessibilityLabel="Цвет дня">
+          <Txt v="h3">Цвет дня: {COLOR_NAMES[dc.color]} ×1,5</Txt>
+          <Txt v="small" color={dc.active ? C.greenDark : C.dim}>
+            {dc.active
+              ? "Включён садом: в свободной игре эти соты дают ×1,5 очков, в головоломке дня — +50% мёда за них."
+              : `Посади в саду «${FLOWERS.find((f) => f.color === dc.color)!.name}», чтобы включить бонус.`}
+          </Txt>
+        </View>
+      </Card>
 
       <Card>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>

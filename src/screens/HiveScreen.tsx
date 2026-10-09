@@ -85,8 +85,8 @@ function CombTile({ slot, lvl, x, y, s, state, selected, onPress }: {
 }
 
 /** A bee flying a pre-computed curved loop around the hive, sometimes landing on a comb to work. */
-function HiveBee({ id, seed, w, h, size, land, cheer, on }: {
-  id: string; seed: number; w: number; h: number; size: number; land: Pt | null; cheer: number; on: boolean;
+function HiveBee({ id, seed, w, h, size, land, cheer, on, level }: {
+  id: string; seed: number; w: number; h: number; size: number; land: Pt | null; cheer: number; on: boolean; level: number;
 }) {
   const path = useMemo(() => buildFlight({ w, h, seed, land, margin: size * 0.45, speed: 70 + (seed % 5) * 9 }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -113,7 +113,7 @@ function HiveBee({ id, seed, w, h, size, land, cheer, on }: {
       x: v.interpolate({ inputRange: t, outputRange: path.x.map((p) => p - half) }),
       y: v.interpolate({ inputRange: t, outputRange: path.y.map((p) => p - half) }),
       rot: v.interpolate({ inputRange: t, outputRange: path.rot.map((r) => `${r}deg`) }),
-      scaleX: flip.interpolate({ inputRange: [-1, -0.06, 0.06, 1], outputRange: [-1, -0.42, 0.42, 1] }),
+      turn: v.interpolate({ inputRange: t, outputRange: path.yaw }),
       bobY: Animated.multiply(bob.interpolate(sinRange(size * 0.07)), Animated.subtract(1, rest)),
       rest,
       look: flip.interpolate({ inputRange: [-1, 1], outputRange: [-size * 0.035, size * 0.035] }),
@@ -127,10 +127,10 @@ function HiveBee({ id, seed, w, h, size, land, cheer, on }: {
       position: "absolute", left: 0, top: 0, width: size, height: size,
       transform: [
         { translateX: anim.x }, { translateY: anim.y }, { translateY: anim.bobY }, { translateY: anim.hopY },
-        { rotate: anim.rot }, { rotate: anim.spin }, { scale: anim.pop }, { scaleX: anim.scaleX },
+        { rotate: anim.rot }, { rotate: anim.spin }, { scale: anim.pop },
       ],
     }}>
-      <BeeSprite id={id} size={size} seed={seed} rest={anim.rest} face={{ lookX: anim.look }} />
+      <BeeSprite id={id} size={size} seed={seed} rest={anim.rest} face={{ lookX: anim.look }} turn={anim.turn} level={level} />
     </Animated.View>
   );
 }
@@ -202,7 +202,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
             <CombTile key={t.i} slot={t.i} lvl={t.lvl} x={t.x} y={t.y} s={hs} state={t.st} selected={sel === t.i}
               onPress={() => setSel(sel === t.i ? null : t.i)} />
           ))}
-          {flyers.map((b) => <HiveBee key={b.key} id={b.id} seed={b.seed} w={areaW} h={areaH} size={beeSize} land={b.land} cheer={cheer} on={act} />)}
+          {flyers.map((b) => <HiveBee key={b.key} id={b.id} seed={b.seed} w={areaW} h={areaH} size={beeSize} land={b.land} cheer={cheer} on={act} level={s.beeLevels[b.id] ?? 1} />)}
         </Pressable>
       </View>
 

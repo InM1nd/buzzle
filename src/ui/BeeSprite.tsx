@@ -1,39 +1,18 @@
 /**
- * Layered, animated bee: two flapping wings (shared PNG) + body PNG (no wings/eyes) + two eyes (blink / look around).
- * Geometry mirrors scripts/make_art.py bee() in a 256×256 frame.
+ * Layered, animated low-poly bee (v1.2). Every layer is a Blender render of the same camera frame
+ * (scripts/bees3d), cropped and packed as WebP (src/ui/beeArt.ts):
+ *   wings (under the body, flap around their projected root) · body · eyes (blink / look) · crown overlay.
+ * Each species has several yaw views (front, ¾, near-profile; Zhuzha has 5). A signed `turn` value
+ * (-1 … 1, may be animated) picks the view with native opacity cross-fades and mirrors the bee for the
+ * other side, so bees turn toward where they fly without any JS per frame.
+ * Bee levels: ≥5 golden shiny wings, 10 also a crown.
  */
 import React, { useEffect, useMemo, useRef } from "react";
 import { Animated, Easing, StyleProp, View, ViewStyle } from "react-native";
-/* eslint-disable @typescript-eslint/no-require-imports */
 import { sinDeg, sinRange, useAnimActive, useCycle, useFlapClock } from "./anim";
+import { BEE_VIEWS, BeeView, Layer, SHARED_VIEWS } from "./beeArt";
 
-export const BEE_BODY: Record<string, number> = {
-  zhuzha: require("../../assets/art/bee_zhuzha_body.png"),
-  pushinka: require("../../assets/art/bee_pushinka_body.png"),
-  boris: require("../../assets/art/bee_boris_body.png"),
-  solnyshko: require("../../assets/art/bee_solnyshko_body.png"),
-  klevera: require("../../assets/art/bee_klevera_body.png"),
-  lavanda: require("../../assets/art/bee_lavanda_body.png"),
-  vasilek: require("../../assets/art/bee_vasilek_body.png"),
-  myatka: require("../../assets/art/bee_myatka_body.png"),
-  iskorka: require("../../assets/art/bee_iskorka_body.png"),
-  sonya: require("../../assets/art/bee_sonya_body.png"),
-  zorkaya: require("../../assets/art/bee_zorkaya_body.png"),
-  margo: require("../../assets/art/bee_margo_body.png"),
-};
-const WING = require("../../assets/art/bee_wing.png");
-const EYE = require("../../assets/art/bee_eye.png");
-const WIDE = new Set(["boris"]);
-const SLEEPY = new Set(["sonya"]);
-
-// geometry in the 256 frame (see make_art.py)
-const CX = 128, CY = 0.56 * 256, BH = 0.34 * 256;
-const WING_W = 181 / 2, WING_H = 140 / 2;       // bee_wing.png is drawn at 2x
-const EYE_W = 58 / 2, EYE_H = 63 / 2;
-const ROOT = WING_W * 0.36;                        // pivot: distance from wing centre to its root (towards the body)
-const BASE = 25;                                   // base tilt of the wings (deg)
-const RAD = (BASE * Math.PI) / 180;
-
+const MAX_YAW = 62;
 type AV = Animated.Value | Animated.AnimatedInterpolation<number>;
 /** eye drivers: blink 0..1, look offsets in px of the rendered sprite */
 export interface Face { blink?: AV; lookX?: AV; lookY?: AV }
@@ -45,15 +24,75 @@ export interface BeeProps {
   flap?: boolean;
   seed?: number;
   /** 0 = flying, 1 = resting (wings still); may be animated */
-  rest?: Animated.AnimatedInterpolation<number> | Animated.Value;
+  rest?: AV;
   tint?: string;            // silhouette (locked bee)
   face?: Face;
+  /** facing: 0 = front, ±1 = near profile to the right / left (mirrored). Number or animated value. */
+  turn?: number | AV;
+  /** bee level: ≥5 shiny wings, 10 crown */
+  level?: number;
   style?: StyleProp<ViewStyle>;
 }
 
-export function BeeSprite({ id, size, flap = true, seed = 0, rest, tint, face, style }: BeeProps) {
-  const k = size / 256;
-  const bw = (WIDE.has(id) ? 0.36 : 0.31) * 256;
+const viewsOf = (id: string): BeeView[] => BEE_VIEWS[id] ?? BEE_VIEWS.zhuzha;
+const nearest = (vs: BeeView[], yaw: number) => vs.reduce((b, v) => (Math.abs(v.yaw - yaw) < Math.abs(b.yaw - yaw) ? v : b), vs[0]);
+
+function Img({ l, size, style, tint, extra }: { l: Layer; size: number; style?: object; tint?: string; extra?: object }) {
+  const [src, r] = l;
+  return (
+    <Animated.Image source={src} fadeDuration={0} style={[{
+      position: "absolute", left: r[0] * size, top: r[1] * size, width: r[2] * size, height: r[3] * size, tintColor: tint,
+    }, style, extra] as never} />
+  );
+}
+
+/** one yaw view: wings + body + eyes + crown */
+function ViewLayers({ v, size, wave, wingAlpha, wingSquash, anim, tint, face, level, sleepy }: {
+  v: BeeView; size: number; wave: AV; wingAlpha: AV; wingSquash: AV; anim: boolean; tint?: string; face?: Face; level: number; sleepy: boolean;
+}) {
+  const sh = SHARED_VIEWS[v.yaw] ?? SHARED_VIEWS[0];
+  const gold = level >= 5 && !tint;
+  const wing = (side: "L" | "R") => {
+    const l = (gold ? (side === "L" ? sh.goldL : sh.goldR) : (side === "L" ? sh.wingL : sh.wingR));
+    const pw = side === "L" ? sh.pivotL : sh.pivotR;  // pivot in the shared wing render
+    const ps = side === "L" ? v.pivotL : v.pivotR;    // pivot of this species
+    const r = l[1];
+    const x = r[0] + ps[0] - pw[0], y = r[1] + ps[1] - pw[1];
+    // rotation box centred on the pivot, big enough for the whole wing
+    const half = Math.max(Math.abs(x - ps[0]), Math.abs(x + r[2] - ps[0]), Math.abs(y - ps[1]), Math.abs(y + r[3] - ps[1]));
+    const box = 2 * half * size;
+    const sx = side === "L" ? 1 : -1; // L wing: clockwise = up
+    const rot = anim
+      ? Animated.multiply(wave, sx).interpolate({ inputRange: [-90, 90], outputRange: ["-90deg", "90deg"] })
+      : "0deg";
+    return (
+      <Animated.View key={side} pointerEvents="none" style={{
+        position: "absolute", left: ps[0] * size - box / 2, top: ps[1] * size - box / 2, width: box, height: box,
+        transform: [{ rotate: rot as never }],
+      }}>
+        <Animated.Image source={l[0]} fadeDuration={0} style={{
+          position: "absolute", left: (x - ps[0]) * size + box / 2, top: (y - ps[1]) * size + box / 2, width: r[2] * size, height: r[3] * size,
+          opacity: anim ? (wingAlpha as never) : 0.95, tintColor: tint,
+          transform: anim ? [{ scaleY: wingSquash as never }] : [],
+        }} />
+      </Animated.View>
+    );
+  };
+  const eyeTf: object[] = [];
+  if (face?.lookX) eyeTf.push({ translateX: face.lookX });
+  if (face?.lookY) eyeTf.push({ translateY: face.lookY });
+  if (face?.blink) eyeTf.push({ scaleY: face.blink.interpolate({ inputRange: [0, 1], outputRange: [1, 0.08] }) });
+  return (
+    <>
+      {wing("L")}{wing("R")}
+      <Img l={v.body} size={size} tint={tint} />
+      {v.eyes && !tint && !sleepy ? <Img l={v.eyes} size={size} extra={{ transform: eyeTf }} /> : null}
+      {level >= 10 && !tint ? <Img l={sh.crown} size={size} /> : null}
+    </>
+  );
+}
+
+export function BeeSprite({ id, size, flap = true, seed = 0, rest, tint, face, turn = 0, level = 1, style }: BeeProps) {
   const clock = useFlapClock(seed, flap && !tint);
   const anim = flap && !tint;
   const wave = useMemo(() => {
@@ -63,51 +102,53 @@ export function BeeSprite({ id, size, flap = true, seed = 0, rest, tint, face, s
   }, [clock, rest]);
   const wingAlpha = useMemo(() => clock.interpolate({ inputRange: [0, 0.4, 0.6, 1], outputRange: [0.95, 0.72, 0.72, 0.95] }), [clock]);
   const wingSquash = useMemo(() => clock.interpolate({ inputRange: [0, 0.35, 0.6, 1], outputRange: [1, 0.62, 0.7, 1] }), [clock]);
+  const vs = viewsOf(id);
+  const sleepy = id === "sonya";
+  const common = { size, wave, wingAlpha, wingSquash, anim, tint, face, level, sleepy };
 
-  const wing = (sx: -1 | 1) => {
-    // wing centre and root (pivot) in the 256 frame
-    const wx = CX + sx * bw * 0.95, wy = CY - BH * 0.75;
-    const base = sx * BASE; // RN: positive = clockwise (left wing tilts counter-clockwise, as in make_art.py)
-    const rx = wx - sx * ROOT * Math.cos(RAD), ry = wy - ROOT * Math.sin(RAD);
-    const box = WING_W * 2.2;
-    const rot = anim
-      ? Animated.multiply(wave, -sx).interpolate({ inputRange: [-90, 90], outputRange: [`${base - 90}deg`, `${base + 90}deg`] })
-      : `${base}deg`;
+  if (typeof turn === "number") {
+    const v = nearest(vs, Math.abs(turn) * MAX_YAW);
     return (
-      <Animated.View key={sx} pointerEvents="none" style={{
-        position: "absolute", left: (rx - box / 2) * k, top: (ry - box / 2) * k, width: box * k, height: box * k,
-        transform: [{ rotate: rot as never }],
-      }}>
-        <Animated.Image source={WING} style={{
-          position: "absolute", width: WING_W * k, height: WING_H * k,
-          left: (box / 2 + sx * ROOT - WING_W / 2) * k, top: (box / 2 - WING_H / 2) * k,
-          opacity: anim ? (wingAlpha as never) : 0.95,
-          tintColor: tint,
-          transform: anim ? [{ scaleY: wingSquash as never }] : [],
-        }} />
-      </Animated.View>
+      <View pointerEvents="none" style={[{ width: size, height: size }, style]}>
+        <View style={{ width: size, height: size, transform: turn < 0 ? [{ scaleX: -1 }] : [] }}>
+          <ViewLayers v={v} {...common} />
+        </View>
+      </View>
     );
-  };
+  }
+  return <TurningBee vs={vs} turn={turn} common={common} style={style} size={size} />;
+}
 
-  const eye = (sx: -1 | 1) => {
-    const ex = CX + sx * bw * 0.38, ey = CY - BH * 0.32;
-    const tf: object[] = [];
-    if (face?.lookX) tf.push({ translateX: face.lookX });
-    if (face?.lookY) tf.push({ translateY: face.lookY });
-    if (face?.blink) tf.push({ scaleY: face.blink.interpolate({ inputRange: [0, 1], outputRange: [1, 0.08] }) });
-    return (
-      <Animated.Image key={`e${sx}`} source={EYE} style={{
-        position: "absolute", left: (ex - EYE_W / 2) * k, top: (ey - EYE_H / 2) * k, width: EYE_W * k, height: EYE_H * k,
-        transform: tf as never,
-      }} />
-    );
-  };
-
+/** All yaw views stacked; native opacity steps pick the one matching |turn|, scaleX mirrors for turn < 0. */
+function TurningBee({ vs, turn, common, style, size }: {
+  vs: BeeView[]; turn: AV; common: Omit<React.ComponentProps<typeof ViewLayers>, "v">; style?: StyleProp<ViewStyle>; size: number;
+}) {
+  const t = useMemo(() => {
+    const abs = turn.interpolate({ inputRange: [-1, 0, 1], outputRange: [1, 0, 1], extrapolate: "clamp" });
+    // flip only for clearly negative turns: at turn = 0 (a bee at rest) scaleX must be exactly 1, never 0
+    const mirror = turn.interpolate({ inputRange: [-1, -0.002, -0.001, 1], outputRange: [-1, -1, 1, 1], extrapolate: "clamp" });
+    const ys = vs.map((v) => v.yaw / MAX_YAW);
+    const e = 0.025;
+    const ops = vs.map((_, i) => {
+      if (vs.length === 1) return 1;
+      const lo = i > 0 ? (ys[i - 1] + ys[i]) / 2 : null;
+      const hi = i < vs.length - 1 ? (ys[i] + ys[i + 1]) / 2 : null;
+      const inR: number[] = [], outR: number[] = [];
+      if (lo !== null) { inR.push(lo - e, lo + e); outR.push(0, 1); }
+      if (hi !== null) { inR.push(hi - e, hi + e); outR.push(1, 0); }
+      return abs.interpolate({ inputRange: inR, outputRange: outR, extrapolate: "clamp" });
+    });
+    return { mirror, ops };
+  }, [turn, vs]);
   return (
     <View pointerEvents="none" style={[{ width: size, height: size }, style]}>
-      {wing(-1)}{wing(1)}
-      <Animated.Image source={BEE_BODY[id] ?? BEE_BODY.zhuzha} style={{ position: "absolute", left: 0, top: 0, width: size, height: size, tintColor: tint }} />
-      {!tint && !SLEEPY.has(id) ? <>{eye(-1)}{eye(1)}</> : null}
+      <Animated.View style={{ width: size, height: size, transform: [{ scaleX: t.mirror as never }] }}>
+        {vs.map((v, i) => (
+          <Animated.View key={v.yaw} pointerEvents="none" style={{ position: "absolute", left: 0, top: 0, width: size, height: size, opacity: t.ops[i] as never }}>
+            <ViewLayers v={v} {...common} />
+          </Animated.View>
+        ))}
+      </Animated.View>
     </View>
   );
 }
@@ -165,12 +206,38 @@ export function Hover({ children, amp = 5, sway = 3, period = 1700, phase = 0, s
   return <Animated.View style={[style, { transform: [{ translateY: ty }, { rotate: rot }] }]}>{children}</Animated.View>;
 }
 
-/** A hovering, blinking, looking-around bee (tutorial, tasks, bee details). */
-export function Mascot({ id = "zhuzha", size, seed = 3, style }: { id?: string; size: number; seed?: number; style?: StyleProp<ViewStyle> }) {
+/** Every few seconds the bee turns to one side, looks around and turns back (native timing). */
+export function useTurn(on = true, seed = 1) {
+  const v = useRef(new Animated.Value(0)).current;
+  const act = useAnimActive();
+  useEffect(() => {
+    if (!on || !act) return;
+    let alive = true;
+    let r = (seed * 7919 + 104729) % 233280;
+    const rnd = () => { r = (r * 9301 + 49297) % 233280; return r / 233280; };
+    let timer: ReturnType<typeof setTimeout>;
+    const go = () => {
+      const side = rnd() < 0.5 ? -1 : 1, amt = 0.3 + rnd() * 0.45;
+      Animated.sequence([
+        Animated.timing(v, { toValue: side * amt, duration: 420, easing: Easing.inOut(Easing.cubic), useNativeDriver: true }),
+        Animated.delay(900 + rnd() * 1200),
+        Animated.timing(v, { toValue: 0, duration: 420, easing: Easing.inOut(Easing.cubic), useNativeDriver: true }),
+      ]).start();
+      timer = setTimeout(() => { if (alive) go(); }, 4200 + rnd() * 4000);
+    };
+    timer = setTimeout(go, 1800 + rnd() * 2500);
+    return () => { alive = false; clearTimeout(timer); };
+  }, [on, act, v, seed]);
+  return v;
+}
+
+/** A hovering, blinking, looking-around bee that sometimes turns its head (tutorial, tasks, bee details). */
+export function Mascot({ id = "zhuzha", size, seed = 3, level = 1, style }: { id?: string; size: number; seed?: number; level?: number; style?: StyleProp<ViewStyle> }) {
   const face = useFace(true, seed);
+  const turn = useTurn(true, seed);
   return (
     <Hover amp={size * 0.035} sway={3} period={1900 + (seed % 5) * 140} phase={(seed % 7) / 7} style={style}>
-      <BeeSprite id={id} size={size} seed={seed} face={face} />
+      <BeeSprite id={id} size={size} seed={seed} face={face} turn={turn} level={level} />
     </Hover>
   );
 }

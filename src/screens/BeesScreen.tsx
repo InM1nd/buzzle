@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, ScrollView, StyleSheet, useWindowDimensions, View } from "react-native";
-import { GameState } from "../logic/game";
-import { BEES, BeeSpecies, Rarity } from "../logic/bees";
+import { GameState, beeLevel, beeLevelCost } from "../logic/game";
+import { abilityAt, levelCost, BEES, BeeSpecies, LEVEL_HIVE_BONUS, MAX_BEE_LEVEL, Rarity } from "../logic/bees";
 import { ART } from "../ui/art";
 import { BeeSprite, Hover, Mascot, useFace } from "../ui/BeeSprite";
-import { C, shadow } from "../ui/theme";
-import { CloseBtn, GameButton, Overlay, Press, Txt } from "../ui/components";
+import { C, F, shadow } from "../ui/theme";
+import { Bar, CloseBtn, fmt, GameButton, Overlay, Press, Txt } from "../ui/components";
+import { Text } from "react-native";
 
 const RARITY: Record<Rarity, { name: string; color: string; bg: string }> = {
   common: { name: "обычная", color: "#7A8A3A", bg: "#EEF5D8" },
@@ -14,9 +15,9 @@ const RARITY: Record<Rarity, { name: string; color: string; bg: string }> = {
   legendary: { name: "легендарная", color: "#D27A00", bg: "#FFEBC2" },
 };
 
-interface Props { s: GameState; onUnlock: (id: string) => boolean }
+interface Props { s: GameState; onUnlock: (id: string) => boolean; onLevelUp: (id: string) => boolean; onGarden?: () => void }
 
-export default function BeesScreen({ s, onUnlock }: Props) {
+export default function BeesScreen({ s, onUnlock, onLevelUp, onGarden }: Props) {
   const { width } = useWindowDimensions();
   const [open, setOpen] = useState<BeeSpecies | null>(null);
   const [justUnlocked, setJust] = useState<string | null>(null);
@@ -28,9 +29,16 @@ export default function BeesScreen({ s, onUnlock }: Props) {
         <View style={styles.head}>
           <View style={{ flex: 1 }}>
             <Txt v="h2">Коллекция пчёл</Txt>
-            <Txt v="small" color={C.dim}>Открыто {s.bees.length} из {BEES.length}. Каждая пчела даёт постоянный бонус.</Txt>
+            <Txt v="small" color={C.dim}>Открыто {s.bees.length} из {BEES.length}. Каждая пчела даёт постоянный бонус и растёт до {MAX_BEE_LEVEL} уровня.</Txt>
           </View>
         </View>
+        <Press onPress={onGarden} style={styles.nectarHint} accessibilityRole="button" accessibilityLabel="Нектар: открыть сад">
+          <Image source={ART.nectar} style={{ width: 30, height: 30 }} />
+          <View style={{ flex: 1 }}>
+            <Txt v="h3" color="#9C2F5C">Нектар: {fmt(s.nectar)}</Txt>
+            <Txt v="small" color="#9C2F5C">Повышает уровни пчёл. Собирается в саду у улья →</Txt>
+          </View>
+        </Press>
         <View style={styles.jellyHint}>
           <Image source={ART.jelly} style={{ width: 28, height: 28 }} />
           <Txt v="small" color="#6B4CA8" style={{ flex: 1 }}>Маточное молочко дают звёзды ежедневной головоломки, задания и награды за вход.</Txt>
@@ -39,21 +47,30 @@ export default function BeesScreen({ s, onUnlock }: Props) {
           {BEES.map((b, i) => {
             const has = owned.has(b.id);
             const can = !has && s.jelly >= b.cost;
+            const lvl = beeLevel(s, b.id);
+            const lc = has ? beeLevelCost(s, b.id) : null;
+            const canLvl = !!lc && s.nectar >= lc.nectar && s.jelly >= lc.jelly;
             const r = RARITY[b.rarity];
             return (
               <Press key={b.id} onPress={() => setOpen(b)} style={[styles.card, shadow, { width: colW }, !has && { backgroundColor: "#FBF3E4" }]}
                 accessibilityRole="button" accessibilityLabel={`${b.name}${has ? "" : ", закрыта"}`}>
                 <View style={[styles.beeBg, { backgroundColor: has ? r.bg : "#F2E6D0" }]}>
                   {has ? (
-                    <CardBee id={b.id} i={i} />
+                    <CardBee id={b.id} i={i} level={lvl} />
                   ) : (
                     <BeeSprite id={b.id} size={86} tint="#DCC7A3" />
                   )}
                   {justUnlocked === b.id ? <Sparkle /> : null}
+                  {has ? (
+                    <View style={[styles.lvlBadge, lvl >= MAX_BEE_LEVEL && { backgroundColor: "#E2A400" }]}>
+                      <Text style={[F.black, { color: "#fff", fontSize: 12 }]}>{lvl >= MAX_BEE_LEVEL ? "МАКС" : `ур. ${lvl}`}</Text>
+                    </View>
+                  ) : null}
+                  {canLvl ? <View style={styles.upDot}><Text style={[F.black, { color: "#fff", fontSize: 13, lineHeight: 16 }]}>↑</Text></View> : null}
                 </View>
                 <Txt v="h3" numberOfLines={1} style={{ marginTop: 8 }}>{has ? b.name : "???"}</Txt>
                 <Txt v="tiny" color={r.color}>{r.name.toUpperCase()}</Txt>
-                <Txt v="small" color={C.dim} numberOfLines={2} style={{ minHeight: 34, marginTop: 2 }}>{b.ability}</Txt>
+                <Txt v="small" color={C.dim} numberOfLines={2} style={{ minHeight: 34, marginTop: 2 }}>{has ? abilityAt(b, lvl) : b.ability}</Txt>
                 {has ? (
                   <View style={styles.ownedTag}><Image source={ART.check} style={{ width: 16, height: 16 }} /><Txt v="tiny" color={C.greenDark}>В УЛЬЕ</Txt></View>
                 ) : (
@@ -69,8 +86,9 @@ export default function BeesScreen({ s, onUnlock }: Props) {
       </ScrollView>
       <Overlay visible={!!open} onClose={() => setOpen(null)}>
         {open ? (
-          <BeeDetail bee={open} has={owned.has(open.id)} jelly={s.jelly}
+          <BeeDetail bee={open} has={owned.has(open.id)} jelly={s.jelly} nectar={s.nectar} level={beeLevel(s, open.id)}
             onUnlock={() => { if (onUnlock(open.id)) { setJust(open.id); setTimeout(() => setJust(null), 1600); } }}
+            onLevelUp={() => onLevelUp(open.id)}
             onClose={() => setOpen(null)} />
         ) : null}
       </Overlay>
@@ -79,12 +97,40 @@ export default function BeesScreen({ s, onUnlock }: Props) {
 }
 
 /** Idle bee on a collection card: hover + flapping wings + an occasional blink / glance. */
-function CardBee({ id, i }: { id: string; i: number }) {
+function CardBee({ id, i, level }: { id: string; i: number; level: number }) {
   const face = useFace(true, i * 13 + 5);
   return (
     <Hover amp={3} sway={2.5} period={1500 + i * 97} phase={(i * 0.37) % 1}>
-      <BeeSprite id={id} size={86} seed={i} face={face} />
+      <BeeSprite id={id} size={86} seed={i} face={face} level={level} turn={i % 2 ? 0.5 : -0.5} />
     </Hover>
+  );
+}
+
+const LOOK_TEXT: Record<number, string> = { 5: "Золотые сияющие крылья!", 10: "Корона и сияющие крылья!" };
+/** Big level-up burst over the bee in the detail sheet. */
+function LevelBurst({ level }: { level: number }) {
+  const a = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    a.setValue(0);
+    Animated.timing(a, { toValue: 1, duration: 1500, useNativeDriver: true }).start();
+  }, [a, level]);
+  return (
+    <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+      {[0, 1, 2, 3, 4, 5, 6, 7].map((k) => {
+        const ang = (k / 8) * Math.PI * 2;
+        return (
+          <Animated.Image key={k} source={ART.star} style={{
+            position: "absolute", left: 95 - 14, top: 95 - 14, width: 28, height: 28,
+            opacity: a.interpolate({ inputRange: [0, 0.1, 0.7, 1], outputRange: [0, 1, 1, 0] }),
+            transform: [
+              { translateX: a.interpolate({ inputRange: [0, 1], outputRange: [0, Math.cos(ang) * 96] }) },
+              { translateY: a.interpolate({ inputRange: [0, 1], outputRange: [0, Math.sin(ang) * 96] }) },
+              { scale: a.interpolate({ inputRange: [0, 0.3, 1], outputRange: [0.3, 1.2, 0.6] }) },
+            ],
+          }} />
+        );
+      })}
+    </View>
   );
 }
 
@@ -100,31 +146,72 @@ function Sparkle() {
   );
 }
 
-function BeeDetail({ bee, has, jelly, onUnlock, onClose }: { bee: BeeSpecies; has: boolean; jelly: number; onUnlock: () => void; onClose: () => void }) {
+function BeeDetail({ bee, has, jelly, nectar, level, onUnlock, onLevelUp, onClose }: {
+  bee: BeeSpecies; has: boolean; jelly: number; nectar: number; level: number; onUnlock: () => void; onLevelUp: () => boolean; onClose: () => void;
+}) {
   const r = RARITY[bee.rarity];
   const pop = useRef(new Animated.Value(has ? 1 : 0.9)).current;
   const [wasLocked] = useState(!has);
+  const [burst, setBurst] = useState(0);
   useEffect(() => {
     if (has && wasLocked) {
       pop.setValue(0.4);
       Animated.spring(pop, { toValue: 1, useNativeDriver: true, bounciness: 18, speed: 8 }).start();
     }
   }, [has, wasLocked, pop]);
+  const lvlUp = () => {
+    if (!onLevelUp()) return;
+    setBurst((b) => b + 1);
+    pop.setValue(0.75);
+    Animated.spring(pop, { toValue: 1, useNativeDriver: true, bounciness: 20, speed: 9 }).start();
+  };
+  const cost = has ? levelCost(level) : null;
+  const enough = !!cost && nectar >= cost.nectar && jelly >= cost.jelly;
+  const nextLook = level < 5 ? 5 : level < 10 ? 10 : null;
   return (
     <View style={{ alignItems: "center" }}>
       <CloseBtn onPress={onClose} />
       <View style={[styles.detailBg, { backgroundColor: has ? r.bg : "#F2E6D0" }]}>
         {has && wasLocked ? <Sparkle /> : null}
+        {burst ? <LevelBurst key={burst} level={level} /> : null}
         <Animated.View style={{ transform: [{ scale: pop }] }}>
-          {has ? <Mascot id={bee.id} size={156} seed={bee.id.length * 7 + 1} /> : <BeeSprite id={bee.id} size={156} tint="#D8C29C" />}
+          {has ? <Mascot id={bee.id} size={156} seed={bee.id.length * 7 + 1} level={level} /> : <BeeSprite id={bee.id} size={156} tint="#D8C29C" />}
         </Animated.View>
       </View>
-      <Txt v="h1" center style={{ marginTop: 10 }}>{has ? bee.name : "Неизвестная пчела"}</Txt>
-      <Txt v="tiny" color={r.color}>{r.name.toUpperCase()}</Txt>
-      <View style={styles.ability}><Txt v="h3" color="#6B4CA8" center>{bee.ability}</Txt></View>
-      <Txt v="body" color={C.dim} center style={{ marginBottom: 16 }}>{has ? bee.flavor : "Откройте за маточное молочко, чтобы познакомиться."}</Txt>
+      <Txt v="h1" center style={{ marginTop: 8 }}>{has ? bee.name : "Неизвестная пчела"}</Txt>
+      <Txt v="tiny" color={r.color}>{r.name.toUpperCase()}{has ? ` · УРОВЕНЬ ${level}/${MAX_BEE_LEVEL}` : ""}</Txt>
+      {burst ? (
+        <>
+          <Txt v="h2" color={C.honeyDeep} center style={{ marginTop: 4 }}>{`Уровень ${level}!`}</Txt>
+          {LOOK_TEXT[level] ? <Txt v="h3" color={C.honeyDark} center>{LOOK_TEXT[level]}</Txt> : null}
+        </>
+      ) : has && wasLocked ? (
+        <Txt v="h2" color={C.greenDark} center style={{ marginTop: 4 }}>Добро пожаловать в улей!</Txt>
+      ) : null}
+      {has ? <Bar progress={level / MAX_BEE_LEVEL} height={10} color={C.jelly} style={{ alignSelf: "stretch", marginTop: 8 }} /> : null}
+      <View style={styles.ability}>
+        <Txt v="h3" color="#6B4CA8" center>{has ? abilityAt(bee, level) : bee.ability}</Txt>
+        {has && level > 1 ? <Txt v="small" color="#6B4CA8" center>и +{Math.round(LEVEL_HIVE_BONUS * 100 * (level - 1))}% к мёду улья за уровни</Txt> : null}
+        {cost ? <Txt v="small" color={C.dim} center>{`Дальше: ${abilityAt(bee, level + 1)}`}</Txt> : null}
+      </View>
+      <Txt v="body" color={C.dim} center style={{ marginBottom: 12 }}>
+        {!has ? "Откройте за маточное молочко, чтобы познакомиться." : nextLook ? `${bee.flavor} На ${nextLook}-м уровне — ${nextLook === 5 ? "золотые крылья" : "корона"}.` : bee.flavor}
+      </Txt>
       {has ? (
-        <GameButton title={wasLocked ? "Добро пожаловать в улей!" : "Уже в улье"} color="white" onPress={onClose} style={{ alignSelf: "stretch" }} />
+        cost ? (
+          <GameButton
+            title={`Уровень ${level + 1} · ${cost.nectar}${cost.jelly ? ` + ${cost.jelly}` : ""}`}
+            icon={ART.nectar}
+            color="purple"
+            disabled={!enough}
+            sub={!enough ? (nectar < cost.nectar ? `не хватает ${cost.nectar - Math.floor(nectar)} нектара` : `нужно ${cost.jelly} молочка`) : cost.jelly ? `нектар + ${cost.jelly} маточного молочка` : "нектар из сада"}
+            onPress={lvlUp}
+            style={{ alignSelf: "stretch" }}
+            label={`Повысить уровень пчелы до ${level + 1}`}
+          />
+        ) : (
+          <GameButton title="Максимальный уровень!" color="white" onPress={onClose} style={{ alignSelf: "stretch" }} />
+        )
       ) : (
         <GameButton
           title={`Открыть · ${bee.cost}`}
@@ -143,6 +230,9 @@ function BeeDetail({ bee, has, jelly, onUnlock, onClose }: { bee: BeeSpecies; ha
 
 const styles = StyleSheet.create({
   head: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
+  nectarHint: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: "#FFE6F0", borderRadius: 16, padding: 10, marginBottom: 10 },
+  lvlBadge: { position: "absolute", left: 8, top: 8, backgroundColor: C.jelly, borderRadius: 10, paddingHorizontal: 7, paddingVertical: 2 },
+  upDot: { position: "absolute", right: 8, top: 8, width: 22, height: 22, borderRadius: 11, backgroundColor: C.green, alignItems: "center", justifyContent: "center" },
   jellyHint: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: "#F1E8FF", borderRadius: 16, padding: 10, marginBottom: 14 },
   card: { backgroundColor: "#fff", borderRadius: 22, padding: 12 },
   beeBg: { height: 104, borderRadius: 16, alignItems: "center", justifyContent: "center", overflow: "hidden" },

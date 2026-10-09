@@ -107,7 +107,7 @@ test("bees: unlock a species with royal jelly", async () => {
   await boot();
   await fireEvent.press(screen.getByLabelText("Пчёлы"));
   expect(await screen.findByText("Коллекция пчёл")).toBeTruthy();
-  expect(screen.getByText("Открыто 1 из 12. Каждая пчела даёт постоянный бонус.")).toBeTruthy();
+  expect(screen.getByText("Открыто 1 из 12. Каждая пчела даёт постоянный бонус и растёт до 10 уровня.")).toBeTruthy();
   await fireEvent.press(screen.getByLabelText("Пушинка, закрыта"));
   await fireEvent.press(await screen.findByLabelText("Открыть пчелу за 4 молочка"));
   await waitFor(async () => {
@@ -163,5 +163,67 @@ test("settings: toggle haptics and reset progress", async () => {
     const s = await stored();
     expect(s.honey).toBe(50);
     expect(s.settings.tutorialDone).toBe(false);
+  });
+});
+
+// ---------------- v1.2 ----------------
+test("garden: plant a sunflower, water later, harvest nectar", async () => {
+  await seed((s) => ({ ...s, honey: 500, settings: { ...s.settings, gardenIntroDone: true } }));
+  await boot();
+  await fireEvent.press(screen.getByLabelText("Сад"));
+  expect(await screen.findByText("Грядки 1 из 6")).toBeTruthy();
+  await fireEvent.press(screen.getByLabelText("Грядка 1: Пустая грядка"));
+  await fireEvent.press(await screen.findByLabelText("Посадить: Подсолнух"));
+  await waitFor(async () => {
+    const s = await stored();
+    expect(s.garden.beds[0].flower).toBe("sunflower");
+    expect(s.honey).toBe(470);
+  });
+});
+
+test("garden: a ready flower is harvested with one tap", async () => {
+  await seed((s) => ({ ...s, settings: { ...s.settings, gardenIntroDone: true }, garden: { ...s.garden, beds: [{ flower: "clover", growth: 4, water: 0 }] } }));
+  await boot();
+  await fireEvent.press(screen.getByLabelText("Сад"));
+  await fireEvent.press(await screen.findByLabelText("Грядка 1: Клевер, Готово! +9"));
+  await waitFor(async () => {
+    const s = await stored();
+    expect(s.nectar).toBe(9);
+    expect(s.garden.beds[0].flower).toBeNull();
+  });
+});
+
+test("bees: level up Zhuzha with nectar", async () => {
+  await seed((s) => ({ ...s, nectar: 30 }));
+  await boot();
+  await fireEvent.press(screen.getByLabelText("Пчёлы"));
+  await fireEvent.press(await screen.findByLabelText("Жужа"));
+  await fireEvent.press(await screen.findByLabelText("Повысить уровень пчелы до 2"));
+  await waitFor(async () => {
+    const s = await stored();
+    expect(s.beeLevels.zhuzha).toBe(2);
+    expect(s.nectar).toBe(16);
+  });
+  expect(await screen.findByText("Уровень 2!")).toBeTruthy();
+});
+
+test("v1.1 save is migrated on load and backed up", async () => {
+  const now = Date.now();
+  const v2 = newState(now);
+  const { nectar: _n, beeLevels: _l, garden: _g, ...rest } = v2;
+  const v1 = { ...rest, version: 1, honey: 777, bees: ["zhuzha", "boris"], settings: { notifications: false, haptics: true, tutorialDone: true, notifPromptDismissed: true }, login: { lastDay: today(v2, now), index: 0, streak: 1 } };
+  await AsyncStorage.setItem(KEY, JSON.stringify(v1));
+  await boot();
+  expect(await AsyncStorage.getItem("bzz:backup:v1")).toBe(JSON.stringify(v1));
+  await fireEvent.press(screen.getByLabelText("Сад"));
+  expect(await screen.findByText("Новое: сад у улья!")).toBeTruthy();
+  await fireEvent.press(screen.getByText("Понятно"));
+  await waitFor(async () => {
+    const s = await stored();
+    expect(s.version).toBe(2);
+    expect(s.honey).toBe(777);
+    expect(s.beeLevels).toEqual({ zhuzha: 1, boris: 1 });
+    expect(s.garden.beds).toHaveLength(1);
+    expect(s.settings.gardenIntroDone).toBe(true);
   });
 });

@@ -28,6 +28,7 @@ interface Props {
   onReplay: () => void;
   /** owned bees: one of them zips across the board on big combos */
   beeIds?: string[];
+  beeLevels?: Record<string, number>;
 }
 
 // ---------- cell ----------
@@ -140,7 +141,7 @@ function FloatText({ x, y, text, color, big, onDone, id }: { x: number; y: numbe
 
 // ---------- screen ----------
 /** A bee zipping across the board along a wavy line, leaving a sparkle trail (one native timing). */
-function ZipBee({ id, w, h, dir, y0, big, onEnd }: { id: string; w: number; h: number; dir: 1 | -1; y0: number; big: boolean; onEnd: () => void }) {
+function ZipBee({ id, w, h, dir, y0, big, level = 1, onEnd }: { id: string; w: number; h: number; dir: 1 | -1; y0: number; big: boolean; level?: number; onEnd: () => void }) {
   const a = useRef(new Animated.Value(0)).current;
   const size = Math.round(Math.min(64, Math.max(44, w * 0.13)));
   const end = useRef(onEnd);
@@ -185,10 +186,9 @@ function ZipBee({ id, w, h, dir, y0, big, onEnd }: { id: string; w: number; h: n
           { translateX: a.interpolate({ inputRange: p.t, outputRange: p.x }) },
           { translateY: a.interpolate({ inputRange: p.t, outputRange: p.y }) },
           { rotate: a.interpolate({ inputRange: p.t, outputRange: p.rot }) },
-          { scaleX: dir },
         ],
       }}>
-        <BeeSprite id={id} size={size} seed={2} face={{ lookX: look }} />
+        <BeeSprite id={id} size={size} seed={2} face={{ lookX: look }} turn={dir * 0.85} level={level} />
       </Animated.View>
     </View>
   );
@@ -509,7 +509,7 @@ export default function GameScreen(props: Props) {
         </View>
         <View pointerEvents="none" style={{ position: "absolute", left: 6, top: 6, width: size.width, height: size.height }}>
           {zips.map((z) => (
-            <ZipBee key={z.key} id={z.id} w={size.width} h={size.height} dir={z.dir} y0={z.y0} big={z.big}
+            <ZipBee key={z.key} id={z.id} w={size.width} h={size.height} dir={z.dir} y0={z.y0} big={z.big} level={props.beeLevels?.[z.id] ?? 1}
               onEnd={() => setZips((q) => q.filter((x) => x.key !== z.key))} />
           ))}
         </View>

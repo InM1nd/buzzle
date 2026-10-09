@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Animated, Easing, Image, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { Animated, Easing, Image, Platform, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { GameState, cap, canBuildAt, clockRolledBack, combActionCost, level, rate, upgradeCostFor } from "../logic/game";
 import { capHours, combRate, MAX_COMB_LEVEL, msUntilFull, UPGRADES, UpgradeId } from "../logic/economy";
 import { HIVE_SLOTS, hiveCenter } from "../logic/hex";
@@ -145,7 +145,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
   const hs = Math.min(areaW / 8.6, 48);
   const areaH = SQ3 * hs * 5 + 24;
   const r = rate(s), c = cap(s);
-  const hours = capHours(s.upgrades.storage, boostsFor(s.bees).capHours);
+  const hours = capHours(s.upgrades.storage, boostsFor(s.bees, s.beeLevels).capHours);
   const full = msUntilFull(s.hive, r, hours);
   const stored = Math.floor(s.hive.stored);
   const isFull = stored >= c && c > 0;
@@ -169,7 +169,8 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
   const flyers = useMemo(() => {
     const owned = s.bees.length ? s.bees : ["zhuzha"];
     const built = tiles.filter((t) => t.st === "built");
-    const n = Math.min(8, Math.max(3, built.length + 1));
+    // web (Telegram) animates on the JS thread: fewer bees keep it smooth on mid-range phones
+    const n = Math.min(Platform.OS === "web" ? 4 : 8, Math.max(3, built.length + 1));
     // land on distinct built combs, spread over the hive
     const order = built.map((t, k) => ({ t, h: hash("comb", t.i * 31 + k) })).sort((a, b) => a.h - b.h).map((o) => o.t);
     let li = 0;

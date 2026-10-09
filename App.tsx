@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { AppState, BackHandler, Dimensions, Image, Linking, StyleSheet, Text, View } from "react-native";
+import { AppState, Dimensions, Image, Linking, StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
-import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
   GameState, buyUpgrade, canClaimLogin, claimBonus, claimLogin, claimTask, collectHive, combAction, finishRound, freeMoves,
   level, newState, nextLoginIndex, RoundReward, RoundSummary, tick, unlockBee,
@@ -16,7 +16,10 @@ import { UpgradeId } from "./src/logic/economy";
 import { planNotifications } from "./src/logic/notifyPlan";
 import { today as todayOf, cap as capOf } from "./src/logic/game";
 import { tasksForDay } from "./src/logic/tasks";
-import { loadState, saveState } from "./src/ui/store";
+import { flushCloud, loadState, saveState } from "./src/ui/store";
+import { addBackListener, dispatchBack } from "./src/platform/back";
+import { useInsets } from "./src/platform/insets";
+import { hideBootScreen, initTelegram, NOTIFICATIONS_SUPPORTED, onHide, setBackButton } from "./src/platform/telegram";
 import { applyPlan, ensureChannel, getPermission, requestPermission } from "./src/ui/notifications";
 import { hError, hSuccess, setHaptics } from "./src/ui/haptics";
 import { ART } from "./src/ui/art";
@@ -32,6 +35,7 @@ import GameScreen from "./src/screens/GameScreen";
 import { LoginModal, SettingsModal, Tutorial } from "./src/screens/Modals";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
+initTelegram(C.bg); // web inside Telegram: ready/expand/fullscreen, no swipe-to-close, header colour
 
 type Tab = "hive" | "puzzle" | "bees" | "tasks";
 const TABS: { id: Tab; label: string; icon: number }[] = [
@@ -52,7 +56,7 @@ export default function App() {
 }
 
 function Main() {
-  const insets = useSafeAreaInsets();
+  const insets = useInsets();
   const { fly } = useFly();
   const [cheer, setCheer] = useState(0);
   const [s, setS] = useState<GameState | null>(null);
@@ -95,6 +99,7 @@ function Main() {
       if (!st.settings.tutorialDone) setShowTutorial(true);
       else if (canClaimLogin(st, Date.now())) setShowLogin(true);
       SplashScreen.hideAsync().catch(() => {});
+      hideBootScreen();
     });
     ensureChannel().catch(() => {});
   }, [commit]);
@@ -129,16 +134,27 @@ function Main() {
     return () => sub.remove();
   }, [commit]);
 
+  // web: Telegram pauses hidden webviews — write the save (local + cloud) right away
+  useEffect(() => onHide(() => {
+    const cur = sRef.current;
+    if (cur && writable.current) saveState(cur);
+    flushCloud();
+  }), []);
+
   useEffect(() => {
-    const sub = BackHandler.addEventListener("hardwareBackPress", () => {
+    const sub = addBackListener(() => {
       if (game) return false; // GameScreen handles its own back
       if (showSettings) { setShowSettings(false); return true; }
       if (showLogin) { setShowLogin(false); return true; }
       if (tab !== "hive") { setTab("hive"); return true; }
+      if (hiveView !== "hive") { setHiveView("hive"); return true; }
       return false;
     });
     return () => sub.remove();
-  }, [game, showSettings, showLogin, tab]);
+  }, [game, showSettings, showLogin, tab, hiveView]);
+  // Telegram's BackButton mirrors in-app navigation (hidden on the home screen)
+  const canBack = !!game || showSettings || showLogin || tab !== "hive" || hiveView !== "hive";
+  useEffect(() => setBackButton(canBack, () => { dispatchBack(); }), [canBack]);
 
   // ----- reward flight to the currency pills -----
   const flyReward = useCallback(async (from: Pt | null, r: Reward & { nectar?: number }, prev: GameState, bees?: string[]) => {
@@ -342,7 +358,7 @@ function Main() {
   if (!s) return <View style={{ flex: 1, backgroundColor: C.bg }} />;
 
   if (game) {
-    const b = boostsFor(s.bees);
+    const b = boostsFor(s.bees, s.beeLevels);
     return (
       <View style={{ flex: 1, backgroundColor: C.bg }}>
         <StatusBar style="dark" />
@@ -366,7 +382,7 @@ function Main() {
 
   const loginIdx = nextLoginIndex(s, now);
   const tasksReady = taskBadge(s);
-  const showNotifPrompt = !s.settings.notifications && !s.settings.notifPromptDismissed && s.stats.rounds >= 1;
+  const showNotifPrompt = NOTIFICATIONS_SUPPORTED && !s.settings.notifications && !s.settings.notifPromptDismissed && s.stats.rounds >= 1;
   const gardenBadge = s.garden.beds.some((b) => isReady(b) || (canWater(b) && b.water <= 0));
 
   return (

@@ -55,3 +55,6 @@ build-logs/*.log
 design/bees3d/renders/
 design/bees3d/gl-probe.json
 design/bees3d/sizes-raw.json
+
+# Telegram / web build output
+dist-web/

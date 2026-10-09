@@ -49,6 +49,41 @@ All screenshots in `screens/` are rendered from the real app code (react-native-
 fixed clock and seeded save; the puzzle is played with real drag gestures). Style explorations live in
 `design/` (`buzzle-*.png`, `art-*.png`, low-poly bee options in `design/bees3d/`, roadmap in `design/ROADMAP.ru.md`).
 
+## Telegram Mini App (web)
+
+Buzzle also runs as a **Telegram Mini App**. Open [@Buzzle_game_bot](https://t.me/Buzzle_game_bot) and press **«Играть»**.
+The same build works in a normal mobile browser: https://inm1nd.github.io/buzzle/
+
+![Telegram version](screens/telegram/tg-05-hive-played.png)
+
+- **Same code as Android.** The game logic and balance are identical to Android v1.2. The web build comes from the
+  same Expo / react-native-web code.
+- **Telegram integration** (`src/platform/telegram.ts`, loaded via `telegram-web-app.js`):
+  - Startup calls `ready()`, `expand()` and `requestFullscreen()` (mobile clients, Bot API 8.0+), plus portrait lock.
+  - `disableVerticalSwipes()` stops a drag in the puzzle from closing the app. The board also has `touch-action: none`.
+  - The header, background and bottom-bar colours follow the game.
+  - The Telegram **BackButton** mirrors in-app navigation (`src/platform/back.ts`).
+  - **HapticFeedback** replaces expo-haptics (`src/ui/haptics.web.ts`).
+  - The layout keeps clear of `safeAreaInset` + `contentSafeAreaInset` (`src/platform/insets.ts`).
+- **Saves.** Inside Telegram the save goes to **CloudStorage**, so progress follows the Telegram account across devices.
+  - It is chunked (≤3800 chars per value) into two alternating slots plus a meta key, so a broken write never
+    damages the previous save (`src/platform/cloudSave.ts`).
+  - Writes are debounced (4 s) and flushed when the app is hidden.
+  - `localStorage` stays as a cache and as the store outside Telegram.
+  - An existing browser save is uploaded on the first Telegram launch. When a newer save exists on another device,
+    it wins.
+- **Reminders** are not available on the web yet (no backend); the settings show «скоро».
+- **Performance.** The JS bundle is ≈ 724 KB (≈ 207 KB gzipped) and the whole site ≈ 1.6 MB (WebP art). An HTML boot
+  screen with Жужа shows until the save is loaded. Web animations run on the JS thread, so the hive shows 4 flying bees
+  instead of 8.
+
+```bash
+scripts/telegram/build-web.sh                 # -> dist-web/ (base path /buzzle; BZZ_WEB_BASE overrides)
+NODE_PATH=/path/to/node_modules node scripts/telegram/smoke.cjs http://127.0.0.1:8098/buzzle/   # mocked Telegram + plain browser
+scripts/telegram/deploy-pages.sh              # dist-web -> gh-pages branch (GITHUB_TOKEN_PUSH)
+node scripts/telegram/setup-bot.mjs           # menu button «Играть», descriptions, /start (TELEGRAM_BOT_TOKEN)
+```
+
 ## Tech stack
 
 - **Expo SDK 57**, **React Native 0.86** (New Architecture, Hermes), **TypeScript**
@@ -68,6 +103,7 @@ fixed clock and seeded save; the puzzle is played with real drag gestures). Styl
 |---|---|
 | `src/logic/` | pure game logic: hex grid, board/puzzle, economy, bees + levels, garden, tasks, daily seed, notifications plan, flight paths |
 | `src/screens/` | Hive, Garden, Puzzle hub, Game, Bees, Tasks, modals (tutorial, rewards, settings) |
+| `src/platform/` | web / Telegram bridge: WebApp SDK, BackButton, safe areas, CloudStorage save |
 | `src/ui/` | theme, components, `BeeSprite` / `anim` (animation plumbing), reward flights, notifications |
 | `assets/art/` | generated art: `bees/` and `garden/` (low-poly WebP layers), combs, icons |
 | `scripts/` | art & font generators, `bees3d/` (Blender pipeline), `simulate.ts` (balance bots), `configure-android.sh`, `verify-apk.sh`, web screenshot harness |

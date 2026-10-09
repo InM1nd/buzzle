@@ -9,6 +9,7 @@ import { centerOf, Pt } from "../ui/Fly";
 import { duration } from "../ui/format";
 import { Toggle } from "../ui/Toggle";
 import { Mascot } from "../ui/BeeSprite";
+import { NOTIFICATIONS_SUPPORTED } from "../platform/telegram";
 
 interface Props {
   s: GameState;
@@ -136,9 +137,9 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
         <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
           <View style={{ flex: 1 }}>
             <Txt v="h3">Напоминания</Txt>
-            <Txt v="small" color={C.dim}>Когда улей полон и когда готова новая ежедневная головоломка.</Txt>
+            <Txt v="small" color={C.dim}>{NOTIFICATIONS_SUPPORTED ? "Когда улей полон и когда готова новая ежедневная головоломка." : "В веб- и Telegram-версии напоминания появятся позже."}</Txt>
           </View>
-          <Toggle value={s.settings.notifications} onChange={onNotifications} label="Напоминания" />
+          {NOTIFICATIONS_SUPPORTED ? <Toggle value={s.settings.notifications} onChange={onNotifications} label="Напоминания" /> : <View style={{ backgroundColor: C.line, borderRadius: 10, paddingHorizontal: 10, paddingVertical: 4 }}><Txt v="small" color={C.dim}>скоро</Txt></View>}
         </View>
         {notifBlocked ? <Txt v="small" color={C.red} style={{ marginTop: 8 }}>Уведомления запрещены в настройках Android для «Buzzle».</Txt> : null}
       </Card>

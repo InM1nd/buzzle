@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Animated, BackHandler, Easing, Image, PanResponder, StyleSheet, Text, useWindowDimensions, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Animated, Easing, Image, PanResponder, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { useInsets } from "../platform/insets";
+import { addBackListener } from "../platform/back";
 import {
   applyPath, Board, Cell, createBoard, findBestPath, isValidPath, MoveResult, pathColor, PuzzleRules, stepPath,
 } from "../logic/board";
@@ -196,7 +197,7 @@ function ZipBee({ id, w, h, dir, y0, big, level = 1, onEnd }: { id: string; w: n
 
 export default function GameScreen(props: Props) {
   const { width, height } = useWindowDimensions();
-  const insets = useSafeAreaInsets();
+  const insets = useInsets();
   const avail = Math.min(width - 20, 560);
   const sByW = avail / (1.5 * COLS + 0.5);
   const sByH = (height - insets.top - insets.bottom - 190) / (SQ3 * (ROWS + 0.5));
@@ -371,7 +372,7 @@ export default function GameScreen(props: Props) {
   const onExitRef = useRef(props.onExit);
   onExitRef.current = props.onExit;
   useEffect(() => {
-    const sub = BackHandler.addEventListener("hardwareBackPress", () => {
+    const sub = addBackListener(() => {
       if (result || movesLeft <= 0) { if (result) onExitRef.current(); return true; }
       setQuitAsk((q) => !q);
       return true;

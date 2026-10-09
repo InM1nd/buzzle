@@ -3,6 +3,7 @@ import { Animated, Image, Linking, StyleSheet, View } from "react-native";
 import { Reward } from "../logic/tasks";
 import { ART } from "../ui/art";
 import { BeeSprite, Hover, Mascot } from "../ui/BeeSprite";
+import { inTelegram, NOTIFICATIONS_SUPPORTED } from "../platform/telegram";
 import { C } from "../ui/theme";
 import { Bobbing, CloseBtn, fmt, GameButton, Overlay, Press, Txt } from "../ui/components";
 import { Toggle } from "../ui/Toggle";
@@ -128,12 +129,20 @@ export function SettingsModal({ visible, notifications, gardenReminders, haptics
       <View accessibilityLabel="Настройки">
         <CloseBtn onPress={onClose} />
         <Txt v="h1" style={{ marginBottom: 12 }}>Настройки</Txt>
-        <Row title="Напоминания" sub="Улей полон · новая головоломка">
-          <Toggle value={notifications} onChange={onNotifications} label="Напоминания" />
-        </Row>
-        <Row title="Сад" sub={notifications ? "Цветы распустились · грядки высохли" : "Работает, когда включены напоминания"}>
-          <Toggle value={notifications && gardenReminders} onChange={(v) => { onGardenReminders(v); if (v && !notifications) onNotifications(true); }} label="Напоминания о саде" />
-        </Row>
+        {NOTIFICATIONS_SUPPORTED ? (
+          <>
+            <Row title="Напоминания" sub="Улей полон · новая головоломка">
+              <Toggle value={notifications} onChange={onNotifications} label="Напоминания" />
+            </Row>
+            <Row title="Сад" sub={notifications ? "Цветы распустились · грядки высохли" : "Работает, когда включены напоминания"}>
+              <Toggle value={notifications && gardenReminders} onChange={(v) => { onGardenReminders(v); if (v && !notifications) onNotifications(true); }} label="Напоминания о саде" />
+            </Row>
+          </>
+        ) : (
+          <Row title="Напоминания" sub="Улей полон · головоломка дня · сад">
+            <View style={{ backgroundColor: C.line, borderRadius: 10, paddingHorizontal: 10, paddingVertical: 4 }}><Txt v="small" color={C.dim}>скоро</Txt></View>
+          </Row>
+        )}
         {notifBlocked ? (
           <Press onPress={() => Linking.openSettings().catch(() => {})} style={{ marginBottom: 8 }}>
             <Txt v="small" color={C.red}>Уведомления запрещены в Android. Открыть настройки →</Txt>
@@ -148,7 +157,7 @@ export function SettingsModal({ visible, notifications, gardenReminders, haptics
             onPress={() => { if (confirm === 0) setConfirm(1); else { setConfirm(2); onReset(); } }} />
         </View>
         <Txt v="tiny" color={C.faint} center style={{ marginTop: 14 }}>
-          Buzzle 1.2.0 · данные хранятся только на устройстве
+          {inTelegram() ? "Buzzle 1.2.0 · прогресс сохраняется в Telegram" : "Buzzle 1.2.0 · данные хранятся только на устройстве"}
         </Txt>
       </View>
     </Overlay>

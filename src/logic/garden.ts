@@ -1,3 +1,4 @@
+import { lz } from "../i18n";
 /**
  * Flower garden next to the hive (v1.2). Pure + deterministic, like the hive economy.
  *
@@ -32,14 +33,15 @@ export interface FlowerDef {
   rare?: boolean;
 }
 export const FLOWERS: FlowerDef[] = [
-  { id: "sunflower", name: "Подсолнух", color: 0, growHours: 2, nectar: 4, seed: 30, minLevel: 1 },
-  { id: "clover", name: "Клевер", color: 1, growHours: 4, nectar: 9, seed: 90, minLevel: 2 },
-  { id: "lavender", name: "Лаванда", color: 2, growHours: 6, nectar: 14, seed: 220, minLevel: 3 },
-  { id: "cornflower", name: "Василёк", color: 3, growHours: 8, nectar: 19, seed: 450, minLevel: 5 },
-  { id: "mint", name: "Мята", color: 4, growHours: 12, nectar: 28, seed: 800, minLevel: 7 },
-  { id: "moonpoppy", name: "Лунный мак", color: 3, growHours: 6, nectar: 34, seed: 0, minLevel: 1, rare: true },
-  { id: "goldsun", name: "Золотой подсолнух", color: 0, growHours: 10, nectar: 70, seed: 0, minLevel: 1, rare: true },
+  { id: "sunflower", name: "", color: 0, growHours: 2, nectar: 4, seed: 30, minLevel: 1 },
+  { id: "clover", name: "", color: 1, growHours: 4, nectar: 9, seed: 90, minLevel: 2 },
+  { id: "lavender", name: "", color: 2, growHours: 6, nectar: 14, seed: 220, minLevel: 3 },
+  { id: "cornflower", name: "", color: 3, growHours: 8, nectar: 19, seed: 450, minLevel: 5 },
+  { id: "mint", name: "", color: 4, growHours: 12, nectar: 28, seed: 800, minLevel: 7 },
+  { id: "moonpoppy", name: "", color: 3, growHours: 6, nectar: 34, seed: 0, minLevel: 1, rare: true },
+  { id: "goldsun", name: "", color: 0, growHours: 10, nectar: 70, seed: 0, minLevel: 1, rare: true },
 ];
+for (const f of FLOWERS) lz(f, "name", `flower.${f.id}`);
 export const SHOP_FLOWERS = FLOWERS.filter((f) => !f.rare);
 export const FLOWER_BY_ID: Record<string, FlowerDef> = Object.fromEntries(FLOWERS.map((f) => [f.id, f]));
 

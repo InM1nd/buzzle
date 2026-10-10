@@ -2,13 +2,14 @@
  * Native (Android) sharing: the system share sheet for invites and save codes. The web build uses share.web.ts.
  */
 import { Share } from "react-native";
-import { APP_LINK, INVITE_TEXT } from "./invite";
+import { APP_LINK, inviteText } from "./invite";
+import { t } from "../i18n";
 
 export type ShareResult = "shared" | "copied" | "downloaded" | "dismissed" | "failed";
 
 export async function inviteFriend(): Promise<ShareResult> {
   try {
-    const r = await Share.share({ message: `${INVITE_TEXT}\n${APP_LINK}`, title: "Пригласить друга в Buzzle" });
+    const r = await Share.share({ message: `${inviteText()}\n${APP_LINK}`, title: t("inv.title") });
     return r.action === Share.dismissedAction ? "dismissed" : "shared";
   } catch { return "failed"; }
 }
@@ -16,7 +17,7 @@ export async function inviteFriend(): Promise<ShareResult> {
 /** export: share the code as text (save it in notes, send it to yourself in a messenger, …) */
 export async function exportSaveCode(code: string): Promise<ShareResult> {
   try {
-    const r = await Share.share({ message: code, title: "Сохранение Buzzle" });
+    const r = await Share.share({ message: code, title: t("save.title") });
     return r.action === Share.dismissedAction ? "dismissed" : "shared";
   } catch { return "failed"; }
 }

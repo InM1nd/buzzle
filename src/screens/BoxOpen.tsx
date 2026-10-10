@@ -4,6 +4,7 @@
  * «Открыть все» skips the show and lists everything at once. The comb is only opened (and saved) on the
  * third tap, so closing early never loses anything.
  */
+import { t } from "../i18n";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Animated, Easing, Image, ScrollView, StyleSheet, useWindowDimensions, View } from "react-native";
 import { BOX_INFO, BoxKind, Drop, Rarity, RARITIES } from "../logic/loot";
@@ -126,7 +127,7 @@ export default function BoxOpen({ kind, left, bees, skins, onOpen, onOpenAll, on
   return (
     <Animated.View style={[StyleSheet.absoluteFill, styles.root, { opacity: fade, paddingTop: insets.top + 12, paddingBottom: insets.bottom + 14 }]} accessibilityViewIsModal>
       <View style={styles.head}>
-        <Txt v="tiny" color="#FFE2A8">{all ? "ОТКРЫТО" : "СОТА-СЮРПРИЗ"}</Txt>
+        <Txt v="tiny" color="#FFE2A8">{all ? t("box.opened") : t("box.surprise")}</Txt>
         <Txt v="h2" color="#fff" center>{all ? `${all.length} × ${BOX_INFO[kind].name}` : BOX_INFO[kind].name}</Txt>
       </View>
 
@@ -134,7 +135,7 @@ export default function BoxOpen({ kind, left, bees, skins, onOpen, onOpenAll, on
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
           {/* the bees gather to watch */}
           <Gathering key={round} bees={bees} skins={skins} w={width} B={B} />
-          <Press onPress={tap} haptic={false} scaleTo={0.97} accessibilityRole="button" accessibilityLabel={`Тапни по соте: ${3 - cracks} из 3`}>
+          <Press onPress={tap} haptic={false} scaleTo={0.97} accessibilityRole="button" accessibilityLabel={t("box.tapLabel", { n: 3 - cracks })}>
             <Animated.View style={{ width: B, height: B, transform: [{ translateX: tx }, { rotate: rot }, { scale: boxScale }] }}>
               <Image source={boxArt(kind)} style={{ width: B, height: B }} />
               {cracks > 0 ? <Image source={ITEM_ART[`crack${cracks}`].src} style={[StyleSheet.absoluteFill, { width: B, height: B }]} /> : null}
@@ -143,7 +144,7 @@ export default function BoxOpen({ kind, left, bees, skins, onOpen, onOpenAll, on
           <View style={styles.dots}>
             {[0, 1, 2].map((i) => <View key={i} style={[styles.dot, i < cracks && { backgroundColor: C.honey }]} />)}
           </View>
-          <Txt v="h3" color="#FFE2A8" center style={{ marginTop: 6 }}>{cracks === 0 ? "Тапни 3 раза, чтобы расколоть воск" : cracks === 1 ? "Ещё!" : cracks === 2 ? "Последний тап!" : "…"}</Txt>
+          <Txt v="h3" color="#FFE2A8" center style={{ marginTop: 6 }}>{cracks === 0 ? t("box.tap3") : cracks === 1 ? t("box.more") : cracks === 2 ? t("box.last") : "…"}</Txt>
         </View>
       ) : (
         <ScrollView style={{ flex: 1, alignSelf: "stretch" }} contentContainerStyle={{ alignItems: "center", paddingVertical: 10, paddingHorizontal: 14 }} showsVerticalScrollIndicator={false}>
@@ -165,18 +166,18 @@ export default function BoxOpen({ kind, left, bees, skins, onOpen, onOpenAll, on
       <View style={styles.btns}>
         {!drops && !all ? (
           <>
-            {left > 1 ? <GameButton title={`Открыть все (${left})`} color="purple" onPress={openAll} label="Открыть все соты этого вида" /> : null}
-            <GameButton title="Позже" color="white" small onPress={onClose} />
+            {left > 1 ? <GameButton title={t("box.openAll", { n: left })} color="purple" onPress={openAll} label={t("box.openAllLabel")} /> : null}
+            <GameButton title={t("box.later")} color="white" small onPress={onClose} />
           </>
         ) : done || all ? (
           <>
             {drops && remaining > 0 ? (
               <View style={{ flexDirection: "row", gap: 10 }}>
-                <GameButton title="Ещё одну" color="green" onPress={again} style={{ flex: 1 }} />
-                {remaining > 1 ? <GameButton title={`Все (${remaining})`} color="purple" onPress={openAll} style={{ flex: 1 }} label="Открыть все соты этого вида" /> : null}
+                <GameButton title={t("box.another")} color="green" onPress={again} style={{ flex: 1 }} />
+                {remaining > 1 ? <GameButton title={t("box.allN", { n: remaining })} color="purple" onPress={openAll} style={{ flex: 1 }} label={t("box.openAllLabel")} /> : null}
               </View>
             ) : null}
-            <GameButton title="Забрать" color="honey" onPress={onClose} label="Забрать и закрыть" />
+            <GameButton title={t("box.claim")} color="honey" onPress={onClose} label={t("box.claimLabel")} />
           </>
         ) : <View style={{ height: 62 }} />}
       </View>
@@ -260,7 +261,7 @@ function Summary({ all }: { all: Drop[][] }) {
             <View key={i} style={[styles.card, { width: 104, borderColor: r.color, backgroundColor: r.bg }]} accessibilityLabel={`${title}${d.t === "item" && n > 1 ? ` ×${n}` : ""}, ${r.name}`}>
               <DropIcon d={d} size={54} />
               <Txt v="small" center numberOfLines={2} style={{ marginTop: 2 }}>{title}{d.t === "item" && n > 1 ? ` ×${n}` : ""}</Txt>
-              {fresh ? <Txt v="tiny" color={C.greenDark} center>НОВОЕ!</Txt> : <Txt v="tiny" color={r.color} center>{r.name.toUpperCase()}</Txt>}
+              {fresh ? <Txt v="tiny" color={C.greenDark} center>{t("box.new")}</Txt> : <Txt v="tiny" color={r.color} center>{r.name.toUpperCase()}</Txt>}
             </View>
           );
         })}

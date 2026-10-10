@@ -58,6 +58,15 @@ const shot = (page, n) => page.screenshot({ path: `${OUT}/${n}.png` }).then(() =
     console.log(`     boot (mock Telegram, fresh): ${ms} ms`);
     let calls = await page.evaluate(() => window.__tg.calls.slice());
     for (const c of ["ready", "expand", "disableVerticalSwipes", "requestFullscreen", "setHeaderColor:#FFF6E3"]) check(calls.includes(c), "Telegram " + c);
+    // v1.4: language picker first; Telegram language (uk) is pre-selected, the player confirms
+    check(!!(await byText(page, "Обери мову")), "language picker on first launch (speaks the suggested language)");
+    check(await page.evaluate(() => document.querySelector('[aria-label="Українська"]')?.getAttribute("aria-checked") === "true"), "Telegram account language (uk) pre-selected");
+    check(!(await byText(page, "Привіт, я Дзизя!")), "nothing starts before the player confirms");
+    await shot(page, "tg-00-language");
+    await tap(page, { label: "Русский" }, 400);
+    check(!!(await byText(page, "Выберите язык")), "picker switches its own language on selection");
+    await tap(page, { label: "Продолжить" }, 1200);
+    check(!!(await byText(page, "Привет, я Жужа!")), "tutorial in the chosen language (ru)");
     await shot(page, "tg-01-tutorial");
     await tap(page, { text: "Пропустить" }, 900);
     await tap(page, { label: "Забрать награду" }, 2200);
@@ -70,7 +79,15 @@ const shot = (page, n) => page.screenshot({ path: `${OUT}/${n}.png` }).then(() =
     check(!!(await byText(page, "Мёд в улье")), "BackButton returns to the hive");
     check(!(await page.evaluate(() => window.Telegram.WebApp.BackButton.isVisible)), "BackButton hidden on the home screen");
     await tap(page, { label: "Настройки" }, 700);
-    check(!!(await byText(page, "скоро")), "reminders marked «скоро» on web");
+    check(!!(await byText(page, "В веб- и Telegram-версии напоминания появятся позже.")), "reminders marked as coming later on web");
+    check(!!(await byText(page, "В Telegram игра обновляется сама.")), "Telegram: no APK updater, updates come by themselves");
+    // switch the language in settings: the whole UI follows
+    await tap(page, { label: "English" }, 900);
+    check(!!(await byText(page, "Settings")) && !!(await byLabel(page, "Hive")), "language switch in settings (en) applies at once");
+    await tap(page, { label: "Русский" }, 900);
+    check(!!(await byText(page, "Настройки")), "and back to Russian");
+    const lang = await page.evaluate(() => JSON.parse(localStorage.getItem("bzz:state:v1")).settings.lang);
+    check(lang === "ru", "language saved");
     await shot(page, "tg-03-settings");
     await page.evaluate(() => window.__tg.press()); await sleep(600);
     await tap(page, { label: "Головоломка" }, 700);
@@ -157,10 +174,36 @@ const shot = (page, n) => page.screenshot({ path: `${OUT}/${n}.png` }).then(() =
       await page.close();
     }
 
+    // 3b) v1.4 migration: a 1.3 save (v4) -> picker pre-selects Russian, then "What's new" once
+    {
+      const now = Date.now();
+      const v4 = { version: 4, honey: 777, jelly: 2, settings: { tutorialDone: true, haptics: true, notifications: false }, login: { lastDay: Math.floor((now - new Date().getTimezoneOffset() * 6e4) / 864e5), index: 1, streak: 1 }, daily: { results: { 20500: { stars: 1, score: 1100 } } }, clock: { maxSeen: now, maxDay: 0 } };
+      const p0 = await browser.newPage(); await p0.goto(URL); await p0.evaluate(() => Object.keys(localStorage).filter((k) => k.startsWith("__cloud__:")).forEach((k) => localStorage.removeItem(k))); await p0.close();
+      ({ page } = await open(browser, { telegram: true, seed: JSON.stringify(v4) }));
+      check(await page.evaluate(() => document.querySelector('[aria-label="Русский"]')?.getAttribute("aria-checked") === "true"), "existing player: picker pre-selects their Russian");
+      await tap(page, { label: "Продолжить" }, 1200);
+      check(!!(await byText(page, "Что нового в 1.4.0")), "existing player: «What's new» once after the update");
+      await shot(page, "tg-07-whats-new");
+      await tap(page, { text: "Отлично!" }, 900);
+      const st = await page.evaluate(() => JSON.parse(localStorage.getItem("bzz:state:v1")));
+      check(st.settings.langPicked && st.settings.lang === "ru" && st.settings.lastVersion === "1.4.0", "picker and What's new remembered");
+      check(st.early && st.early.early === true && st.early.version === "≤1.3" && /^\d{4}-\d\d-\d\d$/.test(st.early.firstSeen), `early-player flag set (${st.early && st.early.firstSeen})`);
+      await sleep(5000);
+      const cloudEarly = await page.evaluate(() => { const m = JSON.parse(localStorage.getItem("__cloud__:bzz_meta")); let j = ""; for (let i = 0; i < m.n; i++) j += localStorage.getItem(`__cloud__:bzz_${m.slot}_${i}`); return JSON.parse(j).early; });
+      check(cloudEarly && cloudEarly.version === "≤1.3", "early-player flag synced to CloudStorage");
+      await page.close();
+      ({ page } = await open(browser, { telegram: true, clearLocal: false }));
+      check(!(await byText(page, "Что нового в 1.4.0")) && !(await byText(page, "Выберите язык")), "neither picker nor What's new comes back");
+      await page.close();
+    }
+
     // 4) normal mobile browser (real telegram-web-app.js loads but reports no Telegram) -> localStorage only
     ({ page, ms } = await open(browser, { telegram: false }));
     console.log(`     boot (plain browser): ${ms} ms`);
-    check(!!(await byText(page, "Привет, я Жужа!")), "boots in a plain browser (tutorial)");
+    check(!!(await byText(page, "Choose your language")), "plain browser: picker defaults to English");
+    check(await page.evaluate(() => document.querySelector('[aria-label="English"]')?.getAttribute("aria-checked") === "true"), "English selected by default");
+    await tap(page, { label: "Continue" }, 1200);
+    check(!!(await byText(page, "Hi, I'm Buzzy!")), "boots in a plain browser (English tutorial)");
     await shot(page, "web-01-browser");
     await page.close();
   } finally {

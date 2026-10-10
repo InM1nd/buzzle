@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 /**
  * Save export / import (v1.3): the whole GameState as a shareable text code.
  *   BUZZLE1.<base64url(utf-8 JSON)>.<fnv1a-32 of the payload, hex>
@@ -67,15 +68,15 @@ export type DecodeResult = { ok: true; state: GameState; version: number } | { o
 export function decodeSave(code: string, now: number): DecodeResult {
   const c = code.replace(/\s+/g, "");
   const m = /^BUZZLE1\.([A-Za-z0-9_-]+)\.([0-9a-f]{8})$/.exec(c);
-  if (!m) return { ok: false, error: c.startsWith("BUZZLE") ? "Код обрезан или повреждён." : "Это не код сохранения Buzzle." };
-  if (sum(m[1]) !== m[2]) return { ok: false, error: "Код повреждён: проверьте, что он скопирован целиком." };
+  if (!m) return { ok: false, error: c.startsWith("BUZZLE") ? t("save.cut") : t("save.notCode") };
+  if (sum(m[1]) !== m[2]) return { ok: false, error: t("save.bad") };
   const bytes = unb64(m[1]);
-  if (!bytes) return { ok: false, error: "Код повреждён." };
+  if (!bytes) return { ok: false, error: t("save.damaged") };
   let raw: unknown;
-  try { raw = JSON.parse(fromUtf8(bytes)); } catch { return { ok: false, error: "Код повреждён." }; }
-  if (!raw || typeof raw !== "object" || typeof (raw as { honey?: unknown }).honey !== "number") return { ok: false, error: "В коде нет сохранения." };
+  try { raw = JSON.parse(fromUtf8(bytes)); } catch { return { ok: false, error: t("save.damaged") }; }
+  if (!raw || typeof raw !== "object" || typeof (raw as { honey?: unknown }).honey !== "number") return { ok: false, error: t("save.empty") };
   const version = Number((raw as { version?: unknown }).version) || 1;
-  if (version > STATE_VERSION) return { ok: false, error: "Сохранение из более новой версии Buzzle — обновите игру." };
+  if (version > STATE_VERSION) return { ok: false, error: t("save.newer") };
   return { ok: true, state: migrate(raw, now), version };
 }
 

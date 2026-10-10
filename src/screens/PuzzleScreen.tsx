@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 import { RoundBoosters, RoundMode, weekendOpen } from "../logic/game";
 import { BOOSTERS } from "../logic/loot";
 import { WEEKEND_MOVES, WEEKEND_STARS } from "../logic/day";
@@ -7,7 +8,7 @@ import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { GameState, boosts, dailyStreak, dayColorInfo, freeMoves, puzzleHoneyMult, today } from "../logic/game";
 import { FLOWERS } from "../logic/garden";
 import { DAILY_MOVES, DAILY_STARS } from "../logic/day";
-import { COLOR_NAMES } from "../logic/bees";
+import { colorName } from "../logic/bees";
 import { ART } from "../ui/art";
 import { C, shadow } from "../ui/theme";
 import { Bobbing, Card, fmt, GameButton, Press, Stars, Txt } from "../ui/components";
@@ -37,30 +38,30 @@ export default function PuzzleScreen({ s, now, onPlay }: Props) {
   const b = boosts(s);
   const date = new Date(now);
   const chips: string[] = [];
-  if (freeMoves(s) > 20) chips.push(`+${freeMoves(s) - 20} ход.`);
-  b.colorMult.forEach((m, i) => { if (m > 1) chips.push(`${COLOR_NAMES[i]} ×${String(Math.round(m * 100) / 100).replace(".", ",")}`); });
+  if (freeMoves(s) > 20) chips.push(t("pz.chipMoves", { n: freeMoves(s) - 20 }));
+  b.colorMult.forEach((m, i) => { if (m > 1) chips.push(t("pz.chipColor", { color: colorName(i), x: Math.round(m * 100) / 100 })); });
   const dc = dayColorInfo(s, now);
-  if (b.wildChance > 0) chips.push("больше джокеров");
-  if (b.bombAt < 6) chips.push(`бомба из ${b.bombAt}`);
+  if (b.wildChance > 0) chips.push(t("pz.chipJokers"));
+  if (b.bombAt < 6) chips.push(t("pz.chipBomb", { n: b.bombAt }));
   const honeyBonus = Math.round((puzzleHoneyMult(s) - 1) * 100);
-  if (honeyBonus > 0) chips.push(`мёд +${honeyBonus}%`);
+  if (honeyBonus > 0) chips.push(t("pz.chipHoney", { n: honeyBonus }));
 
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 28, gap: 14 }} showsVerticalScrollIndicator={false}>
       <View style={[styles.daily, shadow]}>
         <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
           <View style={{ flex: 1 }}>
-            <Txt v="tiny" color="#8A5200">ЕЖЕДНЕВНАЯ ГОЛОВОЛОМКА</Txt>
+            <Txt v="tiny" color="#8A5200">{t("pz.dailyCaps")}</Txt>
             <Txt v="h1" color="#4A2C12" style={{ marginTop: 2 }}>{dateLong(date)}</Txt>
-            <Txt v="small" color="#8A5200">{weekday(date)} · {DAILY_MOVES} ходов · одна на всех</Txt>
+            <Txt v="small" color="#8A5200">{t("pz.dailySub", { wd: weekday(date), n: DAILY_MOVES })}</Txt>
           </View>
           <Bobbing amp={4}><HexCluster /></Bobbing>
         </View>
         <View style={styles.dailyRow}>
           <Stars n={res?.stars ?? 0} size={34} gap={4} />
           <View style={{ flex: 1, alignItems: "flex-end" }}>
-            {res ? <Txt v="small" color="#8A5200">лучший счёт</Txt> : null}
-            {res ? <Txt v="num" color="#4A2C12">{fmt(res.score)}</Txt> : <Txt v="small" color="#8A5200">ещё не сыграна</Txt>}
+            {res ? <Txt v="small" color="#8A5200">{t("pz.bestScore")}</Txt> : null}
+            {res ? <Txt v="num" color="#4A2C12">{fmt(res.score)}</Txt> : <Txt v="small" color="#8A5200">{t("pz.notPlayed")}</Txt>}
           </View>
         </View>
         <View style={styles.thresholds}>
@@ -74,27 +75,27 @@ export default function PuzzleScreen({ s, now, onPlay }: Props) {
         <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginTop: 10, marginBottom: 12 }}>
           <Image source={ART.flame} style={{ width: 22, height: 22, opacity: streak ? 1 : 0.4 }} />
           <Txt v="small" color="#6B3E00">
-            {streak ? `Серия: ${days(streak)} подряд` : "Пройдите сегодня, чтобы начать серию"}
-            {s.daily.best > 1 ? ` · рекорд ${s.daily.best}` : ""}
+            {streak ? t("pz.streak", { n: streak }) : t("pz.startStreak")}
+            {s.daily.best > 1 ? t("pz.bestStreak", { n: s.daily.best }) : ""}
           </Txt>
         </View>
         <GameButton
-          title={res?.stars === 3 ? "Переиграть" : res ? "Ещё попытка" : "Играть"}
-          sub={res ? "засчитывается лучший результат" : "звёзды = маточное молочко"}
+          title={res?.stars === 3 ? t("pz.replay") : res ? t("pz.retry") : t("pz.play")}
+          sub={res ? t("pz.bestCounts") : t("pz.starsJelly")}
           color={res?.stars === 3 ? "white" : "green"}
           onPress={() => onPlay("daily")}
-          label="Играть ежедневную головоломку"
+          label={t("pz.playDaily")}
         />
       </View>
 
       <Card style={{ flexDirection: "row", alignItems: "center", gap: 12, borderWidth: 2, borderColor: dc.active ? C.pollen[dc.color] : C.line }}>
         <Image source={ART.cells[dc.color]} style={{ width: 46, height: 40, opacity: dc.active ? 1 : 0.55 }} />
-        <View style={{ flex: 1 }} accessibilityLabel="Цвет дня">
-          <Txt v="h3">Цвет дня: {COLOR_NAMES[dc.color]} ×1,5</Txt>
+        <View style={{ flex: 1 }} accessibilityLabel={t("pz.dayColor")}>
+          <Txt v="h3">{t("pz.dayColorTitle", { color: colorName(dc.color) })}</Txt>
           <Txt v="small" color={dc.active ? C.greenDark : C.dim}>
             {dc.active
-              ? "Включён садом: в свободной игре эти соты дают ×1,5 очков, в головоломке дня — +50% мёда за них."
-              : `Посади в саду «${FLOWERS.find((f) => f.color === dc.color)!.name}», чтобы включить бонус.`}
+              ? t("pz.dayColorOn")
+              : t("pz.dayColorOff", { flower: FLOWERS.find((f) => f.color === dc.color)!.name })}
           </Txt>
         </View>
       </Card>
@@ -103,53 +104,53 @@ export default function PuzzleScreen({ s, now, onPlay }: Props) {
         <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
           <View style={styles.freeIcon}><Image source={ART.honey} style={{ width: 42, height: 42 }} /></View>
           <View style={{ flex: 1 }}>
-            <Txt v="h2">Свободная игра</Txt>
-            <Txt v="small" color={C.dim}>{freeMoves(s)} ходов · без ограничений · мёд в улей</Txt>
+            <Txt v="h2">{t("mode.free")}</Txt>
+            <Txt v="small" color={C.dim}>{t("pz.freeSub", { n: freeMoves(s) })}</Txt>
           </View>
         </View>
         {chips.length ? (
           <View style={styles.chips}>
             {chips.map((c) => <View key={c} style={styles.chip}><Txt v="tiny" color="#7B52C2">{c}</Txt></View>)}
           </View>
-        ) : <Txt v="small" color={C.dim} style={{ marginTop: 10 }}>Открывайте пчёл — они дают бонусы в свободной игре.</Txt>}
-        {s.stats.bestScore > 0 ? <Txt v="small" color={C.dim} style={{ marginTop: 8 }}>Рекорд: {fmt(s.stats.bestScore)} очков</Txt> : null}
+        ) : <Txt v="small" color={C.dim} style={{ marginTop: 10 }}>{t("pz.unlockBees")}</Txt>}
+        {s.stats.bestScore > 0 ? <Txt v="small" color={C.dim} style={{ marginTop: 8 }}>{t("pz.record", { n: fmt(s.stats.bestScore) })}</Txt> : null}
         {bs.moves + bs.bomb + bs.shuffle > 0 ? (
           <View style={{ marginTop: 12 }}>
-            <Txt v="tiny" color={C.dim}>БУСТЕРЫ НА РАУНД</Txt>
+            <Txt v="tiny" color={C.dim}>{t("pz.boostersCaps")}</Txt>
             <View style={{ flexDirection: "row", gap: 8, marginTop: 6 }}>
               {([["moves", useMoves, setUseMoves], ["bomb", useBomb, setUseBomb]] as const).map(([id, on, set]) => (
                 <Press key={id} onPress={() => bs[id] > 0 && set(!on)} disabled={bs[id] <= 0} style={[styles.boost, on && styles.boostOn, bs[id] <= 0 && { opacity: 0.45 }]}
                   accessibilityRole="checkbox" accessibilityState={{ checked: on }} accessibilityLabel={`${BOOSTERS[id].name}: ${bs[id]}`}>
                   <Image source={BOOSTER_ART[id]} style={{ width: 30, height: 30 }} resizeMode="contain" />
-                  <View style={{ flex: 1 }}><Txt v="small" numberOfLines={1}>{BOOSTERS[id].name}</Txt><Txt v="tiny" color={C.dim}>×{bs[id]}{on ? " · включён" : ""}</Txt></View>
+                  <View style={{ flex: 1 }}><Txt v="small" numberOfLines={1}>{BOOSTERS[id].name}</Txt><Txt v="tiny" color={C.dim}>×{bs[id]}{on ? t("pz.boosterOn") : ""}</Txt></View>
                 </Press>
               ))}
             </View>
-            {bs.shuffle > 0 ? <Txt v="tiny" color={C.dim} style={{ marginTop: 4 }}>Перемешивание ×{bs.shuffle} — кнопкой во время раунда.</Txt> : null}
+            {bs.shuffle > 0 ? <Txt v="tiny" color={C.dim} style={{ marginTop: 4 }}>{t("pz.shuffleHint", { n: bs.shuffle })}</Txt> : null}
           </View>
         ) : null}
-        <GameButton title="Играть" color="honey" style={{ marginTop: 12 }} onPress={() => { onPlay("free", { moves: useMoves && bs.moves > 0, bomb: useBomb && bs.bomb > 0 }); setUseMoves(false); setUseBomb(false); }} label="Свободная игра" />
+        <GameButton title={t("pz.play")} color="honey" style={{ marginTop: 12 }} onPress={() => { onPlay("free", { moves: useMoves && bs.moves > 0, bomb: useBomb && bs.bomb > 0 }); setUseMoves(false); setUseBomb(false); }} label={t("mode.free")} />
       </Card>
 
       <Card style={{ borderWidth: 2, borderColor: weekendOpen(s, now) ? "#9A6BE0" : C.line }}>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
           <View style={[styles.freeIcon, { backgroundColor: "#EFE6FF" }]}><Image source={ART.cells[2]} style={{ width: 42, height: 37 }} /></View>
           <View style={{ flex: 1 }}>
-            <Txt v="h2">Выходные</Txt>
-            <Txt v="small" color={C.dim}>{WEEKEND_MOVES} ходов · одна на всех · свои награды</Txt>
+            <Txt v="h2">{t("pz.weekend")}</Txt>
+            <Txt v="small" color={C.dim}>{t("pz.weekendSub", { n: WEEKEND_MOVES })}</Txt>
             <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginTop: 4 }}><Stars n={s.week.weekendStars} size={18} /><Txt v="tiny" color={C.dim}>{WEEKEND_STARS.map(fmt).join(" · ")}</Txt></View>
           </View>
         </View>
-        <GameButton title={weekendOpen(s, now) ? "Играть" : "Только в сб и вс"} disabled={!weekendOpen(s, now)} color={weekendOpen(s, now) ? "purple" : "grey"} style={{ marginTop: 12 }}
-          onPress={() => onPlay("weekend")} label="Головоломка выходного дня" />
+        <GameButton title={weekendOpen(s, now) ? t("pz.play") : t("pz.weekendOnly")} disabled={!weekendOpen(s, now)} color={weekendOpen(s, now) ? "purple" : "grey"} style={{ marginTop: 12 }}
+          onPress={() => onPlay("weekend")} label={t("mode.weekend")} />
       </Card>
 
       <Card>
-        <Txt v="h3" style={{ marginBottom: 10 }}>Как играть</Txt>
-        <Rule img={ART.cells[1]} title="Цепочки" text="Ведите пальцем по соседним сотам одного цвета — от 3 штук. Длиннее цепочка — больше очков." />
-        <Rule img={ART.cells[0]} overlay={ART.bomb} title="Бомба маточного молочка" text="Цепочка из 6+ сот оставляет бомбу. Включите её в цепочку — она взорвёт соседей." />
-        <Rule img={ART.wild} title="Радужный джокер" text="Подходит к любому цвету." />
-        <Rule img={ART.flame} title="Комбо" text="Цепочки из 5+ сот подряд увеличивают множитель очков." />
+        <Txt v="h3" style={{ marginBottom: 10 }}>{t("pz.how")}</Txt>
+        <Rule img={ART.cells[1]} title={t("pz.r1")} text={t("pz.r1t")} />
+        <Rule img={ART.cells[0]} overlay={ART.bomb} title={t("pz.r2")} text={t("pz.r2t")} />
+        <Rule img={ART.wild} title={t("pz.r3")} text={t("pz.r3t")} />
+        <Rule img={ART.flame} title={t("pz.r4")} text={t("pz.r4t")} />
       </Card>
     </ScrollView>
   );

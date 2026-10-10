@@ -1,3 +1,4 @@
+import { lz, numFmt, t, tx } from "../i18n";
 import { PuzzleRules, DEFAULT_RULES } from "./board";
 
 export type Rarity = "common" | "rare" | "epic" | "legendary";
@@ -23,23 +24,26 @@ export interface Boosts {
   capHours: number; // add-on to hive storage
 }
 
-export const COLOR_NAMES = ["жёлтые", "розовые", "фиолетовые", "голубые", "зелёные"];
+/** v1.4: localized colour names ("Yellow" / "Жовті"); gen = for "collect 50 yellow cells" */
+export const colorName = (i: number) => tx(`color.${i}`);
+export const colorGen = (i: number) => tx(`color.${i}.gen`);
 
 export const BEES: BeeSpecies[] = [
-  { id: "zhuzha", name: "Жужа", rarity: "common", cost: 0, ability: "+5% к мёду улья", flavor: "Первая пчела твоего улья. Всё знает и всем помогает.", effect: { prodMult: 0.05 } },
-  { id: "pushinka", name: "Пушинка", rarity: "common", cost: 4, ability: "+10% к мёду улья", flavor: "Самая пушистая. Пыльца липнет к ней сама.", effect: { prodMult: 0.1 } },
-  { id: "boris", name: "Шмель Борис", rarity: "rare", cost: 6, ability: "+1 ход в свободной игре", flavor: "Большой, громкий и очень надёжный.", effect: { extraMoves: 1 } },
-  { id: "solnyshko", name: "Солнышко", rarity: "common", cost: 6, ability: "Жёлтые соты ×2 очков", flavor: "Дружит с подсолнухами.", effect: { color: 0 } },
-  { id: "klevera", name: "Клеверина", rarity: "common", cost: 6, ability: "Розовые соты ×2 очков", flavor: "Ищет четырёхлистный клевер. Пока не нашла.", effect: { color: 1 } },
-  { id: "lavanda", name: "Лаванда", rarity: "common", cost: 6, ability: "Фиолетовые соты ×2 очков", flavor: "Пахнет так, что все засыпают.", effect: { color: 2 } },
-  { id: "vasilek", name: "Василёк", rarity: "common", cost: 6, ability: "Голубые соты ×2 очков", flavor: "Мечтает увидеть море.", effect: { color: 3 } },
-  { id: "myatka", name: "Мятка", rarity: "common", cost: 6, ability: "Зелёные соты ×2 очков", flavor: "Свежая, бодрая, всегда первая.", effect: { color: 4 } },
-  { id: "iskorka", name: "Искорка", rarity: "rare", cost: 14, ability: "Джокеры появляются чаще", flavor: "Где она — там блёстки.", effect: { wildChance: 0.03 } },
-  { id: "sonya", name: "Соня", rarity: "rare", cost: 16, ability: "Хранилище улья +4 ч", flavor: "Спит днём, но мёд стережёт.", effect: { capHours: 4 } },
-  { id: "zorkaya", name: "Разведчица Зоркая", rarity: "epic", cost: 22, ability: "+25% мёда из головоломки", flavor: "Видит цветы за три луга.", effect: { puzzleHoneyMult: 0.25 } },
-  { id: "margo", name: "Королева Марго", rarity: "legendary", cost: 32, ability: "Бомба уже из 5 сот", flavor: "Её величество любит, когда всё взрывается.", effect: { bombAt: 5 } },
-  { id: "nochka", name: "Ночная пчела", rarity: "legendary", cost: 0, fragments: 10, ability: "+20% к мёду улья", flavor: "Работает, пока все спят. Пришла на свет лунного мака.", effect: { prodMult: 0.2 } },
+  { id: "zhuzha", name: "", rarity: "common", cost: 0, ability: "", flavor: "", effect: { prodMult: 0.05 } },
+  { id: "pushinka", name: "", rarity: "common", cost: 4, ability: "", flavor: "", effect: { prodMult: 0.1 } },
+  { id: "boris", name: "", rarity: "rare", cost: 6, ability: "", flavor: "", effect: { extraMoves: 1 } },
+  { id: "solnyshko", name: "", rarity: "common", cost: 6, ability: "", flavor: "", effect: { color: 0 } },
+  { id: "klevera", name: "", rarity: "common", cost: 6, ability: "", flavor: "", effect: { color: 1 } },
+  { id: "lavanda", name: "", rarity: "common", cost: 6, ability: "", flavor: "", effect: { color: 2 } },
+  { id: "vasilek", name: "", rarity: "common", cost: 6, ability: "", flavor: "", effect: { color: 3 } },
+  { id: "myatka", name: "", rarity: "common", cost: 6, ability: "", flavor: "", effect: { color: 4 } },
+  { id: "iskorka", name: "", rarity: "rare", cost: 14, ability: "", flavor: "", effect: { wildChance: 0.03 } },
+  { id: "sonya", name: "", rarity: "rare", cost: 16, ability: "", flavor: "", effect: { capHours: 4 } },
+  { id: "zorkaya", name: "", rarity: "epic", cost: 22, ability: "", flavor: "", effect: { puzzleHoneyMult: 0.25 } },
+  { id: "margo", name: "", rarity: "legendary", cost: 32, ability: "", flavor: "", effect: { bombAt: 5 } },
+  { id: "nochka", name: "", rarity: "legendary", cost: 0, fragments: 10, ability: "", flavor: "", effect: { prodMult: 0.2 } },
 ];
+for (const b of BEES) { lz(b, "name", `bee.${b.id}.name`); lz(b, "flavor", `bee.${b.id}.flavor`); Object.defineProperty(b, "ability", { get: () => baseAbility(b), enumerable: true, configurable: true }); }
 export const BEE_BY_ID = Object.fromEntries(BEES.map((b) => [b.id, b]));
 
 // ---------- bee levels (v1.2) ----------
@@ -58,20 +62,22 @@ export const levelMult = (level: number) => 1 + 0.12 * (Math.max(1, level) - 1);
 export const LEVEL_HIVE_BONUS = 0.01;
 export const beeLook = (level: number): "base" | "shiny" | "crown" => (level >= 10 ? "crown" : level >= 5 ? "shiny" : "base");
 
-const dec = (v: number) => String(Math.round(v * 100) / 100).replace(".", ",");
+const dec = (v: number) => numFmt(Math.round(v * 100) / 100);
 /** ability text for a bee at a level */
 export function abilityAt(b: BeeSpecies, level: number): string {
   const e = b.effect, m = levelMult(level);
-  const pct = (v: number) => `${Math.round(v * 100)}%`;
-  if (e.prodMult) return `+${pct(e.prodMult * m)} к мёду улья`;
-  if (e.extraMoves) { const n = e.extraMoves + Math.floor(level / 5); return `+${n} ход${n === 1 ? "" : "а"} в свободной игре`; }
-  if (e.color !== undefined) return `${COLOR_NAMES[e.color][0].toUpperCase()}${COLOR_NAMES[e.color].slice(1)} соты ×${dec(2 + 0.05 * (level - 1))} очков`;
-  if (e.wildChance) return level > 1 ? `Джокеры чаще (+${pct(e.wildChance * m)})` : b.ability;
-  if (e.capHours) return `Хранилище улья +${dec(Math.round(e.capHours * m * 10) / 10)} ч`;
-  if (e.puzzleHoneyMult) return `+${pct(e.puzzleHoneyMult * m)} мёда из головоломки`;
-  if (e.bombAt) return level > 1 ? `Бомба из 5 сот, +${pct(0.02 * (level - 1))} мёда из головоломки` : b.ability;
-  return b.ability;
+  const pct = (v: number) => Math.round(v * 100);
+  if (e.prodMult) return t("ab.prod", { pct: pct(e.prodMult * m) });
+  if (e.extraMoves) return t("ab.moves", { n: e.extraMoves + Math.floor(level / 5) });
+  if (e.color !== undefined) return t("ab.color", { color: colorName(e.color), x: dec(2 + 0.05 * (level - 1)) });
+  if (e.wildChance) return level > 1 ? t("ab.wildLvl", { pct: pct(e.wildChance * m) }) : t("ab.wild");
+  if (e.capHours) return t("ab.cap", { h: dec(Math.round(e.capHours * m * 10) / 10) });
+  if (e.puzzleHoneyMult) return t("ab.puzzle", { pct: pct(e.puzzleHoneyMult * m) });
+  if (e.bombAt) return level > 1 ? t("ab.bombLvl", { pct: pct(0.02 * (level - 1)) }) : t("ab.bomb");
+  return "";
 }
+/** level-1 ability (the "ability" field) */
+function baseAbility(b: BeeSpecies) { return abilityAt(b, 1); }
 
 export function boostsFor(owned: string[], levels: Record<string, number> = {}): Boosts {
   const b: Boosts = { prodMult: 0, puzzleHoneyMult: 0, extraMoves: 0, colorMult: [1, 1, 1, 1, 1], wildChance: 0, bombAt: DEFAULT_RULES.bombAt, capHours: 0 };

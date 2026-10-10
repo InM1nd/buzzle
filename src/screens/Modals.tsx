@@ -1,6 +1,6 @@
+import { t, tx } from "../i18n";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, Linking, StyleSheet, TextInput, View } from "react-native";
-import { CAN_PICK_FILE, exportSaveCode, inviteFriend, pickSaveFile } from "../platform/share";
 import { F } from "../ui/theme";
 import { Reward } from "../logic/tasks";
 import { ART } from "../ui/art";
@@ -12,12 +12,7 @@ import { Toggle } from "../ui/Toggle";
 import { centerOf, Pt } from "../ui/Fly";
 
 // ---------- tutorial ----------
-const SLIDES = [
-  { title: "Привет, я Жужа!", text: "Добро пожаловать в «Buzzle» — уютный улей, который растёт с каждым днём." },
-  { title: "Собирайте пыльцу", text: "Ведите пальцем по 3 и более соседним сотам одного цвета. Чем длиннее цепочка, тем больше очков — а из 6+ сот получается бомба." },
-  { title: "Стройте улей", text: "Очки превращаются в мёд. Стройте и улучшайте соты — пчёлы собирают мёд, даже когда вы не в игре." },
-  { title: "Возвращайтесь каждый день", text: "Новая головоломка дня, три задания и награды за вход. Звёзды дают маточное молочко — на него открываются новые пчёлы." },
-];
+const SLIDES = [0, 1, 2, 3].map((k) => ({ get title() { return tx(`tut.t${k}`); }, get text() { return tx(`tut.x${k}`); } }));
 
 function SlideArt({ i }: { i: number }) {
   if (i === 0) return <Mascot id="zhuzha" size={156} seed={4} />;
@@ -71,7 +66,7 @@ export function Tutorial({ visible, onDone }: { visible: boolean; onDone: () => 
   const last = i === SLIDES.length - 1;
   return (
     <Overlay visible={visible} dismissable={false}>
-      <View accessibilityLabel="Обучение">
+      <View accessibilityLabel={t("tut.label")}>
         <Animated.View style={{ alignItems: "center", opacity: a, transform: [{ translateX: a.interpolate({ inputRange: [0, 1], outputRange: [24, 0] }) }] }}>
           <View style={{ height: 170, justifyContent: "center", alignItems: "center" }}><SlideArt i={i} /></View>
           <Txt v="h1" center style={{ marginTop: 6 }}>{SLIDES[i].title}</Txt>
@@ -80,10 +75,10 @@ export function Tutorial({ visible, onDone }: { visible: boolean; onDone: () => 
         <View style={styles.dots}>
           {SLIDES.map((_, k) => <View key={k} style={[styles.dot, k === i && styles.dotOn]} />)}
         </View>
-        <GameButton title={last ? "Поехали!" : "Дальше"} color={last ? "green" : "honey"} onPress={() => (last ? onDone() : go(i + 1))} />
+        <GameButton title={last ? t("tut.go") : t("tut.next")} color={last ? "green" : "honey"} onPress={() => (last ? onDone() : go(i + 1))} />
         {!last ? (
           <Press onPress={onDone} style={{ alignSelf: "center", marginTop: 12, padding: 6 }} accessibilityRole="button">
-            <Txt v="small" color={C.dim}>Пропустить</Txt>
+            <Txt v="small" color={C.dim}>{t("tut.skip")}</Txt>
           </Press>
         ) : <View style={{ height: 40 }} />}
       </View>
@@ -99,105 +94,27 @@ export function LoginModal({ visible, index, reward, streak, onClaim, onClose }:
   const big = index === 6;
   return (
     <Overlay visible={visible} onClose={onClose}>
-      <View style={{ alignItems: "center" }} accessibilityLabel="Награда за вход">
+      <View style={{ alignItems: "center" }} accessibilityLabel={t("lg.label")}>
         <CloseBtn onPress={onClose} />
-        <Txt v="tiny" color={C.dim}>НАГРАДА ЗА ВХОД · ДЕНЬ {index + 1} ИЗ 7</Txt>
+        <Txt v="tiny" color={C.dim}>{t("lg.caps", { d: index + 1 })}</Txt>
         <View ref={ref} collapsable={false} style={{ marginVertical: 14 }}>
           <Bobbing amp={6}><Image source={big ? ART.chest : reward.honey ? ART.honey : ART.jelly} style={{ width: 120, height: 120 }} /></Bobbing>
         </View>
-        <Txt v="h1" center>{big ? "Большой сундук!" : "С возвращением!"}</Txt>
+        <Txt v="h1" center>{big ? t("lg.big") : t("lg.back")}</Txt>
         <View style={{ flexDirection: "row", gap: 16, marginTop: 10, marginBottom: 6 }}>
           {reward.honey ? <View style={styles.rw}><Image source={ART.honey} style={{ width: 30, height: 30 }} /><Txt v="h2" color={C.honeyDark}>+{fmt(reward.honey)}</Txt></View> : null}
           {reward.jelly ? <View style={styles.rw}><Image source={ART.jelly} style={{ width: 30, height: 30 }} /><Txt v="h2" color={C.jelly}>+{reward.jelly}</Txt></View> : null}
         </View>
         <Txt v="small" color={C.dim} center style={{ marginBottom: 16 }}>
-          {streak > 0 ? `Вы заходите ${streak + 1}-й день подряд. ` : ""}Заходите каждый день — на 7-й день ждёт сундук.
+          {streak > 0 ? t("lg.streak", { n: streak + 1 }) : ""}{t("lg.hint")}
         </Txt>
-        <GameButton title="Забрать" color="green" style={{ alignSelf: "stretch" }} onPress={async () => onClaim(await centerOf(ref.current))} label="Забрать награду" />
+        <GameButton title={t("lg.claim")} color="green" style={{ alignSelf: "stretch" }} onPress={async () => onClaim(await centerOf(ref.current))} label={t("lg.claimLabel")} />
       </View>
     </Overlay>
   );
 }
 
-// ---------- settings ----------
-export function SettingsModal({ visible, notifications, gardenReminders, haptics, notifBlocked, onNotifications, onGardenReminders, onHaptics, onTutorial, onReset, onClose, getCode, onImport }: {
-  /** v1.3 save export / import */
-  getCode: () => string; onImport: (code: string) => string | null;
-  visible: boolean; notifications: boolean; gardenReminders: boolean; haptics: boolean; notifBlocked: boolean;
-  onNotifications: (v: boolean) => void; onGardenReminders: (v: boolean) => void; onHaptics: (v: boolean) => void; onTutorial: () => void; onReset: () => void; onClose: () => void;
-}) {
-  const [confirm, setConfirm] = useState(0);
-  const [imp, setImp] = useState<null | string>(null);
-  const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
-  useEffect(() => { if (!visible) { setConfirm(0); setImp(null); setMsg(null); } }, [visible]);
-  const doExport = async () => {
-    const r = await exportSaveCode(getCode());
-    setMsg(r === "failed" ? { ok: false, text: "Не получилось — попробуйте ещё раз." } : r === "dismissed" ? null
-      : { ok: true, text: r === "downloaded" ? "Код скопирован и сохранён файлом." : r === "copied" ? "Код скопирован — сохраните его в заметках или отправьте себе." : "Код отправлен." });
-  };
-  const doImport = (code: string) => {
-    const err = onImport(code);
-    setMsg(err ? { ok: false, text: err } : { ok: true, text: "Прогресс загружен!" });
-    if (!err) setImp(null);
-  };
-  return (
-    <Overlay visible={visible} onClose={onClose}>
-      <View accessibilityLabel="Настройки">
-        <CloseBtn onPress={onClose} />
-        <Txt v="h1" style={{ marginBottom: 12 }}>Настройки</Txt>
-        {NOTIFICATIONS_SUPPORTED ? (
-          <>
-            <Row title="Напоминания" sub="Улей полон · новая головоломка">
-              <Toggle value={notifications} onChange={onNotifications} label="Напоминания" />
-            </Row>
-            <Row title="Сад" sub={notifications ? "Цветы распустились · грядки высохли" : "Работает, когда включены напоминания"}>
-              <Toggle value={notifications && gardenReminders} onChange={(v) => { onGardenReminders(v); if (v && !notifications) onNotifications(true); }} label="Напоминания о саде" />
-            </Row>
-          </>
-        ) : (
-          <Row title="Напоминания" sub="Улей полон · головоломка дня · сад">
-            <View style={{ backgroundColor: C.line, borderRadius: 10, paddingHorizontal: 10, paddingVertical: 4 }}><Txt v="small" color={C.dim}>скоро</Txt></View>
-          </Row>
-        )}
-        {notifBlocked ? (
-          <Press onPress={() => Linking.openSettings().catch(() => {})} style={{ marginBottom: 8 }}>
-            <Txt v="small" color={C.red}>Уведомления запрещены в Android. Открыть настройки →</Txt>
-          </Press>
-        ) : null}
-        <Row title="Вибрация" sub="Отклик при касании сот">
-          <Toggle value={haptics} onChange={onHaptics} label="Вибрация" />
-        </Row>
-        <View style={{ gap: 10, marginTop: 14 }}>
-          <GameButton small title="Пригласить друга" icon={ART.share} color="green" onPress={() => { inviteFriend().catch(() => {}); }} label="Пригласить друга" />
-          <View style={{ flexDirection: "row", gap: 8 }}>
-            <GameButton small title="Экспорт" icon={ART.save} color="white" onPress={doExport} style={{ flex: 1 }} label="Экспорт сохранения" />
-            <GameButton small title="Импорт" color="white" onPress={() => { setImp(imp === null ? "" : null); setMsg(null); }} style={{ flex: 1 }} label="Импорт сохранения" />
-          </View>
-          {imp !== null ? (
-            <View>
-              <TextInput value={imp} onChangeText={setImp} placeholder="Вставьте код BUZZLE1…" placeholderTextColor="#C9AE86" multiline autoCorrect={false} autoCapitalize="none"
-                accessibilityLabel="Код сохранения" style={[F.xbold, styles.code]} />
-              <Txt v="tiny" color={C.dim}>Текущий прогресс на этом устройстве будет заменён.</Txt>
-              <View style={{ flexDirection: "row", gap: 8, marginTop: 6 }}>
-                {CAN_PICK_FILE ? <GameButton small title="Из файла" color="white" style={{ flex: 1 }} onPress={async () => { const t = await pickSaveFile(); if (t) doImport(t); }} /> : null}
-                <GameButton small title="Загрузить" color="honey" disabled={!imp.trim()} style={{ flex: 1 }} onPress={() => doImport(imp)} label="Загрузить сохранение" />
-              </View>
-            </View>
-          ) : null}
-          {msg ? <Txt v="small" color={msg.ok ? C.greenDark : C.red}>{msg.text}</Txt> : null}
-          <GameButton small title="Показать обучение" color="white" onPress={onTutorial} />
-          <GameButton small title={confirm === 0 ? "Сбросить прогресс" : confirm === 1 ? "Точно? Нажмите ещё раз" : "Сброс…"} color={confirm ? "honey" : "white"}
-            onPress={() => { if (confirm === 0) setConfirm(1); else { setConfirm(2); onReset(); } }} />
-        </View>
-        <Txt v="tiny" color={C.faint} center style={{ marginTop: 14 }}>
-          {inTelegram() ? "Buzzle 1.3.0 · прогресс сохраняется в Telegram" : "Buzzle 1.3.0 · данные на устройстве — делайте экспорт"}
-        </Txt>
-      </View>
-    </Overlay>
-  );
-}
-
-function Row({ title, sub, children }: { title: string; sub: string; children: React.ReactNode }) {
+export function Row({ title, sub, children }: { title: string; sub: string; children: React.ReactNode }) {
   return (
     <View style={styles.row}>
       <View style={{ flex: 1 }}>
@@ -217,3 +134,18 @@ const styles = StyleSheet.create({
   rw: { flexDirection: "row", alignItems: "center", gap: 6 },
   row: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: C.line },
 });
+
+// ---------- v1.4: what's new (once after the version changes) ----------
+export function WhatsNew({ visible, version, onClose }: { visible: boolean; version: string; onClose: () => void }) {
+  return (
+    <Overlay visible={visible} onClose={onClose}>
+      <View accessibilityLabel={t("wn.title", { v: version })}>
+        <CloseBtn onPress={onClose} />
+        <View style={{ alignItems: "center", marginBottom: 6 }}><Mascot id="zhuzha" size={96} seed={2} /></View>
+        <Txt v="h1" center>{t("wn.title", { v: version })}</Txt>
+        <Txt v="body" color={C.text} style={{ marginTop: 12, marginBottom: 16, lineHeight: 22 }}>{tx(`wn.${version}`, undefined, "")}</Txt>
+        <GameButton title={t("wn.ok")} color="green" onPress={onClose} />
+      </View>
+    </Overlay>
+  );
+}

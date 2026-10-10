@@ -1,3 +1,4 @@
+import { t } from "./src/i18n";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AppState, Dimensions, Image, Linking, StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
@@ -26,7 +27,7 @@ import { flushCloud, loadState, saveState } from "./src/ui/store";
 import { addBackListener, dispatchBack } from "./src/platform/back";
 import { useInsets } from "./src/platform/insets";
 import { pinArt } from "./src/platform/pinArt";
-import { hideBootScreen, initTelegram, NOTIFICATIONS_SUPPORTED, onHide, setBackButton } from "./src/platform/telegram";
+import { hideBootScreen, initTelegram, NOTIFICATIONS_SUPPORTED, onHide, setBackButton, telegramLanguage } from "./src/platform/telegram";
 import { applyPlan, ensureChannel, getPermission, requestPermission } from "./src/ui/notifications";
 import { hError, hSuccess, setHaptics } from "./src/ui/haptics";
 import { ART } from "./src/ui/art";
@@ -40,7 +41,14 @@ import BeesScreen from "./src/screens/BeesScreen";
 import TasksScreen from "./src/screens/TasksScreen";
 import GardenScreen from "./src/screens/GardenScreen";
 import GameScreen from "./src/screens/GameScreen";
-import { LoginModal, SettingsModal, Tutorial } from "./src/screens/Modals";
+import { LoginModal, Tutorial, WhatsNew } from "./src/screens/Modals";
+import { SettingsModal } from "./src/screens/Settings";
+import LanguagePicker from "./src/screens/LanguagePicker";
+import { Lang, setLang } from "./src/i18n";
+import { chooseLanguage, setSetting, Settings } from "./src/logic/game";
+import { compareVersions } from "./src/logic/update";
+import { useUpdater } from "./src/ui/useUpdater";
+import { APP_VERSION } from "./src/version";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 pinArt();          // web: keep all art in memory so remounts never refetch (no-op on Android)
@@ -48,11 +56,11 @@ initTelegram(C.bg); // web inside Telegram: ready/expand/fullscreen, no swipe-to
 
 type Tab = "hive" | "puzzle" | "bees" | "loot" | "tasks";
 const TABS: { id: Tab; label: string; icon: number }[] = [
-  { id: "hive", label: "Улей", icon: ART.tabHive },
-  { id: "puzzle", label: "Головоломка", icon: ART.tabPuzzle },
-  { id: "bees", label: "Пчёлы", icon: ART.tabBee },
-  { id: "loot", label: "Сюрпризы", icon: ART.tabBox },
-  { id: "tasks", label: "Задания", icon: ART.tabTasks },
+  { id: "hive", get label() { return t("tab.hive"); }, icon: ART.tabHive },
+  { id: "puzzle", get label() { return t("tab.puzzle"); }, icon: ART.tabPuzzle },
+  { id: "bees", get label() { return t("tab.bees"); }, icon: ART.tabBee },
+  { id: "loot", get label() { return t("tab.loot"); }, icon: ART.tabBox },
+  { id: "tasks", get label() { return t("tab.tasks"); }, icon: ART.tabTasks },
 ];
 
 export default function App() {
@@ -78,6 +86,8 @@ function Main() {
   const [showTutorial, setShowTutorial] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [settingsPage, setSettingsPage] = useState<"main" | "update">("main");
+  const [showWhatsNew, setShowWhatsNew] = useState(false);
   const [notifBlocked, setNotifBlocked] = useState(false);
   const [hold, setHold] = useState<{ honey?: number; jelly?: number; nectar?: number }>({});
   const [bump, setBump] = useState({ honey: 0, jelly: 0, nectar: 0 });
@@ -89,9 +99,18 @@ function Main() {
   const jellyIcon = useRef<View | null>(null);
   const nectarIcon = useRef<View | null>(null);
   const pendingFly = useRef<Reward | null>(null);
+  const updater = useUpdater(s?.settings.autoUpdate ?? false, !!s);
+
+  /** after the language is known: tutorial (new players) → "What's new" (after a version change) → login reward */
+  const afterLanguage = (st: GameState) => {
+    if (!st.settings.tutorialDone) { setShowTutorial(true); return; }
+    if (compareVersions(st.settings.lastVersion, APP_VERSION) < 0) { setShowWhatsNew(true); return; }
+    if (canClaimLogin(st, Date.now())) setShowLogin(true);
+  };
 
   /** Replace state; persist now (actions) or at most every 15 s (ticks). */
   const commit = useCallback((next: GameState, force = true) => {
+    setLang(next.settings.lang);
     setS(next);
     const t = Date.now();
     if (writable.current && (force || t - lastSave.current > 15000)) {
@@ -107,8 +126,7 @@ function Main() {
       const st = tick(l.state, Date.now());
       commit(st);
       setHaptics(st.settings.haptics);
-      if (!st.settings.tutorialDone) setShowTutorial(true);
-      else if (canClaimLogin(st, Date.now())) setShowLogin(true);
+      if (st.settings.langPicked) afterLanguage(st);
       SplashScreen.hideAsync().catch(() => {});
       hideBootScreen();
     });
@@ -270,6 +288,30 @@ function Main() {
       commit(n); hSuccess();
       return true;
     },
+    /** v1.4: language picker confirmed */
+    pickLang: (l: Lang) => {
+      const cur = sRef.current;
+      if (!cur) return;
+      const n = chooseLanguage(cur, l);
+      commit(n);
+      setTimeout(() => afterLanguage(n), 200);
+    },
+    lang: (l: Lang) => {
+      const cur = sRef.current;
+      if (cur && cur.settings.lang !== l) commit(chooseLanguage(cur, l));
+    },
+    setSetting: <K extends keyof Settings>(k: K, v: Settings[K]) => {
+      const cur = sRef.current;
+      if (!cur) return;
+      if (k === "haptics") setHaptics(v as boolean);
+      commit(setSetting(cur, k, v));
+    },
+    whatsNewDone: () => {
+      setShowWhatsNew(false);
+      const cur = sRef.current;
+      if (cur) commit(setSetting(cur, "lastVersion", APP_VERSION));
+      if (cur && canClaimLogin(cur, Date.now())) setTimeout(() => setShowLogin(true), 300);
+    },
     gardenIntroDone: () => {
       const cur = sRef.current;
       if (cur) commit({ ...cur, settings: { ...cur.settings, gardenIntroDone: true } });
@@ -336,7 +378,10 @@ function Main() {
       if (canClaimLogin(n, Date.now())) setTimeout(() => setShowLogin(true), 350);
     },
     reset: () => {
-      const n = newState(Date.now());
+      const cur = sRef.current;
+      const fresh = newState(Date.now());
+      // a reset keeps the chosen language and the silent early-player mark
+      const n = cur ? { ...fresh, early: cur.early, settings: { ...fresh.settings, lang: cur.settings.lang, langPicked: true } } : fresh;
       commit(n);
       setShowSettings(false);
       setTab("hive");
@@ -389,7 +434,7 @@ function Main() {
     },
     importCode: (code: string): string | null => {
       const cur = sRef.current;
-      if (!cur) return "Игра ещё загружается";
+      if (!cur) return t("c.loading");
       const r = decodeSave(code, Date.now());
       if (!r.ok) { hError(); return r.error; }
       const n = tick(adoptImported(cur, r.state), Date.now());
@@ -439,7 +484,7 @@ function Main() {
           onShuffle={act.shuffle}
           rules={rulesFor(game.mode === "free" ? "free" : "daily", b, dayColorInfo(s, now).active ? dayColorInfo(s, now).color : null)}
           best={game.mode === "daily" ? s.daily.results[todayOf(s, now)]?.score ?? 0 : game.mode === "weekend" ? s.week.weekendBest : s.stats.bestScore}
-          title={game.mode === "daily" ? "Головоломка дня" : game.mode === "weekend" ? "Головоломка выходного дня" : "Свободная игра"}
+          title={t(game.mode === "daily" ? "mode.daily" : game.mode === "weekend" ? "mode.weekend" : "mode.free")}
           onFinish={act.finish}
           onExit={act.exitGame}
           onReplay={() => { setHold({}); pendingFly.current = null; act.play(game.mode); }}
@@ -456,17 +501,18 @@ function Main() {
   const gardenBadge = s.garden.beds.some((b) => isReady(b) || (canWater(b) && b.water <= 0));
 
   return (
-    <View style={{ flex: 1, backgroundColor: C.bg }}>
+    <View key={s.settings.lang} style={{ flex: 1, backgroundColor: C.bg }}>
       <StatusBar style="dark" />
       {/* top bar */}
       <View style={[styles.top, { paddingTop: insets.top + 8 }]}>
-        <Pill icon={ART.honey} value={hold.honey ?? s.honey} bump={bump.honey} label="Мёд" onLayoutIcon={(r) => { honeyIcon.current = r; }} />
-        <Pill icon={ART.jelly} value={hold.jelly ?? s.jelly} bump={bump.jelly} label="Маточное молочко" color="#7B52C2" onLayoutIcon={(r) => { jellyIcon.current = r; }} />
-        <Pill icon={ART.nectar} value={hold.nectar ?? s.nectar} bump={bump.nectar} label="Нектар" color="#B03A68" onLayoutIcon={(r) => { nectarIcon.current = r; }} />
+        <Pill icon={ART.honey} value={hold.honey ?? s.honey} bump={bump.honey} label={t("c.honey")} onLayoutIcon={(r) => { honeyIcon.current = r; }} />
+        <Pill icon={ART.jelly} value={hold.jelly ?? s.jelly} bump={bump.jelly} label={t("c.jelly")} color="#7B52C2" onLayoutIcon={(r) => { jellyIcon.current = r; }} />
+        <Pill icon={ART.nectar} value={hold.nectar ?? s.nectar} bump={bump.nectar} label={t("c.nectar")} color="#B03A68" onLayoutIcon={(r) => { nectarIcon.current = r; }} />
         <View style={{ flex: 1 }} />
-        <View style={styles.lvl} accessibilityLabel={`Уровень улья ${level(s)}`}><Text style={[F.black, { color: "#fff", fontSize: 15, transform: [{ rotate: "-45deg" }] }]}>{level(s)}</Text></View>
-        <Press onPress={() => setShowSettings(true)} style={styles.gear} accessibilityRole="button" accessibilityLabel="Настройки">
+        <View style={styles.lvl} accessibilityLabel={t("c.hiveLevel", { n: level(s) })}><Text style={[F.black, { color: "#fff", fontSize: 15, transform: [{ rotate: "-45deg" }] }]}>{level(s)}</Text></View>
+        <Press onPress={() => { setSettingsPage("main"); setShowSettings(true); }} style={styles.gear} accessibilityRole="button" accessibilityLabel={updater.available ? `${t("c.settings")} · ${t("up.badge")}` : t("c.settings")}>
           <Image source={ART.gear} style={{ width: 22, height: 22, tintColor: C.brown }} />
+          {updater.available ? <View style={[styles.badge, { top: -1, right: -1 }]} /> : null}
         </Press>
       </View>
 
@@ -476,9 +522,9 @@ function Main() {
           <View style={styles.seg} accessibilityRole="tablist">
             {(["hive", "garden"] as const).map((v) => (
               <Press key={v} onPress={() => setHiveView(v)} style={[styles.segBtn, hiveView === v && styles.segOn]} scaleTo={0.96}
-                accessibilityRole="tab" accessibilityLabel={v === "hive" ? "Соты" : "Сад"} accessibilityState={{ selected: hiveView === v }}>
+                accessibilityRole="tab" accessibilityLabel={t(v === "hive" ? "seg.combs" : "seg.garden")} accessibilityState={{ selected: hiveView === v }}>
                 <Image source={v === "hive" ? ART.tabHive : ART.seed} style={{ width: 18, height: 18, tintColor: hiveView === v ? "#fff" : "#C49A62" }} />
-                <Text style={[F.black, { fontSize: 14, color: hiveView === v ? "#fff" : "#A07A4C" }]}>{v === "hive" ? "Соты" : "Сад"}</Text>
+                <Text style={[F.black, { fontSize: 14, color: hiveView === v ? "#fff" : "#A07A4C" }]}>{t(v === "hive" ? "seg.combs" : "seg.garden")}</Text>
                 {v === "garden" && (gardenBadge || !s.settings.gardenIntroDone) ? <View style={[styles.badge, { top: 4, right: 10 }]} /> : null}
               </Press>
             ))}
@@ -494,11 +540,11 @@ function Main() {
               <View style={[styles.banner, shadow]}>
                 <Image source={ART.clock} style={{ width: 26, height: 26, tintColor: C.honeyDeep }} />
                 <View style={{ flex: 1 }}>
-                  <Txt v="h3">Напомнить, когда улей полон?</Txt>
-                  <Txt v="small" color={C.dim}>И когда готова новая головоломка дня.</Txt>
+                  <Txt v="h3">{t("prompt.title")}</Txt>
+                  <Txt v="small" color={C.dim}>{t("prompt.sub")}</Txt>
                   <View style={{ flexDirection: "row", gap: 8, marginTop: 8 }}>
-                    <GameButton small title="Включить" color="green" onPress={() => act.notifications(true)} style={{ flex: 1 }} />
-                    <GameButton small title="Не сейчас" color="white" onPress={act.dismissNotifPrompt} style={{ flex: 1 }} />
+                    <GameButton small title={t("prompt.on")} color="green" onPress={() => act.notifications(true)} style={{ flex: 1 }} />
+                    <GameButton small title={t("prompt.later")} color="white" onPress={act.dismissNotifPrompt} style={{ flex: 1 }} />
                   </View>
                 </View>
               </View>
@@ -545,24 +591,29 @@ function Main() {
         })}
       </View>
 
-      <Tutorial visible={showTutorial} onDone={act.tutorialDone} />
-      <LoginModal visible={showLogin && !showTutorial} index={loginIdx} reward={loginReward(loginIdx, level(s))} streak={s.login.lastDay === todayOf(s, now) - 1 ? s.login.streak : 0}
+      <Tutorial visible={showTutorial && s.settings.langPicked} onDone={act.tutorialDone} />
+      <LoginModal visible={showLogin && !showTutorial && !showWhatsNew && s.settings.langPicked} index={loginIdx} reward={loginReward(loginIdx, level(s))} streak={s.login.lastDay === todayOf(s, now) - 1 ? s.login.streak : 0}
         onClaim={act.login} onClose={() => setShowLogin(false)} />
       <SettingsModal
         visible={showSettings}
-        notifications={s.settings.notifications}
-        gardenReminders={s.settings.gardenReminders}
-        onGardenReminders={act.gardenReminders}
-        haptics={s.settings.haptics}
+        startPage={settingsPage}
+        s={s}
         notifBlocked={notifBlocked}
+        updater={updater}
+        onSet={act.setSetting}
+        onLang={act.lang}
         onNotifications={act.notifications}
-        onHaptics={act.haptics}
         onTutorial={() => { setShowSettings(false); setTimeout(() => setShowTutorial(true), 250); }}
+        onWhatsNew={() => { setShowSettings(false); setTimeout(() => setShowWhatsNew(true), 250); }}
         onReset={act.reset}
         onClose={() => setShowSettings(false)}
         getCode={() => encodeSave(sRef.current ?? s)}
         onImport={act.importCode}
       />
+      <WhatsNew visible={showWhatsNew} version={APP_VERSION} onClose={act.whatsNewDone} />
+      {!s.settings.langPicked ? (
+        <LanguagePicker initial={s.settings.lang !== "en" ? s.settings.lang : telegramLanguage() ?? "en"} suggested={telegramLanguage()} onDone={act.pickLang} />
+      ) : null}
       {boxOpen ? (
         <BoxOpen key={boxOpen} kind={boxOpen} left={s.loot.boxes[boxOpen]} bees={s.bees} skins={s.beeSkins}
           onOpen={() => act.openBox(boxOpen)} onOpenAll={() => act.openAll(boxOpen)} onClose={() => setBoxOpen(null)} />

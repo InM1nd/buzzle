@@ -1,4 +1,5 @@
-import { COLOR_NAMES } from "./bees";
+import { colorGen } from "./bees";
+import { lz, t } from "../i18n";
 import { Rng, hashString } from "./rng";
 
 export type TaskEvent =
@@ -25,34 +26,35 @@ export interface TaskDef {
 
 function colorTask(color: number): TaskDef {
   return {
-    id: `cells${color}`, group: "puzzle", target: 50, text: `Собери 50 сот: ${COLOR_NAMES[color]}`,
+    id: `cells${color}`, group: "puzzle", target: 50, get text() { return t("task.cells", { color: colorGen(color) }); },
     progress: (e) => (e.type === "cells" && e.color === color ? e.n : 0),
   };
 }
 
 const POOL: TaskDef[] = [
-  { id: "chain6", group: "puzzle", target: 3, text: "Собери 3 цепочки из 6+ сот", progress: (e) => (e.type === "chain" && e.len >= 6 ? 1 : 0) },
-  { id: "chain8", group: "puzzle", target: 1, text: "Собери цепочку из 8+ сот", progress: (e) => (e.type === "chain" && e.len >= 8 ? 1 : 0) },
-  { id: "score", group: "puzzle", target: 1, text: "Набери 1500 очков за одну игру", progress: (e) => (e.type === "round" && e.score >= 1500 ? 1 : 0) },
-  { id: "rounds", group: "any", target: 3, text: "Сыграй 3 игры", progress: (e) => (e.type === "round" ? 1 : 0) },
-  { id: "bomb", group: "puzzle", target: 2, text: "Взорви 2 бомбы маточного молочка", progress: (e) => (e.type === "bomb" ? e.n : 0) },
-  { id: "collect", group: "hive", target: 2, text: "Собери мёд в улье 2 раза", progress: (e) => (e.type === "collect" ? 1 : 0) },
-  { id: "build", group: "hive", target: 2, text: "Построй или улучши соты 2 раза", progress: (e) => (e.type === "build" ? 1 : 0) },
-  { id: "daily", group: "any", target: 1, text: "Пройди ежедневную головоломку", progress: (e) => (e.type === "daily" ? 1 : 0) },
-  { id: "honey", group: "any", target: 400, text: "Заработай 400 мёда в головоломке", progress: (e) => (e.type === "round" ? e.honey : 0) },
+  { id: "chain6", group: "puzzle", target: 3, text: "", progress: (e) => (e.type === "chain" && e.len >= 6 ? 1 : 0) },
+  { id: "chain8", group: "puzzle", target: 1, text: "", progress: (e) => (e.type === "chain" && e.len >= 8 ? 1 : 0) },
+  { id: "score", group: "puzzle", target: 1, text: "", progress: (e) => (e.type === "round" && e.score >= 1500 ? 1 : 0) },
+  { id: "rounds", group: "any", target: 3, text: "", progress: (e) => (e.type === "round" ? 1 : 0) },
+  { id: "bomb", group: "puzzle", target: 2, text: "", progress: (e) => (e.type === "bomb" ? e.n : 0) },
+  { id: "collect", group: "hive", target: 2, text: "", progress: (e) => (e.type === "collect" ? 1 : 0) },
+  { id: "build", group: "hive", target: 2, text: "", progress: (e) => (e.type === "build" ? 1 : 0) },
+  { id: "daily", group: "any", target: 1, text: "", progress: (e) => (e.type === "daily" ? 1 : 0) },
+  { id: "honey", group: "any", target: 400, text: "", progress: (e) => (e.type === "round" ? e.honey : 0) },
 ];
 
 /** v1.3 garden tasks (count as "hive" — things you do at home) */
 const GARDEN: TaskDef[] = [
-  { id: "harvest2", group: "hive", target: 2, text: "Собери урожай в саду 2 раза", progress: (e) => (e.type === "harvest" ? 1 : 0) },
-  { id: "water3", group: "hive", target: 3, text: "Полей грядки 3 раза", progress: (e) => (e.type === "water" ? e.n : 0) },
-  { id: "plant2", group: "hive", target: 2, text: "Посади 2 цветка", progress: (e) => (e.type === "plant" ? 1 : 0) },
-  { id: "nectar20", group: "hive", target: 20, text: "Собери 20 нектара", progress: (e) => (e.type === "harvest" ? e.nectar : 0) },
+  { id: "harvest2", group: "hive", target: 2, text: "", progress: (e) => (e.type === "harvest" ? 1 : 0) },
+  { id: "water3", group: "hive", target: 3, text: "", progress: (e) => (e.type === "water" ? e.n : 0) },
+  { id: "plant2", group: "hive", target: 2, text: "", progress: (e) => (e.type === "plant" ? 1 : 0) },
+  { id: "nectar20", group: "hive", target: 20, text: "", progress: (e) => (e.type === "harvest" ? e.nectar : 0) },
 ];
 /** v1.3 bee level task (once levelling has started) */
 const LEVELS: TaskDef[] = [
-  { id: "levelup", group: "any", target: 1, text: "Повысь уровень любой пчелы", progress: (e) => (e.type === "levelup" ? 1 : 0) },
+  { id: "levelup", group: "any", target: 1, text: "", progress: (e) => (e.type === "levelup" ? 1 : 0) },
 ];
+for (const d of [...POOL, ...GARDEN, ...LEVELS]) lz(d, "text", `task.${d.id}`);
 const BY_ID: Record<string, TaskDef> = Object.fromEntries([...POOL, ...GARDEN, ...LEVELS].map((t) => [t.id, t]));
 /** look a task up by id (colour tasks are `cells<colour>`) */
 export function taskById(id: string): TaskDef | null {

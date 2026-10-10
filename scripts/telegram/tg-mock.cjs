@@ -11,7 +11,7 @@ module.exports = `(() => {
   };
   const rec = (n) => (...a) => calls.push(n + (a.length ? ":" + a.join(",") : ""));
   window.Telegram = { WebApp: {
-    initData: "query_id=TEST&user=%7B%22id%22%3A1%7D&auth_date=1&hash=x", platform: "android", version: "8.0",
+    initData: "query_id=TEST&user=%7B%22id%22%3A1%7D&auth_date=1&hash=x", initDataUnsafe: { user: { id: 1, language_code: window.__tgLang || "uk" } }, platform: "android", version: "8.0",
     isVersionAtLeast: (v) => parseFloat(v) <= 8.0,
     ready: rec("ready"), openTelegramLink: (u) => { calls.push("openTelegramLink:" + u); }, openLink: rec("openLink"), expand: rec("expand"), requestFullscreen: () => { calls.push("requestFullscreen"); }, lockOrientation: rec("lockOrientation"),
     disableVerticalSwipes: rec("disableVerticalSwipes"), setHeaderColor: rec("setHeaderColor"), setBackgroundColor: rec("setBackgroundColor"), setBottomBarColor: rec("setBottomBarColor"),

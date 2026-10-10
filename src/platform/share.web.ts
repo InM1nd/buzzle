@@ -5,7 +5,7 @@
  * mobile apps (no file downloads there), also download it as a .txt file. Import can read such a file.
  */
 import { tg } from "./telegram";
-import { APP_LINK, INVITE_TEXT, telegramShareUrl } from "./invite";
+import { APP_LINK, inviteText, telegramShareUrl } from "./invite";
 
 export type ShareResult = "shared" | "copied" | "downloaded" | "dismissed" | "failed";
 
@@ -15,7 +15,7 @@ export async function inviteFriend(): Promise<ShareResult> {
   try {
     if (w?.openTelegramLink) { w.openTelegramLink(url); return "shared"; }
     const nav = navigator as Navigator & { share?: (d: { title?: string; text?: string; url?: string }) => Promise<void> };
-    if (nav.share) { await nav.share({ title: "Buzzle", text: INVITE_TEXT, url: APP_LINK }); return "shared"; }
+    if (nav.share) { await nav.share({ title: "Buzzle", text: inviteText(), url: APP_LINK }); return "shared"; }
     window.open(url, "_blank", "noopener");
     return "shared";
   } catch (e) {

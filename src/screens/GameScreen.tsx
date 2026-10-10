@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Animated, Easing, Image, PanResponder, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { useInsets } from "../platform/insets";
@@ -324,12 +325,12 @@ export default function GameScreen(props: Props) {
     addText(lc.x, lc.y - H * 0.4, `+${res.score}`, PATH_COLORS[col]);
     const len = p.length;
     if (res.bombsExploded) {
-      addText(size.width / 2, size.height * 0.42, res.bombsExploded > 1 ? `Бум ×${res.bombsExploded}!` : "Бум!", "#B44DD8", true);
+      addText(size.width / 2, size.height * 0.42, res.bombsExploded > 1 ? t("game.boomN", { n: res.bombsExploded }) : t("game.boom"), "#B44DD8", true);
       hHeavy();
       Animated.sequence([6, -6, 4, -3, 0].map((v) => Animated.timing(shake, { toValue: v, duration: 45, useNativeDriver: true }))).start();
-    } else if (len >= 10) { addText(size.width / 2, size.height * 0.42, "Медовый взрыв!", C.honeyDeep, true); hSuccess(); }
-    else if (len >= 8) { addText(size.width / 2, size.height * 0.42, "Потрясающе!", C.honeyDeep, true); hSuccess(); }
-    else if (len >= 6) { addText(size.width / 2, size.height * 0.42, "Отлично!", C.honeyDeep, true); hSuccess(); }
+    } else if (len >= 10) { addText(size.width / 2, size.height * 0.42, t("game.honeyBlast"), C.honeyDeep, true); hSuccess(); }
+    else if (len >= 8) { addText(size.width / 2, size.height * 0.42, t("game.amazing"), C.honeyDeep, true); hSuccess(); }
+    else if (len >= 6) { addText(size.width / 2, size.height * 0.42, t("game.great"), C.honeyDeep, true); hSuccess(); }
     else hLight();
     if (len >= 6 || res.bombsExploded) {
       const ids = props.beeIds?.length ? props.beeIds : ["zhuzha"];
@@ -338,7 +339,7 @@ export default function GameScreen(props: Props) {
     }
     if (res.newBomb) setTimeout(() => hTick(), 300);
     if (res.shuffled) {
-      setTimeout(() => { addText(size.width / 2, size.height * 0.55, "Перемешиваем!", C.brown, true); setPulse((x) => x + 1); }, 450);
+      setTimeout(() => { addText(size.width / 2, size.height * 0.55, t("game.shuffling"), C.brown, true); setPulse((x) => x + 1); }, 450);
     }
 
     // stats
@@ -434,7 +435,7 @@ export default function GameScreen(props: Props) {
   const pathPts = path.map((p) => cellCenter(p.c, p.r, s));
   const lineColor = PATH_COLORS[pc ?? 0];
   const chainLen = path.length;
-  const preview = chainLen >= 3 ? `${chainLen}${chainLen >= props.rules.bombAt ? " · бомба!" : ""}` : chainLen ? `${chainLen}` : "";
+  const preview = chainLen >= 3 ? `${chainLen}${chainLen >= props.rules.bombAt ? t("game.bombTag") : ""}` : chainLen ? `${chainLen}` : "";
 
   const isDaily = props.mode !== "free";
   const STARS = props.mode === "weekend" ? WEEKEND_STARS : DAILY_STARS;
@@ -450,16 +451,16 @@ export default function GameScreen(props: Props) {
     <View style={[styles.root, { paddingTop: insets.top + 6, paddingBottom: insets.bottom + 8 }]}>
       {/* top bar */}
       <View style={styles.top}>
-        <Press onPress={() => (finished ? props.onExit() : setQuitAsk(true))} style={styles.iconBtn} accessibilityRole="button" accessibilityLabel="Выйти из раунда">
+        <Press onPress={() => (finished ? props.onExit() : setQuitAsk(true))} style={styles.iconBtn} accessibilityRole="button" accessibilityLabel={t("game.exit")}>
           <Image source={ART.close} style={{ width: 18, height: 18, tintColor: C.brown }} />
         </Press>
         <View style={{ flex: 1, alignItems: "center" }}>
           <Txt v="tiny" color={C.dim}>{props.title.toUpperCase()}</Txt>
           <CountUp value={score} duration={450} style={[F.black, { fontSize: 32, lineHeight: 38, color: C.text }]} />
         </View>
-        <Animated.View style={[styles.moves, movesLeft <= 5 && { backgroundColor: C.red }, { transform: [{ scale: movesPulse }] }]} accessibilityLabel={`Осталось ходов: ${movesLeft}`}>
+        <Animated.View style={[styles.moves, movesLeft <= 5 && { backgroundColor: C.red }, { transform: [{ scale: movesPulse }] }]} accessibilityLabel={t("game.movesLeft", { n: movesLeft })}>
           <Text style={[F.black, { fontSize: 24, lineHeight: 28, color: "#fff" }]}>{Math.max(0, movesLeft)}</Text>
-          <Text style={[F.xbold, { fontSize: 10, lineHeight: 12, color: "#fff", opacity: 0.9 }]}>ХОДОВ</Text>
+          <Text style={[F.xbold, { fontSize: 10, lineHeight: 12, color: "#fff", opacity: 0.9 }]}>{t("game.movesCaps")}</Text>
         </Animated.View>
       </View>
       {/* score bar */}
@@ -470,16 +471,16 @@ export default function GameScreen(props: Props) {
             <Image source={starsNow > i ? ART.star : ART.starOff} style={{ width: 22, height: 22 }} />
           </View>
         )) : props.best > 0 ? (
-          <View style={{ position: "absolute", right: 6, top: -1 }}><Txt v="tiny" color={C.honeyDark}>рекорд {fmt(props.best)}</Txt></View>
+          <View style={{ position: "absolute", right: 6, top: -1 }}><Txt v="tiny" color={C.honeyDark}>{t("game.best", { n: fmt(props.best) })}</Txt></View>
         ) : null}
       </View>
       <View style={styles.statusRow}>
         <View style={[styles.chip, { opacity: combo > 0 ? 1 : 0 }]}>
           <Image source={ART.flame} style={{ width: 18, height: 18 }} />
-          <Txt v="small" color={C.honeyDark}>Комбо ×{1 + 0.25 * combo}</Txt>
+          <Txt v="small" color={C.honeyDark}>{t("game.combo", { x: 1 + 0.25 * combo })}</Txt>
         </View>
         <View style={[styles.chip, { opacity: preview ? 1 : 0, backgroundColor: tooFew ? "#FFF" : lineColor }]}>
-          <Txt v="small" color={tooFew ? C.dim : "#fff"}>{tooFew ? "ещё " + (3 - path.length) : "цепочка " + preview}</Txt>
+          <Txt v="small" color={tooFew ? C.dim : "#fff"}>{tooFew ? t("game.more", { n: 3 - path.length }) : t("game.chain", { p: preview })}</Txt>
         </View>
       </View>
 
@@ -487,7 +488,7 @@ export default function GameScreen(props: Props) {
       <Animated.View style={[styles.boardWrap, { width: size.width + 12, height: size.height + 12, transform: [{ translateX: shake }] }]}>
         <View
           {...responder.panHandlers}
-          accessibilityLabel="Игровое поле"
+          accessibilityLabel={t("game.board")}
           style={{ width: size.width, height: size.height, overflow: "hidden" }}
         >
           {layout.map((l) => (
@@ -535,20 +536,20 @@ export default function GameScreen(props: Props) {
         </View>
       </Animated.View>
       {props.mode === "free" && (props.shuffles ?? 0) > 0 && !finished ? (
-        <GameButton small title={`Перемешать (${props.shuffles})`} icon={ART.boostShuffle} color="white" onPress={shuffle} style={{ marginTop: 8, alignSelf: "center" }} label={`Перемешать поле, осталось ${props.shuffles}`} />
+        <GameButton small title={t("game.shuffleN", { n: props.shuffles ?? 0 })} icon={ART.boostShuffle} color="white" onPress={shuffle} style={{ marginTop: 8, alignSelf: "center" }} label={t("game.shuffleLabel", { n: props.shuffles ?? 0 })} />
       ) : null}
       <Txt v="small" color={C.dim} center style={{ marginTop: 8 }}>
-        {isDaily ? "Ведите пальцем по 3+ сотам одного цвета" : "Цепочка из " + props.rules.bombAt + "+ сот оставляет бомбу"}
+        {isDaily ? t("game.hintDaily") : t("game.hintFree", { n: props.rules.bombAt })}
       </Txt>
 
       {/* quit confirm */}
       <Overlay visible={quitAsk && !result} onClose={() => setQuitAsk(false)}>
-        <Txt v="h2" center>Закончить раунд?</Txt>
+        <Txt v="h2" center>{t("game.quitQ")}</Txt>
         <Txt v="body" color={C.dim} center style={{ marginTop: 6, marginBottom: 18 }}>
-          Набранные очки засчитаются и превратятся в мёд.
+          {t("game.quitSub")}
         </Txt>
-        <GameButton title="Закончить" color="honey" onPress={() => { setQuitAsk(false); endRound(); }} />
-        <GameButton title="Играть дальше" color="white" style={{ marginTop: 10 }} onPress={() => setQuitAsk(false)} />
+        <GameButton title={t("game.end")} color="honey" onPress={() => { setQuitAsk(false); endRound(); }} />
+        <GameButton title={t("game.keep")} color="white" style={{ marginTop: 10 }} onPress={() => setQuitAsk(false)} />
       </Overlay>
 
       {/* results */}
@@ -565,16 +566,16 @@ function ResultCard({ mode, score, reward, onExit, onReplay }: { mode: RoundMode
   const daily = mode !== "free";
   const STARS = mode === "weekend" ? WEEKEND_STARS : DAILY_STARS;
   const title = daily
-    ? reward.stars === 3 ? "Идеально!" : reward.stars > 0 ? "Головоломка пройдена!" : "Почти получилось!"
-    : reward.record ? "Новый рекорд!" : "Раунд окончен";
+    ? reward.stars === 3 ? t("game.perfect") : reward.stars > 0 ? t("game.solved") : t("game.almost")
+    : reward.record ? t("game.record") : t("game.over");
   return (
-    <View style={{ alignItems: "center" }} accessibilityLabel="Итоги раунда">
+    <View style={{ alignItems: "center" }} accessibilityLabel={t("game.results")}>
       <Animated.Image source={ART.honey} style={{ width: 84, height: 84, marginTop: -64, transform: [{ scale: bee }] }} />
       <Txt v="h1" center style={{ marginTop: 6 }}>{title}</Txt>
       {daily ? <View style={{ marginTop: 10 }}><Stars n={reward.stars} size={46} gap={8} animate /></View> : null}
-      <Txt v="tiny" color={C.dim} style={{ marginTop: 14 }}>ОЧКИ</Txt>
+      <Txt v="tiny" color={C.dim} style={{ marginTop: 14 }}>{t("game.points")}</Txt>
       <CountUp value={score} duration={900} style={[F.black, { fontSize: 40, lineHeight: 46, color: C.text }]} />
-      {daily && reward.stars === 0 ? <Txt v="small" color={C.dim} center>Для звезды нужно {fmt(STARS[0])} очков — попробуйте ещё раз!</Txt> : null}
+      {daily && reward.stars === 0 ? <Txt v="small" color={C.dim} center>{t("game.needForStar", { n: fmt(STARS[0]) })}</Txt> : null}
       <View style={styles.rewardRow}>
         <View style={styles.rewardItem}>
           <Image source={ART.honey} style={{ width: 34, height: 34 }} />
@@ -588,22 +589,22 @@ function ResultCard({ mode, score, reward, onExit, onReplay }: { mode: RoundMode
         ) : null}
       </View>
       {reward.boxes.length ? (
-        <View style={[styles.rewardRow, { marginTop: 10 }]} accessibilityLabel={`Соты-сюрпризы: ${reward.boxes.map((b) => BOX_INFO[b].name).join(", ")}`}>
+        <View style={[styles.rewardRow, { marginTop: 10 }]} accessibilityLabel={t("game.combsLabel", { list: reward.boxes.map((b) => BOX_INFO[b].name).join(", ") })}>
           {reward.boxes.map((b, i) => (
             <View key={i} style={styles.rewardItem}><Image source={boxArt(b)} style={{ width: 38, height: 38 }} /><Txt v="small">{BOX_INFO[b].name}</Txt></View>
           ))}
         </View>
       ) : null}
-      {reward.froze ? <Txt v="small" color="#3B7CC4" center style={{ marginTop: 6 }}>Заморозка спасла серию!</Txt> : null}
+      {reward.froze ? <Txt v="small" color="#3B7CC4" center style={{ marginTop: 6 }}>{t("game.froze")}</Txt> : null}
       {mode === "daily" && reward.stars > 0 && reward.streak > 0 ? (
         <View style={[styles.chip, { marginTop: 10 }]}>
           <Image source={ART.flame} style={{ width: 18, height: 18 }} />
-          <Txt v="small" color={C.honeyDark}>Серия: {reward.streak} дн.</Txt>
+          <Txt v="small" color={C.honeyDark}>{t("game.streak", { n: reward.streak })}</Txt>
         </View>
       ) : null}
       <View style={{ alignSelf: "stretch", marginTop: 18, gap: 10 }}>
-        <GameButton title={daily ? "Готово" : "Ещё раунд"} color={daily ? "honey" : "green"} onPress={daily ? onExit : onReplay} />
-        <GameButton title={daily ? "Переиграть" : "В меню"} color="white" onPress={daily ? onReplay : onExit} />
+        <GameButton title={daily ? t("game.done") : t("game.again")} color={daily ? "honey" : "green"} onPress={daily ? onExit : onReplay} />
+        <GameButton title={daily ? t("game.replay") : t("game.menu")} color="white" onPress={daily ? onReplay : onExit} />
       </View>
     </View>
   );

@@ -6,25 +6,29 @@
  * within 30, duplicates turn into «пыльца коллекции» that buys specific items in the shop.
  */
 import { Rng } from "./rng";
+import { lz } from "../i18n";
 
 export type BoxKind = "wood" | "wax" | "gold" | "royal";
 export const BOX_KINDS: BoxKind[] = ["wood", "wax", "gold", "royal"];
 export type Rarity = "common" | "rare" | "epic" | "legendary";
 export const RARITIES: Rarity[] = ["common", "rare", "epic", "legendary"];
-export const RARITY_NAME: Record<Rarity, string> = { common: "обычное", rare: "редкое", epic: "эпическое", legendary: "легендарное" };
+export const RARITY_NAME = {} as Record<Rarity, string>;
+for (const r of ["common", "rare", "epic", "legendary"] as Rarity[]) lz(RARITY_NAME, r, `rarity.${r}`);
 export type BoosterId = "moves" | "bomb" | "shuffle";
 export const BOOSTERS: Record<BoosterId, { name: string; desc: string }> = {
-  moves: { name: "+3 хода", desc: "Три дополнительных хода в свободной игре" },
-  bomb: { name: "Бомба на старте", desc: "Раунд начинается с бомбой маточного молочка на поле" },
-  shuffle: { name: "Перемешивание", desc: "Перемешать поле в любой момент свободной игры" },
+  moves: { name: "", desc: "" },
+  bomb: { name: "", desc: "" },
+  shuffle: { name: "", desc: "" },
 };
+for (const [k, v] of Object.entries(BOOSTERS)) { lz(v, "name", `boost.${k}`); lz(v, "desc", `boost.${k}.desc`); }
 
 export const BOX_INFO: Record<BoxKind, { name: string; how: string }> = {
-  wood: { name: "Деревянная сота", how: "Раз в день — за все 3 задания дня" },
-  wax: { name: "Восковая сота", how: "3 звезды в головоломке дня, недельный сундук, головоломка выходного дня" },
-  gold: { name: "Золотая сота", how: "Каждые 7 дней серии головоломки дня, 3 звезды в выходной, редко — внутри восковой" },
-  royal: { name: "Королевская сота", how: "Только в сезонах — появятся в следующих версиях" },
+  wood: { name: "", how: "" },
+  wax: { name: "", how: "" },
+  gold: { name: "", how: "" },
+  royal: { name: "", how: "" },
 };
+for (const [k, v] of Object.entries(BOX_INFO)) { lz(v, "name", `box.${k}`); lz(v, "how", `box.${k}.how`); }
 
 // ---------------------------------------------------------------- catalog
 export type ItemKind = "skin" | "deco" | "flower" | "bee";
@@ -38,42 +42,47 @@ export interface Collectible {
   desc: string;
 }
 export const SKINS: Collectible[] = [
-  { id: "scarf", kind: "skin", name: "Шарфик", rarity: "common", page: "skins", desc: "Тёплый вязаный шарф в полоску." },
-  { id: "bow", kind: "skin", name: "Бантик", rarity: "common", page: "skins", desc: "Розовый бант — для праздника." },
-  { id: "glasses", kind: "skin", name: "Очки", rarity: "rare", page: "skins", desc: "Круглые очки умной пчелы." },
-  { id: "backpack", kind: "skin", name: "Рюкзачок", rarity: "rare", page: "skins", desc: "Для дальних полётов за нектаром." },
-  { id: "wreath", kind: "skin", name: "Венок", rarity: "rare", page: "skins", hat: true, desc: "Венок из луговых цветов." },
-  { id: "beret", kind: "skin", name: "Берет", rarity: "epic", page: "skins", hat: true, desc: "Берет художницы улья." },
-  { id: "headphones", kind: "skin", name: "Наушники", rarity: "epic", page: "skins", desc: "Жужжать под музыку веселее." },
-  { id: "halo", kind: "skin", name: "Нимб", rarity: "legendary", page: "skins", desc: "Золотое сияние над головой." },
+  { id: "scarf", kind: "skin", name: "", rarity: "common", page: "skins", desc: "" },
+  { id: "bow", kind: "skin", name: "", rarity: "common", page: "skins", desc: "" },
+  { id: "glasses", kind: "skin", name: "", rarity: "rare", page: "skins", desc: "" },
+  { id: "backpack", kind: "skin", name: "", rarity: "rare", page: "skins", desc: "" },
+  { id: "wreath", kind: "skin", name: "", rarity: "rare", page: "skins", hat: true, desc: "" },
+  { id: "beret", kind: "skin", name: "", rarity: "epic", page: "skins", hat: true, desc: "" },
+  { id: "headphones", kind: "skin", name: "", rarity: "epic", page: "skins", desc: "" },
+  { id: "halo", kind: "skin", name: "", rarity: "legendary", page: "skins", desc: "" },
 ];
 export const DECOS: Collectible[] = [
-  { id: "flags", kind: "deco", name: "Флажки", rarity: "common", page: "hive", place: "hive", desc: "Праздничная гирлянда у улья." },
-  { id: "lanterns", kind: "deco", name: "Фонарики", rarity: "rare", page: "hive", place: "hive", desc: "Тёплый свет по вечерам." },
-  { id: "barrel", kind: "deco", name: "Бочонок мёда", rarity: "epic", page: "hive", place: "hive", desc: "Запас на зиму. И на завтрак." },
-  { id: "fountain", kind: "deco", name: "Медовый фонтан", rarity: "legendary", page: "hive", place: "hive", desc: "Мечта любой пасеки." },
-  { id: "mushroom", kind: "deco", name: "Грибочки", rarity: "common", page: "garden", place: "garden", desc: "Выросли после дождя." },
-  { id: "bench", kind: "deco", name: "Скамейка", rarity: "rare", page: "garden", place: "garden", desc: "Посидеть и послушать жужжание." },
-  { id: "pinwheel", kind: "deco", name: "Вертушка", rarity: "epic", page: "garden", place: "garden", desc: "Крутится от каждого ветерка." },
-  { id: "gnome", kind: "deco", name: "Гномик-пасечник", rarity: "legendary", page: "garden", place: "garden", desc: "Стережёт грядки и горшочек мёда." },
+  { id: "flags", kind: "deco", name: "", rarity: "common", page: "hive", place: "hive", desc: "" },
+  { id: "lanterns", kind: "deco", name: "", rarity: "rare", page: "hive", place: "hive", desc: "" },
+  { id: "barrel", kind: "deco", name: "", rarity: "epic", page: "hive", place: "hive", desc: "" },
+  { id: "fountain", kind: "deco", name: "", rarity: "legendary", page: "hive", place: "hive", desc: "" },
+  { id: "mushroom", kind: "deco", name: "", rarity: "common", page: "garden", place: "garden", desc: "" },
+  { id: "bench", kind: "deco", name: "", rarity: "rare", page: "garden", place: "garden", desc: "" },
+  { id: "pinwheel", kind: "deco", name: "", rarity: "epic", page: "garden", place: "garden", desc: "" },
+  { id: "gnome", kind: "deco", name: "", rarity: "legendary", page: "garden", place: "garden", desc: "" },
 ];
 /** album entries that are not box items: rare flowers (first seed) and the night bee (10 fragments) */
 export const RARE_ENTRIES: Collectible[] = [
-  { id: "moonpoppy", kind: "flower", name: "Лунный мак", rarity: "rare", page: "rare", desc: "Светится по ночам. Семена — только из сот." },
-  { id: "goldsun", kind: "flower", name: "Золотой подсолнух", rarity: "epic", page: "rare", desc: "Лепестки из чистого золота. Много нектара." },
-  { id: "nochka", kind: "bee", name: "Ночная пчела", rarity: "legendary", page: "rare", desc: "Собирается из 10 фрагментов." },
+  { id: "moonpoppy", kind: "flower", name: "", rarity: "rare", page: "rare", desc: "" },
+  { id: "goldsun", kind: "flower", name: "", rarity: "epic", page: "rare", desc: "" },
+  { id: "nochka", kind: "bee", name: "", rarity: "legendary", page: "rare", desc: "" },
 ];
+for (const i of [...SKINS, ...DECOS, ...RARE_ENTRIES]) {
+  lz(i, "name", i.kind === "flower" ? `flower.${i.id}` : i.kind === "bee" ? `bee.${i.id}.name` : `item.${i.id}`);
+  lz(i, "desc", `item.${i.id}.desc`);
+}
 export const ITEMS: Collectible[] = [...SKINS, ...DECOS];
 export const ITEM_BY_ID: Record<string, Collectible> = Object.fromEntries([...ITEMS, ...RARE_ENTRIES].map((i) => [i.id, i]));
 export const SKIN_BY_ID: Record<string, Collectible> = Object.fromEntries(SKINS.map((i) => [i.id, i]));
 
 export interface Page { id: PageId; title: string; items: string[]; bonus: string }
 export const PAGES: Page[] = [
-  { id: "skins", title: "Наряды", items: SKINS.map((i) => i.id), bonus: "+10% мёда из головоломки" },
-  { id: "hive", title: "Украшения улья", items: DECOS.filter((d) => d.place === "hive").map((i) => i.id), bonus: "+5% к мёду улья" },
-  { id: "garden", title: "Украшения сада", items: DECOS.filter((d) => d.place === "garden").map((i) => i.id), bonus: "+2 нектара с каждого урожая" },
-  { id: "rare", title: "Редкости", items: RARE_ENTRIES.map((i) => i.id), bonus: "+3 ч к хранилищу улья" },
+  { id: "skins", title: "", items: SKINS.map((i) => i.id), bonus: "" },
+  { id: "hive", title: "", items: DECOS.filter((d) => d.place === "hive").map((i) => i.id), bonus: "" },
+  { id: "garden", title: "", items: DECOS.filter((d) => d.place === "garden").map((i) => i.id), bonus: "" },
+  { id: "rare", title: "", items: RARE_ENTRIES.map((i) => i.id), bonus: "" },
 ];
+for (const p of PAGES) { lz(p, "title", `page.${p.id}`); lz(p, "bonus", `page.${p.id}.bonus`); }
 export const FRAGMENTS_FOR_BEE = 10;
 export const NIGHT_BEE = "nochka";
 

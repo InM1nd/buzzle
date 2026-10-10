@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, ScrollView, StyleSheet, useWindowDimensions, View } from "react-native";
 import { GameState, dayColorInfo, flowerUnlocked, level, nextBedCost, seedPrice, seedsOwned, shownDecos } from "../logic/game";
@@ -5,7 +6,7 @@ import { DecoStrip, RARITY_UI } from "../ui/lootUi";
 import {
   Bed, BED_HIVE_BONUS, canWater, FLOWER_BY_ID, FLOWERS, isReady, MAX_BEDS, progress, stageOf, WATER_HOURS,
 } from "../logic/garden";
-import { COLOR_NAMES } from "../logic/bees";
+import { colorName } from "../logic/bees";
 import { ART } from "../ui/art";
 import { GARDEN_ART } from "../ui/beeArt";
 import { Mascot } from "../ui/BeeSprite";
@@ -37,12 +38,12 @@ function flowerImg(b: Bed) {
 }
 
 export function bedStatus(b: Bed): { text: string; tone: "ok" | "dry" | "ready" | "empty" } {
-  if (!b.flower) return { text: "Пустая грядка", tone: "empty" };
-  if (isReady(b)) return { text: `Готово! +${FLOWER_BY_ID[b.flower].nectar}`, tone: "ready" };
-  if (b.water <= 0) return { text: "Сухо — полей!", tone: "dry" };
+  if (!b.flower) return { text: t("gd.emptyBed"), tone: "empty" };
+  if (isReady(b)) return { text: t("gd.ready", { n: FLOWER_BY_ID[b.flower].nectar }), tone: "ready" };
+  if (b.water <= 0) return { text: t("gd.dry"), tone: "dry" };
   const need = FLOWER_BY_ID[b.flower].growHours - b.growth;
-  if (b.water >= need - 1e-9) return { text: `Цветёт через ${duration(need * H)}`, tone: "ok" };
-  return { text: `Вода ещё ${duration(b.water * H)}`, tone: "ok" };
+  if (b.water >= need - 1e-9) return { text: t("gd.bloomsIn", { t: duration(need * H) }), tone: "ok" };
+  return { text: t("gd.waterLeft", { t: duration(b.water * H) }), tone: "ok" };
 }
 
 function BedTile({ b, i, w, selected, onPress }: { b: Bed; i: number; w: number; selected: boolean; onPress: (ref: View | null) => void }) {
@@ -66,7 +67,7 @@ function BedTile({ b, i, w, selected, onPress }: { b: Bed; i: number; w: number;
   const h = w * 1.18;
   return (
     <Press onPress={() => onPress(ref.current)} style={[styles.bed, shadow, { width: w, height: h }, selected && styles.bedSel]}
-      accessibilityRole="button" accessibilityLabel={`Грядка ${i + 1}: ${b.flower ? FLOWER_BY_ID[b.flower].name + ", " : ""}${st.text}`}>
+      accessibilityRole="button" accessibilityLabel={t("gd.bedLabel", { i: i + 1, what: `${b.flower ? FLOWER_BY_ID[b.flower].name + ", " : ""}${st.text}` })}>
       <View ref={ref} collapsable={false} style={{ flex: 1, alignItems: "center" }}>
         <View style={{ flex: 1, width: "100%", alignItems: "center", justifyContent: "flex-end" }}>
           {img ? (
@@ -115,9 +116,9 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
         <Card style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
           <Mascot id="zhuzha" size={78} seed={11} />
           <View style={{ flex: 1 }}>
-            <Txt v="h3">Новое: сад у улья!</Txt>
-            <Txt v="small" color={C.dim}>Сажай цветы и поливай их раз в несколько часов. Цветы дают нектар — на него растут уровни пчёл.</Txt>
-            <GameButton small title="Понятно" color="green" onPress={onIntroDone} style={{ marginTop: 8, alignSelf: "flex-start", minWidth: 120 }} />
+            <Txt v="h3">{t("gd.introTitle")}</Txt>
+            <Txt v="small" color={C.dim}>{t("gd.introText")}</Txt>
+            <GameButton small title={t("gd.gotIt")} color="green" onPress={onIntroDone} style={{ marginTop: 8, alignSelf: "flex-start", minWidth: 120 }} />
           </View>
         </Card>
       ) : null}
@@ -125,11 +126,11 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
       <View style={[styles.head, shadow]}>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
           <View style={{ flex: 1 }}>
-            <Txt v="tiny" color="#4E7A2A">САД У УЛЬЯ</Txt>
-            <Txt v="h2" color="#2F4A17">Грядки {beds.length} из {MAX_BEDS}</Txt>
-            <Txt v="small" color="#4E7A2A">Каждый цветок на грядке: +{Math.round(BED_HIVE_BONUS * 100)}% мёда улья{bonus ? ` · сейчас +${bonus}%` : ""}</Txt>
+            <Txt v="tiny" color="#4E7A2A">{t("gd.caps")}</Txt>
+            <Txt v="h2" color="#2F4A17">{t("gd.beds", { a: beds.length, b: MAX_BEDS })}</Txt>
+            <Txt v="small" color="#4E7A2A">{t("gd.bonus", { p: Math.round(BED_HIVE_BONUS * 100) })}{bonus ? t("gd.bonusNow", { p: bonus }) : ""}</Txt>
           </View>
-          <View style={styles.nectarBox} accessibilityLabel={`Нектар ${Math.floor(s.nectar)}`}>
+          <View style={styles.nectarBox} accessibilityLabel={t("gd.nectarLabel", { n: Math.floor(s.nectar) })}>
             <Image source={ART.nectar} style={{ width: 34, height: 34 }} />
             <Txt v="num" color="#B03A68">{fmt(s.nectar)}</Txt>
           </View>
@@ -137,7 +138,7 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
         <View style={[styles.dayColor, { borderColor: COLOR_HEX[dc.color] }]}>
           <View style={[styles.dot, { backgroundColor: COLOR_HEX[dc.color] }]} />
           <Txt v="small" color={C.text} style={{ flex: 1 }}>
-            Цвет дня — {COLOR_NAMES[dc.color]} ×1,5 в головоломке. {dc.active ? "Включён: цветок уже растёт ✓" : `Посади: ${dcFlower.name}.`}
+            {t("gd.dayColor", { color: colorName(dc.color) })}{dc.active ? t("gd.dayColorOn") : t("gd.dayColorPlant", { flower: dcFlower.name })}
           </Txt>
         </View>
       </View>
@@ -147,16 +148,16 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
         {beds.map((b, i) => <BedTile key={i} b={b} i={i} w={bw} selected={sel === i} onPress={(r) => tap(i, r)} />)}
         {bedCost !== null ? (
           <Press onPress={() => onUnlockBed()} style={[styles.bed, styles.bedLocked, { width: bw, height: bw * 1.18 }]} accessibilityRole="button"
-            accessibilityLabel={`Новая грядка за ${bedCost} мёда`}>
+            accessibilityLabel={t("gd.newBedLabel", { n: bedCost })}>
             <Image source={ART.shovel} style={{ width: 30, height: 30, tintColor: s.honey >= bedCost ? C.honeyDeep : "#CDB48C" }} />
-            <Txt v="tiny" color={C.dim} style={{ marginTop: 6 }}>НОВАЯ ГРЯДКА</Txt>
+            <Txt v="tiny" color={C.dim} style={{ marginTop: 6 }}>{t("gd.newBedCaps")}</Txt>
             <View style={styles.cost}><Image source={ART.honey} style={{ width: 16, height: 16 }} /><Txt v="small" color={s.honey >= bedCost ? C.honeyDark : C.faint}>{fmt(bedCost)}</Txt></View>
           </Press>
         ) : null}
       </View>
 
       {canWaterAny ? (
-        <GameButton title="Полить все грядки" icon={ART.can} color="white" onPress={() => onWaterAll()} label="Полить все грядки" />
+        <GameButton title={t("gd.waterAll")} icon={ART.can} color="white" onPress={() => onWaterAll()} label={t("gd.waterAll")} />
       ) : null}
 
       {selBed && sel !== null ? (
@@ -166,16 +167,16 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
               <Image source={GARDEN_ART[`${selBed.flower}_bloom`]} style={{ width: 64, height: 64 }} />
               <View style={{ flex: 1 }}>
                 <Txt v="h3">{FLOWER_BY_ID[selBed.flower].name}</Txt>
-                <Txt v="small" color={C.dim}>{bedStatus(selBed).text} · урожай {FLOWER_BY_ID[selBed.flower].nectar} нектара</Txt>
-                <Txt v="small" color={C.dim}>Растёт только во влажной земле: полив держится {WATER_HOURS} ч.</Txt>
+                <Txt v="small" color={C.dim}>{t("gd.harvestInfo", { status: bedStatus(selBed).text, n: FLOWER_BY_ID[selBed.flower].nectar })}</Txt>
+                <Txt v="small" color={C.dim}>{t("gd.wetOnly", { n: WATER_HOURS })}</Txt>
               </View>
             </View>
-            <GameButton small title={canWater(selBed) ? "Полить" : "Земля ещё влажная"} icon={ART.can} color="green" disabled={!canWater(selBed)}
-              onPress={() => onWater(sel)} style={{ marginTop: 10 }} label="Полить грядку" />
+            <GameButton small title={canWater(selBed) ? t("gd.water") : t("gd.stillWet")} icon={ART.can} color="green" disabled={!canWater(selBed)}
+              onPress={() => onWater(sel)} style={{ marginTop: 10 }} label={t("gd.waterBed")} />
           </Card>
         ) : (
           <Card warm style={{ borderWidth: 2, borderColor: C.honey }}>
-            <Txt v="h3" style={{ marginBottom: 8 }}>Что посадим?</Txt>
+            <Txt v="h3" style={{ marginBottom: 8 }}>{t("gd.whatPlant")}</Txt>
             {FLOWERS.filter((f) => !f.rare || seedsOwned(s, f.id) > 0).map((f) => {
               const pocket = seedsOwned(s, f.id);
               const unlocked = pocket > 0 || flowerUnlocked(s, f.id);
@@ -188,24 +189,24 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
                       <Txt v="h3" color={f.rare ? RARITY_UI.rare.color : undefined}>{f.name}</Txt>
                       <View style={[styles.dot, { backgroundColor: COLOR_HEX[f.color] }]} />
                     </View>
-                    <Txt v="small" color={C.dim}>{f.growHours} ч роста · +{f.nectar} нектара{pocket ? ` · в кармане ×${pocket}` : ""}</Txt>
+                    <Txt v="small" color={C.dim}>{t("gd.flowerInfo", { h: f.growHours, n: f.nectar })}{pocket ? t("gd.pocket", { n: pocket }) : ""}</Txt>
                   </View>
                   {pocket > 0 ? (
-                    <GameButton small title="Даром" icon={ART.seed} color="green" onPress={() => { if (onPlant(sel, f.id)) setSel(null); }}
-                      label={`Посадить из кармана: ${f.name}`} style={{ minWidth: 92 }} />
+                    <GameButton small title={t("gd.free")} icon={ART.seed} color="green" onPress={() => { if (onPlant(sel, f.id)) setSel(null); }}
+                      label={t("gd.plantPocket", { name: f.name })} style={{ minWidth: 92 }} />
                   ) : unlocked ? (
                     <GameButton small title={fmt(price)} icon={ART.honey} disabled={s.honey < price} onPress={() => { if (onPlant(sel, f.id)) setSel(null); }}
-                      label={`Посадить: ${f.name}`} style={{ minWidth: 92 }} />
-                  ) : <Txt v="small" color={C.faint}>с {f.minLevel} ур. улья</Txt>}
+                      label={t("gd.plant", { name: f.name })} style={{ minWidth: 92 }} />
+                  ) : <Txt v="small" color={C.faint}>{t("gd.fromLevel", { n: f.minLevel })}</Txt>}
                 </View>
               );
             })}
           </Card>
         )
       ) : (
-        <Txt v="small" color={C.dim} center>Нажми на грядку, чтобы посадить или полить цветок. Готовые цветы собираются одним касанием.</Txt>
+        <Txt v="small" color={C.dim} center>{t("gd.tapHint")}</Txt>
       )}
-      <Txt v="tiny" color={C.faint} center>Уровень улья {level(s)}: чем выше улей, тем больше видов семян.</Txt>
+      <Txt v="tiny" color={C.faint} center>{t("gd.levelHint", { n: level(s) })}</Txt>
     </ScrollView>
   );
 }

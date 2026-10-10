@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 import { Platform } from "react-native";
 import * as Notifications from "expo-notifications";
 import { PlannedNotification } from "../logic/notifyPlan";
@@ -11,8 +12,8 @@ Notifications.setNotificationHandler({
 export async function ensureChannel() {
   if (Platform.OS !== "android") return;
   await Notifications.setNotificationChannelAsync(CHANNEL_ID, {
-    name: "Buzzle: улей и головоломка дня",
-    description: "Когда улей полон и когда готова новая ежедневная головоломка",
+    name: t("nt.channel"),
+    description: t("nt.channelDesc"),
     importance: Notifications.AndroidImportance.DEFAULT,
   });
 }

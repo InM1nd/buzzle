@@ -1,4 +1,6 @@
 /** v1.2: garden timers, nectar, bee levels, colour of the day, reminders, save migration v1 → v2. */
+import { setLang } from "../src/i18n";
+setLang("ru"); // these tests were written against the Russian texts
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -202,7 +204,7 @@ const V1_SAVE = {
 test("migration v1 → v2 keeps all progress and adds nectar, levels and the garden", () => {
   const m = migrate(JSON.parse(JSON.stringify(V1_SAVE)), T0);
   assert.equal(m.version, STATE_VERSION);
-  assert.equal(STATE_VERSION, 4);
+  assert.equal(STATE_VERSION, 5);
   assert.equal(m.honey, 1240); assert.equal(m.jelly, 7); assert.equal(m.nectar, 0);
   assert.deepEqual(m.hive.combs, V1_SAVE.hive.combs);
   assert.equal(m.hive.stored, 120);

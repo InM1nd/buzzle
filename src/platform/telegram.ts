@@ -15,6 +15,7 @@ export interface TgCloudStorage {
 type Inset = { top: number; bottom: number; left: number; right: number };
 export interface TgWebApp {
   initData: string;
+  initDataUnsafe?: { user?: { language_code?: string } };
   platform: string;
   version: string;
   isVersionAtLeast(v: string): boolean;
@@ -116,6 +117,12 @@ export function onHide(f: () => void): () => void {
   return () => { document.removeEventListener("visibilitychange", h); window.removeEventListener("pagehide", f); };
 }
 /** Remove the HTML boot screen (web index.html) once the game state is loaded. */
+/** v1.4: the Telegram account language as one of ours (en/uk/ru), else null — only a suggestion for the picker */
+export function telegramLanguage(): "en" | "uk" | "ru" | null {
+  const c = (tg()?.initDataUnsafe?.user?.language_code || "").toLowerCase().split("-")[0];
+  return c === "uk" || c === "ru" || c === "en" ? c : c === "be" ? "ru" : null;
+}
+
 export function hideBootScreen() {
   if (Platform.OS !== "web" || typeof document === "undefined") return;
   const el = document.getElementById("bzz-boot");

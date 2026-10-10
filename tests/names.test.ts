@@ -1,4 +1,6 @@
 /** v1.2.1: custom bee names, cleaning / limits, reset, save migration v2 -> v3. */
+import { setLang } from "../src/i18n";
+setLang("ru"); // these tests were written against the Russian texts
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { beeDisplayName, cleanBeeName, graphemes, MAX_BEE_NAME, migrate, newState, renameBee, STATE_VERSION, unlockBee } from "../src/logic/game";
@@ -59,8 +61,8 @@ test("migration v2 (1.2.0) -> current: no names, everything else kept", () => {
   const v2 = { ...newState(T), version: 2, honey: 4321, beeLevels: { zhuzha: 7 } } as Record<string, unknown>;
   delete v2.beeNames;
   const m = migrate(JSON.parse(JSON.stringify(v2)), T);
-  assert.equal(STATE_VERSION, 4);
-  assert.equal(m.version, 4);
+  assert.equal(STATE_VERSION, 5);
+  assert.equal(m.version, STATE_VERSION);
   assert.deepEqual(m.beeNames, {});
   assert.equal(m.honey, 4321);
   assert.equal(m.beeLevels.zhuzha, 7);

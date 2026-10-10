@@ -1,3 +1,4 @@
+import { numFmt, t } from "../i18n";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Animated, Easing, Image, ImageSourcePropType, Pressable, StyleProp, StyleSheet, Text, TextProps, TextStyle, View, ViewStyle,
@@ -91,9 +92,9 @@ export function GameButton(p: {
 // ---------- numbers ----------
 export const fmt = (n: number) => {
   const v = Math.floor(n);
-  if (v >= 1e6) return `${(v / 1e6).toFixed(v >= 1e7 ? 0 : 1).replace(".", ",")} млн`;
-  if (v >= 10000) return `${(v / 1000).toFixed(v >= 1e5 ? 0 : 1).replace(".", ",")}K`;
-  return String(v).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  if (v >= 1e6) return t("unit.M", { n: numFmt(v / 1e6, undefined, v >= 1e7 ? 0 : 1) });
+  if (v >= 10000) return t("unit.K", { n: numFmt(v / 1000, undefined, v >= 1e5 ? 0 : 1) });
+  return numFmt(v);
 };
 
 /** Number that counts smoothly to its new value. */
@@ -214,7 +215,7 @@ export function Overlay({ visible, onClose, children, dismissable = true }: { vi
   return (
     <View style={[StyleSheet.absoluteFill, { zIndex: 50, elevation: 50 }]}>
       <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: "rgba(60,32,8,0.45)", opacity: a }]}>
-        <Pressable style={StyleSheet.absoluteFill} onPress={() => dismissable && onClose?.()} accessibilityLabel="Закрыть окно" />
+        <Pressable style={StyleSheet.absoluteFill} onPress={() => dismissable && onClose?.()} accessibilityLabel={t("c.closeWindow")} />
       </Animated.View>
       <View style={styles.overlayCenter} pointerEvents="box-none">
         <Animated.View style={[styles.sheet, { opacity: a, transform: [{ scale: a.interpolate({ inputRange: [0, 1], outputRange: [0.88, 1] }) }] }]}>
@@ -227,7 +228,7 @@ export function Overlay({ visible, onClose, children, dismissable = true }: { vi
 
 export function CloseBtn({ onPress, color = C.dim }: { onPress: () => void; color?: string }) {
   return (
-    <Press onPress={onPress} hitSlop={12} accessibilityRole="button" accessibilityLabel="Закрыть" style={styles.close}>
+    <Press onPress={onPress} hitSlop={12} accessibilityRole="button" accessibilityLabel={t("c.close")} style={styles.close}>
       <Image source={ART.close} style={{ width: 16, height: 16, tintColor: color }} />
     </Press>
   );

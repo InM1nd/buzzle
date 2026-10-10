@@ -1,8 +1,11 @@
 /**
  * Game state model + pure actions (no React Native imports → unit-testable with node:test).
  */
+import { Entry, isLang, Lang, LANGS } from "../i18n/core";
+import { STRINGS } from "../i18n";
+import { APP_VERSION } from "../version";
 import { boostsFor, BEE_BY_ID, levelCost, MAX_BEE_LEVEL } from "./bees";
-import { dayNumber, isWeekend, starsFor, weekOf, WEEKEND_STARS } from "./day";
+import { dayKey, dayNumber, isWeekend, starsFor, weekOf, WEEKEND_STARS } from "./day";
 import {
   buildCost, builtCount, capHours, capacity, Hive, hiveLevel, MAX_COMB_LEVEL, newHive, productionPerHour, settle, UpgradeId,
   UPGRADE_BY_ID, upgradeCost,
@@ -21,7 +24,7 @@ import { hashString } from "./rng";
 
 /** v2 (Buzzle 1.2): nectar, bee levels, garden. The storage key stays the same; v1 saves are migrated on load
  * (and backed up under bzz:backup:v1 by ui/store). */
-export const STATE_VERSION = 4 as const;
+export const STATE_VERSION = 5 as const;
 export const STORAGE_KEY = "bzz:state:v1";
 
 export interface DailyResult { stars: number; score: number }
@@ -39,7 +42,7 @@ export const newWeek = (id: number): Week => ({ id, tasks: 0, chest: false, week
 /** streak freeze price (royal jelly); one per week, at most one in stock */
 export const FREEZE_COST = 4;
 export interface GameState {
-  version: 4;
+  version: 5;
   honey: number;
   jelly: number;
   nectar: number;
@@ -61,10 +64,33 @@ export interface GameState {
   loot: Loot;
   week: Week;
   stats: { rounds: number; bestScore: number; longestChain: number; totalHoney: number; bombs: number; collects: number; harvests: number; totalNectar: number; levelUps: number };
-  settings: { notifications: boolean; haptics: boolean; tutorialDone: boolean; notifPromptDismissed: boolean; gardenReminders: boolean; gardenIntroDone: boolean };
+  settings: Settings;
+  /** v5 (1.4): silent "early player" mark for future beta perks (first seen date + version); synced with the save */
+  early: EarlyPlayer;
   /** anti clock-rollback bookkeeping */
   clock: { maxSeen: number; maxDay: number };
 }
+
+export interface Settings {
+  notifications: boolean; haptics: boolean; tutorialDone: boolean; notifPromptDismissed: boolean; gardenReminders: boolean; gardenIntroDone: boolean;
+  /** v1.4 */
+  lang: Lang;
+  /** the player confirmed a language on the picker (new players and, once, everyone updating from ≤1.3) */
+  langPicked: boolean;
+  /** placeholder until the game has sounds */
+  sound: boolean;
+  notifHive: boolean; notifDaily: boolean; notifChests: boolean;
+  /** quiet hours: reminders that would ring between from:00 and to:00 move to to:00 */
+  quietOn: boolean; quietFrom: number; quietTo: number;
+  /** Android: quiet daily update check */
+  autoUpdate: boolean;
+  /** last app/web version this save has run on ("What's new" once after a change) */
+  lastVersion: string;
+}
+export interface EarlyPlayer { firstSeen: string; version: string; early: boolean }
+/** everyone who starts before 2.0 is an early player */
+export const isEarlyVersion = (v: string) => /^(0|1)\./.test(v) || v.startsWith("≤");
+const isoDay = (t: number) => { const d = new Date(t); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
 
 export function newState(now: number): GameState {
   const day = dayNumber(new Date(now));
@@ -86,7 +112,12 @@ export function newState(now: number): GameState {
     loot: newLoot(hashString(`bzz-loot-${now}`)),
     week: newWeek(weekOf(day)),
     stats: { rounds: 0, bestScore: 0, longestChain: 0, totalHoney: 0, bombs: 0, collects: 0, harvests: 0, totalNectar: 0, levelUps: 0 },
-    settings: { notifications: false, haptics: true, tutorialDone: false, notifPromptDismissed: false, gardenReminders: true, gardenIntroDone: false },
+    settings: {
+      notifications: false, haptics: true, tutorialDone: false, notifPromptDismissed: false, gardenReminders: true, gardenIntroDone: false,
+      lang: "en", langPicked: false, sound: true, notifHive: true, notifDaily: true, notifChests: true,
+      quietOn: true, quietFrom: 22, quietTo: 9, autoUpdate: true, lastVersion: APP_VERSION,
+    },
+    early: { firstSeen: isoDay(now), version: APP_VERSION, early: isEarlyVersion(APP_VERSION) },
     clock: { maxSeen: now, maxDay: day },
   };
 }
@@ -111,7 +142,7 @@ export function migrate(raw: unknown, now: number): GameState {
   for (const id of Object.keys(rawNames)) {
     if (!BEE_BY_ID[id] || typeof rawNames[id] !== "string") continue;
     const n = cleanBeeName(rawNames[id]);
-    if (n && n !== BEE_BY_ID[id].name) beeNames[id] = n;
+    if (n && !isSpeciesName(id, n)) beeNames[id] = n;
   }
   const clockMax = Math.max(num(obj(s.clock).maxSeen, 0), 0) || now;
   const maxDay = num(obj(s.clock).maxDay, d.clock.maxDay);
@@ -146,9 +177,55 @@ export function migrate(raw: unknown, now: number): GameState {
     login: { ...d.login, ...obj(s.login) },
     tasks: { day: num(rawTasks.day, d.tasks.day), progress: { ...obj(rawTasks.progress) }, claimed: Array.isArray(rawTasks.claimed) ? rawTasks.claimed : [], bonus: !!rawTasks.bonus, ids },
     stats: { ...d.stats, ...obj(s.stats) },
-    settings: { ...d.settings, ...obj(s.settings), ...(s.version === 1 || s.version === undefined ? { gardenIntroDone: false } : {}) },
+    settings: migrateSettings(d.settings, obj(s.settings), s.version),
+    early: migrateEarly(s, now),
     clock: { maxSeen: clockMax, maxDay },
   };
+}
+
+function migrateSettings(d: Settings, raw: Record<string, any>, version: unknown): Settings {
+  const old = typeof version !== "number" || version < 5;
+  const b = (k: keyof Settings) => (typeof raw[k] === "boolean" ? raw[k] : d[k]) as boolean;
+  const hour = (v: unknown, def: number) => (typeof v === "number" && v >= 0 && v < 24 ? Math.floor(v) : def);
+  return {
+    notifications: b("notifications"), haptics: b("haptics"), tutorialDone: b("tutorialDone"), notifPromptDismissed: b("notifPromptDismissed"),
+    gardenReminders: b("gardenReminders"), gardenIntroDone: version === 1 || version === undefined ? false : b("gardenIntroDone"),
+    // saves from ≤1.3 were played in Russian: keep it, but show the picker once
+    lang: isLang(raw.lang) ? raw.lang : old ? "ru" : d.lang,
+    langPicked: old ? false : b("langPicked"),
+    sound: b("sound"), notifHive: b("notifHive"), notifDaily: b("notifDaily"), notifChests: b("notifChests"),
+    quietOn: b("quietOn"), quietFrom: hour(raw.quietFrom, d.quietFrom), quietTo: hour(raw.quietTo, d.quietTo),
+    autoUpdate: b("autoUpdate"),
+    // a pre-1.4 save has seen 1.3 at most: "What's new" shows for 1.4
+    lastVersion: typeof raw.lastVersion === "string" ? raw.lastVersion : old ? "1.3.0" : d.lastVersion,
+  };
+}
+function migrateEarly(s: Record<string, any>, now: number): EarlyPlayer {
+  const e = obj(s.early);
+  if (typeof e.firstSeen === "string" && /^\d{4}-\d{2}-\d{2}$/.test(e.firstSeen) && typeof e.version === "string")
+    return { firstSeen: e.firstSeen, version: e.version, early: isEarlyVersion(e.version) };
+  if (typeof s.version === "number" && s.version >= 5) return { firstSeen: isoDay(now), version: APP_VERSION, early: true };
+  // a save from before 1.4: the oldest day we know about (daily results, login, tasks), version "≤1.3"
+  const known = [
+    ...Object.keys(obj(obj(s.daily).results)).map(Number),
+    num(obj(s.login).lastDay, NaN), num(obj(s.tasks).day, NaN), num(obj(s.clock).maxDay, NaN),
+  ].filter((x) => Number.isFinite(x) && x > 0);
+  const first = known.length ? Math.min(...known) : dayNumber(new Date(now));
+  return { firstSeen: dayKey(first), version: "≤1.3", early: true };
+}
+
+/** a "custom" name equal to the species name in any language is no custom name */
+export function isSpeciesName(id: string, n: string): boolean {
+  const e = STRINGS[`bee.${id}.name` as keyof typeof STRINGS] as Entry | undefined;
+  return !!e && LANGS.some((l) => e[l] === n);
+}
+
+/** language-aware: pick the save's language and remember the confirmation */
+export function chooseLanguage(s: GameState, lang: Lang): GameState {
+  return { ...s, settings: { ...s.settings, lang, langPicked: true } };
+}
+export function setSetting<K extends keyof Settings>(s: GameState, k: K, v: Settings[K]): GameState {
+  return { ...s, settings: { ...s.settings, [k]: v } };
 }
 
 // ---------- derived ----------
@@ -472,7 +549,7 @@ export function renameBee(s: GameState, id: string, name: string): GameState | n
   if (!s.bees.includes(id) || !BEE_BY_ID[id]) return null;
   const n = cleanBeeName(name);
   const beeNames = { ...s.beeNames };
-  if (!n || n === BEE_BY_ID[id].name) delete beeNames[id];
+  if (!n || isSpeciesName(id, n)) delete beeNames[id];
   else beeNames[id] = n;
   return { ...s, beeNames };
 }

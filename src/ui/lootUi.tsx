@@ -1,4 +1,5 @@
 /** v1.3 shared bits for the surprise-comb screens: rarity colours (= pollen colours), item / drop icons and labels. */
+import { t } from "../i18n";
 import React from "react";
 import { Image, View } from "react-native";
 import { BoosterId, BOOSTERS, Drop, ITEM_BY_ID, Rarity, RARITY_NAME } from "../logic/loot";
@@ -10,10 +11,10 @@ import { fmt } from "./components";
 
 /** frame colours follow the pollen colours of the puzzle */
 export const RARITY_UI: Record<Rarity, { color: string; bg: string; name: string }> = {
-  common: { color: "#2FA864", bg: "#E4F7EA", name: RARITY_NAME.common },
-  rare: { color: "#2E8BEA", bg: "#E1EEFC", name: RARITY_NAME.rare },
-  epic: { color: "#8A5BE6", bg: "#EFE6FF", name: RARITY_NAME.epic },
-  legendary: { color: "#E09A00", bg: "#FFF0C7", name: RARITY_NAME.legendary },
+  common: { color: "#2FA864", bg: "#E4F7EA", get name() { return RARITY_NAME.common; } },
+  rare: { color: "#2E8BEA", bg: "#E1EEFC", get name() { return RARITY_NAME.rare; } },
+  epic: { color: "#8A5BE6", bg: "#EFE6FF", get name() { return RARITY_NAME.epic; } },
+  legendary: { color: "#E09A00", bg: "#FFF0C7", get name() { return RARITY_NAME.legendary; } },
 };
 export const BOOSTER_ART: Record<BoosterId, number> = { moves: ART.boostMoves, bomb: ART.bomb, shuffle: ART.boostShuffle };
 export const boxArt = (kind: string) => ITEM_ART[`box_${kind}`]?.src;
@@ -49,22 +50,22 @@ export function DropIcon({ d, size }: { d: Drop; size: number }) {
 
 export function dropTitle(d: Drop): string {
   switch (d.t) {
-    case "honey": return `${fmt(d.n)} мёда`;
-    case "nectar": return `${d.n} нектара`;
-    case "jelly": return `${d.n} молочка`;
+    case "honey": return t("drop.honey", { n: fmt(d.n) });
+    case "nectar": return t("drop.nectar", { n: d.n });
+    case "jelly": return t("drop.jelly", { n: d.n });
     case "seed": return `${FLOWER_BY_ID[d.flower]?.name ?? d.flower}${d.n > 1 ? ` ×${d.n}` : ""}`;
     case "item": return ITEM_BY_ID[d.id]?.name ?? d.id;
     case "booster": return `${BOOSTERS[d.b].name}${d.n > 1 ? ` ×${d.n}` : ""}`;
-    case "fragment": return `${d.n} ${d.n === 1 ? "фрагмент" : d.n < 5 ? "фрагмента" : "фрагментов"}`;
-    case "box": return "Золотая сота!";
+    case "fragment": return t("drop.fragment", { n: d.n });
+    case "box": return t("drop.box");
   }
 }
 export function dropSub(d: Drop): string | null {
-  if (d.t === "item") return d.dup ? `повтор → +${d.pollen} пыльцы` : "новое в альбоме!";
-  if (d.t === "seed") return FLOWER_BY_ID[d.flower]?.rare ? "редкие семена" : "семена";
-  if (d.t === "fragment") return d.pollen ? `→ +${d.pollen} пыльцы` : "Ночной пчелы";
-  if (d.t === "booster") return "бустер";
-  if (d.t === "box") return "внутри восковой";
+  if (d.t === "item") return d.dup ? t("drop.dup", { n: d.pollen ?? 0 }) : t("drop.new");
+  if (d.t === "seed") return FLOWER_BY_ID[d.flower]?.rare ? t("drop.rareSeeds") : t("drop.seeds");
+  if (d.t === "fragment") return d.pollen ? t("drop.fragPollen", { n: d.pollen }) : t("drop.fragOf");
+  if (d.t === "booster") return t("drop.booster");
+  if (d.t === "box") return t("drop.boxInside");
   return null;
 }
 export const isResource = (d: Drop) => d.t === "honey" || d.t === "nectar" || d.t === "jelly";
@@ -74,7 +75,7 @@ export function DecoStrip({ ids, ground }: { ids: string[]; ground: string }) {
   if (!ids.length) return null;
   return (
     <View style={{ flexDirection: "row", alignItems: "flex-end", justifyContent: "space-evenly", backgroundColor: ground, borderRadius: 22, paddingTop: 8, paddingHorizontal: 6, minHeight: 78 }}
-      accessibilityLabel={`Украшения: ${ids.map((i) => ITEM_BY_ID[i]?.name).join(", ")}`}>
+      accessibilityLabel={t("decos.label", { list: ids.map((i) => ITEM_BY_ID[i]?.name).join(", ") })}>
       {ids.map((id) => {
         const a = ITEM_ART[`deco_${id}`];
         if (!a) return null;

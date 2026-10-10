@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 import { shownDecos } from "../logic/game";
 import { DecoStrip } from "../ui/lootUi";
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -57,7 +58,7 @@ function CombTile({ slot, lvl, x, y, s, state, selected, onPress }: {
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityLabel={state === "built" ? `Сота ${slot + 1}, уровень ${lvl}` : state === "open" ? `Пустая ячейка ${slot + 1}` : `Закрытая ячейка ${slot + 1}`}
+      accessibilityLabel={state === "built" ? t("hive.combLabel", { slot: slot + 1, lvl }) : state === "open" ? t("hive.emptyLabel", { slot: slot + 1 }) : t("hive.lockedLabel", { slot: slot + 1 })}
       style={{ position: "absolute", left: x - w / 2, top: y - h / 2, width: w, height: h }}
     >
       <Animated.View style={{ width: w, height: h, opacity: state === "locked" ? 0.45 : 1, transform: [{ scale: Animated.multiply(sc, selected ? 1.08 : 1) }] }}>
@@ -79,7 +80,7 @@ function CombTile({ slot, lvl, x, y, s, state, selected, onPress }: {
           opacity: fl.interpolate({ inputRange: [0, 0.2, 0.8, 1], outputRange: [0, 1, 1, 0] }),
           transform: [{ translateY: fl.interpolate({ inputRange: [0, 1], outputRange: [0, -34] }) }],
         }}>
-          <Text style={[F.black, styles.lvlText, { fontSize: 18, color: C.green }]}>{lvl === 1 ? "Построено!" : "+1 ур."}</Text>
+          <Text style={[F.black, styles.lvlText, { fontSize: 18, color: C.green }]}>{lvl === 1 ? t("hive.built") : t("hive.plusLvl")}</Text>
         </Animated.View>
       ) : null}
     </Pressable>
@@ -189,7 +190,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
     <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 28, gap: 14 }} showsVerticalScrollIndicator={false}>
       {rolled ? (
         <Card style={{ backgroundColor: "#FFE7DF", padding: 12 }}>
-          <Txt v="small" color={C.red}>Часы устройства переведены назад. Пчёлы подождут, пока время снова догонит улей.</Txt>
+          <Txt v="small" color={C.red}>{t("hive.rollback")}</Txt>
         </Card>
       ) : null}
 
@@ -198,10 +199,10 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
       {/* hive */}
       <View style={[styles.hiveArea, { height: areaH + 46 }]}>
         <View style={styles.hiveHead}>
-          <View style={styles.levelChip}><Txt v="small" color="#fff">Улей · ур. {level(s)}</Txt></View>
-          <Txt v="small" color={C.honeyDark}>+{rateFmt(r)} мёда/ч</Txt>
+          <View style={styles.levelChip}><Txt v="small" color="#fff">{t("hive.levelChip", { n: level(s) })}</Txt></View>
+          <Txt v="small" color={C.honeyDark}>{t("hive.rate", { r: rateFmt(r) })}</Txt>
         </View>
-        <Pressable style={{ width: areaW, height: areaH }} onPress={() => setSel(null)} accessibilityLabel="Улей">
+        <Pressable style={{ width: areaW, height: areaH }} onPress={() => setSel(null)} accessibilityLabel={t("hive.label")}>
           {tiles.map((t) => (
             <CombTile key={t.i} slot={t.i} lvl={t.lvl} x={t.x} y={t.y} s={hs} state={t.st} selected={sel === t.i}
               onPress={() => setSel(sel === t.i ? null : t.i)} />
@@ -219,27 +220,27 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
         <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
           <Animated.Image source={ART.honey} style={{ width: 54, height: 54, transform: [{ scale: glow.interpolate({ inputRange: [0, 0.5, 1], outputRange: [1, 1.1, 1] }) }] }} />
           <View style={{ flex: 1 }}>
-            <Txt v="h3">{isFull ? "Улей полон!" : "Мёд в улье"}</Txt>
+            <Txt v="h3">{isFull ? t("hive.full") : t("hive.stored")}</Txt>
             <Txt v="num" color={C.honeyDark}>{fmt(stored)} <Txt v="small" color={C.dim}>/ {fmt(c)}</Txt></Txt>
           </View>
         </View>
         <Bar progress={c ? stored / c : 0} height={14} style={{ marginTop: 10 }} color={isFull ? C.honeyDeep : C.honey} />
         <Txt v="small" color={C.dim} style={{ marginTop: 6 }}>
-          {isFull ? "Пчёлы ждут — забери мёд, чтобы они продолжили работу." : full > 0 ? `Заполнится через ${duration(full)} · запас на ${hours} ч` : "Постройте соты, чтобы пчёлы начали работу."}
+          {isFull ? t("hive.fullHint") : full > 0 ? t("hive.fillsIn", { t: duration(full), h: hours }) : t("hive.buildFirst")}
         </Txt>
         <View ref={collectRef} collapsable={false} style={{ marginTop: 12 }}>
           <GameButton
-            title={stored >= 1 ? `Собрать ${fmt(stored)}` : "Пока пусто"}
+            title={stored >= 1 ? t("hive.collectN", { n: fmt(stored) }) : t("hive.empty")}
             icon={ART.honey}
             disabled={stored < 1}
             onPress={async () => onCollect(await centerOf(collectRef.current))}
-            label="Собрать мёд"
+            label={t("hive.collect")}
           />
         </View>
       </Card>
 
       {/* upgrades */}
-      <Txt v="h2" style={{ marginTop: 4, marginLeft: 4 }}>Улучшения</Txt>
+      <Txt v="h2" style={{ marginTop: 4, marginLeft: 4 }}>{t("hive.upgrades")}</Txt>
       {UPGRADES.map((u) => {
         const lvl = s.upgrades[u.id];
         const cost = upgradeCostFor(s, u.id);
@@ -248,12 +249,12 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
             <View style={styles.upIcon}>{UP_ICON[u.id]}</View>
             <View style={{ flex: 1 }}>
               <Txt v="h3" numberOfLines={1}>{u.name}</Txt>
-              <Txt v="tiny" color={C.honeyDark}>УРОВЕНЬ {lvl}/{u.max}</Txt>
-              <Txt v="small" color={C.dim}>{cost !== null ? `дальше: ${u.desc(lvl + 1)}` : u.desc(lvl)}</Txt>
+              <Txt v="tiny" color={C.honeyDark}>{t("hive.upLevel", { l: lvl, max: u.max })}</Txt>
+              <Txt v="small" color={C.dim}>{cost !== null ? t("hive.next", { d: u.desc(lvl + 1) }) : u.desc(lvl)}</Txt>
             </View>
             {cost !== null ? (
-              <GameButton small title={fmt(cost)} icon={ART.honey} disabled={s.honey < cost} onPress={() => onUpgrade(u.id)} label={`Купить: ${u.name}`} style={{ minWidth: 96 }} />
-            ) : <Txt v="small" color={C.green}>Макс.</Txt>}
+              <GameButton small title={fmt(cost)} icon={ART.honey} disabled={s.honey < cost} onPress={() => onUpgrade(u.id)} label={t("hive.buy", { name: u.name })} style={{ minWidth: 96 }} />
+            ) : <Txt v="small" color={C.green}>{t("c.max")}</Txt>}
           </Card>
         );
       })}
@@ -272,23 +273,23 @@ function CombPanel({ s, slot, onAction, onClose }: { s: GameState; slot: number;
   return (
     <Card warm style={{ borderWidth: 2, borderColor: C.honey }}>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Txt v="h3" style={{ flex: 1 }}>{lvl > 0 ? `Сота · уровень ${lvl}` : locked ? "Закрытая ячейка" : "Пустая ячейка"}</Txt>
-        <Press onPress={onClose} hitSlop={10} accessibilityLabel="Снять выбор"><Image source={ART.close} style={{ width: 14, height: 14, tintColor: C.dim }} /></Press>
+        <Txt v="h3" style={{ flex: 1 }}>{lvl > 0 ? t("hive.combTitle", { n: lvl }) : locked ? t("hive.lockedCell") : t("hive.emptyCell")}</Txt>
+        <Press onPress={onClose} hitSlop={10} accessibilityLabel={t("hive.deselect")}><Image source={ART.close} style={{ width: 14, height: 14, tintColor: C.dim }} /></Press>
       </View>
       <Txt v="small" color={C.dim} style={{ marginTop: 4, marginBottom: 10 }}>
-        {locked ? "Улей растёт от центра: сначала постройте соседнюю соту."
-          : lvl >= MAX_COMB_LEVEL ? `Максимальный уровень · ${rateFmt(now)} мёда/ч`
-          : lvl > 0 ? `${rateFmt(now)} → ${rateFmt(next)} мёда в час` : `Новая сота: +${rateFmt(next)} мёда в час`}
+        {locked ? t("hive.growsFromCenter")
+          : lvl >= MAX_COMB_LEVEL ? t("hive.maxRate", { r: rateFmt(now) })
+          : lvl > 0 ? t("hive.rateUp", { a: rateFmt(now), b: rateFmt(next) }) : t("hive.newComb", { r: rateFmt(next) })}
       </Txt>
       {!locked && cost !== null ? (
         <GameButton
-          title={lvl > 0 ? `Улучшить · ${fmt(cost)}` : `Построить · ${fmt(cost)}`}
+          title={lvl > 0 ? t("hive.upgradeCost", { c: fmt(cost) }) : t("hive.buildCost", { c: fmt(cost) })}
           icon={ART.honey}
           color="green"
           disabled={s.honey < cost}
-          sub={s.honey < cost ? `не хватает ${fmt(cost - s.honey)}` : undefined}
+          sub={s.honey < cost ? t("c.short", { n: fmt(cost - s.honey) }) : undefined}
           onPress={onAction}
-          label={lvl > 0 ? "Улучшить соту" : "Построить соту"}
+          label={lvl > 0 ? t("hive.upgradeLabel") : t("hive.buildLabel")}
         />
       ) : null}
     </Card>

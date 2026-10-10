@@ -8,4 +8,6 @@ rm -rf "$OUT"
 CI=1 npx expo export -p web --output-dir "$OUT" --clear
 python3 scripts/telegram/postprocess.py "$OUT"
 rm -f "$OUT/metadata.json"
+# v1.4: static pages (privacy policy in en/uk/ru)
+cp -r web-static/. "$OUT/"
 du -sh "$OUT"

@@ -40,7 +40,8 @@ function mid(): GameState {
     login: { lastDay: DAY, index: 3, streak: 4 },
     tasks: { day: DAY, progress: { [t[0].id]: t[0].target, [t[1].id]: Math.ceil(t[1].target / 2) }, claimed: [], bonus: false },
     stats: { rounds: 23, bestScore: 3420, longestChain: 11, totalHoney: 5230, bombs: 17, collects: 31, harvests: 9, totalNectar: 96, levelUps: 3 },
-    settings: { notifications: true, haptics: true, tutorialDone: true, notifPromptDismissed: true, gardenReminders: true, gardenIntroDone: true },
+    settings: { ...newState(NOW).settings, notifications: true, haptics: true, tutorialDone: true, notifPromptDismissed: true, gardenReminders: true, gardenIntroDone: true, langPicked: true, lang: (process.env.BZZ_LANG as never) || "ru" },
+    early: newState(NOW).early,
     clock: { maxSeen: NOW - 3.2 * H, maxDay: DAY },
   };
   return tick(s, NOW - 1000);

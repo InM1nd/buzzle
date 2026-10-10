@@ -52,4 +52,13 @@ s = s[:blk_end] + "signingConfig signingConfigs.release" + s[blk_end+len("signin
 open(p, "w").write(s)
 PY
 fi
+# v1.4 in-app updater (GitHub Releases). A Play Store build turns it off:
+#   BZZ_UPDATER=off bash scripts/configure-android.sh && EXPO_PUBLIC_BZZ_UPDATER=off ./gradlew assembleRelease
+MAN=android/app/src/main/AndroidManifest.xml
+if [ "${BZZ_UPDATER:-on}" = "off" ]; then
+  sed -i '/android.permission.REQUEST_INSTALL_PACKAGES/d' $MAN
+  echo "in-app updater: OFF (no REQUEST_INSTALL_PACKAGES)"
+elif ! grep -q REQUEST_INSTALL_PACKAGES $MAN; then
+  sed -i 's#<uses-permission android:name="android.permission.INTERNET"/>#&\n  <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>#' $MAN
+fi
 echo "android/ configured"

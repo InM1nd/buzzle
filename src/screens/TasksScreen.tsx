@@ -1,3 +1,4 @@
+import { t, t as tt } from "../i18n";
 import { currentTasks } from "../logic/game";
 import { WEEKLY_TASKS } from "../logic/tasks";
 import { boxArt } from "../ui/lootUi";
@@ -36,10 +37,10 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
   const taskRefs = useRef<Record<string, View | null>>({});
   const tr = taskReward(lvl), br = bonusReward(lvl);
   const readyCount = tasks.filter((t) => !s.tasks.claimed.includes(t.id) && (s.tasks.progress[t.id] ?? 0) >= t.target).length;
-  const say = canLogin ? "Награда за вход ждёт — забирай!"
-    : readyCount > 0 ? "Задание выполнено! Забирай награду."
-    : doneCount >= tasks.length ? "Все задания на сегодня готовы. Ты лучше всех!"
-    : `Выполнено ${doneCount} из ${tasks.length}. Полетели дальше!`;
+  const say = canLogin ? t("tasks.sayLogin")
+    : readyCount > 0 ? t("tasks.sayReady")
+    : doneCount >= tasks.length ? t("tasks.sayAll")
+    : t("tasks.sayProgress", { a: doneCount, b: tasks.length });
 
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 28, gap: 14 }} showsVerticalScrollIndicator={false}>
@@ -54,9 +55,9 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
       {/* login calendar */}
       <Card>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Txt v="h2" style={{ flex: 1 }}>Награда за вход</Txt>
+          <Txt v="h2" style={{ flex: 1 }}>{t("tasks.login")}</Txt>
           {s.login.streak > 0 ? (
-            <View style={styles.streak}><Image source={ART.flame} style={{ width: 16, height: 16 }} /><Txt v="tiny" color={C.honeyDark}>{s.login.streak} ДН.</Txt></View>
+            <View style={styles.streak}><Image source={ART.flame} style={{ width: 16, height: 16 }} /><Txt v="tiny" color={C.honeyDark}>{t("tasks.streakD", { n: s.login.streak })}</Txt></View>
           ) : null}
         </View>
         <View style={styles.week}>
@@ -66,7 +67,7 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
             const current = canLogin && i === idx;
             return (
               <View key={i} style={[styles.day, claimed && styles.dayClaimed, current && styles.dayCurrent, i === 6 && { flex: 1.35 }]}>
-                <Txt v="tiny" color={current ? "#fff" : C.dim}>{i === 6 ? "ДЕНЬ 7" : `Д${i + 1}`}</Txt>
+                <Txt v="tiny" color={current ? "#fff" : C.dim}>{i === 6 ? t("tasks.day7") : t("tasks.dayN", { n: i + 1 })}</Txt>
                 <Image source={i === 6 ? ART.chest : r.jelly && !r.honey ? ART.jelly : ART.honey} style={{ width: 26, height: 26, opacity: claimed ? 0.45 : 1 }} />
                 {claimed ? <Image source={ART.check} style={styles.dayCheck} /> : null}
                 <Txt v="tiny" color={current ? "#fff" : C.text} numberOfLines={1}>{r.honey ? fmt(r.honey) : `${r.jelly}`}</Txt>
@@ -76,11 +77,11 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
         </View>
         <View ref={loginRef} collapsable={false}>
           <GameButton
-            title={canLogin ? "Забрать награду" : "Завтра будет новая"}
+            title={canLogin ? t("tasks.claimReward") : t("tasks.tomorrow")}
             color={canLogin ? "green" : "grey"}
             disabled={!canLogin}
             onPress={async () => onClaimLogin(await centerOf(loginRef.current))}
-            label="Забрать награду за вход"
+            label={t("tasks.claimLogin")}
           />
         </View>
       </Card>
@@ -88,7 +89,7 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
       {/* daily tasks */}
       <Card>
         <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 4 }}>
-          <Txt v="h2" style={{ flex: 1 }}>Задания дня</Txt>
+          <Txt v="h2" style={{ flex: 1 }}>{t("tasks.daily")}</Txt>
           <Image source={ART.clock} style={{ width: 14, height: 14, tintColor: C.dim, marginRight: 4 }} />
           <Txt v="small" color={C.dim}>{duration(midnight.getTime() - now)}</Txt>
         </View>
@@ -109,7 +110,7 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
                 {claimed ? (
                   <Image source={ART.check} style={{ width: 34, height: 34 }} />
                 ) : ready ? (
-                  <GameButton small title="Забрать" color="green" onPress={async () => onClaimTask(t.id, await centerOf(taskRefs.current[t.id]))} style={{ width: 92 }} label={`Забрать: ${t.text}`} />
+                  <GameButton small title={tt("tasks.claim")} color="green" onPress={async () => onClaimTask(t.id, await centerOf(taskRefs.current[t.id]))} style={{ width: 92 }} label={tt("tasks.claimLabel", { t: t.text })} />
                 ) : (
                   <View style={{ alignItems: "center" }}>
                     <View style={styles.rew}><Image source={ART.honey} style={{ width: 16, height: 16 }} /><Txt v="tiny">{fmt(tr.honey ?? 0)}</Txt></View>
@@ -123,22 +124,22 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
         <View style={styles.bonus}>
           <Image source={ART.chest} style={{ width: 48, height: 48, opacity: s.tasks.bonus ? 0.5 : 1 }} />
           <View style={{ flex: 1 }}>
-            <Txt v="h3">Сундук дня</Txt>
-            <Txt v="small" color={C.dim}>{s.tasks.bonus ? "Получен. Новый — завтра!" : `Выполните все 3 задания: ${fmt(br.honey ?? 0)} мёда, ${br.jelly} молочка и деревянная сота-сюрприз`}</Txt>
+            <Txt v="h3">{t("tasks.chest")}</Txt>
+            <Txt v="small" color={C.dim}>{s.tasks.bonus ? t("tasks.chestGot") : t("tasks.chestHint", { h: fmt(br.honey ?? 0), j: br.jelly ?? 0 })}</Txt>
           </View>
           <View ref={bonusRef} collapsable={false}>
             {!s.tasks.bonus ? (
-              <GameButton small title={doneCount >= 3 ? "Открыть" : `${doneCount}/3`} color={doneCount >= 3 ? "honey" : "grey"} disabled={doneCount < 3}
-                onPress={async () => onClaimBonus(await centerOf(bonusRef.current))} style={{ width: 92 }} label="Открыть сундук дня" />
+              <GameButton small title={doneCount >= 3 ? t("tasks.open") : `${doneCount}/3`} color={doneCount >= 3 ? "honey" : "grey"} disabled={doneCount < 3}
+                onPress={async () => onClaimBonus(await centerOf(bonusRef.current))} style={{ width: 92 }} label={t("tasks.openChest")} />
             ) : null}
           </View>
         </View>
-        <View style={[styles.bonus, { backgroundColor: "#F3EDFF" }]} accessibilityLabel={`Недельный сундук: ${Math.min(s.week.tasks, WEEKLY_TASKS)} из ${WEEKLY_TASKS}`}>
+        <View style={[styles.bonus, { backgroundColor: "#F3EDFF" }]} accessibilityLabel={t("tasks.weekLabel", { a: Math.min(s.week.tasks, WEEKLY_TASKS), b: WEEKLY_TASKS })}>
           <Image source={boxArt("wax")} style={{ width: 48, height: 48, opacity: s.week.chest ? 0.5 : 1 }} />
           <View style={{ flex: 1 }}>
-            <Txt v="h3">Недельный сундук</Txt>
+            <Txt v="h3">{t("tasks.week")}</Txt>
             <Bar progress={Math.min(1, s.week.tasks / WEEKLY_TASKS)} height={8} color={C.jelly} style={{ marginTop: 4 }} />
-            <Txt v="tiny" color={C.dim}>{s.week.chest ? "получен — новый в понедельник" : `${Math.min(s.week.tasks, WEEKLY_TASKS)}/${WEEKLY_TASKS} заданий за неделю · забрать во вкладке «Сюрпризы»`}</Txt>
+            <Txt v="tiny" color={C.dim}>{s.week.chest ? t("tasks.weekGot") : t("tasks.weekProgress", { a: Math.min(s.week.tasks, WEEKLY_TASKS), b: WEEKLY_TASKS })}</Txt>
           </View>
         </View>
       </Card>
@@ -147,24 +148,24 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
       <Card>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
           <View style={{ flex: 1 }}>
-            <Txt v="h3">Напоминания</Txt>
-            <Txt v="small" color={C.dim}>{NOTIFICATIONS_SUPPORTED ? "Когда улей полон и когда готова новая ежедневная головоломка." : "В веб- и Telegram-версии напоминания появятся позже."}</Txt>
+            <Txt v="h3">{t("tasks.reminders")}</Txt>
+            <Txt v="small" color={C.dim}>{NOTIFICATIONS_SUPPORTED ? t("tasks.remindersSub") : t("tasks.remindersWeb")}</Txt>
           </View>
-          {NOTIFICATIONS_SUPPORTED ? <Toggle value={s.settings.notifications} onChange={onNotifications} label="Напоминания" /> : <View style={{ backgroundColor: C.line, borderRadius: 10, paddingHorizontal: 10, paddingVertical: 4 }}><Txt v="small" color={C.dim}>скоро</Txt></View>}
+          {NOTIFICATIONS_SUPPORTED ? <Toggle value={s.settings.notifications} onChange={onNotifications} label={t("tasks.reminders")} /> : <View style={{ backgroundColor: C.line, borderRadius: 10, paddingHorizontal: 10, paddingVertical: 4 }}><Txt v="small" color={C.dim}>{t("tasks.soon")}</Txt></View>}
         </View>
-        {notifBlocked ? <Txt v="small" color={C.red} style={{ marginTop: 8 }}>Уведомления запрещены в настройках Android для «Buzzle».</Txt> : null}
+        {notifBlocked ? <Txt v="small" color={C.red} style={{ marginTop: 8 }}>{t("tasks.blocked")}</Txt> : null}
       </Card>
 
       {/* stats */}
       <Card>
-        <Txt v="h3" style={{ marginBottom: 8 }}>Статистика</Txt>
+        <Txt v="h3" style={{ marginBottom: 8 }}>{t("tasks.stats")}</Txt>
         <View style={styles.stats}>
-          <Stat label="игр сыграно" value={fmt(s.stats.rounds)} />
-          <Stat label="рекорд очков" value={fmt(s.stats.bestScore)} />
-          <Stat label="самая длинная цепочка" value={String(s.stats.longestChain)} />
-          <Stat label="мёда из головоломок" value={fmt(s.stats.totalHoney)} />
-          <Stat label="взорвано бомб" value={fmt(s.stats.bombs)} />
-          <Stat label="лучшая серия" value={String(s.daily.best)} />
+          <Stat label={t("stat.rounds")} value={fmt(s.stats.rounds)} />
+          <Stat label={t("stat.best")} value={fmt(s.stats.bestScore)} />
+          <Stat label={t("stat.chain")} value={String(s.stats.longestChain)} />
+          <Stat label={t("stat.honey")} value={fmt(s.stats.totalHoney)} />
+          <Stat label={t("stat.bombs")} value={fmt(s.stats.bombs)} />
+          <Stat label={t("stat.streak")} value={String(s.daily.best)} />
         </View>
       </Card>
     </ScrollView>

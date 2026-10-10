@@ -176,7 +176,7 @@ test("save code: round trip, emoji names, whitespace-tolerant, damaged/foreign c
   assert.equal(decodeSave(newer, at(12)).ok, false);
   const v3 = JSON.parse(JSON.stringify(s)); v3.version = 3; delete v3.loot; delete v3.week; delete v3.beeSkins;
   const old = decodeSave(encodeSave(v3), at(12));
-  assert.ok(old.ok && old.state.version === 4 && old.state.honey === 4321);
+  assert.ok(old.ok && old.state.version === 5 && old.state.honey === 4321);
 });
 
 test("importing an old save never moves the game clock back", () => {

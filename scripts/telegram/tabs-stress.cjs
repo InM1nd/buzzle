@@ -35,7 +35,7 @@ const TABS = ["Улей", "Головоломка", "Пчёлы", "Сюрпри�
     Object.keys(localStorage).filter((k) => k.startsWith("bzz:")).forEach((k) => localStorage.removeItem(k));
     const now = Date.now();
     // a returning player: tutorial done, login already claimed today (no modal over the tab bar)
-    localStorage.setItem("bzz:state:v1", JSON.stringify({ version: 3, honey: 500, jelly: 3, settings: { tutorialDone: true, haptics: true }, login: { lastDay: Math.floor((now - new Date().getTimezoneOffset() * 6e4) / 864e5), index: 1, streak: 1 }, clock: { maxSeen: now, maxDay: 0 } }));
+    localStorage.setItem("bzz:state:v1", JSON.stringify({ version: 5, honey: 500, jelly: 3, settings: { tutorialDone: true, haptics: true, lang: "ru", langPicked: true, lastVersion: "1.4.0" }, login: { lastDay: Math.floor((now - new Date().getTimezoneOffset() * 6e4) / 864e5), index: 1, streak: 1 }, clock: { maxSeen: now, maxDay: 0 } }));
   });
   page.on("pageerror", (e) => console.log("PAGEERROR", e.message));
   await page.goto(URL, { waitUntil: "load" });

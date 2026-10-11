@@ -46,7 +46,8 @@ export default function LootScreen(p: Props) {
   const owned = new Set([...s.loot.owned, ...(s.bees.includes(NIGHT_BEE) ? [NIGHT_BEE] : [])]);
   const total = PAGES.reduce((a, pg) => a + pg.items.length, 0);
   const got = PAGES.reduce((a, pg) => a + pg.items.filter((i) => owned.has(i)).length, 0);
-  const tileW = (Math.min(width, 560) - 32 - 12) / 2;
+  const [gridW, setGridW] = useState(0);
+  const tileW = Math.floor(((gridW || Math.min(width, 560) - 32) - 12) / 2) - 1;
   const chestRef = React.useRef<View | null>(null);
   const wkDay = weekdayOf(today(s, now));
   const weekend = weekendOpen(s, now);
@@ -63,7 +64,7 @@ export default function LootScreen(p: Props) {
               <Txt v="small" color={C.dim}>{t("ls.sub")}</Txt>
             </View>
           </View>
-          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12 }}>
+          <View onLayout={(e) => setGridW(e.nativeEvent.layout.width)} style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", rowGap: 12, width: "100%", alignSelf: "stretch" }}>
             {BOX_KINDS.map((k) => {
               const n = s.loot.boxes[k];
               const locked = k === "royal";

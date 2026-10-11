@@ -95,7 +95,8 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
   const { width } = useWindowDimensions();
   const [sel, setSel] = useState<number | null>(null);
   const areaW = Math.min(width, 520) - 32;
-  const bw = (areaW - 2 * 10) / 3;
+  const [gridW, setGridW] = useState(0);
+  const bw = Math.floor(((gridW || areaW) - 2 * 10) / 3) - 1;
   const beds = s.garden.beds;
   const dc = dayColorInfo(s, now);
   const dcFlower = FLOWERS.find((f) => f.color === dc.color)!;
@@ -144,7 +145,7 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
       </View>
 
       <DecoStrip ids={shownDecos(s, "garden")} ground="#DDEFC8" />
-      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+      <View onLayout={(e) => setGridW(e.nativeEvent.layout.width)} style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, width: "100%", alignSelf: "stretch" }}>
         {beds.map((b, i) => <BedTile key={i} b={b} i={i} w={bw} selected={sel === i} onPress={(r) => tap(i, r)} />)}
         {bedCost !== null ? (
           <Press onPress={() => onUnlockBed()} style={[styles.bed, styles.bedLocked, { width: bw, height: bw * 1.18 }]} accessibilityRole="button"

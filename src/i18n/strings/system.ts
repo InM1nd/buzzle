@@ -147,6 +147,7 @@ export const system = {
   // What's new (web / Telegram, and after an Android update)
   "wn.title": { en: "What's new in {v}", uk: "Що нового у {v}", ru: "Что нового в {v}" },
   "wn.ok": { en: "Lovely!", uk: "Чудово!", ru: "Отлично!" },
+  "wn.1.4.1": { en: "• Fixed the Surprises grid in Telegram — combs now sit in two even columns.\n• Garden beds line up neatly on every screen size.", uk: "• Виправлено сітку «Сюрпризів» у Telegram — соти знову у двох рівних колонках.\n• Грядки в саду рівно стають на будь-якому екрані.", ru: "• Исправлена сетка «Сюрпризов» в Telegram — соты снова в двух ровных колонках.\n• Грядки в саду ровно встают на любом экране." },
   "wn.1.4.0": { en: "• Buzzle now speaks English, Ukrainian and Russian — with bee names of their own in each language.\n• A roomier Settings screen: reminders by type, quiet hours, sound and vibration, About.\n• Android: update the game right from Settings.\n• Lots of small polish.", uk: "• Buzzle тепер говорить англійською, українською й російською — і в кожній мові бджілки мають свої імена.\n• Нові налаштування: нагадування за типами, тихі години, звук і вібрація, «Про гру».\n• Android: оновлення гри просто з налаштувань.\n• Багато дрібних покращень.", ru: "• Buzzle теперь говорит на английском, украинском и русском — и в каждом языке у пчёл свои имена.\n• Новые настройки: напоминания по типам, тихие часы, звук и вибрация, «Об игре».\n• Android: обновление игры прямо из настроек.\n• Много мелких улучшений." },
 
   // Telegram bot profile (set by scripts/telegram/setup-bot.mjs)

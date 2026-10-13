@@ -1,12 +1,16 @@
 /**
- * Animation plumbing for v1.1 bee animations - RN Animated + native driver only.
+ * Animation plumbing for v1.1 bee animations - RN Animated.
  * - every loop is a single native `Animated.loop(timing 0→1, linear)`; shapes come from interpolation,
- *   so the JS thread is not involved per frame or per iteration;
+ *   native apps use the native driver; web uses the JS animation driver;
  * - everything pauses while the app is in the background (and screens unmount when not shown);
  * - wing flapping uses 3 shared clocks (ref-counted), so 12 flapping bees cost 3 native animations.
  */
 import { useEffect, useRef, useState } from "react";
-import { Animated, AppState, Easing } from "react-native";
+import { Animated, AppState, Easing, Platform } from "react-native";
+
+// Web has no native animation driver. Requesting it makes Animated.loop choose
+// the native-loop branch even after timing falls back to JS, so it runs only once.
+const USE_NATIVE_DRIVER = Platform.OS !== "web";
 
 // ---------- app active state ----------
 let active = AppState.currentState !== "background";
@@ -46,8 +50,8 @@ export function useCycle(v: Animated.Value, duration: number, on: boolean, start
     let stopped = false;
     const p0 = Math.min(0.999, Math.max(0, pos.current));
     v.setValue(p0);
-    const loop = Animated.loop(Animated.timing(v, { toValue: 1, duration, easing: Easing.linear, useNativeDriver: true }));
-    const first = Animated.timing(v, { toValue: 1, duration: Math.max(16, (1 - p0) * duration), easing: Easing.linear, useNativeDriver: true });
+    const loop = Animated.loop(Animated.timing(v, { toValue: 1, duration, easing: Easing.linear, useNativeDriver: USE_NATIVE_DRIVER }));
+    const first = Animated.timing(v, { toValue: 1, duration: Math.max(16, (1 - p0) * duration), easing: Easing.linear, useNativeDriver: USE_NATIVE_DRIVER });
     first.start(({ finished }) => {
       if (!finished || stopped) return;
       v.setValue(0);
@@ -81,7 +85,10 @@ export function sinDeg(amp: number, phase = 0, n = 12, offset = 0) {
 interface Clock { ms: number; v: Animated.Value; refs: number; anim: Animated.CompositeAnimation | null }
 const CLOCKS: Clock[] = [62, 71, 83].map((ms) => ({ ms, v: new Animated.Value(0), refs: 0, anim: null }));
 function startClock(c: Clock) {
-  c.anim = Animated.loop(Animated.timing(c.v, { toValue: 1, duration: c.ms, easing: Easing.linear, useNativeDriver: true }));
+  // A restarted loop captures its initial value. Reset before constructing it,
+  // otherwise a clock stopped at 1 keeps looping from 1 to 1.
+  c.v.setValue(0);
+  c.anim = Animated.loop(Animated.timing(c.v, { toValue: 1, duration: c.ms, easing: Easing.linear, useNativeDriver: USE_NATIVE_DRIVER }));
   c.anim.start();
 }
 function stopClock(c: Clock) { c.anim?.stop(); c.anim = null; }

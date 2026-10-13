@@ -12,7 +12,10 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { Animated, Easing, StyleProp, View, ViewStyle } from "react-native";
 import { sinDeg, sinRange, useAnimActive, useCycle, useFlapClock } from "./anim";
-import { BEE_VIEWS, BeeView, Layer, SHARED_VIEWS } from "./beeArt";
+import { BEE_VIEWS, BeeView, Layer, SharedView, SHARED_VIEWS } from "./beeArt";
+import { PROTOTYPE_BEE_VIEWS, PROTOTYPE_SHARED_VIEWS } from "./beePrototypeArt";
+import { BeeArtVariant, useBeeArtVariant } from "./BeeArtVariant";
+import ReferenceBee, { hasReferenceBee } from "./ReferenceBee";
 import { SKIN_BY_ID } from "../logic/loot";
 
 const MAX_YAW = 62;
@@ -36,6 +39,8 @@ export interface BeeProps {
   level?: number;
   /** v1.3: worn skin id (scarf, glasses, …) */
   skin?: string;
+  /** Isolated style experiment; defaults to the surrounding preview or original art. */
+  art?: BeeArtVariant;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -52,10 +57,10 @@ function Img({ l, size, style, tint, extra }: { l: Layer; size: number; style?: 
 }
 
 /** one yaw view: wings + body + eyes + crown */
-function ViewLayers({ v, size, wave, wingAlpha, wingSquash, anim, tint, face, level, sleepy, skin }: {
-  v: BeeView; size: number; wave: AV; wingAlpha: AV; wingSquash: AV; anim: boolean; tint?: string; face?: Face; level: number; sleepy: boolean; skin?: string;
+function ViewLayers({ v, size, wave, wingAlpha, wingSquash, anim, tint, face, level, sleepy, skin, sharedViews }: {
+  v: BeeView; size: number; wave: AV; wingAlpha: AV; wingSquash: AV; anim: boolean; tint?: string; face?: Face; level: number; sleepy: boolean; skin?: string; sharedViews: Record<number, SharedView>;
 }) {
-  const sh = SHARED_VIEWS[v.yaw] ?? SHARED_VIEWS[0];
+  const sh = sharedViews[v.yaw] ?? sharedViews[0];
   const gold = level >= 5 && !tint;
   const wing = (side: "L" | "R") => {
     const l = (gold ? (side === "L" ? sh.goldL : sh.goldR) : (side === "L" ? sh.wingL : sh.wingR));
@@ -98,7 +103,9 @@ function ViewLayers({ v, size, wave, wingAlpha, wingSquash, anim, tint, face, le
   );
 }
 
-export function BeeSprite({ id, size, flap = true, seed = 0, rest, tint, face, turn = 0, level = 1, skin, style }: BeeProps) {
+export function BeeSprite({ id, size, flap = true, seed = 0, rest, tint, face, turn = 0, level = 1, skin, art, style }: BeeProps) {
+  const inheritedArt = useBeeArtVariant();
+  const prototype = id === "zhuzha" && (art ?? inheritedArt) === "honey";
   const clock = useFlapClock(seed, flap && !tint);
   const anim = flap && !tint;
   const wave = useMemo(() => {
@@ -108,9 +115,15 @@ export function BeeSprite({ id, size, flap = true, seed = 0, rest, tint, face, t
   }, [clock, rest]);
   const wingAlpha = useMemo(() => clock.interpolate({ inputRange: [0, 0.4, 0.6, 1], outputRange: [0.95, 0.72, 0.72, 0.95] }), [clock]);
   const wingSquash = useMemo(() => clock.interpolate({ inputRange: [0, 0.35, 0.6, 1], outputRange: [1, 0.62, 0.7, 1] }), [clock]);
-  const vs = viewsOf(id);
+  const vs = prototype ? PROTOTYPE_BEE_VIEWS : viewsOf(id);
   const sleepy = id === "sonya";
-  const common = { size, wave, wingAlpha, wingSquash, anim, tint, face, level, sleepy, skin };
+  const common = { size, wave, wingAlpha, wingSquash, anim, tint, face, level, sleepy, skin,
+    sharedViews: prototype ? PROTOTYPE_SHARED_VIEWS : SHARED_VIEWS };
+
+  // Approved level-10 sprite, clipped into animated layers without redrawing it.
+  if (hasReferenceBee(id) && !tint && (art ?? inheritedArt) === "reference") {
+    return <ReferenceBee beeId={id} level={level} skin={skin} size={size} on={flap && !tint} seed={seed} blink={face?.blink} rest={rest} style={style} />;
+  }
 
   if (typeof turn === "number") {
     const v = nearest(vs, Math.abs(turn) * MAX_YAW);

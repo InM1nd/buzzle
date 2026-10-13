@@ -88,8 +88,8 @@ function CombTile({ slot, lvl, x, y, s, state, selected, onPress }: {
 }
 
 /** A bee flying a pre-computed curved loop around the hive, sometimes landing on a comb to work. */
-function HiveBee({ id, seed, w, h, size, land, cheer, on, level }: {
-  id: string; seed: number; w: number; h: number; size: number; land: Pt | null; cheer: number; on: boolean; level: number;
+function HiveBee({ id, seed, w, h, size, land, cheer, on, level, skin }: {
+  id: string; seed: number; w: number; h: number; size: number; land: Pt | null; cheer: number; on: boolean; level: number; skin?: string;
 }) {
   const path = useMemo(() => buildFlight({ w, h, seed, land, margin: size * 0.45, speed: 70 + (seed % 5) * 9 }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -133,7 +133,7 @@ function HiveBee({ id, seed, w, h, size, land, cheer, on, level }: {
         { rotate: anim.rot }, { rotate: anim.spin }, { scale: anim.pop },
       ],
     }}>
-      <BeeSprite id={id} size={size} seed={seed} rest={anim.rest} face={{ lookX: anim.look }} turn={anim.turn} level={level} />
+      <BeeSprite id={id} size={size} seed={seed} rest={anim.rest} face={{ lookX: anim.look }} turn={anim.turn} level={level} skin={skin} />
     </Animated.View>
   );
 }
@@ -207,7 +207,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
             <CombTile key={t.i} slot={t.i} lvl={t.lvl} x={t.x} y={t.y} s={hs} state={t.st} selected={sel === t.i}
               onPress={() => setSel(sel === t.i ? null : t.i)} />
           ))}
-          {flyers.map((b) => <HiveBee key={b.key} id={b.id} seed={b.seed} w={areaW} h={areaH} size={beeSize} land={b.land} cheer={cheer} on={act} level={s.beeLevels[b.id] ?? 1} />)}
+          {flyers.map((b) => <HiveBee key={b.key} id={b.id} seed={b.seed} w={areaW} h={areaH} size={beeSize} land={b.land} cheer={cheer} on={act} level={s.beeLevels[b.id] ?? 1} skin={s.beeSkins[b.id]} />)}
         </Pressable>
       </View>
 

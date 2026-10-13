@@ -4,17 +4,15 @@
     "slug": "bzz",
     "version": "1.4.1",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon-zhuzha.png",
     "userInterfaceStyle": "light",
     "backgroundColor": "#FFF6E3",
     "android": {
       "package": "com.zabolotny.bzz",
       "versionCode": 7,
       "adaptiveIcon": {
-        "backgroundColor": "#FFC94A",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "backgroundColor": "#FFF6E3",
+        "foregroundImage": "./assets/android-icon-zhuzha-foreground.png"
       },
       "permissions": [
         "android.permission.REQUEST_INSTALL_PACKAGES"
@@ -46,7 +44,7 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon-zhuzha.png"
     },
     "plugins": [
       [

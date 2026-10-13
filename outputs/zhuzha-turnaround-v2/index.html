@@ -1,0 +1,27 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Buzzle · пробный разворот Жужи</title>
+<style>body{margin:0;background:#fff6e3;color:#583016;font:17px system-ui,sans-serif}main{max-width:920px;margin:auto;padding:24px}h1{font-size:27px;margin:0 0 10px}p{line-height:1.5;color:#946f4a}button{background:#fff;border:1px solid #ebd1a2;border-radius:20px;padding:12px 16px;color:#583016;font:inherit;cursor:pointer}button.active{background:#ffb822;border-color:#ef8c00}.controls{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}canvas{display:block;width:100%;background:#ffedc8;border:2px solid #f2ce8e;border-radius:30px}input{width:100%;accent-color:#ed8c00}.caption{font-size:14px} .compare{display:flex;flex-wrap:wrap;gap:12px}.compare figure{flex:1;min-width:230px;display:flex;flex-direction:column}.compare img{width:300px;max-width:100%;height:300px}figure{margin:24px 0;display:flex;gap:20px;align-items:center;background:#fff;border-radius:24px;padding:15px}figure img{width:160px;height:160px;object-fit:contain}figcaption{color:#946f4a}.angle{font-weight:700} @media(max-width:500px){main{padding:15px}figure img{width:110px;height:110px}}</style>
+<main><h1>Жужа · объёмный разворот</h1><p>Пробный полёт над сотами. Бок и спина достроены для проверки; их внешний вид ещё нужно согласовать.</p>
+<div class="controls"><button id="flight">Полёт в улье</button><button id="spin">Полный оборот</button><button id="pause">Пауза</button></div>
+<canvas id="scene" width="900" height="650" aria-label="Жужа разворачивается над сотами"></canvas>
+<div class="controls"><button data-angle="0">Спереди</button><button data-angle="90">Сбоку</button><button data-angle="180">Со спины</button></div>
+<input id="yaw" type="range" min="0" max="359" value="0" aria-label="Угол разворота"><p class="angle" id="angle">0°</p>
+<section class="compare"><figure><img src="approved-reference.png" alt="Одобренный рисунок Жужи"><figcaption>Одобренный рисунок для сравнения. Объёмную версию сверяем по форме, лицу, граням и крыльям.</figcaption></figure><figure><img src="view-000.png" alt="New volume front"><figcaption>3D · revision 2</figcaption></figure></section>
+<p class="caption">Это отдельный прототип: 32 ракурса настоящей объёмной модели. Основная игра пока использует одобренные спрайты. Корона, наряды и моргание в этом образце ещё не перенесены.</p></main>
+<script>
+const canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d'),slider=document.querySelector('#yaw'),angleLabel=document.querySelector('#angle');
+let mode='manual',paused=false,yaw=0,time=0,last=performance.now(),ready=false;
+const frames=Array.from({length:32},(_,i)=>{const im=new Image;im.src='frame-'+String(i).padStart(2,'0')+'.png';return im});
+Promise.all(frames.map(im=>im.decode())).then(()=>ready=true);
+function setMode(m){mode=m;paused=false;document.querySelector('#pause').textContent='Пауза';for(const id of ['flight','spin'])document.querySelector('#'+id).classList.toggle('active',id===m)}
+document.querySelector('#flight').onclick=()=>setMode('flight');document.querySelector('#spin').onclick=()=>setMode('spin');
+document.querySelector('#pause').onclick=()=>{paused=!paused;document.querySelector('#pause').textContent=paused?'Продолжить':'Пауза'};
+function manual(a){setMode('manual');yaw=a;slider.value=a}
+slider.oninput=()=>manual(+slider.value);document.querySelectorAll('[data-angle]').forEach(b=>b.onclick=()=>manual(+b.dataset.angle));
+function hex(x,y,r,fill){ctx.beginPath();for(let i=0;i<6;i++){const a=Math.PI/3*i;const px=x+r*Math.cos(a),py=y+r*Math.sin(a);i?ctx.lineTo(px,py):ctx.moveTo(px,py)}ctx.closePath();ctx.fillStyle=fill;ctx.fill();ctx.lineWidth=4;ctx.strokeStyle='#dfbb7b';ctx.stroke()}
+function draw(now){const dt=Math.min(.05,(now-last)/1000);last=now;if(!paused)time+=dt;ctx.clearRect(0,0,900,650);ctx.font='bold 21px system-ui';ctx.fillStyle='#b87820';ctx.fillText('Улей · пробный полёт',30,40);
+for(let col=0;col<5;col++)for(let row=0;row<3;row++){const x=240+col*106,y=190+row*123+(col%2)*61;hex(x,y,69,(row+col)%3===0?'#ffe7b7':'#ffbd39');ctx.fillStyle='#7b491e';ctx.textAlign='center';ctx.fillText(String((row+col)%4+1),x,y+7)}ctx.textAlign='left';
+let x=450,y=315;if(mode==='flight'){const t=time*.55;x=450+Math.sin(t)*285;y=310+Math.sin(2*t)*140;const dx=Math.cos(t),dz=2*Math.cos(2*t)*140/285;yaw=(Math.atan2(-dx,dz)*180/Math.PI+360)%360}else if(mode==='spin')yaw=(time*42)%360;
+const i=Math.round(yaw/360*32)%32;if(ready){ctx.save();ctx.translate(x,y+Math.sin(time*2.2)*5);ctx.rotate(mode==='flight'?Math.cos(time*.55)*.08:0);ctx.drawImage(frames[i],-175,-175,350,350);ctx.restore()}
+slider.value=Math.round(yaw);angleLabel.textContent=Math.round(yaw)+'°';requestAnimationFrame(draw)}requestAnimationFrame(draw);
+</script></html>

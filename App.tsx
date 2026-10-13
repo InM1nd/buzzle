@@ -1,6 +1,6 @@
 import { t } from "./src/i18n";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { AppState, Dimensions, Image, Linking, StyleSheet, Text, View } from "react-native";
+import { AppState, Dimensions, Image, Linking, Platform, StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -49,6 +49,7 @@ import { chooseLanguage, setSetting, Settings } from "./src/logic/game";
 import { compareVersions } from "./src/logic/update";
 import { useUpdater } from "./src/ui/useUpdater";
 import { APP_VERSION } from "./src/version";
+import BeePreviewScreen from "./src/screens/BeePreviewScreen";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 pinArt();          // web: keep all art in memory so remounts never refetch (no-op on Android)
@@ -64,10 +65,12 @@ const TABS: { id: Tab; label: string; icon: number }[] = [
 ];
 
 export default function App() {
+  const preview = Platform.OS === "web" && typeof window !== "undefined"
+    && new URLSearchParams(window.location.search).get("beePreview") === "1";
   return (
     <SafeAreaProvider>
       <FlyProvider>
-        <Main />
+        {preview ? <BeePreviewScreen /> : <Main />}
       </FlyProvider>
     </SafeAreaProvider>
   );

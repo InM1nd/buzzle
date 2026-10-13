@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Жужа · объём по ракурсам</title><link rel="icon" href="data:,">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#fff8e8;color:#52321c;font:16px system-ui,sans-serif}main{max-width:1240px;margin:0 auto;padding:28px}h1{font-size:28px;margin:0 0 8px}p{line-height:1.5;margin:8px 0 20px}.panels{display:grid;grid-template-columns:1fr 1fr;gap:20px}.panel{background:white;border-radius:28px;overflow:hidden;border:1px solid #efdfc1}.stage{height:500px;background:#eef5d8;position:relative}canvas{display:block;width:100%;height:100%;touch-action:none}.reference{width:100%;height:500px;object-fit:contain;background:#eef5d8;padding:20px}.label{padding:16px 22px;font-weight:650}.controls{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}button{border:1px solid #e2c794;border-radius:14px;background:white;color:#52321c;padding:10px 15px;font:inherit;cursor:pointer}button[aria-pressed=true]{background:#ffb51b;border-color:#ee9700}small{color:#917555}#status{padding:12px 0;font-size:14px}@media(max-width:750px){main{padding:15px}.panels{grid-template-columns:1fr}.stage,.reference{height:390px}}
+</style>
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js","three/addons/":"./vendor/addons/"}}</script>
+<main><h1>Жужа · первый объём по ракурсам</h1><p>Перетащи пчелу, чтобы повернуть. Сравни силуэт и лицо с рисунком.</p>
+<div class="panels"><section class="panel"><div class="stage" id="stage"></div><div class="label">3D · вращается целиком</div></section><section class="panel"><img id="reference" class="reference" src="refs/q3-front.png" alt="Утверждённый рисунок Жужи"><div class="label" id="ref-label">Рисунок · три четверти спереди</div></section></div>
+<div class="controls" id="views"><button data-view="front">Спереди</button><button data-view="q3-front" aria-pressed="true">Три четверти</button><button data-view="side">Профиль</button><button data-view="q3-back">Сзади под углом</button><button data-view="back">Спина</button><button data-view="top">Сверху</button><button data-view="bottom">Снизу</button></div>
+<div class="controls"><button id="rotate" aria-pressed="false">Автоповорот</button><button id="motion" aria-pressed="false">Полёт и крылья</button><button id="clay" aria-pressed="false">Без цвета</button><button id="download">Скачать модель GLB</button></div>
+<small>Прототип для оценки. Рисунки сохранены; в основную игру модель пока не добавлена.</small><div id="status" role="status">Загружаем объём…</div></main>
+<script type="module" src="viewer.js"></script></html>

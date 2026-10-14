@@ -74,7 +74,7 @@ export const isResource = (d: Drop) => d.t === "honey" || d.t === "nectar" || d.
 export function DecoStrip({ ids, ground }: { ids: string[]; ground: string }) {
   if (!ids.length) return null;
   return (
-    <View style={{ flexDirection: "row", alignItems: "flex-end", justifyContent: "space-evenly", backgroundColor: ground, borderRadius: 22, paddingTop: 8, paddingHorizontal: 6, minHeight: 78 }}
+    <View style={{ flexDirection: "row", alignItems: "flex-end", justifyContent: "space-evenly", backgroundColor: ground, borderRadius: 22, paddingTop: 8, paddingHorizontal: 6, minHeight: 78, overflow: "hidden" }}
       accessibilityLabel={t("decos.label", { list: ids.map((i) => ITEM_BY_ID[i]?.name).join(", ") })}>
       {ids.map((id) => {
         const a = ITEM_ART[`deco_${id}`];

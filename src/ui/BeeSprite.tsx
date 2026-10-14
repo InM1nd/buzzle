@@ -1,3 +1,4 @@
+import { hasTurnBee, TurnBee } from "./TurnBee";
 /**
  * Layered, animated low-poly bee (v1.2). Every layer is a Blender render of the same camera frame
  * (scripts/bees3d), cropped and packed as WebP (src/ui/beeArt.ts):
@@ -105,6 +106,7 @@ function ViewLayers({ v, size, wave, wingAlpha, wingSquash, anim, tint, face, le
 
 export function BeeSprite({ id, size, flap = true, seed = 0, rest, tint, face, turn = 0, level = 1, skin, art, style }: BeeProps) {
   const inheritedArt = useBeeArtVariant();
+  if (hasTurnBee(id) && !tint && !art) return <TurnBee id={id} size={size} turn={turn as any} level={level} skin={skin} flap={flap} seed={seed} style={style} />;
   const prototype = id === "zhuzha" && (art ?? inheritedArt) === "honey";
   const clock = useFlapClock(seed, flap && !tint);
   const anim = flap && !tint;

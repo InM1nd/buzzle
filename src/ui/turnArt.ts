@@ -9,7 +9,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/zhuzha/base_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/zhuzha/base_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/zhuzha/base_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/zhuzha/base_q3-front_320.webp"),
     },
     "crown": {
       "front_144": require("../../assets/art/turn/zhuzha/crown_front_144.webp"),
@@ -18,7 +17,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/zhuzha/crown_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/zhuzha/crown_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/zhuzha/crown_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/zhuzha/crown_q3-front_320.webp"),
     },
     "scarf": {
       "front_144": require("../../assets/art/turn/zhuzha/scarf_front_144.webp"),
@@ -27,7 +25,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/zhuzha/scarf_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/zhuzha/scarf_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/zhuzha/scarf_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/zhuzha/scarf_q3-front_320.webp"),
     },
     "bow": {
       "front_144": require("../../assets/art/turn/zhuzha/bow_front_144.webp"),
@@ -36,7 +33,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/zhuzha/bow_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/zhuzha/bow_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/zhuzha/bow_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/zhuzha/bow_q3-front_320.webp"),
     },
     "glasses": {
       "front_144": require("../../assets/art/turn/zhuzha/glasses_front_144.webp"),
@@ -45,7 +41,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/zhuzha/glasses_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/zhuzha/glasses_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/zhuzha/glasses_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/zhuzha/glasses_q3-front_320.webp"),
     },
     "backpack": {
       "front_144": require("../../assets/art/turn/zhuzha/backpack_front_144.webp"),
@@ -54,7 +49,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/zhuzha/backpack_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/zhuzha/backpack_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/zhuzha/backpack_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/zhuzha/backpack_q3-front_320.webp"),
     },
     "wreath": {
       "front_144": require("../../assets/art/turn/zhuzha/wreath_front_144.webp"),
@@ -63,7 +57,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/zhuzha/wreath_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/zhuzha/wreath_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/zhuzha/wreath_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/zhuzha/wreath_q3-front_320.webp"),
     },
     "beret": {
       "front_144": require("../../assets/art/turn/zhuzha/beret_front_144.webp"),
@@ -72,7 +65,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/zhuzha/beret_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/zhuzha/beret_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/zhuzha/beret_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/zhuzha/beret_q3-front_320.webp"),
     },
     "halo": {
       "front_144": require("../../assets/art/turn/zhuzha/halo_front_144.webp"),
@@ -81,7 +73,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/zhuzha/halo_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/zhuzha/halo_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/zhuzha/halo_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/zhuzha/halo_q3-front_320.webp"),
     },
   },
   "pushinka": {
@@ -92,7 +83,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/pushinka/base_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/pushinka/base_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/pushinka/base_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/pushinka/base_q3-front_320.webp"),
     },
     "crown": {
       "front_144": require("../../assets/art/turn/pushinka/crown_front_144.webp"),
@@ -101,7 +91,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/pushinka/crown_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/pushinka/crown_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/pushinka/crown_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/pushinka/crown_q3-front_320.webp"),
     },
     "scarf": {
       "front_144": require("../../assets/art/turn/pushinka/scarf_front_144.webp"),
@@ -110,7 +99,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/pushinka/scarf_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/pushinka/scarf_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/pushinka/scarf_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/pushinka/scarf_q3-front_320.webp"),
     },
     "bow": {
       "front_144": require("../../assets/art/turn/pushinka/bow_front_144.webp"),
@@ -119,7 +107,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/pushinka/bow_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/pushinka/bow_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/pushinka/bow_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/pushinka/bow_q3-front_320.webp"),
     },
     "glasses": {
       "front_144": require("../../assets/art/turn/pushinka/glasses_front_144.webp"),
@@ -128,7 +115,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/pushinka/glasses_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/pushinka/glasses_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/pushinka/glasses_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/pushinka/glasses_q3-front_320.webp"),
     },
     "backpack": {
       "front_144": require("../../assets/art/turn/pushinka/backpack_front_144.webp"),
@@ -137,7 +123,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/pushinka/backpack_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/pushinka/backpack_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/pushinka/backpack_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/pushinka/backpack_q3-front_320.webp"),
     },
     "wreath": {
       "front_144": require("../../assets/art/turn/pushinka/wreath_front_144.webp"),
@@ -146,7 +131,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/pushinka/wreath_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/pushinka/wreath_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/pushinka/wreath_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/pushinka/wreath_q3-front_320.webp"),
     },
     "beret": {
       "front_144": require("../../assets/art/turn/pushinka/beret_front_144.webp"),
@@ -155,7 +139,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/pushinka/beret_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/pushinka/beret_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/pushinka/beret_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/pushinka/beret_q3-front_320.webp"),
     },
     "halo": {
       "front_144": require("../../assets/art/turn/pushinka/halo_front_144.webp"),
@@ -164,7 +147,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/pushinka/halo_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/pushinka/halo_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/pushinka/halo_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/pushinka/halo_q3-front_320.webp"),
     },
   },
   "boris": {
@@ -175,7 +157,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/boris/base_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/boris/base_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/boris/base_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/boris/base_q3-front_320.webp"),
     },
     "crown": {
       "front_144": require("../../assets/art/turn/boris/crown_front_144.webp"),
@@ -184,7 +165,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/boris/crown_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/boris/crown_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/boris/crown_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/boris/crown_q3-front_320.webp"),
     },
     "scarf": {
       "front_144": require("../../assets/art/turn/boris/scarf_front_144.webp"),
@@ -193,7 +173,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/boris/scarf_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/boris/scarf_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/boris/scarf_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/boris/scarf_q3-front_320.webp"),
     },
     "bow": {
       "front_144": require("../../assets/art/turn/boris/bow_front_144.webp"),
@@ -202,7 +181,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/boris/bow_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/boris/bow_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/boris/bow_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/boris/bow_q3-front_320.webp"),
     },
     "glasses": {
       "front_144": require("../../assets/art/turn/boris/glasses_front_144.webp"),
@@ -211,7 +189,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/boris/glasses_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/boris/glasses_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/boris/glasses_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/boris/glasses_q3-front_320.webp"),
     },
     "backpack": {
       "front_144": require("../../assets/art/turn/boris/backpack_front_144.webp"),
@@ -220,7 +197,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/boris/backpack_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/boris/backpack_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/boris/backpack_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/boris/backpack_q3-front_320.webp"),
     },
     "wreath": {
       "front_144": require("../../assets/art/turn/boris/wreath_front_144.webp"),
@@ -229,7 +205,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/boris/wreath_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/boris/wreath_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/boris/wreath_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/boris/wreath_q3-front_320.webp"),
     },
     "beret": {
       "front_144": require("../../assets/art/turn/boris/beret_front_144.webp"),
@@ -238,7 +213,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/boris/beret_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/boris/beret_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/boris/beret_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/boris/beret_q3-front_320.webp"),
     },
     "halo": {
       "front_144": require("../../assets/art/turn/boris/halo_front_144.webp"),
@@ -247,7 +221,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/boris/halo_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/boris/halo_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/boris/halo_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/boris/halo_q3-front_320.webp"),
     },
   },
   "solnyshko": {
@@ -258,7 +231,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/solnyshko/base_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/solnyshko/base_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/solnyshko/base_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/solnyshko/base_q3-front_320.webp"),
     },
     "crown": {
       "front_144": require("../../assets/art/turn/solnyshko/crown_front_144.webp"),
@@ -267,7 +239,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/solnyshko/crown_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/solnyshko/crown_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/solnyshko/crown_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/solnyshko/crown_q3-front_320.webp"),
     },
     "scarf": {
       "front_144": require("../../assets/art/turn/solnyshko/scarf_front_144.webp"),
@@ -276,7 +247,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/solnyshko/scarf_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/solnyshko/scarf_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/solnyshko/scarf_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/solnyshko/scarf_q3-front_320.webp"),
     },
     "bow": {
       "front_144": require("../../assets/art/turn/solnyshko/bow_front_144.webp"),
@@ -285,7 +255,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/solnyshko/bow_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/solnyshko/bow_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/solnyshko/bow_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/solnyshko/bow_q3-front_320.webp"),
     },
     "glasses": {
       "front_144": require("../../assets/art/turn/solnyshko/glasses_front_144.webp"),
@@ -294,7 +263,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/solnyshko/glasses_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/solnyshko/glasses_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/solnyshko/glasses_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/solnyshko/glasses_q3-front_320.webp"),
     },
     "backpack": {
       "front_144": require("../../assets/art/turn/solnyshko/backpack_front_144.webp"),
@@ -303,7 +271,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/solnyshko/backpack_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/solnyshko/backpack_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/solnyshko/backpack_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/solnyshko/backpack_q3-front_320.webp"),
     },
     "wreath": {
       "front_144": require("../../assets/art/turn/solnyshko/wreath_front_144.webp"),
@@ -312,7 +279,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/solnyshko/wreath_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/solnyshko/wreath_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/solnyshko/wreath_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/solnyshko/wreath_q3-front_320.webp"),
     },
     "beret": {
       "front_144": require("../../assets/art/turn/solnyshko/beret_front_144.webp"),
@@ -321,7 +287,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/solnyshko/beret_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/solnyshko/beret_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/solnyshko/beret_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/solnyshko/beret_q3-front_320.webp"),
     },
     "halo": {
       "front_144": require("../../assets/art/turn/solnyshko/halo_front_144.webp"),
@@ -330,7 +295,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/solnyshko/halo_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/solnyshko/halo_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/solnyshko/halo_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/solnyshko/halo_q3-front_320.webp"),
     },
   },
   "lavanda": {
@@ -341,7 +305,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/lavanda/base_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/lavanda/base_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/lavanda/base_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/lavanda/base_q3-front_320.webp"),
     },
     "crown": {
       "front_144": require("../../assets/art/turn/lavanda/crown_front_144.webp"),
@@ -350,7 +313,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/lavanda/crown_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/lavanda/crown_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/lavanda/crown_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/lavanda/crown_q3-front_320.webp"),
     },
     "scarf": {
       "front_144": require("../../assets/art/turn/lavanda/scarf_front_144.webp"),
@@ -359,7 +321,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/lavanda/scarf_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/lavanda/scarf_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/lavanda/scarf_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/lavanda/scarf_q3-front_320.webp"),
     },
     "bow": {
       "front_144": require("../../assets/art/turn/lavanda/bow_front_144.webp"),
@@ -368,7 +329,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/lavanda/bow_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/lavanda/bow_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/lavanda/bow_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/lavanda/bow_q3-front_320.webp"),
     },
     "glasses": {
       "front_144": require("../../assets/art/turn/lavanda/glasses_front_144.webp"),
@@ -377,7 +337,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/lavanda/glasses_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/lavanda/glasses_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/lavanda/glasses_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/lavanda/glasses_q3-front_320.webp"),
     },
     "backpack": {
       "front_144": require("../../assets/art/turn/lavanda/backpack_front_144.webp"),
@@ -386,7 +345,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/lavanda/backpack_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/lavanda/backpack_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/lavanda/backpack_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/lavanda/backpack_q3-front_320.webp"),
     },
     "wreath": {
       "front_144": require("../../assets/art/turn/lavanda/wreath_front_144.webp"),
@@ -395,7 +353,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/lavanda/wreath_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/lavanda/wreath_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/lavanda/wreath_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/lavanda/wreath_q3-front_320.webp"),
     },
     "beret": {
       "front_144": require("../../assets/art/turn/lavanda/beret_front_144.webp"),
@@ -404,7 +361,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/lavanda/beret_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/lavanda/beret_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/lavanda/beret_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/lavanda/beret_q3-front_320.webp"),
     },
     "halo": {
       "front_144": require("../../assets/art/turn/lavanda/halo_front_144.webp"),
@@ -413,7 +369,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/lavanda/halo_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/lavanda/halo_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/lavanda/halo_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/lavanda/halo_q3-front_320.webp"),
     },
   },
   "klevera": {
@@ -424,7 +379,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/klevera/base_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/klevera/base_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/klevera/base_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/klevera/base_q3-front_320.webp"),
     },
     "crown": {
       "front_144": require("../../assets/art/turn/klevera/crown_front_144.webp"),
@@ -433,7 +387,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/klevera/crown_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/klevera/crown_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/klevera/crown_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/klevera/crown_q3-front_320.webp"),
     },
     "scarf": {
       "front_144": require("../../assets/art/turn/klevera/scarf_front_144.webp"),
@@ -442,7 +395,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/klevera/scarf_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/klevera/scarf_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/klevera/scarf_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/klevera/scarf_q3-front_320.webp"),
     },
     "bow": {
       "front_144": require("../../assets/art/turn/klevera/bow_front_144.webp"),
@@ -451,7 +403,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/klevera/bow_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/klevera/bow_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/klevera/bow_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/klevera/bow_q3-front_320.webp"),
     },
     "glasses": {
       "front_144": require("../../assets/art/turn/klevera/glasses_front_144.webp"),
@@ -460,7 +411,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/klevera/glasses_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/klevera/glasses_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/klevera/glasses_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/klevera/glasses_q3-front_320.webp"),
     },
     "backpack": {
       "front_144": require("../../assets/art/turn/klevera/backpack_front_144.webp"),
@@ -469,7 +419,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/klevera/backpack_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/klevera/backpack_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/klevera/backpack_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/klevera/backpack_q3-front_320.webp"),
     },
     "wreath": {
       "front_144": require("../../assets/art/turn/klevera/wreath_front_144.webp"),
@@ -478,7 +427,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/klevera/wreath_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/klevera/wreath_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/klevera/wreath_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/klevera/wreath_q3-front_320.webp"),
     },
     "beret": {
       "front_144": require("../../assets/art/turn/klevera/beret_front_144.webp"),
@@ -487,7 +435,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/klevera/beret_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/klevera/beret_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/klevera/beret_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/klevera/beret_q3-front_320.webp"),
     },
     "halo": {
       "front_144": require("../../assets/art/turn/klevera/halo_front_144.webp"),
@@ -496,7 +443,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/klevera/halo_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/klevera/halo_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/klevera/halo_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/klevera/halo_q3-front_320.webp"),
     },
   },
   "vasilek": {
@@ -507,7 +453,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/vasilek/base_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/vasilek/base_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/vasilek/base_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/vasilek/base_q3-front_320.webp"),
     },
     "crown": {
       "front_144": require("../../assets/art/turn/vasilek/crown_front_144.webp"),
@@ -516,7 +461,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/vasilek/crown_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/vasilek/crown_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/vasilek/crown_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/vasilek/crown_q3-front_320.webp"),
     },
     "scarf": {
       "front_144": require("../../assets/art/turn/vasilek/scarf_front_144.webp"),
@@ -525,7 +469,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/vasilek/scarf_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/vasilek/scarf_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/vasilek/scarf_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/vasilek/scarf_q3-front_320.webp"),
     },
     "bow": {
       "front_144": require("../../assets/art/turn/vasilek/bow_front_144.webp"),
@@ -534,7 +477,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/vasilek/bow_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/vasilek/bow_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/vasilek/bow_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/vasilek/bow_q3-front_320.webp"),
     },
     "glasses": {
       "front_144": require("../../assets/art/turn/vasilek/glasses_front_144.webp"),
@@ -543,7 +485,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/vasilek/glasses_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/vasilek/glasses_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/vasilek/glasses_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/vasilek/glasses_q3-front_320.webp"),
     },
     "backpack": {
       "front_144": require("../../assets/art/turn/vasilek/backpack_front_144.webp"),
@@ -552,7 +493,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/vasilek/backpack_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/vasilek/backpack_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/vasilek/backpack_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/vasilek/backpack_q3-front_320.webp"),
     },
     "wreath": {
       "front_144": require("../../assets/art/turn/vasilek/wreath_front_144.webp"),
@@ -561,7 +501,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/vasilek/wreath_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/vasilek/wreath_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/vasilek/wreath_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/vasilek/wreath_q3-front_320.webp"),
     },
     "beret": {
       "front_144": require("../../assets/art/turn/vasilek/beret_front_144.webp"),
@@ -570,7 +509,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/vasilek/beret_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/vasilek/beret_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/vasilek/beret_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/vasilek/beret_q3-front_320.webp"),
     },
     "halo": {
       "front_144": require("../../assets/art/turn/vasilek/halo_front_144.webp"),
@@ -579,7 +517,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/vasilek/halo_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/vasilek/halo_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/vasilek/halo_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/vasilek/halo_q3-front_320.webp"),
     },
   },
   "myatka": {
@@ -590,7 +527,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/myatka/base_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/myatka/base_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/myatka/base_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/myatka/base_q3-front_320.webp"),
     },
     "crown": {
       "front_144": require("../../assets/art/turn/myatka/crown_front_144.webp"),
@@ -599,7 +535,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/myatka/crown_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/myatka/crown_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/myatka/crown_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/myatka/crown_q3-front_320.webp"),
     },
     "scarf": {
       "front_144": require("../../assets/art/turn/myatka/scarf_front_144.webp"),
@@ -608,7 +543,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/myatka/scarf_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/myatka/scarf_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/myatka/scarf_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/myatka/scarf_q3-front_320.webp"),
     },
     "bow": {
       "front_144": require("../../assets/art/turn/myatka/bow_front_144.webp"),
@@ -617,7 +551,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/myatka/bow_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/myatka/bow_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/myatka/bow_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/myatka/bow_q3-front_320.webp"),
     },
     "glasses": {
       "front_144": require("../../assets/art/turn/myatka/glasses_front_144.webp"),
@@ -626,7 +559,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/myatka/glasses_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/myatka/glasses_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/myatka/glasses_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/myatka/glasses_q3-front_320.webp"),
     },
     "backpack": {
       "front_144": require("../../assets/art/turn/myatka/backpack_front_144.webp"),
@@ -635,7 +567,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/myatka/backpack_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/myatka/backpack_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/myatka/backpack_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/myatka/backpack_q3-front_320.webp"),
     },
     "wreath": {
       "front_144": require("../../assets/art/turn/myatka/wreath_front_144.webp"),
@@ -644,7 +575,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/myatka/wreath_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/myatka/wreath_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/myatka/wreath_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/myatka/wreath_q3-front_320.webp"),
     },
     "beret": {
       "front_144": require("../../assets/art/turn/myatka/beret_front_144.webp"),
@@ -653,7 +583,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/myatka/beret_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/myatka/beret_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/myatka/beret_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/myatka/beret_q3-front_320.webp"),
     },
     "halo": {
       "front_144": require("../../assets/art/turn/myatka/halo_front_144.webp"),
@@ -662,7 +591,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/myatka/halo_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/myatka/halo_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/myatka/halo_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/myatka/halo_q3-front_320.webp"),
     },
   },
   "iskorka": {
@@ -673,7 +601,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/iskorka/base_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/iskorka/base_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/iskorka/base_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/iskorka/base_q3-front_320.webp"),
     },
     "crown": {
       "front_144": require("../../assets/art/turn/iskorka/crown_front_144.webp"),
@@ -682,7 +609,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/iskorka/crown_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/iskorka/crown_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/iskorka/crown_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/iskorka/crown_q3-front_320.webp"),
     },
     "scarf": {
       "front_144": require("../../assets/art/turn/iskorka/scarf_front_144.webp"),
@@ -691,7 +617,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/iskorka/scarf_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/iskorka/scarf_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/iskorka/scarf_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/iskorka/scarf_q3-front_320.webp"),
     },
     "bow": {
       "front_144": require("../../assets/art/turn/iskorka/bow_front_144.webp"),
@@ -700,7 +625,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/iskorka/bow_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/iskorka/bow_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/iskorka/bow_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/iskorka/bow_q3-front_320.webp"),
     },
     "glasses": {
       "front_144": require("../../assets/art/turn/iskorka/glasses_front_144.webp"),
@@ -709,7 +633,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/iskorka/glasses_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/iskorka/glasses_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/iskorka/glasses_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/iskorka/glasses_q3-front_320.webp"),
     },
     "backpack": {
       "front_144": require("../../assets/art/turn/iskorka/backpack_front_144.webp"),
@@ -718,7 +641,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/iskorka/backpack_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/iskorka/backpack_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/iskorka/backpack_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/iskorka/backpack_q3-front_320.webp"),
     },
     "wreath": {
       "front_144": require("../../assets/art/turn/iskorka/wreath_front_144.webp"),
@@ -727,7 +649,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/iskorka/wreath_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/iskorka/wreath_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/iskorka/wreath_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/iskorka/wreath_q3-front_320.webp"),
     },
     "beret": {
       "front_144": require("../../assets/art/turn/iskorka/beret_front_144.webp"),
@@ -736,7 +657,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/iskorka/beret_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/iskorka/beret_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/iskorka/beret_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/iskorka/beret_q3-front_320.webp"),
     },
     "halo": {
       "front_144": require("../../assets/art/turn/iskorka/halo_front_144.webp"),
@@ -745,7 +665,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/iskorka/halo_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/iskorka/halo_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/iskorka/halo_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/iskorka/halo_q3-front_320.webp"),
     },
   },
   "sonya": {
@@ -756,7 +675,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/sonya/base_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/sonya/base_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/sonya/base_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/sonya/base_q3-front_320.webp"),
     },
     "crown": {
       "front_144": require("../../assets/art/turn/sonya/crown_front_144.webp"),
@@ -765,7 +683,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/sonya/crown_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/sonya/crown_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/sonya/crown_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/sonya/crown_q3-front_320.webp"),
     },
     "scarf": {
       "front_144": require("../../assets/art/turn/sonya/scarf_front_144.webp"),
@@ -774,7 +691,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/sonya/scarf_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/sonya/scarf_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/sonya/scarf_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/sonya/scarf_q3-front_320.webp"),
     },
     "bow": {
       "front_144": require("../../assets/art/turn/sonya/bow_front_144.webp"),
@@ -783,7 +699,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/sonya/bow_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/sonya/bow_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/sonya/bow_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/sonya/bow_q3-front_320.webp"),
     },
     "glasses": {
       "front_144": require("../../assets/art/turn/sonya/glasses_front_144.webp"),
@@ -792,7 +707,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/sonya/glasses_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/sonya/glasses_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/sonya/glasses_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/sonya/glasses_q3-front_320.webp"),
     },
     "backpack": {
       "front_144": require("../../assets/art/turn/sonya/backpack_front_144.webp"),
@@ -801,7 +715,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/sonya/backpack_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/sonya/backpack_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/sonya/backpack_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/sonya/backpack_q3-front_320.webp"),
     },
     "wreath": {
       "front_144": require("../../assets/art/turn/sonya/wreath_front_144.webp"),
@@ -810,7 +723,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/sonya/wreath_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/sonya/wreath_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/sonya/wreath_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/sonya/wreath_q3-front_320.webp"),
     },
     "beret": {
       "front_144": require("../../assets/art/turn/sonya/beret_front_144.webp"),
@@ -819,7 +731,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/sonya/beret_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/sonya/beret_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/sonya/beret_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/sonya/beret_q3-front_320.webp"),
     },
     "halo": {
       "front_144": require("../../assets/art/turn/sonya/halo_front_144.webp"),
@@ -828,7 +739,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/sonya/halo_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/sonya/halo_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/sonya/halo_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/sonya/halo_q3-front_320.webp"),
     },
   },
   "zorkaya": {
@@ -839,7 +749,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/zorkaya/base_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/zorkaya/base_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/zorkaya/base_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/zorkaya/base_q3-front_320.webp"),
     },
     "crown": {
       "front_144": require("../../assets/art/turn/zorkaya/crown_front_144.webp"),
@@ -848,7 +757,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/zorkaya/crown_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/zorkaya/crown_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/zorkaya/crown_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/zorkaya/crown_q3-front_320.webp"),
     },
     "scarf": {
       "front_144": require("../../assets/art/turn/zorkaya/scarf_front_144.webp"),
@@ -857,7 +765,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/zorkaya/scarf_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/zorkaya/scarf_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/zorkaya/scarf_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/zorkaya/scarf_q3-front_320.webp"),
     },
     "bow": {
       "front_144": require("../../assets/art/turn/zorkaya/bow_front_144.webp"),
@@ -866,7 +773,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/zorkaya/bow_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/zorkaya/bow_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/zorkaya/bow_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/zorkaya/bow_q3-front_320.webp"),
     },
     "glasses": {
       "front_144": require("../../assets/art/turn/zorkaya/glasses_front_144.webp"),
@@ -875,7 +781,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/zorkaya/glasses_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/zorkaya/glasses_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/zorkaya/glasses_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/zorkaya/glasses_q3-front_320.webp"),
     },
     "backpack": {
       "front_144": require("../../assets/art/turn/zorkaya/backpack_front_144.webp"),
@@ -884,7 +789,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/zorkaya/backpack_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/zorkaya/backpack_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/zorkaya/backpack_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/zorkaya/backpack_q3-front_320.webp"),
     },
     "wreath": {
       "front_144": require("../../assets/art/turn/zorkaya/wreath_front_144.webp"),
@@ -893,7 +797,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/zorkaya/wreath_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/zorkaya/wreath_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/zorkaya/wreath_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/zorkaya/wreath_q3-front_320.webp"),
     },
     "beret": {
       "front_144": require("../../assets/art/turn/zorkaya/beret_front_144.webp"),
@@ -902,7 +805,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/zorkaya/beret_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/zorkaya/beret_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/zorkaya/beret_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/zorkaya/beret_q3-front_320.webp"),
     },
     "halo": {
       "front_144": require("../../assets/art/turn/zorkaya/halo_front_144.webp"),
@@ -911,7 +813,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/zorkaya/halo_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/zorkaya/halo_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/zorkaya/halo_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/zorkaya/halo_q3-front_320.webp"),
     },
   },
   "margo": {
@@ -922,7 +823,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/margo/base_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/margo/base_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/margo/base_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/margo/base_q3-front_320.webp"),
     },
     "crown": {
       "front_144": require("../../assets/art/turn/margo/crown_front_144.webp"),
@@ -931,7 +831,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/margo/crown_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/margo/crown_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/margo/crown_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/margo/crown_q3-front_320.webp"),
     },
     "scarf": {
       "front_144": require("../../assets/art/turn/margo/scarf_front_144.webp"),
@@ -940,7 +839,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/margo/scarf_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/margo/scarf_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/margo/scarf_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/margo/scarf_q3-front_320.webp"),
     },
     "bow": {
       "front_144": require("../../assets/art/turn/margo/bow_front_144.webp"),
@@ -949,7 +847,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/margo/bow_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/margo/bow_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/margo/bow_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/margo/bow_q3-front_320.webp"),
     },
     "glasses": {
       "front_144": require("../../assets/art/turn/margo/glasses_front_144.webp"),
@@ -958,7 +855,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/margo/glasses_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/margo/glasses_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/margo/glasses_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/margo/glasses_q3-front_320.webp"),
     },
     "backpack": {
       "front_144": require("../../assets/art/turn/margo/backpack_front_144.webp"),
@@ -967,7 +863,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/margo/backpack_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/margo/backpack_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/margo/backpack_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/margo/backpack_q3-front_320.webp"),
     },
     "wreath": {
       "front_144": require("../../assets/art/turn/margo/wreath_front_144.webp"),
@@ -976,7 +871,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/margo/wreath_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/margo/wreath_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/margo/wreath_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/margo/wreath_q3-front_320.webp"),
     },
     "beret": {
       "front_144": require("../../assets/art/turn/margo/beret_front_144.webp"),
@@ -985,7 +879,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/margo/beret_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/margo/beret_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/margo/beret_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/margo/beret_q3-front_320.webp"),
     },
     "halo": {
       "front_144": require("../../assets/art/turn/margo/halo_front_144.webp"),
@@ -994,7 +887,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/margo/halo_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/margo/halo_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/margo/halo_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/margo/halo_q3-front_320.webp"),
     },
   },
   "nochka": {
@@ -1005,7 +897,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/nochka/base_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/nochka/base_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/nochka/base_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/nochka/base_q3-front_320.webp"),
     },
     "crown": {
       "front_144": require("../../assets/art/turn/nochka/crown_front_144.webp"),
@@ -1014,7 +905,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/nochka/crown_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/nochka/crown_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/nochka/crown_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/nochka/crown_q3-front_320.webp"),
     },
     "scarf": {
       "front_144": require("../../assets/art/turn/nochka/scarf_front_144.webp"),
@@ -1023,7 +913,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/nochka/scarf_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/nochka/scarf_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/nochka/scarf_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/nochka/scarf_q3-front_320.webp"),
     },
     "bow": {
       "front_144": require("../../assets/art/turn/nochka/bow_front_144.webp"),
@@ -1032,7 +921,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/nochka/bow_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/nochka/bow_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/nochka/bow_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/nochka/bow_q3-front_320.webp"),
     },
     "glasses": {
       "front_144": require("../../assets/art/turn/nochka/glasses_front_144.webp"),
@@ -1041,7 +929,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/nochka/glasses_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/nochka/glasses_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/nochka/glasses_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/nochka/glasses_q3-front_320.webp"),
     },
     "backpack": {
       "front_144": require("../../assets/art/turn/nochka/backpack_front_144.webp"),
@@ -1050,7 +937,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/nochka/backpack_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/nochka/backpack_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/nochka/backpack_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/nochka/backpack_q3-front_320.webp"),
     },
     "wreath": {
       "front_144": require("../../assets/art/turn/nochka/wreath_front_144.webp"),
@@ -1059,7 +945,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/nochka/wreath_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/nochka/wreath_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/nochka/wreath_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/nochka/wreath_q3-front_320.webp"),
     },
     "beret": {
       "front_144": require("../../assets/art/turn/nochka/beret_front_144.webp"),
@@ -1068,7 +953,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/nochka/beret_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/nochka/beret_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/nochka/beret_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/nochka/beret_q3-front_320.webp"),
     },
     "halo": {
       "front_144": require("../../assets/art/turn/nochka/halo_front_144.webp"),
@@ -1077,7 +961,6 @@ export const TURN: Record<string, Record<string, Record<string, any>>> = {
       "side_144": require("../../assets/art/turn/nochka/halo_side_144.webp"),
       "side-left_144": require("../../assets/art/turn/nochka/halo_side-left_144.webp"),
       "front_320": require("../../assets/art/turn/nochka/halo_front_320.webp"),
-      "q3-front_320": require("../../assets/art/turn/nochka/halo_q3-front_320.webp"),
     },
   },
 };

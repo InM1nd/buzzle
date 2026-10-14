@@ -76,22 +76,32 @@ function BedTile({ b, i, w, selected, onPress }: { b: Bed; i: number; w: number;
   const st = bedStatus(b);
   const wet = b.flower && b.water > 0 && !isReady(b);
   const img = flowerImg(b);
+  const bedSrc = wet ? require("../../assets/art/env/bed_wet.webp") : require("../../assets/art/env/bed_dry.webp");
+  // bed art is 360×185 with the box between y≈50 and y≈135; soil centre ≈ 0.44, front rim from ≈ 0.57
+  const bw = w - 12, bh = bw * 185 / 360, P = w * 0.66, RIM = 0.57;
+  const bedTop = Math.max(0, P * 0.88 - bh * 0.5), stageH = bedTop + bh * 0.76;
   const h = Math.max(150, w * 1.42);
   return (
     <Press onPress={() => onPress(ref.current)} style={[styles.bed, { width: w, height: h }, selected && styles.bedSel]}
       accessibilityRole="button" accessibilityLabel={t("gd.bedLabel", { i: i + 1, what: `${b.flower ? FLOWER_BY_ID[b.flower].name + ", " : ""}${st.text}` })}>
       <View ref={ref} collapsable={false} style={{ flex: 1, alignItems: "center" }}>
+        {/* plant stands IN the bed: bed → plant → the bed's front rim drawn again over the stem */}
         <View style={{ flex: 1, width: "100%", alignItems: "center", justifyContent: "flex-end" }}>
-          {img ? (
-            <Animated.Image source={img} resizeMode="contain" style={{
-              width: w * 0.7, height: w * 0.58, marginBottom: -w * 0.11, transformOrigin: "50% 100%",
-              transform: [{ scale: pop }, { rotate: sway.interpolate(sinDeg(2.5)) }],
-            }} />
-          ) : (
-            <View style={styles.plus}><Image source={ART.seed} style={{ width: 20, height: 20, tintColor: "#fff" }} /></View>
-          )}
+          <View style={{ width: bw, height: stageH }}>
+            <Image source={bedSrc} resizeMode="stretch" style={{ position: "absolute", left: 0, top: bedTop, width: bw, height: bh }} />
+            {img ? (
+              <Animated.Image source={img} resizeMode="contain" style={{
+                position: "absolute", left: (bw - P) / 2, top: bedTop + bh * 0.5 + P * 0.12 - P, width: P, height: P, transformOrigin: "50% 88%",
+                transform: [{ scale: pop }, { rotate: sway.interpolate(sinDeg(2.5)) }],
+              }} />
+            ) : (
+              <View style={[styles.plus, { position: "absolute", left: bw / 2 - 20, top: bedTop + bh * 0.42 - 40 }]}><Image source={ART.seed} style={{ width: 20, height: 20, tintColor: "#fff" }} /></View>
+            )}
+            <View pointerEvents="none" style={{ position: "absolute", left: 0, top: bedTop + bh * RIM, width: bw, height: bh * (1 - RIM), overflow: "hidden" }}>
+              <Image source={bedSrc} resizeMode="stretch" style={{ position: "absolute", left: 0, top: -bh * RIM, width: bw, height: bh }} />
+            </View>
+          </View>
         </View>
-        <Image source={wet ? require("../../assets/art/env/bed_wet.webp") : require("../../assets/art/env/bed_dry.webp")} resizeMode="contain" style={{ width: "100%", height: w * 0.32, marginTop: -w * 0.1 }} />
         <Txt v="tiny" center numberOfLines={1} color="#3E2A12" style={{ marginTop: 2 }}>{b.flower ? FLOWER_BY_ID[b.flower].name : t("gd.emptyBed")}</Txt>
         {b.flower && !isReady(b) ? <Bar progress={progress(b)} height={6} color={wet ? "#4AA8EE" : C.honey} track="#EADBC0" style={{ width: "86%", marginTop: 4 }} /> : <View style={{ height: 10 }} />}
         <View style={[styles.status, { backgroundColor: TONE_BG[st.tone] }]}>

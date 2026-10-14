@@ -109,11 +109,11 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
   );
 }
 
-/** Collection portraits: three-quarter view (alternating sides), hovering with flapping wings. */
+/** Collection portraits: three-quarter view, all facing right, hovering with flapping wings. */
 function CardBee({ id, i, level, skin }: { id: string; i: number; level: number; skin?: string }) {
   return (
     <Hover amp={3} sway={2.5} period={1600 + (i % 5) * 140} phase={(i * 0.37) % 1}>
-      <BeeSprite id={id} size={74} turn={i % 2 ? -0.5 : 0.5} seed={i * 13 + 5} level={level} skin={skin} />
+      <BeeSprite id={id} size={74} turn={0.5} seed={i * 13 + 5} level={level} skin={skin} />
     </Hover>
   );
 }

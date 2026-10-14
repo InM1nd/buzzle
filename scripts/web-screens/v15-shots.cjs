@@ -25,6 +25,9 @@ const seeds = JSON.parse(fs.readFileSync(__dirname + "/seeds-v15.json", "utf8"))
     await tap("Сюрпризы"); await shot("05-chests"); await tap("Лавка"); await shot("06-shop"); await tap("Альбом"); await shot("07-album");
     await tap("Задания"); await shot("08-tasks"); await page.evaluate(() => { document.querySelectorAll("div").forEach((d) => { if (d.scrollHeight > d.clientHeight + 50) d.scrollTop = 99999; }); }); await sleep(800); await shot("09-tasks-bottom");
     await tap("Настройки"); await shot("10-settings");
+    await page.goto(URL, { waitUntil: "load" }); await page.waitForFunction(() => !document.getElementById("bzz-boot"), { timeout: 30000 }); await sleep(2500);
+    for (const l of ["Забрать награду", "Понятно"]) await tap(l);
+    await tap("Пчёлы"); await tap("Наряды"); await shot("04b-outfits"); await tap("Все"); await tap("Жужа"); await sleep(800); await shot("04c-bee-detail");
     await page.close();
   }
   await browser.close();

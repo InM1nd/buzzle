@@ -188,7 +188,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
 
   return (
     <ImageBackground source={require("../../assets/art/env/hive_bg.webp")} resizeMode="cover" style={{ flex: 1 }} imageStyle={{ opacity: 0.55 }}>
-    <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 28, gap: 14 }} showsVerticalScrollIndicator={false}>
+    <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
       {rolled ? (
         <Card style={{ backgroundColor: "#FFE7DF", padding: 12 }}>
           <Txt v="small" color={C.red}>{t("hive.rollback")}</Txt>

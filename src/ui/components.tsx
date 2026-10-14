@@ -118,8 +118,8 @@ export function CountUp({ value, style, duration = 600, format = fmt }: { value:
 }
 
 // ---------- currency pill ----------
-export function Pill({ icon, value, color = C.text, bump, onLayoutIcon, label }: {
-  icon: ImageSourcePropType; value: number; color?: string; bump?: number; label: string;
+export function Pill({ icon, value, color = C.text, bump, onLayoutIcon, label, compact }: {
+  icon: ImageSourcePropType; value: number; color?: string; bump?: number; label: string; compact?: boolean;
   onLayoutIcon?: (ref: View | null) => void;
 }) {
   const s = useRef(new Animated.Value(1)).current;
@@ -131,11 +131,11 @@ export function Pill({ icon, value, color = C.text, bump, onLayoutIcon, label }:
     ]).start();
   }, [bump, s]);
   return (
-    <Animated.View accessibilityLabel={label} style={[styles.pill, shadow, { transform: [{ scale: s }] }]}>
+    <Animated.View accessibilityLabel={label} style={[styles.pill, shadow, compact && styles.pillC, { transform: [{ scale: s }] }]}>
       <View ref={(r) => onLayoutIcon?.(r)} collapsable={false}>
-        <Image source={icon} style={{ width: 26, height: 26 }} />
+        <Image source={icon} style={compact ? { width: 20, height: 20 } : { width: 26, height: 26 }} />
       </View>
-      <CountUp value={value} style={[F.black, { fontSize: 16, color, minWidth: 28 }]} />
+      <CountUp value={value} style={[F.black, { fontSize: compact ? 13 : 16, color, minWidth: compact ? 14 : 28 }]} />
     </Animated.View>
   );
 }
@@ -235,6 +235,7 @@ export function CloseBtn({ onPress, color = C.dim }: { onPress: () => void; colo
 }
 
 const styles = StyleSheet.create({
+  pillC: { gap: 3, paddingLeft: 4, paddingRight: 8, height: 32, borderRadius: 16, flexShrink: 1 },
   pill: { flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: "#FFFFFF", borderRadius: 22, paddingLeft: 6, paddingRight: 14, height: 40 },
   card: { backgroundColor: C.card, borderRadius: 24, padding: 16 },
   overlayCenter: { position: "absolute", left: 0, right: 0, top: 0, bottom: 0, alignItems: "center", justifyContent: "center", padding: 22 },

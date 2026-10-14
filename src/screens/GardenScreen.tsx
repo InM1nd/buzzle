@@ -111,7 +111,7 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
 
   return (
     <ImageBackground source={require("../../assets/art/env/garden_bg.webp")} resizeMode="cover" style={{ flex: 1 }} imageStyle={{ opacity: 0.55 }}>
-    <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 28, gap: 14 }} showsVerticalScrollIndicator={false}>
+    <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
       {!s.settings.gardenIntroDone ? (
         <Card style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
           <Mascot id="zhuzha" size={78} seed={11} />

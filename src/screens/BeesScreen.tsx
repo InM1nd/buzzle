@@ -29,7 +29,7 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
   const owned = new Set(s.bees);
   return (
     <>
-      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 110 }} showsVerticalScrollIndicator={false}>
         <View style={styles.head}>
           <Txt v="h1" style={{ flex: 1 }}>{t("bees.title")}</Txt>
           <Txt v="h3" color={C.dim}>{t("bees.count", { a: s.bees.length, b: BEES.length })}</Txt>

@@ -56,7 +56,7 @@ export default function LootScreen(p: Props) {
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 28, gap: 14 }} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
         {/* v1.5: one tab, three sections */}
         <View style={styles.seg3} accessibilityRole="tablist">
           {(["chests", "shop", "album"] as const).map((k) => (

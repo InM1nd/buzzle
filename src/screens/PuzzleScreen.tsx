@@ -47,7 +47,7 @@ export default function PuzzleScreen({ s, now, onPlay }: Props) {
   if (honeyBonus > 0) chips.push(t("pz.chipHoney", { n: honeyBonus }));
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 28, gap: 14 }} showsVerticalScrollIndicator={false}>
+    <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
       <View style={[styles.daily, shadow]}>
         <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
           <View style={{ flex: 1 }}>

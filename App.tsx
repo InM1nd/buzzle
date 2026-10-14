@@ -509,9 +509,13 @@ function Main() {
       <StatusBar style="dark" />
       {/* top bar */}
       <View style={[styles.top, { paddingTop: insets.top + 8 }]}>
-        <Pill icon={ART.honey} value={hold.honey ?? s.honey} bump={bump.honey} label={t("c.honey")} onLayoutIcon={(r) => { honeyIcon.current = r; }} />
-        {/* v1.5: top bar shows honey only; jelly/nectar live on the screens that use them */}
-        <View style={{ flex: 1 }} />
+        <View style={{ flex: 1, flexDirection: "row", gap: 5, alignItems: "center" }}>
+          <Pill compact icon={ART.honey} value={hold.honey ?? s.honey} bump={bump.honey} label={t("c.honey")} onLayoutIcon={(r) => { honeyIcon.current = r; }} />
+          <Pill compact icon={ART.nectar} value={hold.nectar ?? s.nectar} bump={bump.nectar} label={t("c.nectar")} color="#B03A68" onLayoutIcon={(r) => { nectarIcon.current = r; }} />
+          <Pill compact icon={ART.jelly} value={hold.jelly ?? s.jelly} bump={bump.jelly} label={t("c.jelly")} color="#7B52C2" onLayoutIcon={(r) => { jellyIcon.current = r; }} />
+          <Pill compact icon={ART.pollen} value={s.loot.pollen} label={t("c.pollen")} color="#B07A10" />
+          <Pill compact icon={ART.fragment} value={s.loot.fragments} label={t("c.fragments")} color="#5B5FC7" />
+        </View>
         <Press onPress={() => { setSettingsPage("main"); setShowSettings(true); }} style={styles.gear} accessibilityRole="button" accessibilityLabel={updater.available ? `${t("c.settings")} · ${t("up.badge")}` : t("c.settings")}>
           <Image source={ART.gear} style={{ width: 22, height: 22, tintColor: C.brown }} />
           {updater.available ? <View style={[styles.badge, { top: -1, right: -1 }]} /> : null}
@@ -586,7 +590,7 @@ function Main() {
       </View>
 
       {/* tab bar */}
-      <View style={[styles.tabs, { marginBottom: Math.max(insets.bottom, 8) }]}>
+      <View style={[styles.tabs, { position: "absolute", left: 0, right: 0, bottom: Math.max(insets.bottom, 8) }]}>
         {TABS.map((t) => {
           const on = tab === t.id;
           const badge = t.id === "loot" ? s.loot.boxes.wood + s.loot.boxes.wax + s.loot.boxes.gold > 0 || (!s.week.chest && s.week.tasks >= 15) : t.id === "tasks" ? tasksReady || canClaimLogin(s, now) : t.id === "puzzle" ? !s.daily.results[todayOf(s, now)]?.stars : t.id === "hive" ? (s.hive.stored >= 1 && s.hive.stored >= 0.999 * capOf(s)) || gardenBadge : false;

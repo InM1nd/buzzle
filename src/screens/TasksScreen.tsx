@@ -47,7 +47,7 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
     : t("tasks.sayProgress", { a: doneCount, b: tasks.length });
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 28, gap: 14 }} showsVerticalScrollIndicator={false}>
+    <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
       {/* mascot */}
       <View style={styles.mascotRow}>
         <Mascot id="zhuzha" size={84} seed={9} />

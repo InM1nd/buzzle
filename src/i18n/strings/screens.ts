@@ -1,7 +1,12 @@
 /** Bees, tasks and comb-opening screens. */
 import type { Entry } from "../core";
 export const screens = {
-  "bees.title": { en: "Bee Collection", uk: "Колекція бджілок", ru: "Коллекция пчёл" },
+  "bees.count": { en: "{a} of {b}", uk: "{a} з {b}", ru: "{a} из {b}" },
+  "bees.seg.all": { en: "All", uk: "Усі", ru: "Все" },
+  "bees.seg.outfits": { en: "Outfits", uk: "Вбрання", ru: "Наряды" },
+  "bees.outfitLocked": { en: "from surprise combs", uk: "із сот-сюрпризів", ru: "из сот-сюрпризов" },
+  "bees.outfitFree": { en: "not worn", uk: "не вдягнено", ru: "не надет" },
+  "bees.title": { en: "Bees", uk: "Бджілки", ru: "Пчёлы" },
   "bees.sub": { en: "Unlocked {a} of {b}. Every bee gives a permanent bonus and grows up to level {max}.", uk: "Відкрито {a} з {b}. Кожна бджілка дає постійний бонус і росте до {max} рівня.", ru: "Открыто {a} из {b}. Каждая пчела даёт постоянный бонус и растёт до {max} уровня." },
   "bees.nectarLabel": { en: "Nectar: open the garden", uk: "Нектар: відкрити сад", ru: "Нектар: открыть сад" },
   "bees.nectar": { en: "Nectar: {n}", uk: "Нектар: {n}", ru: "Нектар: {n}" },

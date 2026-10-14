@@ -199,6 +199,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
       <DecoStrip ids={shownDecos(s, "hive")} ground="#F6E3BC" />
       {/* hive */}
       <View style={[styles.hiveArea, { height: areaH + 46 }]}>
+        <Image source={require("../../assets/art/env/hive_bg.webp")} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%", borderRadius: 25, opacity: 0.9 }]} />
         <View style={styles.hiveHead}>
           <View style={styles.levelChip}><Txt v="small" color="#fff">{t("hive.levelChip", { n: level(s) })}</Txt></View>
           <Txt v="small" color={C.honeyDark}>{t("hive.rate", { r: rateFmt(r) })}</Txt>
@@ -299,7 +300,7 @@ function CombPanel({ s, slot, onAction, onClose }: { s: GameState; slot: number;
 }
 
 const styles = StyleSheet.create({
-  hiveArea: { backgroundColor: "#FFE9BF", borderRadius: 28, alignItems: "center", paddingTop: 8, borderWidth: 3, borderColor: "#F6D594", ...shadow },
+  hiveArea: { backgroundColor: "#FFE9BF", borderRadius: 28, overflow: "hidden", alignItems: "center", paddingTop: 8, borderWidth: 3, borderColor: "#F6D594", ...shadow },
   hiveHead: { flexDirection: "row", alignSelf: "stretch", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 14, height: 34 },
   levelChip: { backgroundColor: C.honeyDeep, borderRadius: 14, paddingHorizontal: 12, paddingVertical: 4 },
   lvlCenter: { flex: 1, alignItems: "center", justifyContent: "center" },

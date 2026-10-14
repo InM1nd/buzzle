@@ -50,7 +50,7 @@ export function SettingsModal(p: SettingsProps) {
           ) : null}
           <Txt v="h1">{page === "about" ? t("ab.title") : page === "update" ? t("up.title") : t("st.title")}</Txt>
         </View>
-        <ScrollView style={{ maxHeight: height * 0.74 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
+        <ScrollView style={{ maxHeight: Math.min(height * 0.62, height - 300) }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
           {page === "main" ? <Main {...p} go={setPage} /> : page === "update" ? <UpdatePage u={p.updater} /> : <About />}
         </ScrollView>
       </View>

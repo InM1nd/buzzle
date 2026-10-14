@@ -478,9 +478,6 @@ function Main() {
     return (
       <View style={{ flex: 1, backgroundColor: C.bg }}>
         <StatusBar style="dark" />
-      {tab === "hive" ? (
-        <Image source={hiveView === "garden" ? require("./assets/art/env/garden_bg.webp") : require("./assets/art/env/hive_bg.webp")} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} />
-      ) : null}
         <GameScreen
           key={game.key}
           mode={game.mode}
@@ -510,6 +507,9 @@ function Main() {
   return (
     <View key={s.settings.lang} style={{ flex: 1, backgroundColor: C.bg }}>
       <StatusBar style="dark" />
+      {tab === "hive" ? (
+        <Image source={hiveView === "garden" ? require("./assets/art/env/garden_bg.webp") : require("./assets/art/env/hive_bg.webp")} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} />
+      ) : null}
       {/* top bar */}
       <View style={[styles.top, { paddingTop: insets.top + 8 }]}>
         <View style={{ flex: 1, flexDirection: "row", gap: 5, alignItems: "center" }}>

@@ -53,7 +53,7 @@ const CellView = React.memo(function CellView(p: {
     ]).start();
   }, [p.y, p.delay, ty]);
   useEffect(() => {
-    Animated.spring(sc, { toValue: p.selected ? 1.08 : 1, useNativeDriver: true, speed: 30, bounciness: 14 }).start();
+    Animated.spring(sc, { toValue: p.selected ? 1.06 : 1, useNativeDriver: true, speed: 30, bounciness: 14 }).start();
   }, [p.selected, sc]);
   useEffect(() => {
     if (!p.pulse) return;
@@ -69,7 +69,7 @@ const CellView = React.memo(function CellView(p: {
     l.start();
     return () => l.stop();
   }, [p.hint, hint]);
-  const w = 2 * p.s * 0.97, h = SQ3 * p.s * 0.97;
+  const w = 2 * p.s * 0.995, h = SQ3 * p.s * 0.995;
   const src = p.cell.kind === "wild" ? ART.wild : ART.cells[p.cell.color];
   return (
     <Animated.View
@@ -81,7 +81,7 @@ const CellView = React.memo(function CellView(p: {
     >
       <Image source={src} style={{ width: w, height: h }} />
       {p.cell.kind === "bomb" ? <Image source={ART.bomb} style={{ position: "absolute", left: 0, top: 0, width: w, height: h }} /> : null}
-      {p.selected ? <Image source={ART.ring} style={{ position: "absolute", left: 0, top: 0, width: w, height: h }} /> : null}
+      {p.selected ? <Image source={src} style={{ position: "absolute", left: 0, top: 0, width: w, height: h, tintColor: "#fff", opacity: 0.22 }} /> : null}
     </Animated.View>
   );
 });
@@ -98,7 +98,7 @@ function Pop({ fx, onDone }: { fx: PopFx; onDone: (k: number) => void }) {
   useEffect(() => {
     Animated.timing(a, { toValue: 1, duration: 520, delay: fx.delay, easing: Easing.out(Easing.quad), useNativeDriver: true }).start(() => onDone(fx.key));
   }, [a, fx, onDone]);
-  const w = 2 * fx.s * 0.97, h = SQ3 * fx.s * 0.97;
+  const w = 2 * fx.s * 0.995, h = SQ3 * fx.s * 0.995;
   const col = C.pollen[fx.color];
   return (
     <View pointerEvents="none" style={{ position: "absolute", left: fx.x, top: fx.y }}>

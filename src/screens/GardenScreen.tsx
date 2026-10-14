@@ -64,7 +64,7 @@ function BedTile({ b, i, w, selected, onPress }: { b: Bed; i: number; w: number;
   const st = bedStatus(b);
   const wet = b.flower && b.water > 0 && !isReady(b);
   const img = flowerImg(b);
-  const h = w * 1.18;
+  const h = w * 0.98;
   return (
     <Press onPress={() => onPress(ref.current)} style={[styles.bed, { width: w, height: h }, selected && styles.bedSel]}
       accessibilityRole="button" accessibilityLabel={t("gd.bedLabel", { i: i + 1, what: `${b.flower ? FLOWER_BY_ID[b.flower].name + ", " : ""}${st.text}` })}>
@@ -72,14 +72,14 @@ function BedTile({ b, i, w, selected, onPress }: { b: Bed; i: number; w: number;
         <View style={{ flex: 1, width: "100%", alignItems: "center", justifyContent: "flex-end" }}>
           {img ? (
             <Animated.Image source={img} style={{
-              width: w * 0.92, height: w * 0.92, marginBottom: -w * 0.1,
+              width: w * 0.7, height: w * 0.7, marginBottom: -w * 0.08,
               transform: [{ scale: pop }, { rotate: sway.interpolate(sinDeg(2.5)) }],
             }} />
           ) : (
             <View style={styles.plus}><Image source={ART.seed} style={{ width: 22, height: 22, tintColor: "#B0875A" }} /></View>
           )}
         </View>
-        <Image source={wet ? require("../../assets/art/env/bed_wet.webp") : require("../../assets/art/env/bed_dry.webp")} resizeMode="contain" style={{ width: "112%", height: 46, marginTop: -16 }} />
+        <Image source={wet ? require("../../assets/art/env/bed_wet.webp") : require("../../assets/art/env/bed_dry.webp")} resizeMode="contain" style={{ width: "100%", height: w * 0.32, marginTop: -w * 0.1 }} />
         {b.flower && !isReady(b) ? <Bar progress={progress(b)} height={6} color={wet ? "#5CB8F0" : C.honey} style={{ width: "86%", marginTop: 5 }} /> : <View style={{ height: 11 }} />}
         <Txt v="tiny" numberOfLines={1} color={st.tone === "ready" ? C.greenDark : st.tone === "dry" ? C.red : C.dim} style={{ marginTop: 3 }}>{st.text}</Txt>
         {st.tone === "ready" ? <View style={styles.readyDot}><Image source={ART.nectar} style={{ width: 22, height: 22 }} /></View> : null}
@@ -94,7 +94,7 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
   const [sel, setSel] = useState<number | null>(null);
   const areaW = Math.min(width, 520) - 32;
   const [gridW, setGridW] = useState(0);
-  const bw = Math.floor(((gridW || areaW) - 2 * 10) / 3) - 1;
+  const bw = Math.floor(((gridW || areaW) - 10) / 2) - 1;
   const beds = s.garden.beds;
   const dc = dayColorInfo(s, now);
   const dcFlower = FLOWERS.find((f) => f.color === dc.color)!;
@@ -146,7 +146,7 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
       <View onLayout={(e) => setGridW(e.nativeEvent.layout.width)} style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, width: "100%", alignSelf: "stretch" }}>
         {beds.map((b, i) => <BedTile key={i} b={b} i={i} w={bw} selected={sel === i} onPress={(r) => tap(i, r)} />)}
         {bedCost !== null ? (
-          <Press onPress={() => onUnlockBed()} style={[styles.bed, styles.bedLocked, { width: bw, height: bw * 1.18 }]} accessibilityRole="button"
+          <Press onPress={() => onUnlockBed()} style={[styles.bed, styles.bedLocked, { width: bw, height: bw * 0.98 }]} accessibilityRole="button"
             accessibilityLabel={t("gd.newBedLabel", { n: bedCost })}>
             <Image source={ART.shovel} style={{ width: 30, height: 30, tintColor: s.honey >= bedCost ? C.honeyDeep : "#CDB48C" }} />
             <Txt v="tiny" color={C.dim} style={{ marginTop: 6 }}>{t("gd.newBedCaps")}</Txt>

@@ -1,6 +1,9 @@
 /** Surprises tab, album, shop, odds. */
 import type { Entry } from "../core";
 export const lootScreen = {
+  "ls.seg.chests": { en: "Chests", uk: "Скрині", ru: "Сундуки" },
+  "ls.seg.shop": { en: "Shop", uk: "Крамниця", ru: "Лавка" },
+  "ls.seg.album": { en: "Album", uk: "Альбом", ru: "Альбом" },
   "ls.kind.item": { en: "a collection item", uk: "річ із колекції", ru: "вещь из коллекции" },
   "ls.kind.booster": { en: "a booster", uk: "бустер", ru: "бустер" },
   "ls.kind.seed": { en: "seeds", uk: "насіння", ru: "семена" },

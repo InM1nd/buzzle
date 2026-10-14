@@ -35,7 +35,7 @@ interface Props {
   onBuyBooster: (b: BoosterId) => boolean;
   onBuyFragment: () => boolean;
   onToggleDeco: (id: string) => void;
-  onInvite: () => void;
+  onInvite?: () => void;
 }
 const kindName = (k: string) => tx(`ls.kind.${k}`);
 
@@ -43,6 +43,7 @@ export default function LootScreen(p: Props) {
   const { s, now } = p;
   const { width } = useWindowDimensions();
   const [sheet, setSheet] = useState<null | "album" | "shop" | { odds: BoxKind }>(null);
+  const [seg, setSeg] = useState<"chests" | "shop" | "album">("chests");
   const owned = new Set([...s.loot.owned, ...(s.bees.includes(NIGHT_BEE) ? [NIGHT_BEE] : [])]);
   const total = PAGES.reduce((a, pg) => a + pg.items.length, 0);
   const got = PAGES.reduce((a, pg) => a + pg.items.filter((i) => owned.has(i)).length, 0);
@@ -56,6 +57,16 @@ export default function LootScreen(p: Props) {
   return (
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 28, gap: 14 }} showsVerticalScrollIndicator={false}>
+        {/* v1.5: one tab, three sections */}
+        <View style={styles.seg3} accessibilityRole="tablist">
+          {(["chests", "shop", "album"] as const).map((k) => (
+            <Press key={k} onPress={() => setSeg(k)} style={[styles.seg3Btn, seg === k && styles.seg3On]} scaleTo={0.96}
+              accessibilityRole="tab" accessibilityLabel={t(`ls.seg.${k}`)} accessibilityState={{ selected: seg === k }}>
+              <Txt v="h3" color={seg === k ? "#fff" : "#A07A4C"} numberOfLines={1}>{t(`ls.seg.${k}`)}</Txt>
+            </Press>
+          ))}
+        </View>
+        {seg === "chests" ? (<>
         {/* combs */}
         <View>
           <View style={{ flexDirection: "row", alignItems: "flex-end", marginBottom: 8 }}>
@@ -89,69 +100,6 @@ export default function LootScreen(p: Props) {
               );
             })}
           </View>
-        </View>
-
-        {/* weekly layer */}
-        <Card>
-          <Txt v="tiny" color={C.honeyDark}>{t("ls.weekCaps")}</Txt>
-          <View ref={chestRef} collapsable={false} style={{ flexDirection: "row", alignItems: "center", gap: 12, marginTop: 4 }}>
-            <Image source={boxArt("wax")} style={{ width: 54, height: 54 }} />
-            <View style={{ flex: 1 }}>
-              <Txt v="h3">{t("ls.weekChest")}</Txt>
-              <Txt v="small" color={C.dim}>{t("ls.weekChestSub", { n: WEEKLY_TASKS, wax: WEEKLY_REWARD.wax, jelly: WEEKLY_REWARD.jelly })}</Txt>
-              <Bar progress={Math.min(1, s.week.tasks / WEEKLY_TASKS)} height={10} style={{ marginTop: 6 }} color={C.green} />
-              <Txt v="tiny" color={C.dim} style={{ marginTop: 2 }}>{s.week.chest ? t("ls.weekGot") : t("ls.weekProgress", { a: Math.min(s.week.tasks, WEEKLY_TASKS), b: WEEKLY_TASKS, d: days(7 - wkDay) })}</Txt>
-            </View>
-          </View>
-          {canClaimWeekly(s) ? <GameButton title={t("ls.claimChest")} color="green" style={{ marginTop: 10 }} onPress={async () => p.onClaimWeekly(await centerOf(chestRef.current))} /> : null}
-
-          <View style={styles.sep} />
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
-            <View style={styles.weekendIcon}><Image source={ART.cells[2]} style={{ width: 40, height: 35 }} /></View>
-            <View style={{ flex: 1 }}>
-              <Txt v="h3">{t("ls.weekendTitle")}</Txt>
-              <Txt v="small" color={C.dim}>{t("ls.weekendSub", { n: WEEKEND_MOVES })}</Txt>
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginTop: 4 }}>
-                <Stars n={s.week.weekendStars} size={20} />
-                <Txt v="tiny" color={C.dim}>{WEEKEND_STARS.map(fmt).join(" · ")}{s.week.weekendBest ? t("ls.weekendBest", { n: fmt(s.week.weekendBest) }) : ""}</Txt>
-              </View>
-            </View>
-          </View>
-          <GameButton title={weekend ? (s.week.weekendStars === 3 ? t("ls.replay") : t("ls.play")) : t("ls.opensSat")} color={weekend ? "purple" : "grey"} disabled={!weekend}
-            sub={weekend ? t("ls.fair") : t("ls.inDays", { d: days(5 - wkDay) })} style={{ marginTop: 10 }} onPress={p.onPlayWeekend} label={t("ls.weekendTitle")} />
-
-          <View style={styles.sep} />
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
-            <Image source={ART.freeze} style={{ width: 46, height: 46 }} />
-            <View style={{ flex: 1 }}>
-              <Txt v="h3">{t("ls.freeze")}</Txt>
-              <Txt v="small" color={C.dim}>{t("ls.freezeSub")}</Txt>
-              <Txt v="tiny" color={s.daily.freeze ? C.greenDark : C.dim} style={{ marginTop: 2 }}>
-                {s.daily.freeze ? t("ls.freezeStock", { n: streak }) : s.week.freezeBought ? t("ls.freezeBought") : t("ls.freezeStreak", { n: streak })}
-              </Txt>
-            </View>
-          </View>
-          {!s.daily.freeze && !s.week.freezeBought ? (
-            <GameButton small title={t("ls.buyFor", { n: FREEZE_COST })} icon={ART.jelly} color={canBuyFreeze(s) ? "honey" : "grey"} disabled={!canBuyFreeze(s)} onPress={p.onBuyFreeze} style={{ marginTop: 10 }} label={t("ls.buyFreezeLabel", { n: FREEZE_COST })} />
-          ) : null}
-        </Card>
-
-        {/* collection */}
-        <View style={{ flexDirection: "row", gap: 12 }}>
-          <Press onPress={() => setSheet("album")} style={[styles.big, shadow]} accessibilityRole="button" accessibilityLabel={t("ls.albumLabel", { a: got, b: total })}>
-            <Image source={ART.album} style={{ width: 46, height: 46 }} />
-            <Txt v="h3">{t("ls.album")}</Txt>
-            <Txt v="small" color={C.dim}>{t("ls.aOfB", { a: got, b: total })}</Txt>
-            <Bar progress={got / total} height={8} style={{ alignSelf: "stretch", marginTop: 6 }} color={C.jelly} />
-          </Press>
-          <Press onPress={() => setSheet("shop")} style={[styles.big, shadow]} accessibilityRole="button" accessibilityLabel={t("ls.shopLabel", { n: s.loot.pollen })}>
-            <Image source={ART.shop} style={{ width: 46, height: 46 }} />
-            <Txt v="h3">{t("ls.shop")}</Txt>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
-              <Image source={ART.pollen} style={{ width: 18, height: 18 }} />
-              <Txt v="small" color={C.dim}>{t("ls.pollenN", { n: fmt(s.loot.pollen) })}</Txt>
-            </View>
-          </Press>
         </View>
 
         {/* inventory */}
@@ -193,7 +141,11 @@ export default function LootScreen(p: Props) {
           ) : null}
         </Card>
 
-        <GameButton title={t("ls.invite")} icon={ART.share} color="white" onPress={p.onInvite} label={t("ls.invite")} />
+        </>) : seg === "shop" ? (
+          <View style={[styles.segPanel, shadow]}><Shop s={p.s} onBuyItem={p.onBuyItem} onBuyBooster={p.onBuyBooster} onBuyFragment={p.onBuyFragment} /></View>
+        ) : (
+          <View style={[styles.segPanel, shadow]}><Album s={s} onToggleDeco={p.onToggleDeco} onShop={() => setSeg("shop")} /></View>
+        )}
       </ScrollView>
 
       <Overlay visible={!!sheet} onClose={() => setSheet(null)}>
@@ -368,6 +320,10 @@ function Odds({ kind, s }: { kind: BoxKind; s: GameState }) {
 }
 
 const styles = StyleSheet.create({
+  seg3: { flexDirection: "row", backgroundColor: "#F6E6C8", borderRadius: 22, padding: 4, gap: 4 },
+  seg3Btn: { flex: 1, height: 38, borderRadius: 18, alignItems: "center", justifyContent: "center" },
+  seg3On: { backgroundColor: C.honeyDeep },
+  segPanel: { backgroundColor: "#fff", borderRadius: 22, padding: 14 },
   tile: { backgroundColor: "#fff", borderRadius: 24, padding: 12, paddingTop: 10 },
   tileReady: { borderWidth: 2, borderColor: C.honey },
   info: { position: "absolute", right: 8, top: 8, width: 28, height: 28, borderRadius: 14, backgroundColor: "#F6E7CB", alignItems: "center", justifyContent: "center", zIndex: 2 },

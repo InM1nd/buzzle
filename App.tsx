@@ -32,8 +32,9 @@ import { applyPlan, ensureChannel, getPermission, requestPermission } from "./sr
 import { hError, hSuccess, setHaptics } from "./src/ui/haptics";
 import { ART } from "./src/ui/art";
 import { TabIcon } from "./src/ui/TabIcon";
+import { Mascot } from "./src/ui/BeeSprite";
 import { C, F, shadow } from "./src/ui/theme";
-import { GameButton, Pill, Press, Txt } from "./src/ui/components";
+import { Bar, GameButton, Pill, Press, Txt } from "./src/ui/components";
 import { centerOf, FlyProvider, Pt, useFly } from "./src/ui/Fly";
 import HiveScreen from "./src/screens/HiveScreen";
 import PuzzleScreen from "./src/screens/PuzzleScreen";
@@ -195,7 +196,7 @@ function Main() {
     const run = async (kind: "honey" | "jelly" | "nectar", amount: number | undefined) => {
       if (!amount) return;
       setHold((h) => ({ ...h, [kind]: prev[kind] })); // keep the pill at the old value until the drops land
-      const to = await centerOf(kind === "honey" ? honeyIcon.current : kind === "jelly" ? jellyIcon.current : nectarIcon.current);
+      const to = await centerOf((kind === "jelly" ? jellyIcon.current : kind === "nectar" ? nectarIcon.current : null) ?? honeyIcon.current);
       if (!from || !to) { setHold((h) => ({ ...h, [kind]: undefined })); setBump((b) => ({ ...b, [kind]: b[kind] + 1 })); return; }
       fly({
         from, to, n: kind === "honey" ? Math.min(12, 4 + Math.ceil(Math.log2(amount + 1))) : kind === "nectar" ? Math.min(8, 3 + Math.ceil(amount / 6)) : Math.min(8, 2 + amount),
@@ -509,10 +510,8 @@ function Main() {
       {/* top bar */}
       <View style={[styles.top, { paddingTop: insets.top + 8 }]}>
         <Pill icon={ART.honey} value={hold.honey ?? s.honey} bump={bump.honey} label={t("c.honey")} onLayoutIcon={(r) => { honeyIcon.current = r; }} />
-        <Pill icon={ART.jelly} value={hold.jelly ?? s.jelly} bump={bump.jelly} label={t("c.jelly")} color="#7B52C2" onLayoutIcon={(r) => { jellyIcon.current = r; }} />
-        <Pill icon={ART.nectar} value={hold.nectar ?? s.nectar} bump={bump.nectar} label={t("c.nectar")} color="#B03A68" onLayoutIcon={(r) => { nectarIcon.current = r; }} />
+        {/* v1.5: top bar shows honey only; jelly/nectar live on the screens that use them */}
         <View style={{ flex: 1 }} />
-        <View style={styles.lvl} accessibilityLabel={t("c.hiveLevel", { n: level(s) })}><Text style={[F.black, { color: "#fff", fontSize: 15, transform: [{ rotate: "-45deg" }] }]}>{level(s)}</Text></View>
         <Press onPress={() => { setSettingsPage("main"); setShowSettings(true); }} style={styles.gear} accessibilityRole="button" accessibilityLabel={updater.available ? `${t("c.settings")} · ${t("up.badge")}` : t("c.settings")}>
           <Image source={ART.gear} style={{ width: 22, height: 22, tintColor: C.brown }} />
           {updater.available ? <View style={[styles.badge, { top: -1, right: -1 }]} /> : null}
@@ -532,6 +531,16 @@ function Main() {
               </Press>
             ))}
           </View>
+          {hiveView === "hive" ? (
+            <Press onPress={() => setTab("tasks")} style={[styles.zcard, shadow]} scaleTo={0.98} accessibilityRole="button" accessibilityLabel={t("hv.today", { a: Math.min(3, s.tasks.claimed.length), b: 3 })}>
+              <View style={{ flex: 1 }}>
+                <Txt v="h3">{t("hv.today", { a: Math.min(3, s.tasks.claimed.length), b: 3 })}</Txt>
+                <Bar progress={Math.min(1, s.tasks.claimed.length / 3)} height={8} color={C.green} style={{ marginTop: 6 }} />
+                <Txt v="tiny" color={C.honeyDark} style={{ marginTop: 4 }}>{t("hv.allTasks")} ›</Txt>
+              </View>
+              <Mascot size={58} />
+            </Press>
+          ) : null}
           {hiveView === "garden" ? (
             <GardenScreen s={s} now={now} onPlant={act.plant} onWater={act.water} onWaterAll={act.waterAll} onHarvest={act.harvest}
               onUnlockBed={act.unlockBed} onIntroDone={act.gardenIntroDone} />
@@ -570,10 +579,9 @@ function Main() {
             onBuyBooster={(bid) => act.simple((c) => shopBuyBooster(c, bid))}
             onBuyFragment={() => act.simple((c) => shopBuyFragment(c))}
             onToggleDeco={(id) => act.simple((c) => toggleDeco(c, id))}
-            onInvite={() => { inviteFriend().catch(() => {}); }}
           />
         ) : (
-          <TasksScreen s={s} now={now} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} onNotifications={act.notifications} notifBlocked={notifBlocked} />
+          <TasksScreen s={s} now={now} onClaimWeekly={act.weekly} onBuyFreeze={() => act.simple((c) => buyFreeze(c, Date.now()))} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} onNotifications={act.notifications} notifBlocked={notifBlocked} />
         )}
       </View>
 
@@ -609,6 +617,7 @@ function Main() {
         onTutorial={() => { setShowSettings(false); setTimeout(() => setShowTutorial(true), 250); }}
         onWhatsNew={() => { setShowSettings(false); setTimeout(() => setShowWhatsNew(true), 250); }}
         onReset={act.reset}
+        onInvite={() => { inviteFriend().catch(() => {}); }}
         onClose={() => setShowSettings(false)}
         getCode={() => encodeSave(sRef.current ?? s)}
         onImport={act.importCode}
@@ -632,6 +641,7 @@ function taskBadge(s: GameState) {
 }
 
 const styles = StyleSheet.create({
+  zcard: { flexDirection: "row", alignItems: "center", gap: 10, marginHorizontal: 16, marginBottom: 6, paddingVertical: 8, paddingLeft: 14, paddingRight: 8, borderRadius: 20, backgroundColor: "#FFE7A8" },
   top: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: 14, paddingBottom: 6 },
   lvl: { width: 36, height: 36, borderRadius: 12, backgroundColor: C.honeyDeep, alignItems: "center", justifyContent: "center", transform: [{ rotate: "45deg" }], marginRight: 4 },
   gear: { width: 40, height: 40, borderRadius: 20, backgroundColor: "#fff", alignItems: "center", justifyContent: "center", ...shadow },

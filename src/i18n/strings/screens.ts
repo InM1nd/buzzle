@@ -70,6 +70,7 @@ export const screens = {
   "tasks.weekLabel": { en: "Weekly chest: {a} of {b}", uk: "Тижнева скриня: {a} з {b}", ru: "Недельный сундук: {a} из {b}" },
   "tasks.week": { en: "Weekly chest", uk: "Тижнева скриня", ru: "Недельный сундук" },
   "tasks.weekGot": { en: "claimed — a new one on Monday", uk: "отримано — нова в понеділок", ru: "получен — новый в понедельник" },
+  "tasks.weekProgress2": { en: "{a}/{b} tasks this week → {wax} wax combs + {jelly} jelly", uk: "{a}/{b} завдань за тиждень → {wax} воскові соти + {jelly} молочка", ru: "{a}/{b} заданий за неделю → {wax} восковые соты + {jelly} молочка" },
   "tasks.weekProgress": { en: "{a}/{b} tasks this week · claim it in the Surprises tab", uk: "{a}/{b} завдань за тиждень · забрати у вкладці «Сюрпризи»", ru: "{a}/{b} заданий за неделю · забрать во вкладке «Сюрпризы»" },
   "tasks.reminders": { en: "Reminders", uk: "Нагадування", ru: "Напоминания" },
   "tasks.remindersSub": { en: "When the hive is full and a new daily puzzle is ready.", uk: "Коли вулик повний і готова нова головоломка дня.", ru: "Когда улей полон и когда готова новая ежедневная головоломка." },

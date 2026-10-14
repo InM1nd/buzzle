@@ -145,6 +145,15 @@ export default function PuzzleScreen({ s, now, onPlay }: Props) {
           onPress={() => onPlay("weekend")} label={t("mode.weekend")} />
       </Card>
 
+      {/* v1.5: future mini-games live here */}
+      <Card style={{ flexDirection: "row", alignItems: "center", gap: 12, opacity: 0.7 }}>
+        <Image source={ART.lock} style={{ width: 30, height: 30, tintColor: C.dim }} />
+        <View style={{ flex: 1 }}>
+          <Txt v="h3">{t("pz.meadow")}</Txt>
+          <Txt v="small" color={C.dim}>{t("pz.meadowSub")}</Txt>
+        </View>
+      </Card>
+
       <Card>
         <Txt v="h3" style={{ marginBottom: 10 }}>{t("pz.how")}</Txt>
         <Rule img={ART.cells[1]} title={t("pz.r1")} text={t("pz.r1t")} />

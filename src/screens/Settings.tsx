@@ -28,6 +28,7 @@ export interface SettingsProps {
   onLang: (l: Lang) => void;
   onNotifications: (v: boolean) => void;
   onTutorial: () => void; onWhatsNew: () => void; onReset: () => void; onClose: () => void;
+  onInvite?: () => void;
   getCode: () => string; onImport: (code: string) => string | null;
   /** open straight on a page (the update badge opens "update") */
   startPage?: Page;
@@ -122,6 +123,13 @@ function Main(p: SettingsProps & { go: (pg: Page) => void }) {
           </>
         ) : <Txt v="small" color={C.dim}>{t("st.notifWeb")}</Txt>}
       </Group>
+
+      {/* v1.5: invite moved here from Surprises */}
+      {p.onInvite ? (
+        <Group title={t("ls.invite")}>
+          <LinkRow title={t("ls.invite")} onPress={p.onInvite} last />
+        </Group>
+      ) : null}
 
       {/* updates */}
       <Group title={t("st.gUpdates")}>

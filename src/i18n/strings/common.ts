@@ -38,7 +38,11 @@ export const common = {
   "c.loading": { en: "The game is still loading", uk: "Гра ще завантажується", ru: "Игра ещё загружается" },
 
   "tab.hive": { en: "Hive", uk: "Вулик", ru: "Улей" },
-  "tab.puzzle": { en: "Puzzle", uk: "Головоломка", ru: "Головоломка" },
+  "hv.today": { en: "Today: {a} of {b} tasks", uk: "Сьогодні: {a} з {b} справ", ru: "Сегодня дела: {a} из {b}" },
+  "hv.allTasks": { en: "All tasks", uk: "Усі завдання", ru: "Все задания" },
+  "pz.meadow": { en: "Meadow", uk: "Луг", ru: "Луг" },
+  "pz.meadowSub": { en: "Mini-games · coming soon", uk: "Міні-ігри · незабаром", ru: "Мини-игры · скоро" },
+  "tab.puzzle": { en: "Play", uk: "Грати", ru: "Играть" },
   "tab.bees": { en: "Bees", uk: "Бджоли", ru: "Пчёлы" },
   "tab.loot": { en: "Surprises", uk: "Сюрпризи", ru: "Сюрпризы" },
   "tab.tasks": { en: "Tasks", uk: "Завдання", ru: "Задания" },

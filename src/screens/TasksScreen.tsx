@@ -4,7 +4,7 @@ import { WEEKLY_TASKS } from "../logic/tasks";
 import { boxArt } from "../ui/lootUi";
 import React, { useRef } from "react";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
-import { GameState, canClaimLogin, level, nextLoginIndex } from "../logic/game";
+import { GameState, canClaimLogin, level, nextLoginIndex, canClaimWeekly, canBuyFreeze, FREEZE_COST, WEEKLY_REWARD, dailyStreak } from "../logic/game";
 import { LOGIN_REWARDS, loginReward, taskReward, tasksForDay, bonusReward } from "../logic/tasks";
 import { ART } from "../ui/art";
 import { C } from "../ui/theme";
@@ -22,10 +22,14 @@ interface Props {
   onClaimTask: (id: string, from: Pt | null) => void;
   onClaimBonus: (from: Pt | null) => void;
   onNotifications: (on: boolean) => void;
+  onClaimWeekly?: (from: Pt | null) => void;
+  onBuyFreeze?: () => boolean;
   notifBlocked: boolean;
 }
 
-export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaimBonus, onNotifications, notifBlocked }: Props) {
+export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaimBonus, onNotifications, notifBlocked, onClaimWeekly, onBuyFreeze }: Props) {
+  const weekRef = useRef<View | null>(null);
+  const streak = dailyStreak(s, now);
   const lvl = level(s);
   const canLogin = canClaimLogin(s, now);
   const idx = canLogin ? nextLoginIndex(s, now) : s.login.index;
@@ -139,10 +143,34 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
           <View style={{ flex: 1 }}>
             <Txt v="h3">{t("tasks.week")}</Txt>
             <Bar progress={Math.min(1, s.week.tasks / WEEKLY_TASKS)} height={8} color={C.jelly} style={{ marginTop: 4 }} />
-            <Txt v="tiny" color={C.dim}>{s.week.chest ? t("tasks.weekGot") : t("tasks.weekProgress", { a: Math.min(s.week.tasks, WEEKLY_TASKS), b: WEEKLY_TASKS })}</Txt>
+            <Txt v="tiny" color={C.dim}>{s.week.chest ? t("tasks.weekGot") : t("tasks.weekProgress2", { a: Math.min(s.week.tasks, WEEKLY_TASKS), b: WEEKLY_TASKS, wax: WEEKLY_REWARD.wax, jelly: WEEKLY_REWARD.jelly })}</Txt>
+          </View>
+          <View ref={weekRef} collapsable={false}>
+            {canClaimWeekly(s) && onClaimWeekly ? (
+              <GameButton small title={t("ls.claimChest")} color="green" onPress={async () => onClaimWeekly(await centerOf(weekRef.current))} label={t("ls.claimChest")} />
+            ) : null}
           </View>
         </View>
       </Card>
+
+      {/* v1.5: streak freeze lives next to the streak */}
+      {onBuyFreeze ? (
+        <Card>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+            <Image source={ART.freeze} style={{ width: 46, height: 46 }} resizeMode="contain" />
+            <View style={{ flex: 1 }}>
+              <Txt v="h3">{t("ls.freeze")}</Txt>
+              <Txt v="small" color={C.dim}>{t("ls.freezeSub")}</Txt>
+              <Txt v="tiny" color={s.daily.freeze ? C.greenDark : C.dim} style={{ marginTop: 2 }}>
+                {s.daily.freeze ? t("ls.freezeStock", { n: streak }) : s.week.freezeBought ? t("ls.freezeBought") : t("ls.freezeStreak", { n: streak })}
+              </Txt>
+            </View>
+            {!s.daily.freeze && !s.week.freezeBought ? (
+              <GameButton small title={t("ls.buyFor", { n: FREEZE_COST })} icon={ART.jelly} color={canBuyFreeze(s) ? "honey" : "grey"} disabled={!canBuyFreeze(s)} onPress={onBuyFreeze} />
+            ) : null}
+          </View>
+        </Card>
+      ) : null}
 
       {/* notifications */}
       <Card>

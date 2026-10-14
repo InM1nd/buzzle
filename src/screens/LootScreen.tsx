@@ -58,6 +58,7 @@ export default function LootScreen(p: Props) {
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
         {/* v1.5: one tab, three sections */}
+        <Txt v="h1" style={{ marginBottom: -4 }}>{t("tab.loot")}</Txt>
         <View style={styles.seg3} accessibilityRole="tablist">
           {(["chests", "shop", "album"] as const).map((k) => (
             <Press key={k} onPress={() => setSeg(k)} style={[styles.seg3Btn, seg === k && styles.seg3On]} scaleTo={0.96}
@@ -71,7 +72,7 @@ export default function LootScreen(p: Props) {
         <View>
           <View style={{ flexDirection: "row", alignItems: "flex-end", marginBottom: 8 }}>
             <View style={{ flex: 1 }}>
-              <Txt v="h1">{t("ls.title")}</Txt>
+              <Txt v="h2">{t("ls.title")}</Txt>
               <Txt v="small" color={C.dim}>{t("ls.sub")}</Txt>
             </View>
           </View>
@@ -320,9 +321,9 @@ function Odds({ kind, s }: { kind: BoxKind; s: GameState }) {
 }
 
 const styles = StyleSheet.create({
-  seg3: { flexDirection: "row", backgroundColor: "#F6E6C8", borderRadius: 22, padding: 4, gap: 4 },
+  seg3: { flexDirection: "row", backgroundColor: "#FFFFFF", borderRadius: 22, padding: 4, gap: 4, ...shadow },
   seg3Btn: { flex: 1, height: 38, borderRadius: 18, alignItems: "center", justifyContent: "center" },
-  seg3On: { backgroundColor: C.honeyDeep },
+  seg3On: { backgroundColor: C.honey },
   segPanel: { backgroundColor: "#fff", borderRadius: 22, padding: 14 },
   tile: { backgroundColor: "#fff", borderRadius: 24, padding: 12, paddingTop: 10 },
   tileReady: { borderWidth: 2, borderColor: C.honey },

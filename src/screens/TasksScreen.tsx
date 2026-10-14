@@ -48,6 +48,7 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
 
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
+      <Txt v="h1" style={{ marginBottom: 2 }}>{t("tab.tasks")}</Txt>
       {/* mascot */}
       <View style={styles.mascotRow}>
         <Mascot id="zhuzha" size={84} seed={9} />

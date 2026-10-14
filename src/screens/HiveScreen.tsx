@@ -12,7 +12,7 @@ import { BeeSprite } from "../ui/BeeSprite";
 import { sinRange, useAnimActive, useCycle } from "../ui/anim";
 import { buildFlight } from "../logic/flight";
 import { C, F, shadow } from "../ui/theme";
-import { Bar, Card, fmt, GameButton, Press, Txt } from "../ui/components";
+import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Txt } from "../ui/components";
 import { centerOf, Pt } from "../ui/Fly";
 import { duration, rateFmt } from "../ui/format";
 
@@ -145,7 +145,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
   const [sel, setSel] = useState<number | null>(null);
   const collectRef = useRef<View>(null);
   const areaW = Math.min(width, 520) - 32;
-  const hs = Math.min(areaW / 8.6, 48);
+  const hs = Math.min(areaW / 10.2, 40);
   const areaH = SQ3 * hs * 5 + 24;
   const r = rate(s), c = cap(s);
   const hours = capHours(s.upgrades.storage, boostsFor(s.bees, s.beeLevels).capHours);
@@ -155,6 +155,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
   const rolled = clockRolledBack(s, now);
 
   const glow = useRef(new Animated.Value(0)).current;
+  const [showUp, setShowUp] = useState(false);
   const activeNow = useAnimActive();
   useCycle(glow, 1200, isFull && activeNow);
   useEffect(() => { if (!isFull) glow.setValue(0); }, [isFull, glow]);
@@ -237,8 +238,12 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
         <View style={styles.decoSpot}><Txt v="h3" color="#fff">+</Txt><Txt v="tiny" color="#fff">{t("hv.decor")}</Txt></View>
       </View>
 
-      {/* upgrades */}
-      <Txt v="h2" style={{ marginTop: 4, marginLeft: 4 }}>{t("hive.upgrades")}</Txt>
+      <GameButton title={t("hive.upgrades")} color="white" icon={ART.honey} onPress={() => setShowUp(true)} label={t("hive.upgrades")} style={{ alignSelf: "center", minWidth: 200 }} />
+    </ScrollView>
+    <Overlay visible={showUp} onClose={() => setShowUp(false)}>
+      <CloseBtn onPress={() => setShowUp(false)} />
+      <Txt v="h2" style={{ marginBottom: 10 }}>{t("hive.upgrades")}</Txt>
+      <ScrollView style={{ maxHeight: 460 }} contentContainerStyle={{ gap: 10 }} showsVerticalScrollIndicator={false}>
       {UPGRADES.map((u) => {
         const lvl = s.upgrades[u.id];
         const cost = upgradeCostFor(s, u.id);
@@ -256,7 +261,8 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
           </Card>
         );
       })}
-    </ScrollView>
+      </ScrollView>
+    </Overlay>
     </View>
   );
 }

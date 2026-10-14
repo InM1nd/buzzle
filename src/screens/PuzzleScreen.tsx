@@ -48,6 +48,7 @@ export default function PuzzleScreen({ s, now, onPlay }: Props) {
 
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
+      <Txt v="h1" style={{ marginBottom: 2 }}>{t("tab.puzzle")}</Txt>
       <View style={[styles.daily, shadow]}>
         <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
           <View style={{ flex: 1 }}>

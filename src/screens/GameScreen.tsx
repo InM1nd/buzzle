@@ -18,6 +18,7 @@ import { Bar, CountUp, fmt, GameButton, Overlay, Press, Stars, Txt } from "../ui
 import { hError, hHeavy, hLight, hSuccess, hTick } from "../ui/haptics";
 
 const SQ3 = Math.sqrt(3);
+const TILE = 0.93; // visual gap between neighbouring tiles so the board reads as separate combs
 const PATH_COLORS = ["#E39A00", "#E04585", "#7A4FD6", "#1F7FE0", "#25A35C"];
 
 interface Props {
@@ -69,7 +70,7 @@ const CellView = React.memo(function CellView(p: {
     l.start();
     return () => l.stop();
   }, [p.hint, hint]);
-  const w = 2 * p.s * 0.995, h = SQ3 * p.s * 0.995;
+  const w = 2 * p.s * TILE, h = SQ3 * p.s * TILE;
   const src = p.cell.kind === "wild" ? ART.wild : ART.cells[p.cell.color];
   return (
     <Animated.View
@@ -98,7 +99,7 @@ function Pop({ fx, onDone }: { fx: PopFx; onDone: (k: number) => void }) {
   useEffect(() => {
     Animated.timing(a, { toValue: 1, duration: 520, delay: fx.delay, easing: Easing.out(Easing.quad), useNativeDriver: true }).start(() => onDone(fx.key));
   }, [a, fx, onDone]);
-  const w = 2 * fx.s * 0.995, h = SQ3 * fx.s * 0.995;
+  const w = 2 * fx.s * TILE, h = SQ3 * fx.s * TILE;
   const col = C.pollen[fx.color];
   return (
     <View pointerEvents="none" style={{ position: "absolute", left: fx.x, top: fx.y }}>
@@ -203,10 +204,11 @@ function ZipBee({ id, w, h, dir, y0, big, level = 1, onEnd }: { id: string; w: n
 }
 
 export default function GameScreen(props: Props) {
-  const { height } = useWindowDimensions();
-  const [containerW, setContainerW] = useState(360);
+  const { width: winW, height } = useWindowDimensions();
+  const [containerW, setContainerW] = useState(winW);
   const insets = useInsets();
-  const avail = Math.max(1, Math.min(containerW - 20, 560));
+  // board wrap adds 6px padding + 3px border on each side; keep 12px air to the screen edge
+  const avail = Math.max(1, Math.min(containerW - 42, 560));
   const sByW = avail / (1.5 * COLS + 0.5);
   const sByH = (height - insets.top - insets.bottom - 190) / (SQ3 * (ROWS + 0.5));
   const s = Math.max(20, Math.min(sByW, sByH));
@@ -282,6 +284,13 @@ export default function GameScreen(props: Props) {
     prevPos.current = m;
     first.current = false;
   }, [layout]);
+
+  // empty sockets under the tiles: the board keeps its honeycomb structure while tiles fall
+  const slots = useMemo(() => {
+    const out: { k: number; x: number; y: number }[] = [];
+    for (let c = 0; c < COLS; c++) for (let r = 0; r < ROWS; r++) { const p = cellCenter(c, r, s); out.push({ k: c * 100 + r, x: p.x, y: p.y }); }
+    return out;
+  }, [s]);
 
   // ----- hint after idle -----
   useEffect(() => {
@@ -492,6 +501,12 @@ export default function GameScreen(props: Props) {
           accessibilityLabel={t("game.board")}
           style={{ width: size.width, height: size.height, overflow: "hidden" }}
         >
+          <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+            {slots.map((sl) => (
+              <Image key={`slot${sl.k}`} source={ART.cells[0]}
+                style={{ position: "absolute", left: sl.x - s * TILE, top: sl.y - (SQ3 * s * TILE) / 2, width: 2 * s * TILE, height: SQ3 * s * TILE, tintColor: C.boardEdge, opacity: 0.35 }} />
+            ))}
+          </View>
           {layout.map((l) => (
             <CellView
               key={l.cell.id}

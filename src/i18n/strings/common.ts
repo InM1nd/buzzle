@@ -27,6 +27,7 @@ export const common = {
   "wd.6": { en: "Saturday", uk: "субота", ru: "суббота" },
 
   "c.close": { en: "Close", uk: "Закрити", ru: "Закрыть" },
+  "c.back": { en: "Back", uk: "Назад", ru: "Назад" },
   "c.closeWindow": { en: "Close window", uk: "Закрити вікно", ru: "Закрыть окно" },
   "c.honey": { en: "Honey", uk: "Мед", ru: "Мёд" },
   "hv.decor": { en: "Decor", uk: "Прикраса", ru: "Украшение" },
@@ -133,4 +134,15 @@ export const common = {
   "game.again": { en: "Another round", uk: "Ще раунд", ru: "Ещё раунд" },
   "game.replay": { en: "Play again", uk: "Переграти", ru: "Переиграть" },
   "game.menu": { en: "Menu", uk: "У меню", ru: "В меню" },
+  // v1.5 hive HUD and decor spots
+  "hv.level": { en: "Hive level {n}", uk: "Рівень вулика {n}", ru: "Уровень улья {n}" },
+  "hv.perHour": { en: "per hour", uk: "на годину", ru: "в час" },
+  "hv.fullIn": { en: "Full in {d}", uk: "Заповниться за {d}", ru: "Заполнится через {d}" },
+  "hv.fullNow": { en: "Full — the bees are waiting", uk: "Повний — бджілки чекають", ru: "Полон — пчёлы ждут" },
+  "hv.collect": { en: "Collect", uk: "Зібрати", ru: "Собрать" },
+  "dec.spot": { en: "Spot for: {name}", uk: "Місце для: {name}", ru: "Место для: {name}" },
+  "dec.place": { en: "Put it out", uk: "Поставити", ru: "Поставить" },
+  "dec.remove": { en: "Put it away", uk: "Прибрати", ru: "Убрать" },
+  "dec.where": { en: "Find it in surprise combs or buy it in the Shop for pollen.", uk: "Її можна знайти в сотах-сюрпризах або купити в Лавці за пилок.", ru: "Его можно найти в сотах-сюрпризах или купить в Лавке за пыльцу." },
+  "dec.toShop": { en: "To the Shop", uk: "До Лавки", ru: "В Лавку" },
 } satisfies Record<string, Entry>;

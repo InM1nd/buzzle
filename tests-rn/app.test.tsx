@@ -62,7 +62,7 @@ test("hive: build a comb next to the centre, then upgrade it", async () => {
     expect(s.honey).toBeLessThan(1000);
     expect(s.tasks.day).toBeGreaterThan(0);
   });
-  await fireEvent.press(screen.getByText("Улучшения"));
+  // v1.5: upgrades are on the hive screen itself
   await fireEvent.press(await screen.findByLabelText("Купить: Рабочие пчёлы"));
   await waitFor(async () => expect((await stored()).upgrades.workers).toBe(1));
 });
@@ -71,7 +71,7 @@ test("hive: offline production is capped and collected", async () => {
   await seed((s) => ({ ...s, hive: { ...s.hive, lastTick: Date.now() - 48 * 3600_000 } }));
   await boot();
   // 2 level-1 combs = 16/h × 1.05 (Жужа) → cap 6 h ≈ 101
-  expect(await screen.findByText(/Улей полон!/)).toBeTruthy();
+  expect(await screen.findByText(/Полон — пчёлы ждут/)).toBeTruthy();
   await fireEvent.press(screen.getByLabelText("Собрать мёд"));
   await waitFor(async () => {
     const s = await stored();
@@ -105,6 +105,7 @@ test("free play shows bee bonuses and starts a round", async () => {
   expect(await screen.findByText("+1 ход.")).toBeTruthy();
   expect(screen.getByText(/жёлт.*×2/i)).toBeTruthy();
   await fireEvent.press(screen.getByLabelText("Свободная игра"));
+  await fireEvent.press(await screen.findByLabelText("Начать свободную игру"));
   expect(await screen.findByLabelText("Осталось ходов: 21")).toBeTruthy();
 });
 

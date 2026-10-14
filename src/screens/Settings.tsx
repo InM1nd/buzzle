@@ -2,8 +2,10 @@
  * v1.4 Settings: one calm sheet with grouped cards (Game · Reminders · Updates · Progress · More) and two
  * sub-pages (Update, About). "Simply pleasant": few words, one action per row, nothing destructive by accident.
  */
-import React, { useEffect, useState } from "react";
-import { Image, Linking, ScrollView, StyleSheet, TextInput, useWindowDimensions, View } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Image, Linking, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from "react-native";
+import { addBackListener } from "../platform/back";
+import { useInsets } from "../platform/insets";
 import { Lang, numFmt, t } from "../i18n";
 import { GameState, Settings } from "../logic/game";
 import { changelogText } from "../logic/update";
@@ -38,15 +40,29 @@ export function SettingsModal(p: SettingsProps) {
   const [page, setPage] = useState<Page>("main");
   useEffect(() => { if (p.visible) setPage(p.startPage ?? "main"); }, [p.visible, p.startPage]);
   const { height } = useWindowDimensions();
+  const insets = useInsets();
+  // hardware / Telegram back: a sub-page goes back to the main list first, then settings close
+  const pageRef = useRef(page); pageRef.current = page;
+  useEffect(() => {
+    if (!p.visible) return;
+    const sub = addBackListener(() => { if (pageRef.current !== "main") { setPage("main"); return true; } p.onClose(); return true; });
+    return () => sub.remove();
+  }, [p.visible, p.onClose]);
+  const sub = page !== "main";
   return (
     !p.visible ? null :
-    <View style={styles.page}>
+    <View style={[styles.page, { paddingTop: insets.top + 10 }]}>
       <View accessibilityLabel={t("st.title")} style={{ flex: 1 }}>
         <View style={styles.head}>
-          <Press onPress={page !== "main" ? () => setPage("main") : p.onClose} hitSlop={12} style={styles.back} accessibilityRole="button" accessibilityLabel={t("c.close")}>
-            <Txt v="h2" color={C.honeyDark}>‹</Txt>
+          {sub ? (
+            <Press onPress={() => setPage("main")} hitSlop={12} style={styles.back} accessibilityRole="button" accessibilityLabel={t("c.back")} scaleTo={0.88}>
+              <Text style={[F.black, { fontSize: 26, lineHeight: 28, color: C.honeyDark, marginTop: -3 }]}>‹</Text>
+            </Press>
+          ) : null}
+          <Txt v="h1" style={{ flex: 1 }} numberOfLines={1}>{page === "about" ? t("ab.title") : page === "update" ? t("up.title") : t("st.title")}</Txt>
+          <Press onPress={p.onClose} hitSlop={12} style={styles.closeX} accessibilityRole="button" accessibilityLabel={t("c.close")} scaleTo={0.88}>
+            <Image source={ART.close} style={{ width: 16, height: 16, tintColor: C.brown }} />
           </Press>
-          <Txt v="h1">{page === "about" ? t("ab.title") : page === "update" ? t("up.title") : t("st.title")}</Txt>
         </View>
         <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
           {page === "main" ? <Main {...p} go={setPage} /> : page === "update" ? <UpdatePage u={p.updater} /> : <About />}
@@ -330,6 +346,7 @@ function Stepper({ label, value, onChange }: { label: string; value: number; onC
 const styles = StyleSheet.create({
   page: { position: "absolute", left: 0, right: 0, top: 0, bottom: 0, zIndex: 50, elevation: 50, backgroundColor: C.bg, paddingTop: 44, paddingHorizontal: 16 },
   head: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 12 },
+  closeX: { width: 44, height: 44, borderRadius: 22, alignItems: "center", justifyContent: "center", backgroundColor: "#fff", borderWidth: 2, borderColor: "#F1DFC0" },
   back: { width: 40, height: 40, borderRadius: 20, alignItems: "center", justifyContent: "center", backgroundColor: "#FFF1D2" },
   group: { backgroundColor: "#fff", borderRadius: 18, paddingHorizontal: 12, paddingVertical: 8, borderWidth: 1.5, borderColor: "#F3E3C4" },
   row: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 9, borderBottomWidth: 1, borderBottomColor: C.line },

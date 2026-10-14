@@ -109,9 +109,13 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
   );
 }
 
-/** Collection portraits stay front-facing and completely still. */
+/** Collection portraits: three-quarter view (alternating sides), hovering with flapping wings. */
 function CardBee({ id, i, level, skin }: { id: string; i: number; level: number; skin?: string }) {
-  return <BeeSprite id={id} size={70} flap={false} level={level} skin={skin} />;
+  return (
+    <Hover amp={3} sway={2.5} period={1600 + (i % 5) * 140} phase={(i * 0.37) % 1}>
+      <BeeSprite id={id} size={74} turn={i % 2 ? -0.5 : 0.5} seed={i * 13 + 5} level={level} skin={skin} />
+    </Hover>
+  );
 }
 
 const LOOK_TEXT: Record<number, string> = { get 5() { return t("bees.look5"); }, get 10() { return t("bees.look10"); } };
@@ -181,12 +185,20 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
   const nextLook = level < 5 ? 5 : level < 10 ? 10 : null;
   return (
     <View style={{ alignItems: "center" }}>
-      <CloseBtn onPress={onClose} />
+      <View style={styles.sheetHead}>
+        <Press onPress={onClose} hitSlop={10} scaleTo={0.88} accessibilityRole="button" accessibilityLabel={t("c.close")} style={styles.sheetClose}>
+          <Image source={ART.close} style={{ width: 14, height: 14, tintColor: C.brown }} />
+        </Press>
+      </View>
       <View style={[styles.detailBg, { backgroundColor: has ? r.bg : "#F2E6D0" }]}>
         {has && wasLocked ? <Sparkle /> : null}
         {burst ? <LevelBurst key={burst} level={level} /> : null}
         <Animated.View style={{ transform: [{ scale: pop }] }}>
-          {has ? <Mascot id={bee.id} size={176} seed={bee.id.length * 7 + 1} level={level} skin={skin ?? undefined} /> : <BeeSprite id={bee.id} size={176} tint="#D8C29C" />}
+          {has ? (
+            <Hover amp={6} sway={3} period={1800}>
+              <BeeSprite id={bee.id} size={176} turn={0.5} seed={bee.id.length * 7 + 1} level={level} skin={skin ?? undefined} />
+            </Hover>
+          ) : <BeeSprite id={bee.id} size={176} tint="#D8C29C" />}
         </Animated.View>
       </View>
       {has && editing && onRename ? (
@@ -318,6 +330,8 @@ function RenameBox({ species, current, custom, onSave, onCancel }: {
 }
 
 const styles = StyleSheet.create({
+  sheetHead: { alignSelf: "stretch", flexDirection: "row", justifyContent: "flex-end", marginTop: -6, marginBottom: 6 },
+  sheetClose: { width: 36, height: 36, borderRadius: 18, backgroundColor: "#fff", borderWidth: 2, borderColor: "#F1DFC0", alignItems: "center", justifyContent: "center" },
   seg: { flexDirection: "row", gap: 8, marginBottom: 12 },
   segBtn: { paddingHorizontal: 18, paddingVertical: 9, borderRadius: 20, backgroundColor: "#fff" },
   segOn: { backgroundColor: C.honey },

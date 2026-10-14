@@ -82,6 +82,7 @@ function Main() {
   const [now, setNow] = useState(Date.now());
   const [tab, setTab] = useState<Tab>("hive");
   const [hiveView, setHiveView] = useState<"hive" | "garden">("hive");
+  const [lootSeg, setLootSeg] = useState<"chests" | "shop" | "album">("chests");
   const [game, setGame] = useState<{ mode: RoundMode; seed: number; key: number; extraMoves: number; bomb: boolean } | null>(null);
   const [boxOpen, setBoxOpen] = useState<BoxKind | null>(null);
   const [showTutorial, setShowTutorial] = useState(false);
@@ -175,7 +176,7 @@ function Main() {
     const sub = addBackListener(() => {
       if (game) return false; // GameScreen handles its own back
       if (boxOpen) return false; // BoxOpen handles its own back
-      if (showSettings) { setShowSettings(false); return true; }
+      if (showSettings) return false; // SettingsModal handles its own back (sub-page → main → close)
       if (showLogin) { setShowLogin(false); return true; }
       if (tab !== "hive") { setTab("hive"); return true; }
       if (hiveView !== "hive") { setHiveView("hive"); return true; }
@@ -537,11 +538,13 @@ function Main() {
           </View>
           {hiveView === "garden" ? (
             <GardenScreen s={s} now={now} onPlant={act.plant} onWater={act.water} onWaterAll={act.waterAll} onHarvest={act.harvest}
-              onUnlockBed={act.unlockBed} onIntroDone={act.gardenIntroDone} />
+              onUnlockBed={act.unlockBed} onIntroDone={act.gardenIntroDone}
+              onToggleDeco={(id) => act.simple((c) => toggleDeco(c, id))} onShop={() => { setLootSeg("shop"); setTab("loot"); }} />
           ) : (
           <HiveScreen
             s={s} now={now}
             onCollect={act.collect} onComb={act.comb} onUpgrade={act.upgrade} cheer={cheer}
+            onToggleDeco={(id) => act.simple((c) => toggleDeco(c, id))} onShop={() => { setLootSeg("shop"); setTab("loot"); }}
             banner={showNotifPrompt ? (
               <View style={[styles.banner, shadow]}>
                 <Image source={ART.clock} style={{ width: 26, height: 26, tintColor: C.honeyDeep }} />
@@ -559,11 +562,11 @@ function Main() {
           )}
           </View>
         ) : tab === "puzzle" ? (
-          <PuzzleScreen s={s} now={now} onPlay={act.play} />
+          <PuzzleScreen s={s} now={now} onPlay={act.play} onBuyBooster={(bid) => act.simple((c) => shopBuyBooster(c, bid))} />
         ) : tab === "bees" ? (
           <BeesScreen s={s} onSkin={(bee, k) => act.simple((c) => setSkin(c, bee, k))} onAssemble={() => act.simple((c) => assembleNightBee(c, Date.now()))} onUnlock={act.unlock} onLevelUp={act.levelUp} onRename={act.rename} onGarden={() => { setTab("hive"); setHiveView("garden"); }} />
         ) : tab === "loot" ? (
-          <LootScreen s={s} now={now}
+          <LootScreen key={lootSeg} initialSeg={lootSeg} s={s} now={now}
             onOpenBox={(k) => setBoxOpen(k)}
             onClaimWeekly={act.weekly}
             onBuyFreeze={() => act.simple((c) => buyFreeze(c, Date.now()))}

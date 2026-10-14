@@ -25,6 +25,7 @@ import { centerOf, Pt } from "../ui/Fly";
 import { days } from "../ui/format";
 
 interface Props {
+  initialSeg?: "chests" | "shop" | "album";
   s: GameState; now: number;
   onOpenBox: (kind: BoxKind) => void;
   onClaimWeekly: (from: Pt | null) => void;
@@ -42,7 +43,7 @@ const kindName = (k: string) => tx(`ls.kind.${k}`);
 export default function LootScreen(p: Props) {
   const { s, now } = p;
   const [sheet, setSheet] = useState<null | "album" | "shop" | { odds: BoxKind }>(null);
-  const [seg, setSeg] = useState<"chests" | "shop" | "album">("chests");
+  const [seg, setSeg] = useState<"chests" | "shop" | "album">(p.initialSeg ?? "chests");
   const owned = new Set([...s.loot.owned, ...(s.bees.includes(NIGHT_BEE) ? [NIGHT_BEE] : [])]);
   const total = PAGES.reduce((a, pg) => a + pg.items.filter(i => i !== "headphones").length, 0);
   const got = PAGES.reduce((a, pg) => a + pg.items.filter((i) => i !== "headphones" && owned.has(i)).length, 0);

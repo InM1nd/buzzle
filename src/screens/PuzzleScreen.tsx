@@ -1,6 +1,6 @@
 import { t } from "../i18n";
 import { RoundBoosters, RoundMode, weekendOpen } from "../logic/game";
-import { BOOSTERS } from "../logic/loot";
+import { BoosterId, BOOSTERS, SHOP_BOOSTER } from "../logic/loot";
 import { WEEKEND_MOVES, WEEKEND_STARS } from "../logic/day";
 import { BOOSTER_ART } from "../ui/lootUi";
 import React from "react";
@@ -11,10 +11,10 @@ import { DAILY_MOVES, DAILY_STARS } from "../logic/day";
 import { colorName } from "../logic/bees";
 import { ART } from "../ui/art";
 import { C, shadow } from "../ui/theme";
-import { Bobbing, Card, fmt, GameButton, Press, Stars, Txt } from "../ui/components";
+import { Bobbing, Card, CloseBtn, fmt, GameButton, Overlay, Press, Stars, Txt } from "../ui/components";
 import { dateLong, days, weekday } from "../ui/format";
 
-interface Props { s: GameState; now: number; onPlay: (mode: RoundMode, boosters?: RoundBoosters) => void }
+interface Props { s: GameState; now: number; onPlay: (mode: RoundMode, boosters?: RoundBoosters) => void; onBuyBooster: (b: BoosterId) => boolean }
 
 function HexCluster() {
   const pos = [[0, 0, 2], [1, -0.5, 0], [1, 0.5, 1], [-1, -0.5, 3], [-1, 0.5, 0], [0, -1, 4], [0, 1, 2]];
@@ -28,7 +28,8 @@ function HexCluster() {
   );
 }
 
-export default function PuzzleScreen({ s, now, onPlay }: Props) {
+export default function PuzzleScreen({ s, now, onPlay, onBuyBooster }: Props) {
+  const [pick, setPick] = React.useState(false);
   const [useMoves, setUseMoves] = React.useState(false);
   const [useBomb, setUseBomb] = React.useState(false);
   const bs = s.loot.boosters;
@@ -115,22 +116,16 @@ export default function PuzzleScreen({ s, now, onPlay }: Props) {
           </View>
         ) : <Txt v="small" color={C.dim} style={{ marginTop: 10 }}>{t("pz.unlockBees")}</Txt>}
         {s.stats.bestScore > 0 ? <Txt v="small" color={C.dim} style={{ marginTop: 8 }}>{t("pz.record", { n: fmt(s.stats.bestScore) })}</Txt> : null}
-        {bs.moves + bs.bomb + bs.shuffle > 0 ? (
-          <View style={{ marginTop: 12 }}>
-            <Txt v="tiny" color={C.dim}>{t("pz.boostersCaps")}</Txt>
-            <View style={{ flexDirection: "row", gap: 8, marginTop: 6 }}>
-              {([["moves", useMoves, setUseMoves], ["bomb", useBomb, setUseBomb]] as const).map(([id, on, set]) => (
-                <Press key={id} onPress={() => bs[id] > 0 && set(!on)} disabled={bs[id] <= 0} style={[styles.boost, on && styles.boostOn, bs[id] <= 0 && { opacity: 0.45 }]}
-                  accessibilityRole="checkbox" accessibilityState={{ checked: on }} accessibilityLabel={`${BOOSTERS[id].name}: ${bs[id]}`}>
-                  <Image source={BOOSTER_ART[id]} style={{ width: 30, height: 30 }} resizeMode="contain" />
-                  <View style={{ flex: 1 }}><Txt v="small" numberOfLines={1}>{BOOSTERS[id].name}</Txt><Txt v="tiny" color={C.dim}>×{bs[id]}{on ? t("pz.boosterOn") : ""}</Txt></View>
-                </Press>
-              ))}
+        {/* boosters you take into the round, always visible */}
+        <View style={styles.boostRow}>
+          {(["moves", "bomb", "shuffle"] as const).map((id) => (
+            <View key={id} style={[styles.boostMini, (id === "moves" ? useMoves : id === "bomb" ? useBomb : false) && styles.boostOn]}>
+              <Image source={BOOSTER_ART[id]} style={{ width: 26, height: 26 }} resizeMode="contain" />
+              <Txt v="tiny" color={bs[id] ? C.text : C.faint} style={{ fontWeight: "900" }}>×{bs[id]}</Txt>
             </View>
-            {bs.shuffle > 0 ? <Txt v="tiny" color={C.dim} style={{ marginTop: 4 }}>{t("pz.shuffleHint", { n: bs.shuffle })}</Txt> : null}
-          </View>
-        ) : null}
-        <GameButton title={t("pz.play")} color="honey" style={{ marginTop: 12 }} onPress={() => { onPlay("free", { moves: useMoves && bs.moves > 0, bomb: useBomb && bs.bomb > 0 }); setUseMoves(false); setUseBomb(false); }} label={t("mode.free")} />
+          ))}
+        </View>
+        <GameButton title={t("pz.play")} color="honey" style={{ marginTop: 12 }} onPress={() => setPick(true)} label={t("mode.free")} />
       </Card>
 
       <View style={{ flexDirection: "row", gap: 10 }}>
@@ -156,6 +151,38 @@ export default function PuzzleScreen({ s, now, onPlay }: Props) {
         <Rule img={ART.wild} title={t("pz.r3")} text={t("pz.r3t")} />
         <Rule img={ART.flame} title={t("pz.r4")} text={t("pz.r4t")} />
       </Card>
+      <Overlay visible={pick} onClose={() => setPick(false)}>
+        <CloseBtn onPress={() => setPick(false)} />
+        <Txt v="h2" style={{ marginBottom: 2, paddingRight: 44 }}>{t("mode.free")}</Txt>
+        <Txt v="small" color={C.dim} style={{ marginBottom: 12, paddingRight: 44 }}>{t("pz.pickBoosters")}</Txt>
+        <View style={{ gap: 10 }}>
+          {(["moves", "bomb", "shuffle"] as const).map((id) => {
+            const have = bs[id], price = SHOP_BOOSTER[id];
+            const on = id === "moves" ? useMoves : id === "bomb" ? useBomb : false;
+            const toggle = id === "moves" ? () => setUseMoves(!useMoves) : id === "bomb" ? () => setUseBomb(!useBomb) : null;
+            return (
+              <View key={id} style={[styles.boostCard, on && styles.boostOn]}>
+                <Image source={BOOSTER_ART[id]} style={{ width: 44, height: 44 }} resizeMode="contain" />
+                <View style={{ flex: 1, minWidth: 0 }}>
+                  <Txt v="h3" numberOfLines={1}>{BOOSTERS[id].name} <Txt v="small" color={C.dim}>×{have}</Txt></Txt>
+                  <Txt v="tiny" color={C.dim} numberOfLines={2}>{id === "shuffle" ? t("pz.shuffleInRound") : BOOSTERS[id].desc}</Txt>
+                </View>
+                {have > 0 && toggle ? (
+                  <Press onPress={toggle} style={[styles.check, on && styles.checkOn]} accessibilityRole="checkbox" accessibilityState={{ checked: on }} accessibilityLabel={BOOSTERS[id].name} scaleTo={0.9}>
+                    {on ? <Image source={ART.check} style={{ width: 22, height: 22 }} /> : null}
+                  </Press>
+                ) : have === 0 ? (
+                  <GameButton small title={`${price}`} icon={ART.pollen} color={s.loot.pollen >= price ? "green" : "white"} disabled={s.loot.pollen < price}
+                    onPress={() => onBuyBooster(id)} label={t("pz.buyBooster", { name: BOOSTERS[id].name, n: price })} style={{ minWidth: 0, width: 84 }} />
+                ) : <View style={styles.check}><Txt v="tiny" color={C.green} style={{ fontWeight: "900" }}>✓</Txt></View>}
+              </View>
+            );
+          })}
+        </View>
+        <Txt v="tiny" color={C.dim} center style={{ marginTop: 10 }}>{t("pz.pollenHave", { n: fmt(s.loot.pollen) })}</Txt>
+        <GameButton title={useMoves || useBomb ? t("pz.playWith") : t("pz.play")} color="green" style={{ marginTop: 12 }}
+          onPress={() => { setPick(false); onPlay("free", { moves: useMoves && bs.moves > 0, bomb: useBomb && bs.bomb > 0 }); setUseMoves(false); setUseBomb(false); }} label={t("pz.startFree")} />
+      </Overlay>
     </ScrollView>
   );
 }
@@ -182,6 +209,11 @@ const styles = StyleSheet.create({
   th: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: "rgba(255,255,255,0.45)", borderRadius: 12, paddingHorizontal: 8, paddingVertical: 3 },
   freeIcon: { width: 58, height: 58, borderRadius: 18, backgroundColor: "#FFF3D6", alignItems: "center", justifyContent: "center" },
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 6, marginTop: 10 },
+  boostRow: { flexDirection: "row", gap: 8, marginTop: 12 },
+  boostMini: { flexDirection: "row", alignItems: "center", gap: 4, borderRadius: 12, borderWidth: 2, borderColor: C.line, paddingHorizontal: 8, paddingVertical: 3, backgroundColor: "#fff" },
+  boostCard: { flexDirection: "row", alignItems: "center", gap: 10, borderRadius: 18, borderWidth: 2, borderColor: C.line, padding: 10, backgroundColor: "#fff" },
+  check: { width: 40, height: 40, borderRadius: 14, borderWidth: 2, borderColor: C.line, alignItems: "center", justifyContent: "center", backgroundColor: "#fff" },
+  checkOn: { borderColor: C.green, backgroundColor: "#E4F7EA" },
   boost: { flex: 1, flexDirection: "row", alignItems: "center", gap: 6, borderRadius: 14, borderWidth: 2, borderColor: C.line, padding: 6, backgroundColor: "#fff" },
   boostOn: { borderColor: C.green, backgroundColor: "#E4F7EA" },
   chip: { backgroundColor: "#F1E8FF", borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3 },

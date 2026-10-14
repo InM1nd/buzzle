@@ -25,7 +25,7 @@ test("silhouettes and static icons do not animate", async () => {
 });
 
 test("animations pause while the app is in the background", async () => {
-  const r = await render(<Mascot id="zhuzha" size={120} />);
+  const r = await render(<BeeSprite id="zhuzha" size={40} />);
   expect(total()).toBe(1);
   await act(async () => { _setAnimActive(false); });
   expect(total()).toBe(0);

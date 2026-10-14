@@ -1,76 +1,38 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
-import ReferenceBeeAccessories, { shouldShowReferenceCrown } from "../src/ui/ReferenceBeeAccessories";
+import { Animated } from "react-native";
+import { BeeSprite, Mascot } from "../src/ui/BeeSprite";
+import { outfitLayers } from "../src/ui/TurnBee";
 
-test("Boris unlocks the crown at level 10 and keeps his equipped scarf", async () => {
-  const r = await render(<ReferenceBeeAccessories size={154} level={9} />);
-  expect(r.queryByTestId("reference-crown")).toBeNull();
-  expect(r.queryByTestId("reference-scarf")).toBeNull();
-  await r.rerender(<ReferenceBeeAccessories size={154} level={10} skin="scarf" />);
-  expect(r.getByTestId("reference-crown")).toBeTruthy();
-  expect(r.getByTestId("reference-scarf")).toBeTruthy();
-  await r.rerender(<ReferenceBeeAccessories size={154} level={1} skin="scarf" />);
-  expect(r.queryByTestId("reference-crown")).toBeNull();
-  expect(r.getByTestId("reference-scarf")).toBeTruthy();
-  await r.unmount();
+test.each(["zhuzha", "pushinka", "boris"])("%s portrait ignores flight direction and stays front-facing", async id => {
+ const r = await render(<BeeSprite id={id} size={176} flap={false} turn={new Animated.Value(1)} level={10} skin="scarf" />);
+ expect(r.getByTestId("bee-view-front")).toBeTruthy();
+ expect(r.queryByTestId("bee-view-side")).toBeNull();
+ expect(r.getByTestId("bee-crown")).toBeTruthy();
+ expect(r.getByTestId("bee-scarf")).toBeTruthy();
+ await r.rerender(<BeeSprite id={id} size={176} flap={false} level={10} />);
+ expect(r.queryByTestId("bee-scarf")).toBeNull();
+ expect(r.getByTestId("bee-crown")).toBeTruthy();
+ await r.unmount();
 });
-
-
-test.each(["pushinka", "sonya", "solnyshko", "nochka", "margo"])("%s gets a crown only at maximum level", async beeId => {
-  const r = await render(<ReferenceBeeAccessories beeId={beeId} size={154} level={9} skin="scarf" />);
-  expect(r.queryByTestId("reference-crown")).toBeNull();
-  expect(r.getByTestId("reference-scarf")).toBeTruthy();
-  await r.rerender(<ReferenceBeeAccessories beeId={beeId} size={154} level={10} />);
-  expect(r.getByTestId("reference-crown")).toBeTruthy();
-  await r.unmount();
+test.each(["wreath", "beret"])("%s replaces the crown", async skin => {
+ const r=await render(<BeeSprite id="boris" size={100} flap={false} level={10} skin={skin} />);
+ expect(r.getByTestId(`bee-${skin}`)).toBeTruthy();
+ expect(r.queryByTestId("bee-crown")).toBeNull();
+ await r.unmount();
 });
-
-
-test.each(["scarf", "glasses"])("%s keeps its crown and disappears when unequipped", async skin => {
-  const r = await render(<ReferenceBeeAccessories beeId="pushinka" size={154} level={10} skin={skin} />);
-  expect(r.getByTestId(`reference-${skin}`)).toBeTruthy();
-  expect(r.getByTestId("reference-crown")).toBeTruthy();
-  await r.rerender(<ReferenceBeeAccessories beeId="pushinka" size={154} level={10} />);
-  expect(r.queryByTestId(`reference-${skin}`)).toBeNull();
-  expect(r.getByTestId("reference-crown")).toBeTruthy();
-  await r.unmount();
+test("satchel keeps the saved backpack ID and removing it removes the layer", async()=>{
+ const r=await render(<BeeSprite id="pushinka" size={100} flap={false} skin="backpack" />);
+ expect(r.getByTestId("bee-backpack")).toBeTruthy();
+ await r.rerender(<BeeSprite id="pushinka" size={100} flap={false} />);
+ expect(r.queryByTestId("bee-backpack")).toBeNull();await r.unmount();
 });
-
-test("the saved backpack skin equips a front satchel and strap, and unequips both", async () => {
-  const r = await render(<ReferenceBeeAccessories size={154} level={10} skin="backpack" plane="back" />);
-  expect(r.queryByTestId("reference-satchel")).toBeNull();
-  expect(r.queryByTestId("reference-satchel-strap")).toBeNull();
-  expect(r.getByTestId("reference-satchel-shoulder")).toBeTruthy();
-  await r.rerender(<ReferenceBeeAccessories size={154} level={10} skin="backpack" />);
-  expect(r.getByTestId("reference-satchel")).toBeTruthy();
-  expect(r.getByTestId("reference-satchel-strap")).toBeTruthy();
-  expect(r.queryByTestId("reference-satchel-shoulder")).toBeNull();
-  expect(r.queryByTestId("reference-backpack")).toBeNull();
-  expect(r.getByTestId("reference-crown")).toBeTruthy();
-  await r.rerender(<ReferenceBeeAccessories size={154} level={10} />);
-  expect(r.queryByTestId("reference-satchel")).toBeNull();
-  expect(r.queryByTestId("reference-satchel-strap")).toBeNull();
-  expect(r.getByTestId("reference-crown")).toBeTruthy();
-  await r.rerender(<ReferenceBeeAccessories size={154} level={10} plane="back" />);
-  expect(r.queryByTestId("reference-satchel-shoulder")).toBeNull();
-  await r.unmount();
+test("locked portrait and mascot are still, front-facing", async()=>{
+ const r=await render(<BeeSprite id="boris" size={100} tint="#ccc" level={10} skin="scarf" turn={1} />);
+ expect(r.getByTestId("bee-view-front")).toBeTruthy();expect(r.queryByTestId("bee-crown")).toBeNull();
+ await r.rerender(<Mascot size={176} />);expect(r.getByTestId("bee-view-front")).toBeTruthy();await r.unmount();
 });
-
-
-test.each(["wreath", "beret"])("%s replaces the maximum-level crown and removing it restores the crown", async skin => {
-  const r = await render(<ReferenceBeeAccessories beeId="boris" size={154} level={10} skin={skin} />);
-  expect(r.getByTestId(`reference-${skin}`)).toBeTruthy();
-  expect(r.queryByTestId("reference-crown")).toBeNull();
-  expect(shouldShowReferenceCrown(10, skin)).toBe(false);
-  await r.rerender(<ReferenceBeeAccessories beeId="boris" size={154} level={10} />);
-  expect(r.queryByTestId(`reference-${skin}`)).toBeNull();
-  expect(r.getByTestId("reference-crown")).toBeTruthy();
-  await r.unmount();
-});
-
-test("bow keeps the maximum-level crown", async () => {
-  const r = await render(<ReferenceBeeAccessories size={154} level={10} skin="bow" />);
-  expect(r.getByTestId("reference-bow")).toBeTruthy();
-  expect(r.getByTestId("reference-crown")).toBeTruthy();
-  await r.unmount();
+test("archived headphones never become an active outfit",()=>{
+ expect(outfitLayers(10,"headphones")).toEqual(["crown"]);
+ expect(outfitLayers(10,"scarf")).toEqual(["crown","scarf"]);
 });

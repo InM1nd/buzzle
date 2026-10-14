@@ -1,7 +1,7 @@
 """Port of design/2d/bee-turnarounds/sprite.js + zhuzha-turnaround/sprite.js (the user's 2D flight prototype):
 renders each bee view as separate layers (wing 0 / wing 1 behind, body on top) with the prototype's own wing
 masks, sprites, arrangements and roots, flap off. Units: the prototype's 1366-wide drawing space, origin = bee centre."""
-import json, math, numpy as np
+import json, math, numpy as np, io, subprocess
 from PIL import Image, ImageDraw
 D = "design/2d"; BT = f"{D}/bee-turnarounds"
 MAN = {s["id"]: s for s in json.load(open(f"{BT}/manifest.json"))}
@@ -13,7 +13,11 @@ ZDEF = {
 }
 ARR = {'front': [[470,570,0,1,0],[890,570,0,1,1]], 'side': [[480,490,.5,.8,0],[500,550,.04,1,0]]}
 import os
-REFS = os.environ.get("BEE_REFS", "/workspace/wings2/refs")  # original 1366px reference PNGs (git show eead25a:assets/art/bees-prototype/*)
+REFS = os.environ.get("BEE_REFS")
+def reference(file):
+    # Immutable original art, before the earlier low-resolution WebP import.
+    if REFS: return Image.open(f"{REFS}/{file}").convert("RGBA")
+    return Image.open(io.BytesIO(subprocess.check_output(["git", "show", f"eead25a:assets/art/bees-prototype/{file}"]))).convert("RGBA")
 W = 1366; OX, OY = 683, 700   # output canvas W x W, bee centre at (OX, OY)
 
 def put(dst, src, M):
@@ -56,7 +60,7 @@ def layers(bee, view):
             out["wings"].append((c, (p[0], p[1])))
         put(body, Image.fromarray(ba), M)
     elif view == "q3-front":
-        sp = MAN[bee]; ref = Image.open(f"{REFS}/{sp['reference']}").convert("RGBA").resize((1366, 1151), Image.LANCZOS)
+        sp = MAN[bee]; ref = reference(sp['reference']).resize((1366, 1151), Image.LANCZOS)
         cfg = MASKS[bee]; anchor = [755, 710] if bee == "boris" else [742, 705]
         M = base @ S(.94) @ T(-anchor[0], -anchor[1]); ba = np.array(ref)
         for i, path in enumerate(cfg["paths"]):

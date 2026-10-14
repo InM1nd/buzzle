@@ -1,66 +1,63 @@
-/** v1.5: pre-rendered turnaround frames (design/2d/all-species-accessories-v1) with outfits baked in. */
-import React, { useEffect, useRef } from "react";
-import { Animated, Easing, Image, StyleProp, View, ViewStyle } from "react-native";
+/** Approved raster bodies, wings and outfits; static front portraits and crisp flight frames. */
+import React, { useMemo } from "react";
+import { Animated, Image, StyleProp, View, ViewStyle } from "react-native";
 import { TURN, WING_ROOT } from "./turnArt";
+import { sinRange, useFlapClock } from "./anim";
 
-const DIRS: [string, number][] = [["side-left", -1], ["q3-front-left", -0.5], ["front", 0], ["q3-front", 0.5], ["side", 1]];
-const ITEM: Record<string, string> = { scarf: "scarf", bow: "bow", glasses: "glasses", backpack: "backpack", wreath: "wreath", beret: "beret", halo: "halo" };
-
+type AV = Animated.Value | Animated.AnimatedInterpolation<number>;
+const DIRS: [string, number][] = [["side-left", -1], ["q3-front-left", -.5], ["front", 0], ["q3-front", .5], ["side", 1]];
+const ITEMS = new Set(["scarf", "bow", "glasses", "backpack", "wreath", "beret", "halo"]);
 export const hasTurnBee = (id: string) => !!TURN[id];
-
-function frames(id: string, level: number, skin?: string) {
-  const set = TURN[id];
-  const it = skin && ITEM[skin] && set[ITEM[skin]] ? ITEM[skin] : level >= 10 && set.crown ? "crown" : "base";
-  return set[it] ?? set.base;
+export function outfitLayers(level: number, skin?: string): string[] {
+  const hat = skin === "wreath" || skin === "beret";
+  return [...(level >= 10 && !hat ? ["crown"] : []), ...(skin && ITEMS.has(skin) ? [skin] : [])];
 }
 
-export function TurnBee({ id, size, turn = 0, level = 1, skin, flap = true, seed = 0, style }: {
-  id: string; size: number; turn?: number | Animated.AnimatedInterpolation<number> | Animated.Value; level?: number; skin?: string; flap?: boolean; seed?: number; style?: StyleProp<ViewStyle>;
+export function TurnBee({ id, size, turn = 0, level = 1, skin, flap = true, seed = 0, tint, rest, style }: {
+  id: string; size: number; turn?: number | AV; level?: number; skin?: string; flap?: boolean; seed?: number;
+  tint?: string; rest?: AV; style?: StyleProp<ViewStyle>;
 }) {
-  const f = frames(id, level, skin);
-  const set = TURN[id];
-  const big = size >= 110;
-  const pick = (m: Record<string, any> | undefined, d: string) => m && ((big && m[`${d}_240`]) || m[`${d}_112`]);
-  // Flap exactly as the user's prototype (design/2d/bee-turnarounds/sprite.js): wave = sin(2π·8t),
-  // wing rotates wave·0.06 rad around its root, height scales 0.93 + 0.07·wave. 8 cycles/s.
-  const clock = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    if (!flap) return;
-    clock.setValue(0);
-    const a = Animated.loop(Animated.timing(clock, { toValue: 1, duration: 125, easing: Easing.linear, useNativeDriver: true }));
-    const t = setTimeout(() => a.start(), (seed % 8) * 15);
-    return () => { clearTimeout(t); a.stop(); };
-  }, [flap, clock, seed]);
+  const set = TURN[id] ?? TURN.zhuzha;
+  const moving = flap && !tint;
+  const clock = useFlapClock(seed, moving);
+  const motion = useMemo(() => {
+    const raw = clock.interpolate(sinRange(15));
+    const squash = clock.interpolate(sinRange(.18, 0, 12, .82));
+    return { rotation: rest ? Animated.multiply(raw, Animated.subtract(1, rest)) : raw,
+      squash: rest ? Animated.add(rest, Animated.multiply(squash, Animated.subtract(1, rest))) : squash };
+  }, [clock, rest]);
   const box = { width: size, height: size };
-  const PH = [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1];
-  const wave = PH.map((p) => Math.sin(p * Math.PI * 2));
-  const wing = (k: "w0" | "w1", d: string) => {
-    const src = pick(set[k], d); const root = WING_ROOT[id]?.[d]?.[k];
-    if (!src || !root) return null;
-    const rot = clock.interpolate({ inputRange: PH, outputRange: wave.map((w) => `${w * 0.06 * root[2]}rad`) });
-    const sy = clock.interpolate({ inputRange: PH, outputRange: wave.map((w) => 0.93 + 0.07 * w) });
-    return <Animated.Image key={k} source={src} style={[box, { position: "absolute", transformOrigin: `${root[0] * 100}% ${root[1] * 100}%` } as any, flap ? { transform: [{ rotate: rot }, { scaleY: sy }] } : null]} />;
+  const pick = (kind: string, d: string) => {
+    const frames = set[kind];
+    return frames?.[`${d}_${!moving && d === "front" && size > 96 ? 720 : 288}`];
   };
-  const layer = (d: string, extra?: any) => (
-    <Animated.View key={d} style={[box, { position: "absolute", left: 0, top: 0 }, extra]}>
-      {wing("w0", d)}{wing("w1", d)}
-      <Image source={pick(f, d) || pick(set.base, d)} style={box} />
-    </Animated.View>
-  );
-  if (typeof turn === "number") {
-    const d = DIRS.reduce((a, b) => (Math.abs(b[1] - turn) < Math.abs(a[1] - turn) ? b : a))[0];
+  const image = (kind: string, d: string) => <Image key={kind} testID={`bee-${kind}`} source={pick(kind, d)} fadeDuration={0}
+    style={[box, { position: "absolute", tintColor: tint }]} />;
+  const wing = (k: "w0" | "w1", d: string) => {
+    const root = WING_ROOT[id]?.[d]?.[k] ?? WING_ROOT.zhuzha[d][k];
+    const rotation = Animated.multiply(motion.rotation, root[2]).interpolate({ inputRange: [-90, 90], outputRange: ["-90deg", "90deg"] });
+    return <Animated.Image key={k} testID={`bee-${k}`} source={pick(k, d)} fadeDuration={0}
+      style={[box, { position: "absolute", tintColor: tint, transformOrigin: [root[0] * size, root[1] * size, 0] },
+        moving ? { transform: [{ rotate: rotation }, { scaleY: motion.squash }] } : null]} />;
+  };
+  const layer = (d: string, opacity?: AV) => {
+    const mirrored = d.endsWith("-left"), bodyDirection = mirrored ? d.slice(0, -5) : d;
+    return <Animated.View key={d} testID={`bee-view-${d}`} style={[box, { position: "absolute", opacity: opacity ?? 1 }]}>
+      <View style={[box, mirrored && { transform: [{ scaleX: -1 }] }]}>
+        {wing("w0", bodyDirection)}{wing("w1", bodyDirection)}{image("base", bodyDirection)}
+      </View>
+      {!tint ? outfitLayers(level, skin).filter(k => pick(k, d)).map(k => image(k, d)) : null}
+    </Animated.View>;
+  };
+  if (!moving || typeof turn === "number") {
+    const yaw = typeof turn === "number" ? turn : 0;
+    const d = moving ? DIRS.reduce((a, b) => Math.abs(b[1] - yaw) < Math.abs(a[1] - yaw) ? b : a)[0] : "front";
     return <View pointerEvents="none" style={[box, style]}>{layer(d)}</View>;
   }
-  return (
-    <View pointerEvents="none" style={[box, style]}>
-      {DIRS.map(([d, c], i) => {
-        const lo = c - 0.25, hi = c + 0.25;
-        const op = turn.interpolate({
-          inputRange: i === 0 ? [-2, hi, hi + 0.001] : i === DIRS.length - 1 ? [lo - 0.001, lo, 2] : [lo - 0.001, lo, hi, hi + 0.001],
-          outputRange: i === 0 ? [1, 1, 0] : i === DIRS.length - 1 ? [0, 1, 1] : [0, 1, 1, 0], extrapolate: "clamp",
-        });
-        return layer(d, { opacity: op });
-      })}
-    </View>
-  );
+  return <View pointerEvents="none" style={[box, style]}>{DIRS.map(([d, center], i) => {
+    const lo = center - .25, hi = center + .25;
+    const opacity = turn.interpolate({ inputRange: i === 0 ? [-2, hi, hi + .001] : i === DIRS.length - 1 ? [lo - .001, lo, 2] : [lo - .001, lo, hi, hi + .001],
+      outputRange: i === 0 ? [1, 1, 0] : i === DIRS.length - 1 ? [0, 1, 1] : [0, 1, 1, 0], extrapolate: "clamp" });
+    return layer(d, opacity);
+  })}</View>;
 }

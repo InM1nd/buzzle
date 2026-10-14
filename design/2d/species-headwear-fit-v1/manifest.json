@@ -1,0 +1,598 @@
+{
+  "angles": [
+    "front",
+    "q3-front",
+    "side",
+    "q3-back",
+    "back",
+    "q3-back-left",
+    "side-left",
+    "q3-front-left"
+  ],
+  "species": {
+    "pushinka": "Пушинка",
+    "boris": "Борис"
+  },
+  "kinds": [
+    "crown",
+    "wreath",
+    "beret"
+  ],
+  "fits": {
+    "pushinka/crown/front": {
+      "mount": [
+        478,
+        180,
+        410,
+        225
+      ],
+      "antennae_cut": 349
+    },
+    "pushinka/wreath/front": {
+      "mount": [
+        463,
+        300,
+        440,
+        135
+      ],
+      "antennae_cut": 354
+    },
+    "pushinka/beret/front": {
+      "mount": [
+        400,
+        220,
+        560,
+        220
+      ],
+      "antennae_cut": 293
+    },
+    "pushinka/crown/q3-front": {
+      "mount": [
+        560,
+        190,
+        400,
+        233
+      ],
+      "antennae_cut": 365
+    },
+    "pushinka/wreath/q3-front": {
+      "mount": [
+        540,
+        265,
+        440,
+        195
+      ],
+      "antennae_cut": 343
+    },
+    "pushinka/beret/q3-front": {
+      "mount": [
+        510,
+        210,
+        540,
+        230
+      ],
+      "antennae_cut": 286
+    },
+    "pushinka/crown/side": {
+      "mount": [
+        730,
+        180,
+        400,
+        220
+      ],
+      "antennae_cut": 345
+    },
+    "pushinka/wreath/side": {
+      "mount": [
+        730,
+        295,
+        400,
+        145
+      ],
+      "antennae_cut": 353
+    },
+    "pushinka/beret/side": {
+      "mount": [
+        675,
+        215,
+        550,
+        235
+      ],
+      "antennae_cut": 293
+    },
+    "pushinka/crown/q3-back": {
+      "mount": [
+        620,
+        180,
+        400,
+        220
+      ],
+      "antennae_cut": 345
+    },
+    "pushinka/wreath/q3-back": {
+      "mount": [
+        630,
+        300,
+        440,
+        145
+      ],
+      "antennae_cut": 358
+    },
+    "pushinka/beret/q3-back": {
+      "mount": [
+        555,
+        210,
+        550,
+        230
+      ],
+      "antennae_cut": 286
+    },
+    "pushinka/crown/back": {
+      "mount": [
+        478,
+        180,
+        410,
+        225
+      ],
+      "antennae_cut": 349
+    },
+    "pushinka/wreath/back": {
+      "mount": [
+        463,
+        300,
+        440,
+        140
+      ],
+      "antennae_cut": 356
+    },
+    "pushinka/beret/back": {
+      "mount": [
+        400,
+        220,
+        560,
+        225
+      ],
+      "antennae_cut": 294
+    },
+    "pushinka/crown/q3-back-left": {
+      "mount": [
+        346,
+        180,
+        400,
+        220
+      ],
+      "antennae_cut": 345
+    },
+    "pushinka/wreath/q3-back-left": {
+      "mount": [
+        296,
+        300,
+        440,
+        145
+      ],
+      "antennae_cut": 358
+    },
+    "pushinka/beret/q3-back-left": {
+      "mount": [
+        261,
+        210,
+        550,
+        230
+      ],
+      "antennae_cut": 286
+    },
+    "pushinka/crown/side-left": {
+      "mount": [
+        236,
+        180,
+        400,
+        220
+      ],
+      "antennae_cut": 345
+    },
+    "pushinka/wreath/side-left": {
+      "mount": [
+        236,
+        295,
+        400,
+        145
+      ],
+      "antennae_cut": 353
+    },
+    "pushinka/beret/side-left": {
+      "mount": [
+        141,
+        215,
+        550,
+        235
+      ],
+      "antennae_cut": 293
+    },
+    "pushinka/crown/q3-front-left": {
+      "mount": [
+        406,
+        190,
+        400,
+        233
+      ],
+      "antennae_cut": 365
+    },
+    "pushinka/wreath/q3-front-left": {
+      "mount": [
+        386,
+        265,
+        440,
+        195
+      ],
+      "antennae_cut": 343
+    },
+    "pushinka/beret/q3-front-left": {
+      "mount": [
+        316,
+        210,
+        540,
+        230
+      ],
+      "antennae_cut": 286
+    },
+    "boris/crown/front": {
+      "mount": [
+        478,
+        180,
+        410,
+        225
+      ],
+      "antennae_cut": 349
+    },
+    "boris/wreath/front": {
+      "mount": [
+        453,
+        315,
+        460,
+        145
+      ],
+      "antennae_cut": 373
+    },
+    "boris/beret/front": {
+      "mount": [
+        390,
+        230,
+        580,
+        225
+      ],
+      "antennae_cut": 304
+    },
+    "boris/crown/q3-front": {
+      "mount": [
+        615,
+        166,
+        410,
+        239
+      ],
+      "antennae_cut": 345
+    },
+    "boris/wreath/q3-front": {
+      "mount": [
+        595,
+        235,
+        450,
+        195
+      ],
+      "antennae_cut": 313
+    },
+    "boris/beret/q3-front": {
+      "mount": [
+        570,
+        205,
+        540,
+        230
+      ],
+      "antennae_cut": 281
+    },
+    "boris/crown/side": {
+      "mount": [
+        730,
+        180,
+        400,
+        220
+      ],
+      "antennae_cut": 345
+    },
+    "boris/wreath/side": {
+      "mount": [
+        740,
+        315,
+        430,
+        145
+      ],
+      "antennae_cut": 373
+    },
+    "boris/beret/side": {
+      "mount": [
+        685,
+        235,
+        550,
+        235
+      ],
+      "antennae_cut": 313
+    },
+    "boris/crown/q3-back": {
+      "mount": [
+        655,
+        170,
+        430,
+        230
+      ],
+      "antennae_cut": 342
+    },
+    "boris/wreath/q3-back": {
+      "mount": [
+        635,
+        310,
+        460,
+        145
+      ],
+      "antennae_cut": 368
+    },
+    "boris/beret/q3-back": {
+      "mount": [
+        570,
+        225,
+        580,
+        240
+      ],
+      "antennae_cut": 304
+    },
+    "boris/crown/back": {
+      "mount": [
+        478,
+        180,
+        410,
+        225
+      ],
+      "antennae_cut": 349
+    },
+    "boris/wreath/back": {
+      "mount": [
+        453,
+        315,
+        460,
+        145
+      ],
+      "antennae_cut": 373
+    },
+    "boris/beret/back": {
+      "mount": [
+        390,
+        230,
+        580,
+        225
+      ],
+      "antennae_cut": 304
+    },
+    "boris/crown/q3-back-left": {
+      "mount": [
+        281,
+        170,
+        430,
+        230
+      ],
+      "antennae_cut": 342
+    },
+    "boris/wreath/q3-back-left": {
+      "mount": [
+        271,
+        310,
+        460,
+        145
+      ],
+      "antennae_cut": 368
+    },
+    "boris/beret/q3-back-left": {
+      "mount": [
+        216,
+        225,
+        580,
+        240
+      ],
+      "antennae_cut": 304
+    },
+    "boris/crown/side-left": {
+      "mount": [
+        236,
+        180,
+        400,
+        220
+      ],
+      "antennae_cut": 345
+    },
+    "boris/wreath/side-left": {
+      "mount": [
+        196,
+        315,
+        430,
+        145
+      ],
+      "antennae_cut": 373
+    },
+    "boris/beret/side-left": {
+      "mount": [
+        131,
+        235,
+        550,
+        235
+      ],
+      "antennae_cut": 313
+    },
+    "boris/crown/q3-front-left": {
+      "mount": [
+        341,
+        166,
+        410,
+        239
+      ],
+      "antennae_cut": 345
+    },
+    "boris/wreath/q3-front-left": {
+      "mount": [
+        321,
+        235,
+        450,
+        195
+      ],
+      "antennae_cut": 313
+    },
+    "boris/beret/q3-front-left": {
+      "mount": [
+        256,
+        205,
+        540,
+        230
+      ],
+      "antennae_cut": 281
+    }
+  },
+  "body_hashes": {
+    "pushinka/front": "b541f497a43fd115a4ccd4d45f63328a6599675f6fc9199a9d5976b82e249e1d",
+    "pushinka/q3-front": "7b15be190df8553cba6a87f530fdc92891d24dcadd3c3d2400ec8bc72d62f8c2",
+    "pushinka/side": "8eebf92008b08f51ed60cdd229f5cbb49ba7b7aea2e5c2b5ae19f6577e015e01",
+    "pushinka/q3-back": "109df2ad7b5419326955e6de569d2ecff3a33dfb81d8ae1e79de17ee1ce376c0",
+    "pushinka/back": "f34af1eba59446d09dbff6cd2ed1220c7763427ea8d1847870a39f38a745a9fd",
+    "pushinka/q3-back-left": "2fb0a2bf3b533160037254c5e9c97961be29839068ae1b2abbe30ccbae86c62f",
+    "pushinka/side-left": "bc32acfccaf844b16db727fffb6edc4811c0df74d9a4041e6ee3d0edc66ca013",
+    "pushinka/q3-front-left": "7793a1e8e3a4292bdb8d9865c68d463bc15ac61bf75118b37545cfd55331e703",
+    "boris/front": "e6fc26a53810161457da940fcfcb78be465c9605c39c525c0fe91d13c588b69a",
+    "boris/q3-front": "62315746ed19fdc1dd0403bf42d9871b12f216c062c4a04f737e752a7d6d09b1",
+    "boris/side": "35add01e6dc7a853bef2e75c19f3e598acd69c34caec34e64e5e63ac5ccb7716",
+    "boris/q3-back": "37757f2682d014aa82914f8b4ce280701560bc69d39ebde2684235ceb3508c97",
+    "boris/back": "e1d2d62b4cc41b76056b5c105cf14b6fcc0ef1c33d125ae6383f7e9778ee5779",
+    "boris/q3-back-left": "f5f6dc5a6a0b705ab2be416552f6934b86218c1e67700f8c3de7f846d614adcf",
+    "boris/side-left": "c9cf2ecea48270707a6cbf2e50a312577bbe375fb3604684dedb504af8cb990d",
+    "boris/q3-front-left": "1ee6a6c3fed8031e76366bcea506d18798ae47708e9c9d4b946c44289d644769"
+  },
+  "source_hashes": {
+    "assets/art/bees-prototype/pushinka-reference.png": "7b15be190df8553cba6a87f530fdc92891d24dcadd3c3d2400ec8bc72d62f8c2",
+    "assets/art/bees-prototype/boris-reference-v2.png": "62315746ed19fdc1dd0403bf42d9871b12f216c062c4a04f737e752a7d6d09b1"
+  },
+  "source_bboxes": {
+    "wreath-front": [
+      463,
+      290,
+      903,
+      420
+    ],
+    "wreath-q3-front": [
+      539,
+      260,
+      981,
+      429
+    ],
+    "wreath-side": [
+      620,
+      295,
+      1020,
+      440
+    ],
+    "wreath-q3-back": [
+      550,
+      270,
+      990,
+      415
+    ],
+    "wreath-back": [
+      463,
+      275,
+      903,
+      415
+    ],
+    "wreath-q3-back-left": [
+      376,
+      270,
+      816,
+      415
+    ],
+    "wreath-side-left": [
+      346,
+      295,
+      746,
+      440
+    ],
+    "wreath-q3-front-left": [
+      386,
+      285,
+      826,
+      430
+    ],
+    "beret-front": [
+      400,
+      200,
+      960,
+      420
+    ],
+    "beret-q3-front": [
+      509,
+      209,
+      1050,
+      441
+    ],
+    "beret-side": [
+      570,
+      218,
+      1120,
+      453
+    ],
+    "beret-q3-back": [
+      490,
+      190,
+      1040,
+      420
+    ],
+    "beret-back": [
+      400,
+      190,
+      960,
+      415
+    ],
+    "beret-q3-back-left": [
+      326,
+      190,
+      876,
+      420
+    ],
+    "beret-side-left": [
+      246,
+      218,
+      796,
+      453
+    ],
+    "beret-q3-front-left": [
+      316,
+      210,
+      856,
+      440
+    ]
+  },
+  "method": "Existing accessory raster layers repositioned; zero new generations. Base bodies exported through existing drawBee with motion/flap off; q3 originals copied verbatim; left q3 originals mirrored.",
+  "limitations": [
+    "Left crowns mirrored; asymmetric gems reverse.",
+    "Left bodies mirrored; light reverses.",
+    "Brown pixel antenna mask can include top fur on Boris.",
+    "Only headwear; other species and body accessories pending."
+  ],
+  "verification": {
+    "frames_loaded": 48,
+    "dimensions": [
+      512,
+      512
+    ],
+    "auto_advance_and_stop": true,
+    "species_and_accessory_switch": true,
+    "bare_toggle": true,
+    "no_horizontal_overflow": [
+      375,
+      320
+    ],
+    "console_errors": 0,
+    "original_reference_hashes_unchanged": true
+  }
+}

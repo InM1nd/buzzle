@@ -1,0 +1,203 @@
+{
+  "jobs": [
+    {
+      "id": "pushinka-scarf-front",
+      "bee": "pushinka",
+      "angle": "front",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/species-headwear-fit-v1/pushinka/front-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/scarf-fitted-v4.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Draw ONLY a wearable scarf accessory tailored to the exact bee in image 1; image 2 is approved scarf identity. Same coral-orange chunky faceted scarf, one curved substantial fabric wrap, compact knot and two short downward tails at image-RIGHT end. Camera strict frontal; wrap symmetrically foreshortened except right knot. Fit the rounded cream bee BELOW its cream collar; substantial soft band following the rounded chest. CRITICAL the left edge curves UP and BACK around body, the entire wrap has a shallow natural downward front arc with both ends higher, NO exposed abrupt flat cut or open rolled hollow loop at left. Hidden rear return is behind body and must not be depicted as a giant floating circular donut. Knot and tails attach at right-side curve, not floating. Same broad irregular facets, restrained warm lighting, no microtriangles. Proportions: front band width about four times its fabric thickness, tails only half band thickness long. Match warm top-left lighting and material reference, no new pattern or embellishments. No body, bee, collar, fur, antennas, wings, letters, shadows, glow or backdrop. Single standalone artwork, all holes transparent, genuine transparent background. Entire item centered with padding; do not draw mannequin.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-6befeb6b-5802-4f14-8a6e-ae46f06e4ec9.png",
+      "initialPath": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-50c91d76-c1bc-4950-a276-aa6cb9d6b94f.png",
+      "repairPrompt": "Edit ONLY this standalone scarf shape to be substantially LOWER and WIDER in silhouette, tailoring it to a rounded game bee torso. Preserve coral orange fabric, broad faceted material, camera direction, right-side knot and TWO short downward tails. CRITICAL: ENTIRE scarf bounding silhouette, INCLUDING tails and raised left end, must be about FIVE times wider than tall (width:height approximately 5:1). Front fabric band is a thick padded ribbon, not a huge triangular bib. Lower the tall horn-like left tip drastically so it only rises a little above front band. Make knot small and cozy; two tails short, reaching only slightly below ribbon. Curve left end backward as a natural wrap, no visible cut or hollow rolled pipe. This is a REDRAW of proportions, not simply squashing pixels; facets, knot and shading stay undistorted. No bee, torso, text, glow, shadow or background; genuine transparency."
+    },
+    {
+      "id": "pushinka-scarf-q3-front",
+      "bee": "pushinka",
+      "angle": "q3-front",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/species-headwear-fit-v1/pushinka/q3-front-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/scarf-fitted-v4.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Draw ONLY a wearable scarf accessory tailored to the exact bee in image 1; image 2 is approved scarf identity. Same coral-orange chunky faceted scarf, one curved substantial fabric wrap, compact knot and two short downward tails at image-RIGHT end. Camera front three quarter looking right; wrap's left end turns backward around near flank, right end foreshortened. Fit the rounded cream bee BELOW its cream collar; substantial soft band following the rounded chest. CRITICAL the left edge curves UP and BACK around body, the entire wrap has a shallow natural downward front arc with both ends higher, NO exposed abrupt flat cut or open rolled hollow loop at left. Hidden rear return is behind body and must not be depicted as a giant floating circular donut. Knot and tails attach at right-side curve, not floating. Same broad irregular facets, restrained warm lighting, no microtriangles. Proportions: front band width about four times its fabric thickness, tails only half band thickness long. Match warm top-left lighting and material reference, no new pattern or embellishments. No body, bee, collar, fur, antennas, wings, letters, shadows, glow or backdrop. Single standalone artwork, all holes transparent, genuine transparent background. Entire item centered with padding; do not draw mannequin.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-bab96b81-8535-44d0-83f4-88c4e009f455.png",
+      "initialPath": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-6139406c-6c0b-41a1-8189-103d4c5a7c68.png",
+      "repairPrompt": "Edit ONLY this standalone scarf shape to be substantially LOWER and WIDER in silhouette, tailoring it to a rounded game bee torso. Preserve coral orange fabric, broad faceted material, camera direction, right-side knot and TWO short downward tails. CRITICAL: ENTIRE scarf bounding silhouette, INCLUDING tails and raised left end, must be about FIVE times wider than tall (width:height approximately 5:1). Front fabric band is a thick padded ribbon, not a huge triangular bib. Lower the tall horn-like left tip drastically so it only rises a little above front band. Make knot small and cozy; two tails short, reaching only slightly below ribbon. Curve left end backward as a natural wrap, no visible cut or hollow rolled pipe. This is a REDRAW of proportions, not simply squashing pixels; facets, knot and shading stay undistorted. No bee, torso, text, glow, shadow or background; genuine transparency."
+    },
+    {
+      "id": "boris-scarf-front",
+      "bee": "boris",
+      "angle": "front",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/species-headwear-fit-v1/boris/front-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/scarf-fitted-v4.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Draw ONLY a wearable scarf accessory tailored to the exact bee in image 1; image 2 is approved scarf identity. Same coral-orange chunky faceted scarf, one curved substantial fabric wrap, compact knot and two short downward tails at image-RIGHT end. Camera strict frontal; wrap symmetrically foreshortened except right knot. Fit a broad stout bumblebee's chest BELOW the big furry face ruff; wide snug wrap with visible broad front fabric, not tight choking neck wire. CRITICAL the left edge curves UP and BACK around body, the entire wrap has a shallow natural downward front arc with both ends higher, NO exposed abrupt flat cut or open rolled hollow loop at left. Hidden rear return is behind body and must not be depicted as a giant floating circular donut. Knot and tails attach at right-side curve, not floating. Same broad irregular facets, restrained warm lighting, no microtriangles. Proportions: front band width about four times its fabric thickness, tails only half band thickness long. Match warm top-left lighting and material reference, no new pattern or embellishments. No body, bee, collar, fur, antennas, wings, letters, shadows, glow or backdrop. Single standalone artwork, all holes transparent, genuine transparent background. Entire item centered with padding; do not draw mannequin.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-3071c263-a133-43d7-a935-f975c9c026a8.png",
+      "initialPath": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-a44bc694-aa5a-4099-a512-8b5b9522c5f7.png",
+      "repairPrompt": "Edit ONLY this standalone scarf shape to be substantially LOWER and WIDER in silhouette, tailoring it to a rounded game bee torso. Preserve coral orange fabric, broad faceted material, camera direction, right-side knot and TWO short downward tails. CRITICAL: ENTIRE scarf bounding silhouette, INCLUDING tails and raised left end, must be about FIVE times wider than tall (width:height approximately 5:1). Front fabric band is a thick padded ribbon, not a huge triangular bib. Lower the tall horn-like left tip drastically so it only rises a little above front band. Make knot small and cozy; two tails short, reaching only slightly below ribbon. Curve left end backward as a natural wrap, no visible cut or hollow rolled pipe. This is a REDRAW of proportions, not simply squashing pixels; facets, knot and shading stay undistorted. No bee, torso, text, glow, shadow or background; genuine transparency."
+    },
+    {
+      "id": "boris-scarf-q3-front",
+      "bee": "boris",
+      "angle": "q3-front",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/species-headwear-fit-v1/boris/q3-front-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/scarf-fitted-v4.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Draw ONLY a wearable scarf accessory tailored to the exact bee in image 1; image 2 is approved scarf identity. Same coral-orange chunky faceted scarf, one curved substantial fabric wrap, compact knot and two short downward tails at image-RIGHT end. Camera front three quarter looking right; wrap's left end turns backward around near flank, right end foreshortened. Fit a broad stout bumblebee's chest BELOW the big furry face ruff; wide snug wrap with visible broad front fabric, not tight choking neck wire. CRITICAL the left edge curves UP and BACK around body, the entire wrap has a shallow natural downward front arc with both ends higher, NO exposed abrupt flat cut or open rolled hollow loop at left. Hidden rear return is behind body and must not be depicted as a giant floating circular donut. Knot and tails attach at right-side curve, not floating. Same broad irregular facets, restrained warm lighting, no microtriangles. Proportions: front band width about four times its fabric thickness, tails only half band thickness long. Match warm top-left lighting and material reference, no new pattern or embellishments. No body, bee, collar, fur, antennas, wings, letters, shadows, glow or backdrop. Single standalone artwork, all holes transparent, genuine transparent background. Entire item centered with padding; do not draw mannequin.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-9d145e27-6b0b-4978-84c3-bf33cdb95571.png",
+      "initialPath": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-432b35db-1e26-4f91-9573-cae07375ecd6.png",
+      "repairPrompt": "Edit ONLY this standalone scarf shape to be substantially LOWER and WIDER in silhouette, tailoring it to a rounded game bee torso. Preserve coral orange fabric, broad faceted material, camera direction, right-side knot and TWO short downward tails. CRITICAL: ENTIRE scarf bounding silhouette, INCLUDING tails and raised left end, must be about FIVE times wider than tall (width:height approximately 5:1). Front fabric band is a thick padded ribbon, not a huge triangular bib. Lower the tall horn-like left tip drastically so it only rises a little above front band. Make knot small and cozy; two tails short, reaching only slightly below ribbon. Curve left end backward as a natural wrap, no visible cut or hollow rolled pipe. This is a REDRAW of proportions, not simply squashing pixels; facets, knot and shading stay undistorted. No bee, torso, text, glow, shadow or background; genuine transparency."
+    }
+  ],
+  "fits": {
+    "pushinka-scarf-front": {
+      "mount": [
+        310,
+        765,
+        805,
+        182
+      ],
+      "uniform_scale": 0.4227941176470588,
+      "strap": null,
+      "face_restore_below": 730,
+      "base_sha256": "b541f497a43fd115a4ccd4d45f63328a6599675f6fc9199a9d5976b82e249e1d"
+    },
+    "pushinka-bag-front": {
+      "mount": [
+        335,
+        805,
+        300,
+        222
+      ],
+      "uniform_scale": 0.27149321266968324,
+      "strap": "M995 720 C935 795 796 857 611 829",
+      "face_restore_below": 730,
+      "base_sha256": "b541f497a43fd115a4ccd4d45f63328a6599675f6fc9199a9d5976b82e249e1d"
+    },
+    "pushinka-bow-front": {
+      "mount": [
+        710,
+        860,
+        220,
+        156
+      ],
+      "uniform_scale": 0.20637898686679174,
+      "strap": null,
+      "face_restore_below": 730,
+      "base_sha256": "b541f497a43fd115a4ccd4d45f63328a6599675f6fc9199a9d5976b82e249e1d"
+    },
+    "pushinka-scarf-q3-front": {
+      "mount": [
+        335,
+        760,
+        850,
+        178
+      ],
+      "uniform_scale": 0.4267068273092369,
+      "strap": null,
+      "face_restore_below": 765,
+      "base_sha256": "7b15be190df8553cba6a87f530fdc92891d24dcadd3c3d2400ec8bc72d62f8c2"
+    },
+    "pushinka-bag-q3-front": {
+      "mount": [
+        370,
+        810,
+        300,
+        225
+      ],
+      "uniform_scale": 0.25597269624573377,
+      "strap": "M1030 740 C970 815 831 862 646 834",
+      "face_restore_below": 765,
+      "base_sha256": "7b15be190df8553cba6a87f530fdc92891d24dcadd3c3d2400ec8bc72d62f8c2"
+    },
+    "pushinka-bow-q3-front": {
+      "mount": [
+        770,
+        835,
+        225,
+        163
+      ],
+      "uniform_scale": 0.8426966292134831,
+      "strap": null,
+      "face_restore_below": 765,
+      "base_sha256": "7b15be190df8553cba6a87f530fdc92891d24dcadd3c3d2400ec8bc72d62f8c2"
+    },
+    "boris-scarf-front": {
+      "mount": [
+        275,
+        740,
+        880,
+        216
+      ],
+      "uniform_scale": 0.45809474232170744,
+      "strap": null,
+      "face_restore_below": 690,
+      "base_sha256": "e6fc26a53810161457da940fcfcb78be465c9605c39c525c0fe91d13c588b69a"
+    },
+    "boris-bag-front": {
+      "mount": [
+        280,
+        800,
+        320,
+        237
+      ],
+      "uniform_scale": 0.2895927601809955,
+      "strap": "M1020 685 C960 760 761 852 576 824",
+      "face_restore_below": 690,
+      "base_sha256": "e6fc26a53810161457da940fcfcb78be465c9605c39c525c0fe91d13c588b69a"
+    },
+    "boris-bow-front": {
+      "mount": [
+        700,
+        800,
+        245,
+        174
+      ],
+      "uniform_scale": 0.2298311444652908,
+      "strap": null,
+      "face_restore_below": 690,
+      "base_sha256": "e6fc26a53810161457da940fcfcb78be465c9605c39c525c0fe91d13c588b69a"
+    },
+    "boris-scarf-q3-front": {
+      "mount": [
+        305,
+        735,
+        920,
+        236
+      ],
+      "uniform_scale": 0.4577114427860697,
+      "strap": null,
+      "face_restore_below": 690,
+      "base_sha256": "62315746ed19fdc1dd0403bf42d9871b12f216c062c4a04f737e752a7d6d09b1"
+    },
+    "boris-bag-q3-front": {
+      "mount": [
+        340,
+        785,
+        320,
+        240
+      ],
+      "uniform_scale": 0.27303754266211605,
+      "strap": "M1055 705 C995 780 821 837 636 809",
+      "face_restore_below": 690,
+      "base_sha256": "62315746ed19fdc1dd0403bf42d9871b12f216c062c4a04f737e752a7d6d09b1"
+    },
+    "boris-bow-q3-front": {
+      "mount": [
+        765,
+        755,
+        245,
+        178
+      ],
+      "uniform_scale": 0.9176029962546817,
+      "strap": null,
+      "face_restore_below": 690,
+      "base_sha256": "62315746ed19fdc1dd0403bf42d9871b12f216c062c4a04f737e752a7d6d09b1"
+    }
+  },
+  "method": "New scarf drawings; existing bag and bow art, uniform scaling, original-pixel ruff occlusion and native shoulder strap."
+}

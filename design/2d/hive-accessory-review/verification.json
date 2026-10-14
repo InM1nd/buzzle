@@ -1,0 +1,20 @@
+{
+  "frames_decoded": 144,
+  "accessories": 8,
+  "headphones_excluded": true,
+  "automatic_heading_changed": true,
+  "manual_frames_distinct": 8,
+  "pause_stable": true,
+  "bare_toggle": true,
+  "sizes": [
+    48,
+    72,
+    96
+  ],
+  "no_horizontal_overflow": [
+    375,
+    320
+  ],
+  "console_errors": 0,
+  "frame_hashes_verified": true
+}

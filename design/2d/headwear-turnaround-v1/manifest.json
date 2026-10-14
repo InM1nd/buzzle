@@ -1,0 +1,293 @@
+{
+  "tool": "image_gen.imagegen",
+  "transparent_background": true,
+  "generations": [
+    {
+      "id": "wreath-front",
+      "kind": "wreath",
+      "angle": "front",
+      "prompt": "Use case: precise-object-edit. Asset type: independent headwear layer for approved Honey Crystal bee turnaround. Image 1 is approved wreath accessory design. Image 2 is target bare bee pose, camera and head curvature guide only. Draw ONLY wreath viewed straight frontal view to fit head between antennae. A snug green leafy wreath with cream five-petal daisies and gold centers, same flower sizes and broad irregular facets as reference. The visible band lies in a SHALLOW level ellipse hugging head, ends do NOT curl upward. Flowers stay low along band, leaves modest, not a tall flower crown. Draw the portion facing camera; hidden far band is not floating above. Show plausible flowers around rear as same continuous wreath, preserve five prominent flowers along front region. No sunflowers, extra flowers or giant leaves. Warm upper-left lighting matching bee. Single accessory, centered, transparent PNG; NO bee, head, antennae, wings, text, glow, haze or shadow. Preserve design and proportions, change only view. Headwear should sit as naturally as approved crown on head, not hover. Do not mirror the whole bee.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/wreath-fitted-v2.png",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/3d/turnaround/front.png",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-ea05f192-3502-4319-b9b2-c627c12f35dc.png",
+      "placement": [
+        463,
+        290,
+        440,
+        130
+      ],
+      "antennae_cut": 342
+    },
+    {
+      "id": "beret-front",
+      "kind": "beret",
+      "angle": "front",
+      "prompt": "Use case: precise-object-edit. Asset type: independent headwear layer for approved Honey Crystal bee turnaround. Image 1 is approved beret accessory design. Image 2 is target bare bee pose, camera and head curvature guide only. Draw ONLY beret viewed straight frontal view to fit head between antennae. The same low lavender-purple cloth beret with broad softly shaded facets, dark purple narrow fitted rim, small purple stalk on top. Soft dome and slouch, NOT a rigid tall mushroom cap. Slouches towards bee's anatomical left: viewer-right in front, viewer-left in rear; preserve this when changing side. Exact same purple hues, no new trim, badges, holes, bows or decoration. Antennae will be composited over surface; don't draw antennae in this layer. Warm upper-left lighting matching bee. Single accessory, centered, transparent PNG; NO bee, head, antennae, wings, text, glow, haze or shadow. Preserve design and proportions, change only view. Headwear should sit as naturally as approved crown on head, not hover. Do not mirror the whole bee.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/beret-accessory.png",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/3d/turnaround/front.png",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-8ae727b8-e884-4d89-8fe9-924a864aecca.png",
+      "placement": [
+        400,
+        200,
+        560,
+        220
+      ],
+      "antennae_cut": 273
+    },
+    {
+      "id": "wreath-side",
+      "kind": "wreath",
+      "angle": "side",
+      "prompt": "Use case: precise-object-edit. Asset type: independent headwear layer for approved Honey Crystal bee turnaround. Image 1 is approved wreath accessory design. Image 2 is target bare bee pose, camera and head curvature guide only. Draw ONLY wreath viewed strict right-facing profile to fit head between antennae. A snug green leafy wreath with cream five-petal daisies and gold centers, same flower sizes and broad irregular facets as reference. The visible band lies in a SHALLOW level ellipse hugging head, ends do NOT curl upward. Flowers stay low along band, leaves modest, not a tall flower crown. Draw the portion facing camera; hidden far band is not floating above. Show plausible flowers around rear as same continuous wreath, preserve five prominent flowers along front region. No sunflowers, extra flowers or giant leaves. Warm upper-left lighting matching bee. Single accessory, centered, transparent PNG; NO bee, head, antennae, wings, text, glow, haze or shadow. Preserve design and proportions, change only view. Headwear should sit as naturally as approved crown on head, not hover. Do not mirror the whole bee.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/wreath-fitted-v2.png",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/3d/turnaround/side.png",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-a71109cb-d996-410d-a126-e015378fe6a6.png",
+      "placement": [
+        620,
+        295,
+        400,
+        145
+      ],
+      "antennae_cut": 353
+    },
+    {
+      "id": "beret-side",
+      "kind": "beret",
+      "angle": "side",
+      "prompt": "Use case: precise-object-edit. Asset type: independent headwear layer for approved Honey Crystal bee turnaround. Image 1 is approved beret accessory design. Image 2 is target bare bee pose, camera and head curvature guide only. Draw ONLY beret viewed strict right-facing profile to fit head between antennae. The same low lavender-purple cloth beret with broad softly shaded facets, dark purple narrow fitted rim, small purple stalk on top. Soft dome and slouch, NOT a rigid tall mushroom cap. Slouches towards bee's anatomical left: viewer-right in front, viewer-left in rear; preserve this when changing side. Exact same purple hues, no new trim, badges, holes, bows or decoration. Antennae will be composited over surface; don't draw antennae in this layer. Warm upper-left lighting matching bee. Single accessory, centered, transparent PNG; NO bee, head, antennae, wings, text, glow, haze or shadow. Preserve design and proportions, change only view. Headwear should sit as naturally as approved crown on head, not hover. Do not mirror the whole bee.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/beret-accessory.png",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/3d/turnaround/side.png",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-7f69c46b-27de-49ed-8038-3947c5e00ba9.png",
+      "placement": [
+        570,
+        218,
+        550,
+        235
+      ],
+      "antennae_cut": 296
+    },
+    {
+      "id": "wreath-q3-back",
+      "kind": "wreath",
+      "angle": "q3-back",
+      "prompt": "Use case: precise-object-edit. Asset type: independent headwear layer for approved Honey Crystal bee turnaround. Image 1 is approved wreath accessory design. Image 2 is target bare bee pose, camera and head curvature guide only. Draw ONLY wreath viewed rear three-quarter right view to fit head between antennae. A snug green leafy wreath with cream five-petal daisies and gold centers, same flower sizes and broad irregular facets as reference. The visible band lies in a SHALLOW level ellipse hugging head, ends do NOT curl upward. Flowers stay low along band, leaves modest, not a tall flower crown. Draw the portion facing camera; hidden far band is not floating above. Show plausible flowers around rear as same continuous wreath, preserve five prominent flowers along front region. No sunflowers, extra flowers or giant leaves. Warm upper-left lighting matching bee. Single accessory, centered, transparent PNG; NO bee, head, antennae, wings, text, glow, haze or shadow. Preserve design and proportions, change only view. Headwear should sit as naturally as approved crown on head, not hover. Do not mirror the whole bee.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/wreath-fitted-v2.png",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/3d/turnaround/q3-back.png",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-47d5a21f-3d3a-495e-8f2f-fae9dc8d3c48.png",
+      "placement": [
+        550,
+        270,
+        440,
+        145
+      ],
+      "antennae_cut": 328
+    },
+    {
+      "id": "beret-q3-back",
+      "kind": "beret",
+      "angle": "q3-back",
+      "prompt": "Use case: precise-object-edit. Asset type: independent headwear layer for approved Honey Crystal bee turnaround. Image 1 is approved beret accessory design. Image 2 is target bare bee pose, camera and head curvature guide only. Draw ONLY beret viewed rear three-quarter right view to fit head between antennae. The same low lavender-purple cloth beret with broad softly shaded facets, dark purple narrow fitted rim, small purple stalk on top. Soft dome and slouch, NOT a rigid tall mushroom cap. Slouches towards bee's anatomical left: viewer-right in front, viewer-left in rear; preserve this when changing side. Exact same purple hues, no new trim, badges, holes, bows or decoration. Antennae will be composited over surface; don't draw antennae in this layer. Warm upper-left lighting matching bee. Single accessory, centered, transparent PNG; NO bee, head, antennae, wings, text, glow, haze or shadow. Preserve design and proportions, change only view. Headwear should sit as naturally as approved crown on head, not hover. Do not mirror the whole bee.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/beret-accessory.png",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/3d/turnaround/q3-back.png",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-2fcad211-8908-498f-8cb3-51a3baf51240.png",
+      "placement": [
+        490,
+        190,
+        550,
+        230
+      ],
+      "antennae_cut": 266
+    },
+    {
+      "id": "wreath-back",
+      "kind": "wreath",
+      "angle": "back",
+      "prompt": "Use case: precise-object-edit. Asset type: independent headwear layer for approved Honey Crystal bee turnaround. Image 1 is approved wreath accessory design. Image 2 is target bare bee pose, camera and head curvature guide only. Draw ONLY wreath viewed straight rear view to fit head between antennae. A snug green leafy wreath with cream five-petal daisies and gold centers, same flower sizes and broad irregular facets as reference. The visible band lies in a SHALLOW level ellipse hugging head, ends do NOT curl upward. Flowers stay low along band, leaves modest, not a tall flower crown. Draw the portion facing camera; hidden far band is not floating above. Show plausible flowers around rear as same continuous wreath, preserve five prominent flowers along front region. No sunflowers, extra flowers or giant leaves. Warm upper-left lighting matching bee. Single accessory, centered, transparent PNG; NO bee, head, antennae, wings, text, glow, haze or shadow. Preserve design and proportions, change only view. Headwear should sit as naturally as approved crown on head, not hover. Do not mirror the whole bee.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/wreath-fitted-v2.png",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/3d/turnaround/back.png",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-623eaa06-5da5-4537-929e-feb82cd58a43.png",
+      "placement": [
+        463,
+        275,
+        440,
+        140
+      ],
+      "antennae_cut": 331
+    },
+    {
+      "id": "beret-back",
+      "kind": "beret",
+      "angle": "back",
+      "prompt": "Use case: precise-object-edit. Asset type: independent headwear layer for approved Honey Crystal bee turnaround. Image 1 is approved beret accessory design. Image 2 is target bare bee pose, camera and head curvature guide only. Draw ONLY beret viewed straight rear view to fit head between antennae. The same low lavender-purple cloth beret with broad softly shaded facets, dark purple narrow fitted rim, small purple stalk on top. Soft dome and slouch, NOT a rigid tall mushroom cap. Slouches towards bee's anatomical left: viewer-right in front, viewer-left in rear; preserve this when changing side. Exact same purple hues, no new trim, badges, holes, bows or decoration. Antennae will be composited over surface; don't draw antennae in this layer. Warm upper-left lighting matching bee. Single accessory, centered, transparent PNG; NO bee, head, antennae, wings, text, glow, haze or shadow. Preserve design and proportions, change only view. Headwear should sit as naturally as approved crown on head, not hover. Do not mirror the whole bee.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/beret-accessory.png",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/3d/turnaround/back.png",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-fdc8adff-66f5-4af7-8575-ad5569c806fd.png",
+      "placement": [
+        400,
+        190,
+        560,
+        225
+      ],
+      "antennae_cut": 264
+    },
+    {
+      "id": "wreath-q3-back-left",
+      "kind": "wreath",
+      "angle": "q3-back-left",
+      "prompt": "Use case: precise-object-edit. Asset type: independent headwear layer for approved Honey Crystal bee turnaround. Image 1 is approved wreath accessory design. Image 2 is target bare bee pose, camera and head curvature guide only. Draw ONLY wreath viewed rear three-quarter left view to fit head between antennae. A snug green leafy wreath with cream five-petal daisies and gold centers, same flower sizes and broad irregular facets as reference. The visible band lies in a SHALLOW level ellipse hugging head, ends do NOT curl upward. Flowers stay low along band, leaves modest, not a tall flower crown. Draw the portion facing camera; hidden far band is not floating above. Show plausible flowers around rear as same continuous wreath, preserve five prominent flowers along front region. No sunflowers, extra flowers or giant leaves. Warm upper-left lighting matching bee. Single accessory, centered, transparent PNG; NO bee, head, antennae, wings, text, glow, haze or shadow. Preserve design and proportions, change only view. Headwear should sit as naturally as approved crown on head, not hover. Do not mirror the whole bee.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/wreath-fitted-v2.png",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/cloth-turnaround-v2/q3-back-left-base.png",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-4e1340c9-83e5-4c5e-97f2-a5ae17ddc08f.png",
+      "placement": [
+        376,
+        270,
+        440,
+        145
+      ],
+      "antennae_cut": 328
+    },
+    {
+      "id": "beret-q3-back-left",
+      "kind": "beret",
+      "angle": "q3-back-left",
+      "prompt": "Use case: precise-object-edit. Asset type: independent headwear layer for approved Honey Crystal bee turnaround. Image 1 is approved beret accessory design. Image 2 is target bare bee pose, camera and head curvature guide only. Draw ONLY beret viewed rear three-quarter left view to fit head between antennae. The same low lavender-purple cloth beret with broad softly shaded facets, dark purple narrow fitted rim, small purple stalk on top. Soft dome and slouch, NOT a rigid tall mushroom cap. Slouches towards bee's anatomical left: viewer-right in front, viewer-left in rear; preserve this when changing side. Exact same purple hues, no new trim, badges, holes, bows or decoration. Antennae will be composited over surface; don't draw antennae in this layer. Warm upper-left lighting matching bee. Single accessory, centered, transparent PNG; NO bee, head, antennae, wings, text, glow, haze or shadow. Preserve design and proportions, change only view. Headwear should sit as naturally as approved crown on head, not hover. Do not mirror the whole bee.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/beret-accessory.png",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/cloth-turnaround-v2/q3-back-left-base.png",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-8fe6e5cf-0fcd-4b79-825e-5ce84b463a27.png",
+      "placement": [
+        326,
+        190,
+        550,
+        230
+      ],
+      "antennae_cut": 266
+    },
+    {
+      "id": "wreath-side-left",
+      "kind": "wreath",
+      "angle": "side-left",
+      "prompt": "Use case: precise-object-edit. Asset type: independent headwear layer for approved Honey Crystal bee turnaround. Image 1 is approved wreath accessory design. Image 2 is target bare bee pose, camera and head curvature guide only. Draw ONLY wreath viewed strict left-facing profile to fit head between antennae. A snug green leafy wreath with cream five-petal daisies and gold centers, same flower sizes and broad irregular facets as reference. The visible band lies in a SHALLOW level ellipse hugging head, ends do NOT curl upward. Flowers stay low along band, leaves modest, not a tall flower crown. Draw the portion facing camera; hidden far band is not floating above. Show plausible flowers around rear as same continuous wreath, preserve five prominent flowers along front region. No sunflowers, extra flowers or giant leaves. Warm upper-left lighting matching bee. Single accessory, centered, transparent PNG; NO bee, head, antennae, wings, text, glow, haze or shadow. Preserve design and proportions, change only view. Headwear should sit as naturally as approved crown on head, not hover. Do not mirror the whole bee.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/wreath-fitted-v2.png",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/cloth-turnaround-v2/side-left-base.png",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-f55c0cd4-6f3b-4a62-af34-d115f765e627.png",
+      "placement": [
+        346,
+        295,
+        400,
+        145
+      ],
+      "antennae_cut": 353
+    },
+    {
+      "id": "beret-side-left",
+      "kind": "beret",
+      "angle": "side-left",
+      "prompt": "Use case: precise-object-edit. Asset type: independent headwear layer for approved Honey Crystal bee turnaround. Image 1 is approved beret accessory design. Image 2 is target bare bee pose, camera and head curvature guide only. Draw ONLY beret viewed strict left-facing profile to fit head between antennae. The same low lavender-purple cloth beret with broad softly shaded facets, dark purple narrow fitted rim, small purple stalk on top. Soft dome and slouch, NOT a rigid tall mushroom cap. Slouches towards bee's anatomical left: viewer-right in front, viewer-left in rear; preserve this when changing side. Exact same purple hues, no new trim, badges, holes, bows or decoration. Antennae will be composited over surface; don't draw antennae in this layer. Warm upper-left lighting matching bee. Single accessory, centered, transparent PNG; NO bee, head, antennae, wings, text, glow, haze or shadow. Preserve design and proportions, change only view. Headwear should sit as naturally as approved crown on head, not hover. Do not mirror the whole bee.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/beret-accessory.png",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/cloth-turnaround-v2/side-left-base.png",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-4533ad33-b977-4a39-8bb1-a26aee3aca3d.png",
+      "placement": [
+        246,
+        218,
+        550,
+        235
+      ],
+      "antennae_cut": 296
+    },
+    {
+      "id": "wreath-q3-front-left",
+      "kind": "wreath",
+      "angle": "q3-front-left",
+      "prompt": "Use case: precise-object-edit. Asset type: independent headwear layer for approved Honey Crystal bee turnaround. Image 1 is approved wreath accessory design. Image 2 is target bare bee pose, camera and head curvature guide only. Draw ONLY wreath viewed front three-quarter left view to fit head between antennae. A snug green leafy wreath with cream five-petal daisies and gold centers, same flower sizes and broad irregular facets as reference. The visible band lies in a SHALLOW level ellipse hugging head, ends do NOT curl upward. Flowers stay low along band, leaves modest, not a tall flower crown. Draw the portion facing camera; hidden far band is not floating above. Show plausible flowers around rear as same continuous wreath, preserve five prominent flowers along front region. No sunflowers, extra flowers or giant leaves. Warm upper-left lighting matching bee. Single accessory, centered, transparent PNG; NO bee, head, antennae, wings, text, glow, haze or shadow. Preserve design and proportions, change only view. Headwear should sit as naturally as approved crown on head, not hover. Do not mirror the whole bee.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/wreath-fitted-v2.png",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/cloth-turnaround-v2/q3-front-left-base.png",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-015f3ac8-fa9b-414d-9948-a0f2db57f2f0.png",
+      "placement": [
+        386,
+        285,
+        440,
+        145
+      ],
+      "antennae_cut": 343
+    },
+    {
+      "id": "beret-q3-front-left",
+      "kind": "beret",
+      "angle": "q3-front-left",
+      "prompt": "Use case: precise-object-edit. Asset type: independent headwear layer for approved Honey Crystal bee turnaround. Image 1 is approved beret accessory design. Image 2 is target bare bee pose, camera and head curvature guide only. Draw ONLY beret viewed front three-quarter left view to fit head between antennae. The same low lavender-purple cloth beret with broad softly shaded facets, dark purple narrow fitted rim, small purple stalk on top. Soft dome and slouch, NOT a rigid tall mushroom cap. Slouches towards bee's anatomical left: viewer-right in front, viewer-left in rear; preserve this when changing side. Exact same purple hues, no new trim, badges, holes, bows or decoration. Antennae will be composited over surface; don't draw antennae in this layer. Warm upper-left lighting matching bee. Single accessory, centered, transparent PNG; NO bee, head, antennae, wings, text, glow, haze or shadow. Preserve design and proportions, change only view. Headwear should sit as naturally as approved crown on head, not hover. Do not mirror the whole bee.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/beret-accessory.png",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/cloth-turnaround-v2/q3-front-left-base.png",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-d611ed68-5f53-4ed9-8f46-db861e090a33.png",
+      "placement": [
+        316,
+        210,
+        540,
+        230
+      ],
+      "antennae_cut": 286
+    }
+  ],
+  "angles": [
+    "front",
+    "q3-front",
+    "side",
+    "q3-back",
+    "back",
+    "q3-back-left",
+    "side-left",
+    "q3-front-left"
+  ],
+  "anchors": {
+    "front": [
+      680,
+      680,
+      1
+    ],
+    "q3-front": [
+      742,
+      705,
+      0.94
+    ],
+    "side": [
+      760,
+      700,
+      0.96
+    ],
+    "q3-back": [
+      710,
+      685,
+      0.98
+    ],
+    "back": [
+      680,
+      680,
+      1
+    ],
+    "q3-front-left": [
+      624,
+      705,
+      0.94
+    ],
+    "side-left": [
+      606,
+      700,
+      0.96
+    ],
+    "q3-back-left": [
+      656,
+      685,
+      0.98
+    ]
+  },
+  "base_hashes": {
+    "front": "fe4173d8504e8327efd9b22eccd50ce29618cd3b5262e54e72a939fa46f1c521",
+    "q3-front": "3833765c482b935128999a5eeff6f2040f0aaf00278381a671b53c43d6a6099e",
+    "side": "2904043387e82d2e81d4d5e01abc8e72d4dcabad2dc0aaf6597d24f7529ff247",
+    "q3-back": "15d3166d28a278be0f22136bfc7d7c3e2b892940c466c13cc043e07acee9833c",
+    "back": "7597f01027f04de6c158c07f83f27f65d52eace189726367184900da1c2415c5",
+    "q3-back-left": "35c2e806384d397fbf634cbd0bceb305495475affc19a64718188aedf7fce37f",
+    "side-left": "885c9010b5649866997ae88b8053ce9c6d522c10ab6c0236c4bef9768a6d0d6e",
+    "q3-front-left": "f9955482dad42bc2d137310fabf4bcc107668dbc6df7b11d6f1a65433b7edc86"
+  },
+  "approved_q3": "Original raster assets, original mounts and wreath flatten transforms. Beret antenna rectangle is copied from ReferenceBee renderer."
+}

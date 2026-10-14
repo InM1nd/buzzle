@@ -1,0 +1,230 @@
+[
+  {
+    "id": "items-honey",
+    "source": "outputs/items-honey-crystal-v1/honey.png"
+  },
+  {
+    "id": "items-jelly",
+    "source": "outputs/items-honey-crystal-v1/jelly.png"
+  },
+  {
+    "id": "items-nectar",
+    "source": "outputs/items-honey-crystal-v1/nectar.png"
+  },
+  {
+    "id": "items-seeds",
+    "source": "outputs/items-honey-crystal-v1/seeds.png"
+  },
+  {
+    "id": "items-shovel",
+    "source": "outputs/items-honey-crystal-v1/shovel.png"
+  },
+  {
+    "id": "items-watering-can",
+    "source": "outputs/items-honey-crystal-v1/watering-can.png"
+  },
+  {
+    "id": "deco-barrel",
+    "source": "outputs/decor-honey-crystal-v1/barrel.png"
+  },
+  {
+    "id": "deco-bench",
+    "source": "outputs/decor-honey-crystal-v1/bench.png"
+  },
+  {
+    "id": "deco-flags",
+    "source": "outputs/decor-honey-crystal-v1/flags.png"
+  },
+  {
+    "id": "deco-fountain",
+    "source": "outputs/decor-honey-crystal-v1/fountain.png"
+  },
+  {
+    "id": "deco-gnome",
+    "source": "outputs/decor-honey-crystal-v1/gnome.png"
+  },
+  {
+    "id": "deco-lanterns",
+    "source": "outputs/decor-honey-crystal-v1/lanterns.png"
+  },
+  {
+    "id": "deco-mushroom",
+    "source": "outputs/decor-honey-crystal-v1/mushroom.png"
+  },
+  {
+    "id": "deco-pinwheel",
+    "source": "outputs/decor-honey-crystal-v1/pinwheel.png"
+  },
+  {
+    "id": "plants-clover_bloom",
+    "source": "outputs/plants-honey-crystal-v1/clover_bloom.png"
+  },
+  {
+    "id": "plants-clover_bud",
+    "source": "outputs/plants-honey-crystal-v1/clover_bud.png"
+  },
+  {
+    "id": "plants-lavender_bloom",
+    "source": "outputs/plants-honey-crystal-v1/lavender_bloom.png"
+  },
+  {
+    "id": "plants-lavender_bud",
+    "source": "outputs/plants-honey-crystal-v1/lavender_bud.png"
+  },
+  {
+    "id": "plants-sprout",
+    "source": "outputs/plants-honey-crystal-v1/sprout.png"
+  },
+  {
+    "id": "plants-sunflower_bloom",
+    "source": "outputs/plants-honey-crystal-v1/sunflower_bloom.png"
+  },
+  {
+    "id": "plants-sunflower_bud",
+    "source": "outputs/plants-honey-crystal-v1/sunflower_bud.png"
+  },
+  {
+    "id": "plants2-cornflower_bloom",
+    "source": "outputs/plants-honey-crystal-v2/cornflower_bloom.png"
+  },
+  {
+    "id": "plants2-cornflower_bud",
+    "source": "outputs/plants-honey-crystal-v2/cornflower_bud.png"
+  },
+  {
+    "id": "plants2-goldsun_bloom",
+    "source": "outputs/plants-honey-crystal-v2/goldsun_bloom.png"
+  },
+  {
+    "id": "plants2-goldsun_bud",
+    "source": "outputs/plants-honey-crystal-v2/goldsun_bud.png"
+  },
+  {
+    "id": "plants2-mint_bloom",
+    "source": "outputs/plants-honey-crystal-v2/mint_bloom.png"
+  },
+  {
+    "id": "plants2-mint_bud",
+    "source": "outputs/plants-honey-crystal-v2/mint_bud.png"
+  },
+  {
+    "id": "plants2-moonpoppy_bloom",
+    "source": "outputs/plants-honey-crystal-v2/moonpoppy_bloom.png"
+  },
+  {
+    "id": "plants2-moonpoppy_bud",
+    "source": "outputs/plants-honey-crystal-v2/moonpoppy_bud.png"
+  },
+  {
+    "id": "env-bed-dry",
+    "source": "outputs/environment-honey-crystal-v1/bed-dry.png"
+  },
+  {
+    "id": "env-bed-wet",
+    "source": "outputs/environment-honey-crystal-v1/bed-wet.png"
+  },
+  {
+    "id": "env-garden-background",
+    "source": "outputs/environment-honey-crystal-v1/garden-background.png"
+  },
+  {
+    "id": "env-hive-background",
+    "source": "outputs/environment-honey-crystal-v1/hive-background.png"
+  },
+  {
+    "id": "cells-cell-wild",
+    "source": "outputs/puzzle-tiles-honey-crystal-v1/cell-wild.png"
+  },
+  {
+    "id": "cells-cell0",
+    "source": "outputs/puzzle-tiles-honey-crystal-v1/cell0.png"
+  },
+  {
+    "id": "cells-cell1",
+    "source": "outputs/puzzle-tiles-honey-crystal-v1/cell1.png"
+  },
+  {
+    "id": "cells-cell2",
+    "source": "outputs/puzzle-tiles-honey-crystal-v1/cell2.png"
+  },
+  {
+    "id": "cells-cell3",
+    "source": "outputs/puzzle-tiles-honey-crystal-v1/cell3.png"
+  },
+  {
+    "id": "cells-cell4",
+    "source": "outputs/puzzle-tiles-honey-crystal-v1/cell4.png"
+  },
+  {
+    "id": "special-bomb",
+    "source": "outputs/combs-specials-honey-crystal-v1/bomb.png"
+  },
+  {
+    "id": "special-comb-empty",
+    "source": "outputs/combs-specials-honey-crystal-v1/comb-empty.png"
+  },
+  {
+    "id": "special-comb-locked",
+    "source": "outputs/combs-specials-honey-crystal-v1/comb-locked.png"
+  },
+  {
+    "id": "special-comb",
+    "source": "outputs/combs-specials-honey-crystal-v1/comb.png"
+  },
+  {
+    "id": "special-ring",
+    "source": "outputs/combs-specials-honey-crystal-v1/ring.png"
+  },
+  {
+    "id": "boost-boost-moves",
+    "source": "outputs/boosters-honey-crystal-v1/boost-moves.png"
+  },
+  {
+    "id": "boost-boost-shuffle",
+    "source": "outputs/boosters-honey-crystal-v1/boost-shuffle.png"
+  },
+  {
+    "id": "boost-freeze",
+    "source": "outputs/boosters-honey-crystal-v1/freeze.png"
+  },
+  {
+    "id": "rewards-chest",
+    "source": "outputs/rewards-honey-crystal-v1/chest.png"
+  },
+  {
+    "id": "rewards-flame",
+    "source": "outputs/rewards-honey-crystal-v1/flame.png"
+  },
+  {
+    "id": "rewards-star-off",
+    "source": "outputs/rewards-honey-crystal-v1/star-off.png"
+  },
+  {
+    "id": "rewards-star",
+    "source": "outputs/rewards-honey-crystal-v1/star.png"
+  },
+  {
+    "id": "boxes-box-gold",
+    "source": "outputs/boxes-honey-crystal-v1/box-gold.png"
+  },
+  {
+    "id": "boxes-box-royal",
+    "source": "outputs/boxes-honey-crystal-v1/box-royal.png"
+  },
+  {
+    "id": "boxes-box-wax",
+    "source": "outputs/boxes-honey-crystal-v1/box-wax.png"
+  },
+  {
+    "id": "boxes-box-wood",
+    "source": "outputs/boxes-honey-crystal-v1/box-wood.png"
+  },
+  {
+    "id": "extra-fragment",
+    "source": "outputs/halo-and-resources-v2/fragment.png"
+  },
+  {
+    "id": "extra-pollen",
+    "source": "outputs/halo-and-resources-v2/pollen.png"
+  }
+]

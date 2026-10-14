@@ -1,0 +1,126 @@
+{
+  "tool": "image_gen.imagegen",
+  "transparent_background": true,
+  "generations": [
+    {
+      "id": "scarf-front",
+      "angle": "front",
+      "kind": "scarf",
+      "prompt": "Use case: precise-object-edit. Image 1 is approved red-orange scarf accessory. Image 2 is target bee pose to fit. Draw ONLY visible parts of this same thick wrapped scarf viewed straight front, separate transparent sprite. Same broad uneven warm facets, coral orange fabric, one small knot and two short ends on the bee's left flank (viewer-right in frontal view). Thick band wraps curved body below face; knot toward front-side edge, short ends downward. Camera and curved band angle match bee. No bee or body, no hollow complete donut with rear part exposed, no long floating tails, no glow, no text, no shadow. Center accessory on transparent canvas. Original bee is a pose guide only; do not redraw it.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-ed5df2c4-5920-4a0f-9827-67687cb43827.png",
+      "placement": [
+        335,
+        710,
+        760,
+        240
+      ]
+    },
+    {
+      "id": "bag-front",
+      "angle": "front",
+      "kind": "bag",
+      "prompt": "Use case: precise-object-edit. Image 1 is approved mint-green faceted crossbody satchel, brown edging, small gold clasp. Image 2 is target bee pose. Draw ONLY this same bag body viewed straight front, WITHOUT shoulder strap, separate transparent accessory sprite. Bag hangs on bee's right flank (viewer-left in front), resting on its curved lower side rather than facing viewer head-on. Show mint front flap and clasp; dark teal thickness on its right edge. Preserve exact rounded rectangular shape and relative thickness, palette, broad irregular facets and soft warm upper-left lighting. No extra pocket, handle, strap, bee, body, text, glow or shadows. One centered bag, transparent canvas. This is same bag rotated, not a new design.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-fdf9e085-b29e-4cdd-ab99-0b39f1e1d124.png",
+      "placement": [
+        335,
+        815,
+        310,
+        230
+      ],
+      "strap": "M980 705 C935 800 810 825 622 846"
+    },
+    {
+      "id": "scarf-side",
+      "angle": "side",
+      "kind": "scarf",
+      "prompt": "Use case: precise-object-edit. Image 1 is approved red-orange scarf accessory. Image 2 is target bee pose to fit. Draw ONLY visible parts of this same thick wrapped scarf viewed strict side profile with face pointing right, separate transparent sprite. Same broad uneven warm facets, coral orange fabric, one small knot and two short ends on the bee's left flank (viewer-right in frontal view). Thick band wraps curved body below face; knot toward front-side edge, short ends downward. Camera and curved band angle match bee. No bee or body, no hollow complete donut with rear part exposed, no long floating tails, no glow, no text, no shadow. Center accessory on transparent canvas. Original bee is a pose guide only; do not redraw it.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-3213c888-8ecc-40be-acef-d2ef73319a35.png",
+      "initialPath": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-391fc43a-4be1-441b-aa13-ac343b6b78cc.png",
+      "repairPrompt": "Use case: precise-object-edit. Image 1 is scarf rear band without a knot. Image 2 is bee profile facing image-right. Draw only the visible continuous wrap of this same scarf fitted to this side-profile torso: band slopes gently DOWN from upper-left/back to lower-right/front, follows the bee's first body stripe below the face. The knot belongs to the far opposite flank and is hidden behind the body at this angle. NO knot and NO tails. Same thick coral-orange material, broad irregular facets, lighting, transparent background. Single isolated curved fabric band, no bee, shadow, glow, text or complete exposed donut. Do not mirror or expose a knot on the near side.",
+      "placement": [
+        420,
+        655,
+        680,
+        200
+      ]
+    },
+    {
+      "id": "bag-side",
+      "angle": "side",
+      "kind": "bag",
+      "prompt": "Use case: precise-object-edit. Image 1 is approved mint-green faceted crossbody satchel, brown edging, small gold clasp. Image 2 is target bee pose. Draw ONLY this same bag body viewed strict side profile with face pointing right, WITHOUT shoulder strap, separate transparent accessory sprite. Bag hangs on bee's right flank (viewer-left in front), resting on its curved lower side rather than facing viewer head-on. Near-side profile shows bag front on body flank, flap clasp legible, right edge thickness; camera and bag plane turn with bee. Preserve exact rounded rectangular shape and relative thickness, palette, broad irregular facets and soft warm upper-left lighting. No extra pocket, handle, strap, bee, body, text, glow or shadows. One centered bag, transparent canvas. This is same bag rotated, not a new design.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-aca9c3f1-3241-44f6-beee-2e2b497b66a0.png",
+      "placement": [
+        390,
+        805,
+        300,
+        225
+      ],
+      "strap": "M1065 730 C1015 825 820 865 667 834"
+    },
+    {
+      "id": "scarf-q3-back",
+      "angle": "q3-back",
+      "kind": "scarf",
+      "prompt": "Use case: precise-object-edit. Image 1 is approved red-orange scarf accessory. Image 2 is target bee pose to fit. Draw ONLY visible parts of this same thick wrapped scarf viewed three quarters rear at 145 degrees, separate transparent sprite. Same broad uneven warm facets, coral orange fabric, one small knot and two short ends on the bee's left flank (viewer-right in frontal view). Show continuous rear wrap, knot hidden around far edge; do not put a frontal bow in center. Camera and curved band angle match bee. No bee or body, no hollow complete donut with rear part exposed, no long floating tails, no glow, no text, no shadow. Center accessory on transparent canvas. Original bee is a pose guide only; do not redraw it.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-25303075-9c10-4ce7-93fb-e732486193fc.png",
+      "initialPath": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-2819a412-31ca-4b11-b82a-80716aef16b9.png",
+      "repairPrompt": "Use case: precise-object-edit. Image 1 is the approved candidate REAR scarf wrap without a knot. Image 2 gives target bee rear-three-quarter angle only. Rotate this same scarf's REAR band to match the bee's three-quarter rear torso, tilted gently down towards image-right with body bands. Draw ONLY visible continuous back band, coral orange broad faceted fabric, moderately thick, curving around torso. The knot and BOTH tails are entirely on the hidden far-front side: no knot, bow or tails visible anywhere. No bee or body, no front part of ring showing through hole, no text, glow, shadow, background. A single standalone continuous curved rear scarf band on transparent canvas. Preserve original fabric palette and large facets, do not redesign.",
+      "placement": [
+        410,
+        675,
+        625,
+        150
+      ]
+    },
+    {
+      "id": "bag-q3-back",
+      "angle": "q3-back",
+      "kind": "bag",
+      "prompt": "Use case: precise-object-edit. Image 1 is approved mint-green faceted crossbody satchel, brown edging, small gold clasp. Image 2 is target bee pose. Draw ONLY this same bag body viewed three quarters rear at 145 degrees, WITHOUT shoulder strap, separate transparent accessory sprite. Bag hangs on bee's right flank (viewer-left in front), resting on its curved lower side rather than facing viewer head-on. Show mostly plain mint rear panel and one dark teal edge; flap clasp on far side is hidden. Preserve exact rounded rectangular shape and relative thickness, palette, broad irregular facets and soft warm upper-left lighting. No extra pocket, handle, strap, bee, body, text, glow or shadows. One centered bag, transparent canvas. This is same bag rotated, not a new design.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-cda875dd-0806-4820-bf2a-24203245f47f.png",
+      "placement": [
+        845,
+        815,
+        280,
+        230
+      ],
+      "strap": "M500 625 C580 715 730 780 865 841"
+    },
+    {
+      "id": "scarf-back",
+      "angle": "back",
+      "kind": "scarf",
+      "prompt": "Use case: precise-object-edit. Image 1 is approved red-orange scarf accessory. Image 2 is target bee pose to fit. Draw ONLY visible parts of this same thick wrapped scarf viewed straight back at 180 degrees, separate transparent sprite. Same broad uneven warm facets, coral orange fabric, one small knot and two short ends on the bee's left flank (viewer-right in frontal view). Rear view shows broad uninterrupted fabric wrapping around back, knot and ends hidden on far front side. Camera and curved band angle match bee. No bee or body, no hollow complete donut with rear part exposed, no long floating tails, no glow, no text, no shadow. Center accessory on transparent canvas. Original bee is a pose guide only; do not redraw it.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-88f7f97f-1a9d-4ea8-8aee-2d0e59c37820.png",
+      "placement": [
+        355,
+        700,
+        650,
+        140
+      ]
+    },
+    {
+      "id": "bag-back",
+      "angle": "back",
+      "kind": "bag",
+      "prompt": "Use case: precise-object-edit. Image 1 is approved mint-green faceted crossbody satchel, brown edging, small gold clasp. Image 2 is target bee pose. Draw ONLY this same bag body viewed straight back at 180 degrees, WITHOUT shoulder strap, separate transparent accessory sprite. Bag hangs on bee's right flank (viewer-left in front), resting on its curved lower side rather than facing viewer head-on. Seen at viewer-right body flank, predominantly plain mint rear panel, dark teal edge; no gold clasp on rear. Preserve exact rounded rectangular shape and relative thickness, palette, broad irregular facets and soft warm upper-left lighting. No extra pocket, handle, strap, bee, body, text, glow or shadows. One centered bag, transparent canvas. This is same bag rotated, not a new design.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-3df402d8-12f1-4e76-8af7-23b52a7cbbeb.png",
+      "placement": [
+        815,
+        815,
+        280,
+        230
+      ],
+      "strap": "M435 640 C520 740 725 805 835 841"
+    }
+  ],
+  "body_hashes": {
+    "front": "fe4173d8504e8327efd9b22eccd50ce29618cd3b5262e54e72a939fa46f1c521",
+    "q3-front": "3833765c482b935128999a5eeff6f2040f0aaf00278381a671b53c43d6a6099e",
+    "side": "2904043387e82d2e81d4d5e01abc8e72d4dcabad2dc0aaf6597d24f7529ff247",
+    "q3-back": "15d3166d28a278be0f22136bfc7d7c3e2b892940c466c13cc043e07acee9833c",
+    "back": "7597f01027f04de6c158c07f83f27f65d52eace189726367184900da1c2415c5"
+  },
+  "q3": "Uses unchanged approved raster accessories and existing ReferenceBeeAccessories placements, wrap transform and strap style."
+}

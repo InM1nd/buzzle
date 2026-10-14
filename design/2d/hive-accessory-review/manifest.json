@@ -1,0 +1,578 @@
+{
+  "assets/pushinka/base-front.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/front-base-view.png",
+    "sha256": "b1c9e3885c9d5954d5cda5d60fbf9273e0125091fc913e7290d4087f2d12ae7c"
+  },
+  "assets/pushinka/base-q3-front.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/q3-front-base-view.png",
+    "sha256": "488ffda09b894f65c6e91ccf6c5f86da53abc476b520903fafcd03e93409eda0"
+  },
+  "assets/pushinka/base-side.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/side-base-view.png",
+    "sha256": "5c77c64709ca085f8bffba7a07bf5ff19293dffea337f858869fa46d1ec26a88"
+  },
+  "assets/pushinka/base-q3-back.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/q3-back-base-view.png",
+    "sha256": "298b5ad28c6111a3ec8d289942ea53bdced2157594cedb402a76ac3907c5a2dc"
+  },
+  "assets/pushinka/base-back.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/back-base-view.png",
+    "sha256": "22e4ea663be6f7778bdf7bfdcca000d0a68204bcf246601743a91906d4344478"
+  },
+  "assets/pushinka/base-q3-back-left.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/q3-back-left-base-view.png",
+    "sha256": "896f66134d7d7e160fba65f687983c88e98e872dfd3ce6a9a8d0f817bf61afb0"
+  },
+  "assets/pushinka/base-side-left.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/side-left-base-view.png",
+    "sha256": "5690e6304bf5403f49adf003f9a7d8e064f0f6c9d0df70a640e1678acef80993"
+  },
+  "assets/pushinka/base-q3-front-left.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/q3-front-left-base-view.png",
+    "sha256": "f1782e6c65a3c72c914499edee7231357864aa384e44c95db05bd6bac70c3519"
+  },
+  "assets/pushinka/crown-front.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/crown-front-view.png",
+    "sha256": "08e38feb4aecd55c16a7f5d45419e52b1df2c2fa9097a36202ea9fce5b11208b"
+  },
+  "assets/pushinka/crown-q3-front.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/crown-q3-front-view.png",
+    "sha256": "e6db62ff03c63388db82dc3a04618f0c1614fabc3ceb2c819cb7a35040ed3dfa"
+  },
+  "assets/pushinka/crown-side.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/crown-side-view.png",
+    "sha256": "8b285369267b6952738b3015bb8876f75c54e3fd3a23c1e445915725032746bf"
+  },
+  "assets/pushinka/crown-q3-back.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/crown-q3-back-view.png",
+    "sha256": "0589a2d121c772122b22215202f4487c87a7b9c14a9d72ebafea74041ab71a5d"
+  },
+  "assets/pushinka/crown-back.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/crown-back-view.png",
+    "sha256": "f6bd2b96ba1520c96588a1c78aa8b84500e03f6f38e9eecb0fb04bf5eb5c8e9d"
+  },
+  "assets/pushinka/crown-q3-back-left.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/crown-q3-back-left-view.png",
+    "sha256": "a72d65e8df911bd26f2a472f56d42516d3cd586e83c0ee2d6a8f03e58de0b14f"
+  },
+  "assets/pushinka/crown-side-left.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/crown-side-left-view.png",
+    "sha256": "5ac72a32c7df91095478f5d5dba198f2c210dcc603724aad1842e78d125e1ade"
+  },
+  "assets/pushinka/crown-q3-front-left.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/crown-q3-front-left-view.png",
+    "sha256": "e86d77cf8401d4adca41b9f6564aa88c835c1877ebb500f701dac23ad23697d4"
+  },
+  "assets/pushinka/wreath-front.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/wreath-front-view.png",
+    "sha256": "259c87ceaae5e994d4db55981c291794b8ddbd531c83723cd7e47111a1364c37"
+  },
+  "assets/pushinka/wreath-q3-front.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/wreath-q3-front-view.png",
+    "sha256": "097fce26d44b05c61f758cb4e90b481625d400caf7cae46be41a1569adea37cf"
+  },
+  "assets/pushinka/wreath-side.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/wreath-side-view.png",
+    "sha256": "a3d6ef60240737ff3ef154e00fda0f4d4e075be2c38eb5ab3baa0aea9e0c8be0"
+  },
+  "assets/pushinka/wreath-q3-back.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/wreath-q3-back-view.png",
+    "sha256": "b306da7b82b30352b1923982a6a1c0f32677caabccaf41fe8a5231d625da87a6"
+  },
+  "assets/pushinka/wreath-back.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/wreath-back-view.png",
+    "sha256": "2cd2880144632842d69729df9b1a40b97ff0ec2de9c72411d762b402211f251b"
+  },
+  "assets/pushinka/wreath-q3-back-left.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/wreath-q3-back-left-view.png",
+    "sha256": "8d4148dda66f43be3ca740f243da42681326acd0cd6fc9f4d995e9f4143e90df"
+  },
+  "assets/pushinka/wreath-side-left.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/wreath-side-left-view.png",
+    "sha256": "161b3bbd275d77759f7c3382d5fff8a0bb41fa6d52b40c716fda480e54e21e11"
+  },
+  "assets/pushinka/wreath-q3-front-left.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/wreath-q3-front-left-view.png",
+    "sha256": "b9bd6f566b5fbc334c32a584a1f01186e6a5568ccaca83fb571c86aa69205442"
+  },
+  "assets/pushinka/beret-front.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/beret-front-view.png",
+    "sha256": "19b286005b4d7b5c904d5ee881078b53ff6a82f224ce47440cb022d9f1f2f0f9"
+  },
+  "assets/pushinka/beret-q3-front.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/beret-q3-front-view.png",
+    "sha256": "f2358161e0fd7407c23490069b0fd4dd327a6322ebfd82402f9d14e86f2a7c2d"
+  },
+  "assets/pushinka/beret-side.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/beret-side-view.png",
+    "sha256": "86990a6d7ae0fda823ca79aa491cc90586291cbeae4477da1634e473ec4a857f"
+  },
+  "assets/pushinka/beret-q3-back.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/beret-q3-back-view.png",
+    "sha256": "252675f8e5d8c703da5b2e1602bcabe04a70362cef404a587fb74ae5f82a1d28"
+  },
+  "assets/pushinka/beret-back.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/beret-back-view.png",
+    "sha256": "72ed47e29594f4adbfc728a8a25c9febbbea9d11b5dc8414e3f9e89b7389659c"
+  },
+  "assets/pushinka/beret-q3-back-left.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/beret-q3-back-left-view.png",
+    "sha256": "3de1d00fb0e89a8ed87c7bb54ed0c13b18162944d9894c0e64e84ce7a20c6b70"
+  },
+  "assets/pushinka/beret-side-left.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/beret-side-left-view.png",
+    "sha256": "f640ab1cb43997919d0bbcdb62b55529f41eb049882e079beefc9e87b296ad68"
+  },
+  "assets/pushinka/beret-q3-front-left.png": {
+    "source": "outputs/species-headwear-fit-v1/pushinka/beret-q3-front-left-view.png",
+    "sha256": "e7d610fadf75110e47597cb1448a7664d0fd0d82bd82eac65db94166edeca16b"
+  },
+  "assets/pushinka/scarf-front.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/scarf-front-view.png",
+    "sha256": "6274551822539d1d198f793dd318134635a119f5e90bbc9ed4c2e84cccb59b4c"
+  },
+  "assets/pushinka/scarf-q3-front.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/scarf-q3-front-view.png",
+    "sha256": "ac624f7e3efc31c474962b00015817ddca59fda080a02365be7dbd72eb3912f4"
+  },
+  "assets/pushinka/scarf-side.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/scarf-side-view.png",
+    "sha256": "6305d2ca3bd5052b45974a41bfe87b8f2a7c2d73abb28240430d54194291ef93"
+  },
+  "assets/pushinka/scarf-q3-back.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/scarf-q3-back-view.png",
+    "sha256": "6416ee53b3ffe86c3570b548e34896b264b1b0bf3ce6f4f522a03071833565d2"
+  },
+  "assets/pushinka/scarf-back.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/scarf-back-view.png",
+    "sha256": "b65b7535a669d08ae77a33bf8ae94623eecc50aa9f144896477cea84dfd99148"
+  },
+  "assets/pushinka/scarf-q3-back-left.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/scarf-q3-back-left-view.png",
+    "sha256": "7251006a0d68623929bd22f74681b53994b913acbcfa685197f253f903f3b15f"
+  },
+  "assets/pushinka/scarf-side-left.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/scarf-side-left-view.png",
+    "sha256": "38492b48e2a8d39b47dee25aa58124cf3d35300fbee932573f628f5b4fe37fff"
+  },
+  "assets/pushinka/scarf-q3-front-left.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/scarf-q3-front-left-view.png",
+    "sha256": "eae960d0ff1064e4fd6f6d7f9e108fa995a820601ec865faa0b48a514a73d8a9"
+  },
+  "assets/pushinka/bag-front.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/bag-front-view.png",
+    "sha256": "569cdc2b7ddbe6afcb4f3b614ae797128212c1b2c7d3c709b65cca45a0ac7be5"
+  },
+  "assets/pushinka/bag-q3-front.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/bag-q3-front-view.png",
+    "sha256": "8a3715da9d584db8e4f093f505dd9414f795e307cf44b433bab48dc2ac46361d"
+  },
+  "assets/pushinka/bag-side.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/bag-side-view.png",
+    "sha256": "1ee650746d4a11807e74f289121e69656284767d5ce094bccbe7dcf64a6cc7ec"
+  },
+  "assets/pushinka/bag-q3-back.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/bag-q3-back-view.png",
+    "sha256": "3b6eba9171efdd14c7bebe0c25d430a2195f4647285f3b129cd45375a59c4f83"
+  },
+  "assets/pushinka/bag-back.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/bag-back-view.png",
+    "sha256": "d5f75d597a39f050741092760cb301189f4d9aa403d84f8a3d8c446beb20216f"
+  },
+  "assets/pushinka/bag-q3-back-left.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/bag-q3-back-left-view.png",
+    "sha256": "d6b09e2b17565f3a42c0938a0e9eea131ba20b7b95bf42e5e223c60f720bc8a9"
+  },
+  "assets/pushinka/bag-side-left.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/bag-side-left-view.png",
+    "sha256": "5ac0c2b0de41e6fe30469e064618ca9fd61b231c013e7edb64394b90f3e037fd"
+  },
+  "assets/pushinka/bag-q3-front-left.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/bag-q3-front-left-view.png",
+    "sha256": "0df56556fa44e90975c88f35e97efb53454a12609971b224a74c9db28d41731d"
+  },
+  "assets/pushinka/bow-front.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/bow-front-view.png",
+    "sha256": "95bad305e1ac223e890eadd73a44ceb1e3e43a47f77e5a7b69680c9497d3035c"
+  },
+  "assets/pushinka/bow-q3-front.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/bow-q3-front-view.png",
+    "sha256": "5a257e5702629b252dfe53ccafbf4a9cbf35d957f05ea639529cf95897c26e7a"
+  },
+  "assets/pushinka/bow-side.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/bow-side-view.png",
+    "sha256": "5c77c64709ca085f8bffba7a07bf5ff19293dffea337f858869fa46d1ec26a88"
+  },
+  "assets/pushinka/bow-q3-back.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/bow-q3-back-view.png",
+    "sha256": "298b5ad28c6111a3ec8d289942ea53bdced2157594cedb402a76ac3907c5a2dc"
+  },
+  "assets/pushinka/bow-back.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/bow-back-view.png",
+    "sha256": "22e4ea663be6f7778bdf7bfdcca000d0a68204bcf246601743a91906d4344478"
+  },
+  "assets/pushinka/bow-q3-back-left.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/bow-q3-back-left-view.png",
+    "sha256": "896f66134d7d7e160fba65f687983c88e98e872dfd3ce6a9a8d0f817bf61afb0"
+  },
+  "assets/pushinka/bow-side-left.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/bow-side-left-view.png",
+    "sha256": "9ffecb4f12a00fbdcdba0da012368f57c22b09f5827a229a42c3da0bde41c636"
+  },
+  "assets/pushinka/bow-q3-front-left.png": {
+    "source": "outputs/species-cloth-fit-v1/pushinka/bow-q3-front-left-view.png",
+    "sha256": "6d9914776db76a66916f2147ae522a1627ba20399ebd9a14d9a23a7d2f71086f"
+  },
+  "assets/pushinka/glasses-front.png": {
+    "source": "outputs/species-face-audio-fit-v1/pushinka/glasses-front-view.png",
+    "sha256": "a0ff3895ec53c1a249489f668cc3faadc61061063daabf32ab6520ca4eb43289"
+  },
+  "assets/pushinka/glasses-q3-front.png": {
+    "source": "outputs/species-face-audio-fit-v1/pushinka/glasses-q3-front-view.png",
+    "sha256": "c548eb31910aa79c9a0b559da18549f3b5e22f9f43e74f18af0a83f417348f38"
+  },
+  "assets/pushinka/glasses-side.png": {
+    "source": "outputs/species-face-audio-fit-v1/pushinka/glasses-side-view.png",
+    "sha256": "3281c79e85285b4203fecdedff94e30624709e614bfea137f486f7e3e5f311d5"
+  },
+  "assets/pushinka/glasses-q3-back.png": {
+    "source": "outputs/species-face-audio-fit-v1/pushinka/glasses-q3-back-view.png",
+    "sha256": "298b5ad28c6111a3ec8d289942ea53bdced2157594cedb402a76ac3907c5a2dc"
+  },
+  "assets/pushinka/glasses-back.png": {
+    "source": "outputs/species-face-audio-fit-v1/pushinka/glasses-back-view.png",
+    "sha256": "1fd90cd210a027e42ff55bde049bd5bfca27377745055d29398a8260ced08588"
+  },
+  "assets/pushinka/glasses-q3-back-left.png": {
+    "source": "outputs/species-face-audio-fit-v1/pushinka/glasses-q3-back-left-view.png",
+    "sha256": "896f66134d7d7e160fba65f687983c88e98e872dfd3ce6a9a8d0f817bf61afb0"
+  },
+  "assets/pushinka/glasses-side-left.png": {
+    "source": "outputs/species-face-audio-fit-v1/pushinka/glasses-side-left-view.png",
+    "sha256": "da41cca73061359c65a3dca2f7db03cea5900f0931429cd0e4ad96b680e0edff"
+  },
+  "assets/pushinka/glasses-q3-front-left.png": {
+    "source": "outputs/species-face-audio-fit-v1/pushinka/glasses-q3-front-left-view.png",
+    "sha256": "45df96b9de2dca5c3a81f2cd7a555ddf65eba4abc5cdd199338150ca3a2bb546"
+  },
+  "assets/pushinka/halo-front.png": {
+    "source": "outputs/species-face-audio-fit-v1/pushinka/halo-front-view.png",
+    "sha256": "8a91eef5b6523b0d8d61bc004d95ca7f70c5a9eff9c2a42c75328fd82911c0a2"
+  },
+  "assets/pushinka/halo-q3-front.png": {
+    "source": "outputs/species-face-audio-fit-v1/pushinka/halo-q3-front-view.png",
+    "sha256": "ec6f08d4968b60910e3c7e7eb12676007546c90f6c4aab625c95fabe0cb02731"
+  },
+  "assets/pushinka/halo-side.png": {
+    "source": "outputs/species-face-audio-fit-v1/pushinka/halo-side-view.png",
+    "sha256": "381237273b094995d63b16c17839b2193e210bbf96360fa044e93e96c5cfe2ac"
+  },
+  "assets/pushinka/halo-q3-back.png": {
+    "source": "outputs/species-face-audio-fit-v1/pushinka/halo-q3-back-view.png",
+    "sha256": "ee3d11d578ff1f4105ffd557d3959f268cefda0881ceafbdaeb56e32d66ee702"
+  },
+  "assets/pushinka/halo-back.png": {
+    "source": "outputs/species-face-audio-fit-v1/pushinka/halo-back-view.png",
+    "sha256": "e64cd7190ccb90c17e30e6776680828e175119e848c744b3d66d52ac3d0bb43f"
+  },
+  "assets/pushinka/halo-q3-back-left.png": {
+    "source": "outputs/species-face-audio-fit-v1/pushinka/halo-q3-back-left-view.png",
+    "sha256": "2ee26e9ec647470f7cff30e63406fa659c1e11f5ba72fdb10d50bbddf719dcf8"
+  },
+  "assets/pushinka/halo-side-left.png": {
+    "source": "outputs/species-face-audio-fit-v1/pushinka/halo-side-left-view.png",
+    "sha256": "0e803f2c480b7aa26890009a029e31994e15442420639472f0a2343d20a29cde"
+  },
+  "assets/pushinka/halo-q3-front-left.png": {
+    "source": "outputs/species-face-audio-fit-v1/pushinka/halo-q3-front-left-view.png",
+    "sha256": "875148a6ac2dd33f2803c14283ec78b8266f6bf5335d4df2811d1a98fe24f475"
+  },
+  "assets/boris/base-front.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/front-base-view.png",
+    "sha256": "e0dcc646304a62acc11f795ac620ee426a70f97216209248cd31c61b7c596a05"
+  },
+  "assets/boris/base-q3-front.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/q3-front-base-view.png",
+    "sha256": "b611c9c3b5cc8c8400faf50966a3f018b2723dd9164526f23c9db6f4807f9c6f"
+  },
+  "assets/boris/base-side.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/side-base-view.png",
+    "sha256": "058ec99a591a0f57b6ae25047e50ecf82c19d836cd71404c094a99f9e5943870"
+  },
+  "assets/boris/base-q3-back.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/q3-back-base-view.png",
+    "sha256": "cc535e1a5b0ce2a04235a59b002a87dc9176b5f23953deda1cb28cc27da1dbaa"
+  },
+  "assets/boris/base-back.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/back-base-view.png",
+    "sha256": "1295509185832b9e1d4b664a7afdd6dc3123fedc939a77fb65afc030a47db611"
+  },
+  "assets/boris/base-q3-back-left.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/q3-back-left-base-view.png",
+    "sha256": "c8c489098d7a681f5abe57b77b02a1d56dbaceaff462cdff261a0e835defb371"
+  },
+  "assets/boris/base-side-left.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/side-left-base-view.png",
+    "sha256": "713abd167019f1156e3a0372a8879d791b8a4c8addb047c69e27f254cf5c731b"
+  },
+  "assets/boris/base-q3-front-left.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/q3-front-left-base-view.png",
+    "sha256": "ef9b13b703ab60e7bf482b8f6f16a13b705d20387f742b3fc3ee8546cf4e4222"
+  },
+  "assets/boris/crown-front.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/crown-front-view.png",
+    "sha256": "bd7ec905dad5c0d18784275c4df183ae1a8be052466df582bf3efc84d6303ef8"
+  },
+  "assets/boris/crown-q3-front.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/crown-q3-front-view.png",
+    "sha256": "3687932f71c48e98baf90d52084cffd70472deb39bbf0bc3528b70fc823100c6"
+  },
+  "assets/boris/crown-side.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/crown-side-view.png",
+    "sha256": "4e773b5ffd63e54aaf51e02112f696f317ce23abbaf87c26a656e68ecc834222"
+  },
+  "assets/boris/crown-q3-back.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/crown-q3-back-view.png",
+    "sha256": "a096e2c79bd23f840b9c7e95e4538264cd9cfe808753afdea0a809ebf621e76d"
+  },
+  "assets/boris/crown-back.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/crown-back-view.png",
+    "sha256": "be1a3b7c5a46b272fbd66ffb22fb674523264faee2e3792b44c30d59acd2b070"
+  },
+  "assets/boris/crown-q3-back-left.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/crown-q3-back-left-view.png",
+    "sha256": "b6dd0c70acdce1ad5c4a773df74c6fcfe3401009a06eb50b693ace2b6c98c86c"
+  },
+  "assets/boris/crown-side-left.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/crown-side-left-view.png",
+    "sha256": "df799996c895110cfec440242127b663a781a776c220a2b044c355e60d0f45ae"
+  },
+  "assets/boris/crown-q3-front-left.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/crown-q3-front-left-view.png",
+    "sha256": "506711042972b2429e2b04056f4ffae29b418fb188eb779e4e131edc92b16bc7"
+  },
+  "assets/boris/wreath-front.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/wreath-front-view.png",
+    "sha256": "350ffcd38bdc2a897168ed4423e1f39c5d2d2414294f345c8525ea123dc7ae2c"
+  },
+  "assets/boris/wreath-q3-front.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/wreath-q3-front-view.png",
+    "sha256": "f9d84ffbe8ad751c5b895ae5fc47a848ec7bb706b2ca4565f16dd3daf3d77e94"
+  },
+  "assets/boris/wreath-side.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/wreath-side-view.png",
+    "sha256": "4e6ad9a624a15db65c4ba42754c98dee93ad4b8e62e84c89a6585638c613de5a"
+  },
+  "assets/boris/wreath-q3-back.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/wreath-q3-back-view.png",
+    "sha256": "d3a639e786b14965a5d40132bd3ba411d736595ccb576a3f6106db2464b89a50"
+  },
+  "assets/boris/wreath-back.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/wreath-back-view.png",
+    "sha256": "b579bedf61a4f4f29c7beb7de0314dfab4b950402b2606b2828e2a1eb15eeaeb"
+  },
+  "assets/boris/wreath-q3-back-left.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/wreath-q3-back-left-view.png",
+    "sha256": "d782b06ce5fa6be9b2af516f7b230cdb75188331e123b7e85fb92daf8109791e"
+  },
+  "assets/boris/wreath-side-left.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/wreath-side-left-view.png",
+    "sha256": "c91d2a29f71f9ee450a2b8ddc93c79bfad47c35d4d7a7b7bc4c3afb356ea84ed"
+  },
+  "assets/boris/wreath-q3-front-left.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/wreath-q3-front-left-view.png",
+    "sha256": "3812cb20e56c587c12fae31ae8e9d5b3645e6a322fd859abf180532948a41b65"
+  },
+  "assets/boris/beret-front.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/beret-front-view.png",
+    "sha256": "3f2cde59c587dce99eb4a55599a0807652203d9883724daa82773605c598f148"
+  },
+  "assets/boris/beret-q3-front.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/beret-q3-front-view.png",
+    "sha256": "84e4c10c9c3790ef69b6017ae9e9f8d3d0086f06be4752162e21cff0f4c1ed1e"
+  },
+  "assets/boris/beret-side.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/beret-side-view.png",
+    "sha256": "212bb8adaef010fee7eb2f6d9c728f4620df444dc1ef0da799e70a543dd4660d"
+  },
+  "assets/boris/beret-q3-back.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/beret-q3-back-view.png",
+    "sha256": "1131c9fea61ab76d0dbcb9350342f2b78f8fdeefed59d776b3a78d2a093869e0"
+  },
+  "assets/boris/beret-back.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/beret-back-view.png",
+    "sha256": "45a40419f2787413088cb1a4098c84bcd322980d1589718d90cbf8768e3bef0b"
+  },
+  "assets/boris/beret-q3-back-left.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/beret-q3-back-left-view.png",
+    "sha256": "eff653dd117b3b9e3f09550a7c6ecf67a7557534450a4f30cfa465f89db19b1c"
+  },
+  "assets/boris/beret-side-left.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/beret-side-left-view.png",
+    "sha256": "624812ee13c3b9ce5b2d1bff818cd2ee7ee88e767625423b85a4f247368e23d9"
+  },
+  "assets/boris/beret-q3-front-left.png": {
+    "source": "outputs/species-headwear-fit-v1/boris/beret-q3-front-left-view.png",
+    "sha256": "bd1f7a75418b52b40e68f79c032041fbbfa06536b3af50ad56fca7f5f3753d84"
+  },
+  "assets/boris/scarf-front.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/scarf-front-view.png",
+    "sha256": "d6e2421c313fb2ba6530a97fd74c64f99046a37daf4b0256d30ff024d2ab87ba"
+  },
+  "assets/boris/scarf-q3-front.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/scarf-q3-front-view.png",
+    "sha256": "33966071538b690ebe57cbb2e875b5dd6fa7ff407716919f4ab838ccc952324f"
+  },
+  "assets/boris/scarf-side.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/scarf-side-view.png",
+    "sha256": "b5d9848c20cc2920f07e5948404892990673f6228dd33b47ca1e3cddd0a7d150"
+  },
+  "assets/boris/scarf-q3-back.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/scarf-q3-back-view.png",
+    "sha256": "8db638d7290b0ed66525ef9250e09d747a743b16d34acd38e39616da7f0452d9"
+  },
+  "assets/boris/scarf-back.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/scarf-back-view.png",
+    "sha256": "37e78d733b57ad1e4b5f326c915a5caf18a26d287ff085a92b599036c9b9c9b3"
+  },
+  "assets/boris/scarf-q3-back-left.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/scarf-q3-back-left-view.png",
+    "sha256": "3db3a0e36366c81fe2fd612a66202de7431978c6eb4d76ee443f0eb608307505"
+  },
+  "assets/boris/scarf-side-left.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/scarf-side-left-view.png",
+    "sha256": "55bfbf3a264d65ae126b0adedac9b6ab14862c556d506aefcf5863d03721882b"
+  },
+  "assets/boris/scarf-q3-front-left.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/scarf-q3-front-left-view.png",
+    "sha256": "2c99bca34a8801f6345a020afb51a5d7d0a6ab57f41d1776be5fb25515d6212f"
+  },
+  "assets/boris/bag-front.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/bag-front-view.png",
+    "sha256": "762c7d8c604475a35c5b1f34d2f7d469a154f59f5c4cf5611b708524a0e80fdc"
+  },
+  "assets/boris/bag-q3-front.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/bag-q3-front-view.png",
+    "sha256": "486de87c9c389bcdadb47c983c73805f4af27ccc2492ee646be9c246c9ba89c3"
+  },
+  "assets/boris/bag-side.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/bag-side-view.png",
+    "sha256": "a093103515aa9157c097f619c354e2a2badc2fcc8fecdef57bc624449affca3f"
+  },
+  "assets/boris/bag-q3-back.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/bag-q3-back-view.png",
+    "sha256": "87874f8fa59a47c3d9c47a5a3917192536d50da5d607f3242843ad483e3325ba"
+  },
+  "assets/boris/bag-back.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/bag-back-view.png",
+    "sha256": "fa0e2b702dfe85abd4e240660e8e594b236eec0555d07d71c3145279151e8f76"
+  },
+  "assets/boris/bag-q3-back-left.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/bag-q3-back-left-view.png",
+    "sha256": "b2b690d086587535e01bd80faf03c7c92c5f78f725163336301f7df5af45a09e"
+  },
+  "assets/boris/bag-side-left.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/bag-side-left-view.png",
+    "sha256": "8ca0947b5760bf357ff54e92cf115100f22ef4f0d3b4370333628cbb9f2fbd56"
+  },
+  "assets/boris/bag-q3-front-left.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/bag-q3-front-left-view.png",
+    "sha256": "0f3f74fc0593af8fabf94e057e57567edfbc2f25c35666a5a1a3b31c1618ffe4"
+  },
+  "assets/boris/bow-front.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/bow-front-view.png",
+    "sha256": "a2d3433030899599d452661af3b775f97647a83e3a515dbc45f97de874f14eb1"
+  },
+  "assets/boris/bow-q3-front.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/bow-q3-front-view.png",
+    "sha256": "63e9dddb907fb6d68193c899a17a2bf4429e01eb7f82263fe98e430d7b3c4dc8"
+  },
+  "assets/boris/bow-side.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/bow-side-view.png",
+    "sha256": "058ec99a591a0f57b6ae25047e50ecf82c19d836cd71404c094a99f9e5943870"
+  },
+  "assets/boris/bow-q3-back.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/bow-q3-back-view.png",
+    "sha256": "cc535e1a5b0ce2a04235a59b002a87dc9176b5f23953deda1cb28cc27da1dbaa"
+  },
+  "assets/boris/bow-back.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/bow-back-view.png",
+    "sha256": "1295509185832b9e1d4b664a7afdd6dc3123fedc939a77fb65afc030a47db611"
+  },
+  "assets/boris/bow-q3-back-left.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/bow-q3-back-left-view.png",
+    "sha256": "c8c489098d7a681f5abe57b77b02a1d56dbaceaff462cdff261a0e835defb371"
+  },
+  "assets/boris/bow-side-left.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/bow-side-left-view.png",
+    "sha256": "0cb1168ebedca3350a9a380105aa48cc53676abeba341c899381bdc35fac774a"
+  },
+  "assets/boris/bow-q3-front-left.png": {
+    "source": "outputs/species-cloth-fit-v1/boris/bow-q3-front-left-view.png",
+    "sha256": "fc73679cb359932d2b476d271542a1d0db5bab42541183897c97a33e2fd79c78"
+  },
+  "assets/boris/glasses-front.png": {
+    "source": "outputs/species-face-audio-fit-v1/boris/glasses-front-view.png",
+    "sha256": "2219b3a63a6527516c5737e9f6f3fc6d84c85fadf227df392a500aa82315e107"
+  },
+  "assets/boris/glasses-q3-front.png": {
+    "source": "outputs/species-face-audio-fit-v1/boris/glasses-q3-front-view.png",
+    "sha256": "c34cf6360f2fe0f838f144c8211ae4dad40a85fcc054ca935cbccb5c26c52660"
+  },
+  "assets/boris/glasses-side.png": {
+    "source": "outputs/species-face-audio-fit-v1/boris/glasses-side-view.png",
+    "sha256": "47a498a5354402386bd50db5fcbfd154521ee50d36372362816f52ceb4822961"
+  },
+  "assets/boris/glasses-q3-back.png": {
+    "source": "outputs/species-face-audio-fit-v1/boris/glasses-q3-back-view.png",
+    "sha256": "cc535e1a5b0ce2a04235a59b002a87dc9176b5f23953deda1cb28cc27da1dbaa"
+  },
+  "assets/boris/glasses-back.png": {
+    "source": "outputs/species-face-audio-fit-v1/boris/glasses-back-view.png",
+    "sha256": "810e26ae87636046c2e623280b3d3a5bd8fafa3a7117a4a9a20bc0583aef5ca3"
+  },
+  "assets/boris/glasses-q3-back-left.png": {
+    "source": "outputs/species-face-audio-fit-v1/boris/glasses-q3-back-left-view.png",
+    "sha256": "c8c489098d7a681f5abe57b77b02a1d56dbaceaff462cdff261a0e835defb371"
+  },
+  "assets/boris/glasses-side-left.png": {
+    "source": "outputs/species-face-audio-fit-v1/boris/glasses-side-left-view.png",
+    "sha256": "597d1b6e6318e62b8204fc30d6789de1be9f7672488e905f257729412b27b1c5"
+  },
+  "assets/boris/glasses-q3-front-left.png": {
+    "source": "outputs/species-face-audio-fit-v1/boris/glasses-q3-front-left-view.png",
+    "sha256": "0cdb3e60aaa399305203fcab670853696e11ca49717b4509f09347cd1e309fa7"
+  },
+  "assets/boris/halo-front.png": {
+    "source": "outputs/species-face-audio-fit-v1/boris/halo-front-view.png",
+    "sha256": "58cb21dfaa3d9097cb4bf6c8d9b1be300eef7970a8f75f6d18df7f2e647d4063"
+  },
+  "assets/boris/halo-q3-front.png": {
+    "source": "outputs/species-face-audio-fit-v1/boris/halo-q3-front-view.png",
+    "sha256": "40c74f2f4fc4660926c2d53835554fd3379287163de8112e6b79a4394cd46642"
+  },
+  "assets/boris/halo-side.png": {
+    "source": "outputs/species-face-audio-fit-v1/boris/halo-side-view.png",
+    "sha256": "9c5b2210d0f1e07f490b66a15866a6951b7fb574eb48f0516b284519fd983a81"
+  },
+  "assets/boris/halo-q3-back.png": {
+    "source": "outputs/species-face-audio-fit-v1/boris/halo-q3-back-view.png",
+    "sha256": "3223ddd23265bce824a36835b4e74ec6915a230c11244216be97675fc7c13a33"
+  },
+  "assets/boris/halo-back.png": {
+    "source": "outputs/species-face-audio-fit-v1/boris/halo-back-view.png",
+    "sha256": "5c799e6c941ba210156d8e734209e7cd630789506c3e01d3bd6cf973d7a3a973"
+  },
+  "assets/boris/halo-q3-back-left.png": {
+    "source": "outputs/species-face-audio-fit-v1/boris/halo-q3-back-left-view.png",
+    "sha256": "da009c448cc297ad6d7d9ee11fab3a782f27c9ebecae21bfda8822bbd900218d"
+  },
+  "assets/boris/halo-side-left.png": {
+    "source": "outputs/species-face-audio-fit-v1/boris/halo-side-left-view.png",
+    "sha256": "a6d2a3d5f43786a9c2579e7eae22e54061b5941adf22a8ec851d898df947e013"
+  },
+  "assets/boris/halo-q3-front-left.png": {
+    "source": "outputs/species-face-audio-fit-v1/boris/halo-q3-front-left-view.png",
+    "sha256": "db767aa9e0e1ecf5302db1c0fd1118b93920f051a8e15b392f068cf3f43530ce"
+  }
+}

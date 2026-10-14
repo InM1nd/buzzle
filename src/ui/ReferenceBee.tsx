@@ -5,25 +5,25 @@ import { useAnimActive, useCycle, useFlapClock } from "./anim";
 import ReferenceBeeAccessories, { shouldShowReferenceCrown } from "./ReferenceBeeAccessories";
 
 const ART = {
-  zhuzha: require("../../assets/art/bees-prototype/zhuzha-reference.png"),
-  pushinka: require("../../assets/art/bees-prototype/pushinka-reference.png"),
-  solnyshko: require("../../assets/art/bees-prototype/solnyshko-reference.png"),
-  lavanda: require("../../assets/art/bees-prototype/lavanda-reference.png"),
-  klevera: require("../../assets/art/bees-prototype/klevera-reference.png"),
-  vasilek: require("../../assets/art/bees-prototype/vasilek-reference.png"),
-  myatka: require("../../assets/art/bees-prototype/myatka-reference.png"),
-  iskorka: require("../../assets/art/bees-prototype/iskorka-reference.png"),
-  sonya: require("../../assets/art/bees-prototype/sonya-reference.png"),
-  zorkaya: require("../../assets/art/bees-prototype/zorkaya-reference.png"),
-  margo: require("../../assets/art/bees-prototype/margo-reference.png"),
-  nochka: require("../../assets/art/bees-prototype/nochka-reference.png"),
-  boris: require("../../assets/art/bees-prototype/boris-reference-v2.png"),
+  zhuzha: require("../../assets/art/bees-prototype/zhuzha-reference.webp"),
+  pushinka: require("../../assets/art/bees-prototype/pushinka-reference.webp"),
+  solnyshko: require("../../assets/art/bees-prototype/solnyshko-reference.webp"),
+  lavanda: require("../../assets/art/bees-prototype/lavanda-reference.webp"),
+  klevera: require("../../assets/art/bees-prototype/klevera-reference.webp"),
+  vasilek: require("../../assets/art/bees-prototype/vasilek-reference.webp"),
+  myatka: require("../../assets/art/bees-prototype/myatka-reference.webp"),
+  iskorka: require("../../assets/art/bees-prototype/iskorka-reference.webp"),
+  sonya: require("../../assets/art/bees-prototype/sonya-reference.webp"),
+  zorkaya: require("../../assets/art/bees-prototype/zorkaya-reference.webp"),
+  margo: require("../../assets/art/bees-prototype/margo-reference.webp"),
+  nochka: require("../../assets/art/bees-prototype/nochka-reference.webp"),
+  boris: require("../../assets/art/bees-prototype/boris-reference-v2.webp"),
 };
 export type ReferenceBeeId = keyof typeof ART;
 export function hasReferenceBee(id: string): id is ReferenceBeeId {
   return Object.prototype.hasOwnProperty.call(ART, id);
 }
-const ZHUZHA_BASE = require("../../assets/art/bees-prototype/zhuzha-base.png");
+const ZHUZHA_BASE = require("../../assets/art/bees-prototype/zhuzha-base.webp");
 const ZHUZHA_HEAD = "M540 185H980V430H540Z";
 const FRAME = 1366;
 const OFFSET_Y = (FRAME - 1151) / 2;

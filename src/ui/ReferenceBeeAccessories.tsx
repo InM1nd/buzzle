@@ -3,15 +3,15 @@ import { SKIN_BY_ID } from "../logic/loot";
 import { View } from "react-native";
 import Svg, { ClipPath, Defs, G, Path, Rect, Circle, Image as SvgImage } from "react-native-svg";
 
-const CROWN = require("../../assets/art/bees-prototype/crown-fitted-v3.png");
-const SCARF = require("../../assets/art/bees-prototype/scarf-fitted-v4.png");
-const GLASSES = require("../../assets/art/bees-prototype/glasses-accessory.png");
-const SATCHEL = require("../../assets/art/bees-prototype/satchel-left-accessory.png");
-const COLLAR_ART: Record<string, number> = { pushinka: require("../../assets/art/bees-prototype/pushinka-reference.png"), margo: require("../../assets/art/bees-prototype/margo-reference.png") };
+const CROWN = require("../../assets/art/bees-prototype/crown-fitted-v3.webp");
+const SCARF = require("../../assets/art/bees-prototype/scarf-fitted-v4.webp");
+const GLASSES = require("../../assets/art/bees-prototype/glasses-accessory.webp");
+const SATCHEL = require("../../assets/art/bees-prototype/satchel-left-accessory.webp");
+const COLLAR_ART: Record<string, number> = { pushinka: require("../../assets/art/bees-prototype/pushinka-reference.webp"), margo: require("../../assets/art/bees-prototype/margo-reference.webp") };
 const SATCHEL_BOUNDS = require("../../assets/art/bees-prototype/satchel-left-bounds.json");
-const BOW = require("../../assets/art/bees-prototype/bow-accessory.png");
-const WREATH = require("../../assets/art/bees-prototype/wreath-fitted-v2.png");
-const BERET = require("../../assets/art/bees-prototype/beret-accessory.png");
+const BOW = require("../../assets/art/bees-prototype/bow-accessory.webp");
+const WREATH = require("../../assets/art/bees-prototype/wreath-fitted-v2.webp");
+const BERET = require("../../assets/art/bees-prototype/beret-accessory.webp");
 const SKIN_BOUNDS = require("../../assets/art/bees-prototype/skin-accessory-bounds.json");
 const BOUNDS = require("../../assets/art/bees-prototype/fitted-accessory-bounds-v4.json");
 

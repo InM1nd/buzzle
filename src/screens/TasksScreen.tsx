@@ -118,7 +118,7 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
           </View>
           <View ref={weekRef} collapsable={false}>
             {canClaimWeekly(s) && onClaimWeekly ? (
-              <GameButton small title={t("ls.claimChest")} color="green" onPress={async () => onClaimWeekly(await centerOf(weekRef.current))} label={t("ls.claimChest")} />
+              <GameButton small title={t("tasks.claim")} color="green" onPress={async () => onClaimWeekly(await centerOf(weekRef.current))} label={t("ls.claimChest")} />
             ) : null}
           </View>
         </View>
@@ -161,17 +161,17 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
       {/* v1.5: streak freeze lives next to the streak */}
       {onBuyFreeze ? (
         <Card>
+          <Txt v="h3" style={{ marginBottom: 8 }}>{t("ls.freeze")}</Txt>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
             <Image source={ART.freeze} style={{ width: 46, height: 46 }} resizeMode="contain" />
             <View style={{ flex: 1 }}>
-              <Txt v="h3">{t("ls.freeze")}</Txt>
               <Txt v="small" color={C.dim}>{t("ls.freezeSub")}</Txt>
               <Txt v="tiny" color={s.daily.freeze ? C.greenDark : C.dim} style={{ marginTop: 2 }}>
                 {s.daily.freeze ? t("ls.freezeStock", { n: streak }) : s.week.freezeBought ? t("ls.freezeBought") : t("ls.freezeStreak", { n: streak })}
               </Txt>
             </View>
             {!s.daily.freeze && !s.week.freezeBought ? (
-              <GameButton small title={t("ls.buyFor", { n: FREEZE_COST })} icon={ART.jelly} color={canBuyFreeze(s) ? "honey" : "grey"} disabled={!canBuyFreeze(s)} onPress={onBuyFreeze} />
+              <GameButton small title={fmt(FREEZE_COST)} label={t("ls.buyFor", { n: FREEZE_COST })} icon={ART.jelly} color={canBuyFreeze(s) ? "honey" : "grey"} disabled={!canBuyFreeze(s)} onPress={onBuyFreeze} style={{ width: 84, minWidth: 0 }} />
             ) : null}
           </View>
         </Card>
@@ -209,7 +209,7 @@ function Stat({ label, value }: { label: string; value: string }) {
   return (
     <View style={styles.stat}>
       <Txt v="num" color={C.honeyDark}>{value}</Txt>
-      <Txt v="tiny" color={C.dim} numberOfLines={2}>{label.toUpperCase()}</Txt>
+      <Txt v="tiny" color={C.dim} style={{ fontSize: 10, lineHeight: 14 }}>{label.toUpperCase()}</Txt>
     </View>
   );
 }

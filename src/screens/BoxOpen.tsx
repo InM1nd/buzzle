@@ -44,7 +44,6 @@ export default function BoxOpen({ kind, left, bees, skins, onOpen, onOpenAll, on
   const shake = useRef(new Animated.Value(0)).current;
   const boxScale = useRef(new Animated.Value(0.6)).current;
   const flash = useRef(new Animated.Value(0)).current;
-  const rays = useRef(new Animated.Value(0)).current;
   const busy = useRef(false);
   const B = Math.min(220, width * 0.56);
 
@@ -97,8 +96,6 @@ export default function BoxOpen({ kind, left, bees, skins, onOpen, onOpenAll, on
       busy.current = false;
       if (!res) { onClose(); return; }
       burst();
-      rays.setValue(0);
-      Animated.timing(rays, { toValue: 1, duration: 700, easing: Easing.out(Easing.back(1.4)), useNativeDriver: true }).start();
       setShown(0);
       setDrops(res);
     }, 260);
@@ -148,8 +145,6 @@ export default function BoxOpen({ kind, left, bees, skins, onOpen, onOpenAll, on
       ) : (
         <ScrollView style={{ flex: 1, alignSelf: "stretch" }} contentContainerStyle={{ alignItems: "center", paddingVertical: 10, paddingHorizontal: 14 }} showsVerticalScrollIndicator={false}>
           <View style={{ width: 150, height: 120, alignItems: "center", justifyContent: "center" }}>
-            <Animated.View style={[styles.rays, { borderColor: glow, opacity: rays.interpolate({ inputRange: [0, 1], outputRange: [0, 0.55] }), transform: [{ scale: rays.interpolate({ inputRange: [0, 1], outputRange: [0.3, 1] }) }, { rotate: "45deg" }] }]} />
-            <Animated.View style={[styles.rays, { borderColor: glow, opacity: rays.interpolate({ inputRange: [0, 1], outputRange: [0, 0.4] }), transform: [{ scale: rays.interpolate({ inputRange: [0, 1], outputRange: [0.2, 1.25] }) }] }]} />
             <Image source={boxArt(kind, all ? 0 : 2)} style={{ width: 92, height: 92, opacity: 0.95 }} />
           </View>
           {all ? <Summary all={all} /> : (
@@ -195,20 +190,16 @@ function Gathering({ bees, skins, w, B }: { bees: string[]; skins?: Record<strin
   );
 }
 function Watcher({ id, skin, i, x, y, from }: { id: string; skin?: string; i: number; x: number; y: number; from: number }) {
-  const a = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    Animated.timing(a, { toValue: 1, duration: 900 + i * 180, delay: 120 + i * 160, easing: Easing.out(Easing.cubic), useNativeDriver: true }).start();
-  }, [a, i]);
   return (
-    <Animated.View style={{
+    <View style={{
       position: "absolute",
       transform: [
-        { translateX: a.interpolate({ inputRange: [0, 1], outputRange: [from, x] }) },
-        { translateY: a.interpolate({ inputRange: [0, 1], outputRange: [y - 140, y] }) },
+        { translateX: x },
+        { translateY: y },
       ],
     }}>
       <BeeSprite id={id} size={74} flap={false} skin={skin} />
-    </Animated.View>
+    </View>
   );
 }
 

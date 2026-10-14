@@ -39,7 +39,7 @@ export const loot = {
   "item.bow.desc": { en: "A pink bow for special days.", uk: "Рожевий бант — для свята.", ru: "Розовый бант — для праздника." },
   "item.glasses": { en: "Smarty Specs", uk: "Окуляри", ru: "Очки" },
   "item.glasses.desc": { en: "Round glasses for a clever bee.", uk: "Круглі окуляри розумної бджілки.", ru: "Круглые очки умной пчелы." },
-  "item.backpack": { en: "Little Backpack", uk: "Рюкзачок", ru: "Рюкзачок" },
+  "item.backpack": { en: "Shoulder Bag", uk: "Сумка", ru: "Сумка" },
   "item.backpack.desc": { en: "For long trips after nectar.", uk: "Для далеких польотів по нектар.", ru: "Для дальних полётов за нектаром." },
   "item.wreath": { en: "Daisy Crown", uk: "Віночок", ru: "Венок" },
   "item.wreath.desc": { en: "A wreath of meadow flowers.", uk: "Віночок з лугових квітів.", ru: "Венок из луговых цветов." },

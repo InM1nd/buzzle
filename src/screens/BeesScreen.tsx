@@ -234,7 +234,7 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
               {skins.map((k) => (
                 <Press key={k} onPress={() => onSkin(k)} style={[styles.skin, skin === k && styles.skinOn]} accessibilityRole="radio" accessibilityState={{ selected: skin === k }} accessibilityLabel={SKIN_BY_ID[k].name}>
                   <BeeSprite id={bee.id} size={46} flap={false} skin={k} level={level} />
-                  <Txt v="tiny" numberOfLines={1} center>{SKIN_BY_ID[k].name}</Txt>
+                  <Txt v="tiny" numberOfLines={2} center style={{ fontSize: 10, minHeight: 24 }}>{SKIN_BY_ID[k].name}</Txt>
                 </Press>
               ))}
             </ScrollView>

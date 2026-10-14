@@ -77,6 +77,7 @@ export const lootScreen = {
   "sh.buyLabel": { en: "Buy {name} for {n} pollen", uk: "Купити «{name}» за {n} пилку", ru: "Купить «{name}» за {n} пыльцы" },
   "sh.allDone": { en: "Everything collected!", uk: "Усе зібрано!", ru: "Все вещи собраны!" },
   "sh.boostFrag": { en: "BOOSTERS & FRAGMENTS", uk: "БУСТЕРИ Й ФРАГМЕНТИ", ru: "БУСТЕРЫ И ФРАГМЕНТЫ" },
+  "sh.shuffleShort": { en: "Shuffle", uk: "Перемішати", ru: "Перемешать" },
   "sh.fragment": { en: "Moonwing fragment", uk: "Фрагмент Нічки", ru: "Фрагмент Ночной пчелы" },
   "sh.buyFrag": { en: "Buy a fragment for {n} pollen", uk: "Купити фрагмент за {n} пилку", ru: "Купить фрагмент за {n} пыльцы" },
   "od.royal": { en: "Royal combs will come from the season track once seasons arrive. Until then they're locked — they can't be bought with anything.", uk: "Королівські соти даватимуть за сезонну лінійку, коли з'являться сезони. Поки закриті — купити їх не можна нічим.", ru: "Королевские соты будут даваться за сезонную линейку, когда появятся сезоны. Пока закрыты — купить их нельзя ни за что." },

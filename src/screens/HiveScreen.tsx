@@ -247,16 +247,18 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
         const lvl = s.upgrades[u.id];
         const cost = upgradeCostFor(s, u.id);
         return (
-          <Card key={u.id} style={styles.upRow}>
+          <Card key={u.id} style={{ padding: 12 }}>
+            <Txt v="h3" style={{ fontSize: 16, marginBottom: 8 }}>{u.name}</Txt>
+            <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
             <View style={styles.upIcon}>{UP_ICON[u.id]}</View>
             <View style={{ flex: 1 }}>
-              <Txt v="h3" numberOfLines={1}>{u.name}</Txt>
               <Txt v="tiny" color={C.honeyDark}>{t("hive.upLevel", { l: lvl, max: u.max })}</Txt>
               <Txt v="small" color={C.dim}>{cost !== null ? t("hive.next", { d: u.desc(lvl + 1) }) : u.desc(lvl)}</Txt>
             </View>
             {cost !== null ? (
-              <GameButton small title={fmt(cost)} icon={ART.honey} disabled={s.honey < cost} onPress={() => onUpgrade(u.id)} label={t("hive.buy", { name: u.name })} style={{ minWidth: 96 }} />
+              <GameButton small title={fmt(cost)} icon={ART.honey} disabled={s.honey < cost} onPress={() => onUpgrade(u.id)} label={t("hive.buy", { name: u.name })} style={{ width: 88, minWidth: 0 }} />
             ) : <Txt v="small" color={C.green}>{t("c.max")}</Txt>}
+            </View>
           </Card>
         );
       })}

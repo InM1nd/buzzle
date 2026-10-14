@@ -178,7 +178,6 @@ function Main(p: SettingsProps & { go: (pg: Page) => void }) {
 
       {/* more */}
       <Group title={t("st.gMore")}>
-        <LinkRow title={t("st.invite")} onPress={() => { inviteFriend().catch(() => {}); }} />
         <LinkRow title={t("st.tutorial")} onPress={p.onTutorial} />
         <LinkRow title={t("st.about")} onPress={() => p.go("about")} last />
       </Group>

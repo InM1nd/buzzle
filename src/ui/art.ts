@@ -6,7 +6,6 @@ export const ART = {
   ],
   wild: require("../../assets/art/cell_wild.webp"),
   bomb: require("../../assets/art/bomb.webp"),
-  ring: require("../../assets/art/ring.webp"),
   comb: require("../../assets/art/comb.webp"),
   combEmpty: require("../../assets/art/comb_empty.webp"),
   combLocked: require("../../assets/art/comb_locked.webp"),

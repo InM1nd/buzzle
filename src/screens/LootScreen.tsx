@@ -233,7 +233,7 @@ function Shop({ s, onBuyItem, onBuyBooster, onBuyFragment }: { s: GameState; onB
             style={[styles.shopCard, shadow, { width: col }, s.loot.pollen < SHOP_BOOSTER[b] && { opacity: 0.5 }]}
             accessibilityRole="button" accessibilityLabel={`${BOOSTERS[b].name}: ${SHOP_BOOSTER[b]}`}>
             <Image source={BOOSTER_ART[b]} style={{ width: 40, height: 40 }} resizeMode="contain" />
-            <Txt v="tiny" numberOfLines={2} center style={{ marginTop: 4, minHeight: 28 }}>{BOOSTERS[b].name}</Txt>
+            <Txt v="tiny" numberOfLines={2} center style={{ marginTop: 4, minHeight: 28 }}>{b === "shuffle" ? t("sh.shuffleShort") : BOOSTERS[b].name}</Txt>
             <Price n={SHOP_BOOSTER[b]} />
           </Press>
         ))}

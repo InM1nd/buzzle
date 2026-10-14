@@ -22,7 +22,7 @@ set_prop org.gradle.workers.max 3
 set_prop kotlin.compiler.execution.strategy in-process
 # Native libs: stored uncompressed + 16 KB page-aligned in the APK (AGP default,
 # extractNativeLibs=false) - the layout Android 15/16 and Pixel 16 KB mode expect.
-# R8 minification + resource shrinking keep the APK well under 24 MB.
+# R8 minification + resource shrinking reduce size; verify the actual signed APK.
 set_prop expo.useLegacyPackaging false
 set_prop android.enableMinifyInReleaseBuilds true
 set_prop android.enableShrinkResourcesInReleaseBuilds true

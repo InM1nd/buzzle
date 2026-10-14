@@ -195,7 +195,7 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
         {has && wasLocked ? <Sparkle /> : null}
         {burst ? <LevelBurst key={burst} level={level} /> : null}
         <Animated.View style={{ transform: [{ scale: pop }] }}>
-          {has ? <Mascot id={bee.id} size={156} seed={bee.id.length * 7 + 1} level={level} skin={skin ?? undefined} /> : <BeeSprite id={bee.id} size={156} tint="#D8C29C" />}
+          {has ? <Mascot id={bee.id} size={176} seed={bee.id.length * 7 + 1} level={level} skin={skin ?? undefined} /> : <BeeSprite id={bee.id} size={176} tint="#D8C29C" />}
         </Animated.View>
       </View>
       {has && editing && onRename ? (
@@ -220,7 +220,12 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
       ) : has && wasLocked ? (
         <Txt v="h2" color={C.greenDark} center style={{ marginTop: 4 }}>{t("bees.welcome")}</Txt>
       ) : null}
-      {has ? <Bar progress={level / MAX_BEE_LEVEL} height={10} color={C.jelly} style={{ alignSelf: "stretch", marginTop: 8 }} /> : null}
+      {has ? (
+        <View style={{ alignSelf: "stretch", flexDirection: "row", alignItems: "center", gap: 8, marginTop: 8 }}>
+          <Bar progress={level / MAX_BEE_LEVEL} height={12} color={C.honey} style={{ flex: 1 }} />
+          <Txt v="small" color={C.honeyDark}>{level}/{MAX_BEE_LEVEL}</Txt>
+        </View>
+      ) : null}
       <View style={styles.ability}>
         <Txt v="h3" color="#6B4CA8" center>{has ? abilityAt(bee, level) : bee.ability}</Txt>
         {has && level > 1 ? <Txt v="small" color="#6B4CA8" center>{t("bees.levelsBonus", { p: Math.round(LEVEL_HIVE_BONUS * 100 * (level - 1)) })}</Txt> : null}
@@ -252,7 +257,7 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
           <GameButton
             title={t("bees.levelBtn", { n: level + 1, cost: `${cost.nectar}${cost.jelly ? ` + ${cost.jelly}` : ""}` })}
             icon={ART.nectar}
-            color="purple"
+            color="honey"
             disabled={!enough}
             sub={!enough ? (nectar < cost.nectar ? t("bees.needNectar", { n: cost.nectar - Math.floor(nectar) }) : t("bees.needJelly", { n: cost.jelly })) : cost.jelly ? t("bees.nectarJelly", { n: cost.jelly }) : t("bees.nectarGarden")}
             onPress={lvlUp}
@@ -327,8 +332,8 @@ const styles = StyleSheet.create({
   card3: { backgroundColor: "#fff", borderRadius: 22, padding: 8, paddingBottom: 10, alignItems: "center" },
   ldot: { width: 7, height: 7, borderRadius: 4, backgroundColor: "#EADBC2" },
   costMini: { flexDirection: "row", alignItems: "center", gap: 3, marginTop: 4, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 10, backgroundColor: "#EFE6FA" },
-  skin: { width: 70, borderRadius: 14, borderWidth: 2, borderColor: C.line, alignItems: "center", justifyContent: "center", padding: 4, minHeight: 72, backgroundColor: "#fff" },
-  skinOn: { borderColor: C.honey, backgroundColor: "#FFF3D6" },
+  skin: { width: 70, borderRadius: 16, borderWidth: 3, borderColor: C.line, alignItems: "center", justifyContent: "center", padding: 4, minHeight: 72, backgroundColor: "#fff" },
+  skinOn: { borderColor: C.honey, backgroundColor: "#FFE7A8" },
   titleRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6, marginTop: 8, maxWidth: "100%" },
   pencil: { width: 36, height: 36, borderRadius: 18, backgroundColor: "#FFF1D6", alignItems: "center", justifyContent: "center" },
   renameBox: { alignSelf: "stretch", marginTop: 8, marginBottom: 2 },
@@ -342,6 +347,6 @@ const styles = StyleSheet.create({
   beeBg: { height: 104, borderRadius: 16, alignItems: "center", justifyContent: "center", overflow: "hidden" },
   ownedTag: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 6 },
   costTag: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 6, alignSelf: "flex-start", backgroundColor: "#F1E8FF", borderRadius: 12, paddingHorizontal: 10, paddingVertical: 3 },
-  detailBg: { width: 190, height: 190, borderRadius: 95, alignItems: "center", justifyContent: "center", marginTop: 4 },
+  detailBg: { alignSelf: "stretch", height: 210, borderRadius: 28, alignItems: "center", justifyContent: "center", marginTop: 30 },
   ability: { backgroundColor: "#F1E8FF", borderRadius: 14, paddingHorizontal: 14, paddingVertical: 8, marginVertical: 10 },
 });

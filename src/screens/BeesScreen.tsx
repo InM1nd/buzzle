@@ -21,10 +21,10 @@ const RARITY: Record<Rarity, { name: string; color: string; bg: string }> = {
 interface Props { s: GameState; onSkin?: (bee: string, skin: string | null) => boolean; onAssemble?: () => boolean; onUnlock: (id: string) => boolean; onLevelUp: (id: string) => boolean; onRename?: (id: string, name: string) => boolean; onGarden?: () => void }
 
 export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp, onRename, onGarden }: Props) {
-  const { width } = useWindowDimensions();
+  const [gridW, setGridW] = useState(328);
   const [open, setOpen] = useState<BeeSpecies | null>(null);
   const [justUnlocked, setJust] = useState<string | null>(null);
-  const colW = Math.floor((Math.min(width, 520) - 16 * 2 - 20) / 3);
+  const colW = Math.max(1, Math.floor((gridW - 20) / 3));
   const [view, setView] = useState<"all" | "outfits">("all");
   const owned = new Set(s.bees);
   return (
@@ -43,7 +43,7 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
         </View>
         {view === "all" ? (
         <>
-        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+        <View onLayout={(e) => setGridW(e.nativeEvent.layout.width)} style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
           {BEES.map((b, i) => {
             const has = owned.has(b.id);
             const can = !has && s.jelly >= b.cost;
@@ -61,7 +61,7 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
                   {justUnlocked === b.id ? <Sparkle /> : null}
                 </View>
                 {canLvl ? <View style={styles.upDot}><Text style={[F.black, { color: "#fff", fontSize: 13, lineHeight: 16 }]}>↑</Text></View> : null}
-                <Txt v="h3" numberOfLines={1} style={{ marginTop: 4, fontSize: 14 }}>{has ? shown : b.name}</Txt>
+                <Txt v="h3" numberOfLines={2} center style={{ marginTop: 4, fontSize: 14, minHeight: 36 }}>{has ? shown : b.name}</Txt>
                 {has ? (
                   <View style={{ flexDirection: "row", gap: 3, marginTop: 4 }}>
                     {[0, 1, 2, 3, 4].map((d) => <View key={d} style={[styles.ldot, d < dots && { backgroundColor: lvl >= MAX_BEE_LEVEL ? "#E2A400" : C.honey }]} />)}
@@ -77,8 +77,8 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
         </View>
         </>
         ) : (
-          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
-            {SKINS.map((k) => {
+          <View onLayout={(e) => setGridW(e.nativeEvent.layout.width)} style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+            {SKINS.filter((k) => k.id !== "headphones").map((k) => {
               const have = s.loot.owned.includes(k.id);
               const wearer = Object.keys(s.beeSkins).find((b) => s.beeSkins[b] === k.id);
               return (
@@ -95,7 +95,7 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
       <Overlay visible={!!open} onClose={() => setOpen(null)}>
         {open ? (
           <BeeDetail bee={open} has={owned.has(open.id)} jelly={s.jelly} nectar={s.nectar} level={beeLevel(s, open.id)}
-            skin={s.beeSkins[open.id] ?? null} skins={s.loot.owned.filter((x) => SKIN_BY_ID[x])} fragments={s.loot.fragments}
+            skin={s.beeSkins[open.id] ?? null} skins={s.loot.owned.filter((x) => SKIN_BY_ID[x] && x !== "headphones")} fragments={s.loot.fragments}
             onSkin={onSkin ? (k) => onSkin(open.id, k) : undefined}
             onAssemble={() => { if (onAssemble?.()) { setJust(open.id); setTimeout(() => setJust(null), 1600); } }}
             name={beeDisplayName(s, open.id)} custom={!!s.beeNames[open.id]}
@@ -109,14 +109,9 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
   );
 }
 
-/** Idle bee on a collection card: hover + flapping wings + an occasional blink / glance. */
+/** Collection portraits stay front-facing and completely still. */
 function CardBee({ id, i, level, skin }: { id: string; i: number; level: number; skin?: string }) {
-  const face = useFace(true, i * 13 + 5);
-  return (
-    <Hover amp={3} sway={2.5} period={1500 + i * 97} phase={(i * 0.37) % 1}>
-      <BeeSprite id={id} size={70} seed={i} face={face} level={level} skin={skin} turn={i % 2 ? 0.5 : -0.5} />
-    </Hover>
-  );
+  return <BeeSprite id={id} size={70} flap={false} level={level} skin={skin} />;
 }
 
 const LOOK_TEXT: Record<number, string> = { get 5() { return t("bees.look5"); }, get 10() { return t("bees.look10"); } };
@@ -238,7 +233,7 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
               </Press>
               {skins.map((k) => (
                 <Press key={k} onPress={() => onSkin(k)} style={[styles.skin, skin === k && styles.skinOn]} accessibilityRole="radio" accessibilityState={{ selected: skin === k }} accessibilityLabel={SKIN_BY_ID[k].name}>
-                  <BeeSprite id={bee.id} size={46} skin={k} level={level} />
+                  <BeeSprite id={bee.id} size={46} flap={false} skin={k} level={level} />
                   <Txt v="tiny" numberOfLines={1} center>{SKIN_BY_ID[k].name}</Txt>
                 </Press>
               ))}

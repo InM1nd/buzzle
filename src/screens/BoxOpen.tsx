@@ -207,7 +207,7 @@ function Watcher({ id, skin, i, x, y, from }: { id: string; skin?: string; i: nu
         { translateY: a.interpolate({ inputRange: [0, 1], outputRange: [y - 140, y] }) },
       ],
     }}>
-      <Hover amp={4} phase={i / 3}><BeeSprite id={id} size={74} seed={i + 3} skin={skin} turn={x < 0 ? 0.6 : x > 0 ? -0.6 : 0} /></Hover>
+      <BeeSprite id={id} size={74} flap={false} skin={skin} />
     </Animated.View>
   );
 }

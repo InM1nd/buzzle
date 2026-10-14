@@ -203,9 +203,10 @@ function ZipBee({ id, w, h, dir, y0, big, level = 1, onEnd }: { id: string; w: n
 }
 
 export default function GameScreen(props: Props) {
-  const { width, height } = useWindowDimensions();
+  const { height } = useWindowDimensions();
+  const [containerW, setContainerW] = useState(360);
   const insets = useInsets();
-  const avail = Math.min(width - 20, 560);
+  const avail = Math.max(1, Math.min(containerW - 20, 560));
   const sByW = avail / (1.5 * COLS + 0.5);
   const sByH = (height - insets.top - insets.bottom - 190) / (SQ3 * (ROWS + 0.5));
   const s = Math.max(20, Math.min(sByW, sByH));
@@ -448,7 +449,7 @@ export default function GameScreen(props: Props) {
   const tooFew = path.length > 0 && path.length < 3;
 
   return (
-    <View style={[styles.root, { paddingTop: insets.top + 6, paddingBottom: insets.bottom + 8 }]}>
+    <View onLayout={(e) => setContainerW(e.nativeEvent.layout.width)} style={[styles.root, { paddingTop: insets.top + 6, paddingBottom: insets.bottom + 8 }]}>
       {/* top bar */}
       <View style={styles.top}>
         <Press onPress={() => (finished ? props.onExit() : setQuitAsk(true))} style={styles.iconBtn} accessibilityRole="button" accessibilityLabel={t("game.exit")}>

@@ -41,14 +41,13 @@ const kindName = (k: string) => tx(`ls.kind.${k}`);
 
 export default function LootScreen(p: Props) {
   const { s, now } = p;
-  const { width } = useWindowDimensions();
   const [sheet, setSheet] = useState<null | "album" | "shop" | { odds: BoxKind }>(null);
   const [seg, setSeg] = useState<"chests" | "shop" | "album">("chests");
   const owned = new Set([...s.loot.owned, ...(s.bees.includes(NIGHT_BEE) ? [NIGHT_BEE] : [])]);
-  const total = PAGES.reduce((a, pg) => a + pg.items.length, 0);
-  const got = PAGES.reduce((a, pg) => a + pg.items.filter((i) => owned.has(i)).length, 0);
-  const [gridW, setGridW] = useState(0);
-  const tileW = Math.floor(((gridW || Math.min(width, 560) - 32) - 12) / 2) - 1;
+  const total = PAGES.reduce((a, pg) => a + pg.items.filter(i => i !== "headphones").length, 0);
+  const got = PAGES.reduce((a, pg) => a + pg.items.filter((i) => i !== "headphones" && owned.has(i)).length, 0);
+  const [gridW, setGridW] = useState(328);
+  const tileW = Math.max(1, Math.floor((gridW - 12) / 2) - 1);
   const chestRef = React.useRef<View | null>(null);
   const wkDay = weekdayOf(today(s, now));
   const weekend = weekendOpen(s, now);
@@ -157,8 +156,9 @@ function SheetScroll({ children }: { children: React.ReactNode }) {
 // ---------------------------------------------------------------- album
 function Album({ s, onToggleDeco, onShop }: { s: GameState; onToggleDeco: (id: string) => void; onShop: () => void }) {
   const owned = new Set(s.loot.owned);
-  const total = ITEMS.length;
-  const have = ITEMS.filter((i) => owned.has(i.id)).length;
+  const visibleItems = ITEMS.filter((i) => i.id !== "headphones");
+  const total = visibleItems.length;
+  const have = visibleItems.filter((i) => owned.has(i.id)).length;
   return (
     <View accessibilityLabel={t("al.title")}>
       <Txt v="h2">{t("al.title")}</Txt>
@@ -166,7 +166,7 @@ function Album({ s, onToggleDeco, onShop }: { s: GameState; onToggleDeco: (id: s
       <Txt v="small" color={C.dim} style={{ marginBottom: 10 }}>{t("al.progress", { a: have, b: total })}</Txt>
       {PAGES.map((pg) => {
         const done = pageDone(owned, pg);
-        const items = pg.items.map((id) => ITEM_BY_ID[id]).filter(Boolean);
+        const items = pg.items.filter((id) => id !== "headphones").map((id) => ITEM_BY_ID[id]).filter(Boolean);
         return (
           <Card key={pg.id} style={{ marginBottom: 10 }}>
             <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 8 }}>
@@ -195,8 +195,9 @@ function Album({ s, onToggleDeco, onShop }: { s: GameState; onToggleDeco: (id: s
 }
 
 function Shop({ s, onBuyItem, onBuyBooster, onBuyFragment }: { s: GameState; onBuyItem: (id: string) => boolean; onBuyBooster: (b: BoosterId) => boolean; onBuyFragment: () => boolean }) {
-  const missing = ITEMS.filter((i) => !s.loot.owned.includes(i.id)).sort((a, b) => SHOP_PRICE[a.rarity] - SHOP_PRICE[b.rarity]);
-  const col = (Math.min(useWindowDimensions().width, 520) - 32 - 40 - 20) / 3;
+  const missing = ITEMS.filter((i) => i.id !== "headphones" && !s.loot.owned.includes(i.id)).sort((a, b) => SHOP_PRICE[a.rarity] - SHOP_PRICE[b.rarity]);
+  const [gridW, setGridW] = useState(328);
+  const col = Math.max(1, Math.floor((gridW - 20) / 3));
   const Price = ({ n }: { n: number }) => (
     <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}><Image source={ART.pollen} style={{ width: 14, height: 14 }} /><Txt v="tiny">{n}</Txt></View>
   );
@@ -210,7 +211,7 @@ function Shop({ s, onBuyItem, onBuyBooster, onBuyFragment }: { s: GameState; onB
         </View>
       </Card>
       <Txt v="tiny" color={C.dim} style={{ marginBottom: 6 }}>{t("sh.items")}</Txt>
-      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+      <View onLayout={(e) => setGridW(e.nativeEvent.layout.width)} style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
         {missing.length ? missing.map((it) => {
           const price = SHOP_PRICE[it.rarity]; const r = RARITY_UI[it.rarity];
           return (
@@ -218,7 +219,7 @@ function Shop({ s, onBuyItem, onBuyBooster, onBuyFragment }: { s: GameState; onB
               style={[styles.shopCard, shadow, { width: col }, s.loot.pollen < price && { opacity: 0.5 }]}
               accessibilityRole="button" accessibilityLabel={`${it.name}: ${price}`}>
               <ItemIcon id={it.id} size={48} />
-              <Txt v="tiny" numberOfLines={1} center style={{ marginTop: 4 }}>{it.name}</Txt>
+              <Txt v="tiny" numberOfLines={2} center style={{ marginTop: 4, minHeight: 28 }}>{it.name}</Txt>
               <Txt v="tiny" color={r.color} center>{r.name}</Txt>
               <Price n={price} />
             </Press>

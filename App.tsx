@@ -50,7 +50,6 @@ import { chooseLanguage, setSetting, Settings } from "./src/logic/game";
 import { compareVersions } from "./src/logic/update";
 import { useUpdater } from "./src/ui/useUpdater";
 import { APP_VERSION } from "./src/version";
-import BeePreviewScreen from "./src/screens/BeePreviewScreen";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 pinArt();          // web: keep all art in memory so remounts never refetch (no-op on Android)
@@ -66,12 +65,10 @@ const TABS: { id: Tab; label: string; icon: number }[] = [
 ];
 
 export default function App() {
-  const preview = Platform.OS === "web" && typeof window !== "undefined"
-    && new URLSearchParams(window.location.search).get("beePreview") === "1";
   return (
     <SafeAreaProvider>
       <FlyProvider>
-        {preview ? <BeePreviewScreen /> : <Main />}
+        <Main />
       </FlyProvider>
     </SafeAreaProvider>
   );
@@ -538,16 +535,6 @@ function Main() {
               </Press>
             ))}
           </View>
-          {hiveView === "hive" ? (
-            <Press onPress={() => setTab("tasks")} style={[styles.zcard, shadow]} scaleTo={0.98} accessibilityRole="button" accessibilityLabel={t("hv.today", { a: Math.min(3, s.tasks.claimed.length), b: 3 })}>
-              <View style={{ flex: 1 }}>
-                <Txt v="h3">{t("hv.today", { a: Math.min(3, s.tasks.claimed.length), b: 3 })}</Txt>
-                <Bar progress={Math.min(1, s.tasks.claimed.length / 3)} height={8} color={C.green} style={{ marginTop: 6 }} />
-                <Txt v="tiny" color={C.honeyDark} style={{ marginTop: 4 }}>{t("hv.allTasks")} ›</Txt>
-              </View>
-              <Mascot size={58} />
-            </Press>
-          ) : null}
           {hiveView === "garden" ? (
             <GardenScreen s={s} now={now} onPlant={act.plant} onWater={act.water} onWaterAll={act.waterAll} onHarvest={act.harvest}
               onUnlockBed={act.unlockBed} onIntroDone={act.gardenIntroDone} />

@@ -24,8 +24,8 @@ export function ItemIcon({ id, size, locked }: { id: string; size: number; locke
   const it = ITEM_BY_ID[id];
   const tint = locked ? "#D8C29C" : undefined;
   if (!it) return <View style={{ width: size, height: size }} />;
-  if (it.kind === "skin") return <BeeSprite id="zhuzha" size={size * 1.15} skin={locked ? undefined : id} tint={tint} flap={false} turn={0.35} style={{ margin: -size * 0.075 }} />;
-  if (it.kind === "bee") return <BeeSprite id={id} size={size * 1.15} tint={tint} flap={false} turn={0.35} style={{ margin: -size * 0.075 }} />;
+  if (it.kind === "skin") return <BeeSprite id="zhuzha" size={size * 1.15} skin={locked ? undefined : id} tint={tint} flap={false} style={{ margin: -size * 0.075 }} />;
+  if (it.kind === "bee") return <BeeSprite id={id} size={size * 1.15} tint={tint} flap={false} style={{ margin: -size * 0.075 }} />;
   const src = it.kind === "deco" ? ITEM_ART[`deco_${id}`]?.src : GARDEN_ART[`${id}_bloom`];
   return <Image source={src} style={{ width: size, height: size, tintColor: tint }} resizeMode="contain" />;
 }

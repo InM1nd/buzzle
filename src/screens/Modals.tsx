@@ -29,8 +29,8 @@ function SlideArt({ i }: { i: number }) {
           const len = Math.hypot(bx - ax, by - ay), ang = Math.atan2(by - ay, bx - ax);
           return <View key={`l${k}`} style={{ position: "absolute", left: (ax + bx) / 2 - len / 2, top: (ay + by) / 2 - 6, width: len, height: 12, borderRadius: 6, backgroundColor: "#E04585", borderWidth: 2.5, borderColor: "#fff", transform: [{ rotate: `${ang}rad` }] }} />;
         })}
-        <Hover amp={4} sway={4} period={1300} style={{ position: "absolute", right: -8, top: -18 }}>
-          <BeeSprite id="klevera" size={64} seed={1} />
+        <Hover amp={0} sway={0} period={1300} style={{ position: "absolute", right: -8, top: -18 }}>
+          <BeeSprite id="klevera" size={64} flap={false} seed={1} />
         </Hover>
       </View>
     );

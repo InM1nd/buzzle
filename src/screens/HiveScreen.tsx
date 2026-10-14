@@ -72,7 +72,6 @@ function CombTile({ slot, lvl, x, y, s, state, selected, onPress }: {
             <Text style={[F.black, { fontSize: s * 0.7, color: "#D9A54C", lineHeight: s * 0.8 }]}>+</Text>
           </View>
         ) : null}
-        {selected ? <Image source={ART.ring} style={{ position: "absolute", left: 0, top: 0, width: w, height: h }} /> : null}
       </Animated.View>
       {plus ? (
         <Animated.View pointerEvents="none" style={{
@@ -141,10 +140,10 @@ function HiveBee({ id, seed, w, h, size, land, cheer, on, level, skin }: {
 const hash = (str: string, i: number) => { let x = 2166136261 ^ i; for (let k = 0; k < str.length; k++) x = Math.imul(x ^ str.charCodeAt(k), 16777619); return (x >>> 0) % 100000 + 1; };
 
 export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banner, cheer = 0 }: Props) {
-  const { width } = useWindowDimensions();
+  const [containerW, setContainerW] = useState(360);
   const [sel, setSel] = useState<number | null>(null);
   const collectRef = useRef<View>(null);
-  const areaW = Math.min(width, 520) - 32;
+  const areaW = Math.max(1, Math.min(containerW, 520) - 32);
   const hs = Math.min(areaW / 10.2, 40);
   const areaH = SQ3 * hs * 5 + 24;
   const r = rate(s), c = cap(s);
@@ -188,7 +187,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
   }, [s.bees.join(","), builtKey, hs, areaW, areaH]);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 }} onLayout={(e) => setContainerW(e.nativeEvent.layout.width)}>
     <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
       {rolled ? (
         <Card style={{ backgroundColor: "#FFE7DF", padding: 12 }}>

@@ -1,0 +1,472 @@
+[
+  {
+    "sheet": "01-bees.png",
+    "name": "Жужа",
+    "source": "work/buzzle/assets/art/bees-prototype/zhuzha-base.png"
+  },
+  {
+    "sheet": "01-bees.png",
+    "name": "Пушинка",
+    "source": "work/buzzle/assets/art/bees-prototype/pushinka-reference.png"
+  },
+  {
+    "sheet": "01-bees.png",
+    "name": "Шмель Борис",
+    "source": "work/buzzle/assets/art/bees-prototype/boris-reference-v2.png"
+  },
+  {
+    "sheet": "01-bees.png",
+    "name": "Солнышко",
+    "source": "work/buzzle/assets/art/bees-prototype/solnyshko-reference.png"
+  },
+  {
+    "sheet": "01-bees.png",
+    "name": "Лаванда",
+    "source": "work/buzzle/assets/art/bees-prototype/lavanda-reference.png"
+  },
+  {
+    "sheet": "01-bees.png",
+    "name": "Клеверина",
+    "source": "work/buzzle/assets/art/bees-prototype/klevera-reference.png"
+  },
+  {
+    "sheet": "01-bees.png",
+    "name": "Василёк",
+    "source": "work/buzzle/assets/art/bees-prototype/vasilek-reference.png"
+  },
+  {
+    "sheet": "01-bees.png",
+    "name": "Мятка",
+    "source": "work/buzzle/assets/art/bees-prototype/myatka-reference.png"
+  },
+  {
+    "sheet": "01-bees.png",
+    "name": "Искорка",
+    "source": "work/buzzle/assets/art/bees-prototype/iskorka-reference.png"
+  },
+  {
+    "sheet": "01-bees.png",
+    "name": "Соня",
+    "source": "work/buzzle/assets/art/bees-prototype/sonya-reference.png"
+  },
+  {
+    "sheet": "01-bees.png",
+    "name": "Зоркая",
+    "source": "work/buzzle/assets/art/bees-prototype/zorkaya-reference.png"
+  },
+  {
+    "sheet": "01-bees.png",
+    "name": "Марго",
+    "source": "work/buzzle/assets/art/bees-prototype/margo-reference.png"
+  },
+  {
+    "sheet": "01-bees.png",
+    "name": "Ночка",
+    "source": "work/buzzle/assets/art/bees-prototype/nochka-reference.png"
+  },
+  {
+    "sheet": "02-accessories.png",
+    "name": "Корона",
+    "source": "work/buzzle/assets/art/bees-prototype/crown-fitted-v3.png"
+  },
+  {
+    "sheet": "02-accessories.png",
+    "name": "Шарф",
+    "source": "work/buzzle/assets/art/bees-prototype/scarf-fitted-v4.png"
+  },
+  {
+    "sheet": "02-accessories.png",
+    "name": "Очки",
+    "source": "work/buzzle/assets/art/bees-prototype/glasses-accessory.png"
+  },
+  {
+    "sheet": "02-accessories.png",
+    "name": "Сумка",
+    "source": "work/buzzle/assets/art/bees-prototype/satchel-left-accessory.png"
+  },
+  {
+    "sheet": "02-accessories.png",
+    "name": "Бантик",
+    "source": "work/buzzle/assets/art/bees-prototype/bow-accessory.png"
+  },
+  {
+    "sheet": "02-accessories.png",
+    "name": "Венок",
+    "source": "work/buzzle/assets/art/bees-prototype/wreath-fitted-v2.png"
+  },
+  {
+    "sheet": "02-accessories.png",
+    "name": "Берет",
+    "source": "work/buzzle/assets/art/bees-prototype/beret-accessory.png"
+  },
+  {
+    "sheet": "02-accessories.png",
+    "name": "Наушники",
+    "source": "outputs/accessories-final-pair-v1/headphones.png"
+  },
+  {
+    "sheet": "02-accessories.png",
+    "name": "Нимб — обновлённый",
+    "source": "outputs/halo-and-resources-v2/halo.png"
+  },
+  {
+    "sheet": "03-resources-rewards.png",
+    "name": "Мёд",
+    "source": "outputs/items-honey-crystal-v1/honey.png"
+  },
+  {
+    "sheet": "03-resources-rewards.png",
+    "name": "Нектар",
+    "source": "outputs/items-honey-crystal-v1/nectar.png"
+  },
+  {
+    "sheet": "03-resources-rewards.png",
+    "name": "Молочко",
+    "source": "outputs/items-honey-crystal-v1/jelly.png"
+  },
+  {
+    "sheet": "03-resources-rewards.png",
+    "name": "Семена",
+    "source": "outputs/items-honey-crystal-v1/seeds.png"
+  },
+  {
+    "sheet": "03-resources-rewards.png",
+    "name": "Лейка",
+    "source": "outputs/items-honey-crystal-v1/watering-can.png"
+  },
+  {
+    "sheet": "03-resources-rewards.png",
+    "name": "Лопатка",
+    "source": "outputs/items-honey-crystal-v1/shovel.png"
+  },
+  {
+    "sheet": "03-resources-rewards.png",
+    "name": "Пыльца",
+    "source": "outputs/halo-and-resources-v2/pollen.png"
+  },
+  {
+    "sheet": "03-resources-rewards.png",
+    "name": "Фрагмент пчелы",
+    "source": "outputs/halo-and-resources-v2/fragment.png"
+  },
+  {
+    "sheet": "03-resources-rewards.png",
+    "name": "+3 хода",
+    "source": "outputs/boosters-honey-crystal-v1/boost-moves.png"
+  },
+  {
+    "sheet": "03-resources-rewards.png",
+    "name": "Перемешивание",
+    "source": "outputs/boosters-honey-crystal-v1/boost-shuffle.png"
+  },
+  {
+    "sheet": "03-resources-rewards.png",
+    "name": "Заморозка",
+    "source": "outputs/boosters-honey-crystal-v1/freeze.png"
+  },
+  {
+    "sheet": "03-resources-rewards.png",
+    "name": "Звезда",
+    "source": "outputs/rewards-honey-crystal-v1/star.png"
+  },
+  {
+    "sheet": "03-resources-rewards.png",
+    "name": "Не получена",
+    "source": "outputs/rewards-honey-crystal-v1/star-off.png"
+  },
+  {
+    "sheet": "03-resources-rewards.png",
+    "name": "Огонёк",
+    "source": "outputs/rewards-honey-crystal-v1/flame.png"
+  },
+  {
+    "sheet": "03-resources-rewards.png",
+    "name": "Сундук",
+    "source": "outputs/rewards-honey-crystal-v1/chest.png"
+  },
+  {
+    "sheet": "04-plants.png",
+    "name": "Росток",
+    "source": "outputs/plants-honey-crystal-v1/sprout.png"
+  },
+  {
+    "sheet": "04-plants.png",
+    "name": "Подсолнух · бутон",
+    "source": "outputs/plants-honey-crystal-v1/sunflower_bud.png"
+  },
+  {
+    "sheet": "04-plants.png",
+    "name": "Подсолнух · цветение",
+    "source": "outputs/plants-honey-crystal-v1/sunflower_bloom.png"
+  },
+  {
+    "sheet": "04-plants.png",
+    "name": "Клевер · бутон",
+    "source": "outputs/plants-honey-crystal-v1/clover_bud.png"
+  },
+  {
+    "sheet": "04-plants.png",
+    "name": "Клевер · цветение",
+    "source": "outputs/plants-honey-crystal-v1/clover_bloom.png"
+  },
+  {
+    "sheet": "04-plants.png",
+    "name": "Лаванда · бутон",
+    "source": "outputs/plants-honey-crystal-v1/lavender_bud.png"
+  },
+  {
+    "sheet": "04-plants.png",
+    "name": "Лаванда · цветение",
+    "source": "outputs/plants-honey-crystal-v1/lavender_bloom.png"
+  },
+  {
+    "sheet": "04-plants.png",
+    "name": "Василёк · бутон",
+    "source": "outputs/plants-honey-crystal-v2/cornflower_bud.png"
+  },
+  {
+    "sheet": "04-plants.png",
+    "name": "Василёк · цветение",
+    "source": "outputs/plants-honey-crystal-v2/cornflower_bloom.png"
+  },
+  {
+    "sheet": "04-plants.png",
+    "name": "Мята · бутон",
+    "source": "outputs/plants-honey-crystal-v2/mint_bud.png"
+  },
+  {
+    "sheet": "04-plants.png",
+    "name": "Мята · цветение",
+    "source": "outputs/plants-honey-crystal-v2/mint_bloom.png"
+  },
+  {
+    "sheet": "04-plants.png",
+    "name": "Лунный мак · бутон",
+    "source": "outputs/plants-honey-crystal-v2/moonpoppy_bud.png"
+  },
+  {
+    "sheet": "04-plants.png",
+    "name": "Лунный мак · цветение",
+    "source": "outputs/plants-honey-crystal-v2/moonpoppy_bloom.png"
+  },
+  {
+    "sheet": "04-plants.png",
+    "name": "Златосвет · бутон",
+    "source": "outputs/plants-honey-crystal-v2/goldsun_bud.png"
+  },
+  {
+    "sheet": "04-plants.png",
+    "name": "Златосвет · цветение",
+    "source": "outputs/plants-honey-crystal-v2/goldsun_bloom.png"
+  },
+  {
+    "sheet": "05-decor-boxes.png",
+    "name": "Бочка",
+    "source": "outputs/decor-honey-crystal-v1/barrel.png"
+  },
+  {
+    "sheet": "05-decor-boxes.png",
+    "name": "Фонарики",
+    "source": "outputs/decor-honey-crystal-v1/lanterns.png"
+  },
+  {
+    "sheet": "05-decor-boxes.png",
+    "name": "Фонтан",
+    "source": "outputs/decor-honey-crystal-v1/fountain.png"
+  },
+  {
+    "sheet": "05-decor-boxes.png",
+    "name": "Флажки",
+    "source": "outputs/decor-honey-crystal-v1/flags.png"
+  },
+  {
+    "sheet": "05-decor-boxes.png",
+    "name": "Гриб",
+    "source": "outputs/decor-honey-crystal-v1/mushroom.png"
+  },
+  {
+    "sheet": "05-decor-boxes.png",
+    "name": "Скамейка",
+    "source": "outputs/decor-honey-crystal-v1/bench.png"
+  },
+  {
+    "sheet": "05-decor-boxes.png",
+    "name": "Вертушка",
+    "source": "outputs/decor-honey-crystal-v1/pinwheel.png"
+  },
+  {
+    "sheet": "05-decor-boxes.png",
+    "name": "Гном",
+    "source": "outputs/decor-honey-crystal-v1/gnome.png"
+  },
+  {
+    "sheet": "05-decor-boxes.png",
+    "name": "Деревянная",
+    "source": "outputs/boxes-honey-crystal-v1/box-wood.png"
+  },
+  {
+    "sheet": "05-decor-boxes.png",
+    "name": "Восковая",
+    "source": "outputs/boxes-honey-crystal-v1/box-wax.png"
+  },
+  {
+    "sheet": "05-decor-boxes.png",
+    "name": "Золотая",
+    "source": "outputs/boxes-honey-crystal-v1/box-gold.png"
+  },
+  {
+    "sheet": "05-decor-boxes.png",
+    "name": "Королевская",
+    "source": "outputs/boxes-honey-crystal-v1/box-royal.png"
+  },
+  {
+    "sheet": "06-cells-combs.png",
+    "name": "Солнце",
+    "source": "outputs/puzzle-tiles-honey-crystal-v1/cell0.png"
+  },
+  {
+    "sheet": "06-cells-combs.png",
+    "name": "Сердце",
+    "source": "outputs/puzzle-tiles-honey-crystal-v1/cell1.png"
+  },
+  {
+    "sheet": "06-cells-combs.png",
+    "name": "Цветок",
+    "source": "outputs/puzzle-tiles-honey-crystal-v1/cell2.png"
+  },
+  {
+    "sheet": "06-cells-combs.png",
+    "name": "Капля",
+    "source": "outputs/puzzle-tiles-honey-crystal-v1/cell3.png"
+  },
+  {
+    "sheet": "06-cells-combs.png",
+    "name": "Лист",
+    "source": "outputs/puzzle-tiles-honey-crystal-v1/cell4.png"
+  },
+  {
+    "sheet": "06-cells-combs.png",
+    "name": "Универсальная",
+    "source": "outputs/puzzle-tiles-honey-crystal-v1/cell-wild.png"
+  },
+  {
+    "sheet": "06-cells-combs.png",
+    "name": "Заполненная сота",
+    "source": "outputs/combs-specials-honey-crystal-v1/comb.png"
+  },
+  {
+    "sheet": "06-cells-combs.png",
+    "name": "Пустая сота",
+    "source": "outputs/combs-specials-honey-crystal-v1/comb-empty.png"
+  },
+  {
+    "sheet": "06-cells-combs.png",
+    "name": "Недоступная сота",
+    "source": "outputs/combs-specials-honey-crystal-v1/comb-locked.png"
+  },
+  {
+    "sheet": "06-cells-combs.png",
+    "name": "Бомба",
+    "source": "outputs/combs-specials-honey-crystal-v1/bomb.png"
+  },
+  {
+    "sheet": "06-cells-combs.png",
+    "name": "Рамка выделения",
+    "source": "outputs/combs-specials-honey-crystal-v1/ring.png"
+  },
+  {
+    "sheet": "07-environment.png",
+    "name": "Сад",
+    "source": "outputs/environment-honey-crystal-v1/garden-background.png"
+  },
+  {
+    "sheet": "07-environment.png",
+    "name": "Улей",
+    "source": "outputs/environment-honey-crystal-v1/hive-background.png"
+  },
+  {
+    "sheet": "07-environment.png",
+    "name": "Сухая грядка",
+    "source": "outputs/environment-honey-crystal-v1/bed-dry.png"
+  },
+  {
+    "sheet": "07-environment.png",
+    "name": "Влажная грядка",
+    "source": "outputs/environment-honey-crystal-v1/bed-wet.png"
+  },
+  {
+    "sheet": "08-app-icons.png",
+    "name": "Иконка приложения",
+    "source": "outputs/buzzle-app-icon.png"
+  },
+  {
+    "sheet": "08-app-icons.png",
+    "name": "Передний слой Android",
+    "source": "outputs/buzzle-android-icon-foreground.png"
+  },
+  {
+    "sheet": "08-app-icons.png",
+    "name": "Иконка браузера",
+    "source": "outputs/buzzle-favicon.png"
+  },
+  {
+    "sheet": "09-zhuzha-views.png",
+    "name": "Спереди",
+    "source": "work/buzzle/design/3d/turnaround/front.png"
+  },
+  {
+    "sheet": "09-zhuzha-views.png",
+    "name": "Три четверти спереди",
+    "source": "work/buzzle/design/3d/turnaround/q3-front.png"
+  },
+  {
+    "sheet": "09-zhuzha-views.png",
+    "name": "Профиль",
+    "source": "work/buzzle/design/3d/turnaround/side.png"
+  },
+  {
+    "sheet": "09-zhuzha-views.png",
+    "name": "Три четверти сзади",
+    "source": "work/buzzle/design/3d/turnaround/q3-back.png"
+  },
+  {
+    "sheet": "09-zhuzha-views.png",
+    "name": "Со спины",
+    "source": "work/buzzle/design/3d/turnaround/back.png"
+  },
+  {
+    "sheet": "09-zhuzha-views.png",
+    "name": "Сверху",
+    "source": "work/buzzle/design/3d/turnaround/top.png"
+  },
+  {
+    "sheet": "09-zhuzha-views.png",
+    "name": "Снизу",
+    "source": "work/buzzle/design/3d/turnaround/bottom.png"
+  },
+  {
+    "sheet": "09-zhuzha-views.png",
+    "name": "Лицо спереди",
+    "source": "work/buzzle/design/3d/turnaround/face-front.png"
+  },
+  {
+    "sheet": "09-zhuzha-views.png",
+    "name": "Лицо в три четверти",
+    "source": "work/buzzle/design/3d/turnaround/face-q3.png"
+  },
+  {
+    "sheet": "11-halo-layers.png",
+    "name": "Задняя дуга",
+    "source": "outputs/halo-and-resources-v2/halo-rear.png"
+  },
+  {
+    "sheet": "11-halo-layers.png",
+    "name": "Передняя дуга",
+    "source": "outputs/halo-and-resources-v2/halo-front.png"
+  },
+  {
+    "sheet": "11-halo-layers.png",
+    "name": "Примерка на Жуже",
+    "source": "outputs/halo-and-resources-v2/halo-on-zhuzha-v2.png"
+  }
+]

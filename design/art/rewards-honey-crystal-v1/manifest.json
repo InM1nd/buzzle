@@ -1,0 +1,22 @@
+[
+  {
+    "id": "star",
+    "prompt": "Use case: stylized-concept. Asset type: isolated reward icon for Buzzle mobile game. Image 1 style reference only; image 2 old icon for meaning and colors only. Subject: One symmetrical five-point golden honey-yellow reward star with broad gently beveled points, near frontal, subtle visible thickness on right/lower edge. Broad amber facets and a single small cream reflection near upper left; no extra stars, no tiny star emblem. Style Honey Crystal: warm soft low-poly toy-like volume, a few broad irregular facets, clear gentle shading, matching approved honey jar and bee art. Large clean silhouette readable at 32 pixels. Warm upper-left-front light, no dense triangulation or harsh mosaic. Single centered object fills 80% of square canvas, transparent background, whole silhouette visible. No text, watermark, scenery, floating particles, aura, separate cast shadow, extra props.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-b3db83c0-bbca-4fbe-8157-2c883bba8f54.png"
+  },
+  {
+    "id": "star-off",
+    "prompt": "Use case: precise-object-edit. Edit this reward star into its inactive/unearned state. Change only its color palette to subdued warm ivory beige with muted taupe shadows, no saturated gold or orange. Preserve exactly same five-point silhouette, proportions, bevels, facet positions, lighting, reflection shape, orientation, framing, transparent background and canvas. Do not change geometry or add symbols. The active and inactive stars must align when overlaid.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-ae4fc6ad-f48c-4397-8de4-64a1723c8cf1.png"
+  },
+  {
+    "id": "flame",
+    "prompt": "Use case: stylized-concept. Asset type: isolated reward icon for Buzzle mobile game. Image 1 style reference only; image 2 old icon for meaning and colors only. Subject: One compact stylized flame-shaped token, orange-red outer flame with one golden inner flame and cream teardrop center. Broad volumetric bevels, few large facets, softly rounded outline with one tip, near frontal. No pedestal, no smoke, no glow. Style Honey Crystal: warm soft low-poly toy-like volume, a few broad irregular facets, clear gentle shading, matching approved honey jar and bee art. Large clean silhouette readable at 32 pixels. Warm upper-left-front light, no dense triangulation or harsh mosaic. Single centered object fills 80% of square canvas, transparent background, whole silhouette visible. No text, watermark, scenery, floating particles, aura, separate cast shadow, extra props.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-1e378bda-8488-4dc6-b3c3-6ef7189ab893.png"
+  },
+  {
+    "id": "chest",
+    "prompt": "Use case: stylized-concept. Asset type: isolated reward icon for Buzzle mobile game. Image 1 style reference only; image 2 old icon for meaning and colors only. Subject: One closed compact wooden reward treasure chest, rectangular not hexagonal, rounded domed lid, warm honey-brown wood, two broad golden straps around lid/body, centered simple gold latch. Slight three-quarter front view showing a little right side and top, clear lid/body seam. No jewels or coins or ornament. Keep old chest identity. Style Honey Crystal: warm soft low-poly toy-like volume, a few broad irregular facets, clear gentle shading, matching approved honey jar and bee art. Large clean silhouette readable at 32 pixels. Warm upper-left-front light, no dense triangulation or harsh mosaic. Single centered object fills 80% of square canvas, transparent background, whole silhouette visible. No text, watermark, scenery, floating particles, aura, separate cast shadow, extra props.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-0450bc64-37fa-4db4-a73c-55f41cb00a57.png"
+  }
+]

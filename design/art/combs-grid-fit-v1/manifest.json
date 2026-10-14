@@ -1,0 +1,140 @@
+{
+  "comb": {
+    "prompt": "Use case: precise-object-edit. Create ONE standalone filled honeycomb tile sprite for the Buzzle game. Image 1 is the approved Honey Crystal art style; Image 2 supplies exact flat-top orientation and compact silhouette. Change image1 only to a REGULAR FLAT-TOP hexagon: horizontal upper and lower edges, points at left and right, width to height ratio exactly 2:sqrt(3) (1.1547). Camera directly front-on orthographic, centered symmetric silhouette; NOT isometric, no top view tilt, no protruding bottom thickness or cast shadow. Preserve honey-gold faceted wax rim, amber inset honey center, broad irregular bevel facets, warm top-left illumination, bright upper-left gloss only inside inner well, calm center for game numbers. Outer contour six straight hex edges with modest rounded corners, bevel entirely inside silhouette. No letters, numbers, plus, symbols, bubbles, drips, bees, background or external glow. Transparent background, only one tile, ample transparent margin.",
+    "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-cc4fbcb6-5c31-47e9-a551-fa27eed1f77e.png"
+  },
+  "comb_empty": {
+    "prompt": "Use case: precise-object-edit. Edit this exact flat-top honeycomb tile. Keep every outer contour point, size, camera, rim bevel facet, lighting direction and canvas registration unchanged. Change ONLY inner honey well to pale cream warm empty wax, remove liquid gloss, bright honey fill and strong shine. Blank calm center with no plus sign (game overlays plus separately). Keep same Honey Crystal irregular chunky rim facets and modest inset depth. No number, lock, text, symbol, cast shadow or glow. Transparent outside; one tile.",
+    "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-a7912fc2-a9f8-49f1-8d99-d730fa7142a3.png"
+  },
+  "comb_locked": {
+    "prompt": "Use case: precise-object-edit. Edit this exact flat-top honeycomb tile. Keep every outer contour point, size, camera, rim bevel facet and canvas registration unchanged. Change material to a muted tan wax unavailable honeycomb with pale cream center and restrained brown-gold rim. No honey gloss, no lock, no plus, no text or symbol (UI controls availability). Keep opacity fully opaque inside; game applies locked opacity separately. Same warm top-left light, Honey Crystal broad facets. Transparent outside; one tile.",
+    "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-4134c159-8954-42ed-87dd-90b6cf8418ca.png"
+  },
+  "ring": {
+    "prompt": "Use case: precise-object-edit. Derive a selection border from this exact flat-top hexagonal honeycomb silhouette: preserve contour and orthographic orientation, same size and registration, entirely transparent center. ONLY thin luminous cream-gold bevel rim following outer edge, width about 4% of tile width, chunky subtle facets, calm warm light. No filled honey, no inner panel, no shadow outside, no spikes, no number or text. Transparent background including the whole center. Single six-sided flat-top selection ring.",
+    "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-ba3331e3-a547-447a-bfa4-2f07bbd09d49.png"
+  },
+  "grid": {
+    "orientation": "flat-top",
+    "canvas_1x": [
+      200,
+      173
+    ],
+    "anchor": [
+      0.5,
+      0.5
+    ],
+    "tile_width": "2*s*0.96",
+    "tile_height": "sqrt(3)*s*0.96",
+    "hiveCenter": [
+      "1.5*s*q",
+      "sqrt(3)*s*(r+q/2)"
+    ],
+    "slots": [
+      [
+        0,
+        0
+      ],
+      [
+        -1,
+        0
+      ],
+      [
+        -1,
+        1
+      ],
+      [
+        0,
+        -1
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        -1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        -2,
+        0
+      ],
+      [
+        -2,
+        1
+      ],
+      [
+        -2,
+        2
+      ],
+      [
+        -1,
+        -1
+      ],
+      [
+        -1,
+        2
+      ],
+      [
+        0,
+        -2
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        -2
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        -2
+      ],
+      [
+        2,
+        -1
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "locked_opacity": 0.45
+  },
+  "source_bboxes": {
+    "comb": [
+      102,
+      108,
+      1240,
+      1057
+    ],
+    "comb_empty": [
+      100,
+      106,
+      1245,
+      1059
+    ],
+    "comb_locked": [
+      100,
+      107,
+      1242,
+      1057
+    ],
+    "ring": [
+      95,
+      100,
+      1250,
+      1055
+    ]
+  }
+}

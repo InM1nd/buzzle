@@ -1,0 +1,44 @@
+{
+  "tool": "image_gen.imagegen",
+  "transparent_background": true,
+  "generations": [
+    {
+      "id": "fountain-base",
+      "prompt": "Use case: precise-object-edit. Asset type: separate animation layer for Buzzle Honey Crystal decoration. Remove ALL cyan water and white water reflections, including the upper stream and water in both basins. Keep only the complete cream stone fountain structure, with dry pale beige inside both bowls. Reconstruct stone only where water previously hid it. Preserve exact outer silhouette, bowl rim positions, pedestal and top nozzle, original facets, lighting, camera, scale, position, original canvas. No water, no new stone design. Important: keep canvas registration with source, no cropping/reframing. Transparent background, no detached shadows, no text or watermark. Do not repaint any unchanged part.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-887ca214-433d-4c62-94c6-64dc61650179.png"
+    },
+    {
+      "id": "fountain-water",
+      "prompt": "Use case: precise-object-edit. Asset type: separate animation layer for Buzzle Honey Crystal decoration. Extract only ALL turquoise water: top arching stream and water surfaces in both bowls, including white highlights. Remove every cream stone part to transparency. Preserve the water's exact locations, shapes, colors, camera, scale and original canvas. Transparent holes where stone pedestal, nozzle and rims occlude water. No bowl rims or stone, no new stream shapes. This is a transparent water overlay to align on the source fountain. Important: keep canvas registration with source, no cropping/reframing. Transparent background, no detached shadows, no text or watermark. Do not repaint any unchanged part.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-317cffd2-b684-4f02-ae3c-61a205072175.png"
+    },
+    {
+      "id": "pinwheel-rotor",
+      "prompt": "Use case: precise-object-edit. Asset type: separate animation layer for Buzzle Honey Crystal decoration. Extract only the four colored blades AND central gold hub, remove ALL wooden handle to transparency. Preserve blades' exact shape, colors, facets, light, relative position and central hub. Keep same scale, location and original canvas. Rotor is one rigid piece to spin around gold hub center. No handle, no background, no new blades. Important: keep canvas registration with source, no cropping/reframing. Transparent background, no detached shadows, no text or watermark. Do not repaint any unchanged part.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-05eb702f-de7c-428f-9c45-b4e61e03ca43.png"
+    },
+    {
+      "id": "pinwheel-stand",
+      "prompt": "Use case: precise-object-edit. Asset type: separate animation layer for Buzzle Honey Crystal decoration. Extract only the brown wooden handle, remove ALL four blades AND gold center hub to transparency. Continue the hidden upper handle as a plain narrow brown wood stem behind the old gold hub location, so the rotor can cover it. Preserve visible handle exactly: original position, scale, camera, facets, color, full canvas. No blade, no gold hub, no extra pole or decoration. Important: keep canvas registration with source, no cropping/reframing. Transparent background, no detached shadows, no text or watermark. Do not repaint any unchanged part.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-2b683a47-b30b-481b-ae8b-48bc312aae91.png"
+    }
+  ],
+  "runtime": {
+    "fountain": "Approved original + exact cyan-pixel mask. Generated water/base retained as candidates, not runtime layers because alignment drifted.",
+    "pinwheel": {
+      "rotor_scale": 0.89,
+      "rotor_offset": [
+        60,
+        5
+      ],
+      "pivot": [
+        660,
+        516
+      ],
+      "canvas": [
+        1278,
+        1230
+      ]
+    }
+  }
+}

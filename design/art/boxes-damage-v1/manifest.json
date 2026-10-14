@@ -1,0 +1,60 @@
+{
+  "tool": "image_gen.imagegen",
+  "transparent_background": true,
+  "generations": [
+    {
+      "id": "box-wood-damage-1",
+      "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/boxes-honey-crystal-v1/box-wood.png",
+      "prompt": "Edit the provided approved honey-crystal game loot box only. Keep exactly same box, camera, proportions, material palette, decorative honeycomb/crown/jewels, illumination, framing, transparent background and large irregular facets. Create damage stage 1 of 2 before opening on third tap. Add just 2 or 3 legible dark cracks on lid and front, tiny chipped edge. Box still solid and closed. Cracks follow wooden planks. Damage must be visible at 72 px. No glow, no text, no extra object. Do not redraw or resize the unchanged box. Single PNG same canvas.",
+      "generated": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-e08e89ab-f91c-41ea-833e-c3b07a819936.png"
+    },
+    {
+      "id": "box-wood-damage-2",
+      "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/boxes-honey-crystal-v1/box-wood.png",
+      "prompt": "Edit the provided approved honey-crystal game loot box only. Keep exactly same box, camera, proportions, material palette, decorative honeycomb/crown/jewels, illumination, framing, transparent background and large irregular facets. Create damage stage 2 of 2 before opening on third tap. Make visibly stronger, wider branching cracks across lid and front panels, some small edge chips. Keep closed and entire recognizable box, no debris cloud. Cracks follow wooden planks. Damage must be visible at 72 px. No glow, no text, no extra object. Do not redraw or resize the unchanged box. Single PNG same canvas.",
+      "generated": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-f732e407-9f9d-4ed5-95de-4038a3c123b7.png"
+    },
+    {
+      "id": "box-wax-damage-1",
+      "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/boxes-honey-crystal-v1/box-wax.png",
+      "prompt": "Edit the provided approved honey-crystal game loot box only. Keep exactly same box, camera, proportions, material palette, decorative honeycomb/crown/jewels, illumination, framing, transparent background and large irregular facets. Create damage stage 1 of 2 before opening on third tap. Add just 2 or 3 legible dark cracks on lid and front, tiny chipped edge. Box still solid and closed. Use warm amber wax fissures, not black lines. Damage must be visible at 72 px. No glow, no text, no extra object. Do not redraw or resize the unchanged box. Single PNG same canvas.",
+      "generated": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-89a120cb-23a3-4938-91c0-e4a274f1bdd8.png"
+    },
+    {
+      "id": "box-wax-damage-2",
+      "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/boxes-honey-crystal-v1/box-wax.png",
+      "prompt": "Edit the provided approved honey-crystal game loot box only. Keep exactly same box, camera, proportions, material palette, decorative honeycomb/crown/jewels, illumination, framing, transparent background and large irregular facets. Create damage stage 2 of 2 before opening on third tap. Make visibly stronger, wider branching cracks across lid and front panels, some small edge chips. Keep closed and entire recognizable box, no debris cloud. Use warm amber wax fissures, not black lines. Damage must be visible at 72 px. No glow, no text, no extra object. Do not redraw or resize the unchanged box. Single PNG same canvas.",
+      "generated": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-6f445d30-04ad-4970-8e02-0c8648f49649.png"
+    },
+    {
+      "id": "box-gold-damage-1",
+      "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/boxes-honey-crystal-v1/box-gold.png",
+      "prompt": "Edit the provided approved honey-crystal game loot box only. Keep exactly same box, camera, proportions, material palette, decorative honeycomb/crown/jewels, illumination, framing, transparent background and large irregular facets. Create damage stage 1 of 2 before opening on third tap. Add just 2 or 3 legible dark cracks on lid and front, tiny chipped edge. Box still solid and closed. Dark warm fissures in surfaces; keep jewels and crown intact. Damage must be visible at 72 px. No glow, no text, no extra object. Do not redraw or resize the unchanged box. Single PNG same canvas.",
+      "generated": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-fe0e5799-35f1-4386-af80-036189aecfe2.png"
+    },
+    {
+      "id": "box-gold-damage-2",
+      "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/boxes-honey-crystal-v1/box-gold.png",
+      "prompt": "Edit the provided approved honey-crystal game loot box only. Keep exactly same box, camera, proportions, material palette, decorative honeycomb/crown/jewels, illumination, framing, transparent background and large irregular facets. Create damage stage 2 of 2 before opening on third tap. Make visibly stronger, wider branching cracks across lid and front panels, some small edge chips. Keep closed and entire recognizable box, no debris cloud. Dark warm fissures in surfaces; keep jewels and crown intact. Damage must be visible at 72 px. No glow, no text, no extra object. Do not redraw or resize the unchanged box. Single PNG same canvas.",
+      "generated": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-7872f062-2f99-47f1-89b8-5981d5cf1905.png"
+    },
+    {
+      "id": "box-royal-damage-1",
+      "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/boxes-honey-crystal-v1/box-royal.png",
+      "prompt": "Edit the provided approved honey-crystal game loot box only. Keep exactly same box, camera, proportions, material palette, decorative honeycomb/crown/jewels, illumination, framing, transparent background and large irregular facets. Create damage stage 1 of 2 before opening on third tap. Add just 2 or 3 legible dark cracks on lid and front, tiny chipped edge. Box still solid and closed. Dark warm fissures in surfaces; keep jewels and crown intact. Damage must be visible at 72 px. No glow, no text, no extra object. Do not redraw or resize the unchanged box. Single PNG same canvas.",
+      "generated": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-1efa324e-3a7a-4c7f-bbc8-ab370f4bbd00.png"
+    },
+    {
+      "id": "box-royal-damage-2",
+      "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/boxes-honey-crystal-v1/box-royal.png",
+      "prompt": "Edit the provided approved honey-crystal game loot box only. Keep exactly same box, camera, proportions, material palette, decorative honeycomb/crown/jewels, illumination, framing, transparent background and large irregular facets. Create damage stage 2 of 2 before opening on third tap. Make visibly stronger, wider branching cracks across lid and front panels, some small edge chips. Keep closed and entire recognizable box, no debris cloud. Dark warm fissures in surfaces; keep jewels and crown intact. Damage must be visible at 72 px. No glow, no text, no extra object. Do not redraw or resize the unchanged box. Single PNG same canvas.",
+      "generated": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-331e61d7-30a6-42e4-8456-1a71d5bc7712.png"
+    },
+    {
+      "id": "chest-open",
+      "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/rewards-honey-crystal-v1/chest.png",
+      "prompt": "Edit this exact honey-crystal wooden reward chest to its open state. Same three-quarter camera, lower box shape and position, wooden planks, two gold straps, gold clasp, warm upper-left light and broad facets. Rotate curved lid backward on its rear hinges about 105 degrees so dark warm wooden interior is visible. Clasp opens coherently. Empty chest, no coins, no light explosion, no text, no shadow/background. Same scale and canvas; allow extra height for lid without shrinking lower body. Transparent PNG. This is the same object opened, not a different chest.",
+      "generated": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-d27e0f8a-f8b5-4e4c-bd32-aa7381b687e2.png"
+    }
+  ]
+}

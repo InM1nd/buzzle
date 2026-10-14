@@ -586,17 +586,17 @@ function Main() {
       </View>
 
       {/* tab bar */}
-      <View style={[styles.tabs, { paddingBottom: Math.max(insets.bottom, 8) }]}>
+      <View style={[styles.tabs, { marginBottom: Math.max(insets.bottom, 8) }]}>
         {TABS.map((t) => {
           const on = tab === t.id;
           const badge = t.id === "loot" ? s.loot.boxes.wood + s.loot.boxes.wax + s.loot.boxes.gold > 0 || (!s.week.chest && s.week.tasks >= 15) : t.id === "tasks" ? tasksReady || canClaimLogin(s, now) : t.id === "puzzle" ? !s.daily.results[todayOf(s, now)]?.stars : t.id === "hive" ? (s.hive.stored >= 1 && s.hive.stored >= 0.999 * capOf(s)) || gardenBadge : false;
           return (
-            <Press key={t.id} onPress={() => setTab(t.id)} style={styles.tab} accessibilityRole="tab" accessibilityLabel={t.label} accessibilityState={{ selected: on }} scaleTo={0.9}>
-              <View style={[styles.tabIcon, on && styles.tabIconOn]}>
+            <Press key={t.id} onPress={() => setTab(t.id)} style={[styles.tab, on && styles.tabOn]} accessibilityRole="tab" accessibilityLabel={t.label} accessibilityState={{ selected: on }} scaleTo={0.9}>
+              <View style={styles.tabIcon}>
                 <TabIcon id={t.id} on={on} />
                 {badge ? <View style={styles.badge} /> : null}
               </View>
-              <Text style={[F.xbold, { fontSize: 11, color: on ? C.honeyDark : "#B08C5E", marginTop: 2 }]} numberOfLines={1}>{t.label}</Text>
+              <Text style={[F.xbold, { fontSize: 11, color: on ? "#5A3200" : "#B08C5E", marginTop: 1 }]} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>{t.label}</Text>
             </Press>
           );
         })}
@@ -645,9 +645,10 @@ const styles = StyleSheet.create({
   top: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: 14, paddingBottom: 6 },
   lvl: { width: 36, height: 36, borderRadius: 12, backgroundColor: C.honeyDeep, alignItems: "center", justifyContent: "center", transform: [{ rotate: "45deg" }], marginRight: 4 },
   gear: { width: 40, height: 40, borderRadius: 20, backgroundColor: "#fff", alignItems: "center", justifyContent: "center", ...shadow },
-  tabs: { flexDirection: "row", backgroundColor: "#FFFFFF", borderTopLeftRadius: 26, borderTopRightRadius: 26, paddingTop: 8, ...shadow, shadowOffset: { width: 0, height: -3 }, elevation: 12 },
-  tab: { flex: 1, alignItems: "center" },
-  tabIcon: { width: 54, height: 36, borderRadius: 18, alignItems: "center", justifyContent: "center" },
+  tabs: { flexDirection: "row", backgroundColor: "#FFFFFF", borderRadius: 26, marginHorizontal: 10, padding: 6, gap: 2, ...shadow, shadowOffset: { width: 0, height: 3 }, elevation: 12 },
+  tab: { flex: 1, alignItems: "center", borderRadius: 20, paddingVertical: 6 },
+  tabOn: { backgroundColor: C.honey, ...shadow, elevation: 4 },
+  tabIcon: { width: 40, height: 30, alignItems: "center", justifyContent: "center" },
   tabIconOn: { backgroundColor: C.honey },
   badge: { position: "absolute", top: 2, right: 8, width: 10, height: 10, borderRadius: 5, backgroundColor: C.red, borderWidth: 2, borderColor: "#fff" },
   banner: { flexDirection: "row", gap: 12, backgroundColor: "#fff", borderRadius: 22, padding: 14 },

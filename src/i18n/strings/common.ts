@@ -29,6 +29,7 @@ export const common = {
   "c.close": { en: "Close", uk: "Закрити", ru: "Закрыть" },
   "c.closeWindow": { en: "Close window", uk: "Закрити вікно", ru: "Закрыть окно" },
   "c.honey": { en: "Honey", uk: "Мед", ru: "Мёд" },
+  "hv.decor": { en: "Decor", uk: "Прикраса", ru: "Украшение" },
   "c.pollen": { en: "Pollen", uk: "Пилок", ru: "Пыльца" },
   "c.fragments": { en: "Fragments", uk: "Уламки", ru: "Осколки" },
   "c.jelly": { en: "Royal jelly", uk: "Маточне молочко", ru: "Маточное молочко" },

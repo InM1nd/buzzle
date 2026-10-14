@@ -1,6 +1,6 @@
 import { t } from "../i18n";
 import React, { useEffect, useRef, useState } from "react";
-import { ImageBackground, Animated, Image, ScrollView, StyleSheet, useWindowDimensions, View } from "react-native";
+import { Animated, Image, ScrollView, StyleSheet, useWindowDimensions, View } from "react-native";
 import { GameState, dayColorInfo, flowerUnlocked, level, nextBedCost, seedPrice, seedsOwned, shownDecos } from "../logic/game";
 import { DecoStrip, RARITY_UI } from "../ui/lootUi";
 import {
@@ -66,7 +66,7 @@ function BedTile({ b, i, w, selected, onPress }: { b: Bed; i: number; w: number;
   const img = flowerImg(b);
   const h = w * 1.18;
   return (
-    <Press onPress={() => onPress(ref.current)} style={[styles.bed, shadow, { width: w, height: h }, selected && styles.bedSel]}
+    <Press onPress={() => onPress(ref.current)} style={[styles.bed, { width: w, height: h }, selected && styles.bedSel]}
       accessibilityRole="button" accessibilityLabel={t("gd.bedLabel", { i: i + 1, what: `${b.flower ? FLOWER_BY_ID[b.flower].name + ", " : ""}${st.text}` })}>
       <View ref={ref} collapsable={false} style={{ flex: 1, alignItems: "center" }}>
         <View style={{ flex: 1, width: "100%", alignItems: "center", justifyContent: "flex-end" }}>
@@ -79,7 +79,7 @@ function BedTile({ b, i, w, selected, onPress }: { b: Bed; i: number; w: number;
             <View style={styles.plus}><Image source={ART.seed} style={{ width: 22, height: 22, tintColor: "#B0875A" }} /></View>
           )}
         </View>
-        <Image source={wet ? require("../../assets/art/env/bed_wet.webp") : require("../../assets/art/env/bed_dry.webp")} resizeMode="contain" style={{ width: "100%", height: 34, marginTop: -10 }} />
+        <Image source={wet ? require("../../assets/art/env/bed_wet.webp") : require("../../assets/art/env/bed_dry.webp")} resizeMode="contain" style={{ width: "112%", height: 46, marginTop: -16 }} />
         {b.flower && !isReady(b) ? <Bar progress={progress(b)} height={6} color={wet ? "#5CB8F0" : C.honey} style={{ width: "86%", marginTop: 5 }} /> : <View style={{ height: 11 }} />}
         <Txt v="tiny" numberOfLines={1} color={st.tone === "ready" ? C.greenDark : st.tone === "dry" ? C.red : C.dim} style={{ marginTop: 3 }}>{st.text}</Txt>
         {st.tone === "ready" ? <View style={styles.readyDot}><Image source={ART.nectar} style={{ width: 22, height: 22 }} /></View> : null}
@@ -110,7 +110,7 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
   };
 
   return (
-    <ImageBackground source={require("../../assets/art/env/garden_bg.webp")} resizeMode="cover" style={{ flex: 1 }} imageStyle={{ opacity: 0.55 }}>
+    <View style={{ flex: 1 }}>
     <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
       {!s.settings.gardenIntroDone ? (
         <Card style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
@@ -143,7 +143,6 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
         </View>
       </View>
 
-      <DecoStrip ids={shownDecos(s, "garden")} ground="#DDEFC8" />
       <View onLayout={(e) => setGridW(e.nativeEvent.layout.width)} style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, width: "100%", alignSelf: "stretch" }}>
         {beds.map((b, i) => <BedTile key={i} b={b} i={i} w={bw} selected={sel === i} onPress={(r) => tap(i, r)} />)}
         {bedCost !== null ? (
@@ -156,9 +155,12 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
         ) : null}
       </View>
 
-      {canWaterAny ? (
-        <GameButton title={t("gd.waterAll")} icon={ART.can} color="white" onPress={() => onWaterAll()} label={t("gd.waterAll")} />
-      ) : null}
+      <GameButton title={t("gd.waterAll")} icon={ART.can} color="green" disabled={!canWaterAny} onPress={() => onWaterAll()} label={t("gd.waterAll")} />
+      {/* decor room on the grass */}
+      <View style={{ flexDirection: "row", alignItems: "flex-end", minHeight: 80 }}>
+        <DecoStrip ids={shownDecos(s, "garden")} ground="transparent" />
+        <View style={styles.decoSpot}><Txt v="h3" color="#fff">+</Txt><Txt v="tiny" color="#fff">{t("hv.decor")}</Txt></View>
+      </View>
 
       {selBed && sel !== null ? (
         selBed.flower ? (
@@ -208,17 +210,18 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
       )}
       <Txt v="tiny" color={C.faint} center>{t("gd.levelHint", { n: level(s) })}</Txt>
     </ScrollView>
-    </ImageBackground>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  head: { backgroundColor: "#E6F5D2", borderRadius: 24, padding: 16, borderWidth: 3, borderColor: "#C6E5A4" },
+  head: { backgroundColor: "rgba(255,250,238,0.94)", borderRadius: 24, padding: 14 },
   nectarBox: { alignItems: "center", backgroundColor: "#fff", borderRadius: 18, paddingHorizontal: 12, paddingVertical: 6 },
   dayColor: { flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: "#fff", borderRadius: 14, padding: 10, marginTop: 12, borderWidth: 2 },
   dot: { width: 14, height: 14, borderRadius: 7, borderWidth: 2, borderColor: "#fff" },
-  bed: { backgroundColor: "#FFF4DD", borderRadius: 22, padding: 8, alignItems: "center", overflow: "visible" },
-  bedSel: { borderWidth: 3, borderColor: C.honey, padding: 5 },
+  bed: { backgroundColor: "transparent", borderRadius: 22, padding: 8, alignItems: "center", overflow: "visible" },
+  decoSpot: { width: 92, height: 56, borderRadius: 46, borderWidth: 2, borderStyle: "dashed", borderColor: "rgba(255,255,255,0.9)", alignItems: "center", justifyContent: "center", marginLeft: 8 },
+  bedSel: { borderWidth: 3, borderColor: C.honey, padding: 5, backgroundColor: "rgba(255,247,226,0.6)" },
   bedLocked: { backgroundColor: "#F6EAD3", justifyContent: "center", borderWidth: 2, borderStyle: "dashed", borderColor: "#E2C99C", ...shadow, shadowOpacity: 0 },
   soil: { width: "92%", height: 18, borderRadius: 9, backgroundColor: "#B07A4A", overflow: "hidden" },
   soilWet: { backgroundColor: "#7A4E2B" },

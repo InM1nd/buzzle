@@ -478,6 +478,9 @@ function Main() {
     return (
       <View style={{ flex: 1, backgroundColor: C.bg }}>
         <StatusBar style="dark" />
+      {tab === "hive" ? (
+        <Image source={hiveView === "garden" ? require("./assets/art/env/garden_bg.webp") : require("./assets/art/env/hive_bg.webp")} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} />
+      ) : null}
         <GameScreen
           key={game.key}
           mode={game.mode}
@@ -645,7 +648,7 @@ function taskBadge(s: GameState) {
 }
 
 const styles = StyleSheet.create({
-  zcard: { flexDirection: "row", alignItems: "center", gap: 10, marginHorizontal: 16, marginBottom: 6, paddingVertical: 8, paddingLeft: 14, paddingRight: 8, borderRadius: 20, backgroundColor: "#FFE7A8" },
+  zcard: { flexDirection: "row", alignItems: "center", gap: 10, marginHorizontal: 16, marginBottom: 6, paddingVertical: 8, paddingLeft: 14, paddingRight: 8, borderRadius: 22, backgroundColor: "rgba(255,247,226,0.94)" },
   top: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: 14, paddingBottom: 6 },
   lvl: { width: 36, height: 36, borderRadius: 12, backgroundColor: C.honeyDeep, alignItems: "center", justifyContent: "center", transform: [{ rotate: "45deg" }], marginRight: 4 },
   gear: { width: 40, height: 40, borderRadius: 20, backgroundColor: "#fff", alignItems: "center", justifyContent: "center", ...shadow },
@@ -656,7 +659,7 @@ const styles = StyleSheet.create({
   tabIconOn: { backgroundColor: C.honey },
   badge: { position: "absolute", top: 2, right: 8, width: 10, height: 10, borderRadius: 5, backgroundColor: C.red, borderWidth: 2, borderColor: "#fff" },
   banner: { flexDirection: "row", gap: 12, backgroundColor: "#fff", borderRadius: 22, padding: 14 },
-  seg: { flexDirection: "row", marginHorizontal: 16, marginTop: 4, marginBottom: 2, backgroundColor: "#F6E3BF", borderRadius: 18, padding: 4, gap: 4 },
+  seg: { flexDirection: "row", alignSelf: "center", width: 220, marginTop: 4, marginBottom: 6, backgroundColor: "rgba(255,255,255,0.92)", borderRadius: 20, padding: 4, gap: 4, ...shadow },
   segBtn: { flex: 1, flexDirection: "row", gap: 6, alignItems: "center", justifyContent: "center", height: 36, borderRadius: 14 },
-  segOn: { backgroundColor: C.honeyDeep },
+  segOn: { backgroundColor: C.honey },
 });

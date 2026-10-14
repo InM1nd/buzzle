@@ -2,7 +2,7 @@ import { t } from "../i18n";
 import { shownDecos } from "../logic/game";
 import { DecoStrip } from "../ui/lootUi";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { ImageBackground, Animated, Easing, Image, Platform, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { Animated, Easing, Image, Platform, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { GameState, cap, canBuildAt, clockRolledBack, combActionCost, level, rate, upgradeCostFor } from "../logic/game";
 import { capHours, combRate, MAX_COMB_LEVEL, msUntilFull, UPGRADES, UpgradeId } from "../logic/economy";
 import { HIVE_SLOTS, hiveCenter } from "../logic/hex";
@@ -187,7 +187,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
   }, [s.bees.join(","), builtKey, hs, areaW, areaH]);
 
   return (
-    <ImageBackground source={require("../../assets/art/env/hive_bg.webp")} resizeMode="cover" style={{ flex: 1 }} imageStyle={{ opacity: 0.55 }}>
+    <View style={{ flex: 1 }}>
     <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
       {rolled ? (
         <Card style={{ backgroundColor: "#FFE7DF", padding: 12 }}>
@@ -196,10 +196,8 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
       ) : null}
 
       {banner}
-      <DecoStrip ids={shownDecos(s, "hive")} ground="#F6E3BC" />
-      {/* hive */}
+      {/* hive: free-standing comb field on the meadow */}
       <View style={[styles.hiveArea, { height: areaH + 46 }]}>
-        <Image source={require("../../assets/art/env/hive_bg.webp")} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%", borderRadius: 25, opacity: 0.9 }]} />
         <View style={styles.hiveHead}>
           <View style={styles.levelChip}><Txt v="small" color="#fff">{t("hive.levelChip", { n: level(s) })}</Txt></View>
           <Txt v="small" color={C.honeyDark}>{t("hive.rate", { r: rateFmt(r) })}</Txt>
@@ -218,28 +216,26 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
         <CombPanel s={s} slot={sel} onAction={() => onComb(sel)} onClose={() => setSel(null)} />
       ) : null}
 
-      <Card>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
-          <Animated.Image source={ART.honey} style={{ width: 54, height: 54, transform: [{ scale: glow.interpolate({ inputRange: [0, 0.5, 1], outputRange: [1, 1.1, 1] }) }] }} />
-          <View style={{ flex: 1 }}>
-            <Txt v="h3">{isFull ? t("hive.full") : t("hive.stored")}</Txt>
-            <Txt v="num" color={C.honeyDark}>{fmt(stored)} <Txt v="small" color={C.dim}>/ {fmt(c)}</Txt></Txt>
-          </View>
-        </View>
-        <Bar progress={c ? stored / c : 0} height={14} style={{ marginTop: 10 }} color={isFull ? C.honeyDeep : C.honey} />
-        <Txt v="small" color={C.dim} style={{ marginTop: 6 }}>
-          {isFull ? t("hive.fullHint") : full > 0 ? t("hive.fillsIn", { t: duration(full), h: hours }) : t("hive.buildFirst")}
-        </Txt>
-        <View ref={collectRef} collapsable={false} style={{ marginTop: 12 }}>
+      <View style={{ alignItems: "center", gap: 6 }}>
+        <View ref={collectRef} collapsable={false}>
           <GameButton
             title={stored >= 1 ? t("hive.collectN", { n: fmt(stored) }) : t("hive.empty")}
             icon={ART.honey}
             disabled={stored < 1}
             onPress={async () => onCollect(await centerOf(collectRef.current))}
             label={t("hive.collect")}
+            style={{ minWidth: 220 }}
           />
         </View>
-      </Card>
+        <View style={styles.storeChip}>
+          <Txt v="tiny" color={isFull ? C.red : C.honeyDark}>{isFull ? t("hive.full") : t("hive.stored")} · {fmt(stored)} / {fmt(c)}{!isFull && full > 0 ? ` · ${duration(full)}` : ""}</Txt>
+        </View>
+      </View>
+      {/* decor spots on the grass */}
+      <View style={styles.decoGrass}>
+        <DecoStrip ids={shownDecos(s, "hive")} ground="transparent" />
+        <View style={styles.decoSpot}><Txt v="h3" color="#fff">+</Txt><Txt v="tiny" color="#fff">{t("hv.decor")}</Txt></View>
+      </View>
 
       {/* upgrades */}
       <Txt v="h2" style={{ marginTop: 4, marginLeft: 4 }}>{t("hive.upgrades")}</Txt>
@@ -261,7 +257,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
         );
       })}
     </ScrollView>
-    </ImageBackground>
+    </View>
   );
 }
 
@@ -300,7 +296,10 @@ function CombPanel({ s, slot, onAction, onClose }: { s: GameState; slot: number;
 }
 
 const styles = StyleSheet.create({
-  hiveArea: { backgroundColor: "#FFE9BF", borderRadius: 28, overflow: "hidden", alignItems: "center", paddingTop: 8, borderWidth: 3, borderColor: "#F6D594", ...shadow },
+  hiveArea: { alignItems: "center", paddingTop: 4, overflow: "hidden" },
+  storeChip: { backgroundColor: "rgba(255,250,235,0.85)", borderRadius: 12, paddingHorizontal: 10, paddingVertical: 3 },
+  decoGrass: { flexDirection: "row", alignItems: "flex-end", minHeight: 90 },
+  decoSpot: { width: 92, height: 56, borderRadius: 46, borderWidth: 2, borderStyle: "dashed", borderColor: "rgba(255,255,255,0.9)", alignItems: "center", justifyContent: "center", alignSelf: "center", marginLeft: 8 },
   hiveHead: { flexDirection: "row", alignSelf: "stretch", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 14, height: 34 },
   levelChip: { backgroundColor: C.honeyDeep, borderRadius: 14, paddingHorizontal: 12, paddingVertical: 4 },
   lvlCenter: { flex: 1, alignItems: "center", justifyContent: "center" },

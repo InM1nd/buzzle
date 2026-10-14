@@ -10,8 +10,8 @@ import {
   GameState, canBuyFreeze, canClaimWeekly, canAssembleNightBee, dailyStreak, FREEZE_COST, today, weekendOpen, WEEKLY_REWARD,
 } from "../logic/game";
 import {
-  BONUS_GOLD, BOOSTERS, BOX_INFO, BOX_KINDS, BOX_ODDS, BoosterId, BoxKind, DUP_POLLEN, DUP_REROLL, FRAGMENTS_FOR_BEE, ITEM_BY_ID, ITEMS,
-  KIND_ODDS, NIGHT_BEE, PAGES, pageDone, PITY_EPIC, PITY_LEGENDARY, RARITIES, SHOP_BOOSTER, SHOP_FRAGMENT, SHOP_PRICE,
+  BONUS_GOLD, BOOSTERS, BOX_INFO, BOX_KINDS, BOX_ODDS, BoosterId, BoxKind, DUP_POLLEN, DUP_REROLL, FRAGMENTS_FOR_BEE, ITEM_BY_ID, ITEMS, KIND_ODDS, PITY_EPIC, PITY_LEGENDARY,
+  NIGHT_BEE, PAGES, pageDone, RARITIES, SHOP_BOOSTER, SHOP_FRAGMENT, SHOP_PRICE,
 } from "../logic/loot";
 import { FLOWER_BY_ID } from "../logic/garden";
 import { WEEKLY_TASKS } from "../logic/tasks";
@@ -68,79 +68,69 @@ export default function LootScreen(p: Props) {
           ))}
         </View>
         {seg === "chests" ? (<>
-        {/* combs */}
-        <View>
-          <View style={{ flexDirection: "row", alignItems: "flex-end", marginBottom: 8 }}>
-            <View style={{ flex: 1 }}>
-              <Txt v="h2">{t("ls.title")}</Txt>
-              <Txt v="small" color={C.dim}>{t("ls.sub")}</Txt>
-            </View>
-          </View>
-          <View onLayout={(e) => setGridW(e.nativeEvent.layout.width)} style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", rowGap: 12, width: "100%", alignSelf: "stretch" }}>
-            {BOX_KINDS.map((k) => {
-              const n = s.loot.boxes[k];
-              const locked = k === "royal";
-              return (
-                <View key={k} style={[styles.tile, shadow, { width: tileW }, n > 0 && !locked && styles.tileReady]}>
-                  <Press onPress={() => setSheet({ odds: k })} style={styles.info} accessibilityRole="button" accessibilityLabel={t("ls.oddsLabel", { name: BOX_INFO[k].name })} scaleTo={0.85}>
-                    <Txt v="h3" color={C.dim} style={{ fontSize: 15 }}>i</Txt>
-                  </Press>
-                  <Press onPress={() => (!locked && n > 0 ? p.onOpenBox(k) : setSheet({ odds: k }))} haptic={false} accessibilityRole="button"
-                    accessibilityLabel={`${BOX_INFO[k].name}: ${locked ? t("ls.lockedSeasons") : n}`} style={{ alignItems: "center" }}>
-                    <View>
-                      <Image source={boxArt(k)} style={{ width: tileW * 0.62, height: tileW * 0.62, opacity: locked ? 0.55 : n > 0 ? 1 : 0.75 }} />
-                      {locked ? <Image source={ART.lock} style={styles.lock} /> : n > 0 ? <View style={styles.count}><Txt v="h3" color="#fff">{n}</Txt></View> : null}
+        {/* ready comb + rows */}
+        {(() => {
+          const ready = (BOX_KINDS as BoxKind[]).find((k) => k !== "royal" && s.loot.boxes[k] > 0) ?? null;
+          const feat = ready ?? "wood";
+          const od = BOX_ODDS[feat];
+          const epicLeft = Math.max(0, 10 - s.loot.pity.sinceEpic);
+          const legLeft = Math.max(0, 30 - s.loot.pity.sinceLeg);
+          return (
+            <>
+              <Card style={{ alignItems: "center", paddingVertical: 16 }}>
+                <Txt v="tiny" color={C.dim}>{ready ? t("ls.ready") : t("ls.sub")}</Txt>
+                <Txt v="h1" center>{BOX_INFO[feat].name}</Txt>
+                <Press onPress={() => (ready ? p.onOpenBox(feat) : setSheet({ odds: feat }))} accessibilityRole="button" accessibilityLabel={BOX_INFO[feat].name}>
+                  <Image source={boxArt(feat)} style={{ width: 140, height: 140, marginVertical: 8, opacity: ready ? 1 : 0.7 }} />
+                </Press>
+                {ready ? <View style={styles.countBig}><Txt v="h2" color="#fff">×{s.loot.boxes[feat]}</Txt></View> : null}
+                <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 6, justifyContent: "center", marginBottom: 10 }}>
+                  {RARITIES.map((r, i) => (
+                    <View key={r} style={[styles.chip, { backgroundColor: RARITY_UI[r].bg }]}>
+                      <Txt v="tiny" color={RARITY_UI[r].color}>{RARITY_UI[r].name} {od.odds[i]}%</Txt>
                     </View>
-                    <Txt v="h3" center numberOfLines={1} style={{ fontSize: 15 }}>{BOX_INFO[k].name}</Txt>
-                    <Txt v="tiny" color={C.dim} center numberOfLines={2} style={{ minHeight: 26 }}>{locked ? t("ls.inSeasons") : tx(`box.howShort.${k}`)}</Txt>
-                  </Press>
-                  {!locked ? (
-                    <GameButton small title={n > 0 ? t("ls.open") : t("ls.none")} color={n > 0 ? "green" : "grey"} disabled={n <= 0} onPress={() => p.onOpenBox(k)} style={{ marginTop: 6 }} label={t("ls.openLabel", { name: BOX_INFO[k].name })} />
-                  ) : <GameButton small title={t("ls.soon")} color="grey" disabled onPress={() => {}} style={{ marginTop: 6 }} />}
+                  ))}
                 </View>
-              );
-            })}
-          </View>
-        </View>
-
-        {/* inventory */}
-        <Card>
-          <Txt v="h3" style={{ marginBottom: 8 }}>{t("ls.stock")}</Txt>
-          <View style={{ flexDirection: "row", gap: 10 }}>
-            {(Object.keys(BOOSTERS) as BoosterId[]).map((b) => (
-              <View key={b} style={styles.inv} accessibilityLabel={`${BOOSTERS[b].name}: ${s.loot.boosters[b]}`}>
-                <Image source={BOOSTER_ART[b]} style={{ width: 36, height: 36 }} resizeMode="contain" />
-                <Txt v="h3">{s.loot.boosters[b]}</Txt>
-                <Txt v="tiny" color={C.dim} center numberOfLines={2}>{BOOSTERS[b].name}</Txt>
-              </View>
-            ))}
-          </View>
-          <Txt v="tiny" color={C.dim} style={{ marginTop: 6 }}>{t("ls.boostHint")}</Txt>
-          {!s.bees.includes(NIGHT_BEE) ? (
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 10, marginTop: 12 }}>
-              <Image source={ART.fragment} style={{ width: 40, height: 40 }} />
-              <View style={{ flex: 1 }}>
-                <Txt v="h3">{BEE_BY_ID.nochka.name}</Txt>
-                <Bar progress={s.loot.fragments / FRAGMENTS_FOR_BEE} height={10} color="#5B5FC7" style={{ marginTop: 4 }} />
-                <Txt v="tiny" color={C.dim}>{t("ls.fragments", { a: s.loot.fragments, b: FRAGMENTS_FOR_BEE })}</Txt>
-              </View>
-              {canAssembleNightBee(s) ? <GameButton small title={t("ls.assemble")} color="purple" onPress={p.onAssemble} /> : null}
-            </View>
-          ) : null}
-          {Object.keys(s.loot.seeds).length ? (
-            <View style={{ marginTop: 12 }}>
-              <Txt v="small" color={C.dim}>{t("ls.pocketSeeds")}</Txt>
-              <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 6 }}>
-                {Object.entries(s.loot.seeds).map(([f, n]) => (
-                  <View key={f} style={[styles.seed, FLOWER_BY_ID[f]?.rare && { borderColor: RARITY_UI.rare.color }]}>
-                    <Image source={GARDEN_ART[`${f}_bloom`]} style={{ width: 26, height: 26 }} />
-                    <Txt v="small">{FLOWER_BY_ID[f]?.name ?? f} ×{n}</Txt>
-                  </View>
-                ))}
-              </View>
-            </View>
-          ) : null}
-        </Card>
+                <View style={{ flexDirection: "row", gap: 8, marginBottom: 12 }}>
+                  <View style={styles.chip}><Txt v="tiny" color={C.dim}>{t("ls.pityEpic", { n: epicLeft })}</Txt></View>
+                  <View style={styles.chip}><Txt v="tiny" color={C.dim}>{t("ls.pityLeg", { n: legLeft })}</Txt></View>
+                </View>
+                <GameButton title={ready ? t("ls.open") : t("ls.none")} color={ready ? "green" : "grey"} disabled={!ready}
+                  onPress={() => ready && p.onOpenBox(feat)} label={t("ls.openLabel", { name: BOX_INFO[feat].name })} style={{ alignSelf: "stretch" }} />
+              </Card>
+              {BOX_KINDS.filter((k) => k !== feat).map((k) => {
+                const n = s.loot.boxes[k]; const locked = k === "royal";
+                const opened = s.loot.opened[k] ?? 0;
+                return (
+                  <Press key={k} onPress={() => (!locked && n > 0 ? p.onOpenBox(k) : setSheet({ odds: k }))} style={[styles.rowBox, shadow]}
+                    accessibilityRole="button" accessibilityLabel={`${BOX_INFO[k].name}: ${locked ? t("ls.lockedSeasons") : n}`}>
+                    <Image source={boxArt(k)} style={{ width: 56, height: 56, opacity: locked ? 0.5 : 1 }} />
+                    <View style={{ flex: 1 }}>
+                      <Txt v="h3">{BOX_INFO[k].name}{n > 0 ? ` · ${n}` : ""}</Txt>
+                      <Txt v="tiny" color={C.dim}>{locked ? t("ls.inSeasons") : tx(`box.howShort.${k}`)}</Txt>
+                      {!locked ? <Bar progress={Math.min(1, opened / 10)} height={6} color={C.honey} style={{ marginTop: 4 }} /> : null}
+                    </View>
+                    {locked ? <Image source={ART.lock} style={{ width: 22, height: 22 }} /> :
+                      n > 0 ? <GameButton small title={t("ls.open")} color="green" onPress={() => p.onOpenBox(k)} label={t("ls.openLabel", { name: BOX_INFO[k].name })} /> :
+                      <Txt v="tiny" color={C.dim}>{t("ls.none")}</Txt>}
+                  </Press>
+                );
+              })}
+              <Card>
+                <Txt v="h3" style={{ marginBottom: 8 }}>{t("ls.stock")}</Txt>
+                <View style={{ flexDirection: "row", gap: 10 }}>
+                  {(Object.keys(BOOSTERS) as BoosterId[]).map((b) => (
+                    <View key={b} style={styles.inv} accessibilityLabel={`${BOOSTERS[b].name}: ${s.loot.boosters[b]}`}>
+                      <Image source={BOOSTER_ART[b]} style={{ width: 36, height: 36 }} resizeMode="contain" />
+                      <Txt v="h3">{s.loot.boosters[b]}</Txt>
+                      <Txt v="tiny" color={C.dim} center numberOfLines={2}>{BOOSTERS[b].name}</Txt>
+                    </View>
+                  ))}
+                </View>
+              </Card>
+            </>
+          );
+        })()}
 
         </>) : seg === "shop" ? (
           <View style={[styles.segPanel, shadow]}><Shop s={p.s} onBuyItem={p.onBuyItem} onBuyBooster={p.onBuyBooster} onBuyFragment={p.onBuyFragment} /></View>
@@ -166,102 +156,96 @@ function SheetScroll({ children }: { children: React.ReactNode }) {
 
 // ---------------------------------------------------------------- album
 function Album({ s, onToggleDeco, onShop }: { s: GameState; onToggleDeco: (id: string) => void; onShop: () => void }) {
-  const [page, setPage] = useState(0);
-  const owned = new Set([...s.loot.owned, ...(s.bees.includes(NIGHT_BEE) ? [NIGHT_BEE] : [])]);
-  const pg = PAGES[page];
-  const done = pageDone(owned, pg);
-  const n = pg.items.filter((i) => owned.has(i)).length;
+  const owned = new Set(s.loot.owned);
+  const total = ITEMS.length;
+  const have = ITEMS.filter((i) => owned.has(i.id)).length;
   return (
     <View accessibilityLabel={t("al.title")}>
-      <Txt v="h2" style={{ marginRight: 40 }}>{t("al.title")}</Txt>
-      <View style={styles.tabs}>
-        {PAGES.map((x, i) => {
-          const d = pageDone(owned, x);
-          return (
-            <Press key={x.id} onPress={() => setPage(i)} style={[styles.tabChip, i === page && styles.tabChipOn]} scaleTo={0.94} accessibilityRole="tab" accessibilityState={{ selected: i === page }} accessibilityLabel={x.title}>
-              <Txt v="tiny" color={i === page ? "#fff" : C.dim}>{x.title.toUpperCase()}{d ? " ✓" : ""}</Txt>
-            </Press>
-          );
-        })}
-      </View>
-      <SheetScroll>
-        <View style={[styles.bonus, done && { backgroundColor: "#E4F7EA", borderColor: C.green }]}>
-          <Txt v="small" color={done ? C.greenDark : C.dim}>{done ? t("al.done") : t("al.todo")}<Txt v="small" color={done ? C.greenDark : C.text}>{pg.bonus}</Txt></Txt>
-          <Bar progress={n / pg.items.length} height={8} style={{ marginTop: 6 }} color={done ? C.green : C.jelly} />
-          <Txt v="tiny" color={C.dim}>{n}/{pg.items.length}</Txt>
-        </View>
-        <View style={styles.albumGrid}>
-          {pg.items.map((id) => {
-            const it = ITEM_BY_ID[id]; const has = owned.has(id); const r = RARITY_UI[it.rarity];
-            const hidden = s.loot.hidden.includes(id);
-            return (
-              <View key={id} style={[styles.albumCell, { borderColor: has ? r.color : "#E8D6B6", backgroundColor: has ? r.bg : "#FBF3E4" }]} accessibilityLabel={`${has ? it.name : t("al.missing")}, ${r.name}`}>
-                <ItemIcon id={id} size={62} locked={!has} />
-                <Txt v="small" center numberOfLines={1} style={{ marginTop: 2 }}>{has ? it.name : "???"}</Txt>
-                <Txt v="tiny" color={r.color} center>{r.name.toUpperCase()}</Txt>
-                {has && it.kind === "deco" ? (
-                  <Press onPress={() => onToggleDeco(id)} style={[styles.toggle, hidden && { backgroundColor: "#EADBC2" }]} accessibilityRole="button" accessibilityLabel={hidden ? t("al.place", { name: it.name }) : t("al.remove", { name: it.name })}>
-                    <Txt v="tiny" color={hidden ? C.dim : "#fff"}>{hidden ? t("al.placeCaps") : it.place === "hive" ? t("al.atHive") : t("al.inGarden")}</Txt>
+      <Txt v="h2">{t("al.title")}</Txt>
+      <Bar progress={have / Math.max(1, total)} height={10} color={C.honey} style={{ marginVertical: 8 }} />
+      <Txt v="small" color={C.dim} style={{ marginBottom: 10 }}>{t("al.progress", { a: have, b: total })}</Txt>
+      {PAGES.map((pg) => {
+        const done = pageDone(owned, pg);
+        const items = pg.items.map((id) => ITEM_BY_ID[id]).filter(Boolean);
+        return (
+          <Card key={pg.id} style={{ marginBottom: 10 }}>
+            <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 8 }}>
+              <Txt v="h3" style={{ flex: 1 }}>{pg.title}</Txt>
+              {done ? <Image source={ART.check} style={{ width: 22, height: 22 }} /> : <Txt v="tiny" color={C.dim}>{items.filter((i) => owned.has(i.id)).length}/{items.length}</Txt>}
+            </View>
+            {pg.bonus ? <Txt v="tiny" color={C.honeyDark} style={{ marginBottom: 6 }}>{pg.bonus}</Txt> : null}
+            <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+              {items.map((it) => {
+                const has = owned.has(it.id);
+                return (
+                  <Press key={it.id} onPress={() => has && it.kind === "deco" ? onToggleDeco(it.id) : undefined}
+                    style={[styles.alCell, !has && { opacity: 0.45 }]} accessibilityRole="button" accessibilityLabel={it.name}>
+                    <ItemIcon id={it.id} size={44} locked={!has} />
+                    <Txt v="tiny" numberOfLines={1} center>{has ? it.name : "???"}</Txt>
                   </Press>
-                ) : !has ? <Txt v="tiny" color={C.faint} center numberOfLines={2}>{it.kind === "bee" ? t("al.frag", { a: s.loot.fragments, b: FRAGMENTS_FOR_BEE }) : it.kind === "flower" ? t("al.seedsFromCombs") : t("al.shopPrice", { n: SHOP_PRICE[it.rarity] })}</Txt> : null}
-              </View>
-            );
-          })}
-        </View>
-        <Txt v="small" color={C.dim} style={{ marginTop: 10 }}>{t("al.hint")}</Txt>
-        <GameButton small title={t("al.toShop")} color="white" icon={ART.shop} onPress={onShop} style={{ marginTop: 10 }} />
-      </SheetScroll>
+                );
+              })}
+            </View>
+          </Card>
+        );
+      })}
+      <GameButton title={t("sh.label")} color="white" onPress={onShop} style={{ marginTop: 4 }} />
     </View>
   );
 }
 
-// ---------------------------------------------------------------- shop
 function Shop({ s, onBuyItem, onBuyBooster, onBuyFragment }: { s: GameState; onBuyItem: (id: string) => boolean; onBuyBooster: (b: BoosterId) => boolean; onBuyFragment: () => boolean }) {
   const missing = ITEMS.filter((i) => !s.loot.owned.includes(i.id)).sort((a, b) => SHOP_PRICE[a.rarity] - SHOP_PRICE[b.rarity]);
+  const col = (Math.min(useWindowDimensions().width, 520) - 32 - 40 - 20) / 3;
   const Price = ({ n }: { n: number }) => (
-    <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}><Image source={ART.pollen} style={{ width: 16, height: 16 }} /><Txt v="h3" style={{ fontSize: 14 }}>{n}</Txt></View>
+    <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}><Image source={ART.pollen} style={{ width: 14, height: 14 }} /><Txt v="tiny">{n}</Txt></View>
   );
   return (
     <View accessibilityLabel={t("sh.label")}>
-      <Txt v="h2" style={{ marginRight: 40 }}>{t("sh.label")}</Txt>
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginTop: 4 }}>
-        <Image source={ART.pollen} style={{ width: 24, height: 24 }} />
-        <Txt v="h3">{fmt(s.loot.pollen)}</Txt>
-        <Txt v="small" color={C.dim}>{t("sh.forDups")}</Txt>
-      </View>
-      <SheetScroll>
-        <Txt v="tiny" color={C.dim} style={{ marginTop: 12, marginBottom: 6 }}>{t("sh.items")}</Txt>
+      <Card style={{ flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 10 }}>
+        <Image source={ART.pollen} style={{ width: 40, height: 40 }} />
+        <View style={{ flex: 1 }}>
+          <Txt v="h2">{fmt(s.loot.pollen)}</Txt>
+          <Txt v="small" color={C.dim}>{t("sh.forDups")}</Txt>
+        </View>
+      </Card>
+      <Txt v="tiny" color={C.dim} style={{ marginBottom: 6 }}>{t("sh.items")}</Txt>
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
         {missing.length ? missing.map((it) => {
           const price = SHOP_PRICE[it.rarity]; const r = RARITY_UI[it.rarity];
           return (
-            <View key={it.id} style={[styles.shopRow, { borderColor: r.color }]}>
-              <ItemIcon id={it.id} size={44} />
-              <View style={{ flex: 1 }}>
-                <Txt v="h3" style={{ fontSize: 15 }}>{it.name}</Txt>
-                <Txt v="tiny" color={r.color}>{r.name.toUpperCase()} · {it.kind === "skin" ? t("sh.outfit") : it.place === "hive" ? t("sh.atHive") : t("sh.inGarden")}</Txt>
-              </View>
-              <Press onPress={() => onBuyItem(it.id)} disabled={s.loot.pollen < price} style={[styles.buy, s.loot.pollen < price && { opacity: 0.45 }]} accessibilityRole="button" accessibilityLabel={t("sh.buyLabel", { name: it.name, n: price })}>
-                <Price n={price} />
-              </Press>
-            </View>
+            <Press key={it.id} onPress={() => onBuyItem(it.id)} disabled={s.loot.pollen < price}
+              style={[styles.shopCard, shadow, { width: col }, s.loot.pollen < price && { opacity: 0.5 }]}
+              accessibilityRole="button" accessibilityLabel={`${it.name}: ${price}`}>
+              <ItemIcon id={it.id} size={48} />
+              <Txt v="tiny" numberOfLines={1} center style={{ marginTop: 4 }}>{it.name}</Txt>
+              <Txt v="tiny" color={r.color} center>{r.name}</Txt>
+              <Price n={price} />
+            </Press>
           );
         }) : <Txt v="small" color={C.greenDark}>{t("sh.allDone")}</Txt>}
-        <Txt v="tiny" color={C.dim} style={{ marginTop: 12, marginBottom: 6 }}>{t("sh.boostFrag")}</Txt>
+      </View>
+      <Txt v="tiny" color={C.dim} style={{ marginTop: 14, marginBottom: 6 }}>{t("sh.boostFrag")}</Txt>
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
         {(Object.keys(BOOSTERS) as BoosterId[]).map((b) => (
-          <View key={b} style={styles.shopRow}>
+          <Press key={b} onPress={() => onBuyBooster(b)} disabled={s.loot.pollen < SHOP_BOOSTER[b]}
+            style={[styles.shopCard, shadow, { width: col }, s.loot.pollen < SHOP_BOOSTER[b] && { opacity: 0.5 }]}
+            accessibilityRole="button" accessibilityLabel={`${BOOSTERS[b].name}: ${SHOP_BOOSTER[b]}`}>
             <Image source={BOOSTER_ART[b]} style={{ width: 40, height: 40 }} resizeMode="contain" />
-            <View style={{ flex: 1 }}><Txt v="h3" style={{ fontSize: 15 }}>{BOOSTERS[b].name}</Txt><Txt v="tiny" color={C.dim}>{BOOSTERS[b].desc}</Txt></View>
-            <Press onPress={() => onBuyBooster(b)} disabled={s.loot.pollen < SHOP_BOOSTER[b]} style={[styles.buy, s.loot.pollen < SHOP_BOOSTER[b] && { opacity: 0.45 }]} accessibilityRole="button" accessibilityLabel={t("sh.buyLabel", { name: BOOSTERS[b].name, n: SHOP_BOOSTER[b] })}><Price n={SHOP_BOOSTER[b]} /></Press>
-          </View>
+            <Txt v="tiny" numberOfLines={2} center style={{ marginTop: 4, minHeight: 28 }}>{BOOSTERS[b].name}</Txt>
+            <Price n={SHOP_BOOSTER[b]} />
+          </Press>
         ))}
         {!s.bees.includes(NIGHT_BEE) ? (
-          <View style={styles.shopRow}>
+          <Press onPress={onBuyFragment} disabled={s.loot.pollen < SHOP_FRAGMENT || s.loot.fragments >= FRAGMENTS_FOR_BEE}
+            style={[styles.shopCard, shadow, { width: col }]} accessibilityRole="button" accessibilityLabel={t("sh.fragment")}>
             <Image source={ART.fragment} style={{ width: 40, height: 40 }} />
-            <View style={{ flex: 1 }}><Txt v="h3" style={{ fontSize: 15 }}>{t("sh.fragment")}</Txt><Txt v="tiny" color={C.dim}>{s.loot.fragments}/{FRAGMENTS_FOR_BEE}</Txt></View>
-            <Press onPress={onBuyFragment} disabled={s.loot.pollen < SHOP_FRAGMENT || s.loot.fragments >= FRAGMENTS_FOR_BEE} style={[styles.buy, (s.loot.pollen < SHOP_FRAGMENT || s.loot.fragments >= FRAGMENTS_FOR_BEE) && { opacity: 0.45 }]} accessibilityRole="button" accessibilityLabel={t("sh.buyFrag", { n: SHOP_FRAGMENT })}><Price n={SHOP_FRAGMENT} /></Press>
-          </View>
+            <Txt v="tiny" center style={{ marginTop: 4 }}>{t("sh.fragment")}</Txt>
+            <Txt v="tiny" color={C.dim}>{s.loot.fragments}/{FRAGMENTS_FOR_BEE}</Txt>
+            <Price n={SHOP_FRAGMENT} />
+          </Press>
         ) : null}
-      </SheetScroll>
+      </View>
     </View>
   );
 }
@@ -321,6 +305,11 @@ function Odds({ kind, s }: { kind: BoxKind; s: GameState }) {
 }
 
 const styles = StyleSheet.create({
+  countBig: { position: "absolute", top: 56, right: 24, backgroundColor: C.honeyDeep, borderRadius: 16, paddingHorizontal: 10, paddingVertical: 2 },
+  chip: { backgroundColor: "#F3E8D0", borderRadius: 12, paddingHorizontal: 8, paddingVertical: 4 },
+  rowBox: { flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: "#fff", borderRadius: 20, padding: 12 },
+  shopCard: { backgroundColor: "#fff", borderRadius: 18, padding: 10, alignItems: "center", gap: 2 },
+  alCell: { width: "22%", alignItems: "center", gap: 2 },
   seg3: { flexDirection: "row", backgroundColor: "#FFFFFF", borderRadius: 22, padding: 4, gap: 4, ...shadow },
   seg3Btn: { flex: 1, height: 38, borderRadius: 18, alignItems: "center", justifyContent: "center" },
   seg3On: { backgroundColor: C.honey },

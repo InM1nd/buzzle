@@ -43,10 +43,6 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
         </View>
         {view === "all" ? (
         <>
-        <Press onPress={onGarden} style={styles.nectarHint} accessibilityRole="button" accessibilityLabel={t("bees.nectarLabel")}>
-          <Image source={ART.nectar} style={{ width: 24, height: 24 }} />
-          <Txt v="small" color="#9C2F5C" style={{ flex: 1 }}>{t("bees.nectar", { n: fmt(s.nectar) })} · {t("bees.nectarHint")}</Txt>
-        </Press>
         <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
           {BEES.map((b, i) => {
             const has = owned.has(b.id);
@@ -231,6 +227,7 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
         {has && level > 1 ? <Txt v="small" color="#6B4CA8" center>{t("bees.levelsBonus", { p: Math.round(LEVEL_HIVE_BONUS * 100 * (level - 1)) })}</Txt> : null}
         {cost ? <Txt v="small" color={C.dim} center>{t("bees.next", { a: abilityAt(bee, level + 1) })}</Txt> : null}
       </View>
+      {has && cost ? <Txt v="tiny" color="#9C2F5C" center style={{ marginTop: -4, marginBottom: 8 }}>{t("bees.nectarHint")}</Txt> : null}
       {has && onSkin ? (
         <View style={{ alignSelf: "stretch", marginBottom: 10 }} accessibilityLabel={t("bees.outfits")}>
           <Txt v="tiny" color={C.dim}>{t("bees.outfitCaps")}</Txt>

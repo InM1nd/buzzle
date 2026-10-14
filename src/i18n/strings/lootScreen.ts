@@ -1,6 +1,10 @@
 /** Surprises tab, album, shop, odds. */
 import type { Entry } from "../core";
 export const lootScreen = {
+  "ls.ready": { en: "Ready to open", uk: "Готова до відкриття", ru: "Готова к открытию" },
+  "ls.pityEpic": { en: "Epic in {n}", uk: "Епік через {n}", ru: "Эпик через {n}" },
+  "ls.pityLeg": { en: "Legendary in {n}", uk: "Легендарний через {n}", ru: "Легендарный через {n}" },
+  "al.progress": { en: "{a} of {b}", uk: "{a} з {b}", ru: "{a} из {b}" },
   "ls.seg.chests": { en: "Chests", uk: "Скрині", ru: "Сундуки" },
   "ls.seg.shop": { en: "Shop", uk: "Крамниця", ru: "Лавка" },
   "ls.seg.album": { en: "Album", uk: "Альбом", ru: "Альбом" },

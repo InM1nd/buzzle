@@ -133,27 +133,21 @@ export default function PuzzleScreen({ s, now, onPlay }: Props) {
         <GameButton title={t("pz.play")} color="honey" style={{ marginTop: 12 }} onPress={() => { onPlay("free", { moves: useMoves && bs.moves > 0, bomb: useBomb && bs.bomb > 0 }); setUseMoves(false); setUseBomb(false); }} label={t("mode.free")} />
       </Card>
 
-      <Card style={{ borderWidth: 2, borderColor: weekendOpen(s, now) ? "#9A6BE0" : C.line }}>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
-          <View style={[styles.freeIcon, { backgroundColor: "#EFE6FF" }]}><Image source={ART.cells[2]} style={{ width: 42, height: 37 }} /></View>
-          <View style={{ flex: 1 }}>
-            <Txt v="h2">{t("pz.weekend")}</Txt>
-            <Txt v="small" color={C.dim}>{t("pz.weekendSub", { n: WEEKEND_MOVES })}</Txt>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginTop: 4 }}><Stars n={s.week.weekendStars} size={18} /><Txt v="tiny" color={C.dim}>{WEEKEND_STARS.map(fmt).join(" · ")}</Txt></View>
-          </View>
-        </View>
-        <GameButton title={weekendOpen(s, now) ? t("pz.play") : t("pz.weekendOnly")} disabled={!weekendOpen(s, now)} color={weekendOpen(s, now) ? "purple" : "grey"} style={{ marginTop: 12 }}
-          onPress={() => onPlay("weekend")} label={t("mode.weekend")} />
-      </Card>
-
-      {/* v1.5: future mini-games live here */}
-      <Card style={{ flexDirection: "row", alignItems: "center", gap: 12, opacity: 0.7 }}>
-        <Image source={ART.lock} style={{ width: 30, height: 30, tintColor: C.dim }} />
-        <View style={{ flex: 1 }}>
-          <Txt v="h3">{t("pz.meadow")}</Txt>
-          <Txt v="small" color={C.dim}>{t("pz.meadowSub")}</Txt>
-        </View>
-      </Card>
+      <View style={{ flexDirection: "row", gap: 10 }}>
+        <Card style={{ flex: 1, backgroundColor: "#F1E9FF", borderWidth: 2, borderColor: weekendOpen(s, now) ? "#9A6BE0" : "#E2D6F7" }}>
+          <Image source={ART.cells[2]} style={{ width: 38, height: 34 }} />
+          <Txt v="h3" style={{ marginTop: 6 }}>{t("pz.weekend")}</Txt>
+          <Txt v="tiny" color={C.dim}>{t("pz.weekendSub", { n: WEEKEND_MOVES })}</Txt>
+          <View style={{ marginTop: 4 }}><Stars n={s.week.weekendStars} size={14} /></View>
+          <GameButton title={weekendOpen(s, now) ? t("pz.play") : t("pz.weekendOnly")} disabled={!weekendOpen(s, now)} color={weekendOpen(s, now) ? "purple" : "grey"} style={{ marginTop: 8 }}
+            onPress={() => onPlay("weekend")} label={t("mode.weekend")} />
+        </Card>
+        <Card style={{ flex: 1, backgroundColor: "#E8F5DD", borderWidth: 2, borderColor: "#CFE6BC" }}>
+          <Image source={ART.lock} style={{ width: 30, height: 30, tintColor: "#6E9A55" }} />
+          <Txt v="h3" style={{ marginTop: 6 }}>{t("pz.meadow")}</Txt>
+          <Txt v="tiny" color={C.dim}>{t("pz.meadowSub")}</Txt>
+        </Card>
+      </View>
 
       <Card>
         <Txt v="h3" style={{ marginBottom: 10 }}>{t("pz.how")}</Txt>

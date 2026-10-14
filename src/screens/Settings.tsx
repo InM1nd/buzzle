@@ -39,22 +39,20 @@ export function SettingsModal(p: SettingsProps) {
   useEffect(() => { if (p.visible) setPage(p.startPage ?? "main"); }, [p.visible, p.startPage]);
   const { height } = useWindowDimensions();
   return (
-    <Overlay visible={p.visible} onClose={p.onClose}>
-      <View accessibilityLabel={t("st.title")}>
-        <CloseBtn onPress={p.onClose} />
+    !p.visible ? null :
+    <View style={styles.page}>
+      <View accessibilityLabel={t("st.title")} style={{ flex: 1 }}>
         <View style={styles.head}>
-          {page !== "main" ? (
-            <Press onPress={() => setPage("main")} hitSlop={12} style={styles.back} accessibilityRole="button" accessibilityLabel={t("st.title")}>
-              <Txt v="h2" color={C.honeyDark}>‹</Txt>
-            </Press>
-          ) : null}
+          <Press onPress={page !== "main" ? () => setPage("main") : p.onClose} hitSlop={12} style={styles.back} accessibilityRole="button" accessibilityLabel={t("c.close")}>
+            <Txt v="h2" color={C.honeyDark}>‹</Txt>
+          </Press>
           <Txt v="h1">{page === "about" ? t("ab.title") : page === "update" ? t("up.title") : t("st.title")}</Txt>
         </View>
-        <ScrollView style={{ maxHeight: Math.min(height * 0.62, height - 300) }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
+        <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
           {page === "main" ? <Main {...p} go={setPage} /> : page === "update" ? <UpdatePage u={p.updater} /> : <About />}
         </ScrollView>
       </View>
-    </Overlay>
+    </View>
   );
 }
 
@@ -331,9 +329,10 @@ function Stepper({ label, value, onChange }: { label: string; value: number; onC
 }
 
 const styles = StyleSheet.create({
-  head: { flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 10, marginRight: 36 },
-  back: { width: 30, height: 30, borderRadius: 15, alignItems: "center", justifyContent: "center", backgroundColor: "#FFF1D2" },
-  group: { backgroundColor: "#FFF9EE", borderRadius: 18, paddingHorizontal: 12, paddingVertical: 8, borderWidth: 1.5, borderColor: "#F3E3C4" },
+  page: { position: "absolute", left: 0, right: 0, top: 0, bottom: 0, zIndex: 50, elevation: 50, backgroundColor: C.bg, paddingTop: 44, paddingHorizontal: 16 },
+  head: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 12 },
+  back: { width: 40, height: 40, borderRadius: 20, alignItems: "center", justifyContent: "center", backgroundColor: "#FFF1D2" },
+  group: { backgroundColor: "#fff", borderRadius: 18, paddingHorizontal: 12, paddingVertical: 8, borderWidth: 1.5, borderColor: "#F3E3C4" },
   row: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 9, borderBottomWidth: 1, borderBottomColor: C.line },
   link: { flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 11, borderBottomWidth: 1, borderBottomColor: C.line },
   seg: { flexDirection: "row", backgroundColor: "#F6E3BF", borderRadius: 14, padding: 3, gap: 3, marginBottom: 4 },

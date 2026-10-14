@@ -6,7 +6,7 @@ import { addBackListener } from "../platform/back";
 import {
   applyPath, Board, Cell, createBoard, shuffleBoard, findBestPath, isValidPath, MoveResult, pathColor, PuzzleRules, stepPath,
 } from "../logic/board";
-import { boardSize, cellCenter, COLS, hitTest, Pos, ROWS } from "../logic/hex";
+import { boardSize, cellCenter, COLS, fitStretch, hitTest, Pos, ROWS } from "../logic/hex";
 import { DAILY_STARS, starsFor, WEEKEND_STARS } from "../logic/day";
 import { BOX_INFO } from "../logic/loot";
 import { boxArt } from "../ui/lootUi";
@@ -42,7 +42,7 @@ interface Props {
 
 // ---------- cell ----------
 const CellView = React.memo(function CellView(p: {
-  cell: Cell; x: number; y: number; startY: number; delay: number; s: number; selected: boolean; dim: boolean; hint: boolean; pulse: number;
+  cell: Cell; x: number; y: number; startY: number; delay: number; s: number; k: number; selected: boolean; dim: boolean; hint: boolean; pulse: number;
 }) {
   const ty = useRef(new Animated.Value(p.startY)).current;
   const sc = useRef(new Animated.Value(1)).current;
@@ -70,7 +70,7 @@ const CellView = React.memo(function CellView(p: {
     l.start();
     return () => l.stop();
   }, [p.hint, hint]);
-  const w = 2 * p.s * TILE, h = SQ3 * p.s * TILE;
+  const w = 2 * p.s * TILE, h = SQ3 * p.s * p.k * TILE;
   const src = p.cell.kind === "wild" ? ART.wild : ART.cells[p.cell.color];
   return (
     <Animated.View
@@ -88,7 +88,7 @@ const CellView = React.memo(function CellView(p: {
 });
 
 // ---------- effects ----------
-interface PopFx { key: number; x: number; y: number; color: number; kind: Cell["kind"]; delay: number; s: number }
+interface PopFx { key: number; x: number; y: number; color: number; kind: Cell["kind"]; delay: number; s: number; k: number }
 function Pop({ fx, onDone }: { fx: PopFx; onDone: (k: number) => void }) {
   const a = useRef(new Animated.Value(0)).current;
   const parts = useMemo(() => Array.from({ length: 5 }, (_, i) => {
@@ -99,7 +99,7 @@ function Pop({ fx, onDone }: { fx: PopFx; onDone: (k: number) => void }) {
   useEffect(() => {
     Animated.timing(a, { toValue: 1, duration: 520, delay: fx.delay, easing: Easing.out(Easing.quad), useNativeDriver: true }).start(() => onDone(fx.key));
   }, [a, fx, onDone]);
-  const w = 2 * fx.s * TILE, h = SQ3 * fx.s * TILE;
+  const w = 2 * fx.s * TILE, h = SQ3 * fx.s * fx.k * TILE;
   const col = C.pollen[fx.color];
   return (
     <View pointerEvents="none" style={{ position: "absolute", left: fx.x, top: fx.y }}>
@@ -210,10 +210,13 @@ export default function GameScreen(props: Props) {
   // board wrap adds 6px padding + 3px border on each side; keep 12px air to the screen edge
   const avail = Math.max(1, Math.min(containerW - 42, 560));
   const sByW = avail / (1.5 * COLS + 0.5);
-  const sByH = (height - insets.top - insets.bottom - 190) / (SQ3 * (ROWS + 0.5));
+  const availH = height - insets.top - insets.bottom - 190;
+  const sByH = availH / (SQ3 * (ROWS + 0.5));
   const s = Math.max(20, Math.min(sByW, sByH));
-  const size = boardSize(s);
-  const H = SQ3 * s;
+  // spare vertical room (tall phones) → stretch the lattice a little so the tiles are not squat
+  const k = s < sByW ? 1 : fitStretch(s, availH);
+  const size = boardSize(s, COLS, ROWS, k);
+  const H = SQ3 * s * k;
 
   const [board, setBoard] = useState<Board>(() => {
     const b = createBoard(props.seed, props.rules);
@@ -260,7 +263,7 @@ export default function GameScreen(props: Props) {
       for (let r = 0; r < ROWS; r++) if (!prevPos.current.has(board.cells[c][r].id)) fresh++;
       for (let r = 0; r < ROWS; r++) {
         const cell = board.cells[c][r];
-        const { x, y } = cellCenter(c, r, s);
+        const { x, y } = cellCenter(c, r, s, k);
         const prev = prevPos.current.get(cell.id);
         let startY: number, delay: number;
         if (first.current) {
@@ -277,7 +280,7 @@ export default function GameScreen(props: Props) {
       }
     }
     return out;
-  }, [board, s, size.height, H]);
+  }, [board, s, k, size.height, H]);
   useEffect(() => {
     const m = new Map<number, number>();
     layout.forEach((l) => m.set(l.cell.id, l.y));
@@ -288,9 +291,9 @@ export default function GameScreen(props: Props) {
   // empty sockets under the tiles: the board keeps its honeycomb structure while tiles fall
   const slots = useMemo(() => {
     const out: { k: number; x: number; y: number }[] = [];
-    for (let c = 0; c < COLS; c++) for (let r = 0; r < ROWS; r++) { const p = cellCenter(c, r, s); out.push({ k: c * 100 + r, x: p.x, y: p.y }); }
+    for (let c = 0; c < COLS; c++) for (let r = 0; r < ROWS; r++) { const p = cellCenter(c, r, s, k); out.push({ k: c * 100 + r, x: p.x, y: p.y }); }
     return out;
-  }, [s]);
+  }, [s, k]);
 
   // ----- hint after idle -----
   useEffect(() => {
@@ -324,13 +327,13 @@ export default function GameScreen(props: Props) {
 
     // effects
     const newPops: PopFx[] = res.removed.map((rm, i) => {
-      const { x, y } = cellCenter(rm.pos.c, rm.pos.r, s);
+      const { x, y } = cellCenter(rm.pos.c, rm.pos.r, s, k);
       const idx = p.findIndex((q) => q.c === rm.pos.c && q.r === rm.pos.r);
-      return { key: fxId.current++, x, y, color: rm.cell.color, kind: rm.cell.kind, s, delay: rm.blast ? 120 + (i % 6) * 15 : Math.max(0, idx) * 22 };
+      return { key: fxId.current++, x, y, color: rm.cell.color, kind: rm.cell.kind, s, k, delay: rm.blast ? 120 + (i % 6) * 15 : Math.max(0, idx) * 22 };
     });
     setPops((old) => [...old, ...newPops]);
     const last = p[p.length - 1];
-    const lc = cellCenter(last.c, last.r, s);
+    const lc = cellCenter(last.c, last.r, s, k);
     const col = res.color ?? 0;
     addText(lc.x, lc.y - H * 0.4, `+${res.score}`, PATH_COLORS[col]);
     const len = p.length;
@@ -373,7 +376,7 @@ export default function GameScreen(props: Props) {
       }
       return n;
     });
-  }, [combo, props.rules, props.beeIds, s, H, size.width, size.height, addText, shake, movesPulse]);
+  }, [combo, props.rules, props.beeIds, s, k, H, size.width, size.height, addText, shake, movesPulse]);
 
   // ----- end of round -----
   const onFinishRef = useRef(props.onFinish);
@@ -408,7 +411,7 @@ export default function GameScreen(props: Props) {
   const commitRef = useRef(commit);
   commitRef.current = commit;
   const touch = useCallback((px: number, py: number) => {
-    const pos = hitTest(px - offset.current.x, py - offset.current.y, s);
+    const pos = hitTest(px - offset.current.x, py - offset.current.y, s, 0.82, k);
     if (!pos) return;
     const cur = pathRef.current;
     const next = stepPath(boardRef.current, cur, pos);
@@ -417,7 +420,7 @@ export default function GameScreen(props: Props) {
       setPath(next);
       hTick();
     }
-  }, [s]);
+  }, [s, k]);
   const responder = useMemo(() => PanResponder.create({
     onStartShouldSetPanResponder: () => !finishedRef.current && !busy.current,
     onMoveShouldSetPanResponder: () => !finishedRef.current && !busy.current,
@@ -442,7 +445,7 @@ export default function GameScreen(props: Props) {
   const pc = path.length ? pathColor(board, path) : null;
   const selected = useMemo(() => new Set(path.map((p) => p.c * 100 + p.r)), [path]);
   const hintSet = useMemo(() => new Set(hint.map((p) => p.c * 100 + p.r)), [hint]);
-  const pathPts = path.map((p) => cellCenter(p.c, p.r, s));
+  const pathPts = path.map((p) => cellCenter(p.c, p.r, s, k));
   const lineColor = PATH_COLORS[pc ?? 0];
   const chainLen = path.length;
   const preview = chainLen >= 3 ? `${chainLen}${chainLen >= props.rules.bombAt ? t("game.bombTag") : ""}` : chainLen ? `${chainLen}` : "";
@@ -504,7 +507,7 @@ export default function GameScreen(props: Props) {
           <View pointerEvents="none" style={StyleSheet.absoluteFill}>
             {slots.map((sl) => (
               <Image key={`slot${sl.k}`} source={ART.cells[0]}
-                style={{ position: "absolute", left: sl.x - s * TILE, top: sl.y - (SQ3 * s * TILE) / 2, width: 2 * s * TILE, height: SQ3 * s * TILE, tintColor: C.boardEdge, opacity: 0.35 }} />
+                style={{ position: "absolute", left: sl.x - s * TILE, top: sl.y - (SQ3 * s * k * TILE) / 2, width: 2 * s * TILE, height: SQ3 * s * k * TILE, tintColor: C.boardEdge, opacity: 0.35 }} />
             ))}
           </View>
           {layout.map((l) => (
@@ -516,6 +519,7 @@ export default function GameScreen(props: Props) {
               startY={l.startY}
               delay={l.delay}
               s={s}
+              k={k}
               selected={selected.has(l.c * 100 + l.r)}
               dim={pc !== null && l.cell.kind !== "wild" && l.cell.color !== pc && !selected.has(l.c * 100 + l.r)}
               hint={hintSet.has(l.c * 100 + l.r)}

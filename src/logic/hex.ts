@@ -26,30 +26,40 @@ export function isAdjacent(a: Pos, b: Pos): boolean {
   return neighbors(a.c, a.r).some((n) => n.c === b.c && n.r === b.r);
 }
 
-/** Pixel centre of a cell for hex "radius" s (centre→corner). */
-export function cellCenter(c: number, r: number, s: number): { x: number; y: number } {
-  const h = Math.sqrt(3) * s;
+/**
+ * Pixel centre of a cell for hex "radius" s (centre→corner).
+ * `k` stretches the lattice vertically (1 = regular hexagons); the tile art is stretched with it, so the
+ * honeycomb stays gap-free but looks less squat when the screen has spare height.
+ */
+export function cellCenter(c: number, r: number, s: number, k = 1): { x: number; y: number } {
+  const h = Math.sqrt(3) * s * k;
   return { x: s + c * 1.5 * s, y: h / 2 + r * h + (c & 1 ? h / 2 : 0) };
 }
 
-export function boardSize(s: number, cols = COLS, rows = ROWS) {
-  const h = Math.sqrt(3) * s;
+export function boardSize(s: number, cols = COLS, rows = ROWS, k = 1) {
+  const h = Math.sqrt(3) * s * k;
   return { width: s * (1.5 * cols + 0.5), height: h * (rows + 0.5) };
 }
 
+/** Vertical stretch that uses spare screen height: 1 ≤ k ≤ maxK. */
+export function fitStretch(s: number, availH: number, rows = ROWS, maxK = 1.06): number {
+  const natural = Math.sqrt(3) * (rows + 0.5) * s;
+  return Math.max(1, Math.min(maxK, availH / natural));
+}
+
 /** Nearest cell whose centre is within `tolerance`×s of the point (forgiving touch hit test). */
-export function hitTest(x: number, y: number, s: number, tolerance = 0.82): Pos | null {
+export function hitTest(x: number, y: number, s: number, tolerance = 0.82, k = 1): Pos | null {
   let best: Pos | null = null;
   let bestD = Infinity;
   const approxC = Math.round((x - s) / (1.5 * s));
+  const h = Math.sqrt(3) * s * k;
   for (let c = approxC - 1; c <= approxC + 1; c++) {
     if (c < 0 || c >= COLS) continue;
-    const h = Math.sqrt(3) * s;
     const approxR = Math.round((y - h / 2 - (c & 1 ? h / 2 : 0)) / h);
     for (let r = approxR - 1; r <= approxR + 1; r++) {
       if (!inBounds(c, r)) continue;
-      const p = cellCenter(c, r, s);
-      const d = Math.hypot(p.x - x, p.y - y);
+      const p = cellCenter(c, r, s, k);
+      const d = Math.hypot(p.x - x, (p.y - y) / k);
       if (d < bestD) {
         bestD = d;
         best = { c, r };

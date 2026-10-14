@@ -21,25 +21,29 @@ export function TurnBee({ id, size, turn = 0, level = 1, skin, flap = true, seed
   const set = TURN[id];
   const big = size >= 110;
   const pick = (m: Record<string, any> | undefined, d: string) => m && ((big && m[`${d}_240`]) || m[`${d}_112`]);
+  // Flap exactly as the user's prototype (design/2d/bee-turnarounds/sprite.js): wave = sin(2π·8t),
+  // wing rotates wave·0.06 rad around its root, height scales 0.93 + 0.07·wave. 8 cycles/s.
   const clock = useRef(new Animated.Value(0)).current;
   useEffect(() => {
     if (!flap) return;
-    clock.setValue((seed % 7) / 7);
-    const a = Animated.loop(Animated.timing(clock, { toValue: 1, duration: 76 + (seed % 4) * 4, easing: Easing.linear, useNativeDriver: true }));
-    a.start(); return () => a.stop();
+    clock.setValue(0);
+    const a = Animated.loop(Animated.timing(clock, { toValue: 1, duration: 125, easing: Easing.linear, useNativeDriver: true }));
+    const t = setTimeout(() => a.start(), (seed % 8) * 15);
+    return () => { clearTimeout(t); a.stop(); };
   }, [flap, clock, seed]);
   const box = { width: size, height: size };
-  const wing = (k: "L" | "R", d: string) => {
-    const src = pick(set[`wing${k}`], d); const root = WING_ROOT[id]?.[d]?.[k];
+  const PH = [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1];
+  const wave = PH.map((p) => Math.sin(p * Math.PI * 2));
+  const wing = (k: "w0" | "w1", d: string) => {
+    const src = pick(set[k], d); const root = WING_ROOT[id]?.[d]?.[k];
     if (!src || !root) return null;
-    const sgn = k === "L" ? 1 : -1;
-    const rot = clock.interpolate({ inputRange: [0, 0.4, 0.55, 1], outputRange: ["0deg", `${sgn * 16}deg`, `${sgn * 15}deg`, "0deg"] });
-    const sy = clock.interpolate({ inputRange: [0, 0.4, 0.55, 1], outputRange: [1, 0.72, 0.75, 1] });
+    const rot = clock.interpolate({ inputRange: PH, outputRange: wave.map((w) => `${w * 0.06 * root[2]}rad`) });
+    const sy = clock.interpolate({ inputRange: PH, outputRange: wave.map((w) => 0.93 + 0.07 * w) });
     return <Animated.Image key={k} source={src} style={[box, { position: "absolute", transformOrigin: `${root[0] * 100}% ${root[1] * 100}%` } as any, flap ? { transform: [{ rotate: rot }, { scaleY: sy }] } : null]} />;
   };
   const layer = (d: string, extra?: any) => (
     <Animated.View key={d} style={[box, { position: "absolute", left: 0, top: 0 }, extra]}>
-      {wing("L", d)}{wing("R", d)}
+      {wing("w0", d)}{wing("w1", d)}
       <Image source={pick(f, d) || pick(set.base, d)} style={box} />
     </Animated.View>
   );

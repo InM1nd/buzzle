@@ -1,6 +1,6 @@
 import { t } from "../i18n";
 import React, { useEffect, useRef, useState } from "react";
-import { Animated, Image, ScrollView, StyleSheet, useWindowDimensions, View } from "react-native";
+import { ImageBackground, Animated, Image, ScrollView, StyleSheet, useWindowDimensions, View } from "react-native";
 import { GameState, dayColorInfo, flowerUnlocked, level, nextBedCost, seedPrice, seedsOwned, shownDecos } from "../logic/game";
 import { DecoStrip, RARITY_UI } from "../ui/lootUi";
 import {
@@ -79,9 +79,7 @@ function BedTile({ b, i, w, selected, onPress }: { b: Bed; i: number; w: number;
             <View style={styles.plus}><Image source={ART.seed} style={{ width: 22, height: 22, tintColor: "#B0875A" }} /></View>
           )}
         </View>
-        <View style={[styles.soil, wet ? styles.soilWet : null]}>
-          <View style={[styles.soilRidge, wet ? { backgroundColor: "#6B4426" } : null]} />
-        </View>
+        <Image source={wet ? require("../../assets/art/env/bed_wet.webp") : require("../../assets/art/env/bed_dry.webp")} resizeMode="contain" style={{ width: "100%", height: 34, marginTop: -10 }} />
         {b.flower && !isReady(b) ? <Bar progress={progress(b)} height={6} color={wet ? "#5CB8F0" : C.honey} style={{ width: "86%", marginTop: 5 }} /> : <View style={{ height: 11 }} />}
         <Txt v="tiny" numberOfLines={1} color={st.tone === "ready" ? C.greenDark : st.tone === "dry" ? C.red : C.dim} style={{ marginTop: 3 }}>{st.text}</Txt>
         {st.tone === "ready" ? <View style={styles.readyDot}><Image source={ART.nectar} style={{ width: 22, height: 22 }} /></View> : null}
@@ -112,6 +110,7 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
   };
 
   return (
+    <ImageBackground source={require("../../assets/art/env/garden_bg.webp")} resizeMode="cover" style={{ flex: 1 }} imageStyle={{ opacity: 0.55 }}>
     <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 28, gap: 14 }} showsVerticalScrollIndicator={false}>
       {!s.settings.gardenIntroDone ? (
         <Card style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
@@ -209,6 +208,7 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
       )}
       <Txt v="tiny" color={C.faint} center>{t("gd.levelHint", { n: level(s) })}</Txt>
     </ScrollView>
+    </ImageBackground>
   );
 }
 

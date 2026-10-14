@@ -2,7 +2,7 @@ import { t } from "../i18n";
 import { shownDecos } from "../logic/game";
 import { DecoStrip } from "../ui/lootUi";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Animated, Easing, Image, Platform, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { ImageBackground, Animated, Easing, Image, Platform, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { GameState, cap, canBuildAt, clockRolledBack, combActionCost, level, rate, upgradeCostFor } from "../logic/game";
 import { capHours, combRate, MAX_COMB_LEVEL, msUntilFull, UPGRADES, UpgradeId } from "../logic/economy";
 import { HIVE_SLOTS, hiveCenter } from "../logic/hex";
@@ -187,6 +187,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
   }, [s.bees.join(","), builtKey, hs, areaW, areaH]);
 
   return (
+    <ImageBackground source={require("../../assets/art/env/hive_bg.webp")} resizeMode="cover" style={{ flex: 1 }} imageStyle={{ opacity: 0.55 }}>
     <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 28, gap: 14 }} showsVerticalScrollIndicator={false}>
       {rolled ? (
         <Card style={{ backgroundColor: "#FFE7DF", padding: 12 }}>
@@ -259,6 +260,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, banne
         );
       })}
     </ScrollView>
+    </ImageBackground>
   );
 }
 

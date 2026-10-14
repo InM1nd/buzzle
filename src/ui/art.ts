@@ -16,6 +16,7 @@ export const ART = {
   starOff: require("../../assets/art/star_off.webp"),
   flame: require("../../assets/art/flame.webp"),
   chest: require("../../assets/art/chest.webp"),
+  chestOpen: require("../../assets/art/chest_open.webp"),
   check: require("../../assets/art/check.webp"),
   drop: require("../../assets/art/drop.webp"),
   bgTile: require("../../assets/art/bg_tile.webp"),

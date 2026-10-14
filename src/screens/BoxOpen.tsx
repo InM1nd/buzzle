@@ -137,8 +137,7 @@ export default function BoxOpen({ kind, left, bees, skins, onOpen, onOpenAll, on
           <Gathering key={round} bees={bees} skins={skins} w={width} B={B} />
           <Press onPress={tap} haptic={false} scaleTo={0.97} accessibilityRole="button" accessibilityLabel={t("box.tapLabel", { n: 3 - cracks })}>
             <Animated.View style={{ width: B, height: B, transform: [{ translateX: tx }, { rotate: rot }, { scale: boxScale }] }}>
-              <Image source={boxArt(kind)} style={{ width: B, height: B }} />
-              {cracks > 0 ? <Image source={ITEM_ART[`crack${cracks}`].src} style={[StyleSheet.absoluteFill, { width: B, height: B }]} /> : null}
+              <Image source={boxArt(kind, cracks)} style={{ width: B, height: B }} />
             </Animated.View>
           </Press>
           <View style={styles.dots}>
@@ -151,8 +150,7 @@ export default function BoxOpen({ kind, left, bees, skins, onOpen, onOpenAll, on
           <View style={{ width: 150, height: 120, alignItems: "center", justifyContent: "center" }}>
             <Animated.View style={[styles.rays, { borderColor: glow, opacity: rays.interpolate({ inputRange: [0, 1], outputRange: [0, 0.55] }), transform: [{ scale: rays.interpolate({ inputRange: [0, 1], outputRange: [0.3, 1] }) }, { rotate: "45deg" }] }]} />
             <Animated.View style={[styles.rays, { borderColor: glow, opacity: rays.interpolate({ inputRange: [0, 1], outputRange: [0, 0.4] }), transform: [{ scale: rays.interpolate({ inputRange: [0, 1], outputRange: [0.2, 1.25] }) }] }]} />
-            <Image source={boxArt(kind)} style={{ width: 92, height: 92, opacity: 0.95 }} />
-            {!all ? <Image source={ITEM_ART.crack3.src} style={{ position: "absolute", width: 92, height: 92 }} /> : null}
+            <Image source={boxArt(kind, all ? 0 : 2)} style={{ width: 92, height: 92, opacity: 0.95 }} />
           </View>
           {all ? <Summary all={all} /> : (
             <View style={styles.grid}>

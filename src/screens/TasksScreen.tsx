@@ -126,7 +126,7 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
           );
         })}
         <View style={styles.bonus}>
-          <Image source={ART.chest} style={{ width: 48, height: 48, opacity: s.tasks.bonus ? 0.5 : 1 }} />
+          <Image source={s.tasks.bonus ? ART.chestOpen : ART.chest} style={{ width: 48, height: 48, opacity: s.tasks.bonus ? 0.6 : 1 }} />
           <View style={{ flex: 1 }}>
             <Txt v="h3">{t("tasks.chest")}</Txt>
             <Txt v="small" color={C.dim}>{s.tasks.bonus ? t("tasks.chestGot") : t("tasks.chestHint", { h: fmt(br.honey ?? 0), j: br.jelly ?? 0 })}</Txt>

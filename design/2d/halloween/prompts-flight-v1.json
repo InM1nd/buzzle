@@ -1,0 +1,96 @@
+{
+  "tool": "image_gen.imagegen",
+  "date": "2026-10-16",
+  "assets": [
+    {
+      "name": "flight/bat_2",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-e2348fae-ec99-4fa0-9e2b-873b170774e2.png",
+      "prompt": "Create frame 2 (wings midpoint) of a future 3-frame bat flight cycle for a cozy Buzzle side scrolling game. One cute SMALL bat, side profile facing LEFT. Dark plum #3D254B oval low-poly body, two short pointed ears with muted lavender inner ears, one prominent friendly dark eye with a white glint, small nose to LEFT, tiny cheerful mouth with very tiny fangs, short feet tucked beneath. Two scalloped membranous bat wings with soft muted plum-lilac interior facets, wings SPREAD HORIZONTALLY at midpoint of flap, visible near wing extending to upper-right (backward) in side perspective, far wing partially visible beyond back. Character must read as flying LEFT, not front-facing symmetrical butterfly. Planar facets comparable to a small faceted bee, gentle warm light upper-left and no exaggerated sheen. Body pivot at (128,137) in logical256x256 canvas, body nose at x83; entire silhouette fits 6% safe border. Body stays centered; leave room above and below wings for later frames. Only one bat, no moon, pumpkin, scenery or ground shadow. Reference is Buzzle style guide ONLY (face/rendering), do not draw ghost or bee. Cozy casual mobile game art, existing Buzzle honey crystal low-poly style, large clean irregular planar facets, soft warm upper-left key light, subtle ambient occlusion, no ink outlines, no text, signature or watermark, no horror. True transparent alpha.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/tiles/ghost_overlay.png"
+      ]
+    },
+    {
+      "name": "flight/candy_1",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-46311b3a-77a9-43a7-b1fc-361480a65056.png",
+      "prompt": "A single wrapped candy pickup: a compact faceted pumpkin-ORANGE bonbon with two twisted wrapper ends, small cream diamond accent at center, subtle glossy paper facet highlights. Three-quarter front view, simple clear silhouette, no jack-o-lantern face, no ribbon outside wrapper. Approximately80% canvas width. Reference is rendering/material guide, not an object to draw. Cozy Buzzle honey crystal low-poly game art, large irregular planar facets, upper-left warm light, no drawn outlines, moderate highlights, no text, no watermark. Square transparent alpha canvas, one isolated complete object, no ground shadow, safe margins. Clear at32px.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/honey.webp"
+      ]
+    },
+    {
+      "name": "flight/candy_2",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-49a243b0-6917-4e17-8578-322b2645edb4.png",
+      "prompt": "A single wrapped candy pickup: same scale/proportions as a compact hard candy bonbon with two twisted wrapper ends. Main wrapper muted festive PURPLE with TWO diagonal cream stripes wrapping around the faceted center, no printed lettering, one tiny highlight. Three-quarter front view, no bow or pumpkin, approximately80% canvas width. Reference is rendering/material guide, not an object to draw. Cozy Buzzle honey crystal low-poly game art, large irregular planar facets, upper-left warm light, no drawn outlines, moderate highlights, no text, no watermark. Square transparent alpha canvas, one isolated complete object, no ground shadow, safe margins. Clear at32px.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/honey.webp"
+      ]
+    },
+    {
+      "name": "flight/candy_3",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-b2ba9119-8e9b-43bc-9bcb-46d749c182ad.png",
+      "prompt": "A single MINT-GREEN round lollipop game pickup, thick candy disc with raised warm honey-colored spiral, short pale ivory wooden stick below, viewed in slight three-quarter front angle, clean legible circular silhouette, subtle glossy planar facets and one tiny sparkle. No wrapper, no bow, no leaf. Centered whole object occupies about78% canvas height. Reference is material/rendering guide ONLY, do not draw jar. Cozy Buzzle honey crystal low-poly game art, large irregular planar facets, upper-left warm light, no drawn outlines, moderate highlights, no text, no watermark. Square transparent alpha canvas, one isolated complete object, no ground shadow, safe margins. Clear at32px.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/honey.webp"
+      ]
+    },
+    {
+      "name": "flight/firefly",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-e2a12c6a-f15e-4738-ad63-11711fac7855.png",
+      "prompt": "A tiny cute firefly game pickup/particle icon: compact dark sage faceted head and thorax, round softly luminous yellow-green abdomen, TWO very small translucent wings and two tiny short antennae. Three-quarter side facing left, sweet simple eyes, silhouette readable at16px. Glow is local and subtle, keep outer margin genuinely transparent, not huge light blob. No limbs clutter or many sparkles. Object occupies about72% canvas. Reference is low-poly shading guide only, not object subject. Cozy Buzzle honey crystal low-poly game art, large irregular planar facets, upper-left warm light, no drawn outlines, moderate highlights, no text, no watermark. Square transparent alpha canvas, one isolated complete object, no ground shadow, safe margins. Clear at32px.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/honey.webp"
+      ]
+    },
+    {
+      "name": "flight/lantern-side-view",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-bccad8b5-3b7f-4266-b721-fde54b1f85e6.png",
+      "prompt": "Make a precise POSITION correction to the existing isolated stick+paper-lantern accessory in reference1. Reference2 is the bee on its512x512 coordinate system, for fitting ONLY; never draw the bee. The current accessory sits at the bee's chin. Move the ENTIRE stick+hook+lantern 58 pixels DOWN and12 pixels LEFT in the logical512x512 canvas. Keep the exact same size, perspective, colors, complete lantern and pole design. The left rounded pole end should land near (313,424), touching the bee's front lower foot in reference2; the lantern should hang to the RIGHT of that foot, roughly centered (397,435) and stay above y485. Do not recenter object or crop transparent canvas. Full canvas remains512x512 with huge transparent margins, only isolated accessory visible. NO BEE, face, legs, hands, wings, eyes, bag or antennae in output. No ground shadow, no external glow. Keep normal upper-left honey crystal light.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-dc6e9cf3-ad7f-45e9-95b0-dcd58efd2401.png",
+        "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/side-base-view.png"
+      ],
+      "canvas_offset_512": [
+        52,
+        -6
+      ]
+    },
+    {
+      "name": "flight/stem_bottom",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-94296f4d-a538-435b-9cfc-002d430031e9.png",
+      "prompt": "Correct the proportions of this BOTTOM flower-stem obstacle without changing its green/plum material or low-poly art style. It must be a VERY LONG SLENDER game obstacle, silhouette width:height about1:4.8. Keep an upright twisting stem reaching full BOTTOM canvas edge, one closed purple flower bud at TOP, a few small leaves and a vine. Make all leaves, vine loops, and flower bud MUCH NARROWER relative to the total height, about HALF their current width. Keep natural leaf/bud proportions by making each smaller overall, not squashing them; leave longer lengths of bare twisted stalk between leaves. On the same portrait canvas the whole silhouette occupies only the CENTER40% of canvas width and 97% of height, with large TRANSPARENT left/right margins to be mechanically cropped later. Bud maximum width around30% of canvas, leaves maximum total span40%, shaft width about12%. No wide leaves flaring to canvas sides. Top flower intact; bottom stalk exits lower edge. No soil, pot, floor, text, scene or shadow. Cozy honey crystal low-poly, warm upper-left light. Transparent alpha.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-34cefb0d-a353-43e4-8e4f-67179dcf13ee.png"
+      ]
+    },
+    {
+      "name": "flight/bat_1",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-df463bb6-218a-4063-9609-2a01644811c7.png",
+      "prompt": "Edit this exact bat to create frame1 of the same3-frame flight cycle: wings raised FULLY UP, a clear vertical upstroke above shoulder. Preserve the SAME body/head/ear shapes, one eye, eye glint, open smile, tiny fangs, short feet, body position, body scale, body rotation, facet colors, and overall canvas dimensions exactly. DO NOT reposition, rotate, enlarge, shrink or redesign the torso or face. Only rotate/deform the two wings at their root hinges; near wing rises up and slightly backward, far wing also up, with same scalloped membrane construction, lilac facets and plum edges. Character continues flying LEFT in side profile, not front view. Leave space above tips; no clipping. Transparent background; no scenery, text or ground shadow. Reference is frame2; the body must remain registered between frames.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-e2348fae-ec99-4fa0-9e2b-873b170774e2.png"
+      ],
+      "canvas_offset_768": [
+        -1,
+        -3
+      ]
+    },
+    {
+      "name": "flight/bat_3",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-87ac10bb-30dd-438e-8896-e0b29241ea42.png",
+      "prompt": "Edit this exact bat to create frame3 of the same3-frame flight cycle: wings pushed DOWN, near wing sweeps down and backward below body level from shoulder hinge, far wing is also down behind body. Preserve the SAME body/head/ear shapes, eye size, eye glint, smile, fangs, feet, position, scale, rotation, facet colors and canvas dimensions exactly. DO NOT reposition, rotate, enlarge, shrink or redesign torso/face. Only change wing pose at fixed root hinges, keeping scalloped membrane design and lilac/plum materials. Body remains horizontally flying LEFT in profile and same center as reference2. Strong downward flap distinct from wings raised or spread. Entire wing tips stay inside safe margins. Transparent background, no scene, text or ground shadow.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-e2348fae-ec99-4fa0-9e2b-873b170774e2.png"
+      ]
+    },
+    {
+      "name": "flight/stem_top",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-15093cf3-4500-477a-ba21-0d4ed40dc6fd.png",
+      "prompt": "Create the matching TOP-HANGING obstacle to this Buzzle bottom stem. Preserve same slender thickness, dark sage green faceted stalk, small leaves, gentle chunky vine thorns, purple flower material, warm upper-left lighting and portrait canvas dimensions. New object hangs DOWN FROM THE TOP edge: stalk begins at top canvas edge, travels straight down, and terminates at BOTTOM in one DROOPING, slightly open plum-purple bell flower with green sepals facing DOWN. This is an organically hanging flower, not a flipped picture of an upright bud; lighting remains upper LEFT. Whole silhouette width:height about1:4.8, occupies only center40% canvas WIDTH and97% HEIGHT, leaving large transparent side margins for mechanical crop. Use small compact leaves at alternating heights, long bare twisted shaft intervals. Keep similar max silhouette width as reference so both obstacles have the same in-game scale. No huge leaves or loops, no soil, background, text, or cast shadow. True transparent alpha; cozy honey crystal low-poly game style, no outlines or horror.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-94296f4d-a538-435b-9cfc-002d430031e9.png"
+      ]
+    }
+  ],
+  "export": "sRGB PNG; canvas resize and transparent-margin placement only; original art not painted in code"
+}

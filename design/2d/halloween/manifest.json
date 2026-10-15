@@ -362,7 +362,7 @@
         512
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "flight/bg_sky.png",
@@ -398,7 +398,7 @@
         900
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "flight/stem_bottom.png",
@@ -407,7 +407,7 @@
         900
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "flight/bat_1.png",
@@ -416,7 +416,7 @@
         256
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "flight/bat_2.png",
@@ -425,7 +425,7 @@
         256
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "flight/bat_3.png",
@@ -434,7 +434,7 @@
         256
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "flight/candy_1.png",
@@ -443,7 +443,7 @@
         128
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "flight/candy_2.png",
@@ -452,7 +452,7 @@
         128
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "flight/candy_3.png",
@@ -461,7 +461,7 @@
         128
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "flight/firefly.png",
@@ -470,7 +470,7 @@
         64
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "flight/icon.png",

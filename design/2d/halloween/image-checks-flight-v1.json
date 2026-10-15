@@ -1,0 +1,164 @@
+[
+  {
+    "file": "flight/bat_2.png",
+    "size": [
+      768,
+      768
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "visible_bounds": [
+      47,
+      192,
+      735,
+      550
+    ],
+    "sha256": "5415c70900b281b9dbd1981c6dbdad39565f5207258177bcc261b1f0af7c9705"
+  },
+  {
+    "file": "flight/candy_1.png",
+    "size": [
+      384,
+      384
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "visible_bounds": [
+      30,
+      85,
+      353,
+      298
+    ],
+    "sha256": "0c928bd2aa7d80393caa86f13f681137bfa2c0a75ba6e822330e235a8c985644"
+  },
+  {
+    "file": "flight/candy_2.png",
+    "size": [
+      384,
+      384
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "visible_bounds": [
+      30,
+      101,
+      353,
+      283
+    ],
+    "sha256": "f9008e3c30ba49fa23c4cc353f0c40069fec5d6390025d6789863c6b17797ca7"
+  },
+  {
+    "file": "flight/candy_3.png",
+    "size": [
+      384,
+      384
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "visible_bounds": [
+      76,
+      30,
+      307,
+      353
+    ],
+    "sha256": "a880e43b3c0ed8036d5b72c6135ba892b5196bdc523eaf3d36c33a2547e49eb0"
+  },
+  {
+    "file": "flight/firefly.png",
+    "size": [
+      192,
+      192
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "visible_bounds": [
+      15,
+      22,
+      176,
+      170
+    ],
+    "sha256": "402219e89b0bb32b9424278ed4302c0423699564ea0f25946c51e7881a324f56"
+  },
+  {
+    "file": "flight/lantern-side-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "visible_bounds": [
+      315,
+      345,
+      459,
+      488
+    ],
+    "sha256": "3faec7cdee6708e0d7d8ed9194f99ecda5300df885762f0cc213df3efa58b501"
+  },
+  {
+    "file": "flight/stem_bottom.png",
+    "size": [
+      600,
+      2700
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "visible_bounds": [
+      65,
+      72,
+      534,
+      2700
+    ],
+    "sha256": "4f38782e960d7efa0205b90d5de32d613c0b483ce1111cd1fa2f6c00497db24c",
+    "height_coverage": 0.9733333333333334
+  },
+  {
+    "file": "flight/bat_1.png",
+    "size": [
+      768,
+      768
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "visible_bounds": [
+      114,
+      126,
+      713,
+      550
+    ],
+    "sha256": "27fda787170abe0f7e2c9fb10b07e9d64e29019ca6fb5d0735d478920b3b001c"
+  },
+  {
+    "file": "flight/bat_3.png",
+    "size": [
+      768,
+      768
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "visible_bounds": [
+      140,
+      231,
+      701,
+      650
+    ],
+    "sha256": "c873d19ce520ced209f6f5d150c70fed3cb1eb7f951c295278b29f7e4018974a"
+  },
+  {
+    "file": "flight/stem_top.png",
+    "size": [
+      600,
+      2700
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "visible_bounds": [
+      55,
+      0,
+      546,
+      2627
+    ],
+    "sha256": "ada70bb8071fe6490a9f5ad9b2104c2a5fedec37f587e07b7df9a1490f466eb4",
+    "height_coverage": 0.9729629629629629
+  }
+]

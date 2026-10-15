@@ -1,6 +1,6 @@
 # Buzzle — cozy hive + honeycomb puzzle
 
-<img src="assets/icon-zhuzha.png" alt="Buzzle app icon" width="96" align="right">
+<img src="assets/icon-hive.png" alt="Buzzle app icon" width="96" align="right">
 
 **Buzzle** is a cozy portrait-mode casual game for Android and Telegram. You grow a bee hive that makes honey even
 while the app is closed, tend a small flower garden, and earn more by solving a daily hexagonal honeycomb puzzle.

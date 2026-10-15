@@ -158,7 +158,7 @@ Status: the dev build `1.5.0-dev` (versionCode 19) lives on the `v1.5-ui` branch
 **Left before the 1.5.0 release:**
 - Sound effects (see "v1.5 — extras").
 - Slim the APK: it is about 31 MB now, the old bee renderer and `react-native-svg` are still in the build.
-- Replace the remaining old art: the splash screen (`assets/splash-icon.png`, also the web loading screen), a few glyphs (album, shop, save, share) and the white notification silhouette; update the bot avatar and cover in Telegram (`design/brand/telegram-v1/`).
+- Replace the remaining old art: a few glyphs (album, shop, save, share) and the crack overlays; update the bot avatar and cover in Telegram (`design/brand/telegram-v1/`). Done in the dev build: the app icon with the honey-hive background, the splash screen, the web loading screen and the notification icon.
 - Check installing over 1.4.1 with real progress and the UI in Telegram, then merge `v1.5-ui` into `main`, tag it and deploy GitHub Pages.
 
 APK size: reasonably light, a guideline of up to 50–60 MB (the 24 MB limit is lifted). Sprites in WebP.

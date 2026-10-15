@@ -21,8 +21,8 @@ The Russian version of this document is [`ROADMAP.ru.md`](ROADMAP.ru.md); both f
 |---|---|---|
 | **Nectar flight** | A 60 s runner: the bee flies over a meadow, swipes up and down to collect flowers and dodges wasps and raindrops | Nectar (the new resource for bee evolution) and a little honey |
 | **Flower garden** | Plant seeds in the beds next to the hive, water them every few hours; different flowers raise different hive bonuses | A passive production bonus and the "colour of the day" ×1.5 for the puzzle |
-| **Pollen sorting** (concept drawn, to be decided) | Bees carry pollen of different colours; the player drags each into the jar of the matching colour before the store overflows, with combos (the earlier idea: a ball-sort on honeycombs). Frames: `design/concepts/minigames/` | Jelly for the weekly set, progress stars |
-| **Hive defence** (concept drawn, to be decided) | Tower-defence-lite: wasps and a hornet leader walk a trail to the hive; the player places guard bees, sticky drops and trap barrels for honey, 3–5 waves. Frames: `design/concepts/minigames/` | Protects part of the stock (a bonus storage for the day), trophies for the collection |
+| **Pollen sorting** (liked, concept drawn) | Bees carry pollen of different colours; the player drags each into the jar of the matching colour before the store overflows, with combos (the earlier idea: a ball-sort on honeycombs). Frames: `design/concepts/minigames/` | Jelly for the weekly set, progress stars |
+| **Hive defence** (liked, concept drawn) | Tower-defence-lite: wasps and a hornet leader walk a trail to the hive; the player places guard bees, sticky drops and trap barrels for honey, 3–5 waves. Frames: `design/concepts/minigames/` | Protects part of the stock (a bonus storage for the day), trophies for the collection |
 
 It is best to start with the **garden** (cheap, idle-friendly, gives a reason to come back during the day) and the **nectar flight** (shows the new bees in motion).
 
@@ -220,15 +220,19 @@ The 24 MB limit only applied to chat attachments; the APKs are distributed throu
 - More variety in the puzzle: different round layouts (one colour outweighing the rest, more jokers, clusters), later new board shapes and obstacles.
 
 - Redo the bee and reward models (outfits, decorations) and their animations: more expressive poses, reaction animations (joy, sleep, work), possibly a new render style. Collect tester feedback first.
-- New mini-game ideas to choose from (after rejecting the Candle workshop and the Scout dance; short sessions, mobile-friendly):
-  - **Pollen sorting** (concept drawn): drag a bee carrying pollen into the jar of its colour before the store overflows, 60–90 s; a conveyor feel and combos.
-  - **Hive defence** (concept drawn): place guard bees, drops and traps along the trail, 3–5 waves of 2–3 minutes; strategy and rare trophies.
-  - **Flower merge** (concept drawn): drop flowers into a crate, identical ones merge up to the golden sunflower, about 3 minutes; a relaxing "watermelon-game" mechanic on our flower art.
-  - **Honey path** (concept drawn): rotate channel combs so honey reaches every jar, levels of 1–3 minutes; calm logic built on combs.
-  - **Bloom rhythm**: tap flowers that open to the beat of the buzzing, 60 s; a quick, cheerful reaction and ear game (pairs well with the v1.5 sounds).
-  - **Comb memory**: find pairs of matching combs or flowers within a move limit, about 2 minutes; very simple, good for kids and newcomers.
-  - **Nectar catch**: move a basket or a bee to catch nectar drops and avoid rain, 45 s; a one-finger arcade that feeds nectar.
-  - **Comb builder** (merge): merge identical combs on a board up to the royal comb, about 3 minutes; thematically tied to the hive and comb upgrades.
+- Mini-game ideas after the brainstorm (short sessions, mobile-friendly; no versions assigned yet):
+  - **Liked, candidates to keep:**
+    - **Hive defence** (tower-defence-lite; concept drawn): guard bees, drops and traps along the trail, 3–5 waves of 2–3 minutes.
+    - **Honey path** (concept drawn): rotate channel combs so honey reaches every jar, levels of 1–3 minutes.
+    - **Pollen sorting** (concept drawn): drag bees with pollen into jars of the matching colour, 60–90 s.
+    - **Comb builder** (merge): merge identical combs on a board up to the royal comb, about 3 minutes.
+    - **Flappy-style bee**: one-tap flight between flower stems, 30–60 s sessions, seasonal wind and rain.
+    - **Nectar-pouring puzzle** (water-sort style): pour nectar between jars until each is one colour; OK, may be merged with pollen sorting.
+    - **Symbiosis with flowers**: the mini-game depends on which flowers grew in the player's garden, linking mini-games to the main game.
+  - **Needs a mockup first:**
+    - **Growing a hive maze**: build comb tunnels so the swarm delivers nectar by the best route, a mix of honey path and logistics. The user wants to see how it could look before deciding.
+  - **No decision yet:** **Flower merge** (concept drawn): drop flowers into a crate, identical ones merge up to the golden sunflower.
+  - **Rejected, do not re-propose:** Candle workshop, Scout dance, Bloom rhythm, Comb memory match, Nectar catcher, Scent hunt in fog, Slingshot bee (Angry Birds style), Cut-the-rope bee, Doodle-Jump bee, Bee swarm (snake.io style).
 
 ## Next steps
 

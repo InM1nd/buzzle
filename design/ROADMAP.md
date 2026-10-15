@@ -111,7 +111,8 @@ A minimal backend, if needed: one serverless function with a database (for examp
 | **v1.4.1** | The Surprises and Garden grids adapt to the container width (a Telegram fix) | ✅ done |
 | **v1.4.2** | Small fixes (see "Fix plan" below); the changes went into the v1.5 branch, there may be no separate release | ⏩ folded into v1.5 |
 | **v1.5 — UX/UI optimisation** | Five equal tabs, the new "honey crystal" art, new bees with flapping wings, reworked hive, garden, puzzle and tasks (see below) | ✅ done (v1.5.0) |
-| **v1.5.5** | Decorations: decide what they are for | next (idea) |
+| **v1.5.1** | Minor fix release after 1.5.0: a single floating currency bar, compact garden timers, a planting dialog, a clearer bee level, softer puzzle tiles (see "v1.5.1 — fix plan" below) | next |
+| **v1.5.5** | Decorations: decide what they are for | idea |
 | **v1.6** | A new mini-game (nectar flight) + a Halloween event (pumpkin combs, bee costumes, event tasks) | |
 | **v1.7** | World expansion: a second biome and a moving prestige, **the home screen: one meadow with clickable objects (a house, the hive, the garden…) instead of the Hive tab**, chapter 1 of Zhuzha's story + a winter season (royal comb, a seasonal bee) | |
 | **v1.8** | One more mini-game (for example pollen sorting or hive defence) | |
@@ -225,13 +226,21 @@ The 24 MB limit only applied to chat attachments; the APKs are distributed throu
 ## Next steps
 
 1. **v1.5:** ✅ released as 1.5.0 (sounds, the leftovers of old art and the APK size carry over).
-2. **v1.5.5:** decide what decorations are for.
-3. **v1.6:** the nectar flight and the Halloween event.
-4. **v1.7:** the second biome, the meadow home screen, Zhuzha's story.
+2. **v1.5.1:** the minor fixes from Alexander's feedback (see "v1.5.1 — fix plan").
+3. **v1.5.5:** decide what decorations are for.
+4. **v1.6:** the nectar flight and the Halloween event.
+5. **v1.7:** the second biome, the meadow home screen, Zhuzha's story.
 
 ## v1.4.2 — fix plan (folded into v1.5)
 - ✅ On narrow screens (360 px) the settings gear was clipped on the right of the top bar: in v1.5 all currencies and the gear fit, checked at 360 px.
 - ✅ Bees in the hive flew without their chosen outfits: in v1.5 outfits are shown on the hive bees too.
+
+## v1.5.1 — fix plan
+- **One currency bar.** Merge all currencies into a single bar and remove the backdrop of the top area, the same way as the bottom tab bar: the pills and the gear float over the scene with no background strip.
+- **Compact garden timers.** Redo the grow-time and the water timers as small compact components, so a bed shows its state at a glance without long status chips.
+- **Planting in a dialog.** Planting opens a modal with the seeds, so the player does not have to scroll down the garden to pick a plant.
+- **Clearer bee level.** The orange circles under the bees in the collection do not say what they mean. Show the level in an explicit way (for example a "Lv 5" label or a level badge with a progress bar) and keep it consistent with the bee card.
+- **Softer puzzle tiles.** The tiles and glyphs are too contrasty and tiring for the eyes. Work out a calmer look: a softer colour palette, lower glyph contrast and less saturated outlines, while the five colours stay easy to tell apart (check with a colour-blindness simulation and on a dim screen).
 
 ## v1.5 — extras (not done, moved to the next versions)
 - Sound effects (taps, honey collecting, the puzzle, surprises), light in size; the sound switch already exists in settings.

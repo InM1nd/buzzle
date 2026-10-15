@@ -18,13 +18,13 @@ async function stored(): Promise<GameState> {
 async function seed(patch: (s: GameState) => GameState) {
   const now = Date.now();
   let s = newState(now);
-  s = { ...s, settings: { ...s.settings, tutorialDone: true, gardenIntroDone: true, lang: "ru", langPicked: true, lastVersion: "1.5.0-dev" }, login: { lastDay: today(s, now), index: 0, streak: 1 } };
+  s = { ...s, settings: { ...s.settings, tutorialDone: true, gardenIntroDone: true, lang: "ru", langPicked: true, lastVersion: "1.5.0" }, login: { lastDay: today(s, now), index: 0, streak: 1 } };
   await AsyncStorage.setItem(KEY, JSON.stringify(patch(s)));
 }
 async function boot() {
   if (!await AsyncStorage.getItem(KEY)) {
     const s = newState(Date.now());
-    s.settings = {...s.settings, lang: "ru", langPicked: true, lastVersion: "1.5.0-dev"};
+    s.settings = {...s.settings, lang: "ru", langPicked: true, lastVersion: "1.5.0"};
     await AsyncStorage.setItem(KEY, JSON.stringify(s));
   }
   await render(<App />);
@@ -262,7 +262,7 @@ test("v1.2.0 save (v2) migrates to v3 with bee names and keeps progress", async 
   const now = Date.now();
   const s = newState(now);
   const { beeNames: _b, ...rest } = s;
-  const v2 = { ...rest, version: 2, honey: 999, nectar: 55, settings: { ...s.settings, tutorialDone: true, gardenIntroDone: true, lang: "ru", langPicked: true, lastVersion: "1.5.0-dev" }, login: { lastDay: today(s, now), index: 0, streak: 1 } };
+  const v2 = { ...rest, version: 2, honey: 999, nectar: 55, settings: { ...s.settings, tutorialDone: true, gardenIntroDone: true, lang: "ru", langPicked: true, lastVersion: "1.5.0" }, login: { lastDay: today(s, now), index: 0, streak: 1 } };
   await AsyncStorage.setItem(KEY, JSON.stringify(v2));
   await boot();
   expect(await AsyncStorage.getItem("bzz:backup:v2")).toBe(JSON.stringify(v2));

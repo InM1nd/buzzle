@@ -1,6 +1,6 @@
 # Buzzle — roadmap
 
-*Status: stable release v1.4.1, dev build v1.5.0-dev (branch `v1.5-ui`), October 2026. Android app and Telegram Mini App (@Buzzle_game_bot); in Telegram the progress is stored in Telegram's cloud.*
+*Status: stable release v1.5.0 (October 2026). Android app and Telegram Mini App (@Buzzle_game_bot); in Telegram the progress is stored in Telegram's cloud.*
 
 The Russian version of this document is [`ROADMAP.ru.md`](ROADMAP.ru.md); both files are kept in sync.
 
@@ -110,8 +110,8 @@ A minimal backend, if needed: one serverless function with a database (for examp
 | **v1.4 — QoL: languages, updates, settings** | English, Ukrainian, Russian, updates from settings, expanded settings, privacy policy, a silent "early player" mark in the save (v1.4.0) | ✅ done |
 | **v1.4.1** | The Surprises and Garden grids adapt to the container width (a Telegram fix) | ✅ done |
 | **v1.4.2** | Small fixes (see "Fix plan" below); the changes went into the v1.5 branch, there may be no separate release | ⏩ folded into v1.5 |
-| **v1.5 — UX/UI optimisation** | Five equal tabs, the new "honey crystal" art, new bees with flapping wings, reworked hive, garden, puzzle and tasks (see below) | 🚧 in progress: dev build 1.5.0-dev |
-| **v1.5.5** | Decorations: decide what they are for | idea |
+| **v1.5 — UX/UI optimisation** | Five equal tabs, the new "honey crystal" art, new bees with flapping wings, reworked hive, garden, puzzle and tasks (see below) | ✅ done (v1.5.0) |
+| **v1.5.5** | Decorations: decide what they are for | next (idea) |
 | **v1.6** | A new mini-game (nectar flight) + a Halloween event (pumpkin combs, bee costumes, event tasks) | |
 | **v1.7** | World expansion: a second biome and a moving prestige, **the home screen: one meadow with clickable objects (a house, the hive, the garden…) instead of the Hive tab**, chapter 1 of Zhuzha's story + a winter season (royal comb, a seasonal bee) | |
 | **v1.8** | One more mini-game (for example pollen sorting or hive defence) | |
@@ -144,9 +144,9 @@ A minimal backend, if needed: one serverless function with a database (for examp
 
 ### v1.5 — UX/UI optimisation
 
-Status: the dev build `1.5.0-dev` (versionCode 19) lives on the `v1.5-ui` branch and is published as the pre-release `v1.5.0-dev`, which the auto-updater does not offer. The stable release is still 1.4.1.
+Status: **released as 1.5.0** (versionCode 21, October 2026) from the `v1.5-ui` branch merged into `main`.
 
-**Already done (from Alexander's feedback):**
+**Delivered in 1.5.0 (from Alexander's feedback):**
 - Five equal tabs: Hive (a Combs/Garden switch), Play, Bees (All/Outfits), Surprises (Chests/Shop/Album), Tasks. All currencies and the gear in the top bar, a floating bottom tab bar.
 - Hive: one sign (level and honey per hour), one honey meter with a **Collect** button and the time until full, upgrades right on the screen, decorations standing in the scene. Garden: three beds per row, plants growing inside the bed.
 - Tasks: progress bars, the weekly chest, the 7-day login calendar, streak freeze, statistics. The weekend puzzle moved to Play, "Invite a friend" to settings. Settings are a separate page.
@@ -155,11 +155,11 @@ Status: the dev build `1.5.0-dev` (versionCode 19) lives on the `v1.5-ui` branch
 - Progression: combs up to level 40, hive upgrades 30 / 12 / 30 / 10 (the price and bonus formulas did not change).
 - A new app icon (Zhuzha with a crown).
 
-**Left before the 1.5.0 release:**
+**Not in 1.5.0 (carried over):**
 - Sound effects (see "v1.5 — extras").
-- Slim the APK: it is about 31 MB now, the old bee renderer and `react-native-svg` are still in the build.
-- Replace the remaining old art: a few glyphs (album, shop, save, share) and the crack overlays; update the bot avatar and cover in Telegram (`design/brand/telegram-v1/`). Done in the dev build: the app icon with the honey-hive background, the splash screen, the web loading screen and the notification icon.
-- Check installing over 1.4.1 with real progress and the UI in Telegram, then merge `v1.5-ui` into `main`, tag it and deploy GitHub Pages.
+- Slim the APK: it is about 31 MB, the old bee renderer and `react-native-svg` are still in the build.
+- A few old glyphs (album, shop, save, share) and the chest crack overlays still use the old art; the Telegram bot avatar and cover (`design/brand/telegram-v1/`) have to be set by hand in BotFather.
+- Checking an install over 1.4.1 with real progress on a device and the UI inside the Telegram clients (so far only checked in a browser with a Telegram mock).
 
 APK size: reasonably light, a guideline of up to 50–60 MB (the 24 MB limit is lifted). Sprites in WebP.
 
@@ -224,7 +224,7 @@ The 24 MB limit only applied to chat attachments; the APKs are distributed throu
 
 ## Next steps
 
-1. **v1.5:** finish the dev build (sounds, the leftovers of old art, the APK size), Alexander's review, the 1.5.0 release.
+1. **v1.5:** ✅ released as 1.5.0 (sounds, the leftovers of old art and the APK size carry over).
 2. **v1.5.5:** decide what decorations are for.
 3. **v1.6:** the nectar flight and the Halloween event.
 4. **v1.7:** the second biome, the meadow home screen, Zhuzha's story.
@@ -233,7 +233,7 @@ The 24 MB limit only applied to chat attachments; the APKs are distributed throu
 - ✅ On narrow screens (360 px) the settings gear was clipped on the right of the top bar: in v1.5 all currencies and the gear fit, checked at 360 px.
 - ✅ Bees in the hive flew without their chosen outfits: in v1.5 outfits are shown on the hive bees too.
 
-## v1.5 — extras
+## v1.5 — extras (not done, moved to the next versions)
 - Sound effects (taps, honey collecting, the puzzle, surprises), light in size; the sound switch already exists in settings.
 
 ## v1.5.5 — decorations: decide what they are for

@@ -7,7 +7,12 @@ while the app is closed, tend a small flower garden, and earn more by solving a 
 There is no account, no ads and nothing to buy. Progress is stored on the device (and in Telegram CloudStorage when
 played in Telegram). The game is available in English, Ukrainian and Russian.
 
-Current version: **1.5.0-dev** (branch `v1.5-ui`, versionCode 19), a UI/UX refresh with new "honey crystal" art. The last stable release is **1.4.1** (`main`); the dev APK is published as the pre-release [`v1.5.0-dev`](https://github.com/InM1nd/buzzle/releases/tag/v1.5.0-dev) and is not offered by the in-app updater.
+Current version: **1.5.0** (versionCode 21), a UI/UX refresh with new "honey crystal" art.
+
+**Download:** [Buzzle-v1.5.0.apk](https://github.com/InM1nd/buzzle/releases/download/v1.5.0/Buzzle-v1.5.0.apk) from the
+[latest release](https://github.com/InM1nd/buzzle/releases/latest) (Android, arm64; installs over 1.4.x with the same
+signing key and updates itself from Settings). **Play in Telegram:** [@Buzzle_game_bot](https://t.me/Buzzle_game_bot),
+or in a browser: https://inm1nd.github.io/buzzle/
 
 ![Buzzle v1.5 overview](screens/v1.5/overview.png)
 
@@ -110,7 +115,7 @@ Buzzle also runs as a **Telegram Mini App**: open [@Buzzle_game_bot](https://t.m
 **Play**. The same build works in a normal mobile browser: https://inm1nd.github.io/buzzle/
 
 - **Same code as Android.** Game logic and balance are identical; the web build comes from the same
-  Expo / react-native-web code. The deployed Pages build is still 1.4.1; v1.5 goes live with its release.
+  Expo / react-native-web code. The GitHub Pages build is deployed from the same release.
 - **Telegram integration** (`src/platform/telegram.ts`): `ready()`, `expand()`, `requestFullscreen()` on mobile
   clients, `disableVerticalSwipes()` so a puzzle drag never closes the app, header and background colours that follow
   the game, the Telegram **BackButton** mirroring in-app navigation (`src/platform/back.ts`), **HapticFeedback**
@@ -172,8 +177,8 @@ npm run typecheck && npm test && npm run test:ui -- --runInBand
 CI=1 npx expo prebuild --platform android --no-install
 bash scripts/configure-android.sh     # arm64-only, R8, stored 16 KB-aligned libs, release signing v1+v2+v3
 cd android && ./gradlew assembleRelease --no-daemon --console=plain
-cd .. && cp android/app/build/outputs/apk/release/app-release.apk Buzzle-v1.5.0-dev.apk
-bash scripts/verify-apk.sh Buzzle-v1.5.0-dev.apk   # aapt, apksigner, zipalign -P 16, ELF alignment, JS bundle
+cd .. && cp android/app/build/outputs/apk/release/app-release.apk Buzzle-v1.5.0.apk
+bash scripts/verify-apk.sh Buzzle-v1.5.0.apk   # aapt, apksigner, zipalign -P 16, ELF alignment, JS bundle
 ```
 
 ### Balance

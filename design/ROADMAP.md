@@ -110,8 +110,7 @@ A minimal backend, if needed: one serverless function with a database (for examp
 | **v1.4.2** | Small fixes (see "Fix plan" below); the changes went into the v1.5 branch, there may be no separate release | ⏩ folded into v1.5 |
 | **v1.5 — UX/UI optimisation** | Five equal tabs, the new "honey crystal" art, new bees with flapping wings, reworked hive, garden, puzzle and tasks (see below) | ✅ done (v1.5.0) |
 | **v1.5.1** | Minor fix release after 1.5.0: a single floating currency bar, compact garden timers, a planting dialog, a clearer bee level, softer puzzle tiles (see "v1.5.1 — fix plan" below) | next |
-| **v1.5.5** | Decorations: decide what they are for | idea |
-| **v1.6** | A new mini-game (nectar flight) + a Halloween event (pumpkin combs, bee costumes, event tasks) | |
+| **v1.6** | A new mini-game (nectar flight) + a Halloween event (pumpkin combs, bee costumes, event tasks) + decorations: decide what they are for (was v1.5.5) | Halloween art in progress |
 | **v1.7** | World expansion: a second biome and a moving prestige, **the home screen: one meadow with clickable objects (a house, the hive, the garden…) instead of the Hive tab**, chapter 1 of Zhuzha's story + a winter season (royal comb, a seasonal bee) | |
 | **v1.8** | One more mini-game (for example pollen sorting or hive defence) | |
 | **v1.9** | Improvements and fixes from feedback + a New Year event inside the winter season | |
@@ -238,9 +237,8 @@ The 24 MB limit only applied to chat attachments; the APKs are distributed throu
 
 1. **v1.5:** ✅ released as 1.5.0 (sounds, the leftovers of old art and the APK size carry over).
 2. **v1.5.1:** the minor fixes from Alexander's feedback (see "v1.5.1 — fix plan").
-3. **v1.5.5:** decide what decorations are for.
-4. **v1.6:** the nectar flight and the Halloween event.
-5. **v1.7:** the second biome, the meadow home screen, Zhuzha's story.
+3. **v1.6:** the nectar flight, the Halloween event and the purpose of decorations (was v1.5.5), by October 31.
+4. **v1.7:** the second biome, the meadow home screen, Zhuzha's story.
 
 ## v1.4.2 — fix plan (folded into v1.5)
 - ✅ On narrow screens (360 px) the settings gear was clipped on the right of the top bar: in v1.5 all currencies and the gear fit, checked at 360 px.
@@ -256,7 +254,7 @@ The 24 MB limit only applied to chat attachments; the APKs are distributed throu
 ## v1.5 — extras (not done, moved to the next versions)
 - Sound effects (taps, honey collecting, the puzzle, surprises), light in size; the sound switch already exists in settings.
 
-## v1.5.5 — decorations: decide what they are for
+## v1.6 — decorations: decide what they are for (was v1.5.5)
 Right now the decorations (4 for the hive, 4 for the garden) just stand in their places and animate; you put one out or away by tapping the spot. That is not enough: it is unclear to the player why to collect them. To decide:
 - **Purpose.** A small bonus for each placed decoration (for example +1–2% hive honey or garden nectar), a bonus for a complete set of a place, or pure cosmetics with an album.
 - **Placement.** Fixed spots (as now) or free placement by dragging; how many spots in the hive and the garden; whether to save the positions.

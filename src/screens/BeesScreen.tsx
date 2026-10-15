@@ -53,7 +53,6 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
             const canLvl = !!lc && s.nectar >= lc.nectar && s.jelly >= lc.jelly;
             const custom = has && !!s.beeNames[b.id];
             const shown = beeDisplayName(s, b.id);
-            const dots = Math.ceil((lvl / MAX_BEE_LEVEL) * 5);
             return (
               <Press key={b.id} onPress={() => setOpen(b)} style={[styles.card3, shadow, { width: colW }, !has && { backgroundColor: "#F6EDDC" }]}
                 accessibilityRole="button" accessibilityLabel={custom ? `${shown} (${b.name})` : (has ? b.name : t("bees.locked", { name: b.name }))}>
@@ -64,8 +63,9 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
                 {canLvl ? <View style={styles.upDot}><Text style={[F.black, { color: "#fff", fontSize: 13, lineHeight: 16 }]}>↑</Text></View> : null}
                 <Txt v="h3" numberOfLines={2} center style={{ marginTop: 4, fontSize: 14, minHeight: 36 }}>{has ? shown : b.name}</Txt>
                 {has ? (
-                  <View style={{ flexDirection: "row", gap: 3, marginTop: 4 }}>
-                    {[0, 1, 2, 3, 4].map((d) => <View key={d} style={[styles.ldot, d < dots && { backgroundColor: lvl >= MAX_BEE_LEVEL ? "#E2A400" : C.honey }]} />)}
+                  <View style={styles.lvlRow} accessibilityLabel={t("bees.levelOf", { a: lvl, b: MAX_BEE_LEVEL }).replace(" · ", "")}>
+                    <Txt v="tiny" color={C.honeyDark} style={{ fontWeight: "900" }}>{t("bees.lvl", { n: lvl })}</Txt>
+                    <Bar progress={lvl / MAX_BEE_LEVEL} height={6} color={lvl >= MAX_BEE_LEVEL ? "#E2A400" : C.honey} track="#EADBC2" style={{ flex: 1 }} />
                   </View>
                 ) : b.fragments ? (
                   <View style={styles.costMini}><Image source={ART.fragment} style={{ width: 14, height: 14 }} /><Txt v="tiny" color="#5B5FC7">{Math.min(s.loot.fragments, b.fragments)}/{b.fragments}</Txt></View>
@@ -337,7 +337,7 @@ const styles = StyleSheet.create({
   segBtn: { paddingHorizontal: 18, paddingVertical: 9, borderRadius: 20, backgroundColor: "#fff" },
   segOn: { backgroundColor: C.honey },
   card3: { backgroundColor: "#fff", borderRadius: 22, padding: 8, paddingBottom: 10, alignItems: "center" },
-  ldot: { width: 7, height: 7, borderRadius: 4, backgroundColor: "#EADBC2" },
+  lvlRow: { flexDirection: "row", alignItems: "center", gap: 5, marginTop: 4, alignSelf: "stretch", paddingHorizontal: 6 },
   costMini: { flexDirection: "row", alignItems: "center", gap: 3, marginTop: 4, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 10, backgroundColor: "#EFE6FA" },
   skin: { width: 70, borderRadius: 16, borderWidth: 3, borderColor: C.line, alignItems: "center", justifyContent: "center", padding: 4, minHeight: 72, backgroundColor: "#fff" },
   skinOn: { borderColor: C.honey, backgroundColor: "#FFE7A8" },

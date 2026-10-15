@@ -46,9 +46,11 @@ export function boardSize(s: number, cols = COLS, rows = ROWS, k = 1) {
  * regular hexagon (rounded corners, flatter slanted sides), so scaling it uniformly leaves a visibly wider
  * gap between vertical neighbours than between diagonal ones. Height is cut by a fixed gap (TILE_GAP × s),
  * width by a factor measured so the gap between diagonal neighbours comes out the same.
+ * The <Image>s MUST use resizeMode="stretch": the default "cover" keeps the art's aspect ratio and crops
+ * the left/right corners as soon as the box is not exactly 1.154:1.
  */
-const TILE_GAP = 0.11;
-const TILE_W = 0.905;
+const TILE_GAP = 0.09;
+const TILE_W = 0.91;
 export function tileSize(s: number, k = 1): { w: number; h: number } {
   return { w: 2 * s * TILE_W, h: Math.sqrt(3) * s * k - TILE_GAP * s };
 }

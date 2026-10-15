@@ -82,9 +82,9 @@ const CellView = React.memo(function CellView(p: {
         transform: [{ translateY: ty }, { scale: Animated.add(sc, hint.interpolate({ inputRange: [0, 1], outputRange: [0, 0.1] })) }],
       }}
     >
-      <Image source={src} style={{ width: w, height: h }} />
-      {p.cell.kind === "bomb" ? <Image source={ART.bomb} style={{ position: "absolute", left: 0, top: 0, width: w, height: h }} /> : null}
-      {p.selected ? <Image source={src} style={{ position: "absolute", left: 0, top: 0, width: w, height: h, tintColor: "#fff", opacity: 0.22 }} /> : null}
+      <Image source={src} resizeMode="stretch" style={{ width: w, height: h }} />
+      {p.cell.kind === "bomb" ? <Image source={ART.bomb} resizeMode="stretch" style={{ position: "absolute", left: 0, top: 0, width: w, height: h }} /> : null}
+      {p.selected ? <Image source={src} resizeMode="stretch" style={{ position: "absolute", left: 0, top: 0, width: w, height: h, tintColor: "#fff", opacity: 0.22 }} /> : null}
     </Animated.View>
   );
 });
@@ -106,6 +106,7 @@ function Pop({ fx, onDone }: { fx: PopFx; onDone: (k: number) => void }) {
   return (
     <View pointerEvents="none" style={{ position: "absolute", left: fx.x, top: fx.y }}>
       <Animated.Image
+        resizeMode="stretch"
         source={fx.kind === "wild" ? ART.wild : ART.cells[fx.color]}
         style={{
           position: "absolute", left: -w / 2, top: -h / 2, width: w, height: h,
@@ -519,7 +520,7 @@ export default function GameScreen(props: Props) {
         >
           <View pointerEvents="none" style={StyleSheet.absoluteFill}>
             {slots.map((sl) => (
-              <Image key={`slot${sl.k}`} source={ART.cells[0]}
+              <Image key={`slot${sl.k}`} source={ART.cells[0]} resizeMode="stretch"
                 style={{ position: "absolute", left: sl.x - tile.w / 2, top: sl.y - tile.h / 2, width: tile.w, height: tile.h, tintColor: C.boardEdge, opacity: 0.35 }} />
             ))}
           </View>

@@ -1,11 +1,13 @@
 # Buzzle — cozy hive + honeycomb puzzle
 
+<img src="assets/icon-zhuzha.png" alt="Buzzle app icon" width="96" align="right">
+
 **Buzzle** is a cozy portrait-mode casual game for Android and Telegram. You grow a bee hive that makes honey even
 while the app is closed, tend a small flower garden, and earn more by solving a daily hexagonal honeycomb puzzle.
 There is no account, no ads and nothing to buy. Progress is stored on the device (and in Telegram CloudStorage when
 played in Telegram). The game is available in English, Ukrainian and Russian.
 
-Current version: **1.5.0-dev** (branch `v1.5-ui`), a UI/UX refresh with new "honey crystal" art.
+Current version: **1.5.0-dev** (branch `v1.5-ui`, versionCode 19), a UI/UX refresh with new "honey crystal" art. The last stable release is **1.4.1** (`main`); the dev APK is published as the pre-release [`v1.5.0-dev`](https://github.com/InM1nd/buzzle/releases/tag/v1.5.0-dev) and is not offered by the in-app updater.
 
 ![Buzzle v1.5 overview](screens/v1.5/overview.png)
 
@@ -42,15 +44,17 @@ Settings are a separate page (language, sound, vibration, reminders, invite a fr
 
 ## Features
 
-- **Hive idle.** 19 comb slots on a hex grid. You build next to existing combs and upgrade each one up to level 20.
-  Bees make honey offline up to the storage limit. Four hive upgrades: Worker Bees, Wax Pantry, Flower Meadow and
-  Queen's Chamber.
+- **Hive idle.** 19 comb slots on a hex grid. You build next to existing combs and upgrade each one up to level 40.
+  Bees make honey offline up to the storage limit. Four hive upgrades: Worker Bees (up to level 30), Wax Pantry (12),
+  Flower Meadow (30) and Queen's Chamber (10).
 - **Honeycomb puzzle.** Drag across 3+ neighbouring cells of one colour. Chains of 6+ leave a royal-jelly bomb
   (bombs can chain-react), there are rainbow jokers and a combo multiplier for chains of 5+.
   - **Daily puzzle:** one seed per calendar day for everyone, 20 moves, 1–3 stars, day streaks.
   - **Weekend puzzle:** Saturday and Sunday, 30 moves, its own stars and rewards.
   - **Free play:** unlimited rounds with all bee bonuses. Before a round you pick boosters (+3 moves, a bomb at the
     start); a missing booster can be bought for pollen right there. Shuffle is used during the round.
+  - **Under the board:** a **Hint** button that highlights a chain, a button that shows the colour of the day and a
+    round summary.
 - **13 bees** with permanent bonuses, unlocked with royal jelly (the 13th, the Night bee, is assembled from 10
   fragments). **Bee levels 1–10:** levelling costs nectar (plus royal jelly at levels 5 and 10); each level grows
   the bee's ability and adds +1% hive honey. Level 10 adds a crown. Bees can be renamed (up to 16 characters).
@@ -64,7 +68,7 @@ Settings are a separate page (language, sound, vibration, reminders, invite a fr
 - **Decorations.** Four hive decorations (bunting, lanterns, barrel, fountain) and four garden ones (mushroom, bench,
   pinwheel, gnome). Each has its own spot in the scene and a small animation. Tap a spot to put a decoration out or
   away; an empty spot shows a faint outline and links to the Shop. What decorations should *do* is planned for
-  v1.5.5 (see the [roadmap](design/ROADMAP.ru.md)).
+  v1.5.5 (see the [roadmap](design/ROADMAP.md)).
 - **Surprise combs.** Loot boxes for in-game play only, no purchases: wooden (3 daily tasks), wax (3★ daily puzzle,
   weekly chest, weekend puzzle), golden (every 7-day streak, 3★ weekend, a rare bonus inside wax or wooden combs) and
   royal (locked until seasons). Drops: honey, nectar, jelly, seeds, outfits, decorations, boosters and Night-bee
@@ -90,7 +94,11 @@ Settings are a separate page (language, sound, vibration, reminders, invite a fr
   front rim is drawn over the stem), readable status chips for water and harvest.
 - Bees: collection portraits in a three-quarter view facing right, hovering with flapping wings; a clear close button
   on the bee card.
-- Puzzle: visible gaps between tiles and empty sockets under them, the board always fits the screen.
+- Puzzle: tight honey-crystal tiles with even gaps and empty sockets under them, rendered 1:1 (no stretching), no
+  selection frame; the board always fits the screen. New under the board: a Hint button, the colour of the day and
+  round stats.
+- Progression: combs now go up to level 40 and the hive upgrades have doubled caps (30 / 12 / 30 / 10); prices and
+  bonus formulas are unchanged, existing saves keep their levels.
 - Free play: a booster picker before every round.
 - Settings: a full page with a close button that respects the safe area; system/Telegram Back goes from a sub-page to
   the list first, then closes Settings.
@@ -102,7 +110,7 @@ Buzzle also runs as a **Telegram Mini App**: open [@Buzzle_game_bot](https://t.m
 **Play**. The same build works in a normal mobile browser: https://inm1nd.github.io/buzzle/
 
 - **Same code as Android.** Game logic and balance are identical; the web build comes from the same
-  Expo / react-native-web code.
+  Expo / react-native-web code. The deployed Pages build is still 1.4.1; v1.5 goes live with its release.
 - **Telegram integration** (`src/platform/telegram.ts`): `ready()`, `expand()`, `requestFullscreen()` on mobile
   clients, `disableVerticalSwipes()` so a puzzle drag never closes the app, header and background colours that follow
   the game, the Telegram **BackButton** mirroring in-app navigation (`src/platform/back.ts`), **HapticFeedback**
@@ -146,7 +154,7 @@ node scripts/telegram/setup-bot.mjs           # bot menu button, descriptions, /
 | `src/i18n/` | Translation keys and strings for en / uk / ru. |
 | `src/platform/` | Web / Telegram bridge: WebApp SDK, Back button, safe areas, CloudStorage save, share, updater. |
 | `assets/art/` | Runtime art: `turn/` (bee layers), `env/` (backgrounds and beds), `garden/`, `items/`, combs, tiles, icons. |
-| `design/` | Roadmap (`ROADMAP.ru.md`), v1.5 UI mockups (`v1.5-ui/`), art sources and studies (`2d/`, `3d/`, `art/`). |
+| `design/` | Roadmap ([`ROADMAP.md`](design/ROADMAP.md) in English, [`ROADMAP.ru.md`](design/ROADMAP.ru.md) in Russian), v1.5 UI mockups (`v1.5-ui/`), brand and Telegram art (`brand/`), art sources and studies (`2d/`, `3d/`, `art/`). |
 | `scripts/` | Art importers, `simulate.ts` (balance bots), `configure-android.sh`, `verify-apk.sh`, web screenshot harness, Telegram tools. |
 | `tests/`, `tests-rn/` | Logic tests and UI tests. |
 | `screens/` | Screenshots: `v1.5/` (this README), older versions in subfolders. |
@@ -171,7 +179,8 @@ bash scripts/verify-apk.sh Buzzle-v1.5.0-dev.apk   # aapt, apksigner, zipalign -
 ### Balance
 
 `npx tsx scripts/simulate.ts` runs casual (3 visits a day) and active (6 visits a day) bots through the real game
-actions for 90 days. v1.5 does not change the economy.
+actions for 90 days. v1.5 does not change the economy formulas (it only raises the level caps); the table was measured before the higher
+caps and covers the first 90 days, where they do not matter.
 
 | Bot | all 12 bees | first L5 | all L5 | first L10 | all L10 | 6 beds |
 |---|---|---|---|---|---|---|

@@ -9,7 +9,7 @@
     "backgroundColor": "#FFF6E3",
     "android": {
       "package": "com.zabolotny.bzz",
-      "versionCode": 17,
+      "versionCode": 19,
       "adaptiveIcon": {
         "backgroundColor": "#FFF6E3",
         "foregroundImage": "./assets/android-icon-zhuzha-foreground.png"

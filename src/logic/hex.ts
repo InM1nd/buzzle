@@ -56,7 +56,7 @@ export function tileSize(s: number, k = 1): { w: number; h: number } {
 }
 
 /** Vertical stretch that uses spare screen height: 1 ≤ k ≤ maxK. */
-export function fitStretch(s: number, availH: number, rows = ROWS, maxK = 1.06): number {
+export function fitStretch(s: number, availH: number, rows = ROWS, maxK = 1): number {
   const natural = Math.sqrt(3) * (rows + 0.5) * s;
   return Math.max(1, Math.min(maxK, availH / natural));
 }

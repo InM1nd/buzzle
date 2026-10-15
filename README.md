@@ -2,9 +2,17 @@
 
 **Buzzle** is a cozy portrait-mode casual game: grow a bee hive that makes honey even while the app is
 closed, and earn more by solving a daily hexagonal honeycomb puzzle. Fully offline, no account, no ads —
-everything is stored on the device. UI language: Russian.
+everything is stored on the device. Available in English, Ukrainian and Russian.
 
-![Buzzle overview](screens/overview.png)
+Latest stable release: **1.4.1** (English / Ukrainian / Russian, in-app updates from Settings, Telegram Mini App).
+**v1.5 is in development** on the [`v1.5-ui`](https://github.com/InM1nd/buzzle/tree/v1.5-ui) branch: five equal tabs,
+the new "honey crystal" art, new bees with flapping wings and a redesigned hive, garden, puzzle and tasks. A dev APK is
+published as the pre-release [`v1.5.0-dev`](https://github.com/InM1nd/buzzle/releases/tag/v1.5.0-dev) (the in-app
+updater does not offer it). The full v1.5 README with the feature list is on that branch.
+
+![Buzzle v1.5 preview](https://raw.githubusercontent.com/InM1nd/buzzle/v1.5-ui/screens/v1.5/overview.png)
+
+*Above: v1.5 dev build (English UI). The screenshots further down show the older 1.3 look (Russian UI).*
 
 ## Features
 
@@ -51,7 +59,7 @@ everything is stored on the device. UI language: Russian.
   species has 3 views (Жужа has 5), so bees turn toward their flight direction.
 - Clock-rollback protection, tolerant save migration with backups (v1.1 saves migrate to v2 on first launch), haptics.
 
-## Screenshots
+## Screenshots (v1.3, older look)
 
 | Hive & low-poly bees | Garden | Garden bed | Bee level-up | Bee collection | Colour of the day |
 |---|---|---|---|---|---|
@@ -63,7 +71,7 @@ everything is stored on the device. UI language: Russian.
 
 All screenshots in `screens/` are rendered from the real app code (react-native-web + puppeteer with a
 fixed clock and seeded save; the puzzle is played with real drag gestures). Style explorations live in
-`design/` (`buzzle-*.png`, `art-*.png`, low-poly bee options in `design/bees3d/`, roadmap in `design/ROADMAP.ru.md`).
+`design/` (`buzzle-*.png`, `art-*.png`, low-poly bee options in `design/bees3d/`, roadmap in [`design/ROADMAP.md`](design/ROADMAP.md), Russian version in `design/ROADMAP.ru.md`).
 
 ## Telegram Mini App (web)
 

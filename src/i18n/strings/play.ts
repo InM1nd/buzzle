@@ -53,6 +53,8 @@ export const play = {
   "gd.dry": { en: "Dry — water me!", uk: "Сухо — полий!", ru: "Сухо — полей!" },
   "gd.bloomsIn": { en: "Blooms in {t}", uk: "Зацвіте за {t}", ru: "Цветёт через {t}" },
   "gd.waterLeft": { en: "Water for {t} more", uk: "Води ще на {t}", ru: "Вода ещё {t}" },
+  "gd.dryShort": { en: "Water!", uk: "Полий!", ru: "Полей!" },
+  "gd.plantShort": { en: "Plant", uk: "Посадити", ru: "Посадить" },
   "gd.bedLabel": { en: "Bed {i}: {what}", uk: "Грядка {i}: {what}", ru: "Грядка {i}: {what}" },
   "gd.introTitle": { en: "New: a garden by the hive!", uk: "Новинка: сад біля вулика!", ru: "Новое: сад у улья!" },
   "gd.introText": { en: "Plant flowers and water them every few hours. Flowers give nectar — and nectar levels up your bees.", uk: "Сади квіти й поливай їх раз на кілька годин. Квіти дають нектар — на нього ростуть рівні бджілок.", ru: "Сажай цветы и поливай их раз в несколько часов. Цветы дают нектар — на него растут уровни пчёл." },

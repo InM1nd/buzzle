@@ -13,9 +13,9 @@ import { GARDEN_ART } from "../ui/beeArt";
 import { Mascot } from "../ui/BeeSprite";
 import { C, shadow } from "../ui/theme";
 import { sinDeg, useAnimActive, useCycle } from "../ui/anim";
-import { Bar, Card, fmt, GameButton, Press, Txt, useTopPad } from "../ui/components";
+import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Txt, useTopPad } from "../ui/components";
 import { centerOf, Pt } from "../ui/Fly";
-import { duration } from "../ui/format";
+import { duration, durationShort } from "../ui/format";
 
 const H = 3600_000;
 const COLOR_HEX = C.pollen;
@@ -58,6 +58,17 @@ export function bedStatus(b: Bed): { text: string; tone: "ok" | "dry" | "ready" 
   return { text: t("gd.waterLeft", { t: duration(b.water * H) }), tone: "ok" };
 }
 
+/** Compact timer badge under a bed: one icon + one short value (the full text is in the label and the bed dialog). */
+function bedChip(b: Bed): { icon: number; tint?: string; text: string; tone: "ok" | "dry" | "ready" | "empty" } {
+  if (!b.flower) return { icon: ART.seed, tint: TONE.empty, text: t("gd.plantShort"), tone: "empty" };
+  if (isReady(b)) return { icon: ART.nectar, text: `+${FLOWER_BY_ID[b.flower].nectar}`, tone: "ready" };
+  if (b.water <= 0) return { icon: ART.can, tint: TONE.dry, text: t("gd.dryShort"), tone: "dry" };
+  const need = FLOWER_BY_ID[b.flower].growHours - b.growth;
+  // water lasts until bloom: show the bloom timer; otherwise the water runs out first, show that
+  if (b.water >= need - 1e-9) return { icon: ART.clock, tint: TONE.ok, text: durationShort(need * H), tone: "ok" };
+  return { icon: ART.drop, text: durationShort(b.water * H), tone: "ok" };
+}
+
 function BedTile({ b, i, w, selected, onPress }: { b: Bed; i: number; w: number; selected: boolean; onPress: (ref: View | null) => void }) {
   const ref = useRef<View>(null);
   const pop = useRef(new Animated.Value(1)).current;
@@ -74,6 +85,7 @@ function BedTile({ b, i, w, selected, onPress }: { b: Bed; i: number; w: number;
   const act = useAnimActive();
   useCycle(sway, 3000 + i * 260, act && !!b.flower, (i * 0.31) % 1);
   const st = bedStatus(b);
+  const chip = bedChip(b);
   const wet = b.flower && b.water > 0 && !isReady(b);
   const img = flowerImg(b);
   const bedSrc = wet ? require("../../assets/art/env/bed_wet.webp") : require("../../assets/art/env/bed_dry.webp");
@@ -104,8 +116,9 @@ function BedTile({ b, i, w, selected, onPress }: { b: Bed; i: number; w: number;
         </View>
         <Txt v="tiny" center numberOfLines={1} color="#3E2A12" style={{ marginTop: 2 }}>{b.flower ? FLOWER_BY_ID[b.flower].name : t("gd.emptyBed")}</Txt>
         {b.flower && !isReady(b) ? <Bar progress={progress(b)} height={6} color={wet ? "#4AA8EE" : C.honey} track="#EADBC0" style={{ width: "86%", marginTop: 4 }} /> : <View style={{ height: 10 }} />}
-        <View style={[styles.status, { backgroundColor: TONE_BG[st.tone] }]}>
-          <Txt v="tiny" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75} color={TONE[st.tone]} style={{ fontWeight: "900" }}>{st.text}</Txt>
+        <View style={[styles.status, styles.chip, { backgroundColor: TONE_BG[chip.tone] }]}>
+          <Image source={chip.icon} style={{ width: 14, height: 14, tintColor: chip.tint }} />
+          <Txt v="tiny" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75} color={TONE[chip.tone]} style={{ fontWeight: "900" }}>{chip.text}</Txt>
         </View>
         {st.tone === "ready" ? <View style={styles.readyDot}><Image source={ART.nectar} style={{ width: 22, height: 22 }} /></View> : null}
         {st.tone === "dry" ? <View style={[styles.readyDot, { backgroundColor: "#DDF0FF" }]}><Image source={ART.can} style={{ width: 18, height: 18, tintColor: "#3B8FD6" }} /></View> : null}
@@ -194,10 +207,15 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
       </View>
 
       <GameButton title={t("gd.waterAll")} icon={ART.can} color="green" disabled={!canWaterAny} onPress={() => onWaterAll()} label={t("gd.waterAll")} />
+      <View style={styles.hint}><Txt v="small" color="#4A3218" center>{t("gd.tapHint")}</Txt></View>
+      <View style={styles.hint}><Txt v="tiny" color="#5E4426" center>{t("gd.levelHint", { n: level(s) })}</Txt></View>
+    </ScrollView>
+    <Overlay visible={selBed !== null} onClose={() => setSel(null)}>
+      <CloseBtn onPress={() => setSel(null)} />
       {selBed && sel !== null ? (
         selBed.flower ? (
-          <Card warm style={{ borderWidth: 2, borderColor: "#9FD07A" }}>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+          <View>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 12, marginRight: 40 }}>
               <Image source={GARDEN_ART[`${selBed.flower}_bloom`]} style={{ width: 64, height: 64 }} />
               <View style={{ flex: 1 }}>
                 <Txt v="h3">{FLOWER_BY_ID[selBed.flower].name}</Txt>
@@ -206,11 +224,11 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
               </View>
             </View>
             <GameButton small title={canWater(selBed) ? t("gd.water") : t("gd.stillWet")} icon={ART.can} color="green" disabled={!canWater(selBed)}
-              onPress={() => onWater(sel)} style={{ marginTop: 10 }} label={t("gd.waterBed")} />
-          </Card>
+              onPress={() => { if (onWater(sel)) setSel(null); }} style={{ marginTop: 10 }} label={t("gd.waterBed")} />
+          </View>
         ) : (
-          <Card warm style={{ borderWidth: 2, borderColor: C.honey }}>
-            <Txt v="h3" style={{ marginBottom: 8 }}>{t("gd.whatPlant")}</Txt>
+          <View>
+            <Txt v="h2" style={{ marginBottom: 10, marginRight: 40 }}>{t("gd.whatPlant")}</Txt>
             {FLOWERS.filter((f) => !f.rare || seedsOwned(s, f.id) > 0).map((f) => {
               const pocket = seedsOwned(s, f.id);
               const unlocked = pocket > 0 || flowerUnlocked(s, f.id);
@@ -235,13 +253,10 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
                 </View>
               );
             })}
-          </Card>
+          </View>
         )
-      ) : (
-        <View style={styles.hint}><Txt v="small" color="#4A3218" center>{t("gd.tapHint")}</Txt></View>
-      )}
-      <View style={styles.hint}><Txt v="tiny" color="#5E4426" center>{t("gd.levelHint", { n: level(s) })}</Txt></View>
-    </ScrollView>
+      ) : null}
+    </Overlay>
     </View>
   );
 }
@@ -253,6 +268,7 @@ const styles = StyleSheet.create({
   dot: { width: 14, height: 14, borderRadius: 7, borderWidth: 2, borderColor: "#fff" },
   bed: { backgroundColor: "rgba(255,250,236,0.78)", borderRadius: 20, padding: 6, paddingBottom: 8, alignItems: "center", overflow: "visible", borderWidth: 2, borderColor: "rgba(255,255,255,0.9)" },
   bedPlot: { backgroundColor: "rgba(255,250,236,0.45)", borderStyle: "dashed", borderColor: "rgba(160,120,60,0.45)" },
+  chip: { flexDirection: "row", gap: 3 },
   status: { marginTop: 5, borderRadius: 10, paddingHorizontal: 7, paddingVertical: 2, maxWidth: "100%", alignItems: "center" },
   hint: { alignSelf: "center", backgroundColor: "rgba(255,250,236,0.88)", borderRadius: 14, paddingHorizontal: 12, paddingVertical: 6 },
   decoSpot: { width: 92, height: 56, borderRadius: 46, borderWidth: 2, borderStyle: "dashed", borderColor: "rgba(255,255,255,0.9)", alignItems: "center", justifyContent: "center", marginLeft: 8 },

@@ -12,6 +12,13 @@ export function duration(ms: number): string {
   const h = Math.floor(m / 60), r = m % 60;
   return r ? t("unit.hmin", { h, m: r }) : t("unit.h", { n: h });
 }
+/** Compact duration for small badges: "24m", "2h 10m". */
+export function durationShort(ms: number): string {
+  const m = Math.max(1, Math.ceil(ms / 60000));
+  if (m < 60) return t("unit.minS", { n: m });
+  const h = Math.floor(m / 60), r = m % 60;
+  return r ? t("unit.hminS", { h, m: r }) : t("unit.hS", { n: h });
+}
 export const rateFmt = (r: number) => (r < 100 ? numFmt(Math.round(r * 10) / 10) : numFmt(Math.round(r)));
 export const days = (n: number) => t("unit.days", { n });
 export const dateLong = (d: Date) => t("date.long", { d: String(d.getDate()), month: tx(`month.${d.getMonth()}`) });

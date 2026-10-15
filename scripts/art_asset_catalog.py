@@ -1,0 +1,136 @@
+#!/usr/bin/env python3
+"""Index art without changing source files; reusable static gallery builder."""
+import argparse
+from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timezone
+import hashlib
+import json
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+from PIL import Image, ImageOps
+
+REPO = Path(__file__).resolve().parents[1]
+SUFFIXES = {'.png', '.webp', '.jpg', '.jpeg', '.gif', '.svg'}
+SPECIES = {'zhuzha':'Жужа','pushinka':'Пушинка','boris':'Борис','solnyshko':'Солнышко','klevera':'Клеверина','lavanda':'Лаванда','vasilek':'Василёк','myatka':'Мятка','iskorka':'Искорка','sonya':'Соня','zorkaya':'Зоркая','margo':'Марго','nochka':'Ночка'}
+CATEGORIES = ['Пчёлы','Наряды','Глифы и соты','Фоны и грядки','Растения','Декор','Коробки и сундуки','Ресурсы и инструменты','Награды и усилители','Иконки и промо','Макеты и проверки','3D-пробы','Прочее']
+ACCESSORIES = {'crown':'Корона','scarf':'Шарф','bow':'Бант','backpack':'Сумка','satchel':'Сумка','bag':'Сумка','wreath':'Венок','beret':'Берет','glasses':'Очки','halo':'Нимб','headphones':'Наушники'}
+TITLES = {'honey':'Мёд','nectar':'Нектар','jelly':'Маточное молочко','pollen':'Пыльца','fragment':'Фрагмент пчелы','seeds':'Семена','watering-can':'Лейка','shovel':'Лопатка','lanterns':'Фонарики','flags':'Флажки','barrel':'Бочка','bench':'Скамейка','mushroom':'Гриб','pinwheel':'Вертушка','fountain':'Фонтан','gnome':'Гном','garden-background':'Фон сада','hive-background':'Фон улья','bed-dry':'Сухая грядка','bed-wet':'Политая грядка','box-wood':'Деревянная коробка','box-wax':'Восковая коробка','box-gold':'Золотая коробка','box-royal':'Королевская коробка','chest':'Сундук','chest-open':'Открытый сундук','sunflower':'Подсолнух','clover':'Клевер','lavender':'Лаванда','cornflower':'Василёк','mint':'Мята','moonpoppy':'Лунный мак','goldsun':'Златоцвет','sprout':'Росток','cell0':'Солнце','cell1':'Сердце','cell2':'Цветок','cell3':'Капля','cell4':'Лист','cell_wild':'Джокер','bomb':'Бомба'}
+
+def files():
+    return sorted(p for folder in ('assets','design','outputs') for p in (REPO/folder).rglob('*') if p.is_file() and p.suffix.lower() in SUFFIXES and 'asset-library' not in p.parts)
+
+def classify(rel):
+    p=rel.lower(); stem=Path(rel).stem
+    species=next((v for k,v in SPECIES.items() if k in p.split('/') or k in stem.lower()),'')
+    accessory=next((v for k,v in ACCESSORIES.items() if k in stem.lower()),'')
+    category='Прочее'
+    if 'assets/art/turn/' in p: category='Наряды' if accessory else 'Пчёлы'
+    elif any(v in p for v in ('accessor','headwear','cloth','crown','audio-halo')): category='Наряды'
+    elif any(v in p for v in ('bee-turn','zhuzha-turn','bees-prototype')): category='Пчёлы'
+    elif any(v in p for v in ('glyph','puzzle-tiles','combs-','cell','assets/art/bomb')): category='Глифы и соты'
+    elif any(v in p for v in ('environment','assets/art/env/','background','bed-dry','bed-wet')): category='Фоны и грядки'
+    elif any(v in p for v in ('plants','assets/art/garden/')): category='Растения'
+    elif any(v in p for v in ('decor','lanterns','flags','barrel','bench','mushroom','pinwheel','fountain','gnome')): category='Декор'
+    elif any(v in p for v in ('boxes','box-','chest')): category='Коробки и сундуки'
+    elif any(v in p for v in ('rewards','boosters','boost-','freeze')): category='Награды и усилители'
+    elif any(v in p for v in ('items','resources','pollen','fragment')): category='Ресурсы и инструменты'
+    if 'design/brand/' in p or any(v in p for v in ('icon','favicon','splash','telegram','poster','banner')): category='Иконки и промо'
+    if p.startswith(('design/3d/','design/bees3d/','outputs/zhuzha-turnaround')): category='3D-пробы'
+    if p.startswith(('design/v1.5-ui/','design/2d/asset-preview/')): category='Макеты и проверки'
+    if p.startswith('outputs/') and category=='Прочее': category='Макеты и проверки'
+    if '/all-species-accessories-v1/' in p and not accessory:category='Пчёлы'
+    role='Изображение'
+    if any(v in stem.lower() for v in ('sheet','compare','overview','contact','collection','all-options')) or '/all-assets-review/' in p: role='Лист / сравнение'
+    if any(v in stem.lower() for v in ('-raw','-generated','source-sheet','-source')):role='Исходник / сырой'
+    if any(v in stem.lower() for v in ('-rear','-front-front','-antennae','-mask','wing-left','wing-right','-wing-','-accessory')) or stem.startswith(('w0_','w1_')):role='Отдельный слой'
+    if p.startswith('assets/art/turn/'):role='Отдельный слой'
+    if '/all-species-accessories-v1/' in p:
+        if stem.endswith('-view'):role='Собранный вид'
+        elif role=='Изображение':role='Отдельный слой'
+    if '/bee-turnarounds/assets/' in p and role=='Изображение':role='Отдельный слой'
+    if any(v in stem.lower() for v in ('in-app','screenshot')):role='Проверка в игре'
+    style='Медовый кристалл'
+    if 'glyph-contrast-options' in p:
+        if stem.startswith(('01-','04a-')):style='Мягкий кристалл'
+        elif stem.startswith(('02-','04b-')):style='Матовая пастель'
+        elif stem.startswith(('03-','04-')):style='Тёплый воск'
+        elif stem=='bomb-compact':style='Мягкий кристалл'
+        else:style='Сравнение стилей'
+    elif 'soft-crystal' in p:style='Мягкий кристалл'
+    elif p.startswith('design/concepts/') or 'buzzle-1-' in p or 'buzzle-2-' in p or 'buzzle-3-' in p or 'buzzle-4-' in p:style='Ранние концепты'
+    if category=='3D-пробы':style='3D-проба'
+    season='Хеллоуин' if 'halloween' in p or stem.startswith(('04a-','04b-')) or ('glyph-contrast-options' in p and stem=='04-halloween') else 'Обычные'
+    if 'halloween-assets' in p and stem=='garden-background':season='Осень'
+    status='Основная коллекция'
+    if p.startswith('assets/'):status='Рабочие файлы'
+    if 'halloween' in p or 'glyph-contrast-options' in p:status='Кандидат / вариант'
+    if p.startswith('outputs/') or category=='3D-пробы' or style=='Ранние концепты':status='Архив / пробы'
+    if p.startswith('design/2d/') and not any(v in p for v in ('all-species-accessories-v1/','bee-turnarounds/','zhuzha-turnaround/','asset-preview/')):status='Архив / пробы'
+    if any(v in stem.lower() for v in ('-old','-broken','-raw','-generated')):status='Архив / пробы'
+    if 'headphones' in p:status='Исключено'
+    if 'audio-halo' in p and 'halo' not in stem.lower():status='Исключено'
+    title=TITLES.get(stem,stem.replace('_',' ').replace('-',' '))
+    if 'glyph-contrast-options' in p:
+        title={'01-soft-crystal':'Глифы · Мягкий кристалл','02-matte-pastel':'Глифы · Матовая пастель','03-warm-wax':'Глифы · Тёплый воск','04-halloween':'Глифы · Ранний Хеллоуин','04a-halloween-soft-crystal':'Глифы · Хеллоуин 4А / кристалл','04b-halloween-matte-pastel':'Глифы · Хеллоуин 4Б / пастель','bomb-compact':'Компактная бомба'}.get(stem,title)
+    if species and accessory:title=f'{species} · {accessory} · {stem}'
+    elif species:title=f'{species} · {stem}'
+    if species:
+        pose=next((label for key,label in [('q3-front-left','Три четверти спереди / влево'),('q3-back-left','Три четверти сзади / влево'),('q3-front','Три четверти спереди'),('q3-back','Три четверти сзади'),('side-left','Профиль / влево'),('front','Спереди'),('back','Со спины'),('side','Профиль'),('top','Сверху')] if key in stem.replace('backpack','bag')),'')
+        if pose:title=' · '.join(v for v in (species,accessory,pose) if v)
+    return dict(title=title,category=category,role=role,style=style,season=season,status=status,species=species,accessory=accessory)
+
+def build(target):
+    target=Path(target);target.mkdir(parents=True,exist_ok=True)
+    if not (target/'styles.html').exists():
+        subprocess.run([sys.executable,str(REPO/'scripts/build_art_style_board.py'),'--output',str(target)],check=True)
+    for name in ('files','thumbs'):(target/name).mkdir(exist_ok=True)
+    cache_path=target/'.inventory-cache.json'
+    try:cache=json.loads(cache_path.read_text())
+    except (OSError,ValueError):cache={}
+    next_cache={};groups={};source_count=0
+    for path in files():
+        rel=path.relative_to(REPO).as_posix();stat=path.stat();sig=[stat.st_size,stat.st_mtime_ns]
+        entry=cache.get(rel)
+        if not entry or entry['sig']!=sig:entry={'sig':sig,'hash':hashlib.sha256(path.read_bytes()).hexdigest()}
+        next_cache[rel]=entry;source_count+=1
+        groups.setdefault(entry['hash'],[]).append((path,rel,stat))
+    priority=lambda x:(0 if x[1].startswith('assets/') else 1 if 'all-species-accessories' in x[1] else 3 if x[1].startswith('outputs/') else 2,len(x[1]),x[1])
+    def prepare(pair):
+        digest,aliases=pair;aliases.sort(key=priority);path,rel,stat=aliases[0]
+        dest=target/'files'/(digest+path.suffix.lower())
+        if not dest.exists():
+            try:os.link(path,dest)
+            except OSError:shutil.copy2(path,dest)
+        thumb=target/'thumbs'/(digest+'.webp');size=None;mode=None
+        try:
+            with Image.open(path) as original:
+                size=list(original.size);mode=original.mode
+                if not thumb.exists():
+                    im=ImageOps.exif_transpose(original).convert('RGBA');im.thumbnail((360,360),Image.Resampling.LANCZOS);im.save(thumb,'WEBP',quality=85,method=3)
+        except Exception as exc:
+            if path.suffix.lower()!='.svg':return {'error':rel+': '+str(exc)}
+        record=classify(rel)
+        # A current alias takes precedence over an old duplicate; keep every origin visible.
+        record.update(id=digest,src='files/'+dest.name,thumb='thumbs/'+thumb.name if thumb.exists() else 'files/'+dest.name,path=rel,aliases=[a[1] for a in aliases],size=size,mode=mode,bytes=stat.st_size,modified=datetime.fromtimestamp(stat.st_mtime,timezone.utc).isoformat(),format=path.suffix.lower()[1:])
+        return record
+    with ThreadPoolExecutor(max_workers=4) as pool:prepared=list(pool.map(prepare,groups.items()))
+    errors=[a['error'] for a in prepared if 'error' in a];records=[a for a in prepared if 'error' not in a]
+    records.sort(key=lambda a:(CATEGORIES.index(a['category']),a['title'],a['path']))
+    data={'updated':datetime.now(timezone.utc).isoformat(),'sourceFiles':source_count,'uniqueImages':len(records),'duplicatesGrouped':source_count-len(groups),'errors':errors,'assets':records}
+    payload=json.dumps(data,ensure_ascii=False,separators=(',',':'))
+    # Atomic writes keep refreshes safe while the browser is open.
+    temp=target/'catalog.json.tmp';temp.write_text(payload);temp.replace(target/'catalog.json')
+    template=(REPO/'design/art/asset-library/catalog.template.html').read_text()
+    rendered=template.replace('__CATALOG_DATA__',payload.replace('</','<\\/'))
+    temp=target/'index.html.tmp';temp.write_text(rendered);temp.replace(target/'index.html')
+    cache_path.write_text(json.dumps(next_cache,separators=(',',':')))
+    (target/'collection-summary.json').write_text(json.dumps({k:v for k,v in data.items() if k!='assets'}|{'categories':dict(Counter(a['category'] for a in records))},ensure_ascii=False,indent=2))
+    return data
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser();parser.add_argument('--output',type=Path,required=True);args=parser.parse_args()
+    result=build(args.output);print(json.dumps({k:v for k,v in result.items() if k!='assets'},ensure_ascii=False))

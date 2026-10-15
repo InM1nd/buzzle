@@ -1,0 +1,82 @@
+{
+  "tool": "image_gen.imagegen",
+  "mode": "edit-with-local-references",
+  "date": "2026-10-15",
+  "transparent_background": "true for objects; false for backgrounds",
+  "assets": [
+    {
+      "name": "garden-background",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-9e6a4141-4935-4c46-8738-20a0b1c6efe9.png",
+      "prompt": "Create an autumn seasonal EDIT of this exact Buzzle game background. Preserve portrait 9:16 framing, low-poly honey crystal illustration with large irregular facets, warm top-left lighting, and the ORIGINAL layout: leafy foliage, small stones framing the corners and edges; a huge quiet EMPTY open meadow center for game UI and garden beds. Turn border leaves golden yellow, muted burnt orange, russet and some sage green. Add a few SMALL friendly pumpkins and fallen leaves only at the bottom corners and outer edges. Center remains pale warm sage grass with subtle facets, light and readable, not orange wash. Cozy autumn afternoon, no horror, no dark night, no text, no UI, no bees, no garden beds, no objects in center. Match existing rendering quality and materials; not a new pastel or crystal alternative. Full bleed opaque portrait background.",
+      "ref": "garden-background.png"
+    },
+    {
+      "name": "hive-background",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-86ccb4d4-c3a8-47b8-98fa-d98461ae169e.png",
+      "prompt": "Create a subtle Halloween seasonal EDIT of this exact Buzzle honey hive game background. Preserve portrait 9:16 layout and existing warm low-poly honey crystal game style, large irregular golden wax facets and honeycomb border cells, honey wooden platform bottom, warm top-left lighting. Keep the huge central pale cream field EMPTY and light for game UI and interactive honeycomb grid. Add only small friendly pumpkin lanterns near lower outside corners, sparse autumn leaves, two tiny delicate cobwebs tucked into upper border corners, subtle lilac ribbons on edges. Cozy honey hive remains dominant, not haunted mansion, not dark or saturated orange, no horror. Do not bake in bees, interactive grid, text or UI. Preserve original composition. Opaque full bleed portrait background.",
+      "ref": "hive-background.png"
+    },
+    {
+      "name": "lanterns",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-ed0c2532-b552-41d0-b7c5-9c8002136e89.png",
+      "prompt": "Edit the provided Buzzle decor asset into a Halloween seasonal version. Keep the entire wooden stand, crossbar, foot and two hanging positions. Replace the two rectangular lamps with small charming faceted orange pumpkin lanterns with friendly smiling cutouts and subtle warm light inside. Small sage leaves at pumpkin tops, tiny purple bows on the suspension ropes. Same broad low-poly facets and honey wooden material, warm top-left lighting, same camera. Not frightening, no bloom halo, no extra scene. One whole isolated object on transparent background, centered with clear padding on all sides, no floor or cast shadow outside object, no text. Existing game style, not the pastel alternative.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/decor-honey-crystal-v1/lanterns.png"
+    },
+    {
+      "name": "flags",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-12bd840d-8b7d-4557-8e25-2b7ef40db4cf.png",
+      "prompt": "Edit the provided Buzzle decor asset into a Halloween seasonal version. Keep the two timber posts, braces, one gently sagging cord and exactly five triangular pennants. Seasonal pennants alternate muted pumpkin orange, heather purple, warm ivory, sage green and orange, with one simple motif each: crescent moon, friendly bat silhouette, pumpkin, leaf, star. Maintain original honey-brown wood and broad low-poly faceted game illustration. Same three-quarter camera. Cheerful cozy Halloween, no text, no intricate patterns. One whole isolated object on transparent background, centered with clear padding on all sides, no floor or cast shadow outside object, no text. Existing game style, not the pastel alternative.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/decor-honey-crystal-v1/flags.png"
+    },
+    {
+      "name": "box-wood",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-6031cd3b-aba4-4211-b4cf-e1af11f2cf5b.png",
+      "prompt": "Edit this exact Buzzle game hexagonal wood box into a cozy Halloween seasonal variant. Preserve its original hexagonal silhouette, lid/body proportions, three-quarter camera, broad irregular low-poly facets, warm upper-left light, and its rank-defining materials. Keep honey-brown wood slats, add a small carved pumpkin medallion on the front and a tiny autumn leaf next to honeycomb lid emblem. Seasonal details must be sparse, elegant and legible at small scale. Existing honey crystal game style, not pastel replacement, not orange recoloring of everything. One closed undamaged object centered on transparent background with ample padding. No floor, no extra scene, no text.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/boxes-honey-crystal-v1/box-wood.png"
+    },
+    {
+      "name": "box-wax",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-926a65d2-38e5-491f-ac8d-44a955a7d69e.png",
+      "prompt": "Edit this exact Buzzle game hexagonal wax box into a cozy Halloween seasonal variant. Preserve its original hexagonal silhouette, lid/body proportions, three-quarter camera, broad irregular low-poly facets, warm upper-left light, and its rank-defining materials. Keep golden wax, honey drips and honeycomb lid emblem. Add a small lilac crescent seal on front and one tiny leaf at lid corner. Seasonal details must be sparse, elegant and legible at small scale. Existing honey crystal game style, not pastel replacement, not orange recoloring of everything. One closed undamaged object centered on transparent background with ample padding. No floor, no extra scene, no text.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/boxes-honey-crystal-v1/box-wax.png"
+    },
+    {
+      "name": "box-gold",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-b9bb4f4a-fae0-4c69-ac25-55e15141f39d.png",
+      "prompt": "Edit this exact Buzzle game hexagonal gold box into a cozy Halloween seasonal variant. Preserve its original hexagonal silhouette, lid/body proportions, three-quarter camera, broad irregular low-poly facets, warm upper-left light, and its rank-defining materials. Keep rich gold body and all three colored gems. Add a small engraved crescent on lid between honeycomb emblem and rim, and discreet cobweb corner etching. Seasonal details must be sparse, elegant and legible at small scale. Existing honey crystal game style, not pastel replacement, not orange recoloring of everything. One closed undamaged object centered on transparent background with ample padding. No floor, no extra scene, no text.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/boxes-honey-crystal-v1/box-gold.png"
+    },
+    {
+      "name": "box-royal",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-c397d8f5-87ac-49aa-891a-9f803a5b15fe.png",
+      "prompt": "Edit this exact Buzzle game hexagonal royal box into a cozy Halloween seasonal variant. Preserve its original hexagonal silhouette, lid/body proportions, three-quarter camera, broad irregular low-poly facets, warm upper-left light, and its rank-defining materials. Keep purple body, golden rims, gemstones, and the ORIGINAL golden crown on lid. Add a tiny pumpkin charm on front gold edge, crescent engraving on crown, discreet cobweb on one side. Seasonal details must be sparse, elegant and legible at small scale. Existing honey crystal game style, not pastel replacement, not orange recoloring of everything. One closed undamaged object centered on transparent background with ample padding. No floor, no extra scene, no text.",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/boxes-honey-crystal-v1/box-royal.png"
+    },
+    {
+      "name": "lanterns-soft-crystal",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-c15b814a-92a4-4f3a-94d8-b5267692e48f.png",
+      "prompt": "Make ONE exploratory soft-crystal material variant of the seasonal decor in reference 1. Reference 1 controls exact design, object arrangement, camera, silhouettes and motifs. Reference 2 is ONLY a material and tonal treatment guide: soft crystal, broad gentle facets, translucent milky edge highlights, smooth satin surface and softer shadow contrast. Do NOT include any hex tiles, symbols or board from reference 2. Keep wooden-post shaped stand but reinterpret it as softly faceted honey amber crystal, pumpkin lamps as softly glowing apricot crystal, purple bows as muted lilac, leaves as sage crystal. Reduce brilliant yellow glare and near-black shadows. Keep transparent background and ample padding. One whole isolated object, no floor or surrounding scene or text. This is a material comparison, not a redesign.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/halloween-assets-v1/lanterns.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v1/01-soft-crystal.png"
+      ],
+      "correction": {
+        "prompt": "Correct this exploratory soft-crystal game decor image. Preserve exact geometry, silhouettes, arrangement, camera and motifs. REMOVE all glowing white edge lines and yellow rim halos. Materials are satin translucent soft crystal with broad SOLID colored polygon planes, subtle smooth shading between lighter and darker facets, NOT a wireframe or glowing glass sculpture. No bloom. Reduce near-white highlight area dramatically: amber posts become muted apricot-honey with moderate midtone value, purple becomes gentle lavender, sage stays sage. Only the pumpkin face cutouts softly emit warm light, not whole stand. Keep enough contrast and volume to read at small scale. Calm, soft, premium casual game style, NOT chalky flat pastel. Isolated full object on transparent background with wide padding; no floor or shadows beyond object.",
+        "ref": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-340fe97f-80b4-4574-9c57-1730a2f00761.png"
+      }
+    },
+    {
+      "name": "flags-soft-crystal",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-3b724e4e-b938-4002-bc29-f977e4349563.png",
+      "prompt": "Make ONE exploratory soft-crystal material variant of the seasonal decor in reference 1. Reference 1 controls exact design, object arrangement, camera, silhouettes and motifs. Reference 2 is ONLY a material and tonal treatment guide: soft crystal, broad gentle facets, translucent milky edge highlights, smooth satin surface and softer shadow contrast. Do NOT include any hex tiles, symbols or board from reference 2. Keep two posts, cord, five triangular pennants and exactly same motif arrangement. Reinterpret posts as soft honey amber crystal and pennants as gently faceted soft crystal in apricot, lilac, cream and sage. Maintain moderate hue saturation, not chalky pastel, no wood grain. Keep transparent background and ample padding. One whole isolated object, no floor or surrounding scene or text. This is a material comparison, not a redesign.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/halloween-assets-v1/flags.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v1/01-soft-crystal.png"
+      ],
+      "correction": {
+        "prompt": "Correct this exploratory soft-crystal game decor image. Preserve exact geometry, silhouettes, arrangement, camera and motifs. REMOVE all glowing white edge lines and yellow rim halos. Materials are satin translucent soft crystal with broad SOLID colored polygon planes, subtle smooth shading between lighter and darker facets, NOT a wireframe or glowing glass sculpture. No bloom. Reduce near-white highlight area dramatically: amber posts become muted apricot-honey with moderate midtone value, purple becomes gentle lavender, sage stays sage. No part of this object emits light. Keep enough contrast and volume to read at small scale. Calm, soft, premium casual game style, NOT chalky flat pastel. Isolated full object on transparent background with wide padding; no floor or shadows beyond object.",
+        "ref": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-9d2e5ea4-a6a8-42fe-b686-ad1081852de5.png"
+      }
+    }
+  ]
+}

@@ -1,0 +1,194 @@
+[
+  {
+    "file": "backgrounds-compare.png",
+    "size": [
+      1440,
+      790
+    ],
+    "mode": "RGB"
+  },
+  {
+    "file": "box-gold.png",
+    "size": [
+      1366,
+      1151
+    ],
+    "mode": "RGBA",
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bounds_alpha_128": [
+      263,
+      172,
+      1103,
+      970
+    ]
+  },
+  {
+    "file": "box-royal.png",
+    "size": [
+      1366,
+      1151
+    ],
+    "mode": "RGBA",
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bounds_alpha_128": [
+      196,
+      121,
+      1196,
+      1031
+    ]
+  },
+  {
+    "file": "box-wax.png",
+    "size": [
+      1366,
+      1151
+    ],
+    "mode": "RGBA",
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bounds_alpha_128": [
+      248,
+      201,
+      1120,
+      981
+    ]
+  },
+  {
+    "file": "box-wood.png",
+    "size": [
+      1371,
+      1148
+    ],
+    "mode": "RGBA",
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bounds_alpha_128": [
+      242,
+      189,
+      1126,
+      1050
+    ]
+  },
+  {
+    "file": "boxes-review.png",
+    "size": [
+      1440,
+      500
+    ],
+    "mode": "RGB"
+  },
+  {
+    "file": "decor-compare.png",
+    "size": [
+      1300,
+      1030
+    ],
+    "mode": "RGB"
+  },
+  {
+    "file": "flags-soft-crystal.png",
+    "size": [
+      1774,
+      887
+    ],
+    "mode": "RGBA",
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bounds_alpha_128": [
+      66,
+      100,
+      1709,
+      774
+    ]
+  },
+  {
+    "file": "flags.png",
+    "size": [
+      1774,
+      887
+    ],
+    "mode": "RGBA",
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bounds_alpha_128": [
+      80,
+      110,
+      1695,
+      759
+    ]
+  },
+  {
+    "file": "garden-background.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB"
+  },
+  {
+    "file": "hive-background.png",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB"
+  },
+  {
+    "file": "lanterns-soft-crystal.png",
+    "size": [
+      1269,
+      1240
+    ],
+    "mode": "RGBA",
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bounds_alpha_128": [
+      54,
+      50,
+      1258,
+      1192
+    ]
+  },
+  {
+    "file": "lanterns.png",
+    "size": [
+      1269,
+      1240
+    ],
+    "mode": "RGBA",
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bounds_alpha_128": [
+      95,
+      73,
+      1206,
+      1165
+    ]
+  },
+  {
+    "file": "overview.png",
+    "size": [
+      1440,
+      1110
+    ],
+    "mode": "RGB"
+  }
+]

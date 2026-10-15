@@ -15,7 +15,7 @@
 let catalog=JSON.parse(document.querySelector('#initialData').textContent);const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function saved(key,fallback){try{return JSON.parse(localStorage.getItem(key))||fallback}catch{return fallback}}function persist(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{}}
 const favorites=new Set(saved('buzzle-art-favorites',[])),comparison=new Set();let state={category:'',search:'',style:'',season:'',species:'',role:'',status:'',scope:'main',page:1};let results=[],lastFocus=null;
-const preferred=['Пчёлы','Наряды','Глифы и соты','Фоны и грядки','Растения','Декор','Коробки и сундуки','Ресурсы и инструменты','Награды и усилители','Иконки и промо','Макеты и проверки','3D-пробы','Прочее'];
+const preferred=['Пчёлы','Наряды','Глифы и соты','Фоны и грядки','Растения','Декор','Коробки и сундуки','Ресурсы и инструменты','Награды и усилители','Иконки и промо','Ночной полёт','Макеты и проверки','3D-пробы','Прочее'];
 const labels={style:'Все стили',season:'Все сезоны',species:'Все пчёлы',role:'Все виды',status:'Все статусы'};
 function options(){for(const key of Object.keys(labels)){const values=[...new Set(catalog.assets.map(a=>a[key]).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ru'));$('#'+key).innerHTML=`<option value="">${labels[key]}</option>`+values.map(v=>`<option>${esc(v)}</option>`).join('');$('#'+key).value=state[key]}}
 function mainAsset(a){return !['Архив / пробы','Исключено'].includes(a.status)&&!['Отдельный слой','Исходник / сырой','Проверка в игре'].includes(a.role)}

@@ -1,0 +1,6 @@
+{
+  "reference": "assets/art/cell0.webp",
+  "new": "tiles/cell_pumpkin.png",
+  "alpha_threshold": 128,
+  "mask_IoU": 0.9908275951669482
+}

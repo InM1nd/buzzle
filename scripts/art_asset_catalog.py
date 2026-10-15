@@ -16,9 +16,11 @@ from PIL import Image, ImageOps
 REPO = Path(__file__).resolve().parents[1]
 SUFFIXES = {'.png', '.webp', '.jpg', '.jpeg', '.gif', '.svg'}
 SPECIES = {'zhuzha':'Жужа','pushinka':'Пушинка','boris':'Борис','solnyshko':'Солнышко','klevera':'Клеверина','lavanda':'Лаванда','vasilek':'Василёк','myatka':'Мятка','iskorka':'Искорка','sonya':'Соня','zorkaya':'Зоркая','margo':'Марго','nochka':'Ночка'}
-CATEGORIES = ['Пчёлы','Наряды','Глифы и соты','Фоны и грядки','Растения','Декор','Коробки и сундуки','Ресурсы и инструменты','Награды и усилители','Иконки и промо','Макеты и проверки','3D-пробы','Прочее']
+CATEGORIES = ['Пчёлы','Наряды','Глифы и соты','Фоны и грядки','Растения','Декор','Коробки и сундуки','Ресурсы и инструменты','Награды и усилители','Иконки и промо','Ночной полёт','Макеты и проверки','3D-пробы','Прочее']
 ACCESSORIES = {'crown':'Корона','scarf':'Шарф','bow':'Бант','backpack':'Сумка','satchel':'Сумка','bag':'Сумка','wreath':'Венок','beret':'Берет','glasses':'Очки','halo':'Нимб','headphones':'Наушники'}
 TITLES = {'honey':'Мёд','nectar':'Нектар','jelly':'Маточное молочко','pollen':'Пыльца','fragment':'Фрагмент пчелы','seeds':'Семена','watering-can':'Лейка','shovel':'Лопатка','lanterns':'Фонарики','flags':'Флажки','barrel':'Бочка','bench':'Скамейка','mushroom':'Гриб','pinwheel':'Вертушка','fountain':'Фонтан','gnome':'Гном','garden-background':'Фон сада','hive-background':'Фон улья','bed-dry':'Сухая грядка','bed-wet':'Политая грядка','box-wood':'Деревянная коробка','box-wax':'Восковая коробка','box-gold':'Золотая коробка','box-royal':'Королевская коробка','chest':'Сундук','chest-open':'Открытый сундук','sunflower':'Подсолнух','clover':'Клевер','lavender':'Лаванда','cornflower':'Василёк','mint':'Мята','moonpoppy':'Лунный мак','goldsun':'Златоцвет','sprout':'Росток','cell0':'Солнце','cell1':'Сердце','cell2':'Цветок','cell3':'Капля','cell4':'Лист','cell_wild':'Джокер','bomb':'Бомба'}
+
+TITLES.update({'cell_pumpkin':'Тыквенная сота','ghost_overlay':'Призрак поверх соты','event_point':'Очко события / тыковка','pumpkin_bud':'Молодая тыква','pumpkin_bloom':'Зрелая тыква','hive_bg_night':'Ночной улей','garden_bg_night':'Ночной сад','first-batch':'Тыквенная ночь / первая партия','tiles-ghost-check':'Призрак на пяти цветах / проверка'})
 
 def files():
     return sorted(p for folder in ('assets','design','outputs') for p in (REPO/folder).rglob('*') if p.is_file() and p.suffix.lower() in SUFFIXES and 'asset-library' not in p.parts)
@@ -73,6 +75,11 @@ def classify(rel):
     if any(v in stem.lower() for v in ('-old','-broken','-raw','-generated')):status='Архив / пробы'
     if 'headphones' in p:status='Исключено'
     if 'audio-halo' in p and 'halo' not in stem.lower():status='Исключено'
+    if p.startswith('design/2d/halloween/'):
+        section=p.split('/')[3]
+        category={'tiles':'Глифы и соты','ui':'Награды и усилители','env':'Фоны и грядки','garden':'Растения','costumes':'Наряды','deco':'Декор','trick':'Декор','flight':'Ночной полёт'}.get(section,'Макеты и проверки')
+        status='Кандидат / вариант';season='Хеллоуин';style='Медовый кристалл'
+        if section=='review':role='Лист / сравнение'
     title=TITLES.get(stem,stem.replace('_',' ').replace('-',' '))
     if 'glyph-contrast-options' in p:
         title={'01-soft-crystal':'Глифы · Мягкий кристалл','02-matte-pastel':'Глифы · Матовая пастель','03-warm-wax':'Глифы · Тёплый воск','04-halloween':'Глифы · Ранний Хеллоуин','04a-halloween-soft-crystal':'Глифы · Хеллоуин 4А / кристалл','04b-halloween-matte-pastel':'Глифы · Хеллоуин 4Б / пастель','bomb-compact':'Компактная бомба'}.get(stem,title)

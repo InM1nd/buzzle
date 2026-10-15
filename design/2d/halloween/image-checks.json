@@ -1,0 +1,122 @@
+[
+  {
+    "file": "tiles/cell_pumpkin.png",
+    "size": [
+      720,
+      624
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "sha256": "27e0ac4cdef3a6f6eaf9d351abf69e614d872e99a7c724e3c39e14eb88aa6fec",
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bounds": [
+      0,
+      0,
+      720,
+      624
+    ]
+  },
+  {
+    "file": "ui/event_point.png",
+    "size": [
+      288,
+      288
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "sha256": "38b6cab218fc38260afad5b8afc330d3867af9a2c882ef074cd027e371e702e2",
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bounds": [
+      40,
+      36,
+      252,
+      247
+    ]
+  },
+  {
+    "file": "tiles/ghost_overlay.png",
+    "size": [
+      720,
+      624
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "sha256": "90bb8b65194ae4268acebbaacd6e99e080c9537d19936bb53087790324a1364e",
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bounds": [
+      175,
+      149,
+      562,
+      500
+    ]
+  },
+  {
+    "file": "garden/pumpkin_bud.png",
+    "size": [
+      747,
+      747
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "sha256": "c128161767372a4471a655e9cb541fcc3c3232d2f176e9ff19e9d89dd072de1e",
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bounds": [
+      71,
+      103,
+      695,
+      667
+    ]
+  },
+  {
+    "file": "env/hive_bg_night.png",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "sRGB": true,
+    "sha256": "6e1b53e63c3141278ce7a2f6d745c10214ef2deb43e7441cf464c4b9cfcc9e79"
+  },
+  {
+    "file": "env/garden_bg_night.png",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "sRGB": true,
+    "sha256": "bc029cfbe6fc4b653516598f7354bf7d4c5cb4aa112b042e619987b4749d7be2"
+  },
+  {
+    "file": "garden/pumpkin_bloom.png",
+    "size": [
+      747,
+      747
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "sha256": "73430a4f031638087dc4e8ac23552c686df56afd3a67ca9dd0948879383fd348",
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bounds": [
+      41,
+      77,
+      724,
+      684
+    ]
+  }
+]

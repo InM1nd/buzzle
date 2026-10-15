@@ -1,0 +1,68 @@
+{
+  "tool": "image_gen.imagegen",
+  "date": "2026-10-16",
+  "mode": "local reference edits",
+  "exports": "PNG sRGB, minimum 3x sprites; no color correction; mechanical scaling only",
+  "assets": [
+    {
+      "name": "tiles/cell_pumpkin",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-12149a2b-8304-4037-92af-42d6588f3a50.png",
+      "prompt": "A Buzzle puzzle game TILE edit. Reference 1 controls the exact FLAT-TOP hexagonal silhouette (flat horizontal top and bottom, pointed LEFT and RIGHT), bevel, camera, material, and canvas fill, reference 2 is the existing wildcard tile to match treatment. Keep same shape and aspect ratio 240:208. Change the main surface from yellow honey to clearly distinguishable rich pumpkin-orange #F08A24, moderately saturated, broad facets. Central SMALL friendly carved pumpkin face, two triangular eye cutouts and a gentle smile softly lit warm #FFC56B from within the orange crystal. Tiny sage-green stem and curled leaf integrated INTO the top bevel, not protruding beyond the hex silhouette. No whole round pumpkin sitting on tile, no crown, no green frame. Do not overexpose bright carved marks; keep face legible. Full tile fits canvas like reference, minimal margin. Output high resolution at aspect 240:208. Style: cozy casual mobile game art, honey crystal low-poly look — large clean planar facets, soft tonal variation inside each facet, warm key light from upper left, gentle ambient occlusion, no drawn outlines, no text, watermark or signature. Cute friendly Halloween mood, not scary. Match reference rendering, facet sizes and lighting, not soft crystal experiment or pastel. True transparent alpha background, no ground or cast ground shadow, isolated complete object.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/cell0.webp",
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/cell_wild.webp"
+      ]
+    },
+    {
+      "name": "ui/event_point",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-497b1860-05d9-4076-b356-0de5d4030fa7.png",
+      "prompt": "Create a small seasonal resource icon for Buzzle: one tiny round natural pumpkin, pumpkin orange #F08A24, a few broad clean faceted ribs, one short green stem and small curled leaf, warm upper-left light. No carved face, no eyes, no ribbon or coins. Resource icon reads clearly at 24px, a compact clean silhouette. Reference honey jar and drop are ONLY material/rendering/lighting references, do not draw them. Square canvas, object takes ~84% canvas leaving safe transparent margins. No external luminous aura. Style: cozy casual mobile game art, honey crystal low-poly look — large clean planar facets, soft tonal variation inside each facet, warm key light from upper left, gentle ambient occlusion, no drawn outlines, no text, watermark or signature. Cute friendly Halloween mood, not scary. Match reference rendering, facet sizes and lighting, not soft crystal experiment or pastel. True transparent alpha background, no ground or cast ground shadow, isolated complete object.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/honey.webp",
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/drop.webp"
+      ]
+    },
+    {
+      "name": "tiles/ghost_overlay",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-bb4b7f73-c7d3-4049-b647-74fd9c1a9c8a.png",
+      "prompt": "Create ONLY a cute small ghost SPECIAL-ELEMENT OVERLAY for Buzzle puzzle tile, transparent alpha. Reference 1 is placement/scale canvas guide, reference 2 shows faceted special-element material. DO NOT DRAW ANY HEXAGON, TILE, BORDER, CROWN or pumpkin. Only a small white sheet ghost with faint mint #BFF5E6 edge tint, two large dark friendly eyes, little cheerful open smile. Rounded head with a few clean broad planar facets and two tiny flowing sheet tips, soft shaded lavender underside so it remains legible on yellow, pink, blue, green and purple. Ghost should occupy about 48% of canvas WIDTH, centered horizontally with center at 52% canvas height; ample TRANSPARENT space around it, with very subtle local mint glow, not an oversized glow cloud. Canvas aspect ratio 240:208, face should read at 24px. No scary details, no hands holding objects. Style: cozy casual mobile game art, honey crystal low-poly look — large clean planar facets, soft tonal variation inside each facet, warm key light from upper left, gentle ambient occlusion, no drawn outlines, no text, watermark or signature. Cute friendly Halloween mood, not scary. Match reference rendering, facet sizes and lighting, not soft crystal experiment or pastel. True transparent alpha background, no ground or cast ground shadow, isolated complete object.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/cell0.webp",
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/bomb.webp"
+      ]
+    },
+    {
+      "name": "garden/pumpkin_bud",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-e2bd76fe-3999-415c-b041-674df7e7c154.png",
+      "prompt": "Create a Buzzle garden plant asset matching the attached sunflower BUD reference in ground-contact anchor, centered square framing, scale, broad angular low-poly leaves and upper-left lighting. A young pumpkin vine: 3 broad faceted green leaves, a short curly vine, ONE small green-and-yellow unripe pumpkin with orange flecks and ONE tiny orange flower. Compact readable silhouette, stem root at bottom center as if entering soil, with no soil patch or pot. Pumpkin is unripe and noticeably smaller than a mature pumpkin will be, leaves carry most silhouette. Match game honey crystal rendering, not smooth plastic or realistic botany. Fully transparent square canvas, about 6% padding; ground contact anchor near center at 91% canvas height. No background, text, ground shadow or extra objects.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/garden/sunflower_bud.webp"
+      ]
+    },
+    {
+      "name": "env/hive_bg_night",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-823956f6-8fd1-493c-8fce-da3686a3b15f.png",
+      "prompt": "Create a NIGHT seasonal edit of this exact Buzzle hive background. Preserve portrait aspect 940:1672 and same honeycomb shapes, perspective, border thickness, pale central clearing and wooden bottom platform. Relight existing honey crystal facets with deep plum #2B1B3D and indigo #3A2F5B ambient, warm candle bounce #FFC56B and a soft cool moon glow from upper left corner. Keep a honey/wax identity in warm lit edge facets; not stone cave. A FEW small friendly carved pumpkin lanterns and a restrained string of warm tiny lights near side edges only, delicate small cobweb in one side corner, a couple tiny fireflies. CENTER remains EMPTY, calm, slightly lighter muted lavender-plum, low contrast for interactive honeycombs over it. Top12% and bottom12% simple uncluttered for UI bars; no pumpkin or moon in middle. Opaque full bleed portrait, no characters, game cells, UI, labels or text. Cozy low-poly honey crystal casual mobile game art, large clean facets, upper-left key light, no outlines, no horror. Do not turn it into bright orange daytime.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/env/hive_bg.webp"
+      ]
+    },
+    {
+      "name": "env/garden_bg_night",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-87bdaf79-4ac7-4f9b-bf54-0e9fecc9ab7d.png",
+      "prompt": "Create a NIGHT Halloween/autumn edit of this exact Buzzle garden background. Same portrait aspect 940:1672, same slightly top-down meadow composition, same edge framing of faceted shrubs and pale rocks, same large empty central and lower meadow. Indigo/plum night palette #3A2F5B #2B1B3D, muted blue-green grass. Soft moonlight from upper left with a small diffuse moon/glow tucked into the very upper corner, do not introduce a large horizon or moon in the central playfield. Sparse small pumpkins and gentle warm candle light pools #FFC56B on outside side edges, a few golden/russet autumn leaves among shrubs, a couple tiny fireflies. The LOWER HALF and central meadow are LIGHTER softly muted bluish-sage/plum and low contrast so garden beds remain readable. Preserve quiet empty center; no beds, buildings, bees or planted crops baked in. Top12% and bottom12% remain simple and low detail for UI. Low-poly honey crystal existing game style, broad clean planar facets, warm upper-left key accents and cool night ambient, no outlines, no horror, no text. Full bleed opaque portrait.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/env/garden_bg.webp"
+      ]
+    },
+    {
+      "name": "garden/pumpkin_bloom",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-8a0b0c22-03e4-4932-9198-687bb67202ac.png",
+      "prompt": "Create the MATURE HARVEST stage of the Buzzle pumpkin plant in reference 2, rendered and framed as the existing garden plant in reference 1. Reference 1 controls 1:1 square canvas, warm upper-left light, broad clean low-poly facets and ground anchor at bottom center. Reference 2 controls SAME pumpkin variety, faceted leaf shape, stem and curly vine, so these read as successive stages. A single large ripe pumpkin-orange #F08A24 pumpkin with chunky planar ribs dominates the lower middle, broad green leaves on both sides, thick short green stem attached to the fruit, one curled vine, a few very tiny subtle harvest sparkles. No tall tree-like stalk above the ripe fruit. Main fruit rests close to bottom center at 91% canvas height where plant enters soil; no dirt patch or pot. Keep most recognizable leaf and stem colors consistent with young plant, fruit now fully orange. Clear simple silhouette readable at 64px. One isolated complete plant, transparent alpha square canvas, around6% padding, no ground shadow, scenery, text, face or carved pumpkin marks. Cozy honey crystal game art, large irregular planar facets, soft tonal shading, upper-left light, no outlines. Not a soft crystal or pastel experiment.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/garden/sunflower_bloom.webp",
+        "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-e2bd76fe-3999-415c-b041-674df7e7c154.png"
+      ]
+    }
+  ]
+}

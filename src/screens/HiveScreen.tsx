@@ -12,7 +12,7 @@ import { BeeSprite } from "../ui/BeeSprite";
 import { sinRange, useAnimActive, useCycle } from "../ui/anim";
 import { buildFlight } from "../logic/flight";
 import { C, F, shadow } from "../ui/theme";
-import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Txt } from "../ui/components";
+import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Txt, useTopPad } from "../ui/components";
 import { centerOf, Pt } from "../ui/Fly";
 import { duration, rateFmt } from "../ui/format";
 
@@ -196,9 +196,10 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, onTog
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [s.bees.join(","), builtKey, hs, areaW, areaH]);
 
+  const top = useTopPad();
   return (
     <View style={{ flex: 1 }} onLayout={(e) => setContainerW(e.nativeEvent.layout.width)}>
-    <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
+    <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
       {rolled ? (
         <Card style={{ backgroundColor: "#FFE7DF", padding: 12 }}>
           <Txt v="small" color={C.red}>{t("hive.rollback")}</Txt>

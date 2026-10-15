@@ -8,7 +8,7 @@ import { GameState, canClaimLogin, level, nextLoginIndex, canClaimWeekly, canBuy
 import { LOGIN_REWARDS, loginReward, taskReward, tasksForDay, bonusReward } from "../logic/tasks";
 import { ART } from "../ui/art";
 import { C } from "../ui/theme";
-import { Bar, Card, fmt, GameButton, Txt } from "../ui/components";
+import { Bar, Card, fmt, GameButton, Txt, useTopPad } from "../ui/components";
 import { centerOf, Pt } from "../ui/Fly";
 import { duration } from "../ui/format";
 import { Toggle } from "../ui/Toggle";
@@ -46,8 +46,9 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
     : doneCount >= tasks.length ? t("tasks.sayAll")
     : t("tasks.sayProgress", { a: doneCount, b: tasks.length });
 
+  const top = useTopPad();
   return (
-    <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
+    <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
       <Txt v="h1" style={{ marginBottom: 2 }}>{t("tab.tasks")}</Txt>
       {/* mascot */}
       <View style={styles.mascotRow}>

@@ -8,7 +8,7 @@ import { abilityAt, levelCost, BEES, BeeSpecies, LEVEL_HIVE_BONUS, MAX_BEE_LEVEL
 import { ART } from "../ui/art";
 import { BeeSprite, Hover, Mascot, useFace } from "../ui/BeeSprite";
 import { C, F, shadow } from "../ui/theme";
-import { Bar, CloseBtn, fmt, GameButton, Overlay, Press, Txt } from "../ui/components";
+import { Bar, CloseBtn, fmt, GameButton, Overlay, Press, Txt, useTopPad } from "../ui/components";
 import { Text } from "react-native";
 
 const RARITY: Record<Rarity, { name: string; color: string; bg: string }> = {
@@ -27,9 +27,10 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
   const colW = Math.max(1, Math.floor((gridW - 20) / 3));
   const [view, setView] = useState<"all" | "outfits">("all");
   const owned = new Set(s.bees);
+  const top = useTopPad();
   return (
     <>
-      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 110 }} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: 110 }} showsVerticalScrollIndicator={false}>
         <View style={styles.head}>
           <Txt v="h1" style={{ flex: 1 }}>{t("bees.title")}</Txt>
           <Txt v="h3" color={C.dim}>{t("bees.count", { a: s.bees.length, b: BEES.length })}</Txt>

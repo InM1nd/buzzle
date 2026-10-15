@@ -1,5 +1,5 @@
 import { numFmt, t } from "../i18n";
-import React, { useEffect, useRef, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import {
   Animated, Easing, Image, ImageSourcePropType, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleProp, StyleSheet, Text, TextProps, TextStyle, View, ViewStyle,
 } from "react-native";
@@ -118,9 +118,14 @@ export function CountUp({ value, style, duration = 600, format = fmt }: { value:
   return <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8} style={style}>{format(shown)}</Text>;
 }
 
-// ---------- currency pill ----------
-export function Pill({ icon, value, color = C.text, bump, onLayoutIcon, label, compact }: {
-  icon: ImageSourcePropType; value: number; color?: string; bump?: number; label: string; compact?: boolean;
+// ---------- currency bar ----------
+/** Height of the floating top bar; tab screens pad their scroll content by it so it scrolls under the bar. */
+export const TopPad = createContext(0);
+export const useTopPad = () => useContext(TopPad);
+
+/** One currency inside the shared currency bar. */
+export function Pill({ icon, value, color = C.text, bump, onLayoutIcon, label }: {
+  icon: ImageSourcePropType; value: number; color?: string; bump?: number; label: string;
   onLayoutIcon?: (ref: View | null) => void;
 }) {
   const s = useRef(new Animated.Value(1)).current;
@@ -132,11 +137,11 @@ export function Pill({ icon, value, color = C.text, bump, onLayoutIcon, label, c
     ]).start();
   }, [bump, s]);
   return (
-    <Animated.View accessibilityLabel={label} style={[styles.pill, shadow, compact && styles.pillC, { transform: [{ scale: s }] }]}>
+    <Animated.View accessibilityLabel={label} style={[styles.pill, { transform: [{ scale: s }] }]}>
       <View ref={(r) => onLayoutIcon?.(r)} collapsable={false}>
-        <Image source={icon} style={compact ? { width: 16, height: 16 } : { width: 26, height: 26 }} />
+        <Image source={icon} style={{ width: 18, height: 18 }} />
       </View>
-      <CountUp value={value} style={[F.black, { fontSize: compact ? 12 : 16, color, minWidth: compact ? 0 : 28, flexShrink: 1 }]} />
+      <CountUp value={value} style={[F.black, { fontSize: 13, color, flexShrink: 1 }]} />
     </Animated.View>
   );
 }
@@ -243,8 +248,7 @@ export function CloseBtn({ onPress, color = C.dim }: { onPress: () => void; colo
 }
 
 const styles = StyleSheet.create({
-  pillC: { gap: 3, paddingLeft: 3, paddingRight: 5, height: 32, borderRadius: 16, flexShrink: 1 },
-  pill: { flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: "#FFFFFF", borderRadius: 22, paddingLeft: 6, paddingRight: 14, height: 40 },
+  pill: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 3, flexGrow: 1, flexShrink: 1, minWidth: 0 },
   card: { backgroundColor: C.card, borderRadius: 24, padding: 16 },
   overlayCenter: { position: "absolute", left: 0, right: 0, top: 0, bottom: 0, alignItems: "center", justifyContent: "center", padding: 22 },
   sheet: { width: "100%", maxWidth: 420, backgroundColor: C.cardWarm, borderRadius: 30, padding: 22, ...shadow, elevation: 12 },

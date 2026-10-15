@@ -11,7 +11,7 @@ import { DAILY_MOVES, DAILY_STARS } from "../logic/day";
 import { colorName } from "../logic/bees";
 import { ART } from "../ui/art";
 import { C, shadow } from "../ui/theme";
-import { Bobbing, Card, CloseBtn, fmt, GameButton, Overlay, Press, Stars, Txt } from "../ui/components";
+import { Bobbing, Card, CloseBtn, fmt, GameButton, Overlay, Press, Stars, Txt, useTopPad } from "../ui/components";
 import { dateLong, days, weekday } from "../ui/format";
 
 interface Props { s: GameState; now: number; onPlay: (mode: RoundMode, boosters?: RoundBoosters) => void; onBuyBooster: (b: BoosterId) => boolean }
@@ -47,8 +47,9 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster }: Props) {
   const honeyBonus = Math.round((puzzleHoneyMult(s) - 1) * 100);
   if (honeyBonus > 0) chips.push(t("pz.chipHoney", { n: honeyBonus }));
 
+  const top = useTopPad();
   return (
-    <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
+    <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
       <Txt v="h1" style={{ marginBottom: 2 }}>{t("tab.puzzle")}</Txt>
       <View style={[styles.daily, shadow]}>
         <View style={{ flexDirection: "row", alignItems: "flex-start" }}>

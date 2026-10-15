@@ -34,7 +34,7 @@ import { ART } from "./src/ui/art";
 import { TabIcon } from "./src/ui/TabIcon";
 import { Mascot } from "./src/ui/BeeSprite";
 import { C, F, shadow } from "./src/ui/theme";
-import { Bar, GameButton, Pill, Press, Txt } from "./src/ui/components";
+import { Bar, GameButton, Pill, Press, TopPad, Txt } from "./src/ui/components";
 import { centerOf, FlyProvider, Pt, useFly } from "./src/ui/Fly";
 import HiveScreen from "./src/screens/HiveScreen";
 import PuzzleScreen from "./src/screens/PuzzleScreen";
@@ -88,6 +88,7 @@ function Main() {
   const [showTutorial, setShowTutorial] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [topH, setTopH] = useState(0);
   const [settingsPage, setSettingsPage] = useState<"main" | "update">("main");
   const [showWhatsNew, setShowWhatsNew] = useState(false);
   const [notifBlocked, setNotifBlocked] = useState(false);
@@ -509,34 +510,10 @@ function Main() {
       {tab === "hive" ? (
         <Image source={hiveView === "garden" ? require("./assets/art/env/garden_bg.webp") : require("./assets/art/env/hive_bg.webp")} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} />
       ) : null}
-      {/* top bar */}
-      <View style={[styles.top, { paddingTop: insets.top + 8 }]}>
-        <View style={{ flex: 1, flexDirection: "row", gap: 5, alignItems: "center" }}>
-          <Pill compact icon={ART.honey} value={hold.honey ?? s.honey} bump={bump.honey} label={t("c.honey")} onLayoutIcon={(r) => { honeyIcon.current = r; }} />
-          <Pill compact icon={ART.nectar} value={hold.nectar ?? s.nectar} bump={bump.nectar} label={t("c.nectar")} color="#B03A68" onLayoutIcon={(r) => { nectarIcon.current = r; }} />
-          <Pill compact icon={ART.jelly} value={hold.jelly ?? s.jelly} bump={bump.jelly} label={t("c.jelly")} color="#7B52C2" onLayoutIcon={(r) => { jellyIcon.current = r; }} />
-          <Pill compact icon={ART.pollen} value={s.loot.pollen} label={t("c.pollen")} color="#B07A10" />
-          <Pill compact icon={ART.fragment} value={s.loot.fragments} label={t("c.fragments")} color="#5B5FC7" />
-        </View>
-        <Press onPress={() => { setSettingsPage("main"); setShowSettings(true); }} style={styles.gear} accessibilityRole="button" accessibilityLabel={updater.available ? `${t("c.settings")} · ${t("up.badge")}` : t("c.settings")}>
-          <Image source={ART.gear} style={{ width: 22, height: 22, tintColor: C.brown }} />
-          {updater.available ? <View style={[styles.badge, { top: -1, right: -1 }]} /> : null}
-        </Press>
-      </View>
-
+      <TopPad.Provider value={topH}>
       <View style={{ flex: 1 }}>
         {tab === "hive" ? (
           <View style={{ flex: 1 }}>
-          <View style={styles.seg} accessibilityRole="tablist">
-            {(["hive", "garden"] as const).map((v) => (
-              <Press key={v} onPress={() => setHiveView(v)} style={[styles.segBtn, hiveView === v && styles.segOn]} scaleTo={0.96}
-                accessibilityRole="tab" accessibilityLabel={t(v === "hive" ? "seg.combs" : "seg.garden")} accessibilityState={{ selected: hiveView === v }}>
-                <Image source={v === "hive" ? ART.tabHive : ART.seed} style={{ width: 18, height: 18, tintColor: hiveView === v ? "#fff" : "#C49A62" }} />
-                <Text style={[F.black, { fontSize: 14, color: hiveView === v ? "#fff" : "#A07A4C" }]}>{t(v === "hive" ? "seg.combs" : "seg.garden")}</Text>
-                {v === "garden" && (gardenBadge || !s.settings.gardenIntroDone) ? <View style={[styles.badge, { top: 4, right: 10 }]} /> : null}
-              </Press>
-            ))}
-          </View>
           {hiveView === "garden" ? (
             <GardenScreen s={s} now={now} onPlant={act.plant} onWater={act.water} onWaterAll={act.waterAll} onHarvest={act.harvest}
               onUnlockBed={act.unlockBed} onIntroDone={act.gardenIntroDone}
@@ -581,6 +558,36 @@ function Main() {
         ) : (
           <TasksScreen s={s} now={now} onClaimWeekly={act.weekly} onBuyFreeze={() => act.simple((c) => buyFreeze(c, Date.now()))} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} onNotifications={act.notifications} notifBlocked={notifBlocked} />
         )}
+      </View>
+      </TopPad.Provider>
+
+      {/* top bar: one currency bar + gear, floating over the scene like the tab bar */}
+      <View style={[styles.top, { paddingTop: insets.top + 8 }]} onLayout={(e) => setTopH(Math.round(e.nativeEvent.layout.height))} pointerEvents="box-none">
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }} pointerEvents="box-none">
+          <View style={styles.cur}>
+            <Pill icon={ART.honey} value={hold.honey ?? s.honey} bump={bump.honey} label={t("c.honey")} onLayoutIcon={(r) => { honeyIcon.current = r; }} />
+            <Pill icon={ART.nectar} value={hold.nectar ?? s.nectar} bump={bump.nectar} label={t("c.nectar")} color="#B03A68" onLayoutIcon={(r) => { nectarIcon.current = r; }} />
+            <Pill icon={ART.jelly} value={hold.jelly ?? s.jelly} bump={bump.jelly} label={t("c.jelly")} color="#7B52C2" onLayoutIcon={(r) => { jellyIcon.current = r; }} />
+            <Pill icon={ART.pollen} value={s.loot.pollen} label={t("c.pollen")} color="#B07A10" />
+            <Pill icon={ART.fragment} value={s.loot.fragments} label={t("c.fragments")} color="#5B5FC7" />
+          </View>
+          <Press onPress={() => { setSettingsPage("main"); setShowSettings(true); }} style={styles.gear} accessibilityRole="button" accessibilityLabel={updater.available ? `${t("c.settings")} · ${t("up.badge")}` : t("c.settings")}>
+            <Image source={ART.gear} style={{ width: 22, height: 22, tintColor: C.brown }} />
+            {updater.available ? <View style={[styles.badge, { top: -1, right: -1 }]} /> : null}
+          </Press>
+        </View>
+        {tab === "hive" ? (
+          <View style={styles.seg} accessibilityRole="tablist">
+            {(["hive", "garden"] as const).map((v) => (
+              <Press key={v} onPress={() => setHiveView(v)} style={[styles.segBtn, hiveView === v && styles.segOn]} scaleTo={0.96}
+                accessibilityRole="tab" accessibilityLabel={t(v === "hive" ? "seg.combs" : "seg.garden")} accessibilityState={{ selected: hiveView === v }}>
+                <Image source={v === "hive" ? ART.tabHive : ART.seed} style={{ width: 18, height: 18, tintColor: hiveView === v ? "#fff" : "#C49A62" }} />
+                <Text style={[F.black, { fontSize: 14, color: hiveView === v ? "#fff" : "#A07A4C" }]}>{t(v === "hive" ? "seg.combs" : "seg.garden")}</Text>
+                {v === "garden" && (gardenBadge || !s.settings.gardenIntroDone) ? <View style={[styles.badge, { top: 4, right: 10 }]} /> : null}
+              </Press>
+            ))}
+          </View>
+        ) : null}
       </View>
 
       {/* tab bar */}
@@ -640,7 +647,8 @@ function taskBadge(s: GameState) {
 
 const styles = StyleSheet.create({
   zcard: { flexDirection: "row", alignItems: "center", gap: 10, marginHorizontal: 16, marginBottom: 6, paddingVertical: 8, paddingLeft: 14, paddingRight: 8, borderRadius: 22, backgroundColor: "rgba(255,247,226,0.94)" },
-  top: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: 14, paddingBottom: 6 },
+  top: { position: "absolute", top: 0, left: 0, right: 0, paddingHorizontal: 12, paddingBottom: 2 },
+  cur: { flex: 1, flexDirection: "row", alignItems: "center", height: 40, paddingHorizontal: 6, gap: 2, borderRadius: 20, backgroundColor: "#FFFFFF", ...shadow },
   lvl: { width: 36, height: 36, borderRadius: 12, backgroundColor: C.honeyDeep, alignItems: "center", justifyContent: "center", transform: [{ rotate: "45deg" }], marginRight: 4 },
   gear: { width: 40, height: 40, borderRadius: 20, backgroundColor: "#fff", alignItems: "center", justifyContent: "center", ...shadow },
   tabs: { flexDirection: "row", backgroundColor: "#FFFFFF", borderRadius: 26, marginHorizontal: 10, padding: 6, gap: 2, ...shadow, shadowOffset: { width: 0, height: 3 }, elevation: 12 },
@@ -650,7 +658,7 @@ const styles = StyleSheet.create({
   tabIconOn: { backgroundColor: C.honey },
   badge: { position: "absolute", top: 2, right: 8, width: 10, height: 10, borderRadius: 5, backgroundColor: C.red, borderWidth: 2, borderColor: "#fff" },
   banner: { flexDirection: "row", gap: 12, backgroundColor: "#fff", borderRadius: 22, padding: 14 },
-  seg: { flexDirection: "row", alignSelf: "center", width: 220, marginTop: 4, marginBottom: 6, backgroundColor: "rgba(255,255,255,0.92)", borderRadius: 20, padding: 4, gap: 4, ...shadow },
+  seg: { flexDirection: "row", alignSelf: "center", width: 220, marginTop: 8, marginBottom: 6, backgroundColor: "rgba(255,255,255,0.92)", borderRadius: 20, padding: 4, gap: 4, ...shadow },
   segBtn: { flex: 1, flexDirection: "row", gap: 6, alignItems: "center", justifyContent: "center", height: 36, borderRadius: 14 },
   segOn: { backgroundColor: C.honey },
 });

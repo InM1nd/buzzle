@@ -4,15 +4,15 @@
     "slug": "bzz",
     "version": "1.5.0-dev",
     "orientation": "portrait",
-    "icon": "./assets/icon-zhuzha.png",
+    "icon": "./assets/icon-hive.png",
     "userInterfaceStyle": "light",
     "backgroundColor": "#FFF6E3",
     "android": {
       "package": "com.zabolotny.bzz",
-      "versionCode": 19,
+      "versionCode": 20,
       "adaptiveIcon": {
-        "backgroundColor": "#FFF6E3",
-        "foregroundImage": "./assets/android-icon-zhuzha-foreground.png"
+        "backgroundColor": "#F5A21B",
+        "foregroundImage": "./assets/android-icon-hive-foreground.png"
       },
       "permissions": [
         "android.permission.REQUEST_INSTALL_PACKAGES"
@@ -44,13 +44,13 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "favicon": "./assets/favicon-zhuzha.png"
+      "favicon": "./assets/favicon-hive.png"
     },
     "plugins": [
       [
         "expo-splash-screen",
         {
-          "image": "./assets/splash-icon.png",
+          "image": "./assets/splash-zhuzha.png",
           "imageWidth": 180,
           "resizeMode": "contain",
           "backgroundColor": "#FFF6E3"
@@ -59,7 +59,7 @@
       [
         "expo-notifications",
         {
-          "icon": "./assets/notification-icon.png",
+          "icon": "./assets/notification-icon-zhuzha.png",
           "color": "#F08A00",
           "defaultChannel": "bzz-hive"
         }

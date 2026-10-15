@@ -19,7 +19,7 @@ os.makedirs(f"{D}/fonts", exist_ok=True)
 for w in ("Bold", "ExtraBold", "Black"):
     shutil.copy(f"{ROOT}/assets/fonts/Nunito-{w}.ttf", f"{D}/fonts/")
 shutil.copy(f"{ROOT}/assets/fonts/LICENSE.txt", f"{D}/fonts/")
-im = Image.open(f"{ROOT}/assets/splash-icon.png").convert("RGBA")
+im = Image.open(f"{ROOT}/assets/splash-zhuzha.png").convert("RGBA")
 bb = im.getbbox()
 im = im.crop(bb)
 im.thumbnail((360, 360), Image.LANCZOS)

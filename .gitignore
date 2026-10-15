@@ -58,3 +58,10 @@ design/bees3d/sizes-raw.json
 
 # Telegram / web build output
 dist-web/
+dist-review/
+
+# local assistant/browser state
+.playwright-cli/
+.serena/
+__pycache__/
+*.pyc

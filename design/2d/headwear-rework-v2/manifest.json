@@ -1,0 +1,789 @@
+{
+  "tool": "image_gen.imagegen",
+  "transparent_background": true,
+  "jobs": [
+    {
+      "id": "pushinka-crown-front",
+      "bee": "pushinka",
+      "angle": "front",
+      "kind": "crown",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/species-headwear-fit-v1/pushinka/front-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/crown-fitted-v3.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Generate ONE standalone crown raster layer, NOT a bee. Reference 1 is the EXACT target character and camera; its body is an invisible fitting mannequin. Reference 2 supplies the approved accessory identity and Honey Crystal art style. Redraw accessory perspective and its natural seating curve specifically for cream bee Pushinka, resting snugly on its rounded cream scalp between the antenna roots. View: strict FRONT, centered, both sides symmetrical in perspective. Small golden crown, FIVE primary triangular points topped with round gold beads, one taller central point, turquoise and coral faceted jewels on the near band. Bottom band is ONE shallow curved strip, NOT two empty stacked rings. Crown seating edge curves naturally around the rounded head; distant rim largely hidden. Keep jewelry unchanged. Match the target head's perspective, not generic upright product photography. Chunky restrained irregular facets matching reference bee, warm top-left lighting, shaded contact edge integrated into item (no cast shadow outside sprite). Draw only the accessory, no bee, antenna, face, wings, mannequin, labels or text. No glow/aura or colored haze. Genuine transparent canvas and transparent interior where open. Keep the whole item naturally proportioned; do not stretch the object to mimic a different view. Center accessory with padding. Preserve the item design, change only perspective and tailoring to this particular head.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-af024f9f-6ff1-4af4-a4d1-72b4760f6aaa.png"
+    },
+    {
+      "id": "pushinka-wreath-front",
+      "bee": "pushinka",
+      "angle": "front",
+      "kind": "wreath",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/species-headwear-fit-v1/pushinka/front-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/wreath-fitted-v2.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Generate ONE standalone wreath raster layer, NOT a bee. Reference 1 is the EXACT target character and camera; its body is an invisible fitting mannequin. Reference 2 supplies the approved accessory identity and Honey Crystal art style. Redraw accessory perspective and its natural seating curve specifically for cream bee Pushinka, resting snugly on its rounded cream scalp between the antenna roots. View: strict FRONT, centered, both sides symmetrical in perspective. Snug green leaf wreath with FIVE prominent cream five-petal daisies and yellow centers across the near arc. A continuous shallow circular wreath lying ON the head, elliptical in camera perspective, small leaves follow head curvature. NO uplifted side horns, NO flat straight flower sticker, NO tall flower crown. Depth comes from overlap and shaded side leaves, not extra flowers. Match the target head's perspective, not generic upright product photography. Chunky restrained irregular facets matching reference bee, warm top-left lighting, shaded contact edge integrated into item (no cast shadow outside sprite). Draw only the accessory, no bee, antenna, face, wings, mannequin, labels or text. No glow/aura or colored haze. Genuine transparent canvas and transparent interior where open. Keep the whole item naturally proportioned; do not stretch the object to mimic a different view. Center accessory with padding. Preserve the item design, change only perspective and tailoring to this particular head.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-c7b7066c-c3f1-42b6-ac66-a8580936a8b6.png"
+    },
+    {
+      "id": "pushinka-beret-front",
+      "bee": "pushinka",
+      "angle": "front",
+      "kind": "beret",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/species-headwear-fit-v1/pushinka/front-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/beret-accessory.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Generate ONE standalone beret raster layer, NOT a bee. Reference 1 is the EXACT target character and camera; its body is an invisible fitting mannequin. Reference 2 supplies the approved accessory identity and Honey Crystal art style. Redraw accessory perspective and its natural seating curve specifically for cream bee Pushinka, resting snugly on its rounded cream scalp between the antenna roots. View: strict FRONT, centered, both sides symmetrical in perspective. Soft purple French beret, small central stem, gently draped asymmetrical soft faceted fabric, narrow elastic rim hugging the rounded scalp. Not a wide flat mushroom or hovering plate. Modest slouch to the bee's anatomical LEFT, consistent across poses. TWO small openings at the antenna roots: empty inside holes, no antenna drawn. Rim perspective follows head curvature and near edge sits lower than far edge. Match the target head's perspective, not generic upright product photography. Chunky restrained irregular facets matching reference bee, warm top-left lighting, shaded contact edge integrated into item (no cast shadow outside sprite). Draw only the accessory, no bee, antenna, face, wings, mannequin, labels or text. No glow/aura or colored haze. Genuine transparent canvas and transparent interior where open. Keep the whole item naturally proportioned; do not stretch the object to mimic a different view. Center accessory with padding. Preserve the item design, change only perspective and tailoring to this particular head.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-a17c93df-4436-4002-b679-6bdea64ceab3.png",
+      "initialPath": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-afeb0ebe-2ef9-4131-baa4-14cdc14db0da.png",
+      "repairPrompt": "Precise edit of the supplied purple beret accessory. FILL BOTH oval holes completely with matching continuous purple faceted fabric. No holes or eye sockets anywhere. Preserve exact hat silhouette, camera, proportions, purple color, facets, slouch, lower elastic rim and small top stem. Change ONLY those two holes to normal uninterrupted fabric. No bee or antenna. Genuine transparent background preserved."
+    },
+    {
+      "id": "pushinka-crown-q3-front",
+      "bee": "pushinka",
+      "angle": "q3-front",
+      "kind": "crown",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/species-headwear-fit-v1/pushinka/q3-front-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/crown-fitted-v3.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Generate ONE standalone crown raster layer, NOT a bee. Reference 1 is the EXACT target character and camera; its body is an invisible fitting mannequin. Reference 2 supplies the approved accessory identity and Honey Crystal art style. Redraw accessory perspective and its natural seating curve specifically for cream bee Pushinka, resting snugly on its rounded cream scalp between the antenna roots. View: front THREE QUARTER looking image-right, left portion nearer camera and larger, right portion foreshortened. Small golden crown, FIVE primary triangular points topped with round gold beads, one taller central point, turquoise and coral faceted jewels on the near band. Bottom band is ONE shallow curved strip, NOT two empty stacked rings. Crown seating edge curves naturally around the rounded head; distant rim largely hidden. Keep jewelry unchanged. Match the target head's perspective, not generic upright product photography. Chunky restrained irregular facets matching reference bee, warm top-left lighting, shaded contact edge integrated into item (no cast shadow outside sprite). Draw only the accessory, no bee, antenna, face, wings, mannequin, labels or text. No glow/aura or colored haze. Genuine transparent canvas and transparent interior where open. Keep the whole item naturally proportioned; do not stretch the object to mimic a different view. Center accessory with padding. Preserve the item design, change only perspective and tailoring to this particular head.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-975be233-cb5a-4363-95e6-353a056b866d.png"
+    },
+    {
+      "id": "pushinka-wreath-q3-front",
+      "bee": "pushinka",
+      "angle": "q3-front",
+      "kind": "wreath",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/species-headwear-fit-v1/pushinka/q3-front-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/wreath-fitted-v2.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Generate ONE standalone wreath raster layer, NOT a bee. Reference 1 is the EXACT target character and camera; its body is an invisible fitting mannequin. Reference 2 supplies the approved accessory identity and Honey Crystal art style. Redraw accessory perspective and its natural seating curve specifically for cream bee Pushinka, resting snugly on its rounded cream scalp between the antenna roots. View: front THREE QUARTER looking image-right, left portion nearer camera and larger, right portion foreshortened. Snug green leaf wreath with FIVE prominent cream five-petal daisies and yellow centers across the near arc. A continuous shallow circular wreath lying ON the head, elliptical in camera perspective, small leaves follow head curvature. NO uplifted side horns, NO flat straight flower sticker, NO tall flower crown. Depth comes from overlap and shaded side leaves, not extra flowers. Match the target head's perspective, not generic upright product photography. Chunky restrained irregular facets matching reference bee, warm top-left lighting, shaded contact edge integrated into item (no cast shadow outside sprite). Draw only the accessory, no bee, antenna, face, wings, mannequin, labels or text. No glow/aura or colored haze. Genuine transparent canvas and transparent interior where open. Keep the whole item naturally proportioned; do not stretch the object to mimic a different view. Center accessory with padding. Preserve the item design, change only perspective and tailoring to this particular head.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-d43cba4e-a5d0-401e-85d7-017f4b9d3145.png"
+    },
+    {
+      "id": "pushinka-beret-q3-front",
+      "bee": "pushinka",
+      "angle": "q3-front",
+      "kind": "beret",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/species-headwear-fit-v1/pushinka/q3-front-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/beret-accessory.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Generate ONE standalone beret raster layer, NOT a bee. Reference 1 is the EXACT target character and camera; its body is an invisible fitting mannequin. Reference 2 supplies the approved accessory identity and Honey Crystal art style. Redraw accessory perspective and its natural seating curve specifically for cream bee Pushinka, resting snugly on its rounded cream scalp between the antenna roots. View: front THREE QUARTER looking image-right, left portion nearer camera and larger, right portion foreshortened. Soft purple French beret, small central stem, gently draped asymmetrical soft faceted fabric, narrow elastic rim hugging the rounded scalp. Not a wide flat mushroom or hovering plate. Modest slouch to the bee's anatomical LEFT, consistent across poses. TWO small openings at the antenna roots: empty inside holes, no antenna drawn. Rim perspective follows head curvature and near edge sits lower than far edge. Match the target head's perspective, not generic upright product photography. Chunky restrained irregular facets matching reference bee, warm top-left lighting, shaded contact edge integrated into item (no cast shadow outside sprite). Draw only the accessory, no bee, antenna, face, wings, mannequin, labels or text. No glow/aura or colored haze. Genuine transparent canvas and transparent interior where open. Keep the whole item naturally proportioned; do not stretch the object to mimic a different view. Center accessory with padding. Preserve the item design, change only perspective and tailoring to this particular head.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-503de0e9-ef01-4d9f-8e94-36c1b2f07e92.png",
+      "initialPath": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-31f78148-0716-400b-9adf-25308016416b.png",
+      "repairPrompt": "Precise edit of the supplied purple beret accessory. FILL BOTH oval holes completely with matching continuous purple faceted fabric. No holes or eye sockets anywhere. Preserve exact hat silhouette, camera, proportions, purple color, facets, slouch, lower elastic rim and small top stem. Change ONLY those two holes to normal uninterrupted fabric. No bee or antenna. Genuine transparent background preserved."
+    },
+    {
+      "id": "boris-crown-front",
+      "bee": "boris",
+      "angle": "front",
+      "kind": "crown",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/species-headwear-fit-v1/boris/front-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/crown-fitted-v3.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Generate ONE standalone crown raster layer, NOT a bee. Reference 1 is the EXACT target character and camera; its body is an invisible fitting mannequin. Reference 2 supplies the approved accessory identity and Honey Crystal art style. Redraw accessory perspective and its natural seating curve specifically for the broad dark furry bumblebee Boris, fitting firmly into the top fur between its short thick antenna roots. View: strict FRONT, centered, both sides symmetrical in perspective. Small golden crown, FIVE primary triangular points topped with round gold beads, one taller central point, turquoise and coral faceted jewels on the near band. Bottom band is ONE shallow curved strip, NOT two empty stacked rings. Crown seating edge curves naturally around the rounded head; distant rim largely hidden. Keep jewelry unchanged. Match the target head's perspective, not generic upright product photography. Chunky restrained irregular facets matching reference bee, warm top-left lighting, shaded contact edge integrated into item (no cast shadow outside sprite). Draw only the accessory, no bee, antenna, face, wings, mannequin, labels or text. No glow/aura or colored haze. Genuine transparent canvas and transparent interior where open. Keep the whole item naturally proportioned; do not stretch the object to mimic a different view. Center accessory with padding. Preserve the item design, change only perspective and tailoring to this particular head.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-031e18f6-778e-41ee-a4e5-bde911e58570.png"
+    },
+    {
+      "id": "boris-wreath-front",
+      "bee": "boris",
+      "angle": "front",
+      "kind": "wreath",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/species-headwear-fit-v1/boris/front-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/wreath-fitted-v2.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Generate ONE standalone wreath raster layer, NOT a bee. Reference 1 is the EXACT target character and camera; its body is an invisible fitting mannequin. Reference 2 supplies the approved accessory identity and Honey Crystal art style. Redraw accessory perspective and its natural seating curve specifically for the broad dark furry bumblebee Boris, fitting firmly into the top fur between its short thick antenna roots. View: strict FRONT, centered, both sides symmetrical in perspective. Snug green leaf wreath with FIVE prominent cream five-petal daisies and yellow centers across the near arc. A continuous shallow circular wreath lying ON the head, elliptical in camera perspective, small leaves follow head curvature. NO uplifted side horns, NO flat straight flower sticker, NO tall flower crown. Depth comes from overlap and shaded side leaves, not extra flowers. Match the target head's perspective, not generic upright product photography. Chunky restrained irregular facets matching reference bee, warm top-left lighting, shaded contact edge integrated into item (no cast shadow outside sprite). Draw only the accessory, no bee, antenna, face, wings, mannequin, labels or text. No glow/aura or colored haze. Genuine transparent canvas and transparent interior where open. Keep the whole item naturally proportioned; do not stretch the object to mimic a different view. Center accessory with padding. Preserve the item design, change only perspective and tailoring to this particular head.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-37f3a216-5c51-40ce-a2c8-a0515eb89674.png"
+    },
+    {
+      "id": "boris-beret-front",
+      "bee": "boris",
+      "angle": "front",
+      "kind": "beret",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/species-headwear-fit-v1/boris/front-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/beret-accessory.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Generate ONE standalone beret raster layer, NOT a bee. Reference 1 is the EXACT target character and camera; its body is an invisible fitting mannequin. Reference 2 supplies the approved accessory identity and Honey Crystal art style. Redraw accessory perspective and its natural seating curve specifically for the broad dark furry bumblebee Boris, fitting firmly into the top fur between its short thick antenna roots. View: strict FRONT, centered, both sides symmetrical in perspective. Soft purple French beret, small central stem, gently draped asymmetrical soft faceted fabric, narrow elastic rim hugging the rounded scalp. Not a wide flat mushroom or hovering plate. Modest slouch to the bee's anatomical LEFT, consistent across poses. TWO small openings at the antenna roots: empty inside holes, no antenna drawn. Rim perspective follows head curvature and near edge sits lower than far edge. Match the target head's perspective, not generic upright product photography. Chunky restrained irregular facets matching reference bee, warm top-left lighting, shaded contact edge integrated into item (no cast shadow outside sprite). Draw only the accessory, no bee, antenna, face, wings, mannequin, labels or text. No glow/aura or colored haze. Genuine transparent canvas and transparent interior where open. Keep the whole item naturally proportioned; do not stretch the object to mimic a different view. Center accessory with padding. Preserve the item design, change only perspective and tailoring to this particular head.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-a3e2b2c5-a5bf-4d59-86de-d3ac5255fd5c.png",
+      "initialPath": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-9460a319-ee61-46fa-9f5b-3cd169efcef6.png",
+      "repairPrompt": "Precise edit of supplied purple beret: completely FILL BOTH holes with matching uninterrupted purple faceted fabric. No holes or eye sockets. Preserve exact silhouette, camera, dimensions, purple color, facets, narrow bottom rim and small top stem. Change only those two holes. No bee or antennas. Preserve genuine transparent background."
+    },
+    {
+      "id": "boris-crown-q3-front",
+      "bee": "boris",
+      "angle": "q3-front",
+      "kind": "crown",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/species-headwear-fit-v1/boris/q3-front-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/crown-fitted-v3.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Generate ONE standalone crown raster layer, NOT a bee. Reference 1 is the EXACT target character and camera; its body is an invisible fitting mannequin. Reference 2 supplies the approved accessory identity and Honey Crystal art style. Redraw accessory perspective and its natural seating curve specifically for the broad dark furry bumblebee Boris, fitting firmly into the top fur between its short thick antenna roots. View: front THREE QUARTER looking image-right, left portion nearer camera and larger, right portion foreshortened. Small golden crown, FIVE primary triangular points topped with round gold beads, one taller central point, turquoise and coral faceted jewels on the near band. Bottom band is ONE shallow curved strip, NOT two empty stacked rings. Crown seating edge curves naturally around the rounded head; distant rim largely hidden. Keep jewelry unchanged. Match the target head's perspective, not generic upright product photography. Chunky restrained irregular facets matching reference bee, warm top-left lighting, shaded contact edge integrated into item (no cast shadow outside sprite). Draw only the accessory, no bee, antenna, face, wings, mannequin, labels or text. No glow/aura or colored haze. Genuine transparent canvas and transparent interior where open. Keep the whole item naturally proportioned; do not stretch the object to mimic a different view. Center accessory with padding. Preserve the item design, change only perspective and tailoring to this particular head.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-b311e047-9305-44ad-bc7a-192bf0600594.png"
+    },
+    {
+      "id": "boris-wreath-q3-front",
+      "bee": "boris",
+      "angle": "q3-front",
+      "kind": "wreath",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/species-headwear-fit-v1/boris/q3-front-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/wreath-fitted-v2.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Generate ONE standalone wreath raster layer, NOT a bee. Reference 1 is the EXACT target character and camera; its body is an invisible fitting mannequin. Reference 2 supplies the approved accessory identity and Honey Crystal art style. Redraw accessory perspective and its natural seating curve specifically for the broad dark furry bumblebee Boris, fitting firmly into the top fur between its short thick antenna roots. View: front THREE QUARTER looking image-right, left portion nearer camera and larger, right portion foreshortened. Snug green leaf wreath with FIVE prominent cream five-petal daisies and yellow centers across the near arc. A continuous shallow circular wreath lying ON the head, elliptical in camera perspective, small leaves follow head curvature. NO uplifted side horns, NO flat straight flower sticker, NO tall flower crown. Depth comes from overlap and shaded side leaves, not extra flowers. Match the target head's perspective, not generic upright product photography. Chunky restrained irregular facets matching reference bee, warm top-left lighting, shaded contact edge integrated into item (no cast shadow outside sprite). Draw only the accessory, no bee, antenna, face, wings, mannequin, labels or text. No glow/aura or colored haze. Genuine transparent canvas and transparent interior where open. Keep the whole item naturally proportioned; do not stretch the object to mimic a different view. Center accessory with padding. Preserve the item design, change only perspective and tailoring to this particular head.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-b152c7ea-77eb-461e-9c9b-12c8385e4c9d.png"
+    },
+    {
+      "id": "boris-beret-q3-front",
+      "bee": "boris",
+      "angle": "q3-front",
+      "kind": "beret",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/species-headwear-fit-v1/boris/q3-front-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/beret-accessory.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Generate ONE standalone beret raster layer, NOT a bee. Reference 1 is the EXACT target character and camera; its body is an invisible fitting mannequin. Reference 2 supplies the approved accessory identity and Honey Crystal art style. Redraw accessory perspective and its natural seating curve specifically for the broad dark furry bumblebee Boris, fitting firmly into the top fur between its short thick antenna roots. View: front THREE QUARTER looking image-right, left portion nearer camera and larger, right portion foreshortened. Soft purple French beret, small central stem, gently draped asymmetrical soft faceted fabric, narrow elastic rim hugging the rounded scalp. Not a wide flat mushroom or hovering plate. Modest slouch to the bee's anatomical LEFT, consistent across poses. TWO small openings at the antenna roots: empty inside holes, no antenna drawn. Rim perspective follows head curvature and near edge sits lower than far edge. Match the target head's perspective, not generic upright product photography. Chunky restrained irregular facets matching reference bee, warm top-left lighting, shaded contact edge integrated into item (no cast shadow outside sprite). Draw only the accessory, no bee, antenna, face, wings, mannequin, labels or text. No glow/aura or colored haze. Genuine transparent canvas and transparent interior where open. Keep the whole item naturally proportioned; do not stretch the object to mimic a different view. Center accessory with padding. Preserve the item design, change only perspective and tailoring to this particular head.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-1bd0bece-a5c1-431c-9e4c-a14c2ee7a62c.png",
+      "initialPath": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-2c1c9875-4dbf-49b3-abad-41d0c75d89ec.png",
+      "repairPrompt": "Precise edit: completely FILL BOTH dark openings with matching continuous purple faceted fabric. No holes, slits, sockets or depressions remain. Preserve exactly this beret silhouette, camera angle, proportions, color, facets, brim and top stem. Change only the holes. No bee or antennas. Preserve transparent background."
+    }
+  ],
+  "fits": {
+    "pushinka-crown-front": {
+      "source_crop": [
+        142,
+        204,
+        1385,
+        832
+      ],
+      "uniform_scale": 0.3580048270313757,
+      "mount": [
+        460,
+        160,
+        445,
+        225
+      ],
+      "antennae_cut": 331,
+      "antennae_components": 2,
+      "base_sha256": "b541f497a43fd115a4ccd4d45f63328a6599675f6fc9199a9d5976b82e249e1d"
+    },
+    "pushinka-wreath-front": {
+      "source_crop": [
+        78,
+        235,
+        1459,
+        789
+      ],
+      "uniform_scale": 0.391020999275887,
+      "mount": [
+        430,
+        268,
+        540,
+        217
+      ],
+      "antennae_cut": 372,
+      "antennae_components": 2,
+      "base_sha256": "b541f497a43fd115a4ccd4d45f63328a6599675f6fc9199a9d5976b82e249e1d"
+    },
+    "pushinka-beret-front": {
+      "source_crop": [
+        140,
+        269,
+        1226,
+        857
+      ],
+      "uniform_scale": 0.570902394106814,
+      "mount": [
+        375,
+        99,
+        620,
+        336
+      ],
+      "antennae_cut": 327,
+      "antennae_components": 2,
+      "base_sha256": "b541f497a43fd115a4ccd4d45f63328a6599675f6fc9199a9d5976b82e249e1d"
+    },
+    "pushinka-crown-q3-front": {
+      "source_crop": [
+        147,
+        246,
+        1296,
+        932
+      ],
+      "uniform_scale": 0.3872932985204526,
+      "mount": [
+        538,
+        119,
+        445,
+        266
+      ],
+      "antennae_cut": 321,
+      "antennae_components": 2,
+      "base_sha256": "7b15be190df8553cba6a87f530fdc92891d24dcadd3c3d2400ec8bc72d62f8c2"
+    },
+    "pushinka-wreath-q3-front": {
+      "source_crop": [
+        57,
+        185,
+        1516,
+        873
+      ],
+      "uniform_scale": 0.3666895133653187,
+      "mount": [
+        522,
+        233,
+        535,
+        252
+      ],
+      "antennae_cut": 354,
+      "antennae_components": 2,
+      "base_sha256": "7b15be190df8553cba6a87f530fdc92891d24dcadd3c3d2400ec8bc72d62f8c2"
+    },
+    "pushinka-beret-q3-front": {
+      "source_crop": [
+        100,
+        235,
+        1287,
+        925
+      ],
+      "uniform_scale": 0.5223251895534962,
+      "mount": [
+        470,
+        75,
+        620,
+        360
+      ],
+      "antennae_cut": 320,
+      "antennae_components": 2,
+      "base_sha256": "7b15be190df8553cba6a87f530fdc92891d24dcadd3c3d2400ec8bc72d62f8c2"
+    },
+    "boris-crown-front": {
+      "source_crop": [
+        211,
+        203,
+        1347,
+        835
+      ],
+      "uniform_scale": 0.4005281690140845,
+      "mount": [
+        456,
+        147,
+        455,
+        253
+      ],
+      "antennae_cut": 339,
+      "antennae_components": 2,
+      "base_sha256": "e6fc26a53810161457da940fcfcb78be465c9605c39c525c0fe91d13c588b69a"
+    },
+    "boris-wreath-front": {
+      "source_crop": [
+        89,
+        263,
+        1450,
+        805
+      ],
+      "uniform_scale": 0.3747244673034533,
+      "mount": [
+        430,
+        252,
+        510,
+        203
+      ],
+      "antennae_cut": 349,
+      "antennae_components": 1,
+      "base_sha256": "e6fc26a53810161457da940fcfcb78be465c9605c39c525c0fe91d13c588b69a"
+    },
+    "boris-beret-front": {
+      "source_crop": [
+        150,
+        242,
+        1266,
+        882
+      ],
+      "uniform_scale": 0.5734767025089605,
+      "mount": [
+        370,
+        73,
+        640,
+        367
+      ],
+      "antennae_cut": 323,
+      "antennae_components": 2,
+      "base_sha256": "e6fc26a53810161457da940fcfcb78be465c9605c39c525c0fe91d13c588b69a"
+    },
+    "boris-crown-q3-front": {
+      "source_crop": [
+        141,
+        241,
+        1271,
+        932
+      ],
+      "uniform_scale": 0.40707964601769914,
+      "mount": [
+        590,
+        114,
+        460,
+        281
+      ],
+      "antennae_cut": 328,
+      "antennae_components": 2,
+      "base_sha256": "62315746ed19fdc1dd0403bf42d9871b12f216c062c4a04f737e752a7d6d09b1"
+    },
+    "boris-wreath-q3-front": {
+      "source_crop": [
+        70,
+        171,
+        1479,
+        868
+      ],
+      "uniform_scale": 0.36195883605393897,
+      "mount": [
+        560,
+        198,
+        510,
+        252
+      ],
+      "antennae_cut": 319,
+      "antennae_components": 2,
+      "base_sha256": "62315746ed19fdc1dd0403bf42d9871b12f216c062c4a04f737e752a7d6d09b1"
+    },
+    "boris-beret-q3-front": {
+      "source_crop": [
+        128,
+        264,
+        1279,
+        909
+      ],
+      "uniform_scale": 0.5560382276281495,
+      "mount": [
+        520,
+        81,
+        640,
+        359
+      ],
+      "antennae_cut": 325,
+      "antennae_components": 2,
+      "base_sha256": "62315746ed19fdc1dd0403bf42d9871b12f216c062c4a04f737e752a7d6d09b1"
+    }
+  },
+  "scope": "New front and q3-front seating only. Other angles and scarf/bag/bow pending.",
+  "verification": {
+    "comparisons_loaded": 12,
+    "old_new_and_mini": true,
+    "no_horizontal_overflow": [
+      375,
+      320
+    ],
+    "console_errors": 0,
+    "base_files_byte_identical": true,
+    "visible_face_and_lower_body_below_y520_unchanged": true
+  },
+  "owner_review": {
+    "wreath": "Accepted front and q3-front candidates",
+    "beret": "Previous version preferred; selected preview restored, redraw retained as redraw-view",
+    "crown": "Layer defect identified: fur in antenna mask and flat stem cut. Corrected with isolated antenna guides and curved near-band overlay; awaiting visual review."
+  },
+  "crown_layer_fix": {
+    "pushinka-front": {
+      "antenna_guides": [
+        [
+          [
+            440,
+            165,
+            80
+          ],
+          [
+            525,
+            260,
+            36
+          ],
+          [
+            534,
+            280,
+            38
+          ],
+          [
+            543,
+            300,
+            39
+          ],
+          [
+            550,
+            320,
+            39
+          ],
+          [
+            557,
+            340,
+            38
+          ],
+          [
+            570,
+            370,
+            32
+          ]
+        ],
+        [
+          [
+            920,
+            165,
+            80
+          ],
+          [
+            849,
+            260,
+            36
+          ],
+          [
+            839,
+            280,
+            38
+          ],
+          [
+            831,
+            300,
+            39
+          ],
+          [
+            824,
+            320,
+            39
+          ],
+          [
+            817,
+            340,
+            38
+          ],
+          [
+            800,
+            370,
+            32
+          ]
+        ]
+      ],
+      "front_band_boundary": [
+        [
+          460,
+          322
+        ],
+        [
+          540,
+          330
+        ],
+        [
+          650,
+          335
+        ],
+        [
+          750,
+          335
+        ],
+        [
+          850,
+          330
+        ],
+        [
+          905,
+          322
+        ]
+      ],
+      "order": "base -> original crown -> antenna-only pixels -> curved front band",
+      "redrawn": false
+    },
+    "pushinka-q3-front": {
+      "antenna_guides": [
+        [
+          [
+            520,
+            150,
+            75
+          ],
+          [
+            602,
+            260,
+            29
+          ],
+          [
+            611,
+            280,
+            30
+          ],
+          [
+            621,
+            300,
+            30
+          ],
+          [
+            631,
+            320,
+            30
+          ],
+          [
+            645,
+            345,
+            26
+          ]
+        ],
+        [
+          [
+            970,
+            150,
+            75
+          ],
+          [
+            898,
+            260,
+            29
+          ],
+          [
+            889,
+            280,
+            29
+          ],
+          [
+            881,
+            300,
+            29
+          ],
+          [
+            873,
+            320,
+            29
+          ],
+          [
+            873,
+            345,
+            21
+          ]
+        ]
+      ],
+      "front_band_boundary": [
+        [
+          538,
+          295
+        ],
+        [
+          615,
+          310
+        ],
+        [
+          720,
+          326
+        ],
+        [
+          815,
+          330
+        ],
+        [
+          910,
+          316
+        ],
+        [
+          983,
+          297
+        ]
+      ],
+      "order": "base -> original crown -> antenna-only pixels -> curved front band",
+      "redrawn": false
+    },
+    "boris-front": {
+      "antenna_guides": [
+        [
+          [
+            500,
+            235,
+            78
+          ],
+          [
+            525,
+            280,
+            66
+          ],
+          [
+            563,
+            300,
+            40
+          ],
+          [
+            574,
+            320,
+            38
+          ],
+          [
+            581,
+            340,
+            37
+          ],
+          [
+            600,
+            410,
+            35
+          ]
+        ],
+        [
+          [
+            865,
+            235,
+            78
+          ],
+          [
+            845,
+            280,
+            66
+          ],
+          [
+            804,
+            300,
+            40
+          ],
+          [
+            794,
+            320,
+            38
+          ],
+          [
+            783,
+            340,
+            37
+          ],
+          [
+            750,
+            410,
+            35
+          ]
+        ]
+      ],
+      "front_band_boundary": [
+        [
+          456,
+          328
+        ],
+        [
+          530,
+          334
+        ],
+        [
+          650,
+          339
+        ],
+        [
+          750,
+          339
+        ],
+        [
+          840,
+          334
+        ],
+        [
+          911,
+          328
+        ]
+      ],
+      "order": "base -> original crown -> antenna-only pixels -> curved front band",
+      "redrawn": false
+    },
+    "boris-q3-front": {
+      "antenna_guides": [
+        [
+          [
+            630,
+            210,
+            78
+          ],
+          [
+            684,
+            260,
+            36
+          ],
+          [
+            700,
+            280,
+            34
+          ],
+          [
+            715,
+            300,
+            34
+          ],
+          [
+            732,
+            330,
+            32
+          ],
+          [
+            750,
+            360,
+            30
+          ]
+        ],
+        [
+          [
+            1055,
+            230,
+            78
+          ],
+          [
+            1010,
+            260,
+            44
+          ],
+          [
+            990,
+            280,
+            41
+          ],
+          [
+            975,
+            300,
+            37
+          ],
+          [
+            960,
+            320,
+            35
+          ],
+          [
+            945,
+            350,
+            32
+          ]
+        ]
+      ],
+      "front_band_boundary": [
+        [
+          590,
+          285
+        ],
+        [
+          650,
+          308
+        ],
+        [
+          740,
+          322
+        ],
+        [
+          840,
+          330
+        ],
+        [
+          945,
+          320
+        ],
+        [
+          1050,
+          301
+        ]
+      ],
+      "order": "base -> original crown -> antenna-only pixels -> curved front band",
+      "redrawn": false
+    }
+  }
+}

@@ -1,12 +1,13 @@
 import { numFmt, t } from "../i18n";
 import React, { useEffect, useRef, useState } from "react";
 import {
-  Animated, Easing, Image, ImageSourcePropType, Pressable, StyleProp, StyleSheet, Text, TextProps, TextStyle, View, ViewStyle,
+  Animated, Easing, Image, ImageSourcePropType, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleProp, StyleSheet, Text, TextProps, TextStyle, View, ViewStyle,
 } from "react-native";
 import { C, F, shadow } from "./theme";
 import { ART } from "./art";
 import { hLight } from "./haptics";
 import { sinDeg, sinRange, useAnimActive, useCycle } from "./anim";
+import { addBackListener } from "../platform/back";
 
 // ---------- text ----------
 type V = "title" | "h1" | "h2" | "h3" | "body" | "small" | "tiny" | "num";
@@ -81,7 +82,7 @@ export function GameButton(p: {
       >
         {p.icon ? <Image source={p.icon} style={{ width: p.small ? 20 : 26, height: p.small ? 20 : 26 }} /> : null}
         <View style={{ alignItems: "center" }}>
-          <Text style={[F.black, { color: c.text, fontSize: p.small ? 15 : 18, lineHeight: p.small ? 19 : 22 }]}>{p.title}</Text>
+          <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8} style={[F.black, { color: c.text, fontSize: p.small ? 15 : 18, lineHeight: p.small ? 19 : 22, flexShrink: 1 }]}>{p.title}</Text>
           {p.sub ? <Text style={[F.xbold, { color: c.text, opacity: 0.75, fontSize: 12, lineHeight: 15 }]}>{p.sub}</Text> : null}
         </View>
       </Animated.View>
@@ -114,12 +115,12 @@ export function CountUp({ value, style, duration = 600, format = fmt }: { value:
     }, 16);
     return () => { clearInterval(id); from.current = value; };
   }, [value, duration]);
-  return <Text style={style}>{format(shown)}</Text>;
+  return <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8} style={style}>{format(shown)}</Text>;
 }
 
 // ---------- currency pill ----------
-export function Pill({ icon, value, color = C.text, bump, onLayoutIcon, label }: {
-  icon: ImageSourcePropType; value: number; color?: string; bump?: number; label: string;
+export function Pill({ icon, value, color = C.text, bump, onLayoutIcon, label, compact }: {
+  icon: ImageSourcePropType; value: number; color?: string; bump?: number; label: string; compact?: boolean;
   onLayoutIcon?: (ref: View | null) => void;
 }) {
   const s = useRef(new Animated.Value(1)).current;
@@ -131,11 +132,11 @@ export function Pill({ icon, value, color = C.text, bump, onLayoutIcon, label }:
     ]).start();
   }, [bump, s]);
   return (
-    <Animated.View accessibilityLabel={label} style={[styles.pill, shadow, { transform: [{ scale: s }] }]}>
+    <Animated.View accessibilityLabel={label} style={[styles.pill, shadow, compact && styles.pillC, { transform: [{ scale: s }] }]}>
       <View ref={(r) => onLayoutIcon?.(r)} collapsable={false}>
-        <Image source={icon} style={{ width: 26, height: 26 }} />
+        <Image source={icon} style={compact ? { width: 16, height: 16 } : { width: 26, height: 26 }} />
       </View>
-      <CountUp value={value} style={[F.black, { fontSize: 16, color, minWidth: 28 }]} />
+      <CountUp value={value} style={[F.black, { fontSize: compact ? 12 : 16, color, minWidth: compact ? 0 : 28, flexShrink: 1 }]} />
     </Animated.View>
   );
 }
@@ -211,18 +212,25 @@ export function Overlay({ visible, onClose, children, dismissable = true }: { vi
       if (finished && !vis.current) setMounted(false);
     });
   }, [visible, a]);
+  useEffect(() => {
+    if (!visible) return;
+    const listener = addBackListener(() => { if (dismissable) onClose?.(); return true; });
+    return () => listener.remove();
+  }, [visible, dismissable, onClose]);
   if (!mounted) return null;
   return (
-    <View style={[StyleSheet.absoluteFill, { zIndex: 50, elevation: 50 }]}>
+    <Modal transparent visible={mounted} animationType="none" statusBarTranslucent onRequestClose={() => dismissable && onClose?.()}>
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
       <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: "rgba(60,32,8,0.45)", opacity: a }]}>
         <Pressable style={StyleSheet.absoluteFill} onPress={() => dismissable && onClose?.()} accessibilityLabel={t("c.closeWindow")} />
       </Animated.View>
       <View style={styles.overlayCenter} pointerEvents="box-none">
-        <Animated.View style={[styles.sheet, { opacity: a, transform: [{ scale: a.interpolate({ inputRange: [0, 1], outputRange: [0.88, 1] }) }] }]}>
-          {children}
+        <Animated.View style={[styles.sheet, { maxHeight: "100%", opacity: a, transform: [{ scale: a.interpolate({ inputRange: [0, 1], outputRange: [0.88, 1] }) }] }]}>
+          <ScrollView style={{ flexGrow: 0, flexShrink: 1 }} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>{children}</ScrollView>
         </Animated.View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
+    </Modal>
   );
 }
 
@@ -235,6 +243,7 @@ export function CloseBtn({ onPress, color = C.dim }: { onPress: () => void; colo
 }
 
 const styles = StyleSheet.create({
+  pillC: { gap: 3, paddingLeft: 3, paddingRight: 5, height: 32, borderRadius: 16, flexShrink: 1 },
   pill: { flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: "#FFFFFF", borderRadius: 22, paddingLeft: 6, paddingRight: 14, height: 40 },
   card: { backgroundColor: C.card, borderRadius: 24, padding: 16 },
   overlayCenter: { position: "absolute", left: 0, right: 0, top: 0, bottom: 0, alignItems: "center", justifyContent: "center", padding: 22 },

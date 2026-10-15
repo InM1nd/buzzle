@@ -17,15 +17,15 @@ export const RARITY_UI: Record<Rarity, { color: string; bg: string; name: string
   legendary: { color: "#E09A00", bg: "#FFF0C7", get name() { return RARITY_NAME.legendary; } },
 };
 export const BOOSTER_ART: Record<BoosterId, number> = { moves: ART.boostMoves, bomb: ART.bomb, shuffle: ART.boostShuffle };
-export const boxArt = (kind: string) => ITEM_ART[`box_${kind}`]?.src;
+export const boxArt = (kind: string, dmg = 0) => (dmg > 0 && ITEM_ART[`box_${kind}_d${Math.min(2, dmg)}`]?.src) || ITEM_ART[`box_${kind}`]?.src;
 
 /** picture of a collectible (skin on Zhuzha, decoration, rare flower, night bee) */
 export function ItemIcon({ id, size, locked }: { id: string; size: number; locked?: boolean }) {
   const it = ITEM_BY_ID[id];
   const tint = locked ? "#D8C29C" : undefined;
   if (!it) return <View style={{ width: size, height: size }} />;
-  if (it.kind === "skin") return <BeeSprite id="zhuzha" size={size * 1.15} skin={locked ? undefined : id} tint={tint} flap={false} turn={0.35} style={{ margin: -size * 0.075 }} />;
-  if (it.kind === "bee") return <BeeSprite id={id} size={size * 1.15} tint={tint} flap={false} turn={0.35} style={{ margin: -size * 0.075 }} />;
+  if (it.kind === "skin") return <BeeSprite id="zhuzha" size={size * 1.15} skin={locked ? undefined : id} tint={tint} flap={false} style={{ margin: -size * 0.075 }} />;
+  if (it.kind === "bee") return <BeeSprite id={id} size={size * 1.15} tint={tint} flap={false} style={{ margin: -size * 0.075 }} />;
   const src = it.kind === "deco" ? ITEM_ART[`deco_${id}`]?.src : GARDEN_ART[`${id}_bloom`];
   return <Image source={src} style={{ width: size, height: size, tintColor: tint }} resizeMode="contain" />;
 }
@@ -74,7 +74,7 @@ export const isResource = (d: Drop) => d.t === "honey" || d.t === "nectar" || d.
 export function DecoStrip({ ids, ground }: { ids: string[]; ground: string }) {
   if (!ids.length) return null;
   return (
-    <View style={{ flexDirection: "row", alignItems: "flex-end", justifyContent: "space-evenly", backgroundColor: ground, borderRadius: 22, paddingTop: 8, paddingHorizontal: 6, minHeight: 78 }}
+    <View style={{ flexDirection: "row", alignItems: "flex-end", justifyContent: "space-evenly", backgroundColor: ground, borderRadius: 22, paddingTop: 8, paddingHorizontal: 6, minHeight: 78, overflow: "hidden" }}
       accessibilityLabel={t("decos.label", { list: ids.map((i) => ITEM_BY_ID[i]?.name).join(", ") })}>
       {ids.map((id) => {
         const a = ITEM_ART[`deco_${id}`];

@@ -1,0 +1,333 @@
+{
+  "tool": "image_gen.imagegen",
+  "transparent_background": true,
+  "generations": [
+    {
+      "id": "headphones-front",
+      "angle": "front",
+      "prompt": "Generate ONLY the standalone mint teal over-ear headphones shown in reference 1, viewed at strict front, two equally small edge-on cups outside face. Reference 2 is the exact target bee, do NOT render bee. Same accessory, thick mint shallow headband, warm brass cup rims, chocolate padded cushions, large soft irregular honey-crystal facets, warm upper-left-front lighting. Small ear cups must sit at lateral edges behind eyes, not over eyes. Reference bee's front direction defines view. Entire accessory separated on genuine transparent background, no antennas, face, body, wings, text, shadows or glow. Maintain exact mint/brass/brown identity. Arch and cups form one physically consistent wearable object.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/accessories-final-pair-v1/headphones.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/face-accessories-turnaround-v1/front-base.png"
+      ],
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-4e9c2d38-8b40-4e51-8f25-a2d98396a205.png",
+      "source_crop": [
+        46,
+        82,
+        1491,
+        911
+      ],
+      "mount": [
+        335,
+        315,
+        700,
+        355
+      ]
+    },
+    {
+      "id": "headphones-side",
+      "angle": "side",
+      "prompt": "Generate ONLY the standalone mint teal over-ear headphones shown in reference 1, viewed at strict right-side profile facing right, one mint outer cup centered on rear half of head, band receding into depth, no front-face lens. Reference 2 is the exact target bee, do NOT render bee. Same accessory, thick mint shallow headband, warm brass cup rims, chocolate padded cushions, large soft irregular honey-crystal facets, warm upper-left-front lighting. Small ear cups must sit at lateral edges behind eyes, not over eyes. Reference bee's front direction defines view. Entire accessory separated on genuine transparent background, no antennas, face, body, wings, text, shadows or glow. Maintain exact mint/brass/brown identity. Arch and cups form one physically consistent wearable object.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/accessories-final-pair-v1/headphones.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/face-accessories-turnaround-v1/side-base.png"
+      ],
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-e93d0e3f-52ef-49bb-9742-3dd2de2f083b.png",
+      "source_crop": [
+        398,
+        94,
+        965,
+        1075
+      ],
+      "mount": [
+        565,
+        325,
+        310,
+        390
+      ]
+    },
+    {
+      "id": "headphones-q3-back",
+      "angle": "q3-back",
+      "prompt": "Generate ONLY the standalone mint teal over-ear headphones shown in reference 1, viewed at rear three quarters from right, nearer cup on image right, broad rear arch. Reference 2 is the exact target bee, do NOT render bee. Same accessory, thick mint shallow headband, warm brass cup rims, chocolate padded cushions, large soft irregular honey-crystal facets, warm upper-left-front lighting. Small ear cups must sit at lateral edges behind eyes, not over eyes. Reference bee's front direction defines view. Entire accessory separated on genuine transparent background, no antennas, face, body, wings, text, shadows or glow. Maintain exact mint/brass/brown identity. Arch and cups form one physically consistent wearable object.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/accessories-final-pair-v1/headphones.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/face-accessories-turnaround-v1/q3-back-base.png"
+      ],
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-2f4ad90d-5edc-4856-b956-f24f0a71c271.png",
+      "source_crop": [
+        74,
+        92,
+        1305,
+        1041
+      ],
+      "mount": [
+        395,
+        335,
+        775,
+        390
+      ]
+    },
+    {
+      "id": "headphones-back",
+      "angle": "back",
+      "prompt": "Generate ONLY the standalone mint teal over-ear headphones shown in reference 1, viewed at strict rear, two edge cups symmetric, rear arch. Reference 2 is the exact target bee, do NOT render bee. Same accessory, thick mint shallow headband, warm brass cup rims, chocolate padded cushions, large soft irregular honey-crystal facets, warm upper-left-front lighting. Small ear cups must sit at lateral edges behind eyes, not over eyes. Reference bee's front direction defines view. Entire accessory separated on genuine transparent background, no antennas, face, body, wings, text, shadows or glow. Maintain exact mint/brass/brown identity. Arch and cups form one physically consistent wearable object.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/accessories-final-pair-v1/headphones.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/face-accessories-turnaround-v1/back-base.png"
+      ],
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-caf1c835-721e-4e2e-a0c5-2141d1baa9b9.png",
+      "source_crop": [
+        52,
+        205,
+        1318,
+        952
+      ],
+      "mount": [
+        335,
+        315,
+        700,
+        355
+      ]
+    },
+    {
+      "id": "headphones-q3-back-left",
+      "angle": "q3-back-left",
+      "prompt": "Generate ONLY the standalone mint teal over-ear headphones shown in reference 1, viewed at rear three quarters from left, nearer cup on image left, broad rear arch. Reference 2 is the exact target bee, do NOT render bee. Same accessory, thick mint shallow headband, warm brass cup rims, chocolate padded cushions, large soft irregular honey-crystal facets, warm upper-left-front lighting. Small ear cups must sit at lateral edges behind eyes, not over eyes. Reference bee's front direction defines view. Entire accessory separated on genuine transparent background, no antennas, face, body, wings, text, shadows or glow. Maintain exact mint/brass/brown identity. Arch and cups form one physically consistent wearable object.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/accessories-final-pair-v1/headphones.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/face-accessories-turnaround-v1/q3-back-left-base.png"
+      ],
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-2f71bad5-8403-43c9-8930-1b9584c9ad7b.png",
+      "source_crop": [
+        66,
+        65,
+        1348,
+        1055
+      ],
+      "mount": [
+        196,
+        335,
+        775,
+        390
+      ]
+    },
+    {
+      "id": "headphones-side-left",
+      "angle": "side-left",
+      "prompt": "Generate ONLY the standalone mint teal over-ear headphones shown in reference 1, viewed at strict left-side profile facing left, one mint outer cup centered on rear half of head, band receding into depth. Reference 2 is the exact target bee, do NOT render bee. Same accessory, thick mint shallow headband, warm brass cup rims, chocolate padded cushions, large soft irregular honey-crystal facets, warm upper-left-front lighting. Small ear cups must sit at lateral edges behind eyes, not over eyes. Reference bee's front direction defines view. Entire accessory separated on genuine transparent background, no antennas, face, body, wings, text, shadows or glow. Maintain exact mint/brass/brown identity. Arch and cups form one physically consistent wearable object.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/accessories-final-pair-v1/headphones.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/face-accessories-turnaround-v1/side-left-base.png"
+      ],
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-0cbbbe91-95fd-4c37-96b6-d746f69978a0.png",
+      "source_crop": [
+        425,
+        69,
+        1002,
+        1098
+      ],
+      "mount": [
+        491,
+        325,
+        310,
+        390
+      ]
+    },
+    {
+      "id": "headphones-q3-front-left",
+      "angle": "q3-front-left",
+      "prompt": "Generate ONLY the standalone mint teal over-ear headphones shown in reference 1, viewed at front three quarters from left, near image-right cup mint outer surface, far image-left cup narrow edge. Reference 2 is the exact target bee, do NOT render bee. Same accessory, thick mint shallow headband, warm brass cup rims, chocolate padded cushions, large soft irregular honey-crystal facets, warm upper-left-front lighting. Small ear cups must sit at lateral edges behind eyes, not over eyes. Reference bee's front direction defines view. Entire accessory separated on genuine transparent background, no antennas, face, body, wings, text, shadows or glow. Maintain exact mint/brass/brown identity. Arch and cups form one physically consistent wearable object.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/accessories-final-pair-v1/headphones.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/face-accessories-turnaround-v1/q3-front-left-base.png"
+      ],
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-7aa30c6a-0003-4d89-aabc-941769755446.png",
+      "source_crop": [
+        50,
+        69,
+        1320,
+        1061
+      ],
+      "mount": [
+        236,
+        315,
+        800,
+        395
+      ]
+    }
+  ],
+  "angles": [
+    "front",
+    "q3-front",
+    "side",
+    "q3-back",
+    "back",
+    "q3-back-left",
+    "side-left",
+    "q3-front-left"
+  ],
+  "anchors": {
+    "front": [
+      680,
+      680,
+      1
+    ],
+    "q3-front": [
+      742,
+      705,
+      0.94
+    ],
+    "side": [
+      760,
+      700,
+      0.96
+    ],
+    "q3-back": [
+      710,
+      685,
+      0.98
+    ],
+    "back": [
+      680,
+      680,
+      1
+    ],
+    "q3-front-left": [
+      624,
+      705,
+      0.94
+    ],
+    "side-left": [
+      606,
+      700,
+      0.96
+    ],
+    "q3-back-left": [
+      656,
+      685,
+      0.98
+    ]
+  },
+  "base_hashes": {
+    "front": "fe4173d8504e8327efd9b22eccd50ce29618cd3b5262e54e72a939fa46f1c521",
+    "q3-front": "3833765c482b935128999a5eeff6f2040f0aaf00278381a671b53c43d6a6099e",
+    "side": "2904043387e82d2e81d4d5e01abc8e72d4dcabad2dc0aaf6597d24f7529ff247",
+    "q3-back": "15d3166d28a278be0f22136bfc7d7c3e2b892940c466c13cc043e07acee9833c",
+    "back": "7597f01027f04de6c158c07f83f27f65d52eace189726367184900da1c2415c5",
+    "q3-back-left": "35c2e806384d397fbf634cbd0bceb305495475affc19a64718188aedf7fce37f",
+    "side-left": "885c9010b5649866997ae88b8053ce9c6d522c10ab6c0236c4bef9768a6d0d6e",
+    "q3-front-left": "f9955482dad42bc2d137310fabf4bcc107668dbc6df7b11d6f1a65433b7edc86"
+  },
+  "headphones_mounts": {
+    "front": [
+      335,
+      315,
+      700,
+      355
+    ],
+    "side": [
+      565,
+      325,
+      310,
+      390
+    ],
+    "q3-back": [
+      395,
+      335,
+      775,
+      390
+    ],
+    "back": [
+      335,
+      315,
+      700,
+      355
+    ],
+    "q3-back-left": [
+      196,
+      335,
+      775,
+      390
+    ],
+    "side-left": [
+      491,
+      325,
+      310,
+      390
+    ],
+    "q3-front-left": [
+      236,
+      315,
+      800,
+      395
+    ]
+  },
+  "halo_mounts": {
+    "front": [
+      330,
+      140,
+      700
+    ],
+    "q3-front": [
+      425,
+      140,
+      700
+    ],
+    "side": [
+      450,
+      170,
+      700
+    ],
+    "q3-back": [
+      375,
+      150,
+      700
+    ],
+    "back": [
+      330,
+      140,
+      700
+    ],
+    "q3-back-left": [
+      291,
+      150,
+      700
+    ],
+    "side-left": [
+      216,
+      170,
+      700
+    ],
+    "q3-front-left": [
+      241,
+      140,
+      700
+    ]
+  },
+  "halo_source_bbox": [
+    131,
+    164,
+    2041,
+    563
+  ],
+  "halo_method": "Same axially symmetric ring; original rear/front pixels registered to head; camera elevation held constant.",
+  "approved_headphones_q3": "Exact copy of accessories-final-pair-v1/headphones-on-zhuzha-preview.png",
+  "verification": {
+    "frames_loaded": 16,
+    "frame_size": [
+      512,
+      512
+    ],
+    "loop": true,
+    "bare_toggle": true,
+    "auto_advance": true,
+    "pause": true,
+    "no_horizontal_overflow": [
+      375,
+      320
+    ],
+    "base_sha256_verified": true,
+    "approved_headphones_q3_byte_identical": true
+  }
+}

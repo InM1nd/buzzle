@@ -1,0 +1,74 @@
+[
+  {
+    "id": "pushinka",
+    "name": "Пушинка",
+    "reference": "pushinka-reference.png",
+    "identity": "Cream-colored bee with a cream faceted fluffy ruff across the lower face, caramel brown belly stripes, warm ivory wings."
+  },
+  {
+    "id": "boris",
+    "name": "Шмель Борис",
+    "reference": "boris-reference-v2.png",
+    "identity": "Distinct broad stout bumblebee with a shaggy dark chocolate angular furry ruff around the yellow face and back, wide black-brown stripes, small ice blue wings. Preserve very stout wide silhouette and chunky fur, not the ordinary bee silhouette."
+  },
+  {
+    "id": "solnyshko",
+    "name": "Солнышко",
+    "reference": "solnyshko-reference.png",
+    "identity": "Bright lemon yellow bee, burnt orange stripes, sunflower at the right antenna base, pale yellow wings."
+  },
+  {
+    "id": "lavanda",
+    "name": "Лаванда",
+    "reference": "lavanda-reference.png",
+    "identity": "Pale lavender purple bee, dark purple stripes, lavender sprig at left antenna base, lavender wings."
+  },
+  {
+    "id": "klevera",
+    "name": "Клеверина",
+    "reference": "klevera-reference.png",
+    "identity": "Pink bee, dark rose stripes, green clover at left antenna base, pale pink wings."
+  },
+  {
+    "id": "vasilek",
+    "name": "Василёк",
+    "reference": "vasilek-reference.png",
+    "identity": "Sky blue bee, deep blue stripes, blue cornflower at left antenna base, ice blue wings."
+  },
+  {
+    "id": "myatka",
+    "name": "Мятка",
+    "reference": "myatka-reference.png",
+    "identity": "Mint green bee, forest green stripes, mint leaves at left antenna base, pale mint wings."
+  },
+  {
+    "id": "iskorka",
+    "name": "Искорка",
+    "reference": "iskorka-reference.png",
+    "identity": "Coral red bee, deep red stripes, small gold star at left antenna base, pale golden wings."
+  },
+  {
+    "id": "sonya",
+    "name": "Соня",
+    "reference": "sonya-reference.png",
+    "identity": "Sleepy periwinkle bee, dark purple stripes, purple sleeping mask with gold moon and stars on forehead, always CLOSED sleepy eyes, lavender wings."
+  },
+  {
+    "id": "zorkaya",
+    "name": "Зоркая",
+    "reference": "zorkaya-reference.png",
+    "identity": "Turquoise bee, deep teal stripes, round brass aviator goggles with brown leather strap around head, mint cyan wings."
+  },
+  {
+    "id": "margo",
+    "name": "Марго",
+    "reference": "margo-reference.png",
+    "identity": "Purple bee, purple and gold lower body stripes, ivory faceted fluffy collar at lower face, pale gold wings."
+  },
+  {
+    "id": "nochka",
+    "name": "Ночка",
+    "reference": "nochka-reference.png",
+    "identity": "Midnight blue bee, dark navy stripes, gold crescent moon and star on head, ice blue wings."
+  }
+]

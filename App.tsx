@@ -1,6 +1,6 @@
 import { t } from "./src/i18n";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { AppState, Dimensions, Image, Linking, StyleSheet, Text, View } from "react-native";
+import { AppState, Dimensions, Image, Linking, Platform, StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -32,8 +32,9 @@ import { applyPlan, ensureChannel, getPermission, requestPermission } from "./sr
 import { hError, hSuccess, setHaptics } from "./src/ui/haptics";
 import { ART } from "./src/ui/art";
 import { TabIcon } from "./src/ui/TabIcon";
+import { Mascot } from "./src/ui/BeeSprite";
 import { C, F, shadow } from "./src/ui/theme";
-import { GameButton, Pill, Press, Txt } from "./src/ui/components";
+import { Bar, GameButton, Pill, Press, Txt } from "./src/ui/components";
 import { centerOf, FlyProvider, Pt, useFly } from "./src/ui/Fly";
 import HiveScreen from "./src/screens/HiveScreen";
 import PuzzleScreen from "./src/screens/PuzzleScreen";
@@ -81,6 +82,7 @@ function Main() {
   const [now, setNow] = useState(Date.now());
   const [tab, setTab] = useState<Tab>("hive");
   const [hiveView, setHiveView] = useState<"hive" | "garden">("hive");
+  const [lootSeg, setLootSeg] = useState<"chests" | "shop" | "album">("chests");
   const [game, setGame] = useState<{ mode: RoundMode; seed: number; key: number; extraMoves: number; bomb: boolean } | null>(null);
   const [boxOpen, setBoxOpen] = useState<BoxKind | null>(null);
   const [showTutorial, setShowTutorial] = useState(false);
@@ -174,7 +176,7 @@ function Main() {
     const sub = addBackListener(() => {
       if (game) return false; // GameScreen handles its own back
       if (boxOpen) return false; // BoxOpen handles its own back
-      if (showSettings) { setShowSettings(false); return true; }
+      if (showSettings) return false; // SettingsModal handles its own back (sub-page → main → close)
       if (showLogin) { setShowLogin(false); return true; }
       if (tab !== "hive") { setTab("hive"); return true; }
       if (hiveView !== "hive") { setHiveView("hive"); return true; }
@@ -192,7 +194,7 @@ function Main() {
     const run = async (kind: "honey" | "jelly" | "nectar", amount: number | undefined) => {
       if (!amount) return;
       setHold((h) => ({ ...h, [kind]: prev[kind] })); // keep the pill at the old value until the drops land
-      const to = await centerOf(kind === "honey" ? honeyIcon.current : kind === "jelly" ? jellyIcon.current : nectarIcon.current);
+      const to = await centerOf((kind === "jelly" ? jellyIcon.current : kind === "nectar" ? nectarIcon.current : null) ?? honeyIcon.current);
       if (!from || !to) { setHold((h) => ({ ...h, [kind]: undefined })); setBump((b) => ({ ...b, [kind]: b[kind] + 1 })); return; }
       fly({
         from, to, n: kind === "honey" ? Math.min(12, 4 + Math.ceil(Math.log2(amount + 1))) : kind === "nectar" ? Math.min(8, 3 + Math.ceil(amount / 6)) : Math.min(8, 2 + amount),
@@ -483,6 +485,7 @@ function Main() {
           shuffles={game.mode === "free" ? s.loot.boosters.shuffle : 0}
           onShuffle={act.shuffle}
           rules={rulesFor(game.mode === "free" ? "free" : "daily", b, dayColorInfo(s, now).active ? dayColorInfo(s, now).color : null)}
+          dayColor={dayColorInfo(s, now)}
           best={game.mode === "daily" ? s.daily.results[todayOf(s, now)]?.score ?? 0 : game.mode === "weekend" ? s.week.weekendBest : s.stats.bestScore}
           title={t(game.mode === "daily" ? "mode.daily" : game.mode === "weekend" ? "mode.weekend" : "mode.free")}
           onFinish={act.finish}
@@ -503,13 +506,18 @@ function Main() {
   return (
     <View key={s.settings.lang} style={{ flex: 1, backgroundColor: C.bg }}>
       <StatusBar style="dark" />
+      {tab === "hive" ? (
+        <Image source={hiveView === "garden" ? require("./assets/art/env/garden_bg.webp") : require("./assets/art/env/hive_bg.webp")} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} />
+      ) : null}
       {/* top bar */}
       <View style={[styles.top, { paddingTop: insets.top + 8 }]}>
-        <Pill icon={ART.honey} value={hold.honey ?? s.honey} bump={bump.honey} label={t("c.honey")} onLayoutIcon={(r) => { honeyIcon.current = r; }} />
-        <Pill icon={ART.jelly} value={hold.jelly ?? s.jelly} bump={bump.jelly} label={t("c.jelly")} color="#7B52C2" onLayoutIcon={(r) => { jellyIcon.current = r; }} />
-        <Pill icon={ART.nectar} value={hold.nectar ?? s.nectar} bump={bump.nectar} label={t("c.nectar")} color="#B03A68" onLayoutIcon={(r) => { nectarIcon.current = r; }} />
-        <View style={{ flex: 1 }} />
-        <View style={styles.lvl} accessibilityLabel={t("c.hiveLevel", { n: level(s) })}><Text style={[F.black, { color: "#fff", fontSize: 15, transform: [{ rotate: "-45deg" }] }]}>{level(s)}</Text></View>
+        <View style={{ flex: 1, flexDirection: "row", gap: 5, alignItems: "center" }}>
+          <Pill compact icon={ART.honey} value={hold.honey ?? s.honey} bump={bump.honey} label={t("c.honey")} onLayoutIcon={(r) => { honeyIcon.current = r; }} />
+          <Pill compact icon={ART.nectar} value={hold.nectar ?? s.nectar} bump={bump.nectar} label={t("c.nectar")} color="#B03A68" onLayoutIcon={(r) => { nectarIcon.current = r; }} />
+          <Pill compact icon={ART.jelly} value={hold.jelly ?? s.jelly} bump={bump.jelly} label={t("c.jelly")} color="#7B52C2" onLayoutIcon={(r) => { jellyIcon.current = r; }} />
+          <Pill compact icon={ART.pollen} value={s.loot.pollen} label={t("c.pollen")} color="#B07A10" />
+          <Pill compact icon={ART.fragment} value={s.loot.fragments} label={t("c.fragments")} color="#5B5FC7" />
+        </View>
         <Press onPress={() => { setSettingsPage("main"); setShowSettings(true); }} style={styles.gear} accessibilityRole="button" accessibilityLabel={updater.available ? `${t("c.settings")} · ${t("up.badge")}` : t("c.settings")}>
           <Image source={ART.gear} style={{ width: 22, height: 22, tintColor: C.brown }} />
           {updater.available ? <View style={[styles.badge, { top: -1, right: -1 }]} /> : null}
@@ -531,11 +539,13 @@ function Main() {
           </View>
           {hiveView === "garden" ? (
             <GardenScreen s={s} now={now} onPlant={act.plant} onWater={act.water} onWaterAll={act.waterAll} onHarvest={act.harvest}
-              onUnlockBed={act.unlockBed} onIntroDone={act.gardenIntroDone} />
+              onUnlockBed={act.unlockBed} onIntroDone={act.gardenIntroDone}
+              onToggleDeco={(id) => act.simple((c) => toggleDeco(c, id))} onShop={() => { setLootSeg("shop"); setTab("loot"); }} />
           ) : (
           <HiveScreen
             s={s} now={now}
             onCollect={act.collect} onComb={act.comb} onUpgrade={act.upgrade} cheer={cheer}
+            onToggleDeco={(id) => act.simple((c) => toggleDeco(c, id))} onShop={() => { setLootSeg("shop"); setTab("loot"); }}
             banner={showNotifPrompt ? (
               <View style={[styles.banner, shadow]}>
                 <Image source={ART.clock} style={{ width: 26, height: 26, tintColor: C.honeyDeep }} />
@@ -553,11 +563,11 @@ function Main() {
           )}
           </View>
         ) : tab === "puzzle" ? (
-          <PuzzleScreen s={s} now={now} onPlay={act.play} />
+          <PuzzleScreen s={s} now={now} onPlay={act.play} onBuyBooster={(bid) => act.simple((c) => shopBuyBooster(c, bid))} />
         ) : tab === "bees" ? (
           <BeesScreen s={s} onSkin={(bee, k) => act.simple((c) => setSkin(c, bee, k))} onAssemble={() => act.simple((c) => assembleNightBee(c, Date.now()))} onUnlock={act.unlock} onLevelUp={act.levelUp} onRename={act.rename} onGarden={() => { setTab("hive"); setHiveView("garden"); }} />
         ) : tab === "loot" ? (
-          <LootScreen s={s} now={now}
+          <LootScreen key={lootSeg} initialSeg={lootSeg} s={s} now={now}
             onOpenBox={(k) => setBoxOpen(k)}
             onClaimWeekly={act.weekly}
             onBuyFreeze={() => act.simple((c) => buyFreeze(c, Date.now()))}
@@ -567,25 +577,24 @@ function Main() {
             onBuyBooster={(bid) => act.simple((c) => shopBuyBooster(c, bid))}
             onBuyFragment={() => act.simple((c) => shopBuyFragment(c))}
             onToggleDeco={(id) => act.simple((c) => toggleDeco(c, id))}
-            onInvite={() => { inviteFriend().catch(() => {}); }}
           />
         ) : (
-          <TasksScreen s={s} now={now} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} onNotifications={act.notifications} notifBlocked={notifBlocked} />
+          <TasksScreen s={s} now={now} onClaimWeekly={act.weekly} onBuyFreeze={() => act.simple((c) => buyFreeze(c, Date.now()))} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} onNotifications={act.notifications} notifBlocked={notifBlocked} />
         )}
       </View>
 
       {/* tab bar */}
-      <View style={[styles.tabs, { paddingBottom: Math.max(insets.bottom, 8) }]}>
+      <View style={[styles.tabs, { position: "absolute", left: 0, right: 0, bottom: Math.max(insets.bottom, 8) }]}>
         {TABS.map((t) => {
           const on = tab === t.id;
           const badge = t.id === "loot" ? s.loot.boxes.wood + s.loot.boxes.wax + s.loot.boxes.gold > 0 || (!s.week.chest && s.week.tasks >= 15) : t.id === "tasks" ? tasksReady || canClaimLogin(s, now) : t.id === "puzzle" ? !s.daily.results[todayOf(s, now)]?.stars : t.id === "hive" ? (s.hive.stored >= 1 && s.hive.stored >= 0.999 * capOf(s)) || gardenBadge : false;
           return (
-            <Press key={t.id} onPress={() => setTab(t.id)} style={styles.tab} accessibilityRole="tab" accessibilityLabel={t.label} accessibilityState={{ selected: on }} scaleTo={0.9}>
-              <View style={[styles.tabIcon, on && styles.tabIconOn]}>
+            <Press key={t.id} onPress={() => setTab(t.id)} style={[styles.tab, on && styles.tabOn]} accessibilityRole="tab" accessibilityLabel={t.label} accessibilityState={{ selected: on }} scaleTo={0.9}>
+              <View style={styles.tabIcon}>
                 <TabIcon id={t.id} on={on} />
                 {badge ? <View style={styles.badge} /> : null}
               </View>
-              <Text style={[F.xbold, { fontSize: 11, color: on ? C.honeyDark : "#B08C5E", marginTop: 2 }]} numberOfLines={1}>{t.label}</Text>
+              <Text style={[F.xbold, { fontSize: 11, color: on ? "#5A3200" : "#B08C5E", marginTop: 1 }]} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>{t.label}</Text>
             </Press>
           );
         })}
@@ -606,6 +615,7 @@ function Main() {
         onTutorial={() => { setShowSettings(false); setTimeout(() => setShowTutorial(true), 250); }}
         onWhatsNew={() => { setShowSettings(false); setTimeout(() => setShowWhatsNew(true), 250); }}
         onReset={act.reset}
+        onInvite={() => { inviteFriend().catch(() => {}); }}
         onClose={() => setShowSettings(false)}
         getCode={() => encodeSave(sRef.current ?? s)}
         onImport={act.importCode}
@@ -629,16 +639,18 @@ function taskBadge(s: GameState) {
 }
 
 const styles = StyleSheet.create({
+  zcard: { flexDirection: "row", alignItems: "center", gap: 10, marginHorizontal: 16, marginBottom: 6, paddingVertical: 8, paddingLeft: 14, paddingRight: 8, borderRadius: 22, backgroundColor: "rgba(255,247,226,0.94)" },
   top: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: 14, paddingBottom: 6 },
   lvl: { width: 36, height: 36, borderRadius: 12, backgroundColor: C.honeyDeep, alignItems: "center", justifyContent: "center", transform: [{ rotate: "45deg" }], marginRight: 4 },
   gear: { width: 40, height: 40, borderRadius: 20, backgroundColor: "#fff", alignItems: "center", justifyContent: "center", ...shadow },
-  tabs: { flexDirection: "row", backgroundColor: "#FFFFFF", borderTopLeftRadius: 26, borderTopRightRadius: 26, paddingTop: 8, ...shadow, shadowOffset: { width: 0, height: -3 }, elevation: 12 },
-  tab: { flex: 1, alignItems: "center" },
-  tabIcon: { width: 54, height: 36, borderRadius: 18, alignItems: "center", justifyContent: "center" },
+  tabs: { flexDirection: "row", backgroundColor: "#FFFFFF", borderRadius: 26, marginHorizontal: 10, padding: 6, gap: 2, ...shadow, shadowOffset: { width: 0, height: 3 }, elevation: 12 },
+  tab: { flex: 1, alignItems: "center", borderRadius: 20, paddingVertical: 6 },
+  tabOn: { backgroundColor: C.honey, ...shadow, elevation: 4 },
+  tabIcon: { width: 40, height: 30, alignItems: "center", justifyContent: "center" },
   tabIconOn: { backgroundColor: C.honey },
   badge: { position: "absolute", top: 2, right: 8, width: 10, height: 10, borderRadius: 5, backgroundColor: C.red, borderWidth: 2, borderColor: "#fff" },
   banner: { flexDirection: "row", gap: 12, backgroundColor: "#fff", borderRadius: 22, padding: 14 },
-  seg: { flexDirection: "row", marginHorizontal: 16, marginTop: 4, marginBottom: 2, backgroundColor: "#F6E3BF", borderRadius: 18, padding: 4, gap: 4 },
+  seg: { flexDirection: "row", alignSelf: "center", width: 220, marginTop: 4, marginBottom: 6, backgroundColor: "rgba(255,255,255,0.92)", borderRadius: 20, padding: 4, gap: 4, ...shadow },
   segBtn: { flex: 1, flexDirection: "row", gap: 6, alignItems: "center", justifyContent: "center", height: 36, borderRadius: 14 },
-  segOn: { backgroundColor: C.honeyDeep },
+  segOn: { backgroundColor: C.honey },
 });

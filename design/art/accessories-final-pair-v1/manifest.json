@@ -1,0 +1,13 @@
+[
+  {
+    "id": "headphones",
+    "prompt": "Use case: stylized-concept. Generate ONLY a standalone wearable over-ear headphone accessory sprite fitting the bee in reference 1, NOT the bee itself. Match its warm softly faceted honey-crystal rendering and upper-left-front light. Camera same slight front three-quarter view as bee. Thick rounded teal/mint padded ear cups with small warm brass rim, chocolate-brown inner cushions, a narrow gently curved teal padded headband connecting them overhead. LEFT cup slightly broader, RIGHT cup narrower by perspective. Simple big soft facets, cozy game toy, no realism, no screws or cables or logo. Headband arch is wide and shallow: width of headphones about 2 times total height. Cups vertical at left/right tips and compact (20% width each). Large completely transparent empty space below and inside arch to overlay a broad rounded head. No bee, no face, no antennas, no crown, no text, no stand, no background, no glow, no shadow outside item. Entire accessory centered with padding, genuine alpha transparency.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-407825b9-b253-4395-afc8-2665742c89e6.png",
+    "originalSource": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-bc3c6baa-62ff-4872-b2b0-aa0f1ba34af9.png"
+  },
+  {
+    "id": "halo",
+    "prompt": "Use case: stylized-concept. Generate ONLY one standalone golden halo accessory sprite for the bee in reference 1, NOT the bee itself. Match warm softly faceted honey-crystal rendering and upper-left-front light. A thin elegant dimensional gold ring seen as a shallow horizontal ellipse from the same slightly elevated front three-quarter camera as bee. Width to overall ellipse height about 3.5:1, ring thickness about 5% of width, slight broad irregular bevel facets, warm amber lower edge and pale honey-gold upper-left highlight, inner hole completely transparent. Only the solid gold ring, no rays, no wings, no sparkle stars, no glow, no fog/halo around ring despite the name halo, no poles, no face, no bee, no crown, no text, no outside shadow. Entire object centered with padding on genuine alpha transparent background. Simple and readable at 48px.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-b20b73aa-eda4-4514-89b4-5ea104c7eccc.png"
+  }
+]

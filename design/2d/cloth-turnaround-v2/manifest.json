@@ -1,0 +1,140 @@
+{
+  "tool": "image_gen.imagegen",
+  "transparent_background": true,
+  "generations": [
+    {
+      "id": "scarf-q3-front-left",
+      "angle": "q3-front-left",
+      "kind": "scarf",
+      "prompt": "Use case: precise-object-edit. Image 1 is the approved thick coral-orange faceted scarf. Image 2 is target bee pose viewed front three-quarter looking image-left. Draw ONLY scarf visible wrap as one transparent game accessory, matching target torso perspective. The knot and two short downward tails belong on bee's anatomical LEFT flank, which is the visible near flank in these left-facing poses. Show knot at image-left end of wrap. Do not put it on opposite flank. Scarf is a continuous thick curved band hugging body below face, broad uneven facets, not thin wire. Preserve exact coral fabric, knot shape, two short tails, lighting and design. No bee/body, no hollow floating donut, no text, shadow, glow. Transparent canvas. This is independent angle art, not a mirrored complete bee.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-30b265bc-bcc8-43e9-a018-c2d0b0098353.png",
+      "placement": [
+        166,
+        690,
+        835,
+        280
+      ]
+    },
+    {
+      "id": "bag-q3-front-left",
+      "angle": "q3-front-left",
+      "kind": "bag",
+      "prompt": "Use case: precise-object-edit. Image 1 approved mint satchel with brown piping and gold clasp. Image 2 target bee pose front three-quarter looking image-left. Draw ONLY this same bag on its FAR flank, seen obliquely from front: a narrow mint flap with small gold clasp and visible dark teal side edge, foreshortened width but same height, chunky bag thickness, brown edging, broad facets. Match target bee camera. The bag stays on anatomical RIGHT flank, which is FAR away for this view; body will occlude it during compositing. Draw full bag for layering, WITHOUT shoulder strap, no bee or body. Exact same design, no extra pocket, text, glow, shadow. Single accessory centered, transparent background.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-afa3e8f8-2c6d-493d-831d-5643ac41adaf.png",
+      "placement": [
+        800,
+        835,
+        180,
+        230
+      ]
+    },
+    {
+      "id": "scarf-side-left",
+      "angle": "side-left",
+      "kind": "scarf",
+      "prompt": "Use case: precise-object-edit. Image 1 is the approved thick coral-orange faceted scarf. Image 2 is target bee pose viewed strict profile facing image-left. Draw ONLY scarf visible wrap as one transparent game accessory, matching target torso perspective. The knot and two short downward tails belong on bee's anatomical LEFT flank, which is the visible near flank in these left-facing poses. Show knot on the visible near side towards the face end, image-left half. Do not put it on opposite flank. Scarf is a continuous thick curved band hugging body below face, broad uneven facets, not thin wire. Preserve exact coral fabric, knot shape, two short tails, lighting and design. No bee/body, no hollow floating donut, no text, shadow, glow. Transparent canvas. This is independent angle art, not a mirrored complete bee.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-568774d0-1ef6-45b4-958c-a7cf913a068e.png",
+      "placement": [
+        230,
+        655,
+        750,
+        310
+      ]
+    },
+    {
+      "id": "scarf-q3-back-left",
+      "angle": "q3-back-left",
+      "kind": "scarf",
+      "prompt": "Use case: precise-object-edit. Image 1 is the approved thick coral-orange faceted scarf. Image 2 is target bee pose viewed rear three-quarter opposite to the existing right rear pose. Draw ONLY scarf visible wrap as one transparent game accessory, matching target torso perspective. The knot and two short downward tails belong on bee's anatomical LEFT flank, which is the visible near flank in these left-facing poses. Show knot at the image-right side of the rear wrap, partly around the flank. Do not put it on opposite flank. Scarf is a continuous thick curved band hugging body below face, broad uneven facets, not thin wire. Preserve exact coral fabric, knot shape, two short tails, lighting and design. No bee/body, no hollow floating donut, no text, shadow, glow. Transparent canvas. This is independent angle art, not a mirrored complete bee.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-11696512-28f2-414f-897a-a90ca623a376.png",
+      "placement": [
+        320,
+        665,
+        740,
+        240
+      ]
+    },
+    {
+      "id": "bag-q3-back-left",
+      "angle": "q3-back-left",
+      "kind": "bag",
+      "prompt": "Use case: precise-object-edit. Image 1 approved mint satchel with brown piping and gold clasp. Image 2 target bee pose rear three-quarter opposite to the existing right rear pose. Draw ONLY this same bag on its FAR flank, seen obliquely from back: narrow plain mint rear panel, NO clasp, foreshortened width but same height, chunky bag thickness, brown edging, broad facets. Match target bee camera. The bag stays on anatomical RIGHT flank, which is FAR away for this view; body will occlude it during compositing. Draw full bag for layering, WITHOUT shoulder strap, no bee or body. Exact same design, no extra pocket, text, glow, shadow. Single accessory centered, transparent background.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-6af7a80a-1e9b-4825-ae75-58428da8950c.png",
+      "placement": [
+        370,
+        805,
+        180,
+        230
+      ]
+    }
+  ],
+  "angles": [
+    "front",
+    "q3-front",
+    "side",
+    "q3-back",
+    "back",
+    "q3-back-left",
+    "side-left",
+    "q3-front-left"
+  ],
+  "anchors": {
+    "front": [
+      680,
+      680,
+      1
+    ],
+    "q3-front": [
+      742,
+      705,
+      0.94
+    ],
+    "side": [
+      760,
+      700,
+      0.96
+    ],
+    "q3-back": [
+      710,
+      685,
+      0.98
+    ],
+    "back": [
+      680,
+      680,
+      1
+    ],
+    "q3-front-left": [
+      624,
+      705,
+      0.94
+    ],
+    "side-left": [
+      606,
+      700,
+      0.96
+    ],
+    "q3-back-left": [
+      656,
+      685,
+      0.98
+    ]
+  },
+  "straps": {
+    "q3-front-left": "M320 755 C310 850 805 880 965 785",
+    "side-left": "M835 655 C720 755 480 840 305 790",
+    "q3-back-left": "M855 625 C790 705 550 795 395 810"
+  },
+  "base_hashes": {
+    "front": "fe4173d8504e8327efd9b22eccd50ce29618cd3b5262e54e72a939fa46f1c521",
+    "q3-front": "3833765c482b935128999a5eeff6f2040f0aaf00278381a671b53c43d6a6099e",
+    "side": "2904043387e82d2e81d4d5e01abc8e72d4dcabad2dc0aaf6597d24f7529ff247",
+    "q3-back": "15d3166d28a278be0f22136bfc7d7c3e2b892940c466c13cc043e07acee9833c",
+    "back": "7597f01027f04de6c158c07f83f27f65d52eace189726367184900da1c2415c5",
+    "q3-back-left": "35c2e806384d397fbf634cbd0bceb305495475affc19a64718188aedf7fce37f",
+    "side-left": "885c9010b5649866997ae88b8053ce9c6d522c10ab6c0236c4bef9768a6d0d6e",
+    "q3-front-left": "f9955482dad42bc2d137310fabf4bcc107668dbc6df7b11d6f1a65433b7edc86"
+  },
+  "existing_five": "Copied byte-for-byte from cloth-turnaround-v1. New left bodies are mechanical mirror copies of bare bees; complete accessorized bees are not mirrored.",
+  "side_left_bag": "Reuse rear bag panel behind body at [515,780,180,190]; no new art needed for occluded bag."
+}

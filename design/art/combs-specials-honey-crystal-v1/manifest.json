@@ -1,0 +1,27 @@
+[
+  {
+    "id": "comb",
+    "prompt": "Use case: stylized-concept. Asset type: Buzzle game sprite, Honey Crystal style. Image 1 is style reference only; image 2 is original game semantic reference. Primary request: ONE honey-filled wax hexagonal cell, point at top and bottom (pointy-top orientation). Frontal orthographic view, symmetric hexagonal outer silhouette. Thick warm amber wax rim with a few broad bevel facets, center full of golden honey, calm mostly smooth surface with one cream upper-left reflection. No number, text or emblem; runtime puts numbers on top. Shallow depth, no chest or box. Warm soft upper-left-front lighting, broad gentle facets, simple readable at 48px, no dense triangular mosaic. Single centered object on transparent square canvas, occupies about 80%, no external shadow, particles, scenery, label or watermark.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-6800d10f-2388-4c1a-a2a4-baef1cfc1d48.png"
+  },
+  {
+    "id": "comb-empty",
+    "prompt": "Use case: precise-object-edit. Change this filled honey cell into an empty buildable cell: lighten wax rim to pale warm beige gold; replace honey with matte warm cream recessed center, remove all glossy honey reflections. Add one simple chunky golden plus at exact center, plus about 22% cell width. Preserve exact outer silhouette, pointy-top orientation, dimensions, framing, broad facets on rim, rim thickness, lighting direction and transparent canvas. One matching state of the very same cell, no new details or background. This must align with source when exchanged in game.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-bdd06e13-658b-4257-a5ea-64f8e6d65c5a.png"
+  },
+  {
+    "id": "comb-locked",
+    "prompt": "Use case: precise-object-edit. Change this filled honey cell into an unavailable cell: subdued pale cream/taupe wax rim and matte light ivory center, remove honey and all glossy reflections. Center blank: NO plus, NO lock, NO number, NO symbol; lock is a separate UI overlay. Preserve exact outer silhouette, pointy-top orientation, dimensions, framing, broad facets on rim, rim thickness, lighting direction and transparent canvas. One matching state of the very same cell, no new details or background. This must align with source when exchanged in game.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-95e481f3-474d-4de4-bc42-983367f12f9e.png"
+  },
+  {
+    "id": "bomb",
+    "prompt": "Use case: stylized-concept. Asset type: Buzzle game sprite, Honey Crystal style. Image 1 is style reference only; image 2 is original game semantic reference. Primary request: ONE playful round cream pearl-like bomb with a small gold crown on top, exactly three crown points ending in coral pink beads. Preserve the old game icon idea, no black explosive bomb or burning fuse. Warm cream faceted sphere, subtle brown/gold underside, few broad facets, clear circular silhouette, chunky small crown. Whole object visible. Warm soft upper-left-front lighting, broad gentle facets, simple readable at 48px, no dense triangular mosaic. Single centered object on transparent square canvas, occupies about 80%, no external shadow, particles, scenery, label or watermark.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-c3bb5ad0-b3a1-4003-804e-d750f78de2a0.png"
+  },
+  {
+    "id": "ring",
+    "prompt": "Use case: stylized-concept. Asset type: Buzzle game sprite, Honey Crystal style. Image 1 is style reference only; image 2 is original game semantic reference. Primary request: ONE clean thin cream-white HEXAGON outline frame, flat horizontal top/bottom matching the reference puzzle tile. Center genuinely transparent and empty. Straight symmetric sides and subtly softened corners, consistent stroke thickness around 4% total outer width. Very subtle pale gold bevel on outer edge only; no filled center, no recessed token, no symbol, no broad chunky rim, no glow. Front-on UI selection frame. Image 1 gives tile silhouette and style, image 2 old ring meaning; outer outline should surround a puzzle tile without hiding its emblem. Warm soft upper-left-front lighting, broad gentle facets, simple readable at 48px, no dense triangular mosaic. Single centered object on transparent square canvas, occupies about 80%, no external shadow, particles, scenery, label or watermark.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-a64c842a-7070-48ad-b240-13a827cf6546.png"
+  }
+]

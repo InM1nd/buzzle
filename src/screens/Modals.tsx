@@ -29,8 +29,8 @@ function SlideArt({ i }: { i: number }) {
           const len = Math.hypot(bx - ax, by - ay), ang = Math.atan2(by - ay, bx - ax);
           return <View key={`l${k}`} style={{ position: "absolute", left: (ax + bx) / 2 - len / 2, top: (ay + by) / 2 - 6, width: len, height: 12, borderRadius: 6, backgroundColor: "#E04585", borderWidth: 2.5, borderColor: "#fff", transform: [{ rotate: `${ang}rad` }] }} />;
         })}
-        <Hover amp={4} sway={4} period={1300} style={{ position: "absolute", right: -8, top: -18 }}>
-          <BeeSprite id="klevera" size={64} seed={1} />
+        <Hover amp={0} sway={0} period={1300} style={{ position: "absolute", right: -8, top: -18 }}>
+          <BeeSprite id="klevera" size={64} flap={false} seed={1} />
         </Hover>
       </View>
     );
@@ -98,7 +98,7 @@ export function LoginModal({ visible, index, reward, streak, onClaim, onClose }:
         <CloseBtn onPress={onClose} />
         <Txt v="tiny" color={C.dim}>{t("lg.caps", { d: index + 1 })}</Txt>
         <View ref={ref} collapsable={false} style={{ marginVertical: 14 }}>
-          <Bobbing amp={6}><Image source={big ? ART.chest : reward.honey ? ART.honey : ART.jelly} style={{ width: 120, height: 120 }} /></Bobbing>
+          <Bobbing amp={6}><Image source={big ? ART.chestOpen : reward.honey ? ART.honey : ART.jelly} style={{ width: 120, height: 120 }} /></Bobbing>
         </View>
         <Txt v="h1" center>{big ? t("lg.big") : t("lg.back")}</Txt>
         <View style={{ flexDirection: "row", gap: 16, marginTop: 10, marginBottom: 6 }}>

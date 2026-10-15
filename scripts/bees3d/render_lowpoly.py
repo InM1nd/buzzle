@@ -43,8 +43,8 @@ def mat(name, color, rough=0.45, emit=0.0, **kw):
     for k, v in kw.items(): b.inputs[k].default_value = v
     return m, b
 
-def stripe_material(sp, C):
-    m, b = mat("body", sp["body"], 0.45)
+def stripe_material(sp, C, honey_soft=False):
+    m, b = mat("body", sp["body"], 0.72 if honey_soft else 0.45)
     nt = m.node_tree; N = nt.nodes; L = nt.links
     tc = N.new("ShaderNodeTexCoord"); sep = N.new("ShaderNodeSeparateXYZ"); L.new(tc.outputs["Object"], sep.inputs[0])
     mp = N.new("ShaderNodeMapRange"); mp.inputs["From Min"].default_value = -1.1 * C; mp.inputs["From Max"].default_value = 1.1 * C
@@ -54,6 +54,8 @@ def stripe_material(sp, C):
     body, stripe = (*srgb(sp["body"]), 1), (*srgb(sp["stripe"]), 1)
     stops = [(0.0, body)]
     bands = [(0.13, 0.25), (0.36, 0.46)]
+    if honey_soft:
+        bands = [(0.065, 0.13), (0.27, 0.43)]
     if "tail" in sp:
         tail = (*srgb(sp["tail"]), 1)
         stops = [(0.0, tail), (0.115, body)]
@@ -75,6 +77,12 @@ def ico(name, loc, scale, m, sub=1, rot=None):
     if rot is not None: o.rotation_euler = rot
     return o
 
+def oval(name, loc, scale, m):
+    bpy.ops.mesh.primitive_uv_sphere_add(segments=12, ring_count=6, radius=1, location=loc)
+    o = bpy.context.object; o.name = name; o.scale = scale
+    bpy.ops.object.shade_flat(); o.data.materials.append(m)
+    return o
+
 def cone(name, loc, r1, r2, depth, m, verts=6, rot=(0, 0, 0)):
     bpy.ops.mesh.primitive_cone_add(vertices=verts, radius1=r1, radius2=r2, depth=depth, location=loc, rotation=rot)
     o = bpy.context.object; o.name = name; bpy.ops.object.shade_flat(); o.data.materials.append(m)
@@ -90,12 +98,13 @@ def torus(name, loc, R, r, m, rot=(0, 0, 0)):
     o = bpy.context.object; o.name = name; bpy.ops.object.shade_flat(); o.data.materials.append(m)
     return o
 
-def curve(name, pts, bevel, m):
+def curve(name, pts, bevel, m, straight=False):
     cu = bpy.data.curves.new(name, "CURVE"); cu.dimensions = "3D"; cu.bevel_depth = bevel; cu.bevel_resolution = 0
     cu.resolution_u = 3; cu.use_fill_caps = True
-    s = cu.splines.new("NURBS"); s.points.add(len(pts) - 1)
+    s = cu.splines.new("POLY" if straight else "NURBS"); s.points.add(len(pts) - 1)
     for p, q in zip(s.points, pts): p.co = (*q, 1)
-    s.use_endpoint_u = True; s.order_u = min(4, len(pts))
+    if not straight:
+        s.use_endpoint_u = True; s.order_u = min(4, len(pts))
     o = bpy.data.objects.new(name, cu); bpy.context.collection.objects.link(o); cu.materials.append(m)
     return o
 
@@ -118,10 +127,29 @@ def star_mesh(name, loc, r, m, rot=(math.pi / 2, 0, 0)):
 def build(job):
     bpy.ops.wm.read_factory_settings(use_empty=True)
     spid = job["species"]; sp = SPECIES[spid]; wide = sp.get("wide", 1.0)
+    honey_soft = job.get("style") == "honey-soft"
+    if honey_soft and spid == "zhuzha":
+        sp = {**sp, "body": (1.0, 0.76, 0.24), "stripe": (0.36, 0.22, 0.10)}
     sc = bpy.context.scene
     root = bpy.data.objects.new("bee", None); sc.collection.objects.link(root)
-    A, B, C = 0.9 * wide, 0.82 * wide ** 0.5, 1.0
+    A, B, C = 0.9 * wide, (0.76 if honey_soft else 0.82) * wide ** 0.5, 1.0
+    # A broad upper face and shoulders, narrowing only near the feet.
+    # This profile is shared by geometry, facial placement and fitted accessories.
+    profile = [(-1.0, 0.0), (-0.9, 0.38), (-0.65, 0.72), (-0.3, 0.94),
+               (0.1, 1.0), (0.45, 0.93), (0.72, 0.77), (0.91, 0.48), (1.0, 0.0)]
+    def radius_at(z):
+        if not honey_soft:
+            return math.sqrt(max(0.0, 1 - (z / C) ** 2))
+        for (za, ra), (zb, rb) in zip(profile, profile[1:]):
+            if za <= z <= zb:
+                return ra + (rb - ra) * (z - za) / (zb - za)
+        return 0.0
     def front(x, z, out=0.0):
+        if honey_soft:
+            r = radius_at(z)
+            y = -B * r * max(0.0, 1 - (x / max(A * r, 0.001)) ** 2) ** 0.4
+            n = Vector((x / A ** 2, y / B ** 2, z / C ** 2)).normalized()
+            return Vector((x, y, z)) + n * out, n
         t = 1 - (x / A) ** 2 - (z / C) ** 2
         y = -B * math.sqrt(max(t, 0.0))
         n = Vector((x / A ** 2, y / B ** 2, z / C ** 2)).normalized()
@@ -130,20 +158,36 @@ def build(job):
         return front(x, z, out)
 
     groups = {"body": [], "eyes": [], "wingL": [], "wingR": [], "goldL": [], "goldR": [], "crown": [], **{f"skin_{k}": [] for k in SKINS}}
-    body = ico("body", (0, 0, 0), (A, B, C), stripe_material(sp, C), sub=2)
+    body = ico("body", (0, 0, 0), (A, B, C), stripe_material(sp, C, honey_soft), sub=2)
+    if honey_soft:
+        mesh = body.data
+        for vertex in mesh.vertices:
+            z = vertex.co.z
+            circle = math.sqrt(max(0.0, 1 - z * z))
+            if circle > 0.001:
+                r = radius_at(z)
+                vertex.co.x *= r / circle
+                yy = vertex.co.y / circle
+                vertex.co.y = math.copysign(abs(yy) ** 0.8 * r, yy)
+        mesh.update()
+        normals = [tuple(mesh.vertices[loop.vertex_index].normal.lerp(poly.normal, 0.90).normalized())
+                   for poly in mesh.polygons for loop in (mesh.loops[i] for i in poly.loop_indices)]
+        for poly in mesh.polygons:
+            poly.use_smooth = True
+        mesh.normals_split_custom_set(normals)
     groups["body"].append(body)
     dark_m, _ = mat("dark", (0.22, 0.12, 0.06), 0.5)
-    eye_m, _ = mat("eye", (0.07, 0.045, 0.03), 0.12)
-    hi_m, hb = mat("hi", (1, 1, 1), 0.3, emit=6)
+    eye_m, _ = mat("eye", (0.10, 0.075, 0.055) if honey_soft else (0.07, 0.045, 0.03), 0.42 if honey_soft else 0.12)
+    hi_m, hb = mat("hi", (1, 1, 1), 0.3, emit=1 if honey_soft else 6)
     cheek_m, _ = mat("cheek", (1.0, 0.52, 0.58), 0.6)
     gold_m, _ = mat("gold", (1.0, 0.76, 0.22), 0.25, Metallic=0.85)
     white_m, _ = mat("white", (1.0, 0.98, 0.94), 0.6)
     G = groups["body"]
 
     # eyes (separate layer) or sleepy closed eyes (in the body)
-    er = 0.15
+    er = 0.16 if honey_soft else 0.15
     for sx in (-1, 1):
-        p, n = front(sx * 0.34, 0.3, -er * 0.25)
+        p, n = front(sx * (0.37 if honey_soft else 0.34), 0.3, -er * 0.12 if honey_soft else -er * 0.25)
         if sp.get("sleepy"):
             pts = []
             for i in range(5):
@@ -152,12 +196,13 @@ def build(job):
             G.append(curve(f"closed{sx}", pts, 0.026, dark_m))
         else:
             groups["eyes"] += [
-                ico(f"eye{sx}", p, (er, er * 0.62, er * 1.12), eye_m),
-                ico(f"hi{sx}", p + Vector((0.045, -er * 0.75, er * 0.45)), (er * 0.3,) * 3, hi_m),
-                ico(f"hi2{sx}", p + Vector((-0.04, -er * 0.72, -er * 0.4)), (er * 0.13,) * 3, hi_m),
+                (oval if honey_soft else ico)(f"eye{sx}", p, (er, er * 0.62, er * 1.12), eye_m),
+                ico(f"hi{sx}", p + Vector((0.025 if honey_soft else 0.045, -er * 0.75, er * 0.45)), (er * (0.22 if honey_soft else 0.3),) * 3, hi_m),
             ]
+            if not honey_soft:
+                groups["eyes"].append(ico(f"hi2{sx}", p + Vector((-0.04, -er * 0.72, -er * 0.4)), (er * 0.13,) * 3, hi_m))
         cp, cn = front(sx * 0.56, 0.06, -0.035)
-        ch = ico(f"cheek{sx}", cp, (0.12, 0.05, 0.085), cheek_m)
+        ch = (oval if honey_soft else ico)(f"cheek{sx}", cp, (0.12, 0.05, 0.10 if honey_soft else 0.085), cheek_m)
         ch.rotation_euler = Vector((0, -1, 0)).rotation_difference(-cn).to_euler(); G.append(ch)
     pts = []
     for i in range(7):
@@ -169,7 +214,9 @@ def build(job):
     for sx in (-1, 1):
         a0, _ = front(sx * 0.22, 0.93, -0.03)
         pts = [tuple(a0), (sx * 0.3, a0.y - 0.05, 1.25), (sx * 0.44, a0.y - 0.08, 1.48), (sx * 0.56, a0.y - 0.06, 1.58)]
-        G.append(curve(f"ant{sx}", pts, 0.032, dark_m)); tips.append(Vector(pts[-1]))
+        if honey_soft:
+            pts = [tuple(a0), (sx * 0.34, a0.y - 0.04, 1.18), (sx * 0.48, a0.y - 0.05, 1.43)]
+        G.append(curve(f"ant{sx}", pts, 0.055 if honey_soft else 0.032, dark_m)); tips.append(Vector(pts[-1]))
     acc = sp.get("acc")
     for i, tp in enumerate(tips):
         if acc == "stars":
@@ -179,8 +226,10 @@ def build(job):
         elif sp.get("night"):
             G.append(star_mesh(f"nstar{i}", tp, 0.17, mat("nstarm", (0.85, 0.9, 1.0), 0.3, emit=1.2, Metallic=0.4)[0]))
         else:
-            G.append(ico(f"tip{i}", tp, (0.085,) * 3, dark_m))
-    G.append(cone("sting", (0, 0.02, -C - 0.08), 0.11, 0, 0.26, mat("sting", (0.25, 0.15, 0.08), 0.35)[0], verts=8, rot=(math.pi, 0, 0)))
+            G.append(ico(f"tip{i}", tp, (0.115 if honey_soft else 0.085,) * 3, dark_m))
+    G.append(cone("sting", (0, 0.02, -C - 0.04 if honey_soft else -C - 0.08), 0.07 if honey_soft else 0.11, 0, 0.12 if honey_soft else 0.26, mat("sting", (0.25, 0.15, 0.08), 0.35)[0], verts=8, rot=(math.pi, 0, 0)))
+    if honey_soft:
+        G.append(ico("front-foot", (0, -0.35, -0.96), (0.09, 0.08, 0.09), dark_m))
     for sx in (-1, 1):
         fp, _ = front(sx * 0.28, -0.88, -0.02)
         G.append(ico(f"foot{sx}", fp + Vector((0, 0, -0.06)), (0.09, 0.08, 0.07), dark_m))
@@ -297,6 +346,21 @@ def build(job):
         return m
     wm = wing_mat("wing", (0.93, 0.97, 1.0), (0.55, 0.75, 0.92))
     gm = wing_mat("goldwing", (1.0, 0.88, 0.5), (0.95, 0.55, 0.15), gold=True)
+    if honey_soft:
+        def membrane_material(name, color, opacity):
+            m = bpy.data.materials.new(name); m.use_nodes = True
+            nodes, links = m.node_tree.nodes, m.node_tree.links
+            nodes.clear()
+            out = nodes.new("ShaderNodeOutputMaterial")
+            clear = nodes.new("ShaderNodeBsdfTransparent")
+            diffuse = nodes.new("ShaderNodeBsdfDiffuse")
+            diffuse.inputs["Color"].default_value = (*srgb(color), 1)
+            mix = nodes.new("ShaderNodeMixShader"); mix.inputs[0].default_value = opacity
+            links.new(clear.outputs[0], mix.inputs[1]); links.new(diffuse.outputs[0], mix.inputs[2])
+            links.new(mix.outputs[0], out.inputs[0])
+            return m
+        wm = membrane_material("soft-wing", (0.82, 0.87, 0.87), 0.55)
+        gm = membrane_material("soft-gold-wing", (1.0, 0.80, 0.30), 0.45)
     pivots = {}
     for sx, key in ((-1, "L"), (1, "R")):
         piv = bpy.data.objects.new(f"wpiv{sx}", None); sc.collection.objects.link(piv)
@@ -305,13 +369,25 @@ def build(job):
         piv.rotation_euler = (0, -sx * math.radians(22 + job.get("flap", 0)), 0)
         piv.parent = root; pivots[key] = piv
         for m_, grp in ((wm, "wing" + key), (gm, "gold" + key)):
-            w = ico(f"{grp}", (0, 0, 0), (0.56, 0.035, 0.37), m_)
+            if honey_soft:
+                outline = [(math.cos(i * math.pi / 3) * 0.56, 0, math.sin(i * math.pi / 3) * 0.43) for i in range(6)]
+                me = bpy.data.meshes.new(grp)
+                me.from_pydata(outline + [(0, -0.11, 0)], [], [(6, i, (i + 1) % 6) for i in range(6)])
+                me.materials.append(m_)
+                w = bpy.data.objects.new(grp, me); sc.collection.objects.link(w)
+            else:
+                w = ico(f"{grp}", (0, 0, 0), (0.56, 0.035, 0.37), m_)
             w.parent = piv; w.location = (sx * 0.52, 0, 0.0); w.rotation_euler = (0, 0, sx * math.radians(-12))
             groups[grp].append(w)
+            if honey_soft:
+                edge_m = membrane_material(grp + "-edge", (0.72, 0.77, 0.72) if grp.startswith("wing") else (0.93, 0.70, 0.33), 0.55)
+                edge = curve(grp + "-edge", outline + [outline[0]], 0.008, edge_m, straight=True)
+                edge.parent = piv; edge.location = w.location; edge.rotation_euler = w.rotation_euler
+                groups[grp].append(edge)
 
     # ---------------- v1.3 skins (overlay layers, rendered with the body as holdout) ----------------
     def ring(z, out):
-        k = math.sqrt(max(0.0, 1 - (z / C) ** 2)); return A * k + out, B * k + out
+        k = radius_at(z); return A * k + out, B * k + out
     S_ = groups
     # scarf: chunky knitted ring under the smile + two hanging ends
     red, _ = mat("scarf", (0.88, 0.22, 0.24), 0.75); cream, _ = mat("scarf2", (1.0, 0.93, 0.8), 0.75)
@@ -334,10 +410,10 @@ def build(job):
     fr_, _ = mat("gframe", (0.2, 0.12, 0.08), 0.35)
     lens, lb = mat("glens", (0.75, 0.9, 1.0), 0.05); lb.inputs["Alpha"].default_value = 0.35
     for sx in (-1, 1):
-        p, n = front(sx * 0.34, 0.3, 0.11)
+        p, n = front(sx * (0.37 if honey_soft else 0.34), 0.3, 0.11)
         rot = Vector((0, 0, 1)).rotation_difference(-n).to_euler()
-        S_["skin_glasses"].append(torus(f"gl{sx}", p, 0.17, 0.03, fr_, rot=rot))
-        S_["skin_glasses"].append(cyl(f"gll{sx}", p, 0.16, 0.01, lens, verts=12, rot=rot))
+        S_["skin_glasses"].append(torus(f"gl{sx}", p, 0.21 if honey_soft else 0.17, 0.03, fr_, rot=rot))
+        S_["skin_glasses"].append(cyl(f"gll{sx}", p, 0.20 if honey_soft else 0.16, 0.01, lens, verts=12, rot=rot))
         a0, _ = front(sx * 0.51, 0.34, 0.09); a1, _ = front(sx * 0.8, 0.36, 0.02)
         S_["skin_glasses"].append(curve(f"glt{sx}", [tuple(a0), tuple((a0 + a1) / 2), tuple(a1)], 0.022, fr_))
     b0, _ = front(-0.17, 0.33, 0.12); b1, _ = front(0.17, 0.33, 0.12)
@@ -383,7 +459,7 @@ def build(job):
     S_["skin_halo"].append(torus("halo", (0, 0.0, 1.5), 0.36, 0.055, hm, rot=(math.radians(72), 0, 0)))
 
     # crown (level 10 overlay)
-    cr = Vector((0, -0.06, 0.95)); CK = 1.4
+    cr = Vector((0, -0.06, 0.95)); CK = 1.15 if honey_soft else 1.4
     G2 = groups["crown"]
     G2.append(cyl("cband", cr, 0.3 * CK, 0.12 * CK, gold_m, verts=10))
     for i in range(5):
@@ -409,7 +485,12 @@ def build(job):
         ld = bpy.data.lights.new(name, "AREA"); ld.energy = energy; ld.size = size; ld.color = color
         lo = bpy.data.objects.new(name, ld); sc.collection.objects.link(lo); lo.location = loc
         lo.rotation_euler = (Vector((0, 0, 0.2)) - Vector(loc)).to_track_quat("-Z", "Y").to_euler()
-    area("key", (-4, -6, 5), 1100, 5, (1.0, 0.93, 0.82)); area("fill", (6, -5, 1), 380, 6, (0.9, 0.92, 1.0)); area("rim", (3, 5, 4), 900, 3, (1.0, 0.9, 0.7))
+    if honey_soft:
+        area("key", (-4, -6, 5), 850, 4, (1.0, 0.96, 0.88))
+        area("fill", (6, -5, 1), 380, 6, (1.0, 0.96, 0.90))
+        area("rim", (3, 5, 4), 350, 5, (1.0, 0.94, 0.82))
+    else:
+        area("key", (-4, -6, 5), 1100, 5, (1.0, 0.93, 0.82)); area("fill", (6, -5, 1), 380, 6, (0.9, 0.92, 1.0)); area("rim", (3, 5, 4), 900, 3, (1.0, 0.9, 0.7))
     world = bpy.data.worlds.new("w"); sc.world = world; world.use_nodes = True
     bg = world.node_tree.nodes["Background"]; bg.inputs[0].default_value = (*srgb((1.0, 0.94, 0.82)), 1); bg.inputs[1].default_value = 0.55
     r = sc.render; r.engine = "CYCLES"; r.film_transparent = True; sc.cycles.film_transparent_glass = True
@@ -457,6 +538,8 @@ def build(job):
         vis, hold = passes[p]; show(vis, hold)
         r.filepath = os.path.join(job["out_dir"], f"{tag}_{p}.png")
         bpy.ops.render.render(write_still=True)
+        if p == "full" and job.get("save_blend"):
+            bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(job["save_blend"]))
         print("RENDERED", r.filepath, flush=True)
 
 argv = sys.argv[sys.argv.index("--") + 1:]

@@ -1,6 +1,13 @@
 /** Surprises tab, album, shop, odds. */
 import type { Entry } from "../core";
 export const lootScreen = {
+  "ls.ready": { en: "Ready to open", uk: "Готова до відкриття", ru: "Готова к открытию" },
+  "ls.pityEpic": { en: "Epic in {n}", uk: "Епік через {n}", ru: "Эпик через {n}" },
+  "ls.pityLeg": { en: "Legendary in {n}", uk: "Легендарний через {n}", ru: "Легендарный через {n}" },
+  "al.progress": { en: "{a} of {b}", uk: "{a} з {b}", ru: "{a} из {b}" },
+  "ls.seg.chests": { en: "Chests", uk: "Скрині", ru: "Сундуки" },
+  "ls.seg.shop": { en: "Shop", uk: "Крамниця", ru: "Лавка" },
+  "ls.seg.album": { en: "Album", uk: "Альбом", ru: "Альбом" },
   "ls.kind.item": { en: "a collection item", uk: "річ із колекції", ru: "вещь из коллекции" },
   "ls.kind.booster": { en: "a booster", uk: "бустер", ru: "бустер" },
   "ls.kind.seed": { en: "seeds", uk: "насіння", ru: "семена" },
@@ -70,6 +77,7 @@ export const lootScreen = {
   "sh.buyLabel": { en: "Buy {name} for {n} pollen", uk: "Купити «{name}» за {n} пилку", ru: "Купить «{name}» за {n} пыльцы" },
   "sh.allDone": { en: "Everything collected!", uk: "Усе зібрано!", ru: "Все вещи собраны!" },
   "sh.boostFrag": { en: "BOOSTERS & FRAGMENTS", uk: "БУСТЕРИ Й ФРАГМЕНТИ", ru: "БУСТЕРЫ И ФРАГМЕНТЫ" },
+  "sh.shuffleShort": { en: "Shuffle", uk: "Перемішати", ru: "Перемешать" },
   "sh.fragment": { en: "Moonwing fragment", uk: "Фрагмент Нічки", ru: "Фрагмент Ночной пчелы" },
   "sh.buyFrag": { en: "Buy a fragment for {n} pollen", uk: "Купити фрагмент за {n} пилку", ru: "Купить фрагмент за {n} пыльцы" },
   "od.royal": { en: "Royal combs will come from the season track once seasons arrive. Until then they're locked — they can't be bought with anything.", uk: "Королівські соти даватимуть за сезонну лінійку, коли з'являться сезони. Поки закриті — купити їх не можна нічим.", ru: "Королевские соты будут даваться за сезонную линейку, когда появятся сезоны. Пока закрыты — купить их нельзя ни за что." },

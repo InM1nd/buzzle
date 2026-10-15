@@ -18,10 +18,15 @@ async function stored(): Promise<GameState> {
 async function seed(patch: (s: GameState) => GameState) {
   const now = Date.now();
   let s = newState(now);
-  s = { ...s, settings: { ...s.settings, tutorialDone: true }, login: { lastDay: today(s, now), index: 0, streak: 1 } };
+  s = { ...s, settings: { ...s.settings, tutorialDone: true, gardenIntroDone: true, lang: "ru", langPicked: true, lastVersion: "1.5.0" }, login: { lastDay: today(s, now), index: 0, streak: 1 } };
   await AsyncStorage.setItem(KEY, JSON.stringify(patch(s)));
 }
 async function boot() {
+  if (!await AsyncStorage.getItem(KEY)) {
+    const s = newState(Date.now());
+    s.settings = {...s.settings, lang: "ru", langPicked: true, lastVersion: "1.5.0"};
+    await AsyncStorage.setItem(KEY, JSON.stringify(s));
+  }
   await render(<App />);
   expect(await screen.findByLabelText("Настройки")).toBeTruthy();
 }
@@ -57,7 +62,8 @@ test("hive: build a comb next to the centre, then upgrade it", async () => {
     expect(s.honey).toBeLessThan(1000);
     expect(s.tasks.day).toBeGreaterThan(0);
   });
-  await fireEvent.press(screen.getByLabelText("Купить: Рабочие пчёлы"));
+  // v1.5: upgrades are on the hive screen itself
+  await fireEvent.press(await screen.findByLabelText("Купить: Рабочие пчёлы"));
   await waitFor(async () => expect((await stored()).upgrades.workers).toBe(1));
 });
 
@@ -65,7 +71,7 @@ test("hive: offline production is capped and collected", async () => {
   await seed((s) => ({ ...s, hive: { ...s.hive, lastTick: Date.now() - 48 * 3600_000 } }));
   await boot();
   // 2 level-1 combs = 16/h × 1.05 (Жужа) → cap 6 h ≈ 101
-  expect(await screen.findByText("Улей полон!")).toBeTruthy();
+  expect(await screen.findByText(/Полон — пчёлы ждут/)).toBeTruthy();
   await fireEvent.press(screen.getByLabelText("Собрать мёд"));
   await waitFor(async () => {
     const s = await stored();
@@ -77,7 +83,7 @@ test("hive: offline production is capped and collected", async () => {
 test("puzzle hub → daily round → finish early → result → stats saved", async () => {
   await seed((s) => s);
   await boot();
-  await fireEvent.press(screen.getByLabelText("Головоломка"));
+  await fireEvent.press(screen.getByLabelText("Играть"));
   expect(await screen.findByText("ЕЖЕДНЕВНАЯ ГОЛОВОЛОМКА")).toBeTruthy();
   expect(screen.getByText("Свободная игра")).toBeTruthy();
   await fireEvent.press(screen.getByLabelText("Играть ежедневную головоломку"));
@@ -95,10 +101,11 @@ test("puzzle hub → daily round → finish early → result → stats saved", a
 test("free play shows bee bonuses and starts a round", async () => {
   await seed((s) => ({ ...s, bees: ["zhuzha", "boris", "solnyshko"] }));
   await boot();
-  await fireEvent.press(screen.getByLabelText("Головоломка"));
+  await fireEvent.press(screen.getByLabelText("Играть"));
   expect(await screen.findByText("+1 ход.")).toBeTruthy();
-  expect(screen.getByText("жёлтые ×2")).toBeTruthy();
+  expect(screen.getByText(/жёлт.*×2/i)).toBeTruthy();
   await fireEvent.press(screen.getByLabelText("Свободная игра"));
+  await fireEvent.press(await screen.findByLabelText("Начать свободную игру"));
   expect(await screen.findByLabelText("Осталось ходов: 21")).toBeTruthy();
 });
 
@@ -106,8 +113,8 @@ test("bees: unlock a species with royal jelly", async () => {
   await seed((s) => ({ ...s, jelly: 5 }));
   await boot();
   await fireEvent.press(screen.getByLabelText("Пчёлы"));
-  expect(await screen.findByText("Коллекция пчёл")).toBeTruthy();
-  expect(screen.getByText("Открыто 1 из 12. Каждая пчела даёт постоянный бонус и растёт до 10 уровня.")).toBeTruthy();
+  expect(await screen.findAllByText("Пчёлы")).toBeTruthy();
+  expect(screen.getByText("1 из 13")).toBeTruthy();
   await fireEvent.press(screen.getByLabelText("Пушинка, закрыта"));
   await fireEvent.press(await screen.findByLabelText("Открыть пчелу за 4 молочка"));
   await waitFor(async () => {
@@ -158,7 +165,8 @@ test("settings: toggle haptics and reset progress", async () => {
   await fireEvent.press(screen.getByLabelText("Вибрация"));
   await waitFor(async () => expect((await stored()).settings.haptics).toBe(false));
   await fireEvent.press(screen.getByText("Сбросить прогресс"));
-  await fireEvent.press(screen.getByText("Точно? Нажмите ещё раз"));
+  await fireEvent.press(screen.getByLabelText("Сбросить прогресс"));
+  await fireEvent.press(screen.getByLabelText("Сбросить прогресс"));
   await waitFor(async () => {
     const s = await stored();
     expect(s.honey).toBe(50);
@@ -220,7 +228,7 @@ test("v1.1 save is migrated on load and backed up", async () => {
   await fireEvent.press(screen.getByText("Понятно"));
   await waitFor(async () => {
     const s = await stored();
-    expect(s.version).toBe(3);
+    expect(s.version).toBe(newState(Date.now()).version);
     expect(s.honey).toBe(777);
     expect(s.beeLevels).toEqual({ zhuzha: 1, boris: 1 });
     expect(s.garden.beds).toHaveLength(1);
@@ -246,7 +254,7 @@ test("bees: rename Zhuzha (emoji ok, 16 chars max), name shows on the card, then
   expect(await screen.findByLabelText("Королева Бзз 👑 и (Жужа)")).toBeTruthy();
   await fireEvent.press(screen.getByLabelText("Королева Бзз 👑 и (Жужа)"));
   await fireEvent.press(await screen.findByLabelText("Переименовать пчелу"));
-  await fireEvent.press(screen.getByLabelText("Вернуть имя Жужа"));
+  await fireEvent.press(screen.getByLabelText("Вернуть имя «Жужа»"));
   await waitFor(async () => expect((await stored()).beeNames).toEqual({}));
 });
 
@@ -254,7 +262,7 @@ test("v1.2.0 save (v2) migrates to v3 with bee names and keeps progress", async 
   const now = Date.now();
   const s = newState(now);
   const { beeNames: _b, ...rest } = s;
-  const v2 = { ...rest, version: 2, honey: 999, nectar: 55, settings: { ...s.settings, tutorialDone: true, gardenIntroDone: true }, login: { lastDay: today(s, now), index: 0, streak: 1 } };
+  const v2 = { ...rest, version: 2, honey: 999, nectar: 55, settings: { ...s.settings, tutorialDone: true, gardenIntroDone: true, lang: "ru", langPicked: true, lastVersion: "1.5.0" }, login: { lastDay: today(s, now), index: 0, streak: 1 } };
   await AsyncStorage.setItem(KEY, JSON.stringify(v2));
   await boot();
   expect(await AsyncStorage.getItem("bzz:backup:v2")).toBe(JSON.stringify(v2));
@@ -265,7 +273,7 @@ test("v1.2.0 save (v2) migrates to v3 with bee names and keeps progress", async 
   await fireEvent.press(screen.getByLabelText("Сохранить имя"));
   await waitFor(async () => {
     const st = await stored();
-    expect(st.version).toBe(3);
+    expect(st.version).toBe(newState(Date.now()).version);
     expect(st.honey).toBe(999);
     expect(st.nectar).toBe(55);
     expect(st.beeNames).toEqual({ zhuzha: "Бзз" });

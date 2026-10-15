@@ -1,0 +1,297 @@
+{
+  "tool": "image_gen.imagegen",
+  "transparent_background": true,
+  "generations": [
+    {
+      "id": "bow-front",
+      "kind": "bow",
+      "angle": "front",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/cloth-turnaround-v2/front-base.png",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/bow-accessory.png",
+      "prompt": "Use case: precise-object-edit. Image 1 is approved pink coral faceted fabric bow with two loops, small central knot and two short notched ends. Image 2 is target bee pose straight front. Draw ONLY this same clothing bow from that angle, to attach below face on the front of bee's torso slightly towards its anatomical LEFT flank (viewer-right in front). Keep loops approximately level, modest natural tilt, short tails downward. Preserve proportions and material. Soft Honey Crystal style, broad irregular facets, pink coral palette, upper-left light matching bee. No antenna attachment, no bee, body, collar, strap, text, shadow, glow or extra decoration. Transparent canvas, one centered accessory. Do not redesign.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-40bddb5d-a96b-4e14-9480-a7fdbe34cd8b.png",
+      "placement": [
+        680,
+        775,
+        270,
+        213
+      ]
+    },
+    {
+      "id": "bow-side-left",
+      "kind": "bow",
+      "angle": "side-left",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/cloth-turnaround-v2/side-left-base.png",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/bow-accessory.png",
+      "prompt": "Use case: precise-object-edit. Image 1 is approved pink coral faceted fabric bow with two loops, small central knot and two short notched ends. Image 2 is target bee pose strict left-facing profile, seen almost edge-on. Draw ONLY this same clothing bow from that angle, to attach below face on the front of bee's torso slightly towards its anatomical LEFT flank (viewer-right in front). Strongly foreshorten the bow horizontally: near loop and knot partly occlude far loop, short tails point down. It is an edge view of a chest bow, NOT full frontal bow. Soft Honey Crystal style, broad irregular facets, pink coral palette, upper-left light matching bee. No antenna attachment, no bee, body, collar, strap, text, shadow, glow or extra decoration. Transparent canvas, one centered accessory. Do not redesign.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-a2b7c6ae-6241-4a4e-a1d9-00c680c22fab.png",
+      "placement": [
+        270,
+        805,
+        110,
+        180
+      ]
+    },
+    {
+      "id": "bow-q3-front-left",
+      "kind": "bow",
+      "angle": "q3-front-left",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/cloth-turnaround-v2/q3-front-left-base.png",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/bow-accessory.png",
+      "prompt": "Use case: precise-object-edit. Image 1 is approved pink coral faceted fabric bow with two loops, small central knot and two short notched ends. Image 2 is target bee pose front three-quarter left. Draw ONLY this same clothing bow from that angle, to attach below face on the front of bee's torso slightly towards its anatomical LEFT flank (viewer-right in front). Keep loops approximately level, modest natural tilt, short tails downward. Preserve proportions and material. Soft Honey Crystal style, broad irregular facets, pink coral palette, upper-left light matching bee. No antenna attachment, no bee, body, collar, strap, text, shadow, glow or extra decoration. Transparent canvas, one centered accessory. Do not redesign.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-d4c87efb-d043-4b66-b405-1a881f140c20.png",
+      "placement": [
+        376,
+        795,
+        270,
+        213
+      ]
+    },
+    {
+      "id": "glasses-front",
+      "kind": "glasses",
+      "angle": "front",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/cloth-turnaround-v2/front-base.png",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/glasses-accessory.png",
+      "prompt": "Use case: precise-object-edit. Image 1 is approved warm gold round eyeglasses with brown temples. Image 2 bee pose is a fitting/camera guide. Draw ONLY these glasses viewed straight frontal. Two equally sized circular gold rims joined by thin bridge, slim brown arms outside; not goggles. Lens openings must be fully transparent so original black eyes remain visible; no glass fill or reflections in openings. Preserve gold color, rim thickness and broad facets from reference, delicate brown arms. No bee, head, eyes, eyebrows, ears, text, glow, shadow or backdrop. Single accessory centered with transparent background, no redesign. Match exact target camera.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-b701f80f-dbd1-472b-8e72-912ab2b18e1a.png",
+      "placement": [
+        390,
+        510,
+        585,
+        195
+      ]
+    },
+    {
+      "id": "glasses-side",
+      "kind": "glasses",
+      "angle": "side",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/cloth-turnaround-v2/side-base.png",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/glasses-accessory.png",
+      "prompt": "Use case: precise-object-edit. Image 1 is approved warm gold round eyeglasses with brown temples. Image 2 bee pose is a fitting/camera guide. Draw ONLY these glasses viewed strict right-facing profile. One slim vertically oval gold rim at image-right end, viewed edge-on, long slim brown temple arm extends to image-left toward back. Far rim and bridge mostly occluded, no two frontal circles. Lens openings must be fully transparent so original black eyes remain visible; no glass fill or reflections in openings. Preserve gold color, rim thickness and broad facets from reference, delicate brown arms. No bee, head, eyes, eyebrows, ears, text, glow, shadow or backdrop. Single accessory centered with transparent background, no redesign. Match exact target camera.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-d43334b5-fa46-41f6-a79c-a91606668548.png",
+      "placement": null,
+      "fit_parts": [
+        {
+          "name": "temple",
+          "source_box": [
+            0,
+            0,
+            1290,
+            558
+          ],
+          "mount": [
+            620,
+            530,
+            350,
+            180
+          ]
+        },
+        {
+          "name": "rim",
+          "source_box": [
+            1290,
+            0,
+            1496,
+            558
+          ],
+          "mount": [
+            962,
+            530,
+            105,
+            180
+          ]
+        }
+      ]
+    },
+    {
+      "id": "glasses-q3-back",
+      "kind": "glasses",
+      "angle": "q3-back",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/cloth-turnaround-v2/q3-back-base.png",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/glasses-accessory.png",
+      "prompt": "Use case: precise-object-edit. Image 1 is approved warm gold round eyeglasses with brown temples. Image 2 bee pose is a fitting/camera guide. Draw ONLY these glasses viewed rear three-quarter right. Only the visible narrow brown temple arm curving around the side of the head, with a tiny gold hinge at the far right end; circular lens rings and bridge are hidden around front. No full eyeglass pair in rear view. Lens openings must be fully transparent so original black eyes remain visible; no glass fill or reflections in openings. Preserve gold color, rim thickness and broad facets from reference, delicate brown arms. No bee, head, eyes, eyebrows, ears, text, glow, shadow or backdrop. Single accessory centered with transparent background, no redesign. Match exact target camera.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-5f9db273-8e9b-4ce7-b582-50099f499cb3.png",
+      "initialPath": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-dd2f380d-9041-4555-ba28-e971ce5904fb.png",
+      "repairPrompt": "Use case: precise-object-edit. Draw ONLY the slim curved BROWN TEMPLE ARM of the gold round glasses shown in image 1, for image 2 bee viewed rear-three-quarter right. The gold circular rims, lenses, nose bridge and hinges are ALL HIDDEN behind the face. No gold at all in this output. Only one narrow brown faceted temple arm, horizontal with a slight downturned hook at rear end, camera matching target. Keep original brown material, thin width and lighting. No bee, head, eyes, circles, lenses, glasses pair, text, shadow, glow. Single isolated temple arm on transparent background.",
+      "placement": [
+        820,
+        540,
+        170,
+        55
+      ]
+    },
+    {
+      "id": "glasses-q3-back-left",
+      "kind": "glasses",
+      "angle": "q3-back-left",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/cloth-turnaround-v2/q3-back-left-base.png",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/glasses-accessory.png",
+      "prompt": "Use case: precise-object-edit. Image 1 is approved warm gold round eyeglasses with brown temples. Image 2 bee pose is a fitting/camera guide. Draw ONLY these glasses viewed rear three-quarter left. Only the visible narrow brown temple arm curving around the side of the head, with a tiny gold hinge at the far left end; circular lens rings and bridge are hidden around front. No full eyeglass pair in rear view. Lens openings must be fully transparent so original black eyes remain visible; no glass fill or reflections in openings. Preserve gold color, rim thickness and broad facets from reference, delicate brown arms. No bee, head, eyes, eyebrows, ears, text, glow, shadow or backdrop. Single accessory centered with transparent background, no redesign. Match exact target camera.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-02de8cc0-a0a7-4e22-91a3-bb7d017399fe.png",
+      "initialPath": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-d0e6f947-f1dc-4923-a33a-e21a056b7e47.png",
+      "repairPrompt": "Use case: precise-object-edit. Draw ONLY the slim curved BROWN TEMPLE ARM of the gold round glasses shown in image 1, for image 2 bee viewed rear-three-quarter left. The gold circular rims, lenses, nose bridge and hinges are ALL HIDDEN behind the face. No gold at all in this output. Only one narrow brown faceted temple arm, horizontal with a slight downturned hook at rear end, camera matching target. Keep original brown material, thin width and lighting. No bee, head, eyes, circles, lenses, glasses pair, text, shadow, glow. Single isolated temple arm on transparent background.",
+      "placement": [
+        376,
+        540,
+        170,
+        55
+      ]
+    },
+    {
+      "id": "glasses-side-left",
+      "kind": "glasses",
+      "angle": "side-left",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/cloth-turnaround-v2/side-left-base.png",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/glasses-accessory.png",
+      "prompt": "Use case: precise-object-edit. Image 1 is approved warm gold round eyeglasses with brown temples. Image 2 bee pose is a fitting/camera guide. Draw ONLY these glasses viewed strict left-facing profile. One slim vertically oval gold rim at image-left end, viewed edge-on, long slim brown temple arm extends to image-right toward back. Far rim and bridge mostly occluded, no two frontal circles. Lens openings must be fully transparent so original black eyes remain visible; no glass fill or reflections in openings. Preserve gold color, rim thickness and broad facets from reference, delicate brown arms. No bee, head, eyes, eyebrows, ears, text, glow, shadow or backdrop. Single accessory centered with transparent background, no redesign. Match exact target camera.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-0b75ea43-ca27-4ab0-9da4-88ee2c8a6c87.png",
+      "placement": null,
+      "fit_parts": [
+        {
+          "name": "temple",
+          "source_box": [
+            180,
+            0,
+            1425,
+            559
+          ],
+          "mount": [
+            404,
+            530,
+            350,
+            180
+          ]
+        },
+        {
+          "name": "rim",
+          "source_box": [
+            0,
+            0,
+            180,
+            559
+          ],
+          "mount": [
+            299,
+            530,
+            105,
+            180
+          ]
+        }
+      ]
+    },
+    {
+      "id": "glasses-q3-front-left",
+      "kind": "glasses",
+      "angle": "q3-front-left",
+      "pose": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/cloth-turnaround-v2/q3-front-left-base.png",
+      "ref": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/bees-prototype/glasses-accessory.png",
+      "prompt": "Use case: precise-object-edit. Image 1 is approved warm gold round eyeglasses with brown temples. Image 2 bee pose is a fitting/camera guide. Draw ONLY these glasses viewed front three-quarter left. Two gold rims in left-facing perspective: image-right near rim larger, image-left far rim slightly smaller, slim bridge and brown side arms. Lens openings must be fully transparent so original black eyes remain visible; no glass fill or reflections in openings. Preserve gold color, rim thickness and broad facets from reference, delicate brown arms. No bee, head, eyes, eyebrows, ears, text, glow, shadow or backdrop. Single accessory centered with transparent background, no redesign. Match exact target camera.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-18c216e7-45a3-4be1-afa9-d92adf60e080.png",
+      "initialPath": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-06c90847-ff3a-41a3-b3d7-b9a38e33c17e.png",
+      "repairPrompt": "Use case: precise-object-edit. Image 1 is gold glasses style reference. Image 2 target bee looks front-three-quarter LEFT. Draw only these glasses for that bee's eyes: SMALLER rim image-left, LARGER rim image-right. Both rim centers on SAME HORIZONTAL LINE (bee eyes are level); bridge gently curves between centers. No vertical stagger, no diagonal pair. Gold circular/oval rims with fully transparent openings. Brown temples stay OUTSIDE the lens openings and behind frame, never cross a lens opening. Short restrained temples at outer ends. Preserve original gold/brown colors, rim thickness, broad facets. Match target camera and eye spacing. No bee, eyes, face, lens fill, glow, shadow, text. Single accessory transparent background.",
+      "placement": [
+        248,
+        532,
+        573,
+        195
+      ]
+    }
+  ],
+  "angles": [
+    "front",
+    "q3-front",
+    "side",
+    "q3-back",
+    "back",
+    "q3-back-left",
+    "side-left",
+    "q3-front-left"
+  ],
+  "anchors": {
+    "front": [
+      680,
+      680,
+      1
+    ],
+    "q3-front": [
+      742,
+      705,
+      0.94
+    ],
+    "side": [
+      760,
+      700,
+      0.96
+    ],
+    "q3-back": [
+      710,
+      685,
+      0.98
+    ],
+    "back": [
+      680,
+      680,
+      1
+    ],
+    "q3-front-left": [
+      624,
+      705,
+      0.94
+    ],
+    "side-left": [
+      606,
+      700,
+      0.96
+    ],
+    "q3-back-left": [
+      656,
+      685,
+      0.98
+    ]
+  },
+  "base_hashes": {
+    "front": "fe4173d8504e8327efd9b22eccd50ce29618cd3b5262e54e72a939fa46f1c521",
+    "q3-front": "3833765c482b935128999a5eeff6f2040f0aaf00278381a671b53c43d6a6099e",
+    "side": "2904043387e82d2e81d4d5e01abc8e72d4dcabad2dc0aaf6597d24f7529ff247",
+    "q3-back": "15d3166d28a278be0f22136bfc7d7c3e2b892940c466c13cc043e07acee9833c",
+    "back": "7597f01027f04de6c158c07f83f27f65d52eace189726367184900da1c2415c5",
+    "q3-back-left": "35c2e806384d397fbf634cbd0bceb305495475affc19a64718188aedf7fce37f",
+    "side-left": "885c9010b5649866997ae88b8053ce9c6d522c10ab6c0236c4bef9768a6d0d6e",
+    "q3-front-left": "f9955482dad42bc2d137310fabf4bcc107668dbc6df7b11d6f1a65433b7edc86"
+  },
+  "visibility": {
+    "bow-front": "visible; independently generated angle",
+    "glasses-front": "visible; independently generated angle",
+    "bow-q3-front": "approved original asset and existing mount",
+    "glasses-q3-front": "approved original asset and existing mount",
+    "bow-side": "bow fully occluded behind front torso",
+    "glasses-side": "generated rim and temple separately registered to original eye; same artwork",
+    "bow-q3-back": "bow fully occluded behind front torso",
+    "glasses-q3-back": "visible; independently generated angle",
+    "bow-back": "bow fully occluded behind front torso",
+    "glasses-back": "original brown temples behind head; no front lenses",
+    "bow-q3-back-left": "bow fully occluded behind front torso",
+    "glasses-q3-back-left": "visible; independently generated angle",
+    "bow-side-left": "visible; independently generated angle",
+    "glasses-side-left": "generated rim and temple separately registered to original eye; same artwork",
+    "bow-q3-front-left": "visible; independently generated angle",
+    "glasses-q3-front-left": "visible; independently generated angle"
+  },
+  "approved_q3": {
+    "bow_mount": [
+      720,
+      795,
+      270,
+      213
+    ],
+    "bow_rotation_deg": 15,
+    "glasses_mount": [
+      545,
+      532,
+      573,
+      195
+    ]
+  },
+  "back_glasses": "Mechanical extraction of brown original temples in x<365 / x>1600, behind original body."
+}

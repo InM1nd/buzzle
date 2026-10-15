@@ -1,0 +1,26 @@
+[
+  {
+    "id": "bed-dry",
+    "transparent": true,
+    "prompt": "Use case: stylized-concept. ONE isolated empty soil garden bed mobile sprite. Reference 1 garden mockup: copy ONLY the little rounded rectangular raised bed under plants, not UI. Reference 2 decor: match warm chunky softly faceted honey-crystal style. Low rounded RECTANGULAR shallow wooden frame, honey-brown broad bevelled rim, width to depth about 2.4:1, modest top-down three-quarter camera like the bed in mockup, front long edge horizontal, near-symmetric left/right, entire interior visible. Filled with dry warm medium-brown soil, only a few broad subtle clumps/planes, no realistic texture or cracks. The plant is added later so EMPTY interior. No plant, no seed, no pot, no grass, no water, no UI, no text, no outside shadows or halo. Centered complete object with padding, transparent alpha background, warm light upper-left-front.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-5e66ddff-3b32-4449-8694-ff9dcea06e1b.png"
+  },
+  {
+    "id": "garden-background",
+    "transparent": false,
+    "prompt": "Use case: stylized-concept. PORTRAIT mobile game BACKGROUND only, roughly 9:16. Reference 1 only sets cream/sage cozy Buzzle palette; reference 2 only sets soft faceted honey-crystal world style. A quiet sunlit garden ground seen from a modestly elevated camera, mostly pale warm sage meadow and cream sunlight. CENTER 75% width and 85% height must be empty very low contrast smooth pale sage ground, no focal object and no path across center, ready for placing separate UI, plants and beds. Only at extreme left/right and bottom corners: softly faceted low green leaves, very sparse broad pale stones, muted bushes softly tapering away. Very top edge only hint of distant warm morning greenery, no strong horizon dividing screen. No flowers, NO BEDS, no benches, no fountains, no bees, no characters, no honey jars, no foreground center objects, no text, no UI, no framing card. Broad gentle planes, not dense polygon texture. Soft warm upper-left light, no harsh shadows. Full bleed opaque image.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-4f27e876-7448-44d1-9545-f1caaa231b7d.png"
+  },
+  {
+    "id": "hive-background",
+    "transparent": false,
+    "prompt": "Use case: stylized-concept. PORTRAIT mobile game BACKGROUND only, roughly 9:16, same calm brightness as garden background. Honey-crystal Buzzle cozy interior hive environment: warm pale cream and honey-yellow wax with soft broad volumetric planes. CENTER 75% width and 85% height left almost blank low-contrast pale cream wax, so separate interactive honeycomb board can overlay it clearly. Some very large shallow hexagonal wax indentations and rounded honey-gold wax edges ONLY at extreme left/right corners, fading toward center; sparse subtle hints of wood at far bottom edge. Do NOT create a central honeycomb grid: the actual game cells are drawn separately. No bees, no characters, no crown, no props, no pots, no jars, no lanterns, no dripping bright honey across center, no text, no UI, no framing card. Warm light upper-left, gently faceted dimensional edges, no dense triangle mosaic, no dramatic perspective tunnel, no dark shadows. Full bleed opaque artwork.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-d879b5af-801d-4c93-927f-3d67386228ae.png"
+  },
+  {
+    "id": "bed-wet",
+    "transparent": true,
+    "prompt": "Use case: precise-object-edit. Make the watered version of this EXACT empty garden bed. Change ONLY the soil INSIDE the frame: noticeably darker rich chocolate-brown moist earth, subtly cool undertone with 2 or 3 subdued tiny soft highlights. Do not add puddles, visible water, blue glow or wet wood. Keep entire wooden rim, external shape, camera, facet shading, location, scale and original canvas dimensions EXACTLY as reference. Preserve transparent background. No plant, no roots, no scenery, no text, no shadow outside object. The dry/wet sprites must align when switched.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-e75db74b-2f67-468d-899e-8744a5f869d1.png"
+  }
+]

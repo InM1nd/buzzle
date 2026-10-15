@@ -5,16 +5,24 @@ cd "$(dirname "$0")/.."
 GP=android/gradle.properties
 # make sure the file ends with a newline before appending
 [ -n "$(tail -c1 $GP)" ] && echo >> $GP
-sed -i 's/^org.gradle.jvmargs=.*/org.gradle.jvmargs=-Xmx2560m -XX:MaxMetaspaceSize=640m -Dfile.encoding=UTF-8/' $GP
-sed -i 's/^org.gradle.parallel=.*/org.gradle.parallel=false/' $GP
-sed -i 's/^reactNativeArchitectures=.*/reactNativeArchitectures=arm64-v8a/' $GP
 # set_prop KEY VALUE: replace if present, append otherwise
-set_prop() { if grep -q "^$1=" $GP; then sed -i "s|^$1=.*|$1=$2|" $GP; else echo "$1=$2" >> $GP; fi; }
+set_prop() {
+python3 - "$GP" "$1" "$2" <<'PY'
+from pathlib import Path
+import sys,re
+p=Path(sys.argv[1]);key,value=sys.argv[2:];s=p.read_text();pattern=r'^'+re.escape(key)+r'=.*$'
+s=re.sub(pattern,key+'='+value,s,flags=re.M) if re.search(pattern,s,re.M) else s.rstrip()+'\n'+key+'='+value+'\n'
+p.write_text(s)
+PY
+}
+set_prop org.gradle.jvmargs '-Xmx2560m -XX:MaxMetaspaceSize=640m -Dfile.encoding=UTF-8'
+set_prop org.gradle.parallel false
+set_prop reactNativeArchitectures arm64-v8a
 set_prop org.gradle.workers.max 3
 set_prop kotlin.compiler.execution.strategy in-process
 # Native libs: stored uncompressed + 16 KB page-aligned in the APK (AGP default,
 # extractNativeLibs=false) - the layout Android 15/16 and Pixel 16 KB mode expect.
-# R8 minification + resource shrinking keep the APK well under 24 MB.
+# R8 minification + resource shrinking reduce size; verify the actual signed APK.
 set_prop expo.useLegacyPackaging false
 set_prop android.enableMinifyInReleaseBuilds true
 set_prop android.enableShrinkResourcesInReleaseBuilds true
@@ -56,9 +64,17 @@ fi
 #   BZZ_UPDATER=off bash scripts/configure-android.sh && EXPO_PUBLIC_BZZ_UPDATER=off ./gradlew assembleRelease
 MAN=android/app/src/main/AndroidManifest.xml
 if [ "${BZZ_UPDATER:-on}" = "off" ]; then
-  sed -i '/android.permission.REQUEST_INSTALL_PACKAGES/d' $MAN
+  python3 - "$MAN" <<'PY'
+from pathlib import Path
+import sys
+p=Path(sys.argv[1]);p.write_text(''.join(line for line in p.read_text().splitlines(True) if 'android.permission.REQUEST_INSTALL_PACKAGES' not in line))
+PY
   echo "in-app updater: OFF (no REQUEST_INSTALL_PACKAGES)"
 elif ! grep -q REQUEST_INSTALL_PACKAGES $MAN; then
-  sed -i 's#<uses-permission android:name="android.permission.INTERNET"/>#&\n  <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>#' $MAN
+  python3 - "$MAN" <<'PY'
+from pathlib import Path
+import sys
+p=Path(sys.argv[1]);s=p.read_text();s=s.replace('<uses-permission android:name="android.permission.INTERNET"/>','<uses-permission android:name="android.permission.INTERNET"/>\n  <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>');p.write_text(s)
+PY
 fi
 echo "android/ configured"

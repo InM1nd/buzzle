@@ -1,0 +1,545 @@
+{
+  "angles": [
+    "front",
+    "q3-front",
+    "side",
+    "q3-back",
+    "back",
+    "q3-back-left",
+    "side-left",
+    "q3-front-left"
+  ],
+  "species": {
+    "pushinka": "Пушинка",
+    "boris": "Борис"
+  },
+  "kinds": [
+    "glasses",
+    "headphones",
+    "halo"
+  ],
+  "fits": {
+    "pushinka/glasses/front": {
+      "mount": [
+        384,
+        508,
+        690,
+        205
+      ]
+    },
+    "pushinka/headphones/front": {
+      "mount": [
+        355,
+        305,
+        740,
+        380
+      ],
+      "far_cup_cut_x": null,
+      "far_cup_cut_y": 137
+    },
+    "pushinka/halo/front": {
+      "mount": [
+        330,
+        140,
+        700,
+        146
+      ],
+      "order": "rear arc -> original bee -> front arc"
+    },
+    "pushinka/glasses/q3-front": {
+      "mount": [
+        531,
+        532,
+        573,
+        195
+      ]
+    },
+    "pushinka/headphones/q3-front": {
+      "mount": [
+        435,
+        305,
+        730,
+        395
+      ],
+      "far_cup_cut_x": null,
+      "far_cup_cut_y": 142
+    },
+    "pushinka/halo/q3-front": {
+      "mount": [
+        410,
+        140,
+        700,
+        146
+      ],
+      "order": "rear arc -> original bee -> front arc"
+    },
+    "pushinka/glasses/side": {
+      "parts": [
+        [
+          "temple",
+          [
+            560,
+            490,
+            350,
+            180
+          ]
+        ],
+        [
+          "rim",
+          [
+            900,
+            490,
+            105,
+            180
+          ]
+        ]
+      ]
+    },
+    "pushinka/headphones/side": {
+      "mount": [
+        595,
+        325,
+        310,
+        390
+      ],
+      "far_cup_cut_x": null,
+      "far_cup_cut_y": 140
+    },
+    "pushinka/halo/side": {
+      "mount": [
+        580,
+        170,
+        700,
+        146
+      ],
+      "order": "rear arc -> original bee -> front arc"
+    },
+    "pushinka/glasses/q3-back": {
+      "mount": null,
+      "visibility": "head and wing occlude temples; front lenses hidden"
+    },
+    "pushinka/headphones/q3-back": {
+      "mount": [
+        425,
+        310,
+        775,
+        390
+      ],
+      "far_cup_cut_x": 232,
+      "far_cup_cut_y": 140
+    },
+    "pushinka/halo/q3-back": {
+      "mount": [
+        470,
+        150,
+        700,
+        146
+      ],
+      "order": "rear arc -> original bee -> front arc"
+    },
+    "pushinka/glasses/back": {
+      "rear_temples_mount": [
+        320,
+        485,
+        725,
+        205
+      ],
+      "lenses": "hidden"
+    },
+    "pushinka/headphones/back": {
+      "mount": [
+        315,
+        295,
+        740,
+        380
+      ],
+      "far_cup_cut_x": null,
+      "far_cup_cut_y": 137
+    },
+    "pushinka/halo/back": {
+      "mount": [
+        330,
+        140,
+        700,
+        146
+      ],
+      "order": "rear arc -> original bee -> front arc"
+    },
+    "pushinka/glasses/q3-back-left": {
+      "mount": null,
+      "visibility": "head and wing occlude temples; front lenses hidden"
+    },
+    "pushinka/headphones/q3-back-left": {
+      "mount": [
+        166,
+        310,
+        775,
+        390
+      ],
+      "far_cup_cut_x": 558,
+      "far_cup_cut_y": 140
+    },
+    "pushinka/halo/q3-back-left": {
+      "mount": [
+        196,
+        150,
+        700,
+        146
+      ],
+      "order": "rear arc -> original bee -> front arc"
+    },
+    "pushinka/glasses/side-left": {
+      "parts": [
+        [
+          "temple",
+          [
+            456,
+            490,
+            350,
+            180
+          ]
+        ],
+        [
+          "rim",
+          [
+            361,
+            490,
+            105,
+            180
+          ]
+        ]
+      ]
+    },
+    "pushinka/headphones/side-left": {
+      "mount": [
+        461,
+        325,
+        310,
+        390
+      ],
+      "far_cup_cut_x": null,
+      "far_cup_cut_y": 140
+    },
+    "pushinka/halo/side-left": {
+      "mount": [
+        86,
+        170,
+        700,
+        146
+      ],
+      "order": "rear arc -> original bee -> front arc"
+    },
+    "pushinka/glasses/q3-front-left": {
+      "mount": [
+        230,
+        532,
+        650,
+        195
+      ]
+    },
+    "pushinka/headphones/q3-front-left": {
+      "mount": [
+        236,
+        305,
+        800,
+        395
+      ],
+      "far_cup_cut_x": 280,
+      "far_cup_cut_y": 142
+    },
+    "pushinka/halo/q3-front-left": {
+      "mount": [
+        256,
+        140,
+        700,
+        146
+      ],
+      "order": "rear arc -> original bee -> front arc"
+    },
+    "boris/glasses/front": {
+      "mount": [
+        396,
+        435,
+        585,
+        195
+      ]
+    },
+    "boris/headphones/front": {
+      "mount": [
+        235,
+        315,
+        900,
+        355
+      ],
+      "far_cup_cut_x": null,
+      "far_cup_cut_y": 128
+    },
+    "boris/halo/front": {
+      "mount": [
+        330,
+        210,
+        700,
+        146
+      ],
+      "order": "rear arc -> original bee -> front arc"
+    },
+    "boris/glasses/q3-front": {
+      "mount": [
+        580,
+        438,
+        535,
+        180
+      ]
+    },
+    "boris/headphones/q3-front": {
+      "mount": [
+        480,
+        310,
+        760,
+        350
+      ],
+      "far_cup_cut_x": null,
+      "far_cup_cut_y": 126
+    },
+    "boris/halo/q3-front": {
+      "mount": [
+        470,
+        180,
+        700,
+        146
+      ],
+      "order": "rear arc -> original bee -> front arc"
+    },
+    "boris/glasses/side": {
+      "parts": [
+        [
+          "temple",
+          [
+            545,
+            470,
+            360,
+            180
+          ]
+        ],
+        [
+          "rim",
+          [
+            890,
+            470,
+            125,
+            180
+          ]
+        ]
+      ]
+    },
+    "boris/headphones/side": {
+      "mount": [
+        565,
+        335,
+        335,
+        390
+      ],
+      "far_cup_cut_x": null,
+      "far_cup_cut_y": 140
+    },
+    "boris/halo/side": {
+      "mount": [
+        580,
+        200,
+        700,
+        146
+      ],
+      "order": "rear arc -> original bee -> front arc"
+    },
+    "boris/glasses/q3-back": {
+      "mount": null,
+      "visibility": "head and wing occlude temples; front lenses hidden"
+    },
+    "boris/headphones/q3-back": {
+      "mount": [
+        385,
+        335,
+        825,
+        390
+      ],
+      "far_cup_cut_x": 248,
+      "far_cup_cut_y": 140
+    },
+    "boris/halo/q3-back": {
+      "mount": [
+        520,
+        180,
+        700,
+        146
+      ],
+      "order": "rear arc -> original bee -> front arc"
+    },
+    "boris/glasses/back": {
+      "rear_temples_mount": [
+        300,
+        435,
+        765,
+        195
+      ],
+      "lenses": "hidden"
+    },
+    "boris/headphones/back": {
+      "mount": [
+        235,
+        305,
+        900,
+        355
+      ],
+      "far_cup_cut_x": null,
+      "far_cup_cut_y": 128
+    },
+    "boris/halo/back": {
+      "mount": [
+        330,
+        210,
+        700,
+        146
+      ],
+      "order": "rear arc -> original bee -> front arc"
+    },
+    "boris/glasses/q3-back-left": {
+      "mount": null,
+      "visibility": "head and wing occlude temples; front lenses hidden"
+    },
+    "boris/headphones/q3-back-left": {
+      "mount": [
+        156,
+        335,
+        825,
+        390
+      ],
+      "far_cup_cut_x": 594,
+      "far_cup_cut_y": 140
+    },
+    "boris/halo/q3-back-left": {
+      "mount": [
+        146,
+        180,
+        700,
+        146
+      ],
+      "order": "rear arc -> original bee -> front arc"
+    },
+    "boris/glasses/side-left": {
+      "parts": [
+        [
+          "temple",
+          [
+            461,
+            470,
+            360,
+            180
+          ]
+        ],
+        [
+          "rim",
+          [
+            351,
+            470,
+            125,
+            180
+          ]
+        ]
+      ]
+    },
+    "boris/headphones/side-left": {
+      "mount": [
+        466,
+        335,
+        335,
+        390
+      ],
+      "far_cup_cut_x": null,
+      "far_cup_cut_y": 140
+    },
+    "boris/halo/side-left": {
+      "mount": [
+        86,
+        200,
+        700,
+        146
+      ],
+      "order": "rear arc -> original bee -> front arc"
+    },
+    "boris/glasses/q3-front-left": {
+      "mount": [
+        235,
+        445,
+        575,
+        185
+      ]
+    },
+    "boris/headphones/q3-front-left": {
+      "mount": [
+        180,
+        305,
+        800,
+        370
+      ],
+      "far_cup_cut_x": 280,
+      "far_cup_cut_y": 133
+    },
+    "boris/halo/q3-front-left": {
+      "mount": [
+        196,
+        180,
+        700,
+        146
+      ],
+      "order": "rear arc -> original bee -> front arc"
+    }
+  },
+  "base_hashes": {
+    "pushinka/front": "b541f497a43fd115a4ccd4d45f63328a6599675f6fc9199a9d5976b82e249e1d",
+    "pushinka/q3-front": "7b15be190df8553cba6a87f530fdc92891d24dcadd3c3d2400ec8bc72d62f8c2",
+    "pushinka/side": "8eebf92008b08f51ed60cdd229f5cbb49ba7b7aea2e5c2b5ae19f6577e015e01",
+    "pushinka/q3-back": "109df2ad7b5419326955e6de569d2ecff3a33dfb81d8ae1e79de17ee1ce376c0",
+    "pushinka/back": "f34af1eba59446d09dbff6cd2ed1220c7763427ea8d1847870a39f38a745a9fd",
+    "pushinka/q3-back-left": "2fb0a2bf3b533160037254c5e9c97961be29839068ae1b2abbe30ccbae86c62f",
+    "pushinka/side-left": "bc32acfccaf844b16db727fffb6edc4811c0df74d9a4041e6ee3d0edc66ca013",
+    "pushinka/q3-front-left": "7793a1e8e3a4292bdb8d9865c68d463bc15ac61bf75118b37545cfd55331e703",
+    "boris/front": "e6fc26a53810161457da940fcfcb78be465c9605c39c525c0fe91d13c588b69a",
+    "boris/q3-front": "62315746ed19fdc1dd0403bf42d9871b12f216c062c4a04f737e752a7d6d09b1",
+    "boris/side": "35add01e6dc7a853bef2e75c19f3e598acd69c34caec34e64e5e63ac5ccb7716",
+    "boris/q3-back": "37757f2682d014aa82914f8b4ce280701560bc69d39ebde2684235ceb3508c97",
+    "boris/back": "e1d2d62b4cc41b76056b5c105cf14b6fcc0ef1c33d125ae6383f7e9778ee5779",
+    "boris/q3-back-left": "f5f6dc5a6a0b705ab2be416552f6934b86218c1e67700f8c3de7f846d614adcf",
+    "boris/side-left": "c9cf2ecea48270707a6cbf2e50a312577bbe375fb3604684dedb504af8cb990d",
+    "boris/q3-front-left": "1ee6a6c3fed8031e76366bcea506d18798ae47708e9c9d4b946c44289d644769"
+  },
+  "sources": {
+    "outputs/face-accessories-turnaround-v1/glasses-front-accessory.png": "27fc1a4bff209f4afc45fd7edb0053285d1425ab181000bb1c04ac94b36a0097",
+    "outputs/audio-halo-turnaround-v1/headphones-front-accessory.png": "9bcb236512027ca533ed13a5ebc15628db62a2d34bb38b44ca8b8a0b84a94062",
+    "work/buzzle/assets/art/bees-prototype/glasses-accessory.png": "18757a36007b9a06ee0cd246f81ad6936098d8d951be70dc7a9ce8e7bc64af8a",
+    "outputs/accessories-final-pair-v1/headphones.png": "c54682d25203f625887523b3089268b81faaf2e8e3ee231bc3129fb0b5f734cc",
+    "outputs/audio-halo-turnaround-v1/headphones-side-accessory.png": "99d69d1fe5427410a07258cc4e20dab325eee7c39d9f5c3fcad2a8b7960f6d37",
+    "outputs/audio-halo-turnaround-v1/headphones-q3-back-accessory.png": "7518dd6bc7c3b3629b4cec0ae35bc5066b0f9ad1cfdf2f7721d79f8213b4efd4",
+    "outputs/audio-halo-turnaround-v1/headphones-back-accessory.png": "5ff5d16bcdf212018cb2a389275f9a9669457903cb0a8e1d0d68a7f56a0b18ba",
+    "outputs/audio-halo-turnaround-v1/headphones-q3-back-left-accessory.png": "f2892ab3f48ddb1380d896aefb4fc758797fbe9a29fb653c21289b77492d0231",
+    "outputs/audio-halo-turnaround-v1/headphones-side-left-accessory.png": "960d5325d452a6496181fddce6213a5e73578e1f539c21a1ba2ca4f957b4f939",
+    "outputs/face-accessories-turnaround-v1/glasses-q3-front-left-accessory.png": "79a25627161123480a6948ec179f3b2cb4ea427e165107670cfca072639e7e65",
+    "outputs/audio-halo-turnaround-v1/headphones-q3-front-left-accessory.png": "761e1adc433092a949901e3714490dc60c6c3b2e22745d87665143773347576a"
+  },
+  "method": "Existing raster accessories repositioned, profile glasses parts registered separately; same ring rear/front layers. No new generations.",
+  "verification": {
+    "frames_loaded": 48,
+    "gallery_loaded": true,
+    "frame_size": [
+      512,
+      512
+    ],
+    "loop": true,
+    "bare_toggle": true,
+    "auto_advance_and_stop": true,
+    "no_horizontal_overflow": [
+      375,
+      320
+    ],
+    "base_sha256_verified": true
+  }
+}

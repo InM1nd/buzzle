@@ -6,8 +6,9 @@
  * connection comes back.
  */
 import { Asset } from "expo-asset";
+import { TURN } from "../ui/turnArt";
 import { ART } from "../ui/art";
-import { BEE_VIEWS, GARDEN_ART, SHARED_VIEWS } from "../ui/beeArt";
+import { GARDEN_ART, ITEM_ART } from "../ui/beeArt";
 
 const pinned: HTMLImageElement[] = [];
 const failed = new Set<string>();
@@ -38,7 +39,9 @@ export function pinArt(): void {
   if (started || typeof window === "undefined") return;
   started = true;
   const found = new Set<string>();
-  collect(ART, found); collect(BEE_VIEWS, found); collect(SHARED_VIEWS, found); collect(GARDEN_ART, found);
+  collect(ART, found); collect(ITEM_ART, found); collect(GARDEN_ART, found);
+  // Pin only small shared front layers; decoding every 720px outfit at startup wastes mobile memory.
+  Object.values(TURN).forEach(set => ["base", "w0", "w1"].forEach(k => collect(set[k]?.front_288, found)));
   const uris = Array.from(found).filter((u) => /\.(png|webp|jpe?g)(\?|$)/i.test(u) || u.startsWith("data:image"));
   uris.forEach((u) => load(u));
   window.addEventListener("online", () => Array.from(failed).forEach((u) => load(u, 3)));

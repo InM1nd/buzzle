@@ -4,7 +4,7 @@ import { WEEKLY_TASKS } from "../logic/tasks";
 import { boxArt } from "../ui/lootUi";
 import React, { useRef } from "react";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
-import { GameState, canClaimLogin, level, nextLoginIndex } from "../logic/game";
+import { GameState, canClaimLogin, level, nextLoginIndex, canClaimWeekly, canBuyFreeze, FREEZE_COST, WEEKLY_REWARD, dailyStreak } from "../logic/game";
 import { LOGIN_REWARDS, loginReward, taskReward, tasksForDay, bonusReward } from "../logic/tasks";
 import { ART } from "../ui/art";
 import { C } from "../ui/theme";
@@ -22,10 +22,14 @@ interface Props {
   onClaimTask: (id: string, from: Pt | null) => void;
   onClaimBonus: (from: Pt | null) => void;
   onNotifications: (on: boolean) => void;
+  onClaimWeekly?: (from: Pt | null) => void;
+  onBuyFreeze?: () => boolean;
   notifBlocked: boolean;
 }
 
-export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaimBonus, onNotifications, notifBlocked }: Props) {
+export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaimBonus, onNotifications, notifBlocked, onClaimWeekly, onBuyFreeze }: Props) {
+  const weekRef = useRef<View | null>(null);
+  const streak = dailyStreak(s, now);
   const lvl = level(s);
   const canLogin = canClaimLogin(s, now);
   const idx = canLogin ? nextLoginIndex(s, now) : s.login.index;
@@ -43,7 +47,8 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
     : t("tasks.sayProgress", { a: doneCount, b: tasks.length });
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 28, gap: 14 }} showsVerticalScrollIndicator={false}>
+    <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
+      <Txt v="h1" style={{ marginBottom: 2 }}>{t("tab.tasks")}</Txt>
       {/* mascot */}
       <View style={styles.mascotRow}>
         <Mascot id="zhuzha" size={84} seed={9} />
@@ -52,40 +57,6 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
           <Txt v="small" color={C.text}>{say}</Txt>
         </View>
       </View>
-      {/* login calendar */}
-      <Card>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Txt v="h2" style={{ flex: 1 }}>{t("tasks.login")}</Txt>
-          {s.login.streak > 0 ? (
-            <View style={styles.streak}><Image source={ART.flame} style={{ width: 16, height: 16 }} /><Txt v="tiny" color={C.honeyDark}>{t("tasks.streakD", { n: s.login.streak })}</Txt></View>
-          ) : null}
-        </View>
-        <View style={styles.week}>
-          {LOGIN_REWARDS.map((_, i) => {
-            const r = loginReward(i, lvl);
-            const claimed = canLogin ? i < idx : i <= idx;
-            const current = canLogin && i === idx;
-            return (
-              <View key={i} style={[styles.day, claimed && styles.dayClaimed, current && styles.dayCurrent, i === 6 && { flex: 1.35 }]}>
-                <Txt v="tiny" color={current ? "#fff" : C.dim}>{i === 6 ? t("tasks.day7") : t("tasks.dayN", { n: i + 1 })}</Txt>
-                <Image source={i === 6 ? ART.chest : r.jelly && !r.honey ? ART.jelly : ART.honey} style={{ width: 26, height: 26, opacity: claimed ? 0.45 : 1 }} />
-                {claimed ? <Image source={ART.check} style={styles.dayCheck} /> : null}
-                <Txt v="tiny" color={current ? "#fff" : C.text} numberOfLines={1}>{r.honey ? fmt(r.honey) : `${r.jelly}`}</Txt>
-              </View>
-            );
-          })}
-        </View>
-        <View ref={loginRef} collapsable={false}>
-          <GameButton
-            title={canLogin ? t("tasks.claimReward") : t("tasks.tomorrow")}
-            color={canLogin ? "green" : "grey"}
-            disabled={!canLogin}
-            onPress={async () => onClaimLogin(await centerOf(loginRef.current))}
-            label={t("tasks.claimLogin")}
-          />
-        </View>
-      </Card>
-
       {/* daily tasks */}
       <Card>
         <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 4 }}>
@@ -122,7 +93,7 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
           );
         })}
         <View style={styles.bonus}>
-          <Image source={ART.chest} style={{ width: 48, height: 48, opacity: s.tasks.bonus ? 0.5 : 1 }} />
+          <Image source={s.tasks.bonus ? ART.chestOpen : ART.chest} style={{ width: 48, height: 48, opacity: s.tasks.bonus ? 0.6 : 1 }} />
           <View style={{ flex: 1 }}>
             <Txt v="h3">{t("tasks.chest")}</Txt>
             <Txt v="small" color={C.dim}>{s.tasks.bonus ? t("tasks.chestGot") : t("tasks.chestHint", { h: fmt(br.honey ?? 0), j: br.jelly ?? 0 })}</Txt>
@@ -134,15 +105,77 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
             ) : null}
           </View>
         </View>
-        <View style={[styles.bonus, { backgroundColor: "#F3EDFF" }]} accessibilityLabel={t("tasks.weekLabel", { a: Math.min(s.week.tasks, WEEKLY_TASKS), b: WEEKLY_TASKS })}>
+      </Card>
+
+      {/* weekly chest */}
+      <Card>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }} accessibilityLabel={t("tasks.weekLabel", { a: Math.min(s.week.tasks, WEEKLY_TASKS), b: WEEKLY_TASKS })}>
           <Image source={boxArt("wax")} style={{ width: 48, height: 48, opacity: s.week.chest ? 0.5 : 1 }} />
           <View style={{ flex: 1 }}>
             <Txt v="h3">{t("tasks.week")}</Txt>
             <Bar progress={Math.min(1, s.week.tasks / WEEKLY_TASKS)} height={8} color={C.jelly} style={{ marginTop: 4 }} />
-            <Txt v="tiny" color={C.dim}>{s.week.chest ? t("tasks.weekGot") : t("tasks.weekProgress", { a: Math.min(s.week.tasks, WEEKLY_TASKS), b: WEEKLY_TASKS })}</Txt>
+            <Txt v="tiny" color={C.dim}>{s.week.chest ? t("tasks.weekGot") : t("tasks.weekProgress2", { a: Math.min(s.week.tasks, WEEKLY_TASKS), b: WEEKLY_TASKS, wax: WEEKLY_REWARD.wax, jelly: WEEKLY_REWARD.jelly })}</Txt>
+          </View>
+          <View ref={weekRef} collapsable={false}>
+            {canClaimWeekly(s) && onClaimWeekly ? (
+              <GameButton small title={t("tasks.claim")} color="green" onPress={async () => onClaimWeekly(await centerOf(weekRef.current))} label={t("ls.claimChest")} />
+            ) : null}
           </View>
         </View>
       </Card>
+
+      {/* login calendar */}
+      <Card>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Txt v="h2" style={{ flex: 1 }}>{t("tasks.login")}</Txt>
+          {s.login.streak > 0 ? (
+            <View style={styles.streak}><Image source={ART.flame} style={{ width: 16, height: 16 }} /><Txt v="tiny" color={C.honeyDark}>{t("tasks.streakD", { n: s.login.streak })}</Txt></View>
+          ) : null}
+        </View>
+        <View style={styles.week}>
+          {LOGIN_REWARDS.map((_, i) => {
+            const r = loginReward(i, lvl);
+            const claimed = canLogin ? i < idx : i <= idx;
+            const current = canLogin && i === idx;
+            return (
+              <View key={i} style={[styles.day, claimed && styles.dayClaimed, current && styles.dayCurrent, i === 6 && { flex: 1.35 }]}>
+                <Txt v="tiny" color={current ? "#fff" : C.dim}>{i === 6 ? t("tasks.day7") : t("tasks.dayN", { n: i + 1 })}</Txt>
+                <Image source={i === 6 ? ART.chest : r.jelly && !r.honey ? ART.jelly : ART.honey} style={{ width: 26, height: 26, opacity: claimed ? 0.45 : 1 }} />
+                {claimed ? <Image source={ART.check} style={styles.dayCheck} /> : null}
+                <Txt v="tiny" color={current ? "#fff" : C.text} numberOfLines={1}>{r.honey ? fmt(r.honey) : `${r.jelly}`}</Txt>
+              </View>
+            );
+          })}
+        </View>
+        <View ref={loginRef} collapsable={false}>
+          <GameButton
+            title={canLogin ? t("tasks.claimReward") : t("tasks.tomorrow")}
+            color={canLogin ? "green" : "grey"}
+            disabled={!canLogin}
+            onPress={async () => onClaimLogin(await centerOf(loginRef.current))}
+            label={t("tasks.claimLogin")}
+          />
+        </View>
+      </Card>
+
+      {/* v1.5: streak freeze lives next to the streak */}
+      {onBuyFreeze ? (
+        <Card>
+          <Txt v="h3" style={{ marginBottom: 8 }}>{t("ls.freeze")}</Txt>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+            <Image source={ART.freeze} style={{ width: 46, height: 46 }} resizeMode="contain" />
+            <View style={{ flex: 1 }}>
+              <Txt v="small" color={C.dim}>{t("ls.freezeSub")}</Txt>
+              <Txt v="tiny" color={s.daily.freeze ? C.greenDark : C.dim} style={{ marginTop: 2 }}>
+                {s.daily.freeze ? t("ls.freezeStock", { n: streak }) : s.week.freezeBought ? t("ls.freezeBought") : t("ls.freezeStreak", { n: streak })}
+              </Txt>
+            </View>
+            {!s.daily.freeze && !s.week.freezeBought ? (
+              <GameButton small title={fmt(FREEZE_COST)} label={t("ls.buyFor", { n: FREEZE_COST })} icon={ART.jelly} color={canBuyFreeze(s) ? "honey" : "grey"} disabled={!canBuyFreeze(s)} onPress={onBuyFreeze} style={{ width: 84, minWidth: 0 }} />
+            ) : null}
+          </View>
+        </Card>
+      ) : null}
 
       {/* notifications */}
       <Card>
@@ -176,7 +209,7 @@ function Stat({ label, value }: { label: string; value: string }) {
   return (
     <View style={styles.stat}>
       <Txt v="num" color={C.honeyDark}>{value}</Txt>
-      <Txt v="tiny" color={C.dim} numberOfLines={2}>{label.toUpperCase()}</Txt>
+      <Txt v="tiny" color={C.dim} style={{ fontSize: 10, lineHeight: 14 }}>{label.toUpperCase()}</Txt>
     </View>
   );
 }

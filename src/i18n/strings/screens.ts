@@ -1,7 +1,12 @@
 /** Bees, tasks and comb-opening screens. */
 import type { Entry } from "../core";
 export const screens = {
-  "bees.title": { en: "Bee Collection", uk: "Колекція бджілок", ru: "Коллекция пчёл" },
+  "bees.count": { en: "{a} of {b}", uk: "{a} з {b}", ru: "{a} из {b}" },
+  "bees.seg.all": { en: "All", uk: "Усі", ru: "Все" },
+  "bees.seg.outfits": { en: "Outfits", uk: "Вбрання", ru: "Наряды" },
+  "bees.outfitLocked": { en: "from surprise combs", uk: "із сот-сюрпризів", ru: "из сот-сюрпризов" },
+  "bees.outfitFree": { en: "not worn", uk: "не вдягнено", ru: "не надет" },
+  "bees.title": { en: "Bees", uk: "Бджілки", ru: "Пчёлы" },
   "bees.sub": { en: "Unlocked {a} of {b}. Every bee gives a permanent bonus and grows up to level {max}.", uk: "Відкрито {a} з {b}. Кожна бджілка дає постійний бонус і росте до {max} рівня.", ru: "Открыто {a} из {b}. Каждая пчела даёт постоянный бонус и растёт до {max} уровня." },
   "bees.nectarLabel": { en: "Nectar: open the garden", uk: "Нектар: відкрити сад", ru: "Нектар: открыть сад" },
   "bees.nectar": { en: "Nectar: {n}", uk: "Нектар: {n}", ru: "Нектар: {n}" },
@@ -70,6 +75,7 @@ export const screens = {
   "tasks.weekLabel": { en: "Weekly chest: {a} of {b}", uk: "Тижнева скриня: {a} з {b}", ru: "Недельный сундук: {a} из {b}" },
   "tasks.week": { en: "Weekly chest", uk: "Тижнева скриня", ru: "Недельный сундук" },
   "tasks.weekGot": { en: "claimed — a new one on Monday", uk: "отримано — нова в понеділок", ru: "получен — новый в понедельник" },
+  "tasks.weekProgress2": { en: "{a}/{b} tasks this week → {wax} wax combs + {jelly} jelly", uk: "{a}/{b} завдань за тиждень → {wax} воскові соти + {jelly} молочка", ru: "{a}/{b} заданий за неделю → {wax} восковые соты + {jelly} молочка" },
   "tasks.weekProgress": { en: "{a}/{b} tasks this week · claim it in the Surprises tab", uk: "{a}/{b} завдань за тиждень · забрати у вкладці «Сюрпризи»", ru: "{a}/{b} заданий за неделю · забрать во вкладке «Сюрпризы»" },
   "tasks.reminders": { en: "Reminders", uk: "Нагадування", ru: "Напоминания" },
   "tasks.remindersSub": { en: "When the hive is full and a new daily puzzle is ready.", uk: "Коли вулик повний і готова нова головоломка дня.", ru: "Когда улей полон и когда готова новая ежедневная головоломка." },

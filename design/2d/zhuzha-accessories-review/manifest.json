@@ -1,0 +1,250 @@
+{
+  "angles": [
+    "front",
+    "q3-front",
+    "side",
+    "q3-back",
+    "back",
+    "q3-back-left",
+    "side-left",
+    "q3-front-left"
+  ],
+  "accessories": [
+    "crown",
+    "scarf",
+    "bag",
+    "wreath",
+    "beret",
+    "bow",
+    "glasses",
+    "halo"
+  ],
+  "headphones": "Archived only; excluded by owner from further fitting and integration.",
+  "sources": {
+    "scarf-front-view.png": {
+      "source": "outputs/cloth-turnaround-v2/scarf-front-view.png",
+      "sha256": "6bc3637b6d8fff0571b71490ce7aeef25b132da94f0dd1737ff606468f04c261"
+    },
+    "bag-front-view.png": {
+      "source": "outputs/cloth-turnaround-v2/bag-front-view.png",
+      "sha256": "79ee3d73fa612ae584d168d527be68dbf3dd81f8909d84053125fa5b43044115"
+    },
+    "wreath-front-view.png": {
+      "source": "outputs/headwear-turnaround-v1/wreath-front-view.png",
+      "sha256": "952910225d1d61079cea58bba0ed6966a8f60f823f26d01a8ae6dad5e6936cd1"
+    },
+    "beret-front-view.png": {
+      "source": "outputs/headwear-turnaround-v1/beret-front-view.png",
+      "sha256": "a943d75a5ca7a757acd128817ed0bda791c290833afca695e7cf0f0cd1930a3e"
+    },
+    "bow-front-view.png": {
+      "source": "outputs/face-accessories-turnaround-v1/bow-front-view.png",
+      "sha256": "f799530bc3622932c87417913baa24571a055739db31a59ea2f682c72fd2315c"
+    },
+    "glasses-front-view.png": {
+      "source": "outputs/face-accessories-turnaround-v1/glasses-front-view.png",
+      "sha256": "b83c0a704a941fcd4919f8cd0dde4341abd2440abce50cae35fb3ad2783a2582"
+    },
+    "halo-front-view.png": {
+      "source": "outputs/audio-halo-turnaround-v1/halo-front-view.png",
+      "sha256": "765b66f0c6db3f6342c573231cbecdcef5b669bd6f700912ec6850807784f59a"
+    },
+    "scarf-q3-front-view.png": {
+      "source": "outputs/cloth-turnaround-v2/scarf-q3-front-view.png",
+      "sha256": "c4c9014f1c6bf0844a331ea4ad6834b1f795bda4b433bfe8ad3934d58ce94a32"
+    },
+    "bag-q3-front-view.png": {
+      "source": "outputs/cloth-turnaround-v2/bag-q3-front-view.png",
+      "sha256": "041a5c65e4543075b7c8d2e8fad0e994fc8b8f2b575541fd4bed354e897f097c"
+    },
+    "wreath-q3-front-view.png": {
+      "source": "outputs/headwear-turnaround-v1/wreath-q3-front-view.png",
+      "sha256": "0d27bab83165028618af96737df46655187a68169a160034fd0f0ba945408d79"
+    },
+    "beret-q3-front-view.png": {
+      "source": "outputs/headwear-turnaround-v1/beret-q3-front-view.png",
+      "sha256": "baac8cdc1531bc128e79a6742f43250926643aea995b26135950e02f43f9eb20"
+    },
+    "bow-q3-front-view.png": {
+      "source": "outputs/face-accessories-turnaround-v1/bow-q3-front-view.png",
+      "sha256": "394a383a83d696d6edb78d49213e3b526ace1b8ebf83250c21c0d1f570446b52"
+    },
+    "glasses-q3-front-view.png": {
+      "source": "outputs/face-accessories-turnaround-v1/glasses-q3-front-view.png",
+      "sha256": "1f5fac4e651d25076d5cee49c0657ab1ee07ef4e95446cb83397e48dce264056"
+    },
+    "halo-q3-front-view.png": {
+      "source": "outputs/audio-halo-turnaround-v1/halo-q3-front-view.png",
+      "sha256": "45e1ff8c210b06a6ccb7ba859e0e0099301f98302962faa2558179a69ee6da15"
+    },
+    "scarf-side-view.png": {
+      "source": "outputs/cloth-turnaround-v2/scarf-side-view.png",
+      "sha256": "302609c2ea5d7cd629036b20019b9d3a0e7a4ebd4d9b3746e16e3f7da4817ebf"
+    },
+    "bag-side-view.png": {
+      "source": "outputs/cloth-turnaround-v2/bag-side-view.png",
+      "sha256": "afb226425327ebf91ed61cc8e6dd2955c8d59e7264290eaba9cdbdd3d35b59ac"
+    },
+    "wreath-side-view.png": {
+      "source": "outputs/headwear-turnaround-v1/wreath-side-view.png",
+      "sha256": "30027cb23abb6b35c8bfdd6bb92f98165c59bff3cc6c9bfaf9b715c2faebaa5a"
+    },
+    "beret-side-view.png": {
+      "source": "outputs/headwear-turnaround-v1/beret-side-view.png",
+      "sha256": "7cfefe48e7acfc4df6b6727bbb743cf1ed4ca1acaf3bc37e73166275fd1714f7"
+    },
+    "bow-side-view.png": {
+      "source": "outputs/face-accessories-turnaround-v1/bow-side-view.png",
+      "sha256": "01668d7ccc0269de6c765008cbe9ddc2a4277800b749d43d5e26702828d2a4b1"
+    },
+    "glasses-side-view.png": {
+      "source": "outputs/face-accessories-turnaround-v1/glasses-side-view.png",
+      "sha256": "9c4b32848400e40dd6002dbafc35d81559576ae294474341fa4e7079750781b5"
+    },
+    "halo-side-view.png": {
+      "source": "outputs/audio-halo-turnaround-v1/halo-side-view.png",
+      "sha256": "207ead051d9a1f48e89467c0a2ada24c9f40a58563b4a9aec2c6593fd753341d"
+    },
+    "scarf-q3-back-view.png": {
+      "source": "outputs/cloth-turnaround-v2/scarf-q3-back-view.png",
+      "sha256": "fbde90a0cb00e23dc9da569b86919335d5acbb0f2169cf8cc1bbd9a42dc448dd"
+    },
+    "bag-q3-back-view.png": {
+      "source": "outputs/cloth-turnaround-v2/bag-q3-back-view.png",
+      "sha256": "e11665c7ad900a389521a75f327bc92dab9b91cb773ccf8dd340bc6475bc719c"
+    },
+    "wreath-q3-back-view.png": {
+      "source": "outputs/headwear-turnaround-v1/wreath-q3-back-view.png",
+      "sha256": "3097d8ef821857750c7884911f4b2c27505dd7d08c9e5a707aea309f657d32b5"
+    },
+    "beret-q3-back-view.png": {
+      "source": "outputs/headwear-turnaround-v1/beret-q3-back-view.png",
+      "sha256": "52c8c8e3cb698f6936905f4c6a364ee0fa2bab04738c56e9f424350d770d513d"
+    },
+    "bow-q3-back-view.png": {
+      "source": "outputs/face-accessories-turnaround-v1/bow-q3-back-view.png",
+      "sha256": "15b94b308dae2b360b52fb885e4496d8a6eb52c15efd6b2b160c5b5c3d9d9005"
+    },
+    "glasses-q3-back-view.png": {
+      "source": "outputs/face-accessories-turnaround-v1/glasses-q3-back-view.png",
+      "sha256": "07ea5d47ec668f81e1ae0bff0c587e99b3cb92e18df7701c7213a134a1b59f1e"
+    },
+    "halo-q3-back-view.png": {
+      "source": "outputs/audio-halo-turnaround-v1/halo-q3-back-view.png",
+      "sha256": "d42c6c7dc9007b8cad431074380c997a40b1b450a67b1275c2ee2bdd0577f8d2"
+    },
+    "scarf-back-view.png": {
+      "source": "outputs/cloth-turnaround-v2/scarf-back-view.png",
+      "sha256": "b9d857f9a8a3fc661ce49f5f88f348262ce0fd243f4b4bedb7a9e37ea0c7bcf6"
+    },
+    "bag-back-view.png": {
+      "source": "outputs/cloth-turnaround-v2/bag-back-view.png",
+      "sha256": "70d9bd57a9bf124c3a0fe1693213e8d9bc9045196169506790b2b830709f0c5c"
+    },
+    "wreath-back-view.png": {
+      "source": "outputs/headwear-turnaround-v1/wreath-back-view.png",
+      "sha256": "d598dd4f94c8c1d8ed7de487b1b4c9533cd6282c1661022e112f89dd17b042e7"
+    },
+    "beret-back-view.png": {
+      "source": "outputs/headwear-turnaround-v1/beret-back-view.png",
+      "sha256": "74f66069be65b23441b84406fd0a9e0e280927f578c98012f3bd117e3272ee53"
+    },
+    "bow-back-view.png": {
+      "source": "outputs/face-accessories-turnaround-v1/bow-back-view.png",
+      "sha256": "bd6c2bd8be72f8ab9d35dd491e0d299d3895a3ef124161ea49a47af9794888c4"
+    },
+    "glasses-back-view.png": {
+      "source": "outputs/face-accessories-turnaround-v1/glasses-back-view.png",
+      "sha256": "0ccca9b4bd0a2816b776ce90ea7cbdd2dee89090aa04279accf37bbabd84cc87"
+    },
+    "halo-back-view.png": {
+      "source": "outputs/audio-halo-turnaround-v1/halo-back-view.png",
+      "sha256": "217d2e6809b0a93a29ba8f6bc911555ab4cc806b0f7040e51c2c882373e51ed7"
+    },
+    "scarf-q3-back-left-view.png": {
+      "source": "outputs/cloth-turnaround-v2/scarf-q3-back-left-view.png",
+      "sha256": "69c2e484b34fbc2de9933b3f047e27dce833bae3bb8dc25f066f4fc5f1af689c"
+    },
+    "bag-q3-back-left-view.png": {
+      "source": "outputs/cloth-turnaround-v2/bag-q3-back-left-view.png",
+      "sha256": "8a645bf1099bcd54ca73191c857944434bd324c65a40e24749c96c4978882d9e"
+    },
+    "wreath-q3-back-left-view.png": {
+      "source": "outputs/headwear-turnaround-v1/wreath-q3-back-left-view.png",
+      "sha256": "385e0c726681aa04a952213b0d5e71828787eab000716d44381a8d3817cfae3c"
+    },
+    "beret-q3-back-left-view.png": {
+      "source": "outputs/headwear-turnaround-v1/beret-q3-back-left-view.png",
+      "sha256": "c1a9b7ab4a83aac3f73453e63751a63bd3ccde54bcb4ba7c2857a4274d362a92"
+    },
+    "bow-q3-back-left-view.png": {
+      "source": "outputs/face-accessories-turnaround-v1/bow-q3-back-left-view.png",
+      "sha256": "483866db700ea840de1e164bbce5627ff1f32d6d3d6dd0e6e670a688f2f769b6"
+    },
+    "glasses-q3-back-left-view.png": {
+      "source": "outputs/face-accessories-turnaround-v1/glasses-q3-back-left-view.png",
+      "sha256": "c333b5eb519f622aafec115b43d46242998ea7c466630fba1d3d996932dad34d"
+    },
+    "halo-q3-back-left-view.png": {
+      "source": "outputs/audio-halo-turnaround-v1/halo-q3-back-left-view.png",
+      "sha256": "50751767feff493da6bc544c1e269e1beb293553caf3426a19a61d6f4718dc46"
+    },
+    "scarf-side-left-view.png": {
+      "source": "outputs/cloth-turnaround-v2/scarf-side-left-view.png",
+      "sha256": "f7710017eee02f4380da0ca15b8255b490107fa031c25195d754e969f8f60bc3"
+    },
+    "bag-side-left-view.png": {
+      "source": "outputs/cloth-turnaround-v2/bag-side-left-view.png",
+      "sha256": "6179e8e46fae4657704153e169810d21e0409ae4bd5d72fa88af90950c301c79"
+    },
+    "wreath-side-left-view.png": {
+      "source": "outputs/headwear-turnaround-v1/wreath-side-left-view.png",
+      "sha256": "6789a9bbcadd03c14a51392f9d1813d1f58e696e13347ae7664335354f1775a0"
+    },
+    "beret-side-left-view.png": {
+      "source": "outputs/headwear-turnaround-v1/beret-side-left-view.png",
+      "sha256": "b9088242fa4dbcdb983c092b410159b55a12e65d9080676eb2b5970626bb449a"
+    },
+    "bow-side-left-view.png": {
+      "source": "outputs/face-accessories-turnaround-v1/bow-side-left-view.png",
+      "sha256": "f1043fc68628eb8e0ac42c4511d1ebb5cb1dc533eb67101963718ae9f32cd69a"
+    },
+    "glasses-side-left-view.png": {
+      "source": "outputs/face-accessories-turnaround-v1/glasses-side-left-view.png",
+      "sha256": "1325d9844d7db71c67f3ca4d04ce85d5e24be3bf9115df8947dcf5ccad12a847"
+    },
+    "halo-side-left-view.png": {
+      "source": "outputs/audio-halo-turnaround-v1/halo-side-left-view.png",
+      "sha256": "ea6805935c32805284c201b23d2521d8efd44cc05c06a01d77cfa056a26d91d6"
+    },
+    "scarf-q3-front-left-view.png": {
+      "source": "outputs/cloth-turnaround-v2/scarf-q3-front-left-view.png",
+      "sha256": "7063dee45b675d470696c0fcd53e559ce63c0e56046cbc0d4e78973733a25ca7"
+    },
+    "bag-q3-front-left-view.png": {
+      "source": "outputs/cloth-turnaround-v2/bag-q3-front-left-view.png",
+      "sha256": "5ef44af168323da18ccc2bcf8d1d5f7ccce4c0774bb301c41dd0a420747233f1"
+    },
+    "wreath-q3-front-left-view.png": {
+      "source": "outputs/headwear-turnaround-v1/wreath-q3-front-left-view.png",
+      "sha256": "595bf611335d9ac6891db1532521f90f56cc8481eb3c1b73faf34b8db2c378da"
+    },
+    "beret-q3-front-left-view.png": {
+      "source": "outputs/headwear-turnaround-v1/beret-q3-front-left-view.png",
+      "sha256": "02b8c5924c2c33c59bd5f9e1205b7eb4f67530b23d1be52826f390758daf917d"
+    },
+    "bow-q3-front-left-view.png": {
+      "source": "outputs/face-accessories-turnaround-v1/bow-q3-front-left-view.png",
+      "sha256": "497a5355a86b742536b6ee0702bb2e15722bf735568d032c6a1122a50300ae41"
+    },
+    "glasses-q3-front-left-view.png": {
+      "source": "outputs/face-accessories-turnaround-v1/glasses-q3-front-left-view.png",
+      "sha256": "15ffeae9f145c6f7efe31d4d24b366137e649d5edaa2bb5906db39a2d4cdd081"
+    },
+    "halo-q3-front-left-view.png": {
+      "source": "outputs/audio-halo-turnaround-v1/halo-q3-front-left-view.png",
+      "sha256": "4aa5806d00b87b8c76527036e60a8982535ba2cc4bee32eca31fd4bac8a33e6d"
+    }
+  },
+  "crown": "Existing five compositions normalized; left compositions mirrored, including asymmetric jewels. No new art generated."
+}

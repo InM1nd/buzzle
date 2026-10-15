@@ -1,0 +1,17 @@
+[
+  {
+    "id": "halo",
+    "prompt": "Generate ONE standalone golden ring for a bee halo game accessory, using supplied halo as design reference but change geometry. Very shallow horizontal ellipse, outer width-to-height ratio exactly about 5:1; thinner ring, band thickness about 4% of width, BIG open empty hole, wide enough to surround BOTH bee antenna stems simultaneously. Broad warm soft low-poly bevel facets, light upper-left. Gold material is opaque matte softly reflective; ABSOLUTELY NO glow, halo aura, bloom, fog, background, shadow or illumination spill, even inside the ring hole. Every pixel outside the solid gold object is transparent, including whole interior hole. No bee, text or rays. Full ring centered with generous padding. Color amber lower edge, pale honey top.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-15f18993-2614-4430-87f9-67e49ae20469.png"
+  },
+  {
+    "id": "pollen",
+    "prompt": "Generate ONE transparent mobile game resource icon of bee pollen. Reference 1 approved honey jar defines warm chunky softly faceted honey-crystal art. Reference 2 old pollen icon defines identity ONLY: golden circular pollen token with pink pollen grains. Create a small thick warm golden round dish/token, honey-gold rim, creamy yellow inset containing exactly seven plump pink/coral rounded pollen granules of varying size, simple broad soft facets. Slight elevated front three-quarter view, compact circular silhouette, warm upper-left-front light. No stars, no glow, no aura, no noise, no lettering, no bee, no ground plane, no outside shadow. Genuine transparent alpha around physical token, centered and complete. Readable at 32px.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-c68c713c-ce71-4e42-92e1-39bbd27f1ba6.png"
+  },
+  {
+    "id": "fragment",
+    "prompt": "Generate ONE transparent mobile game resource icon of a bee collection fragment, in warm softly faceted honey-crystal style matching reference 1 approved honey jar. Reference 2 old fragment defines identity ONLY: a violet hexagonal piece with a small bee emblem. One thick beveled lavender hexagonal token slightly angled in three-quarter view, creamy lilac highlight upper-left and dark plum lower-right sidewall. A simple small honey-yellow bee emblem centered on its broad FRONT face: plump yellow oval with one brown stripe, two small pale cream wings, no tiny facial features. Emblem embossed, part of token not separate character. Broad gentle planes, clean readable shape at32px. No stars, no glow, no aura, no text, no ground, no shadow outside object. Genuine transparent alpha, entire token centered with padding.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-f1860fca-03a9-4241-9953-34f89905987a.png"
+  }
+]

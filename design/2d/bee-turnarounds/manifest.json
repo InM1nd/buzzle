@@ -1,0 +1,634 @@
+[
+  {
+    "id": "pushinka",
+    "name": "Пушинка",
+    "reference": "pushinka-reference.png",
+    "identity": "Cream-colored bee with a cream faceted fluffy ruff across the lower face, caramel brown belly stripes, warm ivory wings.",
+    "views": {
+      "front": {
+        "anchor": [
+          182.0,
+          286.5
+        ],
+        "scale": 2.0343839541547277,
+        "size": [
+          364,
+          482
+        ]
+      },
+      "side": {
+        "anchor": [
+          182.5,
+          295.0
+        ],
+        "scale": 2.113095238095238,
+        "size": [
+          365,
+          482
+        ]
+      },
+      "q3-back": {
+        "anchor": [
+          182.5,
+          272.0
+        ],
+        "scale": 2.2327044025157234,
+        "size": [
+          365,
+          459
+        ],
+        "excludeRects": [
+          [
+            0,
+            453,
+            170,
+            6
+          ]
+        ]
+      },
+      "back": {
+        "anchor": [
+          186.0,
+          266.0
+        ],
+        "scale": 2.1515151515151514,
+        "size": [
+          372,
+          443
+        ]
+      }
+    }
+  },
+  {
+    "id": "boris",
+    "name": "Шмель Борис",
+    "reference": "boris-reference-v2.png",
+    "identity": "Distinct broad stout bumblebee with a shaggy dark chocolate angular furry ruff around the yellow face and back, wide black-brown stripes, small ice blue wings. Preserve very stout wide silhouette and chunky fur, not the ordinary bee silhouette.",
+    "views": {
+      "front": {
+        "anchor": [
+          232.5,
+          284.0
+        ],
+        "scale": 1.7661691542288558,
+        "size": [
+          465,
+          503
+        ]
+      },
+      "side": {
+        "anchor": [
+          220.0,
+          283.5
+        ],
+        "scale": 1.7794486215538847,
+        "size": [
+          440,
+          510
+        ]
+      },
+      "q3-back": {
+        "anchor": [
+          216.0,
+          296.0
+        ],
+        "scale": 1.7574257425742574,
+        "size": [
+          432,
+          529
+        ]
+      },
+      "back": {
+        "anchor": [
+          229.0,
+          299.5
+        ],
+        "scale": 1.7530864197530864,
+        "size": [
+          458,
+          523
+        ]
+      }
+    }
+  },
+  {
+    "id": "solnyshko",
+    "name": "Солнышко",
+    "reference": "solnyshko-reference.png",
+    "identity": "Bright lemon yellow bee, burnt orange stripes, sunflower at the right antenna base, pale yellow wings.",
+    "views": {
+      "front": {
+        "anchor": [
+          194.0,
+          304.0
+        ],
+        "scale": 1.8112244897959184,
+        "size": [
+          388,
+          529
+        ]
+      },
+      "side": {
+        "anchor": [
+          174.5,
+          318.0
+        ],
+        "scale": 1.9398907103825136,
+        "size": [
+          349,
+          529
+        ]
+      },
+      "q3-back": {
+        "anchor": [
+          197.5,
+          308.0
+        ],
+        "scale": 1.7839195979899498,
+        "size": [
+          395,
+          535
+        ]
+      },
+      "back": {
+        "anchor": [
+          197.5,
+          314.0
+        ],
+        "scale": 1.8489583333333333,
+        "size": [
+          395,
+          535
+        ]
+      }
+    }
+  },
+  {
+    "id": "lavanda",
+    "name": "Лаванда",
+    "reference": "lavanda-reference.png",
+    "identity": "Pale lavender purple bee, dark purple stripes, lavender sprig at left antenna base, lavender wings.",
+    "views": {
+      "front": {
+        "anchor": [
+          178.0,
+          324.0
+        ],
+        "scale": 1.9505494505494505,
+        "size": [
+          356,
+          529
+        ]
+      },
+      "side": {
+        "anchor": [
+          184.5,
+          334.0
+        ],
+        "scale": 2.063953488372093,
+        "size": [
+          369,
+          529
+        ]
+      },
+      "q3-back": {
+        "anchor": [
+          194.0,
+          321.5
+        ],
+        "scale": 1.9777158774373258,
+        "size": [
+          388,
+          529
+        ]
+      },
+      "back": {
+        "anchor": [
+          184.5,
+          320.5
+        ],
+        "scale": 1.924119241192412,
+        "size": [
+          369,
+          522
+        ]
+      }
+    }
+  },
+  {
+    "id": "klevera",
+    "name": "Клеверина",
+    "reference": "klevera-reference.png",
+    "identity": "Pink bee, dark rose stripes, green clover at left antenna base, pale pink wings.",
+    "views": {
+      "front": {
+        "anchor": [
+          170.5,
+          268.0
+        ],
+        "scale": 2.13855421686747,
+        "size": [
+          341,
+          443
+        ]
+      },
+      "side": {
+        "anchor": [
+          170.5,
+          288.5
+        ],
+        "scale": 2.2977346278317152,
+        "size": [
+          341,
+          458
+        ]
+      },
+      "q3-back": {
+        "anchor": [
+          174.0,
+          261.0
+        ],
+        "scale": 2.2327044025157234,
+        "size": [
+          348,
+          435
+        ]
+      },
+      "back": {
+        "anchor": [
+          182.5,
+          267.5
+        ],
+        "scale": 2.1712538226299696,
+        "size": [
+          365,
+          443
+        ]
+      }
+    }
+  },
+  {
+    "id": "vasilek",
+    "name": "Василёк",
+    "reference": "vasilek-reference.png",
+    "identity": "Sky blue bee, deep blue stripes, blue cornflower at left antenna base, ice blue wings.",
+    "views": {
+      "front": {
+        "anchor": [
+          191.0,
+          315.0
+        ],
+        "scale": 1.839378238341969,
+        "size": [
+          382,
+          516
+        ]
+      },
+      "side": {
+        "anchor": [
+          194.0,
+          324.0
+        ],
+        "scale": 2.005649717514124,
+        "size": [
+          388,
+          516
+        ]
+      },
+      "q3-back": {
+        "anchor": [
+          191.0,
+          306.0
+        ],
+        "scale": 1.9189189189189189,
+        "size": [
+          382,
+          509
+        ]
+      },
+      "back": {
+        "anchor": [
+          200.5,
+          308.5
+        ],
+        "scale": 1.903485254691689,
+        "size": [
+          401,
+          503
+        ]
+      }
+    }
+  },
+  {
+    "id": "myatka",
+    "name": "Мятка",
+    "reference": "myatka-reference.png",
+    "identity": "Mint green bee, forest green stripes, mint leaves at left antenna base, pale mint wings.",
+    "views": {
+      "front": {
+        "anchor": [
+          200.5,
+          323.5
+        ],
+        "scale": 1.7884130982367759,
+        "size": [
+          401,
+          548
+        ]
+      },
+      "side": {
+        "anchor": [
+          187.5,
+          323.0
+        ],
+        "scale": 1.9189189189189189,
+        "size": [
+          375,
+          529
+        ]
+      },
+      "q3-back": {
+        "anchor": [
+          197.5,
+          300.0
+        ],
+        "scale": 1.9398907103825136,
+        "size": [
+          395,
+          516
+        ]
+      },
+      "back": {
+        "anchor": [
+          197.5,
+          292.0
+        ],
+        "scale": 1.9189189189189189,
+        "size": [
+          395,
+          503
+        ]
+      }
+    }
+  },
+  {
+    "id": "iskorka",
+    "name": "Искорка",
+    "reference": "iskorka-reference.png",
+    "identity": "Coral red bee, deep red stripes, small gold star at left antenna base, pale golden wings.",
+    "views": {
+      "front": {
+        "anchor": [
+          162.5,
+          250.5
+        ],
+        "scale": 2.3127035830618894,
+        "size": [
+          325,
+          428
+        ]
+      },
+      "side": {
+        "anchor": [
+          162.5,
+          268.0
+        ],
+        "scale": 2.4652777777777777,
+        "size": [
+          325,
+          435
+        ]
+      },
+      "q3-back": {
+        "anchor": [
+          174.0,
+          245.5
+        ],
+        "scale": 2.3745819397993313,
+        "size": [
+          348,
+          411
+        ]
+      },
+      "back": {
+        "anchor": [
+          166.5,
+          260.5
+        ],
+        "scale": 2.3588039867109636,
+        "size": [
+          333,
+          427
+        ]
+      }
+    }
+  },
+  {
+    "id": "sonya",
+    "name": "Соня",
+    "reference": "sonya-reference.png",
+    "identity": "Sleepy periwinkle bee, dark purple stripes, purple sleeping mask with gold moon and stars on forehead, always CLOSED sleepy eyes, lavender wings.",
+    "views": {
+      "front": {
+        "anchor": [
+          170.5,
+          277.0
+        ],
+        "scale": 2.0402298850574714,
+        "size": [
+          341,
+          458
+        ]
+      },
+      "side": {
+        "anchor": [
+          170.5,
+          277.0
+        ],
+        "scale": 2.1515151515151514,
+        "size": [
+          341,
+          466
+        ]
+      },
+      "q3-back": {
+        "anchor": [
+          174.5,
+          268.0
+        ],
+        "scale": 2.1779141104294477,
+        "size": [
+          349,
+          458
+        ]
+      },
+      "back": {
+        "anchor": [
+          170.5,
+          263.0
+        ],
+        "scale": 2.0760233918128654,
+        "size": [
+          341,
+          443
+        ]
+      }
+    }
+  },
+  {
+    "id": "zorkaya",
+    "name": "Зоркая",
+    "reference": "zorkaya-reference.png",
+    "identity": "Turquoise bee, deep teal stripes, round brass aviator goggles with brown leather strap around head, mint cyan wings.",
+    "views": {
+      "front": {
+        "anchor": [
+          181.0,
+          319.0
+        ],
+        "scale": 1.8882978723404256,
+        "size": [
+          362,
+          536
+        ]
+      },
+      "side": {
+        "anchor": [
+          178.0,
+          333.5
+        ],
+        "scale": 1.9667590027700832,
+        "size": [
+          356,
+          542
+        ]
+      },
+      "q3-back": {
+        "anchor": [
+          216.5,
+          318.0
+        ],
+        "scale": 1.8882978723404256,
+        "size": [
+          433,
+          529
+        ]
+      },
+      "back": {
+        "anchor": [
+          184.0,
+          321.0
+        ],
+        "scale": 1.8983957219251337,
+        "size": [
+          368,
+          529
+        ]
+      }
+    }
+  },
+  {
+    "id": "margo",
+    "name": "Марго",
+    "reference": "margo-reference.png",
+    "identity": "Purple bee, purple and gold lower body stripes, ivory faceted fluffy collar at lower face, pale gold wings.",
+    "views": {
+      "front": {
+        "anchor": [
+          182.5,
+          279.5
+        ],
+        "scale": 2.0461095100864553,
+        "size": [
+          365,
+          466
+        ]
+      },
+      "side": {
+        "anchor": [
+          174.5,
+          284.0
+        ],
+        "scale": 2.13855421686747,
+        "size": [
+          349,
+          466
+        ]
+      },
+      "q3-back": {
+        "anchor": [
+          194.0,
+          273.0
+        ],
+        "scale": 2.1779141104294477,
+        "size": [
+          388,
+          458
+        ]
+      },
+      "back": {
+        "anchor": [
+          190.0,
+          274.0
+        ],
+        "scale": 2.113095238095238,
+        "size": [
+          380,
+          458
+        ]
+      }
+    }
+  },
+  {
+    "id": "nochka",
+    "name": "Ночка",
+    "reference": "nochka-reference.png",
+    "identity": "Midnight blue bee, dark navy stripes, gold crescent moon and star on head, ice blue wings.",
+    "views": {
+      "front": {
+        "anchor": [
+          197.0,
+          314.5
+        ],
+        "scale": 1.903485254691689,
+        "size": [
+          394,
+          529
+        ]
+      },
+      "side": {
+        "anchor": [
+          191.0,
+          322.5
+        ],
+        "scale": 1.924119241192412,
+        "size": [
+          382,
+          529
+        ]
+      },
+      "q3-back": {
+        "anchor": [
+          190.5,
+          316.5
+        ],
+        "scale": 1.955922865013774,
+        "size": [
+          381,
+          523
+        ]
+      },
+      "back": {
+        "anchor": [
+          197.5,
+          305.0
+        ],
+        "scale": 1.9398907103825136,
+        "size": [
+          395,
+          509
+        ]
+      }
+    }
+  }
+]

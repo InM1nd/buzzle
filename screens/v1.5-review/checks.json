@@ -1,0 +1,18 @@
+{
+  "viewports": [
+    360,
+    390,
+    430
+  ],
+  "deviceScaleFactor": 3,
+  "screenshots": 101,
+  "comparisons": 60,
+  "telegramSdk": "mock",
+  "horizontalOverflow": [],
+  "browserPageErrors": [],
+  "localAssetLoadErrors": [],
+  "typecheck": "passed",
+  "logicTests": 94,
+  "uiTests": 31,
+  "apk": "blocked: original signing key and SDK/JDK unavailable"
+}

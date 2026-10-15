@@ -1,0 +1,484 @@
+{
+  "angles": [
+    "front",
+    "q3-front",
+    "side",
+    "q3-back",
+    "back",
+    "q3-back-left",
+    "side-left",
+    "q3-front-left"
+  ],
+  "species": {
+    "pushinka": "Пушинка",
+    "boris": "Борис"
+  },
+  "kinds": [
+    "scarf",
+    "bag",
+    "bow"
+  ],
+  "fits": {
+    "pushinka/scarf/front": {
+      "mount": [
+        315,
+        765,
+        790,
+        245
+      ],
+      "visibility": "visible"
+    },
+    "pushinka/bag/front": {
+      "mount": [
+        300,
+        830,
+        310,
+        230
+      ],
+      "strap": "M1010 745 C985 850 790 890 587 861",
+      "bag_behind_body": false,
+      "collar_polygon": "420,690 1050,690 1040,780 920,830 750,855 550,830 430,765"
+    },
+    "pushinka/bow/front": {
+      "mount": [
+        690,
+        860,
+        270,
+        213
+      ],
+      "visibility": "visible"
+    },
+    "pushinka/scarf/q3-front": {
+      "mount": [
+        350,
+        770,
+        860,
+        275
+      ],
+      "visibility": "visible"
+    },
+    "pushinka/bag/q3-front": {
+      "mount": [
+        340,
+        840,
+        310,
+        230
+      ],
+      "strap": "M1080 785 C985 865 807 888 627 871",
+      "bag_behind_body": false,
+      "collar_polygon": "555,722 611,720 661,754 701,751 754,778 800,775 855,795 912,785 964,790 1004,752 1044,752 1097,707 1121,720 1124,762 1101,796 1087,842 1050,848 1005,872 954,861 915,890 854,875 808,884 759,861 706,868 656,840 609,809 570,796"
+    },
+    "pushinka/bow/q3-front": {
+      "mount": [
+        715,
+        845,
+        270,
+        213
+      ],
+      "visibility": "visible"
+    },
+    "pushinka/scarf/side": {
+      "mount": [
+        420,
+        755,
+        610,
+        210
+      ],
+      "visibility": "visible"
+    },
+    "pushinka/bag/side": {
+      "mount": [
+        350,
+        840,
+        310,
+        230
+      ],
+      "strap": "M1070 715 C1040 845 845 890 637 871",
+      "bag_behind_body": false,
+      "collar_polygon": "740,690 1125,660 1125,815 920,860 745,800"
+    },
+    "pushinka/bow/side": {
+      "mount": null,
+      "visibility": "occluded on far or rear torso"
+    },
+    "pushinka/scarf/q3-back": {
+      "mount": [
+        430,
+        725,
+        655,
+        160
+      ],
+      "visibility": "visible"
+    },
+    "pushinka/bag/q3-back": {
+      "mount": [
+        865,
+        800,
+        280,
+        230
+      ],
+      "strap": "M590 605 C685 730 870 815 885 831",
+      "bag_behind_body": false,
+      "collar_polygon": null
+    },
+    "pushinka/bow/q3-back": {
+      "mount": null,
+      "visibility": "occluded on far or rear torso"
+    },
+    "pushinka/scarf/back": {
+      "mount": [
+        325,
+        750,
+        715,
+        155
+      ],
+      "visibility": "visible"
+    },
+    "pushinka/bag/back": {
+      "mount": [
+        845,
+        810,
+        280,
+        230
+      ],
+      "strap": "M440 650 C515 760 760 855 865 841",
+      "bag_behind_body": false,
+      "collar_polygon": null
+    },
+    "pushinka/bow/back": {
+      "mount": null,
+      "visibility": "occluded on far or rear torso"
+    },
+    "pushinka/scarf/q3-back-left": {
+      "mount": [
+        236,
+        720,
+        790,
+        240
+      ],
+      "visibility": "visible"
+    },
+    "pushinka/bag/q3-back-left": {
+      "mount": [
+        330,
+        830,
+        180,
+        230
+      ],
+      "strap": "M835 620 C740 710 500 815 360 860",
+      "bag_behind_body": true,
+      "collar_polygon": null
+    },
+    "pushinka/bow/q3-back-left": {
+      "mount": null,
+      "visibility": "occluded on far or rear torso"
+    },
+    "pushinka/scarf/side-left": {
+      "mount": [
+        235,
+        770,
+        740,
+        270
+      ],
+      "visibility": "visible"
+    },
+    "pushinka/bag/side-left": {
+      "mount": [
+        480,
+        825,
+        180,
+        200
+      ],
+      "strap": "M850 710 C800 800 650 850 500 850",
+      "bag_behind_body": true,
+      "collar_polygon": null
+    },
+    "pushinka/bow/side-left": {
+      "mount": [
+        350,
+        830,
+        110,
+        180
+      ],
+      "visibility": "visible"
+    },
+    "pushinka/scarf/q3-front-left": {
+      "mount": [
+        156,
+        770,
+        860,
+        275
+      ],
+      "visibility": "visible"
+    },
+    "pushinka/bag/q3-front-left": {
+      "mount": [
+        880,
+        840,
+        180,
+        230
+      ],
+      "strap": "M305 770 C335 870 775 890 1035 860",
+      "bag_behind_body": true,
+      "collar_polygon": null
+    },
+    "pushinka/bow/q3-front-left": {
+      "mount": [
+        380,
+        855,
+        270,
+        213
+      ],
+      "visibility": "visible"
+    },
+    "boris/scarf/front": {
+      "mount": [
+        265,
+        750,
+        850,
+        250
+      ],
+      "visibility": "visible"
+    },
+    "boris/bag/front": {
+      "mount": [
+        235,
+        845,
+        335,
+        245
+      ],
+      "strap": "M1010 745 C985 850 790 890 547 876",
+      "bag_behind_body": false,
+      "collar_polygon": "390,660 1000,660 1060,770 900,850 660,880 420,795"
+    },
+    "boris/bow/front": {
+      "mount": [
+        690,
+        810,
+        300,
+        236
+      ],
+      "visibility": "visible"
+    },
+    "boris/scarf/q3-front": {
+      "mount": [
+        285,
+        650,
+        950,
+        290
+      ],
+      "visibility": "visible"
+    },
+    "boris/bag/q3-front": {
+      "mount": [
+        295,
+        820,
+        335,
+        245
+      ],
+      "strap": "M1110 750 C1015 830 787 868 607 851",
+      "bag_behind_body": false,
+      "collar_polygon": null
+    },
+    "boris/bow/q3-front": {
+      "mount": [
+        710,
+        760,
+        300,
+        236
+      ],
+      "visibility": "visible"
+    },
+    "boris/scarf/side": {
+      "mount": [
+        380,
+        805,
+        660,
+        220
+      ],
+      "visibility": "visible"
+    },
+    "boris/bag/side": {
+      "mount": [
+        325,
+        850,
+        335,
+        245
+      ],
+      "strap": "M1070 715 C1040 845 845 890 637 881",
+      "bag_behind_body": false,
+      "collar_polygon": "580,675 1120,670 1120,830 925,885 650,805"
+    },
+    "boris/bow/side": {
+      "mount": null,
+      "visibility": "occluded on far or rear torso"
+    },
+    "boris/scarf/q3-back": {
+      "mount": [
+        395,
+        740,
+        725,
+        175
+      ],
+      "visibility": "visible"
+    },
+    "boris/bag/q3-back": {
+      "mount": [
+        870,
+        800,
+        335,
+        245
+      ],
+      "strap": "M590 605 C685 730 870 815 890 831",
+      "bag_behind_body": false,
+      "collar_polygon": null
+    },
+    "boris/bow/q3-back": {
+      "mount": null,
+      "visibility": "occluded on far or rear torso"
+    },
+    "boris/scarf/back": {
+      "mount": [
+        285,
+        810,
+        795,
+        165
+      ],
+      "visibility": "visible"
+    },
+    "boris/bag/back": {
+      "mount": [
+        880,
+        815,
+        335,
+        245
+      ],
+      "strap": "M440 650 C515 760 760 855 900 846",
+      "bag_behind_body": false,
+      "collar_polygon": null
+    },
+    "boris/bow/back": {
+      "mount": null,
+      "visibility": "occluded on far or rear torso"
+    },
+    "boris/scarf/q3-back-left": {
+      "mount": [
+        205,
+        740,
+        900,
+        250
+      ],
+      "visibility": "visible"
+    },
+    "boris/bag/q3-back-left": {
+      "mount": [
+        285,
+        850,
+        200,
+        245
+      ],
+      "strap": "M835 620 C740 710 500 815 315 880",
+      "bag_behind_body": true,
+      "collar_polygon": null
+    },
+    "boris/bow/q3-back-left": {
+      "mount": null,
+      "visibility": "occluded on far or rear torso"
+    },
+    "boris/scarf/side-left": {
+      "mount": [
+        215,
+        820,
+        850,
+        280
+      ],
+      "visibility": "visible"
+    },
+    "boris/bag/side-left": {
+      "mount": [
+        480,
+        840,
+        200,
+        210
+      ],
+      "strap": "M850 710 C800 800 650 850 500 865",
+      "bag_behind_body": true,
+      "collar_polygon": null
+    },
+    "boris/bow/side-left": {
+      "mount": [
+        340,
+        830,
+        125,
+        190
+      ],
+      "visibility": "visible"
+    },
+    "boris/scarf/q3-front-left": {
+      "mount": [
+        131,
+        650,
+        950,
+        290
+      ],
+      "visibility": "visible"
+    },
+    "boris/bag/q3-front-left": {
+      "mount": [
+        925,
+        840,
+        200,
+        245
+      ],
+      "strap": "M305 770 C335 870 775 890 1100 860",
+      "bag_behind_body": true,
+      "collar_polygon": null
+    },
+    "boris/bow/q3-front-left": {
+      "mount": [
+        356,
+        810,
+        300,
+        236
+      ],
+      "visibility": "visible"
+    }
+  },
+  "base_hashes": {
+    "pushinka/front": "b541f497a43fd115a4ccd4d45f63328a6599675f6fc9199a9d5976b82e249e1d",
+    "pushinka/q3-front": "7b15be190df8553cba6a87f530fdc92891d24dcadd3c3d2400ec8bc72d62f8c2",
+    "pushinka/side": "8eebf92008b08f51ed60cdd229f5cbb49ba7b7aea2e5c2b5ae19f6577e015e01",
+    "pushinka/q3-back": "109df2ad7b5419326955e6de569d2ecff3a33dfb81d8ae1e79de17ee1ce376c0",
+    "pushinka/back": "f34af1eba59446d09dbff6cd2ed1220c7763427ea8d1847870a39f38a745a9fd",
+    "pushinka/q3-back-left": "2fb0a2bf3b533160037254c5e9c97961be29839068ae1b2abbe30ccbae86c62f",
+    "pushinka/side-left": "bc32acfccaf844b16db727fffb6edc4811c0df74d9a4041e6ee3d0edc66ca013",
+    "pushinka/q3-front-left": "7793a1e8e3a4292bdb8d9865c68d463bc15ac61bf75118b37545cfd55331e703",
+    "boris/front": "e6fc26a53810161457da940fcfcb78be465c9605c39c525c0fe91d13c588b69a",
+    "boris/q3-front": "62315746ed19fdc1dd0403bf42d9871b12f216c062c4a04f737e752a7d6d09b1",
+    "boris/side": "35add01e6dc7a853bef2e75c19f3e598acd69c34caec34e64e5e63ac5ccb7716",
+    "boris/q3-back": "37757f2682d014aa82914f8b4ce280701560bc69d39ebde2684235ceb3508c97",
+    "boris/back": "e1d2d62b4cc41b76056b5c105cf14b6fcc0ef1c33d125ae6383f7e9778ee5779",
+    "boris/q3-back-left": "f5f6dc5a6a0b705ab2be416552f6934b86218c1e67700f8c3de7f846d614adcf",
+    "boris/side-left": "c9cf2ecea48270707a6cbf2e50a312577bbe375fb3604684dedb504af8cb990d",
+    "boris/q3-front-left": "1ee6a6c3fed8031e76366bcea506d18798ae47708e9c9d4b946c44289d644769"
+  },
+  "method": "Existing raster artwork + native SVG strap; no new image generation.",
+  "verification": {
+    "frames_loaded": 48,
+    "gallery_loaded": true,
+    "frame_size": [
+      512,
+      512
+    ],
+    "loop": true,
+    "species_and_accessory_switch": true,
+    "bare_toggle": true,
+    "auto_advance_and_stop": true,
+    "no_horizontal_overflow": [
+      375,
+      320
+    ],
+    "console_errors": 0,
+    "base_sha256_verified": true
+  }
+}

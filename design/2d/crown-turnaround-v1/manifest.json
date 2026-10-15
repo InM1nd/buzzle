@@ -1,0 +1,79 @@
+{
+  "tool": "image_gen.imagegen",
+  "transparent_background": true,
+  "generations": [
+    {
+      "id": "front",
+      "prompt": "Use case: precise-object-edit. Asset type: separate wearable crown sprite for a 2D bee turnaround. Image 1 is the approved bee wearing the crown: exact crown design, proportions, gold material and jewel arrangement to preserve. Image 2 is the bee pose to match, for angle and lighting only. Draw ONLY that same gold crown in straight front, symmetric, the crown's cyan and coral jewels on its visible front band. Do not draw bee, antennae, body, wings or background. Five prominent triangular gold peaks with round gold tips and smaller occluded far peaks, broad faceted circular band, small cyan/coral diamond gems on front only as in image 1. Camera perspective must fit the top of bee from image 2, so band rests on its head instead of floating. Warm Honey Crystal style, chunky broad facets, warm upper-left light. Single crown centered with transparent background, no ground shadow, glow, text, collage or labels. Crown opening remains transparent. Retain exact royal design, do not turn it into a different crown.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-dbc735fb-4bdf-4970-b054-a5d23d70c14f.png",
+      "placement": {
+        "xy": [
+          488,
+          189
+        ],
+        "size": [
+          390,
+          225
+        ],
+        "front_band_y": 348
+      }
+    },
+    {
+      "id": "side",
+      "prompt": "Use case: precise-object-edit. Asset type: separate wearable crown sprite for a 2D bee turnaround. Image 1 is the approved bee wearing the crown: exact crown design, proportions, gold material and jewel arrangement to preserve. Image 2 is the bee pose to match, for angle and lighting only. Draw ONLY that same gold crown in strict right-facing side/profile, seeing left side of crown; its front (with cyan/coral gems) points towards the right edge of the image. Keep circular band projected as a shallow ellipse, not a tall cup. Do not draw bee, antennae, body, wings or background. Five prominent triangular gold peaks with round gold tips and smaller occluded far peaks, broad faceted circular band, small cyan/coral diamond gems on front only as in image 1. Camera perspective must fit the top of bee from image 2, so band rests on its head instead of floating. Warm Honey Crystal style, chunky broad facets, warm upper-left light. Single crown centered with transparent background, no ground shadow, glow, text, collage or labels. Crown opening remains transparent. Retain exact royal design, do not turn it into a different crown.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-f023d102-0c20-4e9d-a27c-27e28d8d80f6.png",
+      "initialPath": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-0641f314-c2cb-49ad-bbc7-554c82f62a8e.png",
+      "cleanupPrompt": "Use case: background-extraction. Edit this exact crown: remove ALL diffuse glow, aura, colored haze, shadow and background surrounding crown and inside its open gaps. Keep only crisp opaque golden crown and attached gems, with genuinely transparent pixels everywhere else. Preserve exact crown silhouette, five peaks, perspective, colors, highlights and placement. No repainting the crown, no bee, no text. Do not add any glow or shadow. This must be a clean separate transparent game sprite.",
+      "placement": {
+        "xy": [
+          635,
+          205
+        ],
+        "size": [
+          395,
+          225
+        ],
+        "front_band_y": 365
+      }
+    },
+    {
+      "id": "q3-back",
+      "prompt": "Use case: precise-object-edit. Asset type: separate wearable crown sprite for a 2D bee turnaround. Image 1 is the approved bee wearing the crown: exact crown design, proportions, gold material and jewel arrangement to preserve. Image 2 is the bee pose to match, for angle and lighting only. Draw ONLY that same gold crown in three quarters from behind at 145 degrees, seeing rear band and one side; primary front cyan/coral jewels mostly hidden on far side. Do not draw bee, antennae, body, wings or background. Five prominent triangular gold peaks with round gold tips and smaller occluded far peaks, broad faceted circular band, small cyan/coral diamond gems on front only as in image 1. Camera perspective must fit the top of bee from image 2, so band rests on its head instead of floating. Warm Honey Crystal style, chunky broad facets, warm upper-left light. Single crown centered with transparent background, no ground shadow, glow, text, collage or labels. Crown opening remains transparent. Retain exact royal design, do not turn it into a different crown.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-20541168-cf44-444e-acb9-ae636b92c8fd.png",
+      "placement": {
+        "xy": [
+          560,
+          170
+        ],
+        "size": [
+          400,
+          225
+        ],
+        "front_band_y": 330
+      }
+    },
+    {
+      "id": "back",
+      "prompt": "Use case: precise-object-edit. Asset type: separate wearable crown sprite for a 2D bee turnaround. Image 1 is the approved bee wearing the crown: exact crown design, proportions, gold material and jewel arrangement to preserve. Image 2 is the bee pose to match, for angle and lighting only. Draw ONLY that same gold crown in straight rear view at 180 degrees, plain gold rear band; front cyan/coral jewels are hidden. Same point and bead count as approved crown, no invented new rear jewels. Do not draw bee, antennae, body, wings or background. Five prominent triangular gold peaks with round gold tips and smaller occluded far peaks, broad faceted circular band, small cyan/coral diamond gems on front only as in image 1. Camera perspective must fit the top of bee from image 2, so band rests on its head instead of floating. Warm Honey Crystal style, chunky broad facets, warm upper-left light. Single crown centered with transparent background, no ground shadow, glow, text, collage or labels. Crown opening remains transparent. Retain exact royal design, do not turn it into a different crown.",
+      "path": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-e9200144-2250-478d-b41b-c4cbfb16c513.png",
+      "placement": {
+        "xy": [
+          483,
+          180
+        ],
+        "size": [
+          400,
+          225
+        ],
+        "front_band_y": 342
+      }
+    }
+  ],
+  "source_hashes": {
+    "front": "fe4173d8504e8327efd9b22eccd50ce29618cd3b5262e54e72a939fa46f1c521",
+    "side": "2904043387e82d2e81d4d5e01abc8e72d4dcabad2dc0aaf6597d24f7529ff247",
+    "q3-back": "15d3166d28a278be0f22136bfc7d7c3e2b892940c466c13cc043e07acee9833c",
+    "back": "7597f01027f04de6c158c07f83f27f65d52eace189726367184900da1c2415c5",
+    "q3-front": "3833765c482b935128999a5eeff6f2040f0aaf00278381a671b53c43d6a6099e"
+  }
+}

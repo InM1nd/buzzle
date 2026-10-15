@@ -1,5 +1,6 @@
 import { t } from "../i18n";
-import { SKIN_BY_ID } from "../logic/loot";
+import { SKIN_BY_ID, SKINS } from "../logic/loot";
+import { ItemIcon } from "../ui/lootUi";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, ScrollView, StyleSheet, TextInput, useWindowDimensions, View } from "react-native";
 import { GameState, beeDisplayName, beeLevel, beeLevelCost, graphemes, MAX_BEE_NAME } from "../logic/game";
@@ -20,83 +21,81 @@ const RARITY: Record<Rarity, { name: string; color: string; bg: string }> = {
 interface Props { s: GameState; onSkin?: (bee: string, skin: string | null) => boolean; onAssemble?: () => boolean; onUnlock: (id: string) => boolean; onLevelUp: (id: string) => boolean; onRename?: (id: string, name: string) => boolean; onGarden?: () => void }
 
 export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp, onRename, onGarden }: Props) {
-  const { width } = useWindowDimensions();
+  const [gridW, setGridW] = useState(328);
   const [open, setOpen] = useState<BeeSpecies | null>(null);
   const [justUnlocked, setJust] = useState<string | null>(null);
-  const colW = (Math.min(width, 520) - 16 * 2 - 12) / 2;
+  const colW = Math.max(1, Math.floor((gridW - 20) / 3));
+  const [view, setView] = useState<"all" | "outfits">("all");
   const owned = new Set(s.bees);
   return (
     <>
-      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 110 }} showsVerticalScrollIndicator={false}>
         <View style={styles.head}>
-          <View style={{ flex: 1 }}>
-            <Txt v="h2">{t("bees.title")}</Txt>
-            <Txt v="small" color={C.dim}>{t("bees.sub", { a: s.bees.length, b: BEES.length, max: MAX_BEE_LEVEL })}</Txt>
-          </View>
+          <Txt v="h1" style={{ flex: 1 }}>{t("bees.title")}</Txt>
+          <Txt v="h3" color={C.dim}>{t("bees.count", { a: s.bees.length, b: BEES.length })}</Txt>
         </View>
-        <Press onPress={onGarden} style={styles.nectarHint} accessibilityRole="button" accessibilityLabel={t("bees.nectarLabel")}>
-          <Image source={ART.nectar} style={{ width: 30, height: 30 }} />
-          <View style={{ flex: 1 }}>
-            <Txt v="h3" color="#9C2F5C">{t("bees.nectar", { n: fmt(s.nectar) })}</Txt>
-            <Txt v="small" color="#9C2F5C">{t("bees.nectarHint")}</Txt>
-          </View>
-        </Press>
-        <View style={styles.jellyHint}>
-          <Image source={ART.jelly} style={{ width: 28, height: 28 }} />
-          <Txt v="small" color="#6B4CA8" style={{ flex: 1 }}>{t("bees.jellyHint")}</Txt>
+        <View style={styles.seg}>
+          {(["all", "outfits"] as const).map((k) => (
+            <Press key={k} onPress={() => setView(k)} style={[styles.segBtn, view === k && styles.segOn]} accessibilityRole="tab" accessibilityState={{ selected: view === k }} accessibilityLabel={t(`bees.seg.${k}`)}>
+              <Txt v="h3" color={view === k ? "#fff" : C.text}>{t(`bees.seg.${k}`)}</Txt>
+            </Press>
+          ))}
         </View>
-        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12 }}>
+        {view === "all" ? (
+        <>
+        <View onLayout={(e) => setGridW(e.nativeEvent.layout.width)} style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
           {BEES.map((b, i) => {
             const has = owned.has(b.id);
             const can = !has && s.jelly >= b.cost;
             const lvl = beeLevel(s, b.id);
             const lc = has ? beeLevelCost(s, b.id) : null;
             const canLvl = !!lc && s.nectar >= lc.nectar && s.jelly >= lc.jelly;
-            const r = RARITY[b.rarity];
             const custom = has && !!s.beeNames[b.id];
             const shown = beeDisplayName(s, b.id);
+            const dots = Math.ceil((lvl / MAX_BEE_LEVEL) * 5);
             return (
-              <Press key={b.id} onPress={() => setOpen(b)} style={[styles.card, shadow, { width: colW }, !has && { backgroundColor: "#FBF3E4" }]}
+              <Press key={b.id} onPress={() => setOpen(b)} style={[styles.card3, shadow, { width: colW }, !has && { backgroundColor: "#F6EDDC" }]}
                 accessibilityRole="button" accessibilityLabel={custom ? `${shown} (${b.name})` : (has ? b.name : t("bees.locked", { name: b.name }))}>
-                <View style={[styles.beeBg, { backgroundColor: has ? r.bg : "#F2E6D0" }]}>
-                  {has ? (
-                    <CardBee id={b.id} i={i} level={lvl} skin={s.beeSkins[b.id]} />
-                  ) : (
-                    <BeeSprite id={b.id} size={86} tint="#DCC7A3" />
-                  )}
+                <View style={{ height: 78, alignItems: "center", justifyContent: "center" }}>
+                  {has ? <CardBee id={b.id} i={i} level={lvl} skin={s.beeSkins[b.id]} /> : <BeeSprite id={b.id} size={70} tint="#DCC7A3" />}
                   {justUnlocked === b.id ? <Sparkle /> : null}
-                  {has ? (
-                    <View style={[styles.lvlBadge, lvl >= MAX_BEE_LEVEL && { backgroundColor: "#E2A400" }]}>
-                      <Text style={[F.black, { color: "#fff", fontSize: 12 }]}>{lvl >= MAX_BEE_LEVEL ? t("bees.max") : t("bees.lvl", { n: lvl })}</Text>
-                    </View>
-                  ) : null}
-                  {canLvl ? <View style={styles.upDot}><Text style={[F.black, { color: "#fff", fontSize: 13, lineHeight: 16 }]}>↑</Text></View> : null}
                 </View>
-                <Txt v="h3" numberOfLines={1} style={{ marginTop: 8 }}>{has ? shown : "???"}</Txt>
-                <Txt v="tiny" color={r.color} numberOfLines={1}>{custom ? `${b.name.toUpperCase()} · ` : ""}{r.name.toUpperCase()}</Txt>
-                <Txt v="small" color={C.dim} numberOfLines={2} style={{ minHeight: 34, marginTop: 2 }}>{has ? abilityAt(b, lvl) : b.ability}</Txt>
+                {canLvl ? <View style={styles.upDot}><Text style={[F.black, { color: "#fff", fontSize: 13, lineHeight: 16 }]}>↑</Text></View> : null}
+                <Txt v="h3" numberOfLines={2} center style={{ marginTop: 4, fontSize: 14, minHeight: 36 }}>{has ? shown : b.name}</Txt>
                 {has ? (
-                  <View style={styles.ownedTag}><Image source={ART.check} style={{ width: 16, height: 16 }} /><Txt v="tiny" color={C.greenDark}>{t("bees.inHive")}</Txt></View>
+                  <View style={{ flexDirection: "row", gap: 3, marginTop: 4 }}>
+                    {[0, 1, 2, 3, 4].map((d) => <View key={d} style={[styles.ldot, d < dots && { backgroundColor: lvl >= MAX_BEE_LEVEL ? "#E2A400" : C.honey }]} />)}
+                  </View>
                 ) : b.fragments ? (
-                  <View style={[styles.costTag, s.loot.fragments >= b.fragments && { backgroundColor: "#5B5FC7" }]}>
-                    <Image source={ART.fragment} style={{ width: 18, height: 18 }} />
-                    <Txt v="small" color={s.loot.fragments >= b.fragments ? "#fff" : "#5B5FC7"}>{Math.min(s.loot.fragments, b.fragments)}/{b.fragments}</Txt>
-                  </View>
+                  <View style={styles.costMini}><Image source={ART.fragment} style={{ width: 14, height: 14 }} /><Txt v="tiny" color="#5B5FC7">{Math.min(s.loot.fragments, b.fragments)}/{b.fragments}</Txt></View>
                 ) : (
-                  <View style={[styles.costTag, can && { backgroundColor: C.jelly }]}>
-                    <Image source={ART.jelly} style={{ width: 18, height: 18 }} />
-                    <Txt v="small" color={can ? "#fff" : "#8C6FBF"}>{b.cost}</Txt>
-                  </View>
+                  <View style={[styles.costMini, can && { backgroundColor: C.jelly }]}><Image source={ART.jelly} style={{ width: 14, height: 14 }} /><Txt v="tiny" color={can ? "#fff" : "#8C6FBF"}>{b.cost}</Txt></View>
                 )}
               </Press>
             );
           })}
         </View>
+        </>
+        ) : (
+          <View onLayout={(e) => setGridW(e.nativeEvent.layout.width)} style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+            {SKINS.filter((k) => k.id !== "headphones").map((k) => {
+              const have = s.loot.owned.includes(k.id);
+              const wearer = Object.keys(s.beeSkins).find((b) => s.beeSkins[b] === k.id);
+              return (
+                <View key={k.id} style={[styles.card3, shadow, { width: colW }, !have && { backgroundColor: "#F6EDDC" }]} accessibilityLabel={k.name}>
+                  <ItemIcon id={k.id} size={58} locked={!have} />
+                  <Txt v="h3" numberOfLines={1} style={{ marginTop: 6, fontSize: 14 }}>{have ? k.name : "???"}</Txt>
+                  <Txt v="tiny" color={C.dim} numberOfLines={1}>{!have ? t("bees.outfitLocked") : wearer ? beeDisplayName(s, wearer) : t("bees.outfitFree")}</Txt>
+                </View>
+              );
+            })}
+          </View>
+        )}
       </ScrollView>
       <Overlay visible={!!open} onClose={() => setOpen(null)}>
         {open ? (
           <BeeDetail bee={open} has={owned.has(open.id)} jelly={s.jelly} nectar={s.nectar} level={beeLevel(s, open.id)}
-            skin={s.beeSkins[open.id] ?? null} skins={s.loot.owned.filter((x) => SKIN_BY_ID[x])} fragments={s.loot.fragments}
+            skin={s.beeSkins[open.id] ?? null} skins={s.loot.owned.filter((x) => SKIN_BY_ID[x] && x !== "headphones")} fragments={s.loot.fragments}
             onSkin={onSkin ? (k) => onSkin(open.id, k) : undefined}
             onAssemble={() => { if (onAssemble?.()) { setJust(open.id); setTimeout(() => setJust(null), 1600); } }}
             name={beeDisplayName(s, open.id)} custom={!!s.beeNames[open.id]}
@@ -110,12 +109,11 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
   );
 }
 
-/** Idle bee on a collection card: hover + flapping wings + an occasional blink / glance. */
+/** Collection portraits: three-quarter view, all facing right, hovering with flapping wings. */
 function CardBee({ id, i, level, skin }: { id: string; i: number; level: number; skin?: string }) {
-  const face = useFace(true, i * 13 + 5);
   return (
-    <Hover amp={3} sway={2.5} period={1500 + i * 97} phase={(i * 0.37) % 1}>
-      <BeeSprite id={id} size={86} seed={i} face={face} level={level} skin={skin} turn={i % 2 ? 0.5 : -0.5} />
+    <Hover amp={3} sway={2.5} period={1600 + (i % 5) * 140} phase={(i * 0.37) % 1}>
+      <BeeSprite id={id} size={74} turn={0.5} seed={i * 13 + 5} level={level} skin={skin} />
     </Hover>
   );
 }
@@ -187,12 +185,20 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
   const nextLook = level < 5 ? 5 : level < 10 ? 10 : null;
   return (
     <View style={{ alignItems: "center" }}>
-      <CloseBtn onPress={onClose} />
+      <View style={styles.sheetHead}>
+        <Press onPress={onClose} hitSlop={10} scaleTo={0.88} accessibilityRole="button" accessibilityLabel={t("c.close")} style={styles.sheetClose}>
+          <Image source={ART.close} style={{ width: 14, height: 14, tintColor: C.brown }} />
+        </Press>
+      </View>
       <View style={[styles.detailBg, { backgroundColor: has ? r.bg : "#F2E6D0" }]}>
         {has && wasLocked ? <Sparkle /> : null}
         {burst ? <LevelBurst key={burst} level={level} /> : null}
         <Animated.View style={{ transform: [{ scale: pop }] }}>
-          {has ? <Mascot id={bee.id} size={156} seed={bee.id.length * 7 + 1} level={level} skin={skin ?? undefined} /> : <BeeSprite id={bee.id} size={156} tint="#D8C29C" />}
+          {has ? (
+            <Hover amp={6} sway={3} period={1800}>
+              <BeeSprite id={bee.id} size={176} turn={0.5} seed={bee.id.length * 7 + 1} level={level} skin={skin ?? undefined} />
+            </Hover>
+          ) : <BeeSprite id={bee.id} size={176} tint="#D8C29C" />}
         </Animated.View>
       </View>
       {has && editing && onRename ? (
@@ -217,12 +223,18 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
       ) : has && wasLocked ? (
         <Txt v="h2" color={C.greenDark} center style={{ marginTop: 4 }}>{t("bees.welcome")}</Txt>
       ) : null}
-      {has ? <Bar progress={level / MAX_BEE_LEVEL} height={10} color={C.jelly} style={{ alignSelf: "stretch", marginTop: 8 }} /> : null}
+      {has ? (
+        <View style={{ alignSelf: "stretch", flexDirection: "row", alignItems: "center", gap: 8, marginTop: 8 }}>
+          <Bar progress={level / MAX_BEE_LEVEL} height={12} color={C.honey} style={{ flex: 1 }} />
+          <Txt v="small" color={C.honeyDark}>{level}/{MAX_BEE_LEVEL}</Txt>
+        </View>
+      ) : null}
       <View style={styles.ability}>
         <Txt v="h3" color="#6B4CA8" center>{has ? abilityAt(bee, level) : bee.ability}</Txt>
         {has && level > 1 ? <Txt v="small" color="#6B4CA8" center>{t("bees.levelsBonus", { p: Math.round(LEVEL_HIVE_BONUS * 100 * (level - 1)) })}</Txt> : null}
         {cost ? <Txt v="small" color={C.dim} center>{t("bees.next", { a: abilityAt(bee, level + 1) })}</Txt> : null}
       </View>
+      {has && cost ? <Txt v="tiny" color="#9C2F5C" center style={{ marginTop: -4, marginBottom: 8 }}>{t("bees.nectarHint")}</Txt> : null}
       {has && onSkin ? (
         <View style={{ alignSelf: "stretch", marginBottom: 10 }} accessibilityLabel={t("bees.outfits")}>
           <Txt v="tiny" color={C.dim}>{t("bees.outfitCaps")}</Txt>
@@ -233,8 +245,8 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
               </Press>
               {skins.map((k) => (
                 <Press key={k} onPress={() => onSkin(k)} style={[styles.skin, skin === k && styles.skinOn]} accessibilityRole="radio" accessibilityState={{ selected: skin === k }} accessibilityLabel={SKIN_BY_ID[k].name}>
-                  <BeeSprite id={bee.id} size={46} skin={k} level={level} />
-                  <Txt v="tiny" numberOfLines={1} center>{SKIN_BY_ID[k].name}</Txt>
+                  <BeeSprite id={bee.id} size={46} flap={false} skin={k} level={level} />
+                  <Txt v="tiny" numberOfLines={2} center style={{ fontSize: 10, minHeight: 24 }}>{SKIN_BY_ID[k].name}</Txt>
                 </Press>
               ))}
             </ScrollView>
@@ -249,7 +261,7 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
           <GameButton
             title={t("bees.levelBtn", { n: level + 1, cost: `${cost.nectar}${cost.jelly ? ` + ${cost.jelly}` : ""}` })}
             icon={ART.nectar}
-            color="purple"
+            color="honey"
             disabled={!enough}
             sub={!enough ? (nectar < cost.nectar ? t("bees.needNectar", { n: cost.nectar - Math.floor(nectar) }) : t("bees.needJelly", { n: cost.jelly })) : cost.jelly ? t("bees.nectarJelly", { n: cost.jelly }) : t("bees.nectarGarden")}
             onPress={lvlUp}
@@ -318,8 +330,16 @@ function RenameBox({ species, current, custom, onSave, onCancel }: {
 }
 
 const styles = StyleSheet.create({
-  skin: { width: 70, borderRadius: 14, borderWidth: 2, borderColor: C.line, alignItems: "center", justifyContent: "center", padding: 4, minHeight: 72, backgroundColor: "#fff" },
-  skinOn: { borderColor: C.honey, backgroundColor: "#FFF3D6" },
+  sheetHead: { alignSelf: "stretch", flexDirection: "row", justifyContent: "flex-end", marginTop: -6, marginBottom: 6 },
+  sheetClose: { width: 36, height: 36, borderRadius: 18, backgroundColor: "#fff", borderWidth: 2, borderColor: "#F1DFC0", alignItems: "center", justifyContent: "center" },
+  seg: { flexDirection: "row", gap: 8, marginBottom: 12 },
+  segBtn: { paddingHorizontal: 18, paddingVertical: 9, borderRadius: 20, backgroundColor: "#fff" },
+  segOn: { backgroundColor: C.honey },
+  card3: { backgroundColor: "#fff", borderRadius: 22, padding: 8, paddingBottom: 10, alignItems: "center" },
+  ldot: { width: 7, height: 7, borderRadius: 4, backgroundColor: "#EADBC2" },
+  costMini: { flexDirection: "row", alignItems: "center", gap: 3, marginTop: 4, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 10, backgroundColor: "#EFE6FA" },
+  skin: { width: 70, borderRadius: 16, borderWidth: 3, borderColor: C.line, alignItems: "center", justifyContent: "center", padding: 4, minHeight: 72, backgroundColor: "#fff" },
+  skinOn: { borderColor: C.honey, backgroundColor: "#FFE7A8" },
   titleRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6, marginTop: 8, maxWidth: "100%" },
   pencil: { width: 36, height: 36, borderRadius: 18, backgroundColor: "#FFF1D6", alignItems: "center", justifyContent: "center" },
   renameBox: { alignSelf: "stretch", marginTop: 8, marginBottom: 2 },
@@ -333,6 +353,6 @@ const styles = StyleSheet.create({
   beeBg: { height: 104, borderRadius: 16, alignItems: "center", justifyContent: "center", overflow: "hidden" },
   ownedTag: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 6 },
   costTag: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 6, alignSelf: "flex-start", backgroundColor: "#F1E8FF", borderRadius: 12, paddingHorizontal: 10, paddingVertical: 3 },
-  detailBg: { width: 190, height: 190, borderRadius: 95, alignItems: "center", justifyContent: "center", marginTop: 4 },
+  detailBg: { alignSelf: "stretch", height: 210, borderRadius: 28, alignItems: "center", justifyContent: "center", marginTop: 30 },
   ability: { backgroundColor: "#F1E8FF", borderRadius: 14, paddingHorizontal: 14, paddingVertical: 8, marginVertical: 10 },
 });

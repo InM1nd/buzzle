@@ -24,7 +24,7 @@ cp android/app/build/outputs/apk/release/app-release.apk Buzzle-v1.5.0-dev.apk
 bash scripts/verify-apk.sh Buzzle-v1.5.0-dev.apk
 ```
 
-Параметры уже выставлены: `versionName=1.5.0-dev`, `versionCode=16`, `applicationId=com.zabolotny.bzz`, arm64, R8/resource shrinking, `expo.useLegacyPackaging=false`. После prebuild обязательно выполнить configure-android.sh: он подключает прежний release signing и настройки упаковки.
+Параметры уже выставлены: `versionName=1.5.0-dev`, `versionCode=17`, `applicationId=com.zabolotny.bzz`, arm64, R8/resource shrinking, `expo.useLegacyPackaging=false`. После prebuild обязательно выполнить configure-android.sh: он подключает прежний release signing и настройки упаковки. Новое в этой сборке: [правки поля и расширение прокачки](DEV17.ru.md).
 
 ## До загрузки
 

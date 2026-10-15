@@ -1,7 +1,7 @@
 import { lz, t } from "../i18n";
 import { HIVE_SLOTS } from "./hex";
 
-export const MAX_COMB_LEVEL = 20;
+export const MAX_COMB_LEVEL = 40;
 export const BASE_CAP_HOURS = 6;
 const HOUR = 3600_000;
 
@@ -15,10 +15,10 @@ export const upgradeCost = (level: number) => Math.round(30 * Math.pow(1.5, leve
 export type UpgradeId = "workers" | "storage" | "flowers" | "queen";
 export interface UpgradeDef { id: UpgradeId; name: string; desc: (lvl: number) => string; max: number; cost: (lvl: number) => number }
 export const UPGRADES: UpgradeDef[] = [
-  { id: "workers", name: "", desc: (l) => t("up.workers.desc", { pct: l * 10 }), max: 15, cost: (l) => Math.round(250 * Math.pow(1.8, l)) },
-  { id: "storage", name: "", desc: (l) => t("up.storage.desc", { h: BASE_CAP_HOURS + l }), max: 6, cost: (l) => Math.round(200 * Math.pow(2, l)) },
-  { id: "flowers", name: "", desc: (l) => t("up.flowers.desc", { pct: l * 10 }), max: 15, cost: (l) => Math.round(150 * Math.pow(1.7, l)) },
-  { id: "queen", name: "", desc: (l) => t("up.queen.desc", { n: l }), max: 5, cost: (l) => Math.round(400 * Math.pow(3, l)) },
+  { id: "workers", name: "", desc: (l) => t("up.workers.desc", { pct: l * 10 }), max: 30, cost: (l) => Math.round(250 * Math.pow(1.8, l)) },
+  { id: "storage", name: "", desc: (l) => t("up.storage.desc", { h: BASE_CAP_HOURS + l }), max: 12, cost: (l) => Math.round(200 * Math.pow(2, l)) },
+  { id: "flowers", name: "", desc: (l) => t("up.flowers.desc", { pct: l * 10 }), max: 30, cost: (l) => Math.round(150 * Math.pow(1.7, l)) },
+  { id: "queen", name: "", desc: (l) => t("up.queen.desc", { n: l }), max: 10, cost: (l) => Math.round(400 * Math.pow(3, l)) },
 ];
 for (const u of UPGRADES) lz(u, "name", `up.${u.id}`);
 export const UPGRADE_BY_ID = Object.fromEntries(UPGRADES.map((u) => [u.id, u])) as Record<UpgradeId, UpgradeDef>;

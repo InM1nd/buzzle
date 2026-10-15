@@ -1,4 +1,5 @@
 import { t } from "../i18n";
+import { colorName } from "../logic/bees";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Animated, Easing, Image, PanResponder, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { useInsets } from "../platform/insets";
@@ -38,6 +39,8 @@ interface Props {
   /** owned bees: one of them zips across the board on big combos */
   beeIds?: string[];
   beeLevels?: Record<string, number>;
+  /** colour of the day (×1.5) and whether the garden has switched its bonus on */
+  dayColor?: { color: number; active: boolean };
 }
 
 // ---------- cell ----------
@@ -239,6 +242,8 @@ export default function GameScreen(props: Props) {
   const [quitAsk, setQuitAsk] = useState(false);
   const [result, setResult] = useState<{ reward: RoundReward; score: number } | null>(null);
   const [starsNow, setStarsNow] = useState(0);
+  const [dockH, setDockH] = useState(0);
+  const narrow = size.width < 335;
 
   const summary = useRef<RoundSummary>({ mode: props.mode, score: 0, chains: [], bombs: 0, cellsByColor: [0, 0, 0, 0, 0] });
   const prevPos = useRef(new Map<number, number>()); // cell id -> last y
@@ -452,6 +457,14 @@ export default function GameScreen(props: Props) {
 
   const isDaily = props.mode !== "free";
   const STARS = props.mode === "weekend" ? WEEKEND_STARS : DAILY_STARS;
+  const showHint = () => {
+    if (busy.current || finished || path.length) { hError(); return; }
+    const best = findBestPath(boardRef.current, 6, 3000);
+    if (best.length >= 3) { hLight(); setHint(best.slice(0, Math.min(best.length, 5))); } else hError();
+  };
+  const bestChain = summary.current.chains.reduce((m, n) => (n > m ? n : m), 0);
+  const nextStar = isDaily ? STARS.find((x) => x > score) : undefined;
+  const toGoal = isDaily ? (nextStar !== undefined ? nextStar - score : 0) : Math.max(0, props.best - score);
   const shuffle = () => {
     if (busy.current || finished || !props.onShuffle || !props.onShuffle()) { hError(); return; }
     hLight(); setPath([]); setHint([]);
@@ -558,9 +571,57 @@ export default function GameScreen(props: Props) {
       {props.mode === "free" && (props.shuffles ?? 0) > 0 && !finished ? (
         <GameButton small title={t("game.shuffleN", { n: props.shuffles ?? 0 })} icon={ART.boostShuffle} color="white" onPress={shuffle} style={{ marginTop: 8, alignSelf: "center" }} label={t("game.shuffleLabel", { n: props.shuffles ?? 0 })} />
       ) : null}
-      <Txt v="small" color={C.dim} center style={{ marginTop: 8 }}>
-        {isDaily ? t("game.hintDaily") : t("game.hintFree", { n: props.rules.bombAt })}
-      </Txt>
+      {/* leftover screen space under the board: hint · colour of the day · round stats (degrades on short screens) */}
+      <View style={{ flex: 1, alignSelf: "stretch", alignItems: "center" }} onLayout={(e) => setDockH(e.nativeEvent.layout.height)}>
+        {dockH >= 78 ? (
+          <View style={[styles.dock, { width: size.width + 12 }]}>
+            <Press onPress={showHint} style={[styles.dockCard, styles.dockHint]} accessibilityRole="button" accessibilityLabel={t("game.hintBtn")}>
+              <View style={[styles.dockIc, { backgroundColor: "#FFC94A" }]}><Txt v="h2" style={{ fontSize: 22 }}>💡</Txt></View>
+              <View style={{ flex: 1 }}>
+                <Txt v="h3" style={{ fontSize: 14 }} numberOfLines={1}>{t("game.hintBtn")}</Txt>
+                {narrow ? null : <Txt v="tiny" color={C.dim} numberOfLines={1}>{t("game.hintBtnSub")}</Txt>}
+              </View>
+            </Press>
+            {props.dayColor ? (
+              <View style={[styles.dockCard, { borderColor: props.dayColor.active ? C.pollen[props.dayColor.color] : C.line, opacity: props.dayColor.active ? 1 : 0.75 }]} accessibilityLabel={t("pz.dayColor")}>
+                <Image source={ART.cells[props.dayColor.color]} style={{ width: 44, height: 38 }} />
+                <View style={{ flex: 1 }}>
+                  <Txt v="h3" style={{ fontSize: 14 }} numberOfLines={1}>{narrow ? t("pz.dayColor") : `${t("pz.dayColor")} ×1.5`}</Txt>
+                  <Txt v="tiny" color={props.dayColor.active ? C.greenDark : C.dim} numberOfLines={1}>
+                    {narrow ? (props.dayColor.active ? `×1.5 · ${colorName(props.dayColor.color)}` : "×1.5") : props.dayColor.active ? colorName(props.dayColor.color) : t("game.dayColorOff")}
+                  </Txt>
+                </View>
+              </View>
+            ) : <View style={{ flex: 1 }} />}
+            {dockH >= 140 ? (
+              <View style={[styles.dockCard, styles.dockStats]}>
+                <View style={styles.stat}>
+                  <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+                    <Image source={ART.flame} style={{ width: 18, height: 18, opacity: combo > 0 ? 1 : 0.4 }} />
+                    <Txt v="h3" color={C.honeyDark}>×{1 + 0.25 * combo}</Txt>
+                  </View>
+                  <Txt v="tiny" color={C.dim}>{t("game.statCombo")}</Txt>
+                </View>
+                <View style={[styles.stat, styles.statMid]}>
+                  <Txt v="h3" color={C.honeyDark}>{bestChain || "–"}</Txt>
+                  <Txt v="tiny" color={C.dim}>{t("game.statBest")}</Txt>
+                </View>
+                <View style={styles.stat}>
+                  <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+                    <Image source={ART.starOff} style={{ width: 18, height: 18 }} />
+                    <Txt v="h3" color={C.honeyDark}>{isDaily && nextStar === undefined ? "✓" : fmt(toGoal)}</Txt>
+                  </View>
+                  <Txt v="tiny" color={C.dim}>{isDaily ? t("game.statToStar") : t("game.statToBest")}</Txt>
+                </View>
+              </View>
+            ) : null}
+          </View>
+        ) : (
+          <Txt v="small" color={C.dim} center style={{ marginTop: 8 }}>
+            {isDaily ? t("game.hintDaily") : t("game.hintFree", { n: props.rules.bombAt })}
+          </Txt>
+        )}
+      </View>
 
       {/* quit confirm */}
       <Overlay visible={quitAsk && !result} onClose={() => setQuitAsk(false)}>
@@ -637,6 +698,13 @@ const styles = StyleSheet.create({
   moves: { width: 62, height: 58, borderRadius: 20, backgroundColor: C.honeyDeep, alignItems: "center", justifyContent: "center", ...shadow },
   statusRow: { flexDirection: "row", justifyContent: "space-between", alignSelf: "stretch", paddingHorizontal: 16, height: 32, alignItems: "center" },
   chip: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: "#FFF", borderRadius: 14, paddingHorizontal: 10, height: 28 },
+  dock: { flexDirection: "row", flexWrap: "wrap", gap: 10, marginTop: 10 },
+  dockCard: { flexGrow: 1, flexBasis: "45%", flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: "#fff", borderRadius: 18, borderWidth: 2, borderColor: C.line, paddingHorizontal: 10, paddingVertical: 8, minHeight: 56 },
+  dockHint: { backgroundColor: "#FFF3D6", borderColor: "#FFB51F" },
+  dockIc: { width: 40, height: 40, borderRadius: 13, alignItems: "center", justifyContent: "center" },
+  dockStats: { flexBasis: "100%", minHeight: 0, paddingVertical: 6, paddingHorizontal: 0, gap: 0 },
+  stat: { flex: 1, alignItems: "center" },
+  statMid: { borderLeftWidth: 2, borderRightWidth: 2, borderColor: C.line },
   boardWrap: { backgroundColor: C.board, borderRadius: 26, padding: 6, borderWidth: 3, borderColor: C.boardEdge },
   floatText: { textShadowColor: "#fff", textShadowRadius: 6, textShadowOffset: { width: 0, height: 0 } },
   rewardRow: { flexDirection: "row", gap: 14, marginTop: 14 },

@@ -7,7 +7,7 @@ import { addBackListener } from "../platform/back";
 import {
   applyPath, Board, Cell, createBoard, shuffleBoard, findBestPath, isValidPath, MoveResult, pathColor, PuzzleRules, stepPath,
 } from "../logic/board";
-import { boardSize, cellCenter, COLS, fitStretch, hitTest, Pos, ROWS } from "../logic/hex";
+import { boardSize, cellCenter, COLS, fitStretch, hitTest, Pos, ROWS, tileSize } from "../logic/hex";
 import { DAILY_STARS, starsFor, WEEKEND_STARS } from "../logic/day";
 import { BOX_INFO } from "../logic/loot";
 import { boxArt } from "../ui/lootUi";
@@ -19,7 +19,6 @@ import { Bar, CountUp, fmt, GameButton, Overlay, Press, Stars, Txt } from "../ui
 import { hError, hHeavy, hLight, hSuccess, hTick } from "../ui/haptics";
 
 const SQ3 = Math.sqrt(3);
-const TILE = 0.93; // visual gap between neighbouring tiles so the board reads as separate combs
 const PATH_COLORS = ["#E39A00", "#E04585", "#7A4FD6", "#1F7FE0", "#25A35C"];
 
 interface Props {
@@ -73,7 +72,7 @@ const CellView = React.memo(function CellView(p: {
     l.start();
     return () => l.stop();
   }, [p.hint, hint]);
-  const w = 2 * p.s * TILE, h = SQ3 * p.s * p.k * TILE;
+  const { w, h } = tileSize(p.s, p.k);
   const src = p.cell.kind === "wild" ? ART.wild : ART.cells[p.cell.color];
   return (
     <Animated.View
@@ -102,7 +101,7 @@ function Pop({ fx, onDone }: { fx: PopFx; onDone: (k: number) => void }) {
   useEffect(() => {
     Animated.timing(a, { toValue: 1, duration: 520, delay: fx.delay, easing: Easing.out(Easing.quad), useNativeDriver: true }).start(() => onDone(fx.key));
   }, [a, fx, onDone]);
-  const w = 2 * fx.s * TILE, h = SQ3 * fx.s * fx.k * TILE;
+  const { w, h } = tileSize(fx.s, fx.k);
   const col = C.pollen[fx.color];
   return (
     <View pointerEvents="none" style={{ position: "absolute", left: fx.x, top: fx.y }}>
@@ -244,6 +243,7 @@ export default function GameScreen(props: Props) {
   const [starsNow, setStarsNow] = useState(0);
   const [dockH, setDockH] = useState(0);
   const narrow = size.width < 335;
+  const tile = tileSize(s, k);
 
   const summary = useRef<RoundSummary>({ mode: props.mode, score: 0, chains: [], bombs: 0, cellsByColor: [0, 0, 0, 0, 0] });
   const prevPos = useRef(new Map<number, number>()); // cell id -> last y
@@ -520,7 +520,7 @@ export default function GameScreen(props: Props) {
           <View pointerEvents="none" style={StyleSheet.absoluteFill}>
             {slots.map((sl) => (
               <Image key={`slot${sl.k}`} source={ART.cells[0]}
-                style={{ position: "absolute", left: sl.x - s * TILE, top: sl.y - (SQ3 * s * k * TILE) / 2, width: 2 * s * TILE, height: SQ3 * s * k * TILE, tintColor: C.boardEdge, opacity: 0.35 }} />
+                style={{ position: "absolute", left: sl.x - tile.w / 2, top: sl.y - tile.h / 2, width: tile.w, height: tile.h, tintColor: C.boardEdge, opacity: 0.35 }} />
             ))}
           </View>
           {layout.map((l) => (

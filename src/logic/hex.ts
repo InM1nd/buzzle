@@ -41,6 +41,18 @@ export function boardSize(s: number, cols = COLS, rows = ROWS, k = 1) {
   return { width: s * (1.5 * cols + 0.5), height: h * (rows + 0.5) };
 }
 
+/**
+ * Size of a tile sprite inside its lattice cell. The tile art (assets/art/cell*.webp) is not a perfect
+ * regular hexagon (rounded corners, flatter slanted sides), so scaling it uniformly leaves a visibly wider
+ * gap between vertical neighbours than between diagonal ones. Height is cut by a fixed gap (TILE_GAP × s),
+ * width by a factor measured so the gap between diagonal neighbours comes out the same.
+ */
+const TILE_GAP = 0.11;
+const TILE_W = 0.905;
+export function tileSize(s: number, k = 1): { w: number; h: number } {
+  return { w: 2 * s * TILE_W, h: Math.sqrt(3) * s * k - TILE_GAP * s };
+}
+
 /** Vertical stretch that uses spare screen height: 1 ≤ k ≤ maxK. */
 export function fitStretch(s: number, availH: number, rows = ROWS, maxK = 1.06): number {
   const natural = Math.sqrt(3) * (rows + 0.5) * s;

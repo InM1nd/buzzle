@@ -149,6 +149,11 @@ const HIVE_SPOTS: Spot[] = [
   { id: "lanterns", x: 0.87, y: 0.22, h: 0.22 },
   { id: "barrel", x: 0.11, y: 0.99, h: 0.22 },
   { id: "fountain", x: 0.88, y: 0.99, h: 0.24 },
+  // v1.6 jack-o'-lanterns from garden pumpkins
+  { id: "jack1", x: 0.27, y: 0.99, h: 0.16 },
+  { id: "jack2", x: 0.73, y: 0.99, h: 0.16, flip: true },
+  { id: "jack3", x: 0.28, y: 0.17, h: 0.12 },
+  { id: "jack4", x: 0.72, y: 0.17, h: 0.12, flip: true },
 ];
 
 export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, onToggleDeco, onShop, banner, cheer = 0, night }: Props) {

@@ -29,6 +29,11 @@ export const ITEM_ART: Record<string, { src: number; w: number; h: number }> = {
   "deco_lanterns": { src: require("../../assets/art/items/deco_lanterns.webp"), w: 102, h: 168 },
   "deco_mushroom": { src: require("../../assets/art/items/deco_mushroom.webp"), w: 168, h: 135 },
   "deco_pinwheel": { src: require("../../assets/art/items/deco_pinwheel.webp"), w: 86, h: 168 },
+  // v1.6 jack-o'-lanterns (scripts/import_halloween_art.py)
+  "deco_jack1": { src: require("../../assets/art/halloween/deco_jack1.webp"), w: 160, h: 250 },
+  "deco_jack2": { src: require("../../assets/art/halloween/deco_jack2.webp"), w: 160, h: 250 },
+  "deco_jack3": { src: require("../../assets/art/halloween/deco_jack3.webp"), w: 160, h: 250 },
+  "deco_jack4": { src: require("../../assets/art/halloween/deco_jack4.webp"), w: 160, h: 250 },
   "box_gold": { src: require("../../assets/art/items/box_gold.webp"), w: 220, h: 220 },
   "box_royal": { src: require("../../assets/art/items/box_royal.webp"), w: 220, h: 220 },
   "box_wax": { src: require("../../assets/art/items/box_wax.webp"), w: 220, h: 220 },

@@ -16,7 +16,7 @@ export const RARITY_UI: Record<Rarity, { color: string; bg: string; name: string
   epic: { color: "#8A5BE6", bg: "#EFE6FF", get name() { return RARITY_NAME.epic; } },
   legendary: { color: "#E09A00", bg: "#FFF0C7", get name() { return RARITY_NAME.legendary; } },
 };
-export const BOOSTER_ART: Record<BoosterId, number> = { moves: ART.boostMoves, bomb: ART.bomb, shuffle: ART.boostShuffle };
+export const BOOSTER_ART: Record<BoosterId, number> = { moves: ART.boostMoves, bomb: require("../../assets/art/boost_bomb.webp"), shuffle: ART.boostShuffle };
 export const boxArt = (kind: string, dmg = 0) => (dmg > 0 && ITEM_ART[`box_${kind}_d${Math.min(2, dmg)}`]?.src) || ITEM_ART[`box_${kind}`]?.src;
 
 /** picture of a collectible (skin on Zhuzha, decoration, rare flower, night bee) */

@@ -5,7 +5,7 @@ import { applyPath, createBoard, DEFAULT_RULES, findBestPath, GHOST_BONUS, Puzzl
 import { COLS, ROWS } from "../src/logic/hex";
 import { dayNumber } from "../src/logic/day";
 import { activeEvent, claimable, PUMPKIN_CHANCE, TRACK, trackEvent } from "../src/logic/event";
-import { trickGuest, treatGuest } from "../src/logic/game";
+import { harvestAction, plantFlower, shownDecos, toggleDeco, trickGuest, treatGuest, waterBedAction } from "../src/logic/game";
 import { claimTrackStep, eventView, finishRound, GameState, migrate, newState, RoundSummary } from "../src/logic/game";
 
 const at = (m: number, d: number, h = 12) => new Date(2026, m - 1, d, h).getTime();
@@ -117,6 +117,29 @@ test("calibration: a greedy 20-move free round earns roughly 5–15 event points
   }
   const avg = total / N;
   assert.ok(avg > 4 && avg < 16, `avg ${avg}`);
+});
+
+test("lanterns: each harvested pumpkin carves the next of four, they stay in the hive after save/load", async () => {
+  const { EVENT_DECOS, ITEMS, PAGES } = await import("../src/logic/loot");
+  for (const d of EVENT_DECOS) {
+    assert.ok(!ITEMS.some((i) => i.id === d.id));
+    assert.ok(!PAGES.some((p) => p.items.includes(d.id)));
+  }
+  const T = at(10, 20, 8), H = 3600_000;
+  let s: GameState = newState(T);
+  s = { ...s, loot: { ...s.loot, seeds: { pumpkin: 5 } } };
+  const got: (string | undefined)[] = [];
+  for (let i = 0; i < 5; i++) {
+    const t0 = T + i * 7 * H;
+    s = waterBedAction(plantFlower(s, 0, "pumpkin", t0)!, 0, t0 + 3 * H)!;
+    const r = harvestAction(s, 0, t0 + 6 * H + 1)!;
+    got.push(r.jack);
+    s = r.state;
+  }
+  assert.deepEqual(got, ["jack1", "jack2", "jack3", "jack4", undefined]);
+  s = toggleDeco(s, "jack2")!;
+  const back = migrate(JSON.parse(JSON.stringify(s)), T + 40 * H);
+  assert.deepEqual(shownDecos(back, "hive"), ["jack1", "jack3", "jack4"]);
 });
 
 test("costumes: on the track, wearable, never in combs, the shop or the album pages", async () => {

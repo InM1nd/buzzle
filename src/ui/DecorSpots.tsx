@@ -3,7 +3,7 @@
 import { t } from "../i18n";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Easing, Image, StyleSheet, View } from "react-native";
-import { DECOS, ITEM_BY_ID } from "../logic/loot";
+import { ALL_DECOS, ITEM_BY_ID } from "../logic/loot";
 import { GameState } from "../logic/game";
 import { ITEM_ART } from "./beeArt";
 import { RARITY_UI } from "./lootUi";
@@ -18,6 +18,7 @@ type Motion = "sway" | "glow" | "spin" | "bob" | "none";
 const MOTION: Record<string, Motion> = {
   flags: "sway", lanterns: "glow", barrel: "none", fountain: "bob",
   mushroom: "bob", bench: "none", pinwheel: "spin", gnome: "sway",
+  jack1: "glow", jack2: "glow", jack3: "glow", jack4: "glow",
 };
 
 function DecoArt({ id, height, on, ghost }: { id: string; height: number; on: boolean; ghost: boolean }) {
@@ -67,7 +68,8 @@ export function DecorSpots({ s, place, spots, w, h, onToggle, onShop }: {
   const it = open ? ITEM_BY_ID[open] : null;
   return (
     <>
-      {spots.filter((sp) => DECOS.some((d) => d.id === sp.id && d.place === place)).map((sp) => {
+      {/* event lanterns are not sold: their spot stays empty until one is carved */}
+      {spots.filter((sp) => ALL_DECOS.some((d) => d.id === sp.id && d.place === place && (!d.event || owned(d.id)))).map((sp) => {
         const a = ITEM_ART[`deco_${sp.id}`];
         if (!a) return null;
         const ih = sp.h * h, iw = (a.w / a.h) * ih;

@@ -34,6 +34,7 @@ export function EventCard({ s, now, onClaim }: { s: GameState; now: number; onCl
   const progress = next ? (e.points - prevAt) / (next.at - prevAt) : 1;
   return (
     <View style={[styles.card, shadow]}>
+      <Image source={ART.eventHeader} resizeMode="cover" style={styles.header} />
       <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
         <Bobbing amp={3}><Image source={ART.pumpkin} style={{ width: 58, height: 50 }} /></Bobbing>
         <View style={{ flex: 1 }}>
@@ -92,18 +93,43 @@ export function TrickBanner({ s, now, onTreat }: { s: GameState; now: number; on
   if (!g) return null;
   return (
     <View ref={ref} collapsable={false} style={[styles.trick, shadow]}>
-      <Bobbing amp={4}><BeeSprite id={g.bee} skin={g.skin} size={64} flap={false} /></Bobbing>
+      {/* the guest knocks at the night hive door */}
+      <View style={{ width: 92, height: 92 }}>
+        <Image source={ART.trickDoor} style={{ position: "absolute", width: 92, height: 92 }} />
+        <Bobbing amp={3} style={{ position: "absolute", left: 22, top: 38 }}><BeeSprite id={g.bee} skin={g.skin} size={52} flap={false} /></Bobbing>
+      </View>
       <View style={{ flex: 1 }}>
         <Txt v="h3" color="#fff">{t("ev.trickTitle")}</Txt>
         <Txt v="small" color={NIGHT.ghost}>{t("ev.trickSub")}</Txt>
-        <GameButton small title={t("ev.treat")} color="honey" style={{ marginTop: 8 }} onPress={async () => onTreat(await centerOf(ref.current))} label={t("ev.treat")} />
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginTop: 8 }}>
+          <Image source={ART.trickBasket} style={{ width: 40, height: 40 }} />
+          <GameButton small title={t("ev.treat")} color="honey" style={{ flex: 1 }} onPress={async () => onTreat(await centerOf(ref.current))} label={t("ev.treat")} />
+        </View>
       </View>
     </View>
   );
 }
 
+/** v1.6: a harvested pumpkin became a jack-o'-lantern for the hive */
+export function JackCarved({ id, onClose }: { id: string | null; onClose: () => void }) {
+  return (
+    <Overlay visible={!!id} onClose={onClose}>
+      {id ? (
+        <View style={{ alignItems: "center", gap: 8 }}>
+          <Bobbing amp={4}><ItemIcon id={id} size={120} /></Bobbing>
+          <Txt v="h2" center>{tx(`item.${id}`)}</Txt>
+          <Txt v="small" color="#8A6B4A" center>{t("ev.jack")}</Txt>
+          <GameButton title={t("ev.jackOk")} color="green" onPress={onClose} style={{ alignSelf: "stretch", marginTop: 6 }} />
+        </View>
+      ) : null}
+    </Overlay>
+  );
+}
+
 const styles = StyleSheet.create({
-  card: { backgroundColor: NIGHT.bg, borderRadius: 28, padding: 16, borderWidth: 3, borderColor: NIGHT.card },
+  card: { backgroundColor: NIGHT.bg, borderRadius: 28, padding: 16, borderWidth: 3, borderColor: NIGHT.card, overflow: "hidden" },
+  // the night meadow behind the title row; the moon and pumpkins sit on the right, the text on the calm left
+  header: { position: "absolute", left: 0, top: 0, width: "100%", height: 150, opacity: 0.7 },
   points: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: NIGHT.card, borderRadius: 16, paddingHorizontal: 10, paddingVertical: 6 },
   step: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: "#fff", borderRadius: 16, borderWidth: 2, borderColor: "#F0DFC0", padding: 8 },
   stepDone: { opacity: 0.6 },

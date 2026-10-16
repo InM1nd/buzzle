@@ -51,6 +51,10 @@ export const ART = {
   hiveNight: require("../../assets/art/halloween/hive_bg_night.webp"),
   gardenNight: require("../../assets/art/halloween/garden_bg_night.webp"),
   flightIcon: require("../../assets/art/halloween/fl_icon.webp"),
+  puzzleBg: require("../../assets/art/halloween/puzzle_bg.webp"),
+  eventHeader: require("../../assets/art/halloween/event_header.webp"),
+  trickDoor: require("../../assets/art/halloween/trick_door.webp"),
+  trickBasket: require("../../assets/art/halloween/trick_basket.webp"),
 };
 
 /** v1.6 puzzle tile styles (Settings). setTileStyle swaps ART.cells / wild / bomb / pumpkin in place, so every screen that draws

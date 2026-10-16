@@ -18,7 +18,7 @@ import {
 import { bonusReward, loginReward, Reward, TaskDef, TaskEvent, taskById, tasksForDay, taskReward, WEEKLY_TASKS } from "./tasks";
 import {
   albumBonus, BoosterId, BoxKind, buyBooster, buyFragment, buyItem, Drop, FRAGMENTS_FOR_BEE, Loot, migrateLoot, newLoot, NIGHT_BEE,
-  openComb, SKIN_BY_ID, DECOS,
+  openComb, SKIN_BY_ID, ALL_DECOS, EVENT_DECOS,
 } from "./loot";
 import { hashString } from "./rng";
 import { FLIGHT_PAID_RUNS, flightNectar, flightPoints } from "./nightFlight";
@@ -405,14 +405,17 @@ export function waterAllAction(s0: GameState, now: number): { state: GameState; 
   const r = waterAllBeds(s.garden);
   return r ? { state: taskEvent({ ...s, garden: r.garden }, { type: "water", n: r.n }), n: r.n } : null;
 }
-export function harvestAction(s0: GameState, bed: number, now: number): { state: GameState; nectar: number; flower: string } | null {
+export function harvestAction(s0: GameState, bed: number, now: number): { state: GameState; nectar: number; flower: string; jack?: string } | null {
   const s = tick(s0, now);
   const r = harvestBed(s.garden, bed);
   if (!r) return null;
   const nectar = r.nectar + album(s).harvestNectar;
+  // v1.6: a harvested pumpkin is carved into the next jack-o'-lantern for the hive
+  const jack = r.flower === "pumpkin" ? EVENT_DECOS.find((d) => !s.loot.owned.includes(d.id))?.id : undefined;
+  const loot = jack ? { ...s.loot, owned: [...s.loot.owned, jack] } : s.loot;
   return {
-    state: taskEvent({ ...s, garden: r.garden, nectar: s.nectar + nectar, stats: { ...s.stats, harvests: s.stats.harvests + 1, totalNectar: s.stats.totalNectar + nectar } }, { type: "harvest", nectar }),
-    nectar, flower: r.flower,
+    state: taskEvent({ ...s, loot, garden: r.garden, nectar: s.nectar + nectar, stats: { ...s.stats, harvests: s.stats.harvests + 1, totalNectar: s.stats.totalNectar + nectar } }, { type: "harvest", nectar }),
+    nectar, flower: r.flower, jack,
   };
 }
 
@@ -660,12 +663,12 @@ export function setSkin(s: GameState, bee: string, skin: string | null): GameSta
 }
 /** show / put away a decoration */
 export function toggleDeco(s: GameState, id: string): GameState | null {
-  if (!DECOS.some((d) => d.id === id) || !s.loot.owned.includes(id)) return null;
+  if (!ALL_DECOS.some((d) => d.id === id) || !s.loot.owned.includes(id)) return null;
   const hidden = s.loot.hidden.includes(id) ? s.loot.hidden.filter((x) => x !== id) : [...s.loot.hidden, id];
   return { ...s, loot: { ...s.loot, hidden } };
 }
 export const shownDecos = (s: GameState, place: "hive" | "garden") =>
-  DECOS.filter((d) => d.place === place && s.loot.owned.includes(d.id) && !s.loot.hidden.includes(d.id)).map((d) => d.id);
+  ALL_DECOS.filter((d) => d.place === place && s.loot.owned.includes(d.id) && !s.loot.hidden.includes(d.id)).map((d) => d.id);
 
 /** free play boosters, chosen before the round (the daily and weekend puzzles keep equal conditions: no boosters) */
 export interface RoundBoosters { moves: boolean; bomb: boolean }

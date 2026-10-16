@@ -742,7 +742,7 @@ function ResultCard({ mode, score, reward, onExit, onReplay }: { mode: RoundMode
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: C.bg, alignItems: "center" },
+  root: { flex: 1, alignItems: "center" }, // background: App (C.bg, or the event backdrop)
   top: { flexDirection: "row", alignItems: "center", paddingHorizontal: 14, alignSelf: "stretch", gap: 10 },
   iconBtn: { width: 46, height: 46, borderRadius: 23, backgroundColor: "#fff", alignItems: "center", justifyContent: "center", ...shadow },
   moves: { width: 62, height: 58, borderRadius: 20, backgroundColor: C.honeyDeep, alignItems: "center", justifyContent: "center", ...shadow },

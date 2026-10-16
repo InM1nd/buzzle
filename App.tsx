@@ -50,7 +50,7 @@ import { chooseLanguage, setSetting, Settings } from "./src/logic/game";
 import { compareVersions } from "./src/logic/update";
 import { activeEvent, forceEvent, PUMPKIN_CHANCE } from "./src/logic/event";
 import { claimTrackStep, finishFlight, flightRunsToday, treatGuest } from "./src/logic/game";
-import { TrickBanner } from "./src/screens/EventTrack";
+import { JackCarved, TrickBanner } from "./src/screens/EventTrack";
 import { FLIGHT_PAID_RUNS } from "./src/logic/nightFlight";
 import FlightScreen from "./src/screens/FlightScreen";
 import { useUpdater } from "./src/ui/useUpdater";
@@ -93,6 +93,7 @@ function Main() {
   const [flight, setFlight] = useState<{ key: number; seed: number; bee: string } | null>(null);
   const [game, setGame] = useState<{ mode: RoundMode; seed: number; key: number; extraMoves: number; bomb: boolean } | null>(null);
   const [boxOpen, setBoxOpen] = useState<BoxKind | null>(null);
+  const [jack, setJack] = useState<string | null>(null);
   const [showTutorial, setShowTutorial] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -291,6 +292,7 @@ function Main() {
       if (!r) return false;
       commit(r.state); hSuccess();
       flyReward(from, { nectar: r.nectar }, s, [s.bees[bed % s.bees.length] ?? "zhuzha"]);
+      if (r.jack) setTimeout(() => setJack(r.jack!), 900);
       return true;
     },
     unlockBed: () => {
@@ -523,6 +525,7 @@ function Main() {
     return (
       <View style={{ flex: 1, backgroundColor: C.bg }}>
         <StatusBar style="dark" />
+        {activeEvent(todayOf(s, now)) ? <Image source={ART.puzzleBg} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} /> : null}
         <GameScreen
           key={game.key}
           mode={game.mode}
@@ -678,6 +681,7 @@ function Main() {
       {!s.settings.langPicked ? (
         <LanguagePicker initial={s.settings.lang !== "en" ? s.settings.lang : telegramLanguage() ?? "en"} suggested={telegramLanguage()} onDone={act.pickLang} />
       ) : null}
+      <JackCarved id={jack} onClose={() => setJack(null)} />
       {boxOpen ? (
         <BoxOpen key={boxOpen} kind={boxOpen} left={s.loot.boxes[boxOpen]} bees={s.bees} skins={s.beeSkins}
           onOpen={() => act.openBox(boxOpen)} onOpenAll={() => act.openAll(boxOpen)} onClose={() => setBoxOpen(null)} />

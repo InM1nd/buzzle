@@ -151,6 +151,10 @@ def classify(rel):
         if '/sources/rework-v5/' in p:role='Лист / источник';status='Архив / пробы'
     if p == 'design/2d/halloween/review/bright-bomb-size-v6.png':
         title='Яркая бомба / уменьшение до размера остальных v6';role='Лист / сравнение';status='Кандидат / вариант';style='Сравнение стилей'
+    if p.startswith('design/2d/halloween/'):
+        titles_v7={'bright-bomb-complete-v7':'Яркая бомба / восстановленный целый контур v7','zhuzha-vampire-current-v7':'Жужа / актуальный костюм вампира / три ракурса'}
+        if stem in titles_v7:title=titles_v7[stem];role='Лист / сравнение';status='Кандидат / вариант'
+        if '/sources/rework-v7/' in p:role='Лист / источник';status='Архив / пробы'
     return dict(title=title,category=category,role=role,style=style,season=season,status=status,species=species,accessory=accessory)
 
 def build(target):

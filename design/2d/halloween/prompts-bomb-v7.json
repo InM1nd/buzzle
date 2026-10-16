@@ -1,0 +1,11 @@
+{
+  "source": "sources/rework-v7/bright-bomb-complete.png",
+  "prompt": "Use case: precise-object-edit. Repair ONLY the accidentally clipped silhouette of this Buzzle game bomb sprite. The top central pink jewel is FLAT CUT OFF and the bottom of the creamy faceted spherical orb is FLAT CUT OFF. Restore a complete small rounded faceted pink jewel on top of the gold crown and a complete smoothly round faceted lower contour of the orb. Preserve the same charming bright Honey Crystal orb, golden three-point crown, three pink gems, broad cream and warm honey polygon facets, palette, lighting and proportions. Do not add fuse, hat, decoration, outline, shadow or hex tile. Keep the object SMALL and centered on a square transparent canvas with generous empty margins. Main orb fully circular, never flat-bottomed. Every jewel fully visible, none touching image boundary. Entire subject including crown should occupy about65 percent of canvas height, with empty17 percent above and below. Output true transparent RGBA, only repaired sprite, no text, guides, checkerboard or backdrop. This is repair of missing endpoints, not redesign.",
+  "tool": "built-in image_gen",
+  "width": 296,
+  "canvas": [
+    512,
+    512
+  ],
+  "status": "candidate"
+}

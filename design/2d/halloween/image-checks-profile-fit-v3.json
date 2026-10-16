@@ -7,7 +7,9 @@
     ],
     "mode": "RGBA",
     "sRGB": true,
-    "sha256": "0b405f1f1ade54bae549e98bcf9f9900ef112fd70e7bf7cfde547aeddd67f856"
+    "sha256": "bb969e66ddf257bf83fa64f814f97faf2dd1bc032dbd2743633cd2fc0f513928",
+    "prior_sha256": "0b405f1f1ade54bae549e98bcf9f9900ef112fd70e7bf7cfde547aeddd67f856",
+    "updated_revision": 6
   },
   {
     "file": "costumes/fitting/pushinka/wing-far-side.png",
@@ -17,9 +19,9 @@
     ],
     "mode": "RGBA",
     "sRGB": true,
-    "sha256": "73c1668a0be75cd2330bec0afb6f0f653f091b10a3314ee1051638836a8ddf85",
-    "prior_sha256": "462f36ebee95f975c9ee91739d75598c414c0310b5b24850ee00a7011a043b87",
-    "updated_revision": 5
+    "sha256": "ee49ec6479890c2cc0283ce869278fe477301aa4bbf39d1ab2b5c9c0bc74aa9c",
+    "prior_sha256": "73c1668a0be75cd2330bec0afb6f0f653f091b10a3314ee1051638836a8ddf85",
+    "updated_revision": 6
   },
   {
     "file": "costumes/fitting/pushinka/wing-near-side.png",
@@ -29,9 +31,9 @@
     ],
     "mode": "RGBA",
     "sRGB": true,
-    "sha256": "a91b5887b24316dfb3866233fa0dba2fd6585f243cc8214a496dd30455ee79fd",
-    "prior_sha256": "a05d0ef9802fe6965fa3f64d9c182e35560a63a19f02d3e3dd4e4f87bc8670f1",
-    "updated_revision": 5
+    "sha256": "fbad46961a85e4627b8f0ba8ba1eedb2013083aaa98caefbac282fbfdace1579",
+    "prior_sha256": "a91b5887b24316dfb3866233fa0dba2fd6585f243cc8214a496dd30455ee79fd",
+    "updated_revision": 6
   },
   {
     "file": "costumes/fitting/pushinka/antennae-side-front.png",
@@ -41,8 +43,8 @@
     ],
     "mode": "RGBA",
     "sRGB": true,
-    "sha256": "b1ab794d23f197146d75693a1174ce746dd856eee7575a648e82f0d5d9d0a0e5",
-    "prior_sha256": "af84a297ee9ccf781a55352bd789fa357b4454b1d50d822caa0d7a177dcd66d7",
-    "updated_revision": 5
+    "sha256": "15ff30d48e9cd749b91a1644fff488eb19d085e7a15551bccca37c00d808641d",
+    "prior_sha256": "b1ab794d23f197146d75693a1174ce746dd856eee7575a648e82f0d5d9d0a0e5",
+    "updated_revision": 6
   }
 ]

@@ -40,13 +40,13 @@
     "mode": "RGBA",
     "sRGB": true,
     "alpha_bbox": [
-      178,
-      68,
-      442,
-      248
+      170,
+      53,
+      390,
+      198
     ],
-    "sha256": "7b057758839c6105c0fbf114f9c9bb009f75a2d4271a801d7d828128f6fe6bd8",
-    "prior_sha256": "117b0cb61a69a6614fb0803c3f473d2b739cfcebe542991a0a75f3f229752888",
-    "updated_revision": 5
+    "sha256": "cd970c122756f8f56466451a2ab08b7380f00cc0c48ae3a3321e8966b8a38714",
+    "prior_sha256": "7b057758839c6105c0fbf114f9c9bb009f75a2d4271a801d7d828128f6fe6bd8",
+    "updated_revision": 6
   }
 ]

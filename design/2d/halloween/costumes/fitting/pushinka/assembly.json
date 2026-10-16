@@ -14,6 +14,6 @@
     "costumes/witchhat-side-view.png",
     "costumes/fitting/pushinka/antennae-side-front.png"
   ],
-  "note": "Two fitted eyelets; only upper antenna segments in front. Wing silhouettes from Zhuzha side reference. Original body preserved.",
-  "revision": 5
+  "note": "Selected v2 hat placement with ONE local exit. Only front antenna moved. Original rear stays in body. Body-side omits original front antenna to avoid doubling; body-side-original is full source.",
+  "revision": 6
 }

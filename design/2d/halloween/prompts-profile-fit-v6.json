@@ -1,0 +1,39 @@
+{
+  "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-c26f377a-e2e6-4afb-99c3-f730a35e111a.png",
+  "prompt": "Very small local edit, NOT a new hat design. Image1 is the EXACT approved side-profile witch hat layer on full512square. Preserve ALL shape, tip bend, position, perspective, brim, orange band and buckle, all colors. Image2 is anatomical reference for the bee, not to be drawn. Add ONE small snug diagonal oval exit hole in the forward/right-facing slope of cone, just ABOVE the orange band: on logical512square centered x329,y145, approximately28px wide by18px high, aligned to the forward antenna sweeping UP and RIGHT. A subtle deep-plum folded fabric lip/rim and dark recess should make one brown stalk able to emerge naturally. Hole interior transparent. ONLY ONE HOLE. Do NOT change anything about rear antenna region or hat tip. Do NOT draw any antennae, bee, body, face or wings. Hat stays EXACTLY where it is in Image1. Do not move backward, rotate, enlarge or tilt it. Transparent square background. Keep full reference framing. We will transfer only the tiny edited cloth patch around the one hole onto the original hat; everything outside that local patch must remain unchanged.",
+  "refs": [
+    "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/witch-v2-original.png",
+    "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/profile-layers/body.png"
+  ],
+  "revision": 6,
+  "hat_template_commit": "b1a5ddd",
+  "hat_changed_region": [
+    307,
+    126,
+    343,
+    154
+  ],
+  "patch_source_crop": [
+    666,
+    235,
+    764,
+    313
+  ],
+  "patch_size": [
+    36,
+    28
+  ],
+  "front_antenna_translation": [
+    8,
+    -25
+  ],
+  "front_cutoff_y": 144,
+  "rear_antenna": "original position and original occlusion; not separately overlaid",
+  "wing_source": "Zhuzha side.png / ZDEF.side",
+  "wing_uniform_scale": 0.42,
+  "wing_near_root": [
+    188,
+    245
+  ],
+  "status": "candidate"
+}

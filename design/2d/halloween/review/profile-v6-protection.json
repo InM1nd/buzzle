@@ -1,0 +1,11 @@
+{
+  "hat_identical_outside_local_patch": true,
+  "hat_patch": [
+    307,
+    126,
+    343,
+    154
+  ],
+  "front_q3_hashes_unchanged": true,
+  "rear_antenna_no_transform": true
+}

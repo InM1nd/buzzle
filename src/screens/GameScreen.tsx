@@ -695,7 +695,7 @@ function ResultCard({ mode, score, reward, onExit, onReplay }: { mode: RoundMode
     : reward.record ? t("game.record") : t("game.over");
   return (
     <View style={{ alignItems: "center" }} accessibilityLabel={t("game.results")}>
-      <Animated.Image source={ART.honey} style={{ width: 84, height: 84, marginTop: -64, transform: [{ scale: bee }] }} />
+      <Animated.Image source={ART.honey} style={{ width: 72, height: 72, transform: [{ scale: bee }] }} />
       <Txt v="h1" center style={{ marginTop: 6 }}>{title}</Txt>
       {daily ? <View style={{ marginTop: 10 }}><Stars n={reward.stars} size={46} gap={8} animate /></View> : null}
       <Txt v="tiny" color={C.dim} style={{ marginTop: 14 }}>{t("game.points")}</Txt>

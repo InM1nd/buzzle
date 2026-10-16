@@ -70,8 +70,24 @@ export const TILE_SETS = {
     require("../../assets/art/tiles/wax_cell0.webp"), require("../../assets/art/tiles/wax_cell1.webp"), require("../../assets/art/tiles/wax_cell2.webp"),
     require("../../assets/art/tiles/wax_cell3.webp"), require("../../assets/art/tiles/wax_cell4.webp"),
   ], require("../../assets/art/tiles/wax_cell_wild.webp"), require("../../assets/art/tiles/wax_bomb.webp")),
+  hsoft: tileSet("hsoft", [
+    require("../../assets/art/tiles/hsoft_cell0.webp"), require("../../assets/art/tiles/hsoft_cell1.webp"), require("../../assets/art/tiles/hsoft_cell2.webp"),
+    require("../../assets/art/tiles/hsoft_cell3.webp"), require("../../assets/art/tiles/hsoft_cell4.webp"),
+  ], require("../../assets/art/tiles/hsoft_cell_wild.webp"), require("../../assets/art/tiles/hsoft_bomb.webp")),
+  hpastel: tileSet("hpastel", [
+    require("../../assets/art/tiles/hpastel_cell0.webp"), require("../../assets/art/tiles/hpastel_cell1.webp"), require("../../assets/art/tiles/hpastel_cell2.webp"),
+    require("../../assets/art/tiles/hpastel_cell3.webp"), require("../../assets/art/tiles/hpastel_cell4.webp"),
+  ], require("../../assets/art/tiles/hpastel_cell_wild.webp"), require("../../assets/art/tiles/hpastel_bomb.webp")),
+  hwax: tileSet("hwax", [
+    require("../../assets/art/tiles/hwax_cell0.webp"), require("../../assets/art/tiles/hwax_cell1.webp"), require("../../assets/art/tiles/hwax_cell2.webp"),
+    require("../../assets/art/tiles/hwax_cell3.webp"), require("../../assets/art/tiles/hwax_cell4.webp"),
+  ], require("../../assets/art/tiles/hwax_cell_wild.webp"), require("../../assets/art/tiles/hwax_bomb.webp")),
 };
-export function setTileStyle(st: keyof typeof TILE_SETS) {
+export type TileSetId = keyof typeof TILE_SETS;
+/** during the Halloween event every style switches to its seasonal version by itself (bright 1.5 → soft crystal) */
+export const seasonalTiles = (st: string, halloween: boolean): TileSetId =>
+  !halloween ? ((st in TILE_SETS ? st : "soft") as TileSetId) : st === "pastel" ? "hpastel" : st === "wax" ? "hwax" : "hsoft";
+export function setTileStyle(st: TileSetId) {
   const t = TILE_SETS[st] ?? TILE_SETS.soft;
   ART.cells = t.cells; ART.wild = t.wild; ART.bomb = t.bomb;
 }

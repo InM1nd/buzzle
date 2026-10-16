@@ -249,7 +249,7 @@ export default function FlightScreen(p: Props) {
       <Overlay visible={phase === "over" && !!result} dismissable={false}>
         {result ? (
           <View style={{ alignItems: "center" }} accessibilityLabel={t("game.results")}>
-            <Image source={FA.lantern} style={{ width: 96, height: 96, marginTop: -60 }} />
+            <Image source={FA.lantern} style={{ width: 84, height: 84 }} />
             <Txt v="h1" center>{result.record ? t("fl.record") : t("fl.over")}</Txt>
             <Txt v="tiny" color={C.dim} style={{ marginTop: 10 }}>{t("fl.stems")}</Txt>
             <CountUp value={score.passed} duration={700} style={[F.black, { fontSize: 40, lineHeight: 46, color: C.text }]} />

@@ -12,7 +12,9 @@ import { changelogText } from "../logic/update";
 import { CAN_PICK_FILE, exportSaveCode, inviteFriend, pickSaveFile } from "../platform/share";
 import { inTelegram, NOTIFICATIONS_SUPPORTED } from "../platform/telegram";
 import { downloadApk, installApk, openInstallPermission } from "../platform/updater";
-import { ART, TILE_SETS } from "../ui/art";
+import { ART, seasonalTiles, TILE_SETS } from "../ui/art";
+import { activeEvent } from "../logic/event";
+import { today } from "../logic/game";
 import { Mascot } from "../ui/BeeSprite";
 import { Bar, CloseBtn, GameButton, Overlay, Press, Txt } from "../ui/components";
 import { C, F } from "../ui/theme";
@@ -90,6 +92,7 @@ function Main(p: SettingsProps & { go: (pg: Page) => void }) {
   };
   const tg = inTelegram();
   const on = st.notifications;
+  const halloween = !!activeEvent(today(p.s, Date.now()));
   return (
     <View style={{ gap: 12, paddingBottom: 4 }}>
       {/* game */}
@@ -104,7 +107,7 @@ function Main(p: SettingsProps & { go: (pg: Page) => void }) {
           ))}
         </View>
         <Txt v="h3" style={{ marginTop: 14, marginBottom: 2 }}>{t("st.tiles")}</Txt>
-        <Txt v="tiny" color={C.dim} style={{ marginBottom: 8 }}>{t("st.tilesSub")}</Txt>
+        <Txt v="tiny" color={C.dim} style={{ marginBottom: 8 }}>{t("st.tilesSub")}{halloween ? ` ${t("st.tilesEvent")}` : ""}</Txt>
         <View style={styles.tiles} accessibilityRole="radiogroup" accessibilityLabel={t("st.tiles")}>
           {TILE_STYLES.map((k) => {
             const on = st.tiles === k;
@@ -112,7 +115,7 @@ function Main(p: SettingsProps & { go: (pg: Page) => void }) {
               <Press key={k} onPress={() => p.onSet("tiles", k)} scaleTo={0.96} style={[styles.tileOpt, on && styles.tileOn]}
                 accessibilityRole="radio" accessibilityState={{ checked: on }} aria-checked={on} accessibilityLabel={t(`st.tiles.${k}`)}>
                 <View style={{ flexDirection: "row", gap: 2 }}>
-                  {[0, 1, 3, 4].map((c) => <Image key={c} source={TILE_SETS[k].cells[c]} style={{ width: 30, height: 26 }} />)}
+                  {[0, 1, 3, 4].map((c) => <Image key={c} source={TILE_SETS[seasonalTiles(k, halloween)].cells[c]} style={{ width: 30, height: 26 }} />)}
                 </View>
                 <Txt v="small" style={F.black} color={on ? C.text : C.brown} numberOfLines={1}>{t(`st.tiles.${k}`)}</Txt>
               </Press>

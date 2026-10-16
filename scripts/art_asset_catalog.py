@@ -86,6 +86,9 @@ def classify(rel):
     if p.startswith('design/2d/halloween/'):
         title={'bg_sky':'Ночной полёт / небо','bg_far':'Ночной полёт / дальние холмы','bg_near':'Ночной полёт / передний план','parallax-repeat-check':'Фоны полёта / проверка повторов','parallax-scene':'Ночной полёт / общий вид','parallax-motion':'Ночной полёт / проба параллакса'}.get(stem,title)
         if p.startswith('design/2d/halloween/flight/') and stem=='icon':title='Иконка Ночного полёта'
+        if stem.startswith('ghosthood-'):
+            title='Капюшон-привидение / '+{'ghosthood-front-view':'спереди','ghosthood-q3-front-view':'три четверти','ghosthood-side-view':'профиль','ghosthood-fit-v1':'примерка трёх ракурсов','ghosthood-side-antennae-front':'исходные усики / профиль','ghosthood-q3-front-antennae-front':'исходные усики / три четверти'}.get(stem,stem)
+            if section=='costumes':role='Отдельный слой'
         if stem.startswith('vampcape-'):
             status='Требует доработки'
             title='Плащ вампира / '+{'vampcape-fit-v1':'примерка трёх ракурсов','vampcape-layers-v1':'все отдельные слои','vampcape-front-front-view':'воротник / спереди','vampcape-front-q3-front-view':'воротник / три четверти','vampcape-front-side-view':'воротник / профиль','vampcape-back-front-view':'задняя ткань / спереди','vampcape-back-q3-front-view':'задняя ткань / три четверти','vampcape-back-side-view':'задняя ткань / профиль'}.get(stem,stem)
@@ -96,9 +99,10 @@ def classify(rel):
         if stem.startswith('witchhat-'):title='Ведьминская шляпа / '+{'witchhat-front-view':'спереди','witchhat-q3-front-view':'три четверти','witchhat-side-view':'профиль','witchhat-fit-v1':'примерка трёх ракурсов','witchhat-profile-v4':'отклонённый профиль v4','witchhat-profile-check-v4':'отклонённая примерка v4','witchhat-profile-v5':'новый профиль / кандидат','witchhat-profile-check-v5':'отклонённая примерка v5','witchhat-profile-v6':'выбранная посадка / передний усик','witchhat-profile-check-v6':'усики приняты / прежние крылья','witchhat-profile-v7':'утверждённый профиль','witchhat-profile-check-v7':'крепление крыльев / сравнение с Жужей'}.get(stem,stem)
     if 'glyph-contrast-options' in p:
         title={'01-soft-crystal':'Глифы · Мягкий кристалл','02-matte-pastel':'Глифы · Матовая пастель','03-warm-wax':'Глифы · Тёплый воск','04-halloween':'Глифы · Ранний Хеллоуин','04a-halloween-soft-crystal':'Глифы · Хеллоуин 4А / кристалл','04b-halloween-matte-pastel':'Глифы · Хеллоуин 4Б / пастель','bomb-compact':'Компактная бомба'}.get(stem,title)
-    if species and accessory:title=f'{species} · {accessory} · {stem}'
-    elif species:title=f'{species} · {stem}'
-    if species:
+    preserve_costume_title=p.startswith('design/2d/halloween/') and stem.startswith('ghosthood-')
+    if species and accessory and not preserve_costume_title:title=f'{species} · {accessory} · {stem}'
+    elif species and not preserve_costume_title:title=f'{species} · {stem}'
+    if species and not preserve_costume_title:
         pose=next((label for key,label in [('q3-front-left','Три четверти спереди / влево'),('q3-back-left','Три четверти сзади / влево'),('q3-front','Три четверти спереди'),('q3-back','Три четверти сзади'),('side-left','Профиль / влево'),('front','Спереди'),('back','Со спины'),('side','Профиль'),('top','Сверху')] if key in stem.replace('backpack','bag')),'')
         if pose:title=' · '.join(v for v in (species,accessory,pose) if v)
     return dict(title=title,category=category,role=role,style=style,season=season,status=status,species=species,accessory=accessory)

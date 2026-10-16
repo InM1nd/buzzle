@@ -1,0 +1,82 @@
+[
+  {
+    "file": "costumes/ghosthood-q3-front-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      71,
+      145,
+      431,
+      417
+    ],
+    "sha256": "54c836d024dde3e8b788dba13cf966c2ccc87a2c3468bf8f13a60a09a6639e8d"
+  },
+  {
+    "file": "costumes/ghosthood-front-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      76,
+      125,
+      436,
+      394
+    ],
+    "sha256": "306c746ad57ddc05c2a1aeae937ae597d46e58334dc250a4fcd85bea59b38f35"
+  },
+  {
+    "file": "costumes/ghosthood-side-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      112,
+      136,
+      382,
+      355
+    ],
+    "sha256": "016eca519260cb3872c095695d26a6e0d70687d28e22984895c67c35001d71cb"
+  },
+  {
+    "file": "costumes/fitting/pushinka/ghosthood-side-antennae-front.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      280,
+      67,
+      384,
+      172
+    ],
+    "sha256": "3d65771af10d58a5ee3854009b9f0fbca7b92adb93de5f17cdb92f25c2fa98c9"
+  },
+  {
+    "file": "costumes/fitting/pushinka/ghosthood-q3-front-antennae-front.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      160,
+      78,
+      364,
+      178
+    ],
+    "sha256": "a31d3a5b8b1dc88d04d44013cf7d275c626ec5afdd7c08a578402dc6c2abea88"
+  }
+]

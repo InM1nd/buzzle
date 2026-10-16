@@ -1,0 +1,27 @@
+{
+  "canvas": [
+    512,
+    512
+  ],
+  "species": "pushinka",
+  "status": "candidate",
+  "views": {
+    "front": [
+      "design/2d/all-species-accessories-v1/pushinka/front-base-view.png",
+      "costumes/ghosthood-front-view.png"
+    ],
+    "q3-front": [
+      "design/2d/all-species-accessories-v1/pushinka/q3-front-base-view.png",
+      "costumes/ghosthood-q3-front-view.png",
+      "costumes/fitting/pushinka/ghosthood-q3-front-antennae-front.png"
+    ],
+    "side": [
+      "costumes/fitting/pushinka/wing-far-side.png",
+      "costumes/fitting/pushinka/body-side-original.png",
+      "costumes/ghosthood-side-view.png",
+      "costumes/fitting/pushinka/wing-near-side.png",
+      "costumes/fitting/pushinka/ghosthood-side-antennae-front.png"
+    ]
+  },
+  "note": "Paths beginning design/ are repository relative; other paths are Halloween-root relative. Original antennae unchanged and unmoved; foreground antennae are pixel extractions: side from body-side-original (brown pixels x>270,y<177); q3 from q3-front-base-view (145<x<375,y<181). Brown selection G<0.74R,B<0.55R. No painted antennae. Profile near wing remains in front of cloth at shoulder. Hood contains no bee pixels."
+}

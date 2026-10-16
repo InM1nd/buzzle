@@ -1,0 +1,107 @@
+{
+  "tool": "built-in image_gen",
+  "transparent_background": true,
+  "entries": [
+    {
+      "prompt": "Use case: stylized-concept. Asset: isolated FRONT-view ghost-sheet hood costume layer for the exact Pushinka bee in image1. Image2 is only headwear seating reference, do not copy beret. Draw ONLY soft ivory-white sheet fabric with broad irregular Honey Crystal facets and faint pale mint edge-light, warm upper-left light. A rounded little hood cups the crown and drapes to the shoulders along the OUTER sides of the head, with a large OPEN transparent face window; eyes, pink cheeks, smile and fluffy chin ruff must remain entirely visible when composited. No ghost face printed on cloth. Top fabric dome follows bee crown; two small discreet slits for original brown antennae near their head roots, no new antennae. White hem subtly scalloped like a friendly ghost sheet, NOT horns, ears, ribbons, hair, full-body robe, skull or grim reaper. Front straight perspective. Logical reference512 canvas: cloth overall roughly x112..405,y141..358; upper arch across forehead ABOVE y229; transparent face opening x173..369,y229..355; narrow soft drapes outside opening, do not cover the facial features. Rear wings unchanged and not included. Keep ALL outside the clothing fully transparent including the central face opening. Do NOT draw any bee pixels, eyes, blush, antennae, wings, legs, background, shadow on ground, lettering or guides. Single isolated garment on transparent square canvas, same relative scale and position as image1, not filling whole image. Cozy costume in existing faceted illustration style, not smooth plastic.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/all-species-accessories-v1/pushinka/front-base-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/all-species-accessories-v1/pushinka/beret-front-view.png"
+      ],
+      "view": "front",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-6c1e6f1a-2396-4fd9-86eb-337ccf4368ff.png",
+      "file": "costumes/ghosthood-front-view.png",
+      "export": {
+        "crop": [
+          165,
+          295,
+          1089,
+          986
+        ],
+        "uniform_resize": [
+          360,
+          269
+        ],
+        "paste_xy": [
+          76,
+          125
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      }
+    },
+    {
+      "prompt": "Use case: precise-object-edit. Image1 is the EDIT TARGET: a registered isolated cloth costume on logical512-square. Image2 is its current bee try-on, image3 exact bee reference. Keep the exact garment OUTER silhouette, overall SCALE, POSITION, fabric color/facets and perspective in image1; output same transparent full square registration. Make ONLY TWO local corrections: (1) CLOSE both empty antenna holes with matching continuous ivory-white polygon fabric. Do not draw new holes or antennae: the real original antennae will be overlaid by compositor through the soft cloth, so empty pre-cut holes are unwanted. (2) The upper-right face-opening edge in image2 wrongly reveals a piece of gold translucent wing BESIDE the far eye. Extend the white temple cloth inward over that wing fragment, narrowing ONLY the upper-right portion of the opening to hug the actual head: logical512 the corrected inner edge should pass through x350,y215, x365,y239, x373,y263, x379,y286. Preserve the WIDE lower opening around both pink cheeks: near-right cheek atx366,y303 fully uncovered. Keep face window interior genuinely transparent, all original eyes/cheeks/smile still visible. NO bee or wing pixels in your output, only corrected white cloth. No opaque colored fills in face opening, no extra hole, no printed eyes, no body, background, lettering, or guides. This is a small in-place hood repair, NOT a new hood enlarged to fill canvas; preserve substantial transparent margins around image1 garment. Ivory and very faint mint soft fabric, broad low-poly facets.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/costumes/ghosthood-q3-front-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/../ghost-fit/q3-front-fit.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/all-species-accessories-v1/pushinka/q3-front-base-view.png"
+      ],
+      "view": "q3-front",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-29bd39a6-8aed-4f0f-8f23-5a78de42229e.png",
+      "file": "costumes/ghosthood-q3-front-view.png",
+      "export": {
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          207,
+          306,
+          1092,
+          974
+        ],
+        "uniform_resize": [
+          360,
+          272
+        ],
+        "paste_xy": [
+          71,
+          145
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      }
+    },
+    {
+      "prompt": "Use case: stylized-concept. Draw ONLY a separate ghost hood cloth layer in TRUE RIGHT-FACING SIDE PROFILE for the exact Pushinka in image1. Image2 is seating reference only, old wings not to copy. Image3 SAME hood front design; image4 its front fitting, preserve its material and fullness when turning to profile. Soft ivory-white sheet with broad Honey Crystal irregular facets, subtle warm cream shadows and pale mint edge light, scalloped shoulder hem. A rounded cloth dome follows crown, a continuous near-side drape follows the BACK-left curve of the head, an OPEN face opening on the RIGHT showing original eye, pink cheek, smile and fluffy chin ruff. True side perspective, NOT a symmetric frontal O-hole, not a detached hat or curtain hovering above. Two small antenna slots near their ORIGINAL roots at top-front; do not change the original antenna directions or draw antennae in this layer. Logical512 canvas: crown aroundx280,y143; back drape followsx185,y205 down towardx205,y339; face opening on right betweenx314..408,y215..356; hem at shoulders aroundy375. Entire eye/cheek/smile must be transparent: eye centeredx354,y262, blushx336,y294, smilex390,y280; no fabric across them. Broad cloth portion over BACK-left of head, only narrow rim around right-face window and below chin. Preserve open shoulder-wing area: near original translucent wing is drawn IN FRONT of the hood at shoulder, far wing behind bee. Do not draw wings, bee body, face, eyes, blush, antennae, feet, background, ground shadow or letters. Actual alpha transparency outside garment and through face opening. Cozy friendly ghost-sheet hood, no printed face, skull, ears, sharp hat tip, long full-body robe or black outline. One isolated garment at registered size, not enlarged to fill square.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/review/pumpkinhat-side-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/all-species-accessories-v1/pushinka/beret-side-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/costumes/ghosthood-front-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/../ghost-fit/front-360.png"
+      ],
+      "view": "side",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-6245fd58-eb7a-4131-b704-8e37df5ae034.png",
+      "file": "costumes/ghosthood-side-view.png",
+      "export": {
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          162,
+          243,
+          1108,
+          1011
+        ],
+        "uniform_resize": [
+          270,
+          219
+        ],
+        "paste_xy": [
+          112,
+          136
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      }
+    }
+  ]
+}

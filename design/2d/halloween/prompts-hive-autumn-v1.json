@@ -1,0 +1,14 @@
+{
+  "tool": "built-in image_gen",
+  "source": "sources/autumn-hive-v1.png",
+  "prompt": "Use case: lighting-weather / precise-object-edit. Create a DAYTIME AUTUMN version of the exact Buzzle HIVE INTERIOR background in Image1. Image1 is the composition and structure to preserve; Image2 is secondary reference only for restrained seasonal decoration placement along EDGES, do not use its Halloween/night mood. Portrait aspect940:1672, opaque fullbleed background for mobile idle hive. Preserve exact camera, broad honey crystal hexagonal wax cells framing the left/right edges, amber wooden plank ledge along bottom, huge clear softly faceted middle area. Seasonal palette: mellow golden honey, pale cream, muted apricot and warm amber, a little copper/russet and olive at edges. Soft golden late-afternoon light from upperleft. Add FEW small natural autumn MAPLE/OAK leaves in ochre, burnt orange and muted copper, a couple of acorns tucked along the outer honeycomb ledges near lower corners, two small uncarved harvest pumpkins half-hidden at bottom edges only. Small sprigs of autumn vine tucked into side crevices. This is still INSIDE a honeycomb beehive, not a garden, forest, outdoor landscape, room with window or Halloween scene. NO carved faces, moon, stars, cobweb, bats, ghost, candles or night sky. CRITICAL PLAY AREA: central x18..82percent,y12..88percent stays calm creamy lowcontrast warm honey crystal surface with only very faint LARGE facets, no objects, leaves, plants, highcontrast hex grids or bright hotspots. Top12percent quiet for currency HUD, bottom12percent simple for navigation, keep all additions in extreme side margins and bottom corners. Don't make an ornate rigid frame or tiny repetitive facet mosaic. Cozy casual game Honey Crystal low-poly art, large clean irregular facets, warm upperleft light, gentle shading, no black outlines, no text, no icons, no bee, no playable comb tiles, no watermark. Opaque RGB environment, original broad structure and UI readability retained.",
+  "file": "env/hive_bg_autumn.png",
+  "size": [
+    940,
+    1672
+  ],
+  "mode": "RGB",
+  "season": "autumn",
+  "status": "candidate",
+  "sha256": "e6f18f70bba319f70a55e869f45029d612e5e655cc791530d9302c0bc2aa0a64"
+}

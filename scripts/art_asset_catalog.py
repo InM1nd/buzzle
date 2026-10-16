@@ -176,6 +176,10 @@ def classify(rel):
             title=final_event_titles[rel];role='Изображение';status='Кандидат / вариант';style='Медовый кристалл';season='Хеллоуин'
         if stem=='event-final-v1':title='Тыквенная ночь / дверь, корзинка и шапка';role='Лист / сравнение';status='Кандидат / вариант'
         if '/sources/event-final-v1/' in p:role='Лист / источник';status='Архив / пробы'
+    if p == 'design/2d/halloween/env/hive_bg_autumn.png':
+        title='Улей / осенний дневной фон';role='Изображение';season='Осень';style='Медовый кристалл';status='Кандидат / вариант'
+    if p == 'design/2d/halloween/sources/autumn-hive-v1.png':
+        title='Осенний улей / исходная генерация';role='Лист / источник';season='Осень';status='Архив / пробы'
     return dict(title=title,category=category,role=role,style=style,season=season,status=status,species=species,accessory=accessory)
 
 def build(target):

@@ -129,6 +129,14 @@ def classify(rel):
             title='Фон головоломки / '+('осень' if 'autumn' in stem else 'Halloween');season='Осень' if 'autumn' in stem else 'Хеллоуин'
         if stem in {'batwings-natural-side-v2','batwings-fit-v2','batwings-profile-check-v2','pumpkinwreath-fit-v1'}:status='Архив / пробы'
         if '/costumes/' in p and '/rework-v3/' not in p and stem.startswith('pumpkinwreath-'):status='Архив / пробы'
+    if p.startswith('design/2d/halloween/'):
+        if stem == 'all-glyph-styles-v4':
+            title='Все глифы / восемь стилей / бомбы и тыквы';role='Лист / сравнение';style='Сравнение стилей';status='Кандидат / вариант'
+        if stem == 'zhuzha-wreath-vampire-v4':
+            title='Жужа / венок и костюм вампира / три ракурса';role='Лист / сравнение';species='Жужа';status='Требует доработки'
+        if '/costumes/rework-v3/zhuzha/' in p:
+            species='Жужа';title='Жужа / примерка / '+stem.replace('-',' ')
+            if stem.startswith('vampcape'):status='Требует доработки'
     return dict(title=title,category=category,role=role,style=style,season=season,status=status,species=species,accessory=accessory)
 
 def build(target):

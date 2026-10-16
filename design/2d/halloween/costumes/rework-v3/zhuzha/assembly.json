@@ -1,0 +1,86 @@
+{
+  "status": "candidate",
+  "views": {
+    "front": {
+      "base": "design/2d/all-species-accessories-v1/zhuzha/front-base-view.png",
+      "wreath": {
+        "source": "design/2d/halloween/costumes/rework-v3/pumpkinwreath-front-view.png",
+        "width": 190,
+        "xy": [
+          161,
+          149
+        ]
+      },
+      "cape_back": {
+        "source": "design/2d/halloween/costumes/rework-v3/vampcape-back-front-view.png",
+        "width": 328,
+        "xy": [
+          92,
+          269
+        ]
+      },
+      "cape_front": {
+        "source": "design/2d/halloween/costumes/rework-v3/vampcape-front-front-view.png",
+        "width": 148,
+        "xy": [
+          182,
+          304
+        ]
+      }
+    },
+    "q3-front": {
+      "base": "design/2d/all-species-accessories-v1/zhuzha/q3-front-base-view.png",
+      "wreath": {
+        "source": "design/2d/halloween/costumes/rework-v3/pumpkinwreath-q3-front-view.png",
+        "width": 184,
+        "xy": [
+          174,
+          148
+        ]
+      },
+      "cape_back": {
+        "source": "design/2d/halloween/costumes/rework-v3/vampcape-back-q3-front-view.png",
+        "width": 316,
+        "xy": [
+          93,
+          267
+        ]
+      },
+      "cape_front": {
+        "source": "design/2d/halloween/costumes/rework-v3/vampcape-front-q3-front-view.png",
+        "width": 140,
+        "xy": [
+          221,
+          304
+        ]
+      }
+    },
+    "side": {
+      "base": "design/2d/all-species-accessories-v1/zhuzha/side-base-view.png",
+      "wreath": {
+        "source": "design/2d/halloween/costumes/rework-v3/pumpkinwreath-side-view.png",
+        "width": 139,
+        "xy": [
+          217,
+          151
+        ]
+      },
+      "cape_back": {
+        "source": "design/2d/halloween/costumes/rework-v3/vampcape-back-side-view.png",
+        "width": 188,
+        "xy": [
+          92,
+          259
+        ]
+      },
+      "cape_front": {
+        "source": "design/2d/halloween/costumes/rework-v3/vampcape-front-side-view.png",
+        "width": 78,
+        "xy": [
+          305,
+          316
+        ]
+      }
+    }
+  }
+}

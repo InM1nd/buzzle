@@ -1,0 +1,50 @@
+[
+  {
+    "file": "costumes/pumpkinwreath-front-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      147,
+      135,
+      365,
+      234
+    ],
+    "sha256": "fcfbf08de453a63c8c9d7a8c801113b98f62d36377a2410fa60b29826cfb5a4e"
+  },
+  {
+    "file": "costumes/pumpkinwreath-q3-front-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      166,
+      137,
+      374,
+      237
+    ],
+    "sha256": "4ebd821b2f38057da4127468cee3a6a867300c1bc15146e7cfc1a9b6ca76aa42"
+  },
+  {
+    "file": "costumes/pumpkinwreath-side-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      199,
+      139,
+      385,
+      226
+    ],
+    "sha256": "b2366cceb30b2d04da5cde95d228d62b4bf12afedfe8ce04a86d72f06a9b2a60"
+  }
+]

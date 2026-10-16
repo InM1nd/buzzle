@@ -1,0 +1,24 @@
+{
+  "canvas": [
+    512,
+    512
+  ],
+  "species": "pushinka",
+  "status": "candidate",
+  "views": {
+    "front": [
+      "design/2d/all-species-accessories-v1/pushinka/front-base-view.png",
+      "costumes/pumpkinwreath-front-view.png"
+    ],
+    "q3-front": [
+      "design/2d/all-species-accessories-v1/pushinka/q3-front-base-view.png",
+      "costumes/pumpkinwreath-q3-front-view.png"
+    ],
+    "side": [
+      "costumes/fitting/pushinka/body-side-original.png",
+      "costumes/fitting/pushinka/batwings-natural-side-v2.png",
+      "costumes/pumpkinwreath-side-view.png"
+    ]
+  },
+  "note": "Paths beginning design/ are repository relative, others Halloween relative. Original body and antennae unchanged. Profile uses complete natural wing pair from local v2 repair, not the old incomplete far-wing mask. No purple bat wings are part of this wreath fitting."
+}

@@ -1,0 +1,100 @@
+{
+  "tool": "built-in image_gen",
+  "transparent_background": true,
+  "entries": [
+    {
+      "prompt": "Use case: stylized-concept. Draw ONLY a small autumn PUMPKIN WREATH headwear layer for the exact bee Pushinka in image1, STRAIGHT FRONT view. Image2 shows correct wreath fit, elliptical head-hugging volume and scale; replace flowers/green foliage with warm autumn leaves, a few acorns and THREE TINY pumpkins. Cozy Honey Crystal art with broad irregular faceted shapes, warm upper-left light, muted ochre/rust/copper and olive leaves, pumpkin orange and brown acorns. Keep it a delicate compact ring, not a giant harvest crown or wide flat garland. Front rim curves gently DOWNWARD around bee crown, rear rim visible higher behind, a believable oval sitting around original antenna roots. Three small pumpkins along front rim, center one slightly larger than other two, no carved faces, no glow, no flowers. Logical512 canvas ring bounds roughlyx157..365,y148..221, entire rest canvas transparent. A real open ring with transparent center allowing crown and antennae through, rear foliage behind antenna bases and front rim in front, no solid cap or floating object. Do NOT draw bee body, antennae, face, eyes, wings or legs. Only separate garment positioned where original wreath sits on full transparent512-square reference canvas. No text, border, background, floor shadow, Halloween black outline, bats, skulls or extra props. Preserve upper transparent area and do not enlarge object to fill image.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/all-species-accessories-v1/pushinka/front-base-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/all-species-accessories-v1/pushinka/wreath-front-view.png"
+      ],
+      "view": "front",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-8b6c9228-fff0-45f0-8d19-3319758a9ae1.png",
+      "file": "costumes/pumpkinwreath-front-view.png",
+      "export": {
+        "crop": [
+          269,
+          456,
+          1002,
+          789
+        ],
+        "uniform_resize": [
+          218,
+          99
+        ],
+        "paste_xy": [
+          147,
+          135
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      }
+    },
+    {
+      "prompt": "Use case: stylized-concept. Isolated AUTUMN PUMPKIN WREATH costume layer in THREE-QUARTER FRONT pose for exact bee image1. Image2 is existing flower wreath seating only. Images3 and4 define exact NEW design and front try-on: three TINY orange pumpkins, some brown acorns, muted ochre/copper/rust/olive faceted leaves, no flowers or carved faces. Rotate same compact open ring for image1, same miniature scale, NOT a new design. A believable ellipse hugging bee crown around original antenna roots; near/front rim curves gently down around forehead, rear rim higher behind crown. Near section slightly broader than far, preserve depth rather than flattening to garland. Warm upper-left Honey Crystal facets. Logical512: aboutx172..375,y139..233; keep eyes wholly visible belowy247. Open middle transparent, foliage sits athead not floating to right; no extra side vine. Return ONLY the accessory on transparent same-scale fullsquare reference canvas, no bee, antennae, eyes, wings, legs, background, shadow, text or guides. Do not enlarge to fill canvas. Keep all3 pumpkins proportionally tiny; centered front pumpkin largest, near side pumpkin more visible than far side one.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/all-species-accessories-v1/pushinka/q3-front-base-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/all-species-accessories-v1/pushinka/wreath-q3-front-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/costumes/pumpkinwreath-front-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/../pumpkinwreath-fit/front-fit.png"
+      ],
+      "view": "q3-front",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-a7af9f08-b82b-4e8c-9852-52697deeda53.png",
+      "file": "costumes/pumpkinwreath-q3-front-view.png",
+      "export": {
+        "crop": [
+          171,
+          437,
+          1107,
+          889
+        ],
+        "uniform_resize": [
+          208,
+          100
+        ],
+        "paste_xy": [
+          166,
+          137
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      }
+    },
+    {
+      "prompt": "Use case: stylized-concept. Draw ONLY a compact pumpkin autumn wreath headwear layer in TRUE RIGHT-FACING SIDE PROFILE for bee image1. Image2 shows OLD flower wreath (it sits too far forward, do not reproduce that offset); images3+4 define SAME new pumpkin/leaf/acorn design in front view. Rotate that ring correctly around crown, do not redraw bee. Little oval of copper/rust/ochre/olive autumn leaves with brown acorns and three TINY orange pumpkins, no flowers or carved faces. Profile perspective: front-right portion thicker and visible, back-left portion narrower/partially occluded; pumpkins follow elliptical depth, not three equal pumpkins in flat frontal row. Crown sits aroundx285,y160 and antenna roots x290,y165,x315,y170. Center wreath aroundx289,y178, logical512 overallroughlyx199..384,y140..219, NOT shifted onto forehead/over face like floating visor. Ellipse hugs head, rear leaves rise behind antenna roots, front rim gently descends around crown. Open center genuinely transparent to original crown/horns; return only leaves/acorns/pumpkins, no antennae, bee body, face, eyes, light wings, legs, shadows, background or text. Warm upper-left Honey Crystal broad faceted illustration. Keep same relative garment size and upper-head registration in fulltransparent square, do not enlarge to fill canvas; all eyes belowy245 uncovered.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/review/pumpkinhat-side-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/all-species-accessories-v1/pushinka/wreath-side-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/costumes/pumpkinwreath-front-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/../pumpkinwreath-fit/front-fit.png"
+      ],
+      "view": "side",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-e8449736-c366-462f-ad76-6b46f2b2b0aa.png",
+      "file": "costumes/pumpkinwreath-side-view.png",
+      "export": {
+        "crop": [
+          238,
+          429,
+          1072,
+          819
+        ],
+        "uniform_resize": [
+          186,
+          87
+        ],
+        "paste_xy": [
+          199,
+          139
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      }
+    }
+  ]
+}

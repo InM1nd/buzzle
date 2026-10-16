@@ -87,7 +87,11 @@ def classify(rel):
         title={'bg_sky':'Ночной полёт / небо','bg_far':'Ночной полёт / дальние холмы','bg_near':'Ночной полёт / передний план','parallax-repeat-check':'Фоны полёта / проверка повторов','parallax-scene':'Ночной полёт / общий вид','parallax-motion':'Ночной полёт / проба параллакса'}.get(stem,title)
         if p.startswith('design/2d/halloween/flight/') and stem=='icon':title='Иконка Ночного полёта'
         if stem.startswith('batwings-'):
-            title='Крылья летучей мыши / '+{'batwings-back-front-view':'спереди','batwings-back-q3-front-view':'три четверти','batwings-back-side-view':'профиль','batwings-fit-v1':'примерка трёх ракурсов'}.get(stem,stem)
+            title='Крылья летучей мыши / '+{'batwings-back-front-view':'спереди','batwings-back-q3-front-view':'три четверти','batwings-back-side-view':'профиль','batwings-fit-v1':'прежняя примерка v1','batwings-fit-v2':'актуальная примерка v2','batwings-profile-check-v2':'светлые крылья / до и после','batwings-natural-side-v2':'целые светлые крылья / профиль v2'}.get(stem,stem)
+            if section=='costumes':role='Отдельный слой'
+            if stem=='batwings-fit-v1':status='Архив / пробы'
+        if stem.startswith('pumpkinwreath-'):
+            title='Осенний венок / '+{'pumpkinwreath-front-view':'спереди','pumpkinwreath-q3-front-view':'три четверти','pumpkinwreath-side-view':'профиль','pumpkinwreath-fit-v1':'примерка трёх ракурсов'}.get(stem,stem)
             if section=='costumes':role='Отдельный слой'
         if stem.startswith('ghosthood-'):
             title='Капюшон-привидение / '+{'ghosthood-front-view':'спереди','ghosthood-q3-front-view':'три четверти','ghosthood-side-view':'профиль','ghosthood-fit-v1':'примерка трёх ракурсов','ghosthood-side-antennae-front':'исходные усики / профиль','ghosthood-q3-front-antennae-front':'исходные усики / три четверти'}.get(stem,stem)
@@ -102,7 +106,7 @@ def classify(rel):
         if stem.startswith('witchhat-'):title='Ведьминская шляпа / '+{'witchhat-front-view':'спереди','witchhat-q3-front-view':'три четверти','witchhat-side-view':'профиль','witchhat-fit-v1':'примерка трёх ракурсов','witchhat-profile-v4':'отклонённый профиль v4','witchhat-profile-check-v4':'отклонённая примерка v4','witchhat-profile-v5':'новый профиль / кандидат','witchhat-profile-check-v5':'отклонённая примерка v5','witchhat-profile-v6':'выбранная посадка / передний усик','witchhat-profile-check-v6':'усики приняты / прежние крылья','witchhat-profile-v7':'утверждённый профиль','witchhat-profile-check-v7':'крепление крыльев / сравнение с Жужей'}.get(stem,stem)
     if 'glyph-contrast-options' in p:
         title={'01-soft-crystal':'Глифы · Мягкий кристалл','02-matte-pastel':'Глифы · Матовая пастель','03-warm-wax':'Глифы · Тёплый воск','04-halloween':'Глифы · Ранний Хеллоуин','04a-halloween-soft-crystal':'Глифы · Хеллоуин 4А / кристалл','04b-halloween-matte-pastel':'Глифы · Хеллоуин 4Б / пастель','bomb-compact':'Компактная бомба'}.get(stem,title)
-    preserve_costume_title=p.startswith('design/2d/halloween/') and stem.startswith('ghosthood-')
+    preserve_costume_title=p.startswith('design/2d/halloween/') and stem.startswith(('ghosthood-','batwings-','pumpkinwreath-'))
     if species and accessory and not preserve_costume_title:title=f'{species} · {accessory} · {stem}'
     elif species and not preserve_costume_title:title=f'{species} · {stem}'
     if species and not preserve_costume_title:

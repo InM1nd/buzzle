@@ -1,0 +1,29 @@
+{
+  "prompt": "Use case: precise-object-edit / background-extraction. Extract and recreate ONLY the TWO LIGHT GOLD TRANSLUCENT BEE WINGS from the RIGHT-FACING profile bee in image1. Image2 shows intended warm pale-gold material and size on Pushinka, but its upper far wing has a broken/notched mask: FIX that defect by using the CLEAN continuous wing outlines in image1. One broad near wing forward/in front, one narrower far wing projecting higher behind it. Maintain proper right-facing profile perspective, wings extend BACKWARD toward LEFT from shared roots on RIGHT. Far wing must be a COMPLETE thin polygon with intact gold outline, NOT a disconnected strip, NOT a missing triangular bite. Near wing has clean top contour, NO stray fragment of far wing stuck above its rim. Both wing membranes are translucent ivory with broad triangular facets and thin honey-gold edge lines, warm upper-left light. Do not add purple costume wings. Return a single clean isolated PAIR with proper overlap, NO bee pixels: no body, face, antennae, pink, brown legs, or head. True transparent background. Logical512 registration: near wing spans roughlyx66..195,y174..283 with root atx190,y246; far wing spansx108..190,y134..240 behind near wing. Whole pair bboxaboutx65..200,y132..285, all other canvas transparent. Do NOT enlarge to fill square. No text, guides, black outline, dropped shadow, opaque rectangular background or third wing. EXACTLY two complete overlapping thin insect wing shapes in gold.",
+  "refs": [
+    "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/all-species-accessories-v1/zhuzha/side-base-view.png",
+    "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/review/pumpkinhat-side-base.png"
+  ],
+  "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-82593cd2-b759-4a46-97f9-58a5f1c145bc.png",
+  "export": {
+    "crop": [
+      204,
+      240,
+      992,
+      1086
+    ],
+    "uniform_resize": [
+      133,
+      143
+    ],
+    "paste_xy": [
+      64,
+      134
+    ],
+    "canvas": [
+      512,
+      512
+    ]
+  },
+  "file": "costumes/fitting/pushinka/batwings-natural-side-v2.png"
+}

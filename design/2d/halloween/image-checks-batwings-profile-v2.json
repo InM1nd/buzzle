@@ -1,0 +1,18 @@
+[
+  {
+    "file": "costumes/fitting/pushinka/batwings-natural-side-v2.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      64,
+      134,
+      197,
+      277
+    ],
+    "sha256": "868a0c7dc22567d936b49a0d8eaaa9d70f0b068759488e82d38167d795788006"
+  }
+]

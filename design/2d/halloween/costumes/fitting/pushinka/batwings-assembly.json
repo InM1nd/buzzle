@@ -16,10 +16,10 @@
     ],
     "side": [
       "costumes/batwings-back-side-view.png",
-      "costumes/fitting/pushinka/wing-far-side.png",
       "costumes/fitting/pushinka/body-side-original.png",
-      "costumes/fitting/pushinka/wing-near-side.png"
+      "costumes/fitting/pushinka/batwings-natural-side-v2.png"
     ]
   },
-  "note": "Paths beginning design/ are repository relative; others relative to Halloween root. Costume wings are behind the body and below original wings. Side uses original unmoved antennae and owner-approved near/far wing layering. No body or normal bee wings are included in costume layer."
+  "note": "Local v2 only: complete generated natural wing pair following Zhuzha reference, composited over original body at shoulder. No changes to approved wing-far/wing-near files, antennae, body or purple costume wings. Paths starting design/ are repository relative, others relative to Halloween root.",
+  "revision": 2
 }

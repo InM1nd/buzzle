@@ -1,12 +1,16 @@
 /**
  * v1.6 Meadow mini-game «Ночной полёт». The world lives in a ref and is advanced by requestAnimationFrame;
  * sprites are fixed pools moved with Animated.Value.setValue (no React render per frame, which matters in the
- * Telegram webview). React state only changes for the score, the pickup kinds and the phase.
+ * Telegram webview). React state only changes for the score and the phase; the scene itself is a memo component that never
+ * re-renders during a run (pickup kinds are stacked images switched by opacity, not by React state).
+ * Every setValue goes through a change gate: on Android each call is a JS→native round trip, so only values that
+ * actually changed are sent (pillar gaps, hidden slots, bat frames and pickup kinds change rarely).
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Animated, AppState, Image, StyleSheet, Text, View } from "react-native";
 import { t } from "../i18n";
 import { batY, FH, newWorld, step, STEM_W, World, Z } from "../logic/nightFlight";
+import { changeGate, Gate } from "../logic/changeGate";
 import { FlightReward } from "../logic/game";
 import { addBackListener } from "../platform/back";
 import { useInsets } from "../platform/insets";
@@ -53,7 +57,69 @@ const nv = (v0: number) => {
   if (USE_NATIVE_DRIVER) Animated.timing(v, { toValue: v0, duration: 0, useNativeDriver: true }).start();
   return v;
 };
-const av = () => nv(OFF);
+/** an animated value together with its change-gated setter */
+interface Slot { v: Animated.Value; set: Gate }
+const slot = (v0: number): Slot => { const v = nv(v0); return { v, set: changeGate(v0, (n) => v.setValue(n)) }; };
+const aslot = () => slot(OFF);
+const KINDS = 4; // 3 candies + firefly
+interface Pool {
+  layers: Slot[]; sky: Slot; beeY: Slot; beeRot: Slot;
+  stems: { x: Slot; top: Slot; bot: Slot }[];
+  picks: { x: Slot; y: Slot; o: Slot[]; kind: number }[];
+  bats: { x: Slot; y: Slot; f: Slot[] }[];
+}
+const makePool = (): Pool => ({
+  layers: LAYERS.map(() => slot(0)), sky: slot(0),
+  beeY: slot(0), beeRot: slot(0),
+  stems: Array.from({ length: STEMS }, () => ({ x: aslot(), top: aslot(), bot: aslot() })),
+  picks: Array.from({ length: PICKS }, () => ({ x: aslot(), y: aslot(), o: Array.from({ length: KINDS }, () => slot(0)), kind: -1 })),
+  bats: Array.from({ length: BATS }, () => ({ x: aslot(), y: aslot(), f: [slot(1), slot(0), slot(0)] })),
+});
+
+/** the whole moving scene: never re-renders during a run (all motion is native Animated values from the pool) */
+const Scene = React.memo(function Scene({ pool, k, W, h, beeId, level, skin }: { pool: Pool; k: number; W: number; h: number; beeId: string; level: number; skin?: string }) {
+  const kpx = (u: number) => u * k;
+  const tileH = h * BG_SCALE, tileW = tileH * (16 / 9);
+  return (
+  <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+    <Animated.View style={[StyleSheet.absoluteFill, { flexDirection: "row", transform: [{ translateX: pool.sky.v }] }]}>
+      {[0, 1, 2].map((j) => <Image key={j} source={FA.sky} style={{ width: h * (16 / 9), height: h }} />)}
+    </Animated.View>
+    {LAYERS.map(({ name, top }, i) => (
+      <Animated.View key={name} style={{ position: "absolute", left: 0, bottom: 0, height: tileH * (1 - top), flexDirection: "row", transform: [{ translateX: pool.layers[i].v }] }}>
+        {[0, 1, 2].map((j) => <Image key={j} source={FA[name]} style={{ width: tileW, height: tileH * (1 - top) }} />)}
+      </Animated.View>
+    ))}
+    {pool.stems.map((sl, i) => (
+      <Animated.View key={i} style={{ position: "absolute", left: 0, top: 0, transform: [{ translateX: sl.x.v }] }}>
+        <Animated.Image source={FA.stemTop} style={{ position: "absolute", width: kpx(STEM_W), height: kpx(STEM_H), transform: [{ translateY: sl.top.v }] }} />
+        <Animated.Image source={FA.stemBottom} style={{ position: "absolute", width: kpx(STEM_W), height: kpx(STEM_H), transform: [{ translateY: sl.bot.v }] }} />
+      </Animated.View>
+    ))}
+    {pool.picks.map((sl, i) => (
+      <Animated.View key={i} style={{ position: "absolute", left: 0, top: 0, width: 0, height: 0, overflow: "visible", transform: [{ translateX: sl.x.v }, { translateY: sl.y.v }] }}>
+        {FA.picks.map((src, kd) => {
+          const size = kpx(kd === 3 ? FIREFLY : CANDY);
+          return <Animated.Image key={kd} source={src} style={{ position: "absolute", left: -size / 2, top: -size / 2, width: size, height: size, opacity: sl.o[kd].v }} />;
+        })}
+      </Animated.View>
+    ))}
+    {pool.bats.map((sl, i) => (
+      <Animated.View key={i} style={{ position: "absolute", left: -kpx(BAT) / 2, top: -kpx(BAT) / 2, width: kpx(BAT), height: kpx(BAT), transform: [{ translateX: sl.x.v }, { translateY: sl.y.v }] }}>
+        {FA.bats.map((src, j) => <Animated.Image key={j} source={src} style={[StyleSheet.absoluteFill, { width: kpx(BAT), height: kpx(BAT), opacity: sl.f[j].v }]} />)}
+      </Animated.View>
+    ))}
+    {/* the bee with its lantern and a soft pool of light */}
+    <Animated.View style={{ position: "absolute", left: kpx(W * 0.3) - kpx(BEE) / 2, top: -kpx(BEE) / 2, width: kpx(BEE), height: kpx(BEE), transform: [{ translateY: pool.beeY.v }] }}>
+      <Image source={FA.glow} style={{ position: "absolute", width: kpx(GLOW), height: kpx(GLOW), left: kpx(BEE / 2 + 22 * Z - GLOW / 2), top: kpx(BEE / 2 + 30 * Z - GLOW / 2) }} />
+      <Animated.View style={{ width: kpx(BEE), height: kpx(BEE), transform: [{ rotate: pool.beeRot.v.interpolate({ inputRange: [-90, 90], outputRange: ["-90deg", "90deg"] }) }] }}>
+        <BeeSprite id={beeId} size={kpx(BEE)} turn={1} level={level} skin={skin} seed={4} />
+        <Image source={FA.lantern} style={{ position: "absolute", width: kpx(BEE), height: kpx(BEE) }} />
+      </Animated.View>
+    </Animated.View>
+  </View>
+  );
+});
 
 export default function FlightScreen(p: Props) {
   const insets = useInsets();
@@ -62,9 +128,6 @@ export default function FlightScreen(p: Props) {
   const W = k > 0 ? box.w / k : 560;
   const [phase, setPhase] = useState<Phase>("ready");
   const [score, setScore] = useState({ passed: 0, candies: 0 });
-  const [kinds, setKinds] = useState<number[]>(() => Array(PICKS).fill(0));
-  const kindsRef = useRef(kinds);
-  kindsRef.current = kinds;
   const [result, setResult] = useState<FlightReward | null>(null);
   const world = useRef<World | null>(null);
   const flap = useRef(false);
@@ -72,13 +135,7 @@ export default function FlightScreen(p: Props) {
   phaseRef.current = phase;
 
   // sprite pools
-  const pool = useMemo(() => ({
-    layers: LAYERS.map(() => nv(0)), sky: nv(0),
-    beeY: nv(0), beeRot: nv(0),
-    stems: Array.from({ length: STEMS }, () => ({ x: av(), top: av(), bot: av() })),
-    picks: Array.from({ length: PICKS }, () => ({ x: av(), y: av(), o: nv(0) })),
-    bats: Array.from({ length: BATS }, () => ({ x: av(), y: av(), f: [nv(1), nv(0), nv(0)] })),
-  }), []);
+  const pool = useMemo(makePool, []);
 
   const reset = useCallback(() => {
     if (!W) return;
@@ -89,40 +146,41 @@ export default function FlightScreen(p: Props) {
 
   const draw = useCallback((w: World) => {
     const tileW = FH * k * BG_SCALE * (16 / 9);
-    LAYERS.forEach(({ f }, i) => pool.layers[i].setValue(-((w.dist * f * k) % tileW)));
+    LAYERS.forEach(({ f }, i) => pool.layers[i].set(-((w.dist * f * k) % tileW)));
     const skyW = FH * k * (16 / 9);
-    pool.sky.setValue(-((w.dist * SKY_F * k) % skyW));
-    pool.beeY.setValue(w.y * k);
-    pool.beeRot.setValue(Math.max(-25, Math.min(40, (w.vy / 900) * 35)));
+    pool.sky.set(-((w.dist * SKY_F * k) % skyW));
+    pool.beeY.set(w.y * k);
+    pool.beeRot.set(Math.max(-25, Math.min(40, (w.vy / 900) * 35)));
     const cam = w.dist;
     const stems = w.stems.filter((s) => s.x - cam > -STEM_W && s.x - cam < W + STEM_W);
     pool.stems.forEach((sl, i) => {
       const s = stems[i];
-      if (!s) { sl.x.setValue(OFF); return; }
-      sl.x.setValue((s.x - cam - STEM_W / 2) * k);
-      sl.top.setValue((s.gapY - s.gap / 2 - STEM_H) * k);
-      sl.bot.setValue((s.gapY + s.gap / 2) * k);
+      if (!s) { sl.x.set(OFF); return; }
+      sl.x.set((s.x - cam - STEM_W / 2) * k);
+      sl.top.set((s.gapY - s.gap / 2 - STEM_H) * k);
+      sl.bot.set((s.gapY + s.gap / 2) * k);
     });
     const picks = w.picks.filter((q) => !q.taken && q.x - cam > -100 && q.x - cam < W + 100);
-    let changed = false;
-    const nk = kindsRef.current.slice();
     pool.picks.forEach((sl, i) => {
       const q = picks[i];
-      if (!q) { sl.o.setValue(0); return; }
-      if (nk[i] !== q.kind) { nk[i] = q.kind; changed = true; }
-      sl.o.setValue(1);
-      sl.x.setValue((q.x - cam) * k);
-      sl.y.setValue((q.y + Math.sin(w.t * 3 + q.x) * 8) * k);
+      const kind = q ? q.kind : -1;
+      if (kind !== sl.kind) { // the visible kind is switched by opacity of the stacked images: no React render
+        if (sl.kind >= 0) sl.o[sl.kind].set(0);
+        if (kind >= 0) sl.o[kind].set(1);
+        sl.kind = kind;
+      }
+      if (!q) return;
+      sl.x.set((q.x - cam) * k);
+      sl.y.set((q.y + Math.sin(w.t * 3 + q.x) * 8) * k);
     });
-    if (changed) { kindsRef.current = nk; setKinds(nk); }
     const frame = Math.floor(w.t * 9) % 3;
     const bats = w.bats.filter((b) => b.x - cam > -120 && b.x - cam < W + 120);
     pool.bats.forEach((sl, i) => {
       const b = bats[i];
-      if (!b) { sl.x.setValue(OFF); return; }
-      sl.x.setValue((b.x - cam) * k);
-      sl.y.setValue(batY(b, w.t) * k);
-      sl.f.forEach((v, j) => v.setValue(j === frame ? 1 : 0));
+      if (!b) { sl.x.set(OFF); return; }
+      sl.x.set((b.x - cam) * k);
+      sl.y.set(batY(b, w.t) * k);
+      sl.f.forEach((v, j) => v.set(j === frame ? 1 : 0));
     });
   }, [k, W, pool]);
 
@@ -196,45 +254,11 @@ export default function FlightScreen(p: Props) {
     flap.current = true;
   };
 
-  const kpx = (u: number) => u * k;
-  const tileH = box.h * BG_SCALE, tileW = tileH * (16 / 9);
   return (
     <View style={styles.root} onLayout={(e) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}
       onStartShouldSetResponder={() => true} onResponderGrant={tap}>
       {k > 0 ? (
-        <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-          <Animated.View style={[StyleSheet.absoluteFill, { flexDirection: "row", transform: [{ translateX: pool.sky }] }]}>
-            {[0, 1, 2].map((j) => <Image key={j} source={FA.sky} style={{ width: box.h * (16 / 9), height: box.h }} />)}
-          </Animated.View>
-          {LAYERS.map(({ name, top }, i) => (
-            <Animated.View key={name} style={{ position: "absolute", left: 0, bottom: 0, height: tileH * (1 - top), flexDirection: "row", transform: [{ translateX: pool.layers[i] }] }}>
-              {[0, 1, 2].map((j) => <Image key={j} source={FA[name]} style={{ width: tileW, height: tileH * (1 - top) }} />)}
-            </Animated.View>
-          ))}
-          {pool.stems.map((sl, i) => (
-            <Animated.View key={i} style={{ position: "absolute", left: 0, top: 0, transform: [{ translateX: sl.x }] }}>
-              <Animated.Image source={FA.stemTop} style={{ position: "absolute", width: kpx(STEM_W), height: kpx(STEM_H), transform: [{ translateY: sl.top }] }} />
-              <Animated.Image source={FA.stemBottom} style={{ position: "absolute", width: kpx(STEM_W), height: kpx(STEM_H), transform: [{ translateY: sl.bot }] }} />
-            </Animated.View>
-          ))}
-          {pool.picks.map((sl, i) => {
-            const size = kpx(kinds[i] === 3 ? FIREFLY : CANDY);
-            return <Animated.Image key={i} source={FA.picks[kinds[i]]} style={{ position: "absolute", left: -size / 2, top: -size / 2, width: size, height: size, opacity: sl.o, transform: [{ translateX: sl.x }, { translateY: sl.y }] }} />;
-          })}
-          {pool.bats.map((sl, i) => (
-            <Animated.View key={i} style={{ position: "absolute", left: -kpx(BAT) / 2, top: -kpx(BAT) / 2, width: kpx(BAT), height: kpx(BAT), transform: [{ translateX: sl.x }, { translateY: sl.y }] }}>
-              {FA.bats.map((src, j) => <Animated.Image key={j} source={src} style={[StyleSheet.absoluteFill, { width: kpx(BAT), height: kpx(BAT), opacity: sl.f[j] }]} />)}
-            </Animated.View>
-          ))}
-          {/* the bee with its lantern and a soft pool of light */}
-          <Animated.View style={{ position: "absolute", left: kpx(W * 0.3) - kpx(BEE) / 2, top: -kpx(BEE) / 2, width: kpx(BEE), height: kpx(BEE), transform: [{ translateY: pool.beeY }] }}>
-            <Image source={FA.glow} style={{ position: "absolute", width: kpx(GLOW), height: kpx(GLOW), left: kpx(BEE / 2 + 22 * Z - GLOW / 2), top: kpx(BEE / 2 + 30 * Z - GLOW / 2) }} />
-            <Animated.View style={{ width: kpx(BEE), height: kpx(BEE), transform: [{ rotate: pool.beeRot.interpolate({ inputRange: [-90, 90], outputRange: ["-90deg", "90deg"] }) }] }}>
-              <BeeSprite id={p.beeId} size={kpx(BEE)} turn={1} level={p.level} skin={p.skin} seed={4} />
-              <Image source={FA.lantern} style={{ position: "absolute", width: kpx(BEE), height: kpx(BEE) }} />
-            </Animated.View>
-          </Animated.View>
-        </View>
+        <Scene pool={pool} k={k} W={W} h={box.h} beeId={p.beeId} level={p.level} skin={p.skin} />
       ) : null}
 
       {/* HUD */}

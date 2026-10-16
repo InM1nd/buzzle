@@ -155,6 +155,13 @@ def classify(rel):
         titles_v7={'bright-bomb-complete-v7':'Яркая бомба / восстановленный целый контур v7','zhuzha-vampire-current-v7':'Жужа / актуальный костюм вампира / три ракурса'}
         if stem in titles_v7:title=titles_v7[stem];role='Лист / сравнение';status='Кандидат / вариант'
         if '/sources/rework-v7/' in p:role='Лист / источник';status='Архив / пробы'
+    if p.startswith('design/2d/halloween/'):
+        if '/costumes/rework-v8/zhuzha/' in p:
+            title='Жужа / плащ v8 / '+stem;species='Жужа';status='Кандидат / вариант';role='Изображение' if stem.startswith('preview-') else 'Отдельный слой'
+        if stem in {'zhuzha-vampire-fit-v8','zhuzha-vampire-current-v8'}:
+            title='Жужа / плащ вокруг спины v8'+(' / до и после' if 'fit' in stem else ' / новая примерка');role='Лист / сравнение';status='Кандидат / вариант';species='Жужа'
+        if '/sources/rework-v8/' in p:role='Лист / источник';status='Архив / пробы'
+        if '/costumes/rework-v5/zhuzha/' in p or stem in {'zhuzha-vampire-v5','zhuzha-vampire-current-v7'}:status='Требует доработки'
     return dict(title=title,category=category,role=role,style=style,season=season,status=status,species=species,accessory=accessory)
 
 def build(target):

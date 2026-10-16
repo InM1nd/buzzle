@@ -1,0 +1,30 @@
+{
+  "status": "candidate",
+  "canvas": [
+    512,
+    512
+  ],
+  "views": {
+    "side": {
+      "scale": "full square source uniformly downscaled to512, no crop/reposition",
+      "far_layer_mask": "Far collar fully hidden; x>360 hidden except gold clasp at315<y<345",
+      "layers": [
+        "back-side.png",
+        "design/2d/all-species-accessories-v1/zhuzha/side-base-view.png",
+        "front-side.png",
+        "wings-side.png"
+      ]
+    },
+    "q3-front": {
+      "scale": "full square source uniformly downscaled to512, no crop/reposition",
+      "far_layer_mask": "x>330 and y<310",
+      "layers": [
+        "back-q3-front.png",
+        "design/2d/all-species-accessories-v1/zhuzha/q3-front-base-view.png",
+        "front-q3-front.png",
+        "wings-q3-front.png"
+      ]
+    }
+  },
+  "note": "All original base/body/face/wings/antennae files unchanged; exact original wings layered last."
+}

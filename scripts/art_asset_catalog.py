@@ -169,6 +169,13 @@ def classify(rel):
         if stem=='jack-decor-v1':title='Тыквы-фонари / все четыре выражения';role='Лист / сравнение';status='Кандидат / вариант'
         if '/sources/jack-decor-v1/' in p:role='Лист / источник';status='Архив / пробы'
         if '/costumes/rework-v8/zhuzha/' in p:status='Одобрено'
+    if p.startswith('design/2d/halloween/'):
+        final_event_titles={'trick/door.png':'Дверь ночного улья / для пчелы-гостя','trick/basket.png':'Тыквенная корзинка / сладости и леденец','ui/event_header.png':'Тыквенная ночь / шапка дорожки наград'}
+        rel=p.removeprefix('design/2d/halloween/')
+        if rel in final_event_titles:
+            title=final_event_titles[rel];role='Изображение';status='Кандидат / вариант';style='Медовый кристалл';season='Хеллоуин'
+        if stem=='event-final-v1':title='Тыквенная ночь / дверь, корзинка и шапка';role='Лист / сравнение';status='Кандидат / вариант'
+        if '/sources/event-final-v1/' in p:role='Лист / источник';status='Архив / пробы'
     return dict(title=title,category=category,role=role,style=style,season=season,status=status,species=species,accessory=accessory)
 
 def build(target):

@@ -1,0 +1,41 @@
+[
+  {
+    "file": "trick/door.png",
+    "size": [
+      1200,
+      1200
+    ],
+    "mode": "RGBA",
+    "sha256": "f5f4eb49748ad6d466a2f75a08ee223f96f95f9ba4bceb73d7d160484a6a1663",
+    "alpha_bbox": [
+      59,
+      47,
+      1149,
+      1127
+    ]
+  },
+  {
+    "file": "trick/basket.png",
+    "size": [
+      768,
+      768
+    ],
+    "mode": "RGBA",
+    "sha256": "c972c27896d0ef9d8206962b9f96f9d9ede680caf8cc0f276db789fbf60523a3",
+    "alpha_bbox": [
+      96,
+      67,
+      685,
+      700
+    ]
+  },
+  {
+    "file": "ui/event_header.png",
+    "size": [
+      2000,
+      800
+    ],
+    "mode": "RGB",
+    "sha256": "81b7ed302d0d0c9a6242f1f767692918b8610d5d4fb0423c49c76f69b94dd115"
+  }
+]

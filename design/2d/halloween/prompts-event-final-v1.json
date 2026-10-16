@@ -1,0 +1,52 @@
+{
+  "tool": "built-in image_gen",
+  "jobs": [
+    {
+      "key": "door",
+      "transparent": true,
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/env/hive_bg.webp",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/env/hive_bg_night.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/deco/deco_jack_1.png"
+      ],
+      "prompt": "Use case: stylized-concept. Cozy Buzzle mobile game \"Honey Crystal\" art: large clean irregular low-poly planar facets, warm upper-left key light, soft shading, no hard outlines, no text, no watermark, no signature. Friendly Halloween, no horror, blood or skulls. Draw an ISOLATED cozy beehive entrance set for the 'trick or treat' event modal. Not an entire house or background. A rounded six-sided honeycomb-shaped thick faceted honey-gold stone/wax doorway, small deep brown wood door opened slightly inward, candle yellow warm light inside narrow opening. Wooden door has subtly carved tiny honeycomb detail and small bronze knob. Door frame lit by warm candles against plum-indigo shaded outer edges, match reference2 night palette and reference1 crystalline hive materials. A small hanging wooden lantern beside the LEFT edge, ONE small friendly jack-o-lantern like reference3 at RIGHT doorstep and a couple of ochre autumn leaves on a compact stone/wood threshold. Keep the LOWER CENTER in front of door EMPTY: broad simple low threshold on which code will put a visiting bee, no bee, person, basket or candy in image. Entire object occupies80-86percent of a SQUARE canvas, all doorway top, lamp, pumpkin and threshold inside with7percent margin. TRUE transparent background outside entrance cluster; no night sky, moon, scene, wall rectangle, heavy external glow or ground shadow. Whole entrance/set seen almost frontally with slight above view, matching game props. Rich but restrained detail, clear at mobile size. Output one clean square transparent sprite, no checkerboard.",
+      "source": "sources/event-final-v1/door-source.png",
+      "file": "trick/door.png",
+      "export_size": [
+        1200,
+        1200
+      ]
+    },
+    {
+      "key": "basket",
+      "transparent": true,
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/assets/art/items/box_wood.webp",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/deco/deco_jack_1.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/flight/candy_1.png"
+      ],
+      "prompt": "Use case: stylized-concept. Cozy Buzzle mobile game \"Honey Crystal\" art: large clean irregular low-poly planar facets, warm upper-left key light, soft shading, no hard outlines, no text, no watermark, no signature. Friendly Halloween, no horror, blood or skulls. Single isolated trick-or-treat CANDY BASKET prop for same game, square transparent sprite. Small squat PUMPKIN-SHAPED orange basket, hollow open top clearly visible, subtle pumpkin ribs built from broad polygon facets, a friendly small carved smiling face on front. One curved dark honey-brown wicker/wood handle with soft broad facets arches over basket, connected visibly to both sides. Inside basket several individually readable wrapped candies in pumpkin orange, plum-purple, muted mint, cream-yellow, plus ONE mint-green round HONEY SWIRL LOLLIPOP on a short wooden stick poking out. Candy rendering matches reference3 faceted wrappers but no sharp starbursts. Basket material warm amber/orange matte-satin honey crystal, no photorealistic weave grain or metallic glare. Match reference1 box prop viewing angle and scale, reference2 pumpkin rendering. Three-quarter prop view slightly from above, handle fully visible, pumpkin bowl wider than tall, contents naturally arranged without clutter. Fully inside square with8percent padding, centered on true transparency, no grass, ground patch, floor, cast shadow, backdrop, text or additional objects. Bright friendly readable silhouette at48px, no unrelated jewelry or crown.",
+      "source": "sources/event-final-v1/basket-source.png",
+      "file": "trick/basket.png",
+      "export_size": [
+        768,
+        768
+      ]
+    },
+    {
+      "key": "header",
+      "transparent": false,
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/env/hive_bg_night.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/deco/deco_jack_1.png"
+      ],
+      "prompt": "Use case: stylized-concept / game environment banner. Cozy Buzzle mobile game \"Honey Crystal\" art: large clean irregular low-poly planar facets, warm upper-left key light, soft shading, no hard outlines, no text, no watermark, no signature. Friendly Halloween, no horror, blood or skulls. A WIDE LANDSCAPE event reward-track header illustration for Buzzle 'Pumpkin Night'. Aspect ratio EXACTLY5:2, intended2000x800. Full bleed opaque background, no transparency, no border. Cozy quiet night meadow, muted dark PLUM and INDIGO sky, a soft full moon in UPPER RIGHT corner, few subtle faceted clouds and sparse fireflies. A low row of THREE friendly glowing carved pumpkins on faceted grass along LOWER RIGHT edge, warm candle amber pools around pumpkins, smaller tiny pumpkin on far lowerleft edge, thin delicate cobweb in extreme upperright corner. Use reference1 night honey crystal palette and broad environment facets, reference2 pumpkin shape and cute face but keep these pumpkins secondary and small. CRITICAL compositional constraint: leave CENTER-LEFT x15-65percent,y15-75percent CALM DARK EMPTY sky/meadow gradient with low contrast for title and event progress UI that code will overlay. No bright moon, pumpkins, rays, stars or busy shapes within that central-left area. Horizon low at65percent image height, soft distant low-poly hills; don't make a forest or heavy silhouettes across text area. Moon and decorations anchored to right/edges, no big central focal object. No text, lettering, logo, button, character, bee, UI or rewards drawn. Welcoming autumn evening not scary, warm/cool balance, no black outline.",
+      "source": "sources/event-final-v1/header-source.png",
+      "file": "ui/event_header.png",
+      "export_size": [
+        2000,
+        800
+      ]
+    }
+  ]
+}

@@ -47,7 +47,7 @@
         400
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "env/hive_bg_night.png",
@@ -281,7 +281,7 @@
         600
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "trick/basket.png",
@@ -290,7 +290,7 @@
         256
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "trick/trick_hat.png",

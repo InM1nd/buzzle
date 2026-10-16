@@ -117,3 +117,13 @@ test("calibration: a greedy 20-move free round earns roughly 5–15 event points
   const avg = total / N;
   assert.ok(avg > 4 && avg < 16, `avg ${avg}`);
 });
+
+test("costumes: on the track, wearable, never in combs, the shop or the album pages", async () => {
+  const { EVENT_SKINS, ITEMS, PAGES, SKIN_BY_ID } = await import("../src/logic/loot");
+  for (const k of EVENT_SKINS) {
+    assert.ok(SKIN_BY_ID[k.id]);
+    assert.ok(!ITEMS.some((i) => i.id === k.id));
+    assert.ok(!PAGES.some((p) => p.items.includes(k.id)));
+    assert.ok(TRACK.some((st) => st.reward.skin === k.id), k.id);
+  }
+});

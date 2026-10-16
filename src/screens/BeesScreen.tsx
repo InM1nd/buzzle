@@ -1,5 +1,5 @@
 import { t } from "../i18n";
-import { SKIN_BY_ID, SKINS } from "../logic/loot";
+import { EVENT_SKINS, SKIN_BY_ID, SKINS } from "../logic/loot";
 import { ItemIcon } from "../ui/lootUi";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, ScrollView, StyleSheet, TextInput, useWindowDimensions, View } from "react-native";
@@ -79,7 +79,7 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
         </>
         ) : (
           <View onLayout={(e) => setGridW(e.nativeEvent.layout.width)} style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
-            {SKINS.filter((k) => k.id !== "headphones").map((k) => {
+            {[...SKINS, ...EVENT_SKINS.filter((k) => s.loot.owned.includes(k.id))].filter((k) => k.id !== "headphones").map((k) => {
               const have = s.loot.owned.includes(k.id);
               const wearer = Object.keys(s.beeSkins).find((b) => s.beeSkins[b] === k.id);
               return (

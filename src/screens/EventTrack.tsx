@@ -8,14 +8,13 @@ import { BOX_INFO } from "../logic/loot";
 import { ART } from "../ui/art";
 import { Bar, Bobbing, CloseBtn, GameButton, Overlay, Txt } from "../ui/components";
 import { centerOf, Pt } from "../ui/Fly";
-import { boxArt } from "../ui/lootUi";
+import { boxArt, ItemIcon } from "../ui/lootUi";
 import { shadow } from "../ui/theme";
 
 const NIGHT = { bg: "#2B1B3D", card: "#3A2F5B", pumpkin: "#F08A24", candle: "#FFC56B", ghost: "#BFF5E6" };
 
-function rewardLook(r: TrackReward): { icon: ImageSourcePropType; title: string } {
-  // ponytail: costume icon is the event point until the costume art is wired in
-  if (r.skin) return { icon: ART.point, title: `${t("ev.costume")}: ${tx(`item.${r.skin}`)}` + (r.box ? ` + ${BOX_INFO[r.box].name}` : "") };
+function rewardLook(r: TrackReward): { icon: ImageSourcePropType | null; skin?: string; title: string } {
+    if (r.skin) return { icon: null, skin: r.skin, title: `${t("ev.costume")}: ${tx(`item.${r.skin}`)}` + (r.box ? ` + ${BOX_INFO[r.box].name}` : "") };
   if (r.box) return { icon: boxArt(r.box), title: BOX_INFO[r.box].name };
   if (r.seeds) return { icon: ART.seed, title: t("ev.seeds", { n: r.seeds.n }) };
   if (r.jelly) return { icon: ART.jelly, title: `+${r.jelly}` };
@@ -66,7 +65,7 @@ export function EventCard({ s, now, onClaim }: { s: GameState; now: number; onCl
             const done = i < e.claimed, reached = e.points >= st.at, isNext = i === e.claimed;
             return (
               <View key={i} style={[styles.step, done && styles.stepDone, isNext && reached && styles.stepReady]}>
-                <Image source={look.icon} style={{ width: 36, height: 36, opacity: reached || done ? 1 : 0.5 }} resizeMode="contain" />
+                {look.skin ? <ItemIcon id={look.skin} size={36} /> : <Image source={look.icon!} style={{ width: 36, height: 36, opacity: reached || done ? 1 : 0.5 }} resizeMode="contain" />}
                 <View style={{ flex: 1, minWidth: 0 }}>
                   <Txt v="h3" style={{ fontSize: 14 }} numberOfLines={2}>{look.title}</Txt>
                   <Txt v="tiny" color="#8A6B4A">{t("ev.points", { n: st.at })}</Txt>

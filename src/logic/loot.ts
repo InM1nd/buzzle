@@ -39,6 +39,8 @@ export interface Collectible {
   place?: "hive" | "garden";
   /** skins worn on the head replace the level-10 crown */
   hat?: boolean;
+  /** v1.6 seasonal costume: only from the event track, never in combs, the shop or the album pages */
+  event?: boolean;
   desc: string;
 }
 export const SKINS: Collectible[] = [
@@ -61,19 +63,26 @@ export const DECOS: Collectible[] = [
   { id: "pinwheel", kind: "deco", name: "", rarity: "epic", page: "garden", place: "garden", desc: "" },
   { id: "gnome", kind: "deco", name: "", rarity: "legendary", page: "garden", place: "garden", desc: "" },
 ];
+/** v1.6 Halloween costumes (art in assets/art/costumes, fitted by scripts/fit_costumes.py). Only costumes whose art
+ * is in the game are listed: a track step with an unlisted costume waits instead of being lost. */
+export const EVENT_SKINS: Collectible[] = [
+  { id: "witchhat", kind: "skin", name: "", rarity: "epic", page: "skins", hat: true, event: true, desc: "" },
+  { id: "pumpkinhat", kind: "skin", name: "", rarity: "epic", page: "skins", hat: true, event: true, desc: "" },
+  { id: "vampcape", kind: "skin", name: "", rarity: "legendary", page: "skins", event: true, desc: "" },
+];
 /** album entries that are not box items: rare flowers (first seed) and the night bee (10 fragments) */
 export const RARE_ENTRIES: Collectible[] = [
   { id: "moonpoppy", kind: "flower", name: "", rarity: "rare", page: "rare", desc: "" },
   { id: "goldsun", kind: "flower", name: "", rarity: "epic", page: "rare", desc: "" },
   { id: "nochka", kind: "bee", name: "", rarity: "legendary", page: "rare", desc: "" },
 ];
-for (const i of [...SKINS, ...DECOS, ...RARE_ENTRIES]) {
+for (const i of [...SKINS, ...EVENT_SKINS, ...DECOS, ...RARE_ENTRIES]) {
   lz(i, "name", i.kind === "flower" ? `flower.${i.id}` : i.kind === "bee" ? `bee.${i.id}.name` : `item.${i.id}`);
   lz(i, "desc", `item.${i.id}.desc`);
 }
 export const ITEMS: Collectible[] = [...SKINS, ...DECOS];
-export const ITEM_BY_ID: Record<string, Collectible> = Object.fromEntries([...ITEMS, ...RARE_ENTRIES].map((i) => [i.id, i]));
-export const SKIN_BY_ID: Record<string, Collectible> = Object.fromEntries(SKINS.map((i) => [i.id, i]));
+export const ITEM_BY_ID: Record<string, Collectible> = Object.fromEntries([...ITEMS, ...EVENT_SKINS, ...RARE_ENTRIES].map((i) => [i.id, i]));
+export const SKIN_BY_ID: Record<string, Collectible> = Object.fromEntries([...SKINS, ...EVENT_SKINS].map((i) => [i.id, i]));
 
 export interface Page { id: PageId; title: string; items: string[]; bonus: string }
 export const PAGES: Page[] = [

@@ -2,22 +2,31 @@
 import React, { useMemo } from "react";
 import { Animated, Image, StyleProp, View, ViewStyle } from "react-native";
 import { TURN, WING_ROOT } from "./turnArt";
+import { COSTUME_ART } from "./costumeArt";
 import { sinRange, useFlapClock } from "./anim";
 
 type AV = Animated.Value | Animated.AnimatedInterpolation<number>;
 const DIRS: [string, number][] = [["side-left", -1], ["q3-front-left", -.5], ["front", 0], ["q3-front", .5], ["side", 1]];
 const ITEMS = new Set(["scarf", "bow", "glasses", "backpack", "wreath", "beret", "halo"]);
+/** v1.6 costumes: layers in front of the body and behind the wings */
+const COSTUMES: Record<string, { front?: string; back?: string }> = {
+  witchhat: { front: "witchhat" }, pumpkinhat: { front: "pumpkinhat" }, ghosthood: { front: "ghosthood" },
+  vampcape: { front: "vampcape_f", back: "vampcape_b" }, batwings: { back: "batwings_b" },
+};
+const HATS = new Set(["wreath", "beret", "witchhat", "pumpkinhat", "ghosthood"]);
 export const hasTurnBee = (id: string) => !!TURN[id];
 export function outfitLayers(level: number, skin?: string): string[] {
-  const hat = skin === "wreath" || skin === "beret";
-  return [...(level >= 10 && !hat ? ["crown"] : []), ...(skin && ITEMS.has(skin) ? [skin] : [])];
+  const hat = !!skin && HATS.has(skin);
+  const c = skin ? COSTUMES[skin] : undefined;
+  return [...(level >= 10 && !hat ? ["crown"] : []), ...(skin && ITEMS.has(skin) ? [skin] : []), ...(c?.front ? [c.front] : [])];
 }
+export const backLayers = (skin?: string): string[] => (skin && COSTUMES[skin]?.back ? [COSTUMES[skin].back!] : []);
 
 export function TurnBee({ id, size, turn = 0, level = 1, skin, flap = true, seed = 0, tint, rest, style }: {
   id: string; size: number; turn?: number | AV; level?: number; skin?: string; flap?: boolean; seed?: number;
   tint?: string; rest?: AV; style?: StyleProp<ViewStyle>;
 }) {
-  const set = TURN[id] ?? TURN.zhuzha;
+  const set = useMemo(() => ({ ...(TURN[id] ?? TURN.zhuzha), ...(COSTUME_ART[id] ?? {}) }), [id]);
   const moving = flap && !tint;
   const clock = useFlapClock(seed, moving);
   const motion = useMemo(() => {
@@ -43,6 +52,7 @@ export function TurnBee({ id, size, turn = 0, level = 1, skin, flap = true, seed
   const layer = (d: string, opacity?: AV) => {
     const mirrored = d.endsWith("-left"), bodyDirection = mirrored ? d.slice(0, -5) : d;
     return <Animated.View key={d} testID={`bee-view-${d}`} style={[box, { position: "absolute", opacity: opacity ?? 1 }]}>
+      {!tint ? backLayers(skin).filter(k => pick(k, d)).map(k => image(k, d)) : null}
       <View style={[box, mirrored && { transform: [{ scaleX: -1 }] }]}>
         {wing("w0", bodyDirection)}{wing("w1", bodyDirection)}{image("base", bodyDirection)}
       </View>

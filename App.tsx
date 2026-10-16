@@ -49,7 +49,8 @@ import { Lang, setLang } from "./src/i18n";
 import { chooseLanguage, setSetting, Settings } from "./src/logic/game";
 import { compareVersions } from "./src/logic/update";
 import { activeEvent, forceEvent, PUMPKIN_CHANCE } from "./src/logic/event";
-import { claimTrackStep, finishFlight, flightRunsToday } from "./src/logic/game";
+import { claimTrackStep, finishFlight, flightRunsToday, treatGuest } from "./src/logic/game";
+import { TrickBanner } from "./src/screens/EventTrack";
 import { FLIGHT_PAID_RUNS } from "./src/logic/nightFlight";
 import FlightScreen from "./src/screens/FlightScreen";
 import { useUpdater } from "./src/ui/useUpdater";
@@ -338,6 +339,13 @@ function Main() {
       commit(r.state); hSuccess();
       setTimeout(() => flyReward(from, r.reward, s), 120);
     },
+    treat: (from: Pt | null) => {
+      if (!s) return;
+      const r = treatGuest(s, Date.now());
+      if (!r) return;
+      commit(r.state); hSuccess();
+      if (r.reward.honey || r.reward.jelly) flyReward(from, { honey: r.reward.honey, jelly: r.reward.jelly }, s);
+    },
     track: (from: Pt | null) => {
       if (!s) return;
       const r = claimTrackStep(s, Date.now());
@@ -573,7 +581,7 @@ function Main() {
                   </View>
                 </View>
               </View>
-            ) : null}
+            ) : <TrickBanner s={s} now={now} onTreat={act.treat} />}
           />
           )}
           </View>

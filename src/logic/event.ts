@@ -7,13 +7,14 @@
 import { BoxKind } from "./loot";
 
 export interface EventDef { id: string; start: number; end: number }
-export interface EventState { id: string; points: number; claimed: number }
+/** trickDay: the game day the trick-or-treat guest was last treated */
+export interface EventState { id: string; points: number; claimed: number; trickDay?: number }
 export const newEventState = (): EventState => ({ id: "", points: 0, claimed: 0 });
 
 /** rewards can still be claimed this many days after the last event day */
 export const CLAIM_GRACE = 3;
 export const PUMPKIN_CHANCE = 0.05;
-export const POINTS = { pumpkin: 1, ghost: 3, star: 2 };
+export const POINTS = { pumpkin: 1, ghost: 3, star: 2, trick: 5 };
 
 const utcDay = (y: number, m: number, d: number) => Math.floor(Date.UTC(y, m - 1, d) / 86400000);
 /** Halloween of the year that day falls in: 24 October – 2 November (inclusive) */

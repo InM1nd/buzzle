@@ -3,7 +3,8 @@ import React, { useRef, useState } from "react";
 import { Image, ImageSourcePropType, StyleSheet, View } from "react-native";
 import { t, tx } from "../i18n";
 import { claimable, TRACK, TrackReward } from "../logic/event";
-import { eventView, GameState } from "../logic/game";
+import { eventView, GameState, trickGuest } from "../logic/game";
+import { BeeSprite } from "../ui/BeeSprite";
 import { BOX_INFO } from "../logic/loot";
 import { ART } from "../ui/art";
 import { Bar, Bobbing, CloseBtn, GameButton, Overlay, Txt } from "../ui/components";
@@ -84,10 +85,28 @@ export function EventCard({ s, now, onClaim }: { s: GameState; now: number; onCl
   );
 }
 
+/** v1.6 trick or treat: once a day a guest in a costume knocks at the hive */
+export function TrickBanner({ s, now, onTreat }: { s: GameState; now: number; onTreat: (from: Pt | null) => void }) {
+  const ref = useRef<View>(null);
+  const g = trickGuest(s, now);
+  if (!g) return null;
+  return (
+    <View ref={ref} collapsable={false} style={[styles.trick, shadow]}>
+      <Bobbing amp={4}><BeeSprite id={g.bee} skin={g.skin} size={64} flap={false} /></Bobbing>
+      <View style={{ flex: 1 }}>
+        <Txt v="h3" color="#fff">{t("ev.trickTitle")}</Txt>
+        <Txt v="small" color={NIGHT.ghost}>{t("ev.trickSub")}</Txt>
+        <GameButton small title={t("ev.treat")} color="honey" style={{ marginTop: 8 }} onPress={async () => onTreat(await centerOf(ref.current))} label={t("ev.treat")} />
+      </View>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   card: { backgroundColor: NIGHT.bg, borderRadius: 28, padding: 16, borderWidth: 3, borderColor: NIGHT.card },
   points: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: NIGHT.card, borderRadius: 16, paddingHorizontal: 10, paddingVertical: 6 },
   step: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: "#fff", borderRadius: 16, borderWidth: 2, borderColor: "#F0DFC0", padding: 8 },
   stepDone: { opacity: 0.6 },
+  trick: { flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: NIGHT.bg, borderRadius: 22, padding: 12, borderWidth: 2, borderColor: NIGHT.card },
   stepReady: { borderColor: "#4CC777", backgroundColor: "#E4F7EA" },
 });

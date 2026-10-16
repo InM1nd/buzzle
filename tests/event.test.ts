@@ -5,6 +5,7 @@ import { applyPath, createBoard, DEFAULT_RULES, findBestPath, GHOST_BONUS, Puzzl
 import { COLS, ROWS } from "../src/logic/hex";
 import { dayNumber } from "../src/logic/day";
 import { activeEvent, claimable, PUMPKIN_CHANCE, TRACK, trackEvent } from "../src/logic/event";
+import { trickGuest, treatGuest } from "../src/logic/game";
 import { claimTrackStep, eventView, finishRound, GameState, migrate, newState, RoundSummary } from "../src/logic/game";
 
 const at = (m: number, d: number, h = 12) => new Date(2026, m - 1, d, h).getTime();
@@ -126,4 +127,16 @@ test("costumes: on the track, wearable, never in combs, the shop or the album pa
     assert.ok(!PAGES.some((p) => p.items.includes(k.id)));
     assert.ok(TRACK.some((st) => st.reward.skin === k.id), k.id);
   }
+});
+
+test("trick or treat: one guest a day during the event, +5 points and a sweet", () => {
+  const s = newState(at(10, 20));
+  assert.equal(trickGuest(s, at(10, 20)), null);
+  assert.ok(trickGuest(s, at(10, 26)));
+  const r = treatGuest(s, at(10, 26))!;
+  assert.equal(r.state.event.points, 5);
+  assert.equal(trickGuest(r.state, at(10, 26, 20)), null);
+  assert.equal(treatGuest(r.state, at(10, 26, 20)), null);
+  assert.ok(trickGuest(r.state, at(10, 27)));
+  assert.equal(migrate(JSON.parse(JSON.stringify(r.state)), at(10, 26)).event.trickDay, r.state.event.trickDay);
 });

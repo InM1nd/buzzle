@@ -188,7 +188,7 @@ export function migrate(raw: unknown, now: number): GameState {
     settings: migrateSettings(d.settings, obj(s.settings), s.version),
     early: migrateEarly(s, now),
     event: typeof obj(s.event).id === "string"
-      ? { id: obj(s.event).id, points: Math.max(0, num(obj(s.event).points, 0) | 0), claimed: Math.max(0, Math.min(TRACK.length, num(obj(s.event).claimed, 0) | 0)) }
+      ? { id: obj(s.event).id, points: Math.max(0, num(obj(s.event).points, 0) | 0), claimed: Math.max(0, Math.min(TRACK.length, num(obj(s.event).claimed, 0) | 0)), ...(typeof obj(s.event).trickDay === "number" ? { trickDay: obj(s.event).trickDay } : {}) }
       : newEventState(),
     flight: { day: num(obj(s.flight).day, d.flight.day), runs: Math.max(0, num(obj(s.flight).runs, 0) | 0), best: Math.max(0, num(obj(s.flight).best, 0) | 0) },
     clock: { maxSeen: clockMax, maxDay },
@@ -722,4 +722,28 @@ export function finishFlight(s0: GameState, r: { passed: number; candies: number
     s = { ...s, event: { ...e, points: e.points + points } };
   }
   return { state: s, reward: { nectar, points, record, paidLeft: Math.max(0, FLIGHT_PAID_RUNS - runs - 1) } };
+}
+
+// ---------------------------------------------------------------- v1.6 trick or treat
+/** once a game day while the event runs a guest in a costume knocks at the hive */
+export function trickGuest(s: GameState, now: number): { bee: string; skin: string } | null {
+  const day = today(s, now);
+  const ev = activeEvent(day);
+  if (!ev || eventProgress(s.event, ev).trickDay === day) return null;
+  const h = hashString(`bzz-trick-${day}`);
+  const costumes = ["witchhat", "pumpkinhat", "vampcape"];
+  return { bee: s.bees[h % s.bees.length] ?? "zhuzha", skin: costumes[(h >>> 8) % costumes.length] };
+}
+/** treat the guest: event points and a small sweet (the same for everyone on that day) */
+export function treatGuest(s0: GameState, now: number): { state: GameState; reward: TrackReward; points: number } | null {
+  const s = tick(s0, now);
+  const day = today(s, now);
+  const ev = activeEvent(day);
+  if (!ev || !trickGuest(s, now)) return null;
+  const k = (hashString(`bzz-trick-${day}`) >>> 16) % 3;
+  const reward: TrackReward = k === 0 ? { jelly: 2 } : k === 1 ? { box: "wood" } : { honey: taskReward(level(s)).honey ?? 100 };
+  const e = eventProgress(s.event, ev);
+  let n: GameState = { ...add(s, reward), event: { ...e, points: e.points + POINTS.trick, trickDay: day } };
+  if (reward.box) n = addBoxes(n, [reward.box]);
+  return { state: n, reward, points: POINTS.trick };
 }

@@ -1,0 +1,26 @@
+{
+  "canvas": [
+    512,
+    512
+  ],
+  "species": "pushinka",
+  "status": "candidate",
+  "views": {
+    "front": [
+      "design/2d/all-species-accessories-v1/pushinka/front-base-view.png",
+      "costumes/pumpkinhat-front-view.png"
+    ],
+    "q3-front": [
+      "design/2d/all-species-accessories-v1/pushinka/q3-front-base-view.png",
+      "costumes/pumpkinhat-q3-front-view.png"
+    ],
+    "side": [
+      "costumes/fitting/pushinka/wing-far-side.png",
+      "costumes/fitting/pushinka/body-side-original.png",
+      "costumes/fitting/pushinka/wing-near-side.png",
+      "costumes/pumpkinhat-side-view.png",
+      "costumes/fitting/pushinka/pumpkinhat-side-antennae-front.png"
+    ]
+  },
+  "note": "Side reuses owner-approved wing order; original full antennae, no witch-hat antenna translation. Paths outside event dir start with design/; others relative to Halloween root."
+}

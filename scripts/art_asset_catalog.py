@@ -86,6 +86,9 @@ def classify(rel):
     if p.startswith('design/2d/halloween/'):
         title={'bg_sky':'Ночной полёт / небо','bg_far':'Ночной полёт / дальние холмы','bg_near':'Ночной полёт / передний план','parallax-repeat-check':'Фоны полёта / проверка повторов','parallax-scene':'Ночной полёт / общий вид','parallax-motion':'Ночной полёт / проба параллакса'}.get(stem,title)
         if p.startswith('design/2d/halloween/flight/') and stem=='icon':title='Иконка Ночного полёта'
+        if stem.startswith('pumpkinhat-'):
+            title='Тыква-шапка / '+{'pumpkinhat-front-view':'спереди','pumpkinhat-q3-front-view':'три четверти','pumpkinhat-side-view':'профиль','pumpkinhat-fit-v1':'примерка трёх ракурсов','pumpkinhat-side-base':'исходный профиль для посадки','pumpkinhat-side-antennae-front':'передний слой усиков'}.get(stem,stem)
+            if 'antennae' in stem:role='Отдельный слой'
         if stem.startswith('witchhat-'):title='Ведьминская шляпа / '+{'witchhat-front-view':'спереди','witchhat-q3-front-view':'три четверти','witchhat-side-view':'профиль','witchhat-fit-v1':'примерка трёх ракурсов','witchhat-profile-v4':'отклонённый профиль v4','witchhat-profile-check-v4':'отклонённая примерка v4','witchhat-profile-v5':'новый профиль / кандидат','witchhat-profile-check-v5':'отклонённая примерка v5','witchhat-profile-v6':'выбранная посадка / передний усик','witchhat-profile-check-v6':'усики приняты / прежние крылья','witchhat-profile-v7':'утверждённый профиль','witchhat-profile-check-v7':'крепление крыльев / сравнение с Жужей'}.get(stem,stem)
     if 'glyph-contrast-options' in p:
         title={'01-soft-crystal':'Глифы · Мягкий кристалл','02-matte-pastel':'Глифы · Матовая пастель','03-warm-wax':'Глифы · Тёплый воск','04-halloween':'Глифы · Ранний Хеллоуин','04a-halloween-soft-crystal':'Глифы · Хеллоуин 4А / кристалл','04b-halloween-matte-pastel':'Глифы · Хеллоуин 4Б / пастель','bomb-compact':'Компактная бомба'}.get(stem,title)

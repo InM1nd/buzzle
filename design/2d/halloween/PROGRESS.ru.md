@@ -1,6 +1,6 @@
 # Тыквенная ночь — прогресс ассетов
 
-Источник: BRIEF.ru.md. 46 обязательных и 7 необязательных файлов. «На просмотре» означает подготовленный кандидат, не утверждение владельцем и не интеграцию в игру.
+Подготовлено 27/46 обязательных файлов; 7 необязательных пока не готовились. Ведьминская шляпа и профиль v7 утверждены владельцем, новые рисунки — на просмотре.
 
 | Файл | Минимум | Обязательность | Статус |
 |---|---|---|---|
@@ -13,12 +13,12 @@
 | env/garden_bg_night.png | 940 × 1672 | Обязательный | На просмотре |
 | garden/pumpkin_bud.png | 249 × 249 | Обязательный | На просмотре |
 | garden/pumpkin_bloom.png | 249 × 249 | Обязательный | На просмотре |
-| costumes/witchhat-front-view.png | 512 × 512 | Обязательный | На просмотре |
-| costumes/witchhat-q3-front-view.png | 512 × 512 | Обязательный | На просмотре |
-| costumes/witchhat-side-view.png | 512 × 512 | Обязательный | На просмотре |
-| costumes/pumpkinhat-front-view.png | 512 × 512 | Обязательный | Не подготовлен |
-| costumes/pumpkinhat-q3-front-view.png | 512 × 512 | Обязательный | Не подготовлен |
-| costumes/pumpkinhat-side-view.png | 512 × 512 | Обязательный | Не подготовлен |
+| costumes/witchhat-front-view.png | 512 × 512 | Обязательный | Утверждено |
+| costumes/witchhat-q3-front-view.png | 512 × 512 | Обязательный | Утверждено |
+| costumes/witchhat-side-view.png | 512 × 512 | Обязательный | Утверждено |
+| costumes/pumpkinhat-front-view.png | 512 × 512 | Обязательный | На просмотре |
+| costumes/pumpkinhat-q3-front-view.png | 512 × 512 | Обязательный | На просмотре |
+| costumes/pumpkinhat-side-view.png | 512 × 512 | Обязательный | На просмотре |
 | costumes/ghosthood-front-view.png | 512 × 512 | Обязательный | Не подготовлен |
 | costumes/ghosthood-q3-front-view.png | 512 × 512 | Обязательный | Не подготовлен |
 | costumes/ghosthood-side-view.png | 512 × 512 | Обязательный | Не подготовлен |

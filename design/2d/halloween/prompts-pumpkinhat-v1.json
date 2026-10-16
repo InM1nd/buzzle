@@ -1,0 +1,91 @@
+[
+  {
+    "view": "front",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-3831ead6-fed8-4464-b045-dd346d7dcf4d.png",
+    "prompt": "Create ONE isolated PUMPKIN CAP accessory sprite for the bee Pushinka, straight FRONT view. Image1 is the exact head/canvas anatomy reference, Image2 is worn beret seating reference, Image3 is pumpkin material/color reference only (do NOT draw its plant). Draw ONLY the top HALF of a small hollow pumpkin worn as a low rounded helmet/cap, soft orange ribs, a short green stem and one tiny curly vine, a little hand-carved zigzag lower rim with pale golden cut flesh thickness. Friendly Honey Crystal style, broad clean irregular facets, warm upper-left light; no carved eyes/mouth, no face on pumpkin. A fitted squash dome, NOT a whole spherical pumpkin floating on head. Hat seats centrally on rounded head: on logical512square, orange cap spans x145..365, base rim abouty202, dome top abouty131, stem/vine up toy100. The TWO original brown antennae around x200 and310 must poke out naturally through two small snug openings near the upper side portions; do NOT draw any brown antennae. Keep the entire face fully clear, all below y215 transparent. Same full square framing, transparent background, only accessory, no bee/eyes/body/wings, no shadow plane, no text, no guides. Clean readable silhouette and moderate warm orange contrast matching Image3, restrained green stem.",
+    "refs": [
+      "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/front-base-view.png",
+      "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/beret-front-view.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/garden/pumpkin_bloom.png"
+    ],
+    "export": {
+      "crop": [
+        200,
+        269,
+        1064,
+        820
+      ],
+      "fit": [
+        220,
+        140
+      ],
+      "paste_xy": [
+        146,
+        69
+      ],
+      "method": "uniform mechanical fit, no painted pixels"
+    }
+  },
+  {
+    "view": "q3-front",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-f4966d11-0981-48fd-9bcc-1721ff88553b.png",
+    "prompt": "Draw ONLY the SAME pumpkin half-shell cap from Image3, rotated to THREE-QUARTER FRONT (bee facing viewer-right) to fit EXACT bee head in Image1. Image2 supplies seating perspective, not design. Preserve the orange shell's broad faceted ribs, zigzag pale cut-flesh rim, short central green stem and single small green curly vine; same physical item and scale as front. It is a shallow hollow helmet covering TOP of head only, not a whole pumpkin or face. Two small snug antenna openings on upper side portions, matching the original antenna routes from Image1, do NOT draw antennae. Rightward head turn makes cap front center move slightly right; perspective rim tilts gently with skull, underside roughly logical y207, width about218 centeredx270 on512square. Stem/curl up around y100. Keep eyes fully clear. Broad Honey Crystal facets, warm upper-left light, orange/gold with restrained green, same material asImage3. ONLY accessory on transparent full square canvas; do NOT draw body/bee/wings/eyes, background, label, text, shadow plane. All below y218 fully transparent. One isolated cap; preserve full canvas framing.",
+    "refs": [
+      "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/q3-front-base-view.png",
+      "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/beret-q3-front-view.png",
+      "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-3831ead6-fed8-4464-b045-dd346d7dcf4d.png"
+    ],
+    "export": {
+      "crop": [
+        256,
+        243,
+        1061,
+        788
+      ],
+      "fit": [
+        218,
+        148
+      ],
+      "paste_xy": [
+        161,
+        60
+      ],
+      "method": "uniform mechanical fit, no painted pixels"
+    }
+  },
+  {
+    "view": "side",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-8bc5b8e0-77ce-4953-bb19-c882c39d98dc.png",
+    "prompt": "Edit ONLY the side pumpkin-cap accessory Image1 to fit the original immovable antennae in Image2. Preserve orange half-shell/ribs/zigzag lower rim shape, scale and seating, on full512square canvas. TWO exact fixes: (1) move the green stem and curl from front-right toward center/rear-left of dome, stem centered near logicalx266,y100 with curl to its LEFT aroundx240,y92. Green stem must NOT occupy x310..380,y60..145 because that is where the original brown antennae tips go. Keep green piece small. (2) draw two small snug diagonal antenna holes in orange shell at logicalx305,y126 andx331,y143, each about26pxwide by18px high, diagonal up-right like original antenna shafts, transparent inside with warm orange folded cut-flesh lip. Do NOT draw antennae, body, bee, wings or face. Only cap. Original two antennae must remain fully readable with continuous upper stalks through these holes. Side cap dome still centeredx280, extendsx173..388, lower rim205, orange top aroundy118, green piece up toy80. No enlarged spherical pumpkin, no jack-o-lantern face, no extra hats, no text/guides. Transparent full reference square framing. Warm upper-left light and broad Honey Crystal facets identical to Image1. Do not change front/q3 views, this fixes side only.",
+    "refs": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/costumes/pumpkinhat-side-view.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/pumpkin-fit/side-base.png"
+    ],
+    "initial_attempt": {
+      "view": "side",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-9abccd1a-a27e-40e6-91a7-8d1c46e18e21.png",
+      "prompt": "Create ONLY the pumpkin half-shell helmet/cap from Image2 in TRUE RIGHT SIDE PROFILE, worn on exact Pushinka head in Image1. Preserve same physical cap: shallow orange pumpkin dome, broad faceted ribs, pale golden zigzag carved lower rim, short green stem, one small curly vine. Rotate silhouette and rib spacing to true side perspective, no face cutouts or pumpkin eyes/mouth. Fit on central rounded crown, not on back or floating above forehead. Logical512square: cap shell width about215 centeredx280, lowest rim abouty204, upper domey131, stem and curl up aroundy99. Both existing brown antennae sweep up/right fromx294..334,y165 to ballsx33090and365118; create two SMALL snug exits around where their original shafts intersect upper shell, no oversized goggle holes. Do NOT draw brown antennae. Cap covers only top skull; face and eye stay fully visible. Honey Crystal broad low-poly facets, warm upper-left light, consistent orange/gold/green asImage2. Transparent square full reference framing, accessory layer ONLY, all below y218 transparent. No bee/body/eyes/wings or ground, no labels or guides. Do not change the bee or wing reference artwork. One isolated cap.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/pumpkin-fit/side-base.png",
+        "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-3831ead6-fed8-4464-b045-dd346d7dcf4d.png"
+      ]
+    },
+    "export": {
+      "crop": [
+        332,
+        261,
+        1002,
+        695
+      ],
+      "fit": [
+        215,
+        139
+      ],
+      "paste_xy": [
+        173,
+        66
+      ],
+      "method": "uniform mechanical fit, no painted pixels"
+    }
+  }
+]

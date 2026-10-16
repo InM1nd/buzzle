@@ -92,7 +92,7 @@
         512
       ],
       "optional": false,
-      "status": "На просмотре"
+      "status": "Утверждено"
     },
     {
       "file": "costumes/witchhat-q3-front-view.png",
@@ -101,7 +101,7 @@
         512
       ],
       "optional": false,
-      "status": "На просмотре"
+      "status": "Утверждено"
     },
     {
       "file": "costumes/witchhat-side-view.png",
@@ -110,7 +110,7 @@
         512
       ],
       "optional": false,
-      "status": "На просмотре"
+      "status": "Утверждено"
     },
     {
       "file": "costumes/pumpkinhat-front-view.png",
@@ -119,7 +119,7 @@
         512
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "costumes/pumpkinhat-q3-front-view.png",
@@ -128,7 +128,7 @@
         512
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "costumes/pumpkinhat-side-view.png",
@@ -137,7 +137,7 @@
         512
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "costumes/ghosthood-front-view.png",

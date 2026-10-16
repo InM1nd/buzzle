@@ -1,0 +1,60 @@
+[
+  {
+    "file": "costumes/pumpkinhat-front-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      146,
+      69,
+      366,
+      209
+    ],
+    "sha256": "549b049a427a4a21f29095a958fec295bbaafdac84a268a842610d4c883b69c4"
+  },
+  {
+    "file": "costumes/pumpkinhat-q3-front-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      161,
+      60,
+      379,
+      208
+    ],
+    "sha256": "66cf1efc01724d585afc80cd1fbd1c24b4a82d771da39961a292c9d0836c14c8"
+  },
+  {
+    "file": "costumes/pumpkinhat-side-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      173,
+      66,
+      388,
+      205
+    ],
+    "sha256": "5dd07e00e0d2d9db8535e3bf60708fc05ac08225e0e32500b3b9888d9485b839"
+  },
+  {
+    "file": "costumes/fitting/pushinka/pumpkinhat-side-antennae-front.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "sha256": "59f79047c8ff0a4914b9a67de6183c62b083165990f236001c7ab55316a031af"
+  }
+]

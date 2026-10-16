@@ -7,12 +7,12 @@ import { Image, Linking, ScrollView, StyleSheet, Text, TextInput, useWindowDimen
 import { addBackListener } from "../platform/back";
 import { useInsets } from "../platform/insets";
 import { Lang, numFmt, t } from "../i18n";
-import { GameState, Settings } from "../logic/game";
+import { GameState, Settings, TILE_STYLES } from "../logic/game";
 import { changelogText } from "../logic/update";
 import { CAN_PICK_FILE, exportSaveCode, inviteFriend, pickSaveFile } from "../platform/share";
 import { inTelegram, NOTIFICATIONS_SUPPORTED } from "../platform/telegram";
 import { downloadApk, installApk, openInstallPermission } from "../platform/updater";
-import { ART } from "../ui/art";
+import { ART, TILE_SETS } from "../ui/art";
 import { Mascot } from "../ui/BeeSprite";
 import { Bar, CloseBtn, GameButton, Overlay, Press, Txt } from "../ui/components";
 import { C, F } from "../ui/theme";
@@ -102,6 +102,22 @@ function Main(p: SettingsProps & { go: (pg: Page) => void }) {
               <Txt v="small" style={F.black} color={st.lang === l ? "#fff" : C.brown} numberOfLines={1}>{LANG_NAME[l]}</Txt>
             </Press>
           ))}
+        </View>
+        <Txt v="h3" style={{ marginTop: 14, marginBottom: 2 }}>{t("st.tiles")}</Txt>
+        <Txt v="tiny" color={C.dim} style={{ marginBottom: 8 }}>{t("st.tilesSub")}</Txt>
+        <View style={styles.tiles} accessibilityRole="radiogroup" accessibilityLabel={t("st.tiles")}>
+          {TILE_STYLES.map((k) => {
+            const on = st.tiles === k;
+            return (
+              <Press key={k} onPress={() => p.onSet("tiles", k)} scaleTo={0.96} style={[styles.tileOpt, on && styles.tileOn]}
+                accessibilityRole="radio" accessibilityState={{ checked: on }} aria-checked={on} accessibilityLabel={t(`st.tiles.${k}`)}>
+                <View style={{ flexDirection: "row", gap: 2 }}>
+                  {[0, 1, 3, 4].map((c) => <Image key={c} source={TILE_SETS[k].cells[c]} style={{ width: 30, height: 26 }} />)}
+                </View>
+                <Txt v="small" style={F.black} color={on ? C.text : C.brown} numberOfLines={1}>{t(`st.tiles.${k}`)}</Txt>
+              </Press>
+            );
+          })}
         </View>
         <Row title={t("st.sound")} sub={t("st.soundSub")}><Toggle value={st.sound} onChange={(v) => p.onSet("sound", v)} label={t("st.sound")} /></Row>
         <Row title={t("st.vibration")} sub={t("st.vibrationSub")} last><Toggle value={st.haptics} onChange={(v) => p.onSet("haptics", v)} label={t("st.vibration")} /></Row>
@@ -363,4 +379,7 @@ const styles = StyleSheet.create({
   relHead: { flexDirection: "row", alignItems: "center", gap: 12 },
   notes: { backgroundColor: "#FFF9EE", borderRadius: 14, padding: 12, borderWidth: 1.5, borderColor: "#F3E3C4" },
   perm: { backgroundColor: "#F3EDFF", borderRadius: 14, padding: 12 },
+  tiles: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginBottom: 6 },
+  tileOpt: { flexBasis: "47%", flexGrow: 1, alignItems: "center", gap: 6, paddingVertical: 10, borderRadius: 16, borderWidth: 2, borderColor: C.line, backgroundColor: "#fff" },
+  tileOn: { borderColor: C.green, backgroundColor: "#E4F7EA" },
 });

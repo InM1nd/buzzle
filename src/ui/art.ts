@@ -53,4 +53,27 @@ export const ART = {
   flightIcon: require("../../assets/art/halloween/fl_icon.webp"),
 };
 
+/** v1.6 puzzle tile styles (Settings). setTileStyle swaps ART.cells / wild / bomb in place, so every screen that draws
+ * tiles follows; App re-mounts the tree on a change (like the language). Calm sets: scripts/import_tile_styles.py */
+const tileSet = (st: string, cells: number[], wild: number, bomb: number) => ({ st, cells, wild, bomb });
+export const TILE_SETS = {
+  classic: tileSet("classic", ART.cells, ART.wild, ART.bomb),
+  soft: tileSet("soft", [
+    require("../../assets/art/tiles/soft_cell0.webp"), require("../../assets/art/tiles/soft_cell1.webp"), require("../../assets/art/tiles/soft_cell2.webp"),
+    require("../../assets/art/tiles/soft_cell3.webp"), require("../../assets/art/tiles/soft_cell4.webp"),
+  ], require("../../assets/art/tiles/soft_cell_wild.webp"), require("../../assets/art/tiles/soft_bomb.webp")),
+  pastel: tileSet("pastel", [
+    require("../../assets/art/tiles/pastel_cell0.webp"), require("../../assets/art/tiles/pastel_cell1.webp"), require("../../assets/art/tiles/pastel_cell2.webp"),
+    require("../../assets/art/tiles/pastel_cell3.webp"), require("../../assets/art/tiles/pastel_cell4.webp"),
+  ], require("../../assets/art/tiles/pastel_cell_wild.webp"), require("../../assets/art/tiles/pastel_bomb.webp")),
+  wax: tileSet("wax", [
+    require("../../assets/art/tiles/wax_cell0.webp"), require("../../assets/art/tiles/wax_cell1.webp"), require("../../assets/art/tiles/wax_cell2.webp"),
+    require("../../assets/art/tiles/wax_cell3.webp"), require("../../assets/art/tiles/wax_cell4.webp"),
+  ], require("../../assets/art/tiles/wax_cell_wild.webp"), require("../../assets/art/tiles/wax_bomb.webp")),
+};
+export function setTileStyle(st: keyof typeof TILE_SETS) {
+  const t = TILE_SETS[st] ?? TILE_SETS.soft;
+  ART.cells = t.cells; ART.wild = t.wild; ART.bomb = t.bomb;
+}
+
 // Bee body, wing and outfit layers are registered separately in turnArt.ts.

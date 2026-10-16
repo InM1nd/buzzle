@@ -30,7 +30,7 @@ import { pinArt } from "./src/platform/pinArt";
 import { hideBootScreen, initTelegram, NOTIFICATIONS_SUPPORTED, onHide, setBackButton, telegramLanguage } from "./src/platform/telegram";
 import { applyPlan, ensureChannel, getPermission, requestPermission } from "./src/ui/notifications";
 import { hError, hSuccess, setHaptics } from "./src/ui/haptics";
-import { ART } from "./src/ui/art";
+import { ART, setTileStyle } from "./src/ui/art";
 import { TabIcon } from "./src/ui/TabIcon";
 import { Mascot } from "./src/ui/BeeSprite";
 import { C, F, shadow } from "./src/ui/theme";
@@ -122,6 +122,7 @@ function Main() {
   /** Replace state; persist now (actions) or at most every 15 s (ticks). */
   const commit = useCallback((next: GameState, force = true) => {
     setLang(next.settings.lang);
+    setTileStyle(next.settings.tiles);
     setS(next);
     const t = Date.now();
     if (writable.current && (force || t - lastSave.current > 15000)) {
@@ -551,7 +552,7 @@ function Main() {
   const gardenBadge = s.garden.beds.some((b) => isReady(b) || (canWater(b) && b.water <= 0));
 
   return (
-    <View key={s.settings.lang} style={{ flex: 1, backgroundColor: C.bg }}>
+    <View key={`${s.settings.lang}-${s.settings.tiles}`} style={{ flex: 1, backgroundColor: C.bg }}>
       <StatusBar style={night && tab === "hive" ? "light" : "dark"} />
       {tab === "hive" ? (
         <Image source={hiveView === "garden" ? (night ? ART.gardenNight : require("./assets/art/env/garden_bg.webp")) : night ? ART.hiveNight : require("./assets/art/env/hive_bg.webp")} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} />

@@ -68,7 +68,10 @@ export const DECOS: Collectible[] = [
 export const EVENT_SKINS: Collectible[] = [
   { id: "witchhat", kind: "skin", name: "", rarity: "epic", page: "skins", hat: true, event: true, desc: "" },
   { id: "pumpkinhat", kind: "skin", name: "", rarity: "epic", page: "skins", hat: true, event: true, desc: "" },
-  { id: "vampcape", kind: "skin", name: "", rarity: "legendary", page: "skins", event: true, desc: "" },
+  { id: "pumpkinwreath", kind: "skin", name: "", rarity: "epic", page: "skins", hat: true, event: true, desc: "" },
+  { id: "batwings", kind: "skin", name: "", rarity: "legendary", page: "skins", event: true, desc: "" },
+  { id: "ghosthood", kind: "skin", name: "", rarity: "legendary", page: "skins", hat: true, event: true, desc: "" },
+  // vampire cape: art on rework (design/2d/halloween/REWORK.ru.md)
 ];
 /** album entries that are not box items: rare flowers (first seed) and the night bee (10 fragments) */
 export const RARE_ENTRIES: Collectible[] = [

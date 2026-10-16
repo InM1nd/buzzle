@@ -44,6 +44,8 @@ export const event = {
   "item.pumpkinhat.desc": { en: "Grown in the garden, carved with love.", uk: "Виросла в саду, вирізана з любов'ю.", ru: "Выросла в саду, вырезана с любовью." },
   "item.vampcape": { en: "Vampire Cape", uk: "Плащ вампіра", ru: "Плащ вампира" },
   "item.vampcape.desc": { en: "Only drinks nectar, honestly.", uk: "П'є тільки нектар, чесно.", ru: "Пьёт только нектар, честно." },
+  "item.pumpkinwreath": { en: "Fall Wreath", uk: "Осінній вінок", ru: "Осенний венок" },
+  "item.pumpkinwreath.desc": { en: "Three tiny pumpkins and a pocketful of acorns.", uk: "Три гарбузики й жменя жолудів.", ru: "Три тыковки и горсть желудей." },
   "item.batwings": { en: "Bat Wings", uk: "Крила кажана", ru: "Крылья летучей мыши" },
   "item.batwings.desc": { en: "Two pairs of wings are better than one.", uk: "Дві пари крил краще, ніж одна.", ru: "Две пары крыльев лучше одной." },
   "item.ghosthood": { en: "Ghost Hood", uk: "Каптур привида", ru: "Капюшон привидения" },

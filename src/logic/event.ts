@@ -53,11 +53,11 @@ export const TRACK: TrackStep[] = [
   { at: 68, reward: { seeds: { id: "pumpkin", n: 2 } } },
   { at: 105, reward: { skin: "witchhat" } },
   { at: 143, reward: { box: "wax" } },
-  { at: 188, reward: { jelly: 4 } },
+  { at: 188, reward: { skin: "pumpkinwreath" } },
   { at: 233, reward: { skin: "pumpkinhat" } },
   { at: 278, reward: { box: "gold" } },
   { at: 323, reward: { seeds: { id: "pumpkin", n: 3 } } },
-  { at: 368, reward: { skin: "vampcape" } },
+  { at: 368, reward: { skin: "batwings" } },
   { at: 413, reward: { jelly: 6 } },
   { at: 450, reward: { skin: "ghosthood", box: "royal" } },
 ];

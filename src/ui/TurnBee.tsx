@@ -10,10 +10,10 @@ const DIRS: [string, number][] = [["side-left", -1], ["q3-front-left", -.5], ["f
 const ITEMS = new Set(["scarf", "bow", "glasses", "backpack", "wreath", "beret", "halo"]);
 /** v1.6 costumes: layers in front of the body and behind the wings */
 const COSTUMES: Record<string, { front?: string; back?: string }> = {
-  witchhat: { front: "witchhat" }, pumpkinhat: { front: "pumpkinhat" }, ghosthood: { front: "ghosthood" },
+  witchhat: { front: "witchhat" }, pumpkinhat: { front: "pumpkinhat" }, ghosthood: { front: "ghosthood" }, pumpkinwreath: { front: "pumpkinwreath" },
   vampcape: { front: "vampcape_f", back: "vampcape_b" }, batwings: { back: "batwings_b" },
 };
-const HATS = new Set(["wreath", "beret", "witchhat", "pumpkinhat", "ghosthood"]);
+const HATS = new Set(["wreath", "beret", "witchhat", "pumpkinhat", "ghosthood", "pumpkinwreath"]);
 export const hasTurnBee = (id: string) => !!TURN[id];
 export function outfitLayers(level: number, skin?: string): string[] {
   const hat = !!skin && HATS.has(skin);

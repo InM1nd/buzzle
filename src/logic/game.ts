@@ -731,7 +731,7 @@ export function trickGuest(s: GameState, now: number): { bee: string; skin: stri
   const ev = activeEvent(day);
   if (!ev || eventProgress(s.event, ev).trickDay === day) return null;
   const h = hashString(`bzz-trick-${day}`);
-  const costumes = ["witchhat", "pumpkinhat", "vampcape"];
+  const costumes = ["witchhat", "pumpkinhat", "pumpkinwreath", "batwings", "ghosthood"];
   return { bee: s.bees[h % s.bees.length] ?? "zhuzha", skin: costumes[(h >>> 8) % costumes.length] };
 }
 /** treat the guest: event points and a small sweet (the same for everyone on that day) */

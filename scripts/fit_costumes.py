@@ -21,8 +21,9 @@ LAYERS = {
     "pumpkinhat": ("pumpkinhat", "beret", "bottom"),
     "ghosthood": ("ghosthood", "beret", "bottom"),
     "pumpkinwreath": ("pumpkinwreath", "wreath", "bottom"),
-    "vampcape_f": ("vampcape-front", "scarf", "center"),
-    "vampcape_b": ("vampcape-back", "scarf", "center"),
+    # vampire cape: rejected by the owner (design/2d/halloween/REWORK.ru.md), back in when the rework is approved
+    # "vampcape_f": ("vampcape-front", "scarf", "center"),
+    # "vampcape_b": ("vampcape-back", "scarf", "center"),
     "batwings_b": ("batwings-back", "bag", "center"),
 }
 VIEWS = ["front", "q3-front", "side"]

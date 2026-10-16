@@ -9,11 +9,11 @@
   "required_asset_count_unchanged": 24,
   "layers": [
     "costumes/fitting/pushinka/wing-far-side.png",
-    "costumes/fitting/pushinka/wing-near-side.png",
     "costumes/fitting/pushinka/body-side.png",
+    "costumes/fitting/pushinka/wing-near-side.png",
     "costumes/witchhat-side-view.png",
     "costumes/fitting/pushinka/antennae-side-front.png"
   ],
-  "note": "Selected v2 hat placement with ONE local exit. Only front antenna moved. Original rear stays in body. Body-side omits original front antenna to avoid doubling; body-side-original is full source.",
-  "revision": 6
+  "note": "Far wing behind body. Near wing visible in front of shoulder; full outline and attachment are retained. Hat, antennae and body remain byte-identical to accepted v6 antenna fitting.",
+  "revision": 7
 }

@@ -19,9 +19,9 @@
     ],
     "mode": "RGBA",
     "sRGB": true,
-    "sha256": "ee49ec6479890c2cc0283ce869278fe477301aa4bbf39d1ab2b5c9c0bc74aa9c",
-    "prior_sha256": "73c1668a0be75cd2330bec0afb6f0f653f091b10a3314ee1051638836a8ddf85",
-    "updated_revision": 6
+    "sha256": "a9805f740c0ccb2d4a41275e9167e5d9e82a413d8f53d7fe972516df832a12fc",
+    "prior_sha256": "ee49ec6479890c2cc0283ce869278fe477301aa4bbf39d1ab2b5c9c0bc74aa9c",
+    "updated_revision": 7
   },
   {
     "file": "costumes/fitting/pushinka/wing-near-side.png",
@@ -31,9 +31,9 @@
     ],
     "mode": "RGBA",
     "sRGB": true,
-    "sha256": "fbad46961a85e4627b8f0ba8ba1eedb2013083aaa98caefbac282fbfdace1579",
-    "prior_sha256": "a91b5887b24316dfb3866233fa0dba2fd6585f243cc8214a496dd30455ee79fd",
-    "updated_revision": 6
+    "sha256": "8460116ad94603e838068ed40b1598d31c328edd53cb020d10c8efff30736f7a",
+    "prior_sha256": "fbad46961a85e4627b8f0ba8ba1eedb2013083aaa98caefbac282fbfdace1579",
+    "updated_revision": 7
   },
   {
     "file": "costumes/fitting/pushinka/antennae-side-front.png",

@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit the witch hat accessory Image2 using Image1 ONLY as seating reference. Current hat is perched far too far forward on the bee's forehead. Correct ONLY its right-facing SIDE PROFILE fit: move the hat rearward toward viewer-LEFT so brim is centered on rounded crown of head, not over face; central seating at logical x280,y176 in a 512x512 frame, brim spans x170..390 and bottom abouty198. Keep same deep plum Honey Crystal faceted witch hat, orange ribbon and small golden buckle on far RIGHT/front edge seen edge-on; same softly bent cone tip. Make brim a natural gently curved oval hugging crown, very subtle slope DOWN toward the right following bee head, not an extreme tilted disk. Cone base should sit on crown near x280 not x345. Antennae rooted near x294 and334 should emerge naturally at right side/top through brim opening rather than all hidden. Draw ONLY accessory hat, NO bee, NO antennae, NO wings/body/face; transparent square canvas all else. Do not change style/colors/design. Full reference canvas 512 square, large transparent space below y205. Need single corrected hat layer, not illustration with bee, not collage, no text.",
+  "refs": [
+    "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/side-base-view.png",
+    "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/costumes/witchhat-side-view.png"
+  ],
+  "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-bb931525-e762-44f0-96fc-9defa010a254.png",
+  "prior_asset_sha256": "df9ab936f34c57bd5cc4c90130ea85698bdc896eecda11470d5f1c42f19de36a",
+  "prior_commit": "ebb0fb0",
+  "export": {
+    "source_crop": [
+      321,
+      234,
+      995,
+      679
+    ],
+    "fitted_size": [
+      220,
+      145
+    ],
+    "paste_xy": [
+      170,
+      53
+    ],
+    "method": "Uniform mechanical fit, no deformation"
+  }
+}

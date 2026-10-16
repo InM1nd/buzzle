@@ -40,11 +40,11 @@
     "mode": "RGBA",
     "sRGB": true,
     "alpha_bbox": [
-      240,
-      71,
-      440,
-      211
+      170,
+      53,
+      390,
+      198
     ],
-    "sha256": "df9ab936f34c57bd5cc4c90130ea85698bdc896eecda11470d5f1c42f19de36a"
+    "sha256": "117b0cb61a69a6614fb0803c3f473d2b739cfcebe542991a0a75f3f229752888"
   }
 ]

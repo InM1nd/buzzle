@@ -59,9 +59,9 @@ export const ART = {
 };
 
 /** v1.6 hive / garden backdrop by season: the Halloween night during the event, autumn art 1 Sep – 30 Nov
- * (ponytail: autumn hive and garden art not drawn yet: put them into AUTUMN_BG when they arrive), the summer meadow otherwise */
+ * (ponytail: the autumn garden is not drawn yet: add it to AUTUMN_BG when it arrives), the summer meadow otherwise */
 const DAY_BG = { hive: require("../../assets/art/env/hive_bg.webp"), garden: require("../../assets/art/env/garden_bg.webp") };
-const AUTUMN_BG: Partial<Record<"hive" | "garden", number>> = {};
+const AUTUMN_BG: Partial<Record<"hive" | "garden", number>> = { hive: require("../../assets/art/halloween/hive_bg_autumn.webp") };
 export const sceneBg = (view: "hive" | "garden", night: boolean, autumn: boolean) =>
   night ? (view === "garden" ? ART.gardenNight : ART.hiveNight) : (autumn && AUTUMN_BG[view]) || DAY_BG[view];
 

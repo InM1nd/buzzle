@@ -11,6 +11,8 @@ M = {  # target: (source, size)
     "pumpkin_bloom.webp": ("garden/pumpkin_bloom.png", (249, 249)),
     "hive_bg_night.webp": ("env/hive_bg_night.png", (940, 1672)),
     "garden_bg_night.webp": ("env/garden_bg_night.png", (940, 1672)),
+    "hive_bg_autumn.webp": ("env/hive_bg_autumn.png", (940, 1672)),
+    "garden_bg_autumn.webp": ("env/garden_bg_autumn.png", (940, 1672)),
     "fl_sky.webp": ("flight/bg_sky.png", (1200, 675)),
     # parallax strips: only the painted bottom of the 16:9 layers (FAR_TOP / NEAR_TOP in FlightScreen), the empty sky
     # above them was full-screen transparent overdraw every frame

@@ -1,6 +1,6 @@
 # Grok: собрать пре-релизный APK 1.5.5-dev
 
-Репозиторий `InM1nd/buzzle`, рабочая ветка **v1.6** (Хеллоуин «Тыквенная ночь», Ночной полёт, стили сот, осенний фон). `main` не менять, PR не сливать, force push не использовать.
+Репозиторий `InM1nd/buzzle`, рабочая ветка **v1.6**, собирать с последнего коммита ветки (Хеллоуин «Тыквенная ночь», Ночной полёт, стили сот, осенний фон). `main` не менять, PR не сливать, force push не использовать.
 
 ## Сборка
 
@@ -15,6 +15,7 @@ npm ci
 npm run typecheck
 npm test
 npm run test:ui -- --runInBand
+export EXPO_PUBLIC_BZZ_DEV=1   # дев-сборка: в Настройках появляется тумблер «DEV · Хеллоуин»
 CI=1 npx expo prebuild --platform android --no-install
 bash scripts/configure-android.sh
 cd android

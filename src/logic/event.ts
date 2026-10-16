@@ -29,19 +29,22 @@ export function isAutumn(day: number): boolean {
   return day >= utcDay(y, 9, 1) && day <= utcDay(y, 11, 30);
 }
 
-/** web / screenshots only: `?event=1` turns the event on outside its dates (see App.tsx) */
-let forced = false;
-export const forceEvent = (on: boolean) => { forced = on; };
+/** web previews (`?event=1`) and the dev build's Settings switch (see App.tsx): true = the event runs whatever the date,
+ * false = it never runs, null = the calendar decides */
+let forced: boolean | null = null;
+export const forceEvent = (on: boolean | null) => { forced = on; };
 
 /** the event running on that game day (null outside the window) */
 export function activeEvent(day: number): EventDef | null {
+  if (forced === false) return null;
   const e = halloween(yearOf(day));
   if (day >= e.start && day <= e.end) return e;
   // own id: preview points never carry into the real event
-  return forced ? { id: `${e.id}-preview`, start: day, end: day + 20 } : null;
+  return forced === true ? { id: `${e.id}-preview`, start: day, end: day + 20 } : null;
 }
 /** the event whose track is still open: running, or ended at most CLAIM_GRACE days ago */
 export function trackEvent(day: number): EventDef | null {
+  if (forced === false) return null;
   const e = halloween(yearOf(day));
   if (day >= e.start && day <= e.end + CLAIM_GRACE) return e;
   return activeEvent(day);

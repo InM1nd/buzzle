@@ -15,6 +15,7 @@ import { BeeSprite } from "../ui/BeeSprite";
 import { CountUp, GameButton, Overlay, Press, Txt } from "../ui/components";
 import { hError, hLight, hSuccess } from "../ui/haptics";
 import { C, F, shadow } from "../ui/theme";
+import { USE_NATIVE_DRIVER } from "../ui/anim";
 
 /* eslint-disable @typescript-eslint/no-require-imports */
 const FA = {
@@ -44,7 +45,15 @@ interface Props {
 }
 type Phase = "ready" | "run" | "paused" | "over";
 
-const av = () => new Animated.Value(OFF);
+/** sprite values live on the native side: a per-frame setValue on a native node is one cheap call to the UI thread,
+ *  while a JS-driven value re-applies the view props through React Native on every frame (that was the low FPS on
+ *  Android; the puzzle animates natively and stays smooth). A zero-length native timing moves the node to native. */
+const nv = (v0: number) => {
+  const v = new Animated.Value(v0);
+  if (USE_NATIVE_DRIVER) Animated.timing(v, { toValue: v0, duration: 0, useNativeDriver: true }).start();
+  return v;
+};
+const av = () => nv(OFF);
 
 export default function FlightScreen(p: Props) {
   const insets = useInsets();
@@ -64,11 +73,11 @@ export default function FlightScreen(p: Props) {
 
   // sprite pools
   const pool = useMemo(() => ({
-    layers: LAYERS.map(() => new Animated.Value(0)), sky: new Animated.Value(0),
-    beeY: new Animated.Value(0), beeRot: new Animated.Value(0),
+    layers: LAYERS.map(() => nv(0)), sky: nv(0),
+    beeY: nv(0), beeRot: nv(0),
     stems: Array.from({ length: STEMS }, () => ({ x: av(), top: av(), bot: av() })),
-    picks: Array.from({ length: PICKS }, () => ({ x: av(), y: av(), o: new Animated.Value(0) })),
-    bats: Array.from({ length: BATS }, () => ({ x: av(), y: av(), f: [new Animated.Value(1), new Animated.Value(0), new Animated.Value(0)] })),
+    picks: Array.from({ length: PICKS }, () => ({ x: av(), y: av(), o: nv(0) })),
+    bats: Array.from({ length: BATS }, () => ({ x: av(), y: av(), f: [nv(1), nv(0), nv(0)] })),
   }), []);
 
   const reset = useCallback(() => {

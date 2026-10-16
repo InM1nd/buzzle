@@ -10,7 +10,7 @@ import { Animated, AppState, Easing, Platform } from "react-native";
 
 // Web has no native animation driver. Requesting it makes Animated.loop choose
 // the native-loop branch even after timing falls back to JS, so it runs only once.
-const USE_NATIVE_DRIVER = Platform.OS !== "web";
+export const USE_NATIVE_DRIVER = Platform.OS !== "web";
 
 // ---------- app active state ----------
 let active = AppState.currentState !== "background";

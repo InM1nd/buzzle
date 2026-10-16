@@ -29,6 +29,8 @@ const hh = (h: number) => `${String(h).padStart(2, "0")}:00`;
 export interface SettingsProps {
   visible: boolean; s: GameState; notifBlocked: boolean; updater: Updater;
   onSet: <K extends keyof Settings>(k: K, v: Settings[K]) => void;
+  /** dev build: developer switches */
+  dev?: boolean;
   onLang: (l: Lang) => void;
   onNotifications: (v: boolean) => void;
   onTutorial: () => void; onWhatsNew: () => void; onReset: () => void; onClose: () => void;
@@ -122,6 +124,9 @@ function Main(p: SettingsProps & { go: (pg: Page) => void }) {
             );
           })}
         </View>
+        {p.dev ? (
+          <Row title={t("st.devEvent")} sub={t("st.devEventSub")}><Toggle value={st.devEvent} onChange={(v) => p.onSet("devEvent", v)} label={t("st.devEvent")} /></Row>
+        ) : null}
         <Row title={t("st.sound")} sub={t("st.soundSub")}><Toggle value={st.sound} onChange={(v) => p.onSet("sound", v)} label={t("st.sound")} /></Row>
         <Row title={t("st.vibration")} sub={t("st.vibrationSub")} last><Toggle value={st.haptics} onChange={(v) => p.onSet("haptics", v)} label={t("st.vibration")} /></Row>
       </Group>

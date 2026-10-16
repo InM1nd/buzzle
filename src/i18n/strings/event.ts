@@ -42,6 +42,8 @@ export const event = {
   "ev.treat": { en: "Treat", uk: "Пригостити", ru: "Угостить" },
   "st.tiles": { en: "Puzzle tiles", uk: "Соти головоломки", ru: "Соты головоломки" },
   "st.tilesSub": { en: "A calmer look is easier on the eyes; the colours and symbols stay the same", uk: "Спокійніший вигляд менше втомлює очі; кольори й символи ті самі", ru: "Спокойный вид меньше утомляет глаза; цвета и символы те же" },
+  "st.devEvent": { en: "DEV · Halloween", uk: "DEV · Гелловін", ru: "DEV · Хеллоуин" },
+  "st.devEventSub": { en: "Dev build only: on = Pumpkin Night whatever the date, off = the normal game", uk: "Лише дев-збірка: увімкнено = Гарбузова ніч незалежно від дати, вимкнено = звичайна гра", ru: "Только дев-сборка: вкл = Тыквенная ночь независимо от даты, выкл = обычная игра" },
   "st.tilesEvent": { en: "During Pumpkin Night the tiles wear their Halloween look.", uk: "На Гарбузову ніч соти вбираються по-гелловінськи.", ru: "На Тыквенную ночь соты наряжаются по-хеллоуински." },
   "st.tiles.soft": { en: "Soft crystal", uk: "М'який кристал", ru: "Мягкий кристалл" },
   "st.tiles.pastel": { en: "Matte pastel", uk: "Матова пастель", ru: "Матовая пастель" },

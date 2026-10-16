@@ -94,6 +94,8 @@ export interface Settings {
   lastVersion: string;
   /** v1.6 puzzle tile look (players found the 1.5 tiles too contrasty: calm "soft" is the default) */
   tiles: TileStyle;
+  /** dev build only: Halloween on (whatever the date) or off */
+  devEvent: boolean;
 }
 export const TILE_STYLES = ["soft", "pastel", "wax", "classic"] as const;
 export type TileStyle = (typeof TILE_STYLES)[number];
@@ -125,7 +127,7 @@ export function newState(now: number): GameState {
     settings: {
       notifications: false, haptics: true, tutorialDone: false, notifPromptDismissed: false, gardenReminders: true, gardenIntroDone: false,
       lang: "en", langPicked: false, sound: true, notifHive: true, notifDaily: true, notifChests: true,
-      quietOn: true, quietFrom: 22, quietTo: 9, autoUpdate: true, lastVersion: APP_VERSION, tiles: "soft",
+      quietOn: true, quietFrom: 22, quietTo: 9, autoUpdate: true, lastVersion: APP_VERSION, tiles: "soft", devEvent: true,
     },
     early: { firstSeen: isoDay(now), version: APP_VERSION, early: isEarlyVersion(APP_VERSION) },
     event: newEventState(),
@@ -215,6 +217,7 @@ function migrateSettings(d: Settings, raw: Record<string, any>, version: unknown
     // a pre-1.4 save has seen 1.3 at most: "What's new" shows for 1.4
     lastVersion: typeof raw.lastVersion === "string" ? raw.lastVersion : old ? "1.3.0" : d.lastVersion,
     tiles: TILE_STYLES.includes(raw.tiles) ? raw.tiles : d.tiles,
+    devEvent: typeof raw.devEvent === "boolean" ? raw.devEvent : d.devEvent,
   };
 }
 function migrateEarly(s: Record<string, any>, now: number): EarlyPlayer {

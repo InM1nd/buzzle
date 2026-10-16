@@ -56,11 +56,14 @@ import { EventIntro, JackCarved, TrickBanner } from "./src/screens/EventTrack";
 import { FLIGHT_PAID_RUNS } from "./src/logic/nightFlight";
 import FlightScreen from "./src/screens/FlightScreen";
 import { useUpdater } from "./src/ui/useUpdater";
-import { APP_VERSION } from "./src/version";
+import { APP_VERSION, DEV_BUILD } from "./src/version";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
-// web previews / screenshots: `?event=1` runs the seasonal event outside its dates
-if (Platform.OS === "web" && typeof window !== "undefined" && /[?&]event=1(&|$)/.test(window.location?.search ?? "")) forceEvent(true);
+// web previews / screenshots: `?event=1` runs the seasonal event outside its dates; `?dev=1` shows the dev switches
+const webQuery = Platform.OS === "web" && typeof window !== "undefined" ? window.location?.search ?? "" : "";
+const WEB_EVENT = /[?&]event=1(&|$)/.test(webQuery);
+const DEV = DEV_BUILD || /[?&]dev=1(&|$)/.test(webQuery);
+if (WEB_EVENT) forceEvent(true);
 pinArt();          // web: keep all art in memory so remounts never refetch (no-op on Android)
 initTelegram(C.bg); // web inside Telegram: ready/expand/fullscreen, no swipe-to-close, header colour
 
@@ -125,6 +128,7 @@ function Main() {
   /** Replace state; persist now (actions) or at most every 15 s (ticks). */
   const commit = useCallback((next: GameState, force = true) => {
     setLang(next.settings.lang);
+    if (DEV && !WEB_EVENT) forceEvent(next.settings.devEvent); // dev switch: Halloween on / normal
     setTileStyle(seasonalTiles(next.settings.tiles, !!activeEvent(todayOf(next, Date.now()))));
     setS(next);
     const t = Date.now();
@@ -671,6 +675,7 @@ function Main() {
         notifBlocked={notifBlocked}
         updater={updater}
         onSet={act.setSetting}
+        dev={DEV}
         onLang={act.lang}
         onNotifications={act.notifications}
         onTutorial={() => { setShowSettings(false); setTimeout(() => setShowTutorial(true), 250); }}

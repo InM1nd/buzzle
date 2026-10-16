@@ -71,7 +71,7 @@ export const EVENT_SKINS: Collectible[] = [
   { id: "pumpkinwreath", kind: "skin", name: "", rarity: "epic", page: "skins", hat: true, event: true, desc: "" },
   { id: "batwings", kind: "skin", name: "", rarity: "legendary", page: "skins", event: true, desc: "" },
   { id: "ghosthood", kind: "skin", name: "", rarity: "legendary", page: "skins", hat: true, event: true, desc: "" },
-  // cape and wreath art are being reworked (design/2d/halloween/REWORK.ru.md): refit with scripts/fit_costumes.py
+  // cape and wreath: owner-approved on Zhuzha, fitted onto every species by scripts/fit_costumes.py
   { id: "vampcape", kind: "skin", name: "", rarity: "legendary", page: "skins", event: true, desc: "" },
 ];
 /** album entries that are not box items: rare flowers (first seed) and the night bee (10 fragments) */

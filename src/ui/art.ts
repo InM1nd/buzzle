@@ -53,9 +53,9 @@ export const ART = {
   flightIcon: require("../../assets/art/halloween/fl_icon.webp"),
 };
 
-/** v1.6 puzzle tile styles (Settings). setTileStyle swaps ART.cells / wild / bomb in place, so every screen that draws
+/** v1.6 puzzle tile styles (Settings). setTileStyle swaps ART.cells / wild / bomb / pumpkin in place, so every screen that draws
  * tiles follows; App re-mounts the tree on a change (like the language). Calm sets: scripts/import_tile_styles.py */
-const tileSet = (st: string, cells: number[], wild: number, bomb: number) => ({ st, cells, wild, bomb });
+const tileSet = (st: string, cells: number[], wild: number, bomb: number, pumpkin: number = ART.pumpkin) => ({ st, cells, wild, bomb, pumpkin });
 export const TILE_SETS = {
   classic: tileSet("classic", ART.cells, ART.wild, ART.bomb),
   soft: tileSet("soft", [
@@ -73,23 +73,32 @@ export const TILE_SETS = {
   hsoft: tileSet("hsoft", [
     require("../../assets/art/tiles/hsoft_cell0.webp"), require("../../assets/art/tiles/hsoft_cell1.webp"), require("../../assets/art/tiles/hsoft_cell2.webp"),
     require("../../assets/art/tiles/hsoft_cell3.webp"), require("../../assets/art/tiles/hsoft_cell4.webp"),
-  ], require("../../assets/art/tiles/hsoft_cell_wild.webp"), require("../../assets/art/tiles/hsoft_bomb.webp")),
+  ], require("../../assets/art/tiles/hsoft_cell_wild.webp"), require("../../assets/art/tiles/hsoft_bomb.webp"),
+    require("../../assets/art/tiles/hsoft_cell_pumpkin.webp")),
   hpastel: tileSet("hpastel", [
     require("../../assets/art/tiles/hpastel_cell0.webp"), require("../../assets/art/tiles/hpastel_cell1.webp"), require("../../assets/art/tiles/hpastel_cell2.webp"),
     require("../../assets/art/tiles/hpastel_cell3.webp"), require("../../assets/art/tiles/hpastel_cell4.webp"),
-  ], require("../../assets/art/tiles/hpastel_cell_wild.webp"), require("../../assets/art/tiles/hpastel_bomb.webp")),
+  ], require("../../assets/art/tiles/hpastel_cell_wild.webp"), require("../../assets/art/tiles/hpastel_bomb.webp"),
+    require("../../assets/art/tiles/hpastel_cell_pumpkin.webp")),
   hwax: tileSet("hwax", [
     require("../../assets/art/tiles/hwax_cell0.webp"), require("../../assets/art/tiles/hwax_cell1.webp"), require("../../assets/art/tiles/hwax_cell2.webp"),
     require("../../assets/art/tiles/hwax_cell3.webp"), require("../../assets/art/tiles/hwax_cell4.webp"),
-  ], require("../../assets/art/tiles/hwax_cell_wild.webp"), require("../../assets/art/tiles/hwax_bomb.webp")),
+  ], require("../../assets/art/tiles/hwax_cell_wild.webp"), require("../../assets/art/tiles/hwax_bomb.webp"),
+    require("../../assets/art/tiles/hwax_cell_pumpkin.webp")),
+  hbright: tileSet("hbright", [
+    require("../../assets/art/tiles/hbright_cell0.webp"), require("../../assets/art/tiles/hbright_cell1.webp"), require("../../assets/art/tiles/hbright_cell2.webp"),
+    require("../../assets/art/tiles/hbright_cell3.webp"), require("../../assets/art/tiles/hbright_cell4.webp"),
+  ], require("../../assets/art/tiles/hbright_cell_wild.webp"), require("../../assets/art/tiles/hbright_bomb.webp"),
+    require("../../assets/art/tiles/hbright_cell_pumpkin.webp")),
 };
 export type TileSetId = keyof typeof TILE_SETS;
-/** during the Halloween event every style switches to its seasonal version by itself (bright 1.5 → soft crystal) */
+/** during the Halloween event every style switches to its seasonal version by itself */
+const HALLOWEEN: Record<string, TileSetId> = { soft: "hsoft", pastel: "hpastel", wax: "hwax", classic: "hbright" };
 export const seasonalTiles = (st: string, halloween: boolean): TileSetId =>
-  !halloween ? ((st in TILE_SETS ? st : "soft") as TileSetId) : st === "pastel" ? "hpastel" : st === "wax" ? "hwax" : "hsoft";
+  !halloween ? ((st in TILE_SETS ? st : "soft") as TileSetId) : HALLOWEEN[st] ?? "hsoft";
 export function setTileStyle(st: TileSetId) {
   const t = TILE_SETS[st] ?? TILE_SETS.soft;
-  ART.cells = t.cells; ART.wild = t.wild; ART.bomb = t.bomb;
+  ART.cells = t.cells; ART.wild = t.wild; ART.bomb = t.bomb; ART.pumpkin = t.pumpkin;
 }
 
 // Bee body, wing and outfit layers are registered separately in turnArt.ts.

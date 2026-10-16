@@ -2,6 +2,9 @@
 design/art/glyph-contrast-options-v1/current-and-all-options.png (one tile per cell, same scale) into game sprites.
 Each tile: bbox of the non-background pixels -> 240x208 -> flat-top hexagon alpha mask (antialiased), like cell0..4.
 The compact bomb overlay (bomb-compact.png) is shared by the calm styles, fitted at 80% of the tile height (it must cover the glyph: a bomb keeps its colour for chaining).
+Halloween sets (and the bright bomb and pumpkins) come as separate sprites from design/2d/halloween/tiles (rework v5):
+720x624 tiles -> 240x208 as drawn (their decorations poke out of the hexagon), 512 bombs scaled so their 368 px box is 80%
+of the tile height.
 Run: python3 scripts/import_tile_styles.py
 """
 import os
@@ -15,7 +18,6 @@ H2 = D + "halloween-soft-crystal-and-matte-pastel.png"
 STYLES = {
     "soft": (D + "current-and-all-options.png", 1, 1), "pastel": (D + "current-and-all-options.png", 2, 2),
     "wax": (D + "current-and-all-options.png", 3, 3),
-    "hsoft": (H2, 1, 0), "hpastel": (H2, 3, 2), "hwax": (D + "current-and-all-options-halloween.png", 4, 3),
 }
 ROWS = ["cell0", "cell1", "cell2", "cell3", "cell4", "cell_wild"]
 COL_X = [325, 655, 985, 1315, 1645]; ROW_Y = [268, 502, 737, 972, 1207, 1442]
@@ -53,3 +55,30 @@ for style, (path, col, frame) in STYLES.items():
         cut(path, col, frame, i).save(f"{OUT}{style}_{name}.webp", "WEBP", quality=88, method=6)
     compact.save(f"{OUT}{style}_bomb.webp", "WEBP", quality=88, method=6)
     print(style)
+
+HT = "design/2d/halloween/tiles/"
+def tile(path):
+    im = Image.open(path).convert("RGBA")
+    if im.getbbox()[0] > 0:  # rework v5 sprites keep an 8 px margin around the hexagon
+        im = im.crop((8, 7, 712, 617))
+    return im.resize((W, H), Image.LANCZOS)
+def bomb512(path):
+    k = H * 0.8 / 368
+    n = round(512 * k)
+    b = Image.open(path).convert("RGBA").resize((n, n), Image.LANCZOS)
+    out = Image.new("RGBA", (W, H)); out.alpha_composite(b, ((W - n) // 2, (H - n) // 2 - 2))
+    return out
+SPRITES = {  # style: (folder with cell0..4 / cell_wild, bomb, pumpkin)
+    "hsoft": (HT + "rework-v5/hsoft/", HT + "rework-v5/hsoft/bomb.png", HT + "rework-v5/hsoft/cell_pumpkin.png"),
+    "hpastel": (HT + "rework-v5/hpastel/", HT + "rework-v5/hpastel/bomb.png", HT + "rework-v5/hpastel/cell_pumpkin.png"),
+    "hwax": (HT + "rework-v5/hwax/", HT + "rework-v5/hwax/bomb.png", HT + "rework-v5/hwax/cell_pumpkin.png"),
+    "hbright": (HT + "hbright/", HT + "rework-v5/hbright/bomb.png", HT + "styles/bright/cell_pumpkin.png"),
+}
+for style, (folder, bomb_path, pumpkin) in SPRITES.items():
+    for name in ROWS:
+        tile(folder + name + ".png").save(f"{OUT}{style}_{name}.webp", "WEBP", quality=88, method=6)
+    bomb512(bomb_path).save(f"{OUT}{style}_bomb.webp", "WEBP", quality=88, method=6)
+    tile(pumpkin).save(f"{OUT}{style}_cell_pumpkin.webp", "WEBP", quality=88, method=6)
+    print(style)
+# the bright (classic 1.5) bomb, made smaller by the owner (v6/v7)
+bomb512(HT + "rework-v5/bright/bomb.png").save("assets/art/bomb.webp", "WEBP", quality=88, method=6)

@@ -1,0 +1,42 @@
+[
+  {
+    "file": "costumes/fitting/pushinka/body-side.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "sha256": "0b405f1f1ade54bae549e98bcf9f9900ef112fd70e7bf7cfde547aeddd67f856"
+  },
+  {
+    "file": "costumes/fitting/pushinka/wing-far-side.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "sha256": "462f36ebee95f975c9ee91739d75598c414c0310b5b24850ee00a7011a043b87"
+  },
+  {
+    "file": "costumes/fitting/pushinka/wing-near-side.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "sha256": "a05d0ef9802fe6965fa3f64d9c182e35560a63a19f02d3e3dd4e4f87bc8670f1"
+  },
+  {
+    "file": "costumes/fitting/pushinka/antennae-side-front.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "sha256": "af84a297ee9ccf781a55352bd789fa357b4454b1d50d822caa0d7a177dcd66d7"
+  }
+]

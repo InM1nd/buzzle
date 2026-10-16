@@ -1,0 +1,18 @@
+{
+  "canvas": [
+    512,
+    512
+  ],
+  "species": "pushinka",
+  "view": "side",
+  "status": "candidate",
+  "required_asset_count_unchanged": 24,
+  "layers": [
+    "costumes/fitting/pushinka/wing-far-side.png",
+    "costumes/fitting/pushinka/wing-near-side.png",
+    "costumes/fitting/pushinka/body-side.png",
+    "costumes/witchhat-side-view.png",
+    "costumes/fitting/pushinka/antennae-side-front.png"
+  ],
+  "note": "Support layers preserve original body and antenna artwork; posed wings are a review candidate, not a runtime update."
+}

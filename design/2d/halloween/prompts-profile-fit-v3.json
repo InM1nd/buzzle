@@ -1,0 +1,57 @@
+{
+  "prompt": "Precise accessory-layer revision. Image1 shows bee SIDE PROFILE facing RIGHT; inspect the TWO ORIGINAL brown antennae: both sweep from root around x295..335,y165 UP and RIGHT to balls around x330,y90 andx365,y120, on logical512square. They MUST remain unobstructed and fully readable. Image2 is the hat design, but its cone currently obscures the antennae. Redesign only silhouette to solve: witch hat tilted slightly BACKWARD on crown, cone rises from REAR LEFT of crown, cone tip gently bent BACK toward viewerLEFT (away from antennae), NOT hooked forward over antenna balls. Brim roughly spans x155..365 with seating ellipse at y175..195. Main cone fabric lies LEFT of x285, so both antennae paths to RIGHT ofx290 remain clear. Two small visible oval notches/openings at FRONT RIGHT part of brim nearx296and325 for original antenna roots. Keep deep plum faceted cloth, pumpkin orange band, tiny gold buckle seen edge-on at RIGHT front edge, broad Honey Crystal facets, soft upper-left light, cozy. Draw ONLY hat as transparent layer in same full square canvas; NO brown antennae, NO bee or wings/eyes/body, no text or guides. Don't fill the square with a large closeup hat. Large transparent lowerhalf. This must be believable hat worn on round head with original antennae emerging from right-front brim openings, NOT loose antenna balls trapped beneath tip. Keep tip and cone safely behind the antenna paths.",
+  "refs": [
+    "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/side-base-view.png",
+    "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/costumes/witchhat-side-view.png"
+  ],
+  "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-e632ce99-a917-4006-9d74-4b6d52ca9f4a.png",
+  "previous_commit": "b1a5ddd",
+  "export": {
+    "canvas": [
+      512,
+      512
+    ],
+    "fitted_size": [
+      220,
+      133
+    ],
+    "paste_xy": [
+      130,
+      55
+    ],
+    "method": "uniform fit of generated transparent art; no painted pixels"
+  },
+  "wing_sources": [
+    "design/2d/bee-turnarounds/assets/pushinka/wing-left.png",
+    "design/2d/bee-turnarounds/assets/pushinka/wing-right.png"
+  ],
+  "wing_pose": {
+    "far": {
+      "pivot": [
+        181,
+        211
+      ],
+      "rotation_radians": 0.1,
+      "scale": 0.82
+    },
+    "near": {
+      "pivot": [
+        188,
+        245
+      ],
+      "rotation_radians": 0.28,
+      "scale": 1
+    }
+  },
+  "antennae": {
+    "source": "original rendered body",
+    "method": "exact brown pixel alpha extraction within x279..389/y56..175; no redrawing"
+  },
+  "order": [
+    "costumes/fitting/pushinka/wing-far-side.png",
+    "costumes/fitting/pushinka/wing-near-side.png",
+    "costumes/fitting/pushinka/body-side.png",
+    "costumes/witchhat-side-view.png",
+    "costumes/fitting/pushinka/antennae-side-front.png"
+  ]
+}

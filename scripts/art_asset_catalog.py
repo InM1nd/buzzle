@@ -80,12 +80,12 @@ def classify(rel):
         category={'tiles':'Глифы и соты','ui':'Награды и усилители','env':'Фоны и грядки','garden':'Растения','costumes':'Наряды','deco':'Декор','trick':'Декор','flight':'Ночной полёт'}.get(section,'Макеты и проверки')
         status='Кандидат / вариант';season='Хеллоуин';style='Медовый кристалл'
         if section=='review':role='Лист / сравнение'
-        if section=='review' and stem in {'witchhat-profile-v3','witchhat-profile-check-v3','witchhat-side-fix-v2'}:status='Архив / пробы'
+        if section=='review' and stem in {'witchhat-profile-v3','witchhat-profile-check-v3','witchhat-side-fix-v2','witchhat-profile-v4','witchhat-profile-check-v4'}:status='Архив / пробы'
     title=TITLES.get(stem,stem.replace('_',' ').replace('-',' '))
     if p.startswith('design/2d/halloween/'):
         title={'bg_sky':'Ночной полёт / небо','bg_far':'Ночной полёт / дальние холмы','bg_near':'Ночной полёт / передний план','parallax-repeat-check':'Фоны полёта / проверка повторов','parallax-scene':'Ночной полёт / общий вид','parallax-motion':'Ночной полёт / проба параллакса'}.get(stem,title)
         if p.startswith('design/2d/halloween/flight/') and stem=='icon':title='Иконка Ночного полёта'
-        if stem.startswith('witchhat-'):title='Ведьминская шляпа / '+{'witchhat-front-view':'спереди','witchhat-q3-front-view':'три четверти','witchhat-side-view':'профиль','witchhat-fit-v1':'примерка трёх ракурсов','witchhat-profile-v4':'актуальный профиль','witchhat-profile-check-v4':'посадка и усики / сравнение'}.get(stem,stem)
+        if stem.startswith('witchhat-'):title='Ведьминская шляпа / '+{'witchhat-front-view':'спереди','witchhat-q3-front-view':'три четверти','witchhat-side-view':'профиль','witchhat-fit-v1':'примерка трёх ракурсов','witchhat-profile-v4':'отклонённый профиль v4','witchhat-profile-check-v4':'отклонённая примерка v4','witchhat-profile-v5':'новый профиль / кандидат','witchhat-profile-check-v5':'сравнение с профилем Жужи'}.get(stem,stem)
     if 'glyph-contrast-options' in p:
         title={'01-soft-crystal':'Глифы · Мягкий кристалл','02-matte-pastel':'Глифы · Матовая пастель','03-warm-wax':'Глифы · Тёплый воск','04-halloween':'Глифы · Ранний Хеллоуин','04a-halloween-soft-crystal':'Глифы · Хеллоуин 4А / кристалл','04b-halloween-matte-pastel':'Глифы · Хеллоуин 4Б / пастель','bomb-compact':'Компактная бомба'}.get(stem,title)
     if species and accessory:title=f'{species} · {accessory} · {stem}'

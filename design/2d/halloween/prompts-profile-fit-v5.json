@@ -1,0 +1,49 @@
+{
+  "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-4abc2bcd-df6f-4263-9e5f-97c99ebee58c.png",
+  "prompt": "Precise local edit of isolated hat Image1. Image2 is only an anatomical alignment reference. Keep EXACT same hat position, scale, silhouette, plum cone, orange ribbon, buckle and brim on full512square canvas. Fix ONLY the two antenna eyelets: currently they are oversized and the right one is too far LEFT. Close the unused excess with matching faceted plum fabric; make TWO SMALL snug diagonal slit-like oval openings matching the original brown stalks from Image2. Logical512 coordinates: first opening centered x309,y134, width about14,height22; second centered x349,y145,width about13,height20, both lean UP toward RIGHT to follow original antenna shafts. Openings should be just wider than shafts, not huge round goggle holes. A thin raised purple cloth lip at bottom edge of each opening gives depth. Their interiors truly transparent. Do not draw brown antennae, bee, face, cream patches or wings; hat ONLY. Preserve all other regions of Image1 identically. Do not reposition hat to make holes fit. Keep full transparent square framing. No extra holes. The hat will be layered over exact original bee, with antenna tips above it; snug aligned holes must reveal the existing continuous shafts without exposing big white/cream gaps.",
+  "refs": [
+    "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/profile-layers/hat-v5.png",
+    "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/profile-layers/body.png"
+  ],
+  "previous_calls": [
+    {
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-68ea8720-567e-4362-aa6c-ecc62721331a.png",
+      "prompt": "PRECISE TRY-ON EDIT of Image1. Preserve the exact cream Pushinka bee BODY, face, ruff, legs, profile perspective and TWO WING SILHOUETTES from Image1 unchanged. Add the plum witch hat from Image2 properly worn on crown. Hat seated over top of HEAD, centered about logical x280,y175 on 512square, NOT shifted onto back. Same deep plum faceted fabric, orange ribbon and small gold buckle on front right edge; slightly bent tip. Most important ANTENNA ANATOMY: preserve BOTH ORIGINAL antennae exact curves, positions, lengths and round tips from Image1. Hat has TWO fitted oval openings in its upper/front sloping crown around where those original stalks cross the cloth, so upper antenna segments emerge naturally. The lower stalk portions are INSIDE hat and correctly hidden; DO NOT paste the entire brown stalks across the front of solid cone as glued sticks. Do NOT hide the antenna balls under bent tip or leave disconnected brown fragments. Both tips and continuous exposed upper stalks must be clearly readable above their emergence holes. Adjust hat cone shape slightly to accommodate those immovable antenna paths, while keeping hat seated on central crown. Brim hugs rounded head, not floating. Keep the pair of original pale-gold wings from Image1 EXACTLY, elongated upper-left with far wing slender behind near wing. Low-poly Honey Crystal warm upper-left light matches reference. Output single complete bee wearing hat in same square framing, transparent background, no text, no borders, no collage, no extra limbs. This is a fitting proof to solve overlap cleanly.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/profile-layers/reference-wing-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/witch-v2-original.png"
+      ]
+    },
+    {
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-375b66e0-3c84-4437-9b5c-97cf152d6ec8.png",
+      "prompt": "Extract ONLY THE PURPLE WITCH HAT from the attached image as a precise transparent accessory sprite. This is extraction, not redesign: preserve the exact cone silhouette and bent tip, brim perspective, orange ribbon, golden buckle, two OVAL ANTENNA HOLES with their folded cloth rims/shading. Remove the bee body, wings, face, legs, and ALL brown antenna pixels. The two antenna holes must be EMPTY TRANSPARENT openings, keep their dark purple rim but transparent interior. Do not fill holes with cloth or brown remnants. Keep same image canvas framing, hat position and scale as supplied, not enlarged to fill image. Background and all removed objects fully transparent. Same warm upper-left light, broad honey crystal facets unchanged. No text, no guides, single hat only. Do not add any drawn antennae, do not close the openings. This layer goes on the original bee so existing antennae show naturally through transparent holes while lower stems remain hidden inside opaque cone.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-68ea8720-567e-4362-aa6c-ecc62721331a.png"
+      ]
+    }
+  ],
+  "wing_source": "design/3d/turnaround/side.png; ZDEF.side masks in bee_layers.py",
+  "wing_transform": {
+    "uniform_scale": 0.36,
+    "near_root_destination": [
+      188,
+      245
+    ]
+  },
+  "hat_export": {
+    "crop_fit": [
+      264,
+      190
+    ],
+    "size": [
+      264,
+      180
+    ],
+    "paste_xy": [
+      178,
+      68
+    ]
+  },
+  "antennae": "Exact original brown pixels; far upper segment ends at y129, near at y144; lower stems hidden by cloth and visible through eyelets",
+  "status": "candidate / not approved"
+}

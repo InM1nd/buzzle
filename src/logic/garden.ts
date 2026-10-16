@@ -40,6 +40,8 @@ export const FLOWERS: FlowerDef[] = [
   { id: "mint", name: "", color: 4, growHours: 12, nectar: 28, seed: 800, minLevel: 7 },
   { id: "moonpoppy", name: "", color: 3, growHours: 6, nectar: 34, seed: 0, minLevel: 1, rare: true },
   { id: "goldsun", name: "", color: 0, growHours: 10, nectar: 70, seed: 0, minLevel: 1, rare: true },
+  // v1.6 Halloween: seeds only from the event reward track
+  { id: "pumpkin", name: "", color: 0, growHours: 6, nectar: 40, seed: 0, minLevel: 1, rare: true },
 ];
 for (const f of FLOWERS) lz(f, "name", `flower.${f.id}`);
 export const SHOP_FLOWERS = FLOWERS.filter((f) => !f.rare);

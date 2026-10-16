@@ -16,6 +16,8 @@ export const GARDEN_ART: Record<string, number> = {
   "sprout": require("../../assets/art/garden/sprout.webp"),
   "sunflower_bloom": require("../../assets/art/garden/sunflower_bloom.webp"),
   "sunflower_bud": require("../../assets/art/garden/sunflower_bud.webp"),
+  "pumpkin_bloom": require("../../assets/art/halloween/pumpkin_bloom.webp"),
+  "pumpkin_bud": require("../../assets/art/halloween/pumpkin_bud.webp"),
 };
 /** v1.3 items: decorations (cropped), surprise combs and wax-crack stages (full comb frame) */
 export const ITEM_ART: Record<string, { src: number; w: number; h: number }> = {

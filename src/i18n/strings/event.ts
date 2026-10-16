@@ -21,6 +21,7 @@ export const event = {
   "ev.rPumpkinT": { en: "Joins a chain of any colour, +1 event point", uk: "Приєднується до ланцюжка будь-якого кольору, +1 очко події", ru: "Подходит к цепочке любого цвета, +1 очко ивента" },
   "ev.rGhost": { en: "Ghost", uk: "Привид", ru: "Призрак" },
   "ev.rGhostT": { en: "Hops after every move. Catch it in a chain: +40 points and +3 event points", uk: "Стрибає після кожного ходу. Злови в ланцюжок: +40 очок і +3 очки події", ru: "Прыгает после каждого хода. Поймайте в цепочку: +40 очков и +3 очка ивента" },
+  "flower.pumpkin": { en: "Pumpkin", uk: "Гарбуз", ru: "Тыква" },
   "game.ghost": { en: "Ghost caught!", uk: "Привида спіймано!", ru: "Призрак пойман!" },
   "item.witchhat": { en: "Witch Hat", uk: "Капелюх відьми", ru: "Шляпа ведьмы" },
   "item.witchhat.desc": { en: "A little crooked, a lot of magic.", uk: "Трохи кривий, зате чарівний.", ru: "Немного кривая, зато волшебная." },

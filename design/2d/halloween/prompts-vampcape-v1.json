@@ -1,0 +1,226 @@
+{
+  "tool": "built-in image_gen",
+  "transparent_background": true,
+  "entries": [
+    {
+      "prompt": "One FRONT costume layer for Pushinka bee: ONLY a stand-up vampire COLLAR with small golden hexagonal clasp under chin. Image1 exact bee anatomy on full512square, Image2 shows under-chin clothing placement, NOT design. Friendly cozy Halloween Honey Crystal broad fabric facets, charcoal-black/plum outside (#302130), muted deep burgundy-red satin lining (#8D2E44), warm upper-left light. Two elegant raised collar points at outer sides, hugging lower head BELOW cheeks, framing face without covering fluffy cream ruff. Central neckline curved downward naturally below chin, slim red band joined by small gold clasp, not a giant bib or bow. Logical512 coords: overall spans roughlyx126..395, collar tips y293 at edges, lowest central band/clasp y378, face/ruff betweenx165..370,y230..355 must stay transparent. ALL above y285 and below y400 fully transparent. Same straight frontal perspective as bee, centered under lower face. Do not draw long cape in this front layer. Do not draw bee/body/eyes/antennae/wings/cream ruff, background, shadow plane, text or guides. ONLY collar and clasp on truly transparent full square canvas. Exact reference framing, don't enlarge collar to fill whole image. No bat symbols, no skulls, no horror.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/front-base-view.png",
+        "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/bag-front-view.png"
+      ],
+      "view": "front",
+      "layer": "front",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-bde11079-2f22-4130-a8d6-4df6e3a011b3.png",
+      "file": "costumes/vampcape-front-front-view.png",
+      "export": {
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          171,
+          488,
+          1085,
+          888
+        ],
+        "uniform_resize": [
+          260,
+          114
+        ],
+        "paste_xy": [
+          126,
+          296
+        ],
+        "canvas": [
+          512,
+          512
+        ],
+        "profile": "sRGB"
+      }
+    },
+    {
+      "prompt": "Create ONE BACK cape layer for Pushinka bee, straight FRONT VIEW. Image1 exact bee body/canvas alignment, Image2 clothes fit reference only. ONLY the rear cloth of a vampire cape: charcoal-black with subtle plum hue exterior (#302130), muted deep burgundy-red satin inside (#8D2E44), softly flaring down from shoulders BEHIND body. Broad irregular low-poly Honey Crystal fabric folds, warm upper-left light, friendly cozy Halloween. Logical512 framing: cape top starts aroundx148..360,y309 (under wing roots); hem softly flares to x110..400 around y442..461, two or three gentle cloth folds, dark outer side edges with burgundy interior. Reference bee body will be drawn ON TOP of this layer, so most center cloth naturally hidden, only sides and lower hem seen. A small single flowing trapezoid cloak, not separate panels. ALL above y290 completely transparent to leave both original translucent wings unobstructed. No tall collar/clasp in this back layer (separate asset). No bee, eyes, antennae, wings, legs, chest emblem, background, ground shadow, text or guides. Transparent full square 512 reference canvas, same center/scale; do not enlarge cloak to fill canvas. Cozy costume rather than sinister ragged bat wings.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/front-base-view.png",
+        "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/bag-front-view.png"
+      ],
+      "view": "front",
+      "layer": "back",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-34ab1742-c1cd-4d74-a70e-74017665fdc0.png",
+      "file": "costumes/vampcape-back-front-view.png",
+      "export": {
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          201,
+          703,
+          1053,
+          1039
+        ],
+        "uniform_resize": [
+          350,
+          138
+        ],
+        "paste_xy": [
+          81,
+          323
+        ],
+        "canvas": [
+          512,
+          512
+        ],
+        "profile": "sRGB"
+      }
+    },
+    {
+      "prompt": "Create ONLY the SAME vampire stand-up collar and golden hexagonal clasp from Image3, rotated into THREE-QUARTER FRONT view facing viewer-right to fit bee in Image1. Image2 clothing placement reference only. Preserve two pointed charcoal-plum outer collar flaps, deep burgundy-red satin lining, same small gold clasp below chin, broad low-poly Honey Crystal folds, warm upper-left light. View rotation makes far left flap slightly narrower and near right flap fuller; clasp moves towardx308. Center opening follows head, keep original eyes, cheeks and fluffy cream ruff area fully open/transparent. Logical512 canvas: collar edges aroundx140..410, tips aroundy300, bottom clasp/band y385; all above y285 and belowy405 transparent. Collar frames lower cheeks rather than covering them; must stay below original translucent wings. No long cloak, no bee/body/ruff/eyes/wings/antennae, no background, text or guides. Only isolated collar layer on transparent full reference square, exact seating scale, not enlarged closeup. Same physical design/material as frontal Image3, friendly costume.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/q3-front-base-view.png",
+        "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/bag-q3-front-view.png",
+        "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-bde11079-2f22-4130-a8d6-4df6e3a011b3.png"
+      ],
+      "view": "q3-front",
+      "layer": "front",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-f7374e73-71e4-483a-b028-915698b86d5d.png",
+      "file": "costumes/vampcape-front-q3-front-view.png",
+      "export": {
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          217,
+          525,
+          1121,
+          950
+        ],
+        "uniform_resize": [
+          250,
+          118
+        ],
+        "paste_xy": [
+          157,
+          291
+        ],
+        "canvas": [
+          512,
+          512
+        ],
+        "profile": "sRGB"
+      }
+    },
+    {
+      "prompt": "Create ONLY the SAME rear vampire cape cloth from Image3, rotated THREE-QUARTER FRONT facing viewer-right, fitted behind bee Image1. Image2 clothing position only. Same charcoal-black/plum faceted exterior, deep muted burgundy satin lining peeking at gently curled lower hem and sides, broad soft low-poly Honey Crystal cloth folds, upper-left warm light. Short cozy cloak hanging from shoulders behind round body, flares slightly toward viewer-left/rear, not bat wings or a skirt with no attachment. Keep physical hem and fabric consistent with frontal reference. On logical512square top shoulder ends aroundx150..365,y310; cloak falls behind lower body to y458, hem flaresx94..408, opening/perspective turns right. ALL ABOVE y290 FULLY TRANSPARENT so translucent bee wings remain unobstructed. Most central cloth will be hidden under original body; show only cape layer, NO bee/legs/wings, no collar or clasp (separate front layer), no ground, background, text or guides. Transparent full512square reference framing, same object scale; do not crop or enlarge to fill canvas.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/q3-front-base-view.png",
+        "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/bag-q3-front-view.png",
+        "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-34ab1742-c1cd-4d74-a70e-74017665fdc0.png"
+      ],
+      "view": "q3-front",
+      "layer": "back",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-e096b9db-cd5b-4e15-8ba1-0081ecd6fbba.png",
+      "file": "costumes/vampcape-back-q3-front-view.png",
+      "export": {
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          159,
+          636,
+          1025,
+          1057
+        ],
+        "uniform_resize": [
+          335,
+          163
+        ],
+        "paste_xy": [
+          86,
+          297
+        ],
+        "canvas": [
+          512,
+          512
+        ],
+        "profile": "sRGB"
+      }
+    },
+    {
+      "prompt": "ONLY a right-facing STRICT SIDE PROFILE vampire COLLAR accessory, same physical collar as Image3, fitted to original Pushinka bee Image1. Image2 shows under-chin clothing line. Deep charcoal-plum outer fabric, muted burgundy satin lining, small gold hexagonal clasp, broad clean faceted Honey Crystal cloth, warm upper-left light. Side perspective: tall back collar point rising beside the lower rear cheek aroundx190,y300, near/front flap atx399,y315, curved neckline band runs below fluffy cream ruff and joins small clasp under chin aroundx353,y365. Keep whole face/eye/smile/cheeks/ruff completely open; collar rises outside their silhouette, not over eye or beard. Overall logical512 bbox aboutx184..412,y297..390, narrow in profile with foreshortened far flap, clearly SIDE not another symmetrical front collar. Everything abovey290 and belowy401 transparent; leave wing region clear. No long cape/back panel in this layer. Do NOT draw any bee/body/legs/eyes/ruff/antennae/wings; only collar and clasp on full transparent square reference canvas, exact framing. No extra emblems, text, shadows or horror.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/pumpkin-fit/side-base.png",
+        "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/bag-side-view.png",
+        "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-bde11079-2f22-4130-a8d6-4df6e3a011b3.png"
+      ],
+      "view": "side",
+      "layer": "front",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-7c6eef16-ad3b-4fda-a1ed-9f831cdf46a1.png",
+      "file": "costumes/vampcape-front-side-view.png",
+      "export": {
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          262,
+          352,
+          972,
+          924
+        ],
+        "uniform_resize": [
+          200,
+          161
+        ],
+        "paste_xy": [
+          191,
+          251
+        ],
+        "canvas": [
+          512,
+          512
+        ],
+        "profile": "sRGB"
+      }
+    },
+    {
+      "prompt": "ONLY rear cloak layer of the SAME vampire cape in Image3, now strict SIDE PROFILE facing RIGHT, fitted BEHIND bee Image1. Image2 provides outfit placement, not design. Cape hangs from back shoulders, visible along viewer-LEFT/rear side of rounded bee, trailing slightly toward left below the original wings. Charcoal black/plum exterior, muted burgundy-red satin lining peeks on softly curled rear edge/hem, same broad low-poly Honey Crystal folds and warm upper-left light. No windstorm; relaxed cozy short cape. Full logical512square placement: top shoulder attachment roughlyx164..260,y305, lower hem fans left towardx75 and down to y455; front/right edge extends behind body tox295. Most right part of cape will be covered by original body drawn on top. Keep ALL ABOVEy290 transparent so original translucent wings unobstructed. Side cape shape narrow upper shoulder, broad soft flowing lower tail at rear; not frontal symmetrical skirt, not rigid triangular bat wing. NO tall collar or clasp (separate front file), NO bee/legs/body/eyes/wings/antennae, no background, ground shadow, text, labels or guides. Only transparent layer, exact reference scale and full square canvas.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/pumpkin-fit/side-base.png",
+        "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/bag-side-view.png",
+        "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-34ab1742-c1cd-4d74-a70e-74017665fdc0.png"
+      ],
+      "view": "side",
+      "layer": "back",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-7ea167f7-82d9-4cb5-a258-b274aef34f7e.png",
+      "file": "costumes/vampcape-back-side-view.png",
+      "export": {
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          213,
+          834,
+          653,
+          1183
+        ],
+        "uniform_resize": [
+          205,
+          163
+        ],
+        "paste_xy": [
+          90,
+          302
+        ],
+        "canvas": [
+          512,
+          512
+        ],
+        "profile": "sRGB"
+      }
+    }
+  ]
+}

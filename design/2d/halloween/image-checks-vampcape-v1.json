@@ -1,0 +1,98 @@
+[
+  {
+    "file": "costumes/vampcape-back-front-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      82,
+      324,
+      430,
+      460
+    ],
+    "sha256": "b65d30874092340b8b92d1ece76fc435bbc0fd09211c7c60d8b8a497b2302af3"
+  },
+  {
+    "file": "costumes/vampcape-back-q3-front-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      87,
+      298,
+      420,
+      459
+    ],
+    "sha256": "cf0f027d06433407087e1758167062f0ca6afd7673e3cd64047fe468829d592f"
+  },
+  {
+    "file": "costumes/vampcape-back-side-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      91,
+      303,
+      294,
+      464
+    ],
+    "sha256": "c8e5f1e441ed0709973c0ccfbe843ae5ca0e6a262a51692366f4f60da581c736"
+  },
+  {
+    "file": "costumes/vampcape-front-front-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      127,
+      296,
+      385,
+      409
+    ],
+    "sha256": "b88bfe9d88bea3f4dce87ed72afe09c032b611c45e2825d9457a2aff8985ad14"
+  },
+  {
+    "file": "costumes/vampcape-front-q3-front-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      158,
+      291,
+      406,
+      408
+    ],
+    "sha256": "e48a812b70122f773be1b574a5606ad50daaf55f96d0ee72c615c0b1940e3bc4"
+  },
+  {
+    "file": "costumes/vampcape-front-side-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      192,
+      251,
+      390,
+      411
+    ],
+    "sha256": "7f32f4dea15bab31721dd94db2ec9e5fa5a35ece552abbd70dcb62d4446eb9a2"
+  }
+]

@@ -1,6 +1,6 @@
 # Тыквенная ночь — прогресс ассетов
 
-Подготовлено 27/46 обязательных файлов; 7 необязательных пока не готовились. Ведьминская шляпа и профиль v7 утверждены владельцем, новые рисунки — на просмотре.
+Подготовлено 33/46 обязательных файлов; 7 необязательных пока не готовились. Ведьминская шляпа и профиль v7 утверждены владельцем, новые рисунки — на просмотре.
 
 | Файл | Минимум | Обязательность | Статус |
 |---|---|---|---|
@@ -25,12 +25,12 @@
 | costumes/pumpkinwreath-front-view.png | 512 × 512 | По желанию | Не подготовлен |
 | costumes/pumpkinwreath-q3-front-view.png | 512 × 512 | По желанию | Не подготовлен |
 | costumes/pumpkinwreath-side-view.png | 512 × 512 | По желанию | Не подготовлен |
-| costumes/vampcape-front-front-view.png | 512 × 512 | Обязательный | Не подготовлен |
-| costumes/vampcape-front-q3-front-view.png | 512 × 512 | Обязательный | Не подготовлен |
-| costumes/vampcape-front-side-view.png | 512 × 512 | Обязательный | Не подготовлен |
-| costumes/vampcape-back-front-view.png | 512 × 512 | Обязательный | Не подготовлен |
-| costumes/vampcape-back-q3-front-view.png | 512 × 512 | Обязательный | Не подготовлен |
-| costumes/vampcape-back-side-view.png | 512 × 512 | Обязательный | Не подготовлен |
+| costumes/vampcape-front-front-view.png | 512 × 512 | Обязательный | На просмотре |
+| costumes/vampcape-front-q3-front-view.png | 512 × 512 | Обязательный | На просмотре |
+| costumes/vampcape-front-side-view.png | 512 × 512 | Обязательный | На просмотре |
+| costumes/vampcape-back-front-view.png | 512 × 512 | Обязательный | На просмотре |
+| costumes/vampcape-back-q3-front-view.png | 512 × 512 | Обязательный | На просмотре |
+| costumes/vampcape-back-side-view.png | 512 × 512 | Обязательный | На просмотре |
 | costumes/batwings-back-front-view.png | 512 × 512 | Обязательный | Не подготовлен |
 | costumes/batwings-back-q3-front-view.png | 512 × 512 | Обязательный | Не подготовлен |
 | costumes/batwings-back-side-view.png | 512 × 512 | Обязательный | Не подготовлен |

@@ -1,0 +1,28 @@
+{
+  "canvas": [
+    512,
+    512
+  ],
+  "species": "pushinka",
+  "status": "candidate",
+  "views": {
+    "front": [
+      "costumes/vampcape-back-front-view.png",
+      "design/2d/all-species-accessories-v1/pushinka/front-base-view.png",
+      "costumes/vampcape-front-front-view.png"
+    ],
+    "q3-front": [
+      "costumes/vampcape-back-q3-front-view.png",
+      "design/2d/all-species-accessories-v1/pushinka/q3-front-base-view.png",
+      "costumes/vampcape-front-q3-front-view.png"
+    ],
+    "side": [
+      "costumes/vampcape-back-side-view.png",
+      "costumes/fitting/pushinka/wing-far-side.png",
+      "costumes/fitting/pushinka/body-side-original.png",
+      "costumes/fitting/pushinka/wing-near-side.png",
+      "costumes/vampcape-front-side-view.png"
+    ]
+  },
+  "note": "Paths beginning design/ are repository relative; others relative to Halloween root. Side uses original unmoved antennae and approved wing depth. No witch-hat fitting files were modified."
+}

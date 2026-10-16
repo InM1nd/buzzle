@@ -14,6 +14,7 @@ import { duration } from "../ui/format";
 import { Toggle } from "../ui/Toggle";
 import { Mascot } from "../ui/BeeSprite";
 import { NOTIFICATIONS_SUPPORTED } from "../platform/telegram";
+import { EventCard } from "./EventTrack";
 
 interface Props {
   s: GameState;
@@ -25,9 +26,10 @@ interface Props {
   onClaimWeekly?: (from: Pt | null) => void;
   onBuyFreeze?: () => boolean;
   notifBlocked: boolean;
+  onClaimTrack: (from: Pt | null) => void;
 }
 
-export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaimBonus, onNotifications, notifBlocked, onClaimWeekly, onBuyFreeze }: Props) {
+export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaimBonus, onNotifications, notifBlocked, onClaimWeekly, onBuyFreeze, onClaimTrack }: Props) {
   const weekRef = useRef<View | null>(null);
   const streak = dailyStreak(s, now);
   const lvl = level(s);
@@ -50,6 +52,7 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
       <Txt v="h1" style={{ marginBottom: 2 }}>{t("tab.tasks")}</Txt>
+      <EventCard s={s} now={now} onClaim={onClaimTrack} />
       {/* mascot */}
       <View style={styles.mascotRow}>
         <Mascot id="zhuzha" size={84} seed={9} />

@@ -21,6 +21,7 @@ import {
   openComb, SKIN_BY_ID, DECOS,
 } from "./loot";
 import { hashString } from "./rng";
+import { activeEvent, EventState, eventProgress, newEventState, POINTS, TRACK, TrackReward, trackEvent } from "./event";
 
 /** v2 (Buzzle 1.2): nectar, bee levels, garden. The storage key stays the same; v1 saves are migrated on load
  * (and backed up under bzz:backup:v1 by ui/store). */
@@ -67,6 +68,8 @@ export interface GameState {
   settings: Settings;
   /** v5 (1.4): silent "early player" mark for future beta perks (first seen date + version); synced with the save */
   early: EarlyPlayer;
+  /** v1.6 seasonal event progress (points + claimed track steps); reset when a new event starts */
+  event: EventState;
   /** anti clock-rollback bookkeeping */
   clock: { maxSeen: number; maxDay: number };
 }
@@ -118,6 +121,7 @@ export function newState(now: number): GameState {
       quietOn: true, quietFrom: 22, quietTo: 9, autoUpdate: true, lastVersion: APP_VERSION,
     },
     early: { firstSeen: isoDay(now), version: APP_VERSION, early: isEarlyVersion(APP_VERSION) },
+    event: newEventState(),
     clock: { maxSeen: now, maxDay: day },
   };
 }
@@ -179,6 +183,9 @@ export function migrate(raw: unknown, now: number): GameState {
     stats: { ...d.stats, ...obj(s.stats) },
     settings: migrateSettings(d.settings, obj(s.settings), s.version),
     early: migrateEarly(s, now),
+    event: typeof obj(s.event).id === "string"
+      ? { id: obj(s.event).id, points: Math.max(0, num(obj(s.event).points, 0) | 0), claimed: Math.max(0, Math.min(TRACK.length, num(obj(s.event).claimed, 0) | 0)) }
+      : newEventState(),
     clock: { maxSeen: clockMax, maxDay },
   };
 }
@@ -406,6 +413,9 @@ export interface RoundSummary {
   chains: number[];
   bombs: number;
   cellsByColor: number[];
+  /** v1.6 event: pumpkin tiles cleared and ghosts caught (free play) */
+  pumpkins?: number;
+  ghosts?: number;
 }
 export interface RoundReward {
   honey: number; stars: number; newStars: number; jelly: number; record: boolean; streak: number;
@@ -413,6 +423,8 @@ export interface RoundReward {
   boxes: BoxKind[];
   /** a streak freeze saved the daily streak */
   froze?: boolean;
+  /** v1.6: event points earned by this round */
+  points?: number;
 }
 
 export function finishRound(s0: GameState, r: RoundSummary, now: number): { state: GameState; reward: RoundReward } {
@@ -473,7 +485,14 @@ export function finishRound(s0: GameState, r: RoundSummary, now: number): { stat
   r.cellsByColor.forEach((n, color) => { if (n) s = taskEvent(s, { type: "cells", color, n }); });
   s = taskEvent(s, { type: "round", score: r.score, mode: r.mode === "daily" ? "daily" : "free", honey });
   if (boxes.length) s = addBoxes(s, boxes);
-  return { state: s, reward: { honey, stars, newStars, jelly: r.mode === "daily" ? newStars : extraJelly, record, streak: s.daily.streak, boxes, froze } };
+  let points = 0;
+  const ev = activeEvent(today(s, now));
+  if (ev) {
+    points = r.mode === "free" ? (r.pumpkins ?? 0) * POINTS.pumpkin + (r.ghosts ?? 0) * POINTS.ghost : newStars * POINTS.star;
+    const e = eventProgress(s.event, ev);
+    s = { ...s, event: { ...e, points: e.points + points } };
+  }
+  return { state: s, reward: { honey, stars, newStars, jelly: r.mode === "daily" ? newStars : extraJelly, record, streak: s.daily.streak, boxes, froze, points } };
 }
 
 export function claimTask(s: GameState, id: string): { state: GameState; reward: Reward } | null {
@@ -649,4 +668,28 @@ export function startFreeRound(s: GameState, use: RoundBoosters): { state: GameS
 export function useShuffle(s: GameState): GameState | null {
   if (s.loot.boosters.shuffle <= 0) return null;
   return { ...s, loot: { ...s.loot, boosters: { ...s.loot.boosters, shuffle: s.loot.boosters.shuffle - 1 } } };
+}
+
+// ---------------------------------------------------------------- v1.6 seasonal event
+/** the event track shown today (running or in the claim grace days) with the save's progress */
+export function eventView(s: GameState, now: number) {
+  const ev = trackEvent(today(s, now));
+  if (!ev) return null;
+  const day = today(s, now);
+  return { def: ev, running: !!activeEvent(day), daysLeft: ev.end - day + 1, progress: eventProgress(s.event, ev) };
+}
+/** claim the next reached track step */
+export function claimTrackStep(s0: GameState, now: number): { state: GameState; reward: TrackReward } | null {
+  const s = tick(s0, now);
+  const v = eventView(s, now);
+  if (!v) return null;
+  const e = v.progress;
+  const step = TRACK[e.claimed];
+  if (!step || e.points < step.at) return null;
+  const r = step.reward;
+  let n: GameState = { ...add(s, r), event: { ...e, claimed: e.claimed + 1 } };
+  if (r.box) n = addBoxes(n, [r.box]);
+  if (r.seeds) n = { ...n, loot: { ...n.loot, seeds: { ...n.loot.seeds, [r.seeds.id]: (n.loot.seeds[r.seeds.id] ?? 0) + r.seeds.n } } };
+  if (r.skin && SKIN_BY_ID[r.skin] && !n.loot.owned.includes(r.skin)) n = { ...n, loot: { ...n.loot, owned: [...n.loot.owned, r.skin] } };
+  return { state: n, reward: r };
 }

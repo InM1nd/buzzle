@@ -13,8 +13,11 @@ import { ART } from "../ui/art";
 import { C, shadow } from "../ui/theme";
 import { Bobbing, Card, CloseBtn, fmt, GameButton, Overlay, Press, Stars, Txt, useTopPad } from "../ui/components";
 import { dateLong, days, weekday } from "../ui/format";
+import { activeEvent } from "../logic/event";
+import { Pt } from "../ui/Fly";
+import { EventCard } from "./EventTrack";
 
-interface Props { s: GameState; now: number; onPlay: (mode: RoundMode, boosters?: RoundBoosters) => void; onBuyBooster: (b: BoosterId) => boolean }
+interface Props { s: GameState; now: number; onPlay: (mode: RoundMode, boosters?: RoundBoosters) => void; onBuyBooster: (b: BoosterId) => boolean; onClaimTrack: (from: Pt | null) => void }
 
 function HexCluster() {
   const pos = [[0, 0, 2], [1, -0.5, 0], [1, 0.5, 1], [-1, -0.5, 3], [-1, 0.5, 0], [0, -1, 4], [0, 1, 2]];
@@ -28,7 +31,7 @@ function HexCluster() {
   );
 }
 
-export default function PuzzleScreen({ s, now, onPlay, onBuyBooster }: Props) {
+export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrack }: Props) {
   const [pick, setPick] = React.useState(false);
   const [useMoves, setUseMoves] = React.useState(false);
   const [useBomb, setUseBomb] = React.useState(false);
@@ -39,6 +42,8 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster }: Props) {
   const b = boosts(s);
   const date = new Date(now);
   const chips: string[] = [];
+  const halloween = !!activeEvent(d);
+  if (halloween) chips.push(t("ev.chip"));
   if (freeMoves(s) > 20) chips.push(t("pz.chipMoves", { n: freeMoves(s) - 20 }));
   b.colorMult.forEach((m, i) => { if (m > 1) chips.push(t("pz.chipColor", { color: colorName(i), x: Math.round(m * 100) / 100 })); });
   const dc = dayColorInfo(s, now);
@@ -51,6 +56,7 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster }: Props) {
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
       <Txt v="h1" style={{ marginBottom: 2 }}>{t("tab.puzzle")}</Txt>
+      <EventCard s={s} now={now} onClaim={onClaimTrack} />
       <View style={[styles.daily, shadow]}>
         <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
           <View style={{ flex: 1 }}>
@@ -151,6 +157,8 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster }: Props) {
         <Rule img={ART.cells[0]} overlay={ART.bomb} title={t("pz.r2")} text={t("pz.r2t")} />
         <Rule img={ART.wild} title={t("pz.r3")} text={t("pz.r3t")} />
         <Rule img={ART.flame} title={t("pz.r4")} text={t("pz.r4t")} />
+        {halloween ? <Rule img={ART.pumpkin} title={t("ev.rPumpkin")} text={t("ev.rPumpkinT")} /> : null}
+        {halloween ? <Rule img={ART.cells[3]} overlay={ART.ghost} title={t("ev.rGhost")} text={t("ev.rGhostT")} /> : null}
       </Card>
       <Overlay visible={pick} onClose={() => setPick(false)}>
         <CloseBtn onPress={() => setPick(false)} />

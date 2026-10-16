@@ -5,8 +5,9 @@ import { Animated, Easing, Image, PanResponder, StyleSheet, Text, useWindowDimen
 import { useInsets } from "../platform/insets";
 import { addBackListener } from "../platform/back";
 import {
-  applyPath, Board, Cell, createBoard, shuffleBoard, findBestPath, isValidPath, MoveResult, pathColor, PuzzleRules, stepPath,
+  applyPath, Board, Cell, createBoard, shuffleBoard, findBestPath, isJoker, isValidPath, MoveResult, pathColor, PuzzleRules, stepPath,
 } from "../logic/board";
+import { POINTS } from "../logic/event";
 import { boardSize, cellCenter, COLS, fitStretch, hitTest, Pos, ROWS, tileSize } from "../logic/hex";
 import { DAILY_STARS, starsFor, WEEKEND_STARS } from "../logic/day";
 import { BOX_INFO } from "../logic/loot";
@@ -73,7 +74,7 @@ const CellView = React.memo(function CellView(p: {
     return () => l.stop();
   }, [p.hint, hint]);
   const { w, h } = tileSize(p.s, p.k);
-  const src = p.cell.kind === "wild" ? ART.wild : ART.cells[p.cell.color];
+  const src = cellArt(p.cell.kind, p.cell.color);
   return (
     <Animated.View
       pointerEvents="none"
@@ -84,10 +85,35 @@ const CellView = React.memo(function CellView(p: {
     >
       <Image source={src} resizeMode="stretch" style={{ width: w, height: h }} />
       {p.cell.kind === "bomb" ? <Image source={ART.bomb} resizeMode="stretch" style={{ position: "absolute", left: 0, top: 0, width: w, height: h }} /> : null}
+      {p.cell.ghost ? <Ghost w={w} h={h} /> : null}
       {p.selected ? <Image source={src} resizeMode="stretch" style={{ position: "absolute", left: 0, top: 0, width: w, height: h, tintColor: "#fff", opacity: 0.22 }} /> : null}
     </Animated.View>
   );
 });
+
+const cellArt = (kind: Cell["kind"], color: number) => (kind === "wild" ? ART.wild : kind === "pumpkin" ? ART.pumpkin : ART.cells[color]);
+
+/** v1.6 event ghost: floats and sways over its cell */
+function Ghost({ w, h }: { w: number; h: number }) {
+  const a = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    const l = Animated.loop(Animated.sequence([
+      Animated.timing(a, { toValue: 1, duration: 900, useNativeDriver: true, easing: Easing.inOut(Easing.sin) }),
+      Animated.timing(a, { toValue: 0, duration: 900, useNativeDriver: true, easing: Easing.inOut(Easing.sin) }),
+    ]));
+    l.start();
+    return () => l.stop();
+  }, [a]);
+  return (
+    <Animated.Image source={ART.ghost} resizeMode="stretch" style={{
+      position: "absolute", left: 0, top: 0, width: w, height: h,
+      transform: [
+        { translateY: a.interpolate({ inputRange: [0, 1], outputRange: [h * 0.03, -h * 0.07] }) },
+        { rotate: a.interpolate({ inputRange: [0, 1], outputRange: ["-5deg", "5deg"] }) },
+      ],
+    }} />
+  );
+}
 
 // ---------- effects ----------
 interface PopFx { key: number; x: number; y: number; color: number; kind: Cell["kind"]; delay: number; s: number; k: number }
@@ -107,7 +133,7 @@ function Pop({ fx, onDone }: { fx: PopFx; onDone: (k: number) => void }) {
     <View pointerEvents="none" style={{ position: "absolute", left: fx.x, top: fx.y }}>
       <Animated.Image
         resizeMode="stretch"
-        source={fx.kind === "wild" ? ART.wild : ART.cells[fx.color]}
+        source={cellArt(fx.kind, fx.color)}
         style={{
           position: "absolute", left: -w / 2, top: -h / 2, width: w, height: h,
           opacity: a.interpolate({ inputRange: [0, 0.15, 1], outputRange: [1, 1, 0] }),
@@ -246,7 +272,9 @@ export default function GameScreen(props: Props) {
   const narrow = size.width < 335;
   const tile = tileSize(s, k);
 
-  const summary = useRef<RoundSummary>({ mode: props.mode, score: 0, chains: [], bombs: 0, cellsByColor: [0, 0, 0, 0, 0] });
+  const summary = useRef<RoundSummary>({ mode: props.mode, score: 0, chains: [], bombs: 0, cellsByColor: [0, 0, 0, 0, 0], pumpkins: 0, ghosts: 0 });
+  const [evPoints, setEvPoints] = useState(0);
+  const eventOn = !!props.rules.ghost;
   const prevPos = useRef(new Map<number, number>()); // cell id -> last y
   const first = useRef(true);
   const busy = useRef(false);
@@ -356,6 +384,12 @@ export default function GameScreen(props: Props) {
       const z = { key: zipId.current++, id: ids[Math.floor(Math.random() * ids.length)], dir: (Math.random() < 0.5 ? 1 : -1) as 1 | -1, y0: size.height * (0.25 + Math.random() * 0.45), big: len >= 10 || res.bombsExploded > 1 };
       setTimeout(() => setZips((q) => [...q.slice(-1), z]), 180);
     }
+    if (res.ghostCaught) {
+      const g = res.removed.find((rm) => rm.cell.ghost)!;
+      const gc = cellCenter(g.pos.c, g.pos.r, s, k);
+      setTimeout(() => addText(gc.x, gc.y - H * 0.2, t("game.ghost"), "#3FA88C", true), 120);
+      hSuccess();
+    }
     if (res.newBomb) setTimeout(() => hTick(), 300);
     if (res.shuffled) {
       setTimeout(() => { addText(size.width / 2, size.height * 0.55, t("game.shuffling"), C.brown, true); setPulse((x) => x + 1); }, 450);
@@ -367,6 +401,9 @@ export default function GameScreen(props: Props) {
     sm.chains.push(len);
     sm.bombs += res.bombsExploded;
     res.removed.forEach((rm) => { if (rm.cell.kind === "n") sm.cellsByColor[rm.cell.color]++; });
+    sm.pumpkins! += res.pumpkins;
+    if (res.ghostCaught) sm.ghosts! += 1;
+    if (eventOn) setEvPoints(sm.pumpkins! * POINTS.pumpkin + sm.ghosts! * POINTS.ghost);
 
     setCombo(len >= 5 ? comboNow + 1 : 0);
     setScore(sm.score);
@@ -382,7 +419,7 @@ export default function GameScreen(props: Props) {
       }
       return n;
     });
-  }, [combo, props.rules, props.beeIds, s, k, H, size.width, size.height, addText, shake, movesPulse]);
+  }, [combo, props.rules, props.beeIds, s, k, H, size.width, size.height, addText, shake, movesPulse, eventOn]);
 
   // ----- end of round -----
   const onFinishRef = useRef(props.onFinish);
@@ -506,6 +543,12 @@ export default function GameScreen(props: Props) {
           <Image source={ART.flame} style={{ width: 18, height: 18 }} />
           <Txt v="small" color={C.honeyDark}>{t("game.combo", { x: 1 + 0.25 * combo })}</Txt>
         </View>
+        {eventOn ? (
+          <View style={styles.chip} accessibilityLabel={t("ev.pointsLabel", { n: evPoints })}>
+            <Image source={ART.point} style={{ width: 20, height: 20 }} />
+            <Txt v="small" color="#C25E00">{evPoints}</Txt>
+          </View>
+        ) : null}
         <View style={[styles.chip, { opacity: preview ? 1 : 0, backgroundColor: tooFew ? "#FFF" : lineColor }]}>
           <Txt v="small" color={tooFew ? C.dim : "#fff"}>{tooFew ? t("game.more", { n: 3 - path.length }) : t("game.chain", { p: preview })}</Txt>
         </View>
@@ -535,7 +578,7 @@ export default function GameScreen(props: Props) {
               s={s}
               k={k}
               selected={selected.has(l.c * 100 + l.r)}
-              dim={pc !== null && l.cell.kind !== "wild" && l.cell.color !== pc && !selected.has(l.c * 100 + l.r)}
+              dim={pc !== null && !isJoker(l.cell) && l.cell.color !== pc && !selected.has(l.c * 100 + l.r)}
               hint={hintSet.has(l.c * 100 + l.r)}
               pulse={pulse}
             />
@@ -669,6 +712,12 @@ function ResultCard({ mode, score, reward, onExit, onReplay }: { mode: RoundMode
             <Text style={[F.black, { fontSize: 22, color: C.jelly }]}>+{reward.jelly}</Text>
           </View>
         ) : null}
+        {reward.points ? (
+          <View style={styles.rewardItem} accessibilityLabel={t("ev.pointsLabel", { n: reward.points })}>
+            <Image source={ART.point} style={{ width: 34, height: 34 }} />
+            <Text style={[F.black, { fontSize: 22, color: "#C25E00" }]}>+{reward.points}</Text>
+          </View>
+        ) : null}
       </View>
       {reward.boxes.length ? (
         <View style={[styles.rewardRow, { marginTop: 10 }]} accessibilityLabel={t("game.combsLabel", { list: reward.boxes.map((b) => BOX_INFO[b].name).join(", ") })}>
@@ -708,6 +757,6 @@ const styles = StyleSheet.create({
   statMid: { borderLeftWidth: 2, borderRightWidth: 2, borderColor: C.line },
   boardWrap: { backgroundColor: C.board, borderRadius: 26, padding: 6, borderWidth: 3, borderColor: C.boardEdge },
   floatText: { textShadowColor: "#fff", textShadowRadius: 6, textShadowOffset: { width: 0, height: 0 } },
-  rewardRow: { flexDirection: "row", gap: 14, marginTop: 14 },
+  rewardRow: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 14, marginTop: 14 },
   rewardItem: { flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: "#FFF", borderRadius: 18, paddingHorizontal: 14, paddingVertical: 8, ...shadow },
 });

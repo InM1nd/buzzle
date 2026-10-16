@@ -48,10 +48,14 @@ import LanguagePicker from "./src/screens/LanguagePicker";
 import { Lang, setLang } from "./src/i18n";
 import { chooseLanguage, setSetting, Settings } from "./src/logic/game";
 import { compareVersions } from "./src/logic/update";
+import { activeEvent, forceEvent, PUMPKIN_CHANCE } from "./src/logic/event";
+import { claimTrackStep } from "./src/logic/game";
 import { useUpdater } from "./src/ui/useUpdater";
 import { APP_VERSION } from "./src/version";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
+// web previews / screenshots: `?event=1` runs the seasonal event outside its dates
+if (Platform.OS === "web" && typeof window !== "undefined" && /[?&]event=1(&|$)/.test(window.location?.search ?? "")) forceEvent(true);
 pinArt();          // web: keep all art in memory so remounts never refetch (no-op on Android)
 initTelegram(C.bg); // web inside Telegram: ready/expand/fullscreen, no swipe-to-close, header colour
 
@@ -331,6 +335,13 @@ function Main() {
       commit(r.state); hSuccess();
       setTimeout(() => flyReward(from, r.reward, s), 120);
     },
+    track: (from: Pt | null) => {
+      if (!s) return;
+      const r = claimTrackStep(s, Date.now());
+      if (!r) return;
+      commit(r.state); hSuccess();
+      if (r.reward.honey || r.reward.jelly) flyReward(from, { honey: r.reward.honey, jelly: r.reward.jelly }, s);
+    },
     task: (id: string, from: Pt | null) => {
       if (!s) return;
       const r = claimTask(s, id);
@@ -474,6 +485,8 @@ function Main() {
 
   if (game) {
     const b = boostsFor(s.bees, s.beeLevels);
+    const rules = rulesFor(game.mode === "free" ? "free" : "daily", b, dayColorInfo(s, now).active ? dayColorInfo(s, now).color : null);
+    const halloween = game.mode === "free" && !!activeEvent(todayOf(s, now));
     return (
       <View style={{ flex: 1, backgroundColor: C.bg }}>
         <StatusBar style="dark" />
@@ -485,7 +498,7 @@ function Main() {
           startBomb={game.bomb}
           shuffles={game.mode === "free" ? s.loot.boosters.shuffle : 0}
           onShuffle={act.shuffle}
-          rules={rulesFor(game.mode === "free" ? "free" : "daily", b, dayColorInfo(s, now).active ? dayColorInfo(s, now).color : null)}
+          rules={halloween ? { ...rules, pumpkinChance: PUMPKIN_CHANCE, ghost: true } : rules}
           dayColor={dayColorInfo(s, now)}
           best={game.mode === "daily" ? s.daily.results[todayOf(s, now)]?.score ?? 0 : game.mode === "weekend" ? s.week.weekendBest : s.stats.bestScore}
           title={t(game.mode === "daily" ? "mode.daily" : game.mode === "weekend" ? "mode.weekend" : "mode.free")}
@@ -502,13 +515,14 @@ function Main() {
   const loginIdx = nextLoginIndex(s, now);
   const tasksReady = taskBadge(s);
   const showNotifPrompt = NOTIFICATIONS_SUPPORTED && !s.settings.notifications && !s.settings.notifPromptDismissed && s.stats.rounds >= 1;
+  const night = !!activeEvent(todayOf(s, now));
   const gardenBadge = s.garden.beds.some((b) => isReady(b) || (canWater(b) && b.water <= 0));
 
   return (
     <View key={s.settings.lang} style={{ flex: 1, backgroundColor: C.bg }}>
       <StatusBar style="dark" />
       {tab === "hive" ? (
-        <Image source={hiveView === "garden" ? require("./assets/art/env/garden_bg.webp") : require("./assets/art/env/hive_bg.webp")} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} />
+        <Image source={hiveView === "garden" ? (night ? ART.gardenNight : require("./assets/art/env/garden_bg.webp")) : night ? ART.hiveNight : require("./assets/art/env/hive_bg.webp")} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} />
       ) : null}
       <TopPad.Provider value={topH}>
       <View style={{ flex: 1 }}>
@@ -540,7 +554,7 @@ function Main() {
           )}
           </View>
         ) : tab === "puzzle" ? (
-          <PuzzleScreen s={s} now={now} onPlay={act.play} onBuyBooster={(bid) => act.simple((c) => shopBuyBooster(c, bid))} />
+          <PuzzleScreen s={s} now={now} onPlay={act.play} onBuyBooster={(bid) => act.simple((c) => shopBuyBooster(c, bid))} onClaimTrack={act.track} />
         ) : tab === "bees" ? (
           <BeesScreen s={s} onSkin={(bee, k) => act.simple((c) => setSkin(c, bee, k))} onAssemble={() => act.simple((c) => assembleNightBee(c, Date.now()))} onUnlock={act.unlock} onLevelUp={act.levelUp} onRename={act.rename} onGarden={() => { setTab("hive"); setHiveView("garden"); }} />
         ) : tab === "loot" ? (
@@ -556,7 +570,7 @@ function Main() {
             onToggleDeco={(id) => act.simple((c) => toggleDeco(c, id))}
           />
         ) : (
-          <TasksScreen s={s} now={now} onClaimWeekly={act.weekly} onBuyFreeze={() => act.simple((c) => buyFreeze(c, Date.now()))} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} onNotifications={act.notifications} notifBlocked={notifBlocked} />
+          <TasksScreen s={s} now={now} onClaimTrack={act.track} onClaimWeekly={act.weekly} onBuyFreeze={() => act.simple((c) => buyFreeze(c, Date.now()))} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} onNotifications={act.notifications} notifBlocked={notifBlocked} />
         )}
       </View>
       </TopPad.Provider>

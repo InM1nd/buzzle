@@ -44,6 +44,12 @@ export const ART = {
   share: require("../../assets/art/share.webp"),
   save: require("../../assets/art/save.webp"),
   tabBox: require("../../assets/art/tab_box.webp"),
+  // v1.6 Halloween
+  pumpkin: require("../../assets/art/halloween/cell_pumpkin.webp"),
+  ghost: require("../../assets/art/halloween/ghost.webp"),
+  point: require("../../assets/art/halloween/point.webp"),
+  hiveNight: require("../../assets/art/halloween/hive_bg_night.webp"),
+  gardenNight: require("../../assets/art/halloween/garden_bg_night.webp"),
 };
 
 // Bee body, wing and outfit layers are registered separately in turnArt.ts.

@@ -1,0 +1,438 @@
+{
+  "tool": "built-in image_gen",
+  "entries": [
+    {
+      "prompt": "Use case: precise-object-edit. Create ONE transparent pumpkin puzzle HEX TILE. Image1 is exact identity and geometry reference: flat-top hex, side vertices left/right, carved friendly triangular eyes and little toothy smile, small stem INSIDE top outline. Image2 is EXACT material/style reference for this variant. Restyle image1 to SOFT CRYSTAL: softer broad facets and low-glare bevel, retain warm yellow-orange pumpkin but reduce harsh facet contrast. Keep jack-o-lantern face/identity and hex silhouette, proportions WIDTH:HEIGHT=240:208, clean straight shared-edge hex boundaries; stem/leaves stay inside tile, no decorative protrusion. Style must match image2 including bevel thickness, saturation and facet treatment; no sun symbol. Warm upper-left illumination, readable at40px. Tile occupies almost whole landscape canvas with only tiny transparent margin, alpha background outside exact hex. One tile only, no grid, text, label, shadow extending beyond hex or extra ornament. No black horror face, skull or external glow. Do not alter hex shape.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/tiles/cell_pumpkin.png",
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/tiles/soft_cell0.webp"
+      ],
+      "key": "soft",
+      "type": "pumpkin",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-eb419a32-9067-408d-8345-d156bb985272.png",
+      "export": {
+        "crop": [
+          0,
+          0,
+          1347,
+          1167
+        ],
+        "uniform_resize": [
+          720,
+          624
+        ],
+        "paste_xy": [
+          0,
+          0
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "file": "tiles/styles/soft/cell_pumpkin.png"
+    },
+    {
+      "prompt": "Use case: precise-object-edit. Create ONE transparent pumpkin puzzle HEX TILE. Image1 is exact identity and geometry reference: flat-top hex, side vertices left/right, carved friendly triangular eyes and little toothy smile, small stem INSIDE top outline. Image2 is EXACT material/style reference for this variant. Restyle image1 to MATTE PASTEL: muted apricot pumpkin color, smooth matte surface, few broad subtle planes and simple single bevel, no gloss. Keep jack-o-lantern face/identity and hex silhouette, proportions WIDTH:HEIGHT=240:208, clean straight shared-edge hex boundaries; stem/leaves stay inside tile, no decorative protrusion. Style must match image2 including bevel thickness, saturation and facet treatment; no sun symbol. Warm upper-left illumination, readable at40px. Tile occupies almost whole landscape canvas with only tiny transparent margin, alpha background outside exact hex. One tile only, no grid, text, label, shadow extending beyond hex or extra ornament. No black horror face, skull or external glow. Do not alter hex shape.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/tiles/cell_pumpkin.png",
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/tiles/pastel_cell0.webp"
+      ],
+      "key": "pastel",
+      "type": "pumpkin",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-52468cd0-4161-4453-9949-2266a619493d.png",
+      "export": {
+        "crop": [
+          7,
+          8,
+          1337,
+          1150
+        ],
+        "uniform_resize": [
+          720,
+          618
+        ],
+        "paste_xy": [
+          0,
+          3
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "file": "tiles/styles/pastel/cell_pumpkin.png"
+    },
+    {
+      "prompt": "Use case: precise-object-edit. Create ONE transparent pumpkin puzzle HEX TILE. Image1 is exact identity and geometry reference: flat-top hex, side vertices left/right, carved friendly triangular eyes and little toothy smile, small stem INSIDE top outline. Image2 is EXACT material/style reference for this variant. Restyle image1 to WARM WAX: earthy honey-ochre burnt-orange beeswax, broad very subtle facets, tactile matte natural wax, restrained highlights. Keep jack-o-lantern face/identity and hex silhouette, proportions WIDTH:HEIGHT=240:208, clean straight shared-edge hex boundaries; stem/leaves stay inside tile, no decorative protrusion. Style must match image2 including bevel thickness, saturation and facet treatment; no sun symbol. Warm upper-left illumination, readable at40px. Tile occupies almost whole landscape canvas with only tiny transparent margin, alpha background outside exact hex. One tile only, no grid, text, label, shadow extending beyond hex or extra ornament. No black horror face, skull or external glow. Do not alter hex shape.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/tiles/cell_pumpkin.png",
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/tiles/wax_cell0.webp"
+      ],
+      "key": "wax",
+      "type": "pumpkin",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-90bb34e1-9d4d-4d20-bd78-c09b0aee9807.png",
+      "export": {
+        "crop": [
+          4,
+          9,
+          1344,
+          1154
+        ],
+        "uniform_resize": [
+          720,
+          615
+        ],
+        "paste_xy": [
+          0,
+          4
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "file": "tiles/styles/wax/cell_pumpkin.png"
+    },
+    {
+      "prompt": "Use case: precise-object-edit. Create ONE transparent pumpkin puzzle HEX TILE. Image1 is exact identity and geometry reference: flat-top hex, side vertices left/right, carved friendly triangular eyes and little toothy smile, small stem INSIDE top outline. Image2 is EXACT material/style reference for this variant. Restyle image1 to HALLOWEEN SOFT CRYSTAL: preserve soft crystal material and gentle facets, pumpkin amber/apricot with very small muted olive stem, subtle warm inner face glow. Keep jack-o-lantern face/identity and hex silhouette, proportions WIDTH:HEIGHT=240:208, clean straight shared-edge hex boundaries; stem/leaves stay inside tile, no decorative protrusion. Style must match image2 including bevel thickness, saturation and facet treatment; no sun symbol. Warm upper-left illumination, readable at40px. Tile occupies almost whole landscape canvas with only tiny transparent margin, alpha background outside exact hex. One tile only, no grid, text, label, shadow extending beyond hex or extra ornament. No black horror face, skull or external glow. Do not alter hex shape.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/tiles/cell_pumpkin.png",
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/tiles/hsoft_cell0.webp"
+      ],
+      "key": "hsoft",
+      "type": "pumpkin",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-9a551238-183b-4ff7-863e-365d2e0958c8.png",
+      "export": {
+        "crop": [
+          0,
+          0,
+          1347,
+          1146
+        ],
+        "uniform_resize": [
+          720,
+          613
+        ],
+        "paste_xy": [
+          0,
+          5
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "file": "tiles/styles/hsoft/cell_pumpkin.png"
+    },
+    {
+      "prompt": "Use case: precise-object-edit. Create ONE transparent pumpkin puzzle HEX TILE. Image1 is exact identity and geometry reference: flat-top hex, side vertices left/right, carved friendly triangular eyes and little toothy smile, small stem INSIDE top outline. Image2 is EXACT material/style reference for this variant. Restyle image1 to HALLOWEEN MATTE PASTEL: dusty soft apricot pumpkin, creamy subtle face glow, matte surface and simple rim, tiny sage stem, no shine. Keep jack-o-lantern face/identity and hex silhouette, proportions WIDTH:HEIGHT=240:208, clean straight shared-edge hex boundaries; stem/leaves stay inside tile, no decorative protrusion. Style must match image2 including bevel thickness, saturation and facet treatment; no sun symbol. Warm upper-left illumination, readable at40px. Tile occupies almost whole landscape canvas with only tiny transparent margin, alpha background outside exact hex. One tile only, no grid, text, label, shadow extending beyond hex or extra ornament. No black horror face, skull or external glow. Do not alter hex shape.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/tiles/cell_pumpkin.png",
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/tiles/hpastel_cell0.webp"
+      ],
+      "key": "hpastel",
+      "type": "pumpkin",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-82d36e03-4227-4731-bc3f-83cefe79a886.png",
+      "export": {
+        "crop": [
+          3,
+          8,
+          1342,
+          1156
+        ],
+        "uniform_resize": [
+          720,
+          617
+        ],
+        "paste_xy": [
+          0,
+          3
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "file": "tiles/styles/hpastel/cell_pumpkin.png"
+    },
+    {
+      "prompt": "Use case: precise-object-edit. Create ONE transparent pumpkin puzzle HEX TILE. Image1 is exact identity and geometry reference: flat-top hex, side vertices left/right, carved friendly triangular eyes and little toothy smile, small stem INSIDE top outline. Image2 is EXACT material/style reference for this variant. Restyle image1 to HALLOWEEN WARM WAX: rich earthy burnt-orange/amber beeswax pumpkin, cream candle-lit carving, subtle tactile facets, moss stem, no jewel glare. Keep jack-o-lantern face/identity and hex silhouette, proportions WIDTH:HEIGHT=240:208, clean straight shared-edge hex boundaries; stem/leaves stay inside tile, no decorative protrusion. Style must match image2 including bevel thickness, saturation and facet treatment; no sun symbol. Warm upper-left illumination, readable at40px. Tile occupies almost whole landscape canvas with only tiny transparent margin, alpha background outside exact hex. One tile only, no grid, text, label, shadow extending beyond hex or extra ornament. No black horror face, skull or external glow. Do not alter hex shape.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/tiles/cell_pumpkin.png",
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/tiles/hwax_cell0.webp"
+      ],
+      "key": "hwax",
+      "type": "pumpkin",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-80f0e10b-f140-427b-b696-ada7ca336dc6.png",
+      "export": {
+        "crop": [
+          0,
+          0,
+          1343,
+          1156
+        ],
+        "uniform_resize": [
+          720,
+          620
+        ],
+        "paste_xy": [
+          0,
+          2
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "file": "tiles/styles/hwax/cell_pumpkin.png"
+    },
+    {
+      "prompt": "Use case: precise-object-edit. Edit reference ONE current Buzzle bright crystal hex tile into HALLOWEEN BRIGHT version. Preserve EXACT bright honey-yellow sun, glossy faceted material, saturated bright color identity, crisp double bevel, exact ivory central symbol and recognizable silhouette. Do NOT make pastel, wax or muted. Only add restrained Halloween accents: tiny orange pumpkin stem and two small olive leaves on UPPER LEFT rim, not on sun. Seasonal ornament occupies at most 8 percent of tile face, keeps central glyph clear/readable at40px. Flat-top regular hex WIDTH:HEIGHT=240:208, vertices left/right, full straight edges for tight honeycomb grid; all decor INSIDE outline, nothing protrudes. Same warm upper-left light and strong crystal facets as reference. Only ONE isolated tile on real transparent alpha, nearly fills landscape frame, no text, label, ground shadow, background, black outline, horror, glowing halo or extra symbol. Original central symbol size unchanged.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/cell0.webp"
+      ],
+      "key": "cell0",
+      "type": "hbright",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-ed042466-f51e-4fb9-a55d-25a611dc3db7.png",
+      "export": {
+        "crop": [
+          0,
+          2,
+          1345,
+          1138
+        ],
+        "uniform_resize": [
+          720,
+          608
+        ],
+        "paste_xy": [
+          0,
+          8
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "file": "tiles/hbright/cell0.png"
+    },
+    {
+      "prompt": "Use case: precise-object-edit. Edit reference ONE current Buzzle bright crystal hex tile into HALLOWEEN BRIGHT version. Preserve EXACT vivid candy-pink heart, glossy faceted material, saturated bright color identity, crisp double bevel, exact ivory central symbol and recognizable silhouette. Do NOT make pastel, wax or muted. Only add restrained Halloween accents: two tiny warm-gold stitched marks on UPPER RIGHT rim, heart completely unchanged. Seasonal ornament occupies at most 8 percent of tile face, keeps central glyph clear/readable at40px. Flat-top regular hex WIDTH:HEIGHT=240:208, vertices left/right, full straight edges for tight honeycomb grid; all decor INSIDE outline, nothing protrudes. Same warm upper-left light and strong crystal facets as reference. Only ONE isolated tile on real transparent alpha, nearly fills landscape frame, no text, label, ground shadow, background, black outline, horror, glowing halo or extra symbol. Original central symbol size unchanged.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/cell1.webp"
+      ],
+      "key": "cell1",
+      "type": "hbright",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-e649fee2-ca41-4096-8d21-70c0ca44295a.png",
+      "export": {
+        "crop": [
+          0,
+          0,
+          1345,
+          1153
+        ],
+        "uniform_resize": [
+          720,
+          617
+        ],
+        "paste_xy": [
+          0,
+          3
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "file": "tiles/hbright/cell1.png"
+    },
+    {
+      "prompt": "Use case: precise-object-edit. Edit reference ONE current Buzzle bright crystal hex tile into HALLOWEEN BRIGHT version. Preserve EXACT saturated lavender-purple FIVE-PETAL flower with center hole, glossy faceted material, saturated bright color identity, crisp double bevel, exact ivory central symbol and recognizable silhouette. Do NOT make pastel, wax or muted. Only add restrained Halloween accents: a delicate tiny pale lavender spiderweb on UPPER RIGHT rim, flower unchanged, no spider. Seasonal ornament occupies at most 8 percent of tile face, keeps central glyph clear/readable at40px. Flat-top regular hex WIDTH:HEIGHT=240:208, vertices left/right, full straight edges for tight honeycomb grid; all decor INSIDE outline, nothing protrudes. Same warm upper-left light and strong crystal facets as reference. Only ONE isolated tile on real transparent alpha, nearly fills landscape frame, no text, label, ground shadow, background, black outline, horror, glowing halo or extra symbol. Original central symbol size unchanged.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/cell2.webp"
+      ],
+      "key": "cell2",
+      "type": "hbright",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-6dd7f34d-eafa-4f63-913f-4daea753b800.png",
+      "export": {
+        "crop": [
+          0,
+          0,
+          1347,
+          1148
+        ],
+        "uniform_resize": [
+          720,
+          614
+        ],
+        "paste_xy": [
+          0,
+          5
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "file": "tiles/hbright/cell2.png"
+    },
+    {
+      "prompt": "Use case: precise-object-edit. Edit reference ONE current Buzzle bright crystal hex tile into HALLOWEEN BRIGHT version. Preserve EXACT bright saturated sky-blue DROP, glossy faceted material, saturated bright color identity, crisp double bevel, exact ivory central symbol and recognizable silhouette. Do NOT make pastel, wax or muted. Only add restrained Halloween accents: one small honey-gold crescent moon on UPPER RIGHT rim, drop unchanged. Seasonal ornament occupies at most 8 percent of tile face, keeps central glyph clear/readable at40px. Flat-top regular hex WIDTH:HEIGHT=240:208, vertices left/right, full straight edges for tight honeycomb grid; all decor INSIDE outline, nothing protrudes. Same warm upper-left light and strong crystal facets as reference. Only ONE isolated tile on real transparent alpha, nearly fills landscape frame, no text, label, ground shadow, background, black outline, horror, glowing halo or extra symbol. Original central symbol size unchanged.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/cell3.webp"
+      ],
+      "key": "cell3",
+      "type": "hbright",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-a559e9b6-96fa-4822-98e5-f3947c533fdc.png",
+      "export": {
+        "crop": [
+          0,
+          0,
+          1345,
+          1154
+        ],
+        "uniform_resize": [
+          720,
+          618
+        ],
+        "paste_xy": [
+          0,
+          3
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "file": "tiles/hbright/cell3.png"
+    },
+    {
+      "prompt": "Use case: precise-object-edit. Edit reference ONE current Buzzle bright crystal hex tile into HALLOWEEN BRIGHT version. Preserve EXACT bright emerald-green LEAF with vertical cut, glossy faceted material, saturated bright color identity, crisp double bevel, exact ivory central symbol and recognizable silhouette. Do NOT make pastel, wax or muted. Only add restrained Halloween accents: two small copper autumn leaves on lower-left and upper-right rim, original central leaf unchanged. Seasonal ornament occupies at most 8 percent of tile face, keeps central glyph clear/readable at40px. Flat-top regular hex WIDTH:HEIGHT=240:208, vertices left/right, full straight edges for tight honeycomb grid; all decor INSIDE outline, nothing protrudes. Same warm upper-left light and strong crystal facets as reference. Only ONE isolated tile on real transparent alpha, nearly fills landscape frame, no text, label, ground shadow, background, black outline, horror, glowing halo or extra symbol. Original central symbol size unchanged.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/cell4.webp"
+      ],
+      "key": "cell4",
+      "type": "hbright",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-33ce9e75-0525-47c3-9413-9ac29d4eba4c.png",
+      "export": {
+        "crop": [
+          0,
+          0,
+          1345,
+          1151
+        ],
+        "uniform_resize": [
+          720,
+          616
+        ],
+        "paste_xy": [
+          0,
+          4
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "file": "tiles/hbright/cell4.png"
+    },
+    {
+      "prompt": "Use case: precise-object-edit. Edit reference ONE current Buzzle bright crystal hex tile into HALLOWEEN BRIGHT version. Preserve EXACT vibrant rainbow STAR joker, glossy faceted material, saturated bright color identity, crisp double bevel, exact ivory central symbol and recognizable silhouette. Do NOT make pastel, wax or muted. Only add restrained Halloween accents: one tiny honey crescent and two plum-colored corner facets on rim, main rainbow and white star unchanged. Seasonal ornament occupies at most 8 percent of tile face, keeps central glyph clear/readable at40px. Flat-top regular hex WIDTH:HEIGHT=240:208, vertices left/right, full straight edges for tight honeycomb grid; all decor INSIDE outline, nothing protrudes. Same warm upper-left light and strong crystal facets as reference. Only ONE isolated tile on real transparent alpha, nearly fills landscape frame, no text, label, ground shadow, background, black outline, horror, glowing halo or extra symbol. Original central symbol size unchanged.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/cell_wild.webp"
+      ],
+      "key": "cell_wild",
+      "type": "hbright",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-7a5a631a-6c73-4431-887b-0cfe5ac1dd8d.png",
+      "export": {
+        "crop": [
+          0,
+          0,
+          1347,
+          1136
+        ],
+        "uniform_resize": [
+          720,
+          607
+        ],
+        "paste_xy": [
+          0,
+          8
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "file": "tiles/hbright/cell_wild.png"
+    },
+    {
+      "prompt": "Use case: precise-object-edit. Halloween BRIGHT bomb glyph for Buzzle. Preserve original recognizable creamy ivory faceted honey orb from reference, current crisp bright crystal material and warm upper-left light. Replace oversized gold crown with a SMALL deep plum witch hat with tiny orange band/gold buckle, no crown underneath. Keep orb+hat COMPACT, whole emblem occupies only central55% of square image height, centered as a complete unit with ample true alpha padding all around. Strong clean readable silhouette, orb/hat not huge. Reference orb unchanged identity, crisp broad honey facets, no black bomb/fuse/skull/text/face, no neon halo, no tile/background/shadow. Isolated glyph on genuine transparent square, not auto-enlarged to frame. Compatible with bright yellow/pink/purple/blue/green/rainbow puzzle tiles.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/buzzle/assets/art/bomb.webp"
+      ],
+      "key": "bomb",
+      "type": "hbright",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-ea46b12d-9fac-4751-ab09-c6fb05e46c0c.png",
+      "export": {
+        "crop": [
+          351,
+          269,
+          903,
+          985
+        ],
+        "uniform_resize": [
+          217,
+          282
+        ],
+        "paste_xy": [
+          147,
+          115
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      },
+      "file": "tiles/hbright/bomb.png"
+    },
+    {
+      "prompt": "Use case: stylized-concept. Vertical MOBILE PUZZLE BACKGROUND only, target940x1672 portrait. Current Buzzle Honey Crystal illustration style, broad quiet irregular facets, soft light. Theme: warm mellow autumn honey garden, creamy pale honey/beige center, sparse copper and ochre leaves at outer edges, low wooden honeycomb shapes and a few uncarved pumpkins at bottom corners, morning light, no Halloween magic or faces. Important composition: reserve the central80% WIDTH and central75% HEIGHT as EMPTY low-contrast softly lit surface behind a dense hex puzzle grid. NO honeycomb pattern, no tile silhouettes, lines, props or bright lights inside playing center. Decorations limited to narrow outermost8% side margins and bottom12%, upper corners. Keep upper center for HUD and bottom center for buttons calm too. A cohesive illustrated scene with atmospheric depth, no printed frame, card, UI, text, title, glyph, bee or actual puzzle cells. Subtle texture only, no busy mosaic or strong polygon contrast in center, no horror/skulls, no neon. Full opaque image, no alpha. This is background art for readable bright pink/blue/green/gold tiles over it, not a finished game screenshot.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/env/garden_bg_night.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/env/hive_bg_night.png"
+      ],
+      "key": "autumn",
+      "type": "background",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-efbc2e4f-3da4-4a5b-9fa2-238cd8369562.png",
+      "export": {
+        "method": "cover to exact portrait canvas",
+        "canvas": [
+          940,
+          1672
+        ]
+      },
+      "file": "env/puzzle-autumn-v3.png"
+    },
+    {
+      "prompt": "Use case: stylized-concept. Vertical MOBILE PUZZLE BACKGROUND only, target940x1672 portrait. Current Buzzle Honey Crystal illustration style, broad quiet irregular facets, soft light. Theme: cozy twilight Honey Crystal Halloween honeycomb garden, desaturated pale smoky lavender central playing area, deep plum outer edges, tiny jack-o-lanterns/candles low in bottom corners, sparse amber fairy lights and one fine cobweb near upper far corner, gentle moonlight, friendly not scary. Important composition: reserve the central80% WIDTH and central75% HEIGHT as EMPTY low-contrast softly lit surface behind a dense hex puzzle grid. NO honeycomb pattern, no tile silhouettes, lines, props or bright lights inside playing center. Decorations limited to narrow outermost8% side margins and bottom12%, upper corners. Keep upper center for HUD and bottom center for buttons calm too. A cohesive illustrated scene with atmospheric depth, no printed frame, card, UI, text, title, glyph, bee or actual puzzle cells. Subtle texture only, no busy mosaic or strong polygon contrast in center, no horror/skulls, no neon. Full opaque image, no alpha. This is background art for readable bright pink/blue/green/gold tiles over it, not a finished game screenshot.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/env/garden_bg_night.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/env/hive_bg_night.png"
+      ],
+      "key": "halloween",
+      "type": "background",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-6a22ca9d-7372-4b00-a885-bc4a247eca0f.png",
+      "export": {
+        "method": "cover to exact portrait canvas",
+        "canvas": [
+          940,
+          1672
+        ]
+      },
+      "file": "env/puzzle-halloween-v3.png"
+    }
+  ],
+  "bright_pumpkin": "existing tiles/cell_pumpkin.png reused unchanged"
+}

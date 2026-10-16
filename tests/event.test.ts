@@ -14,13 +14,13 @@ const EVENT: PuzzleRules = { ...DEFAULT_RULES, pumpkinChance: PUMPKIN_CHANCE, gh
 const sum = (mode: RoundSummary["mode"], extra: Partial<RoundSummary> = {}): RoundSummary =>
   ({ mode, score: 0, chains: [], bombs: 0, cellsByColor: [0, 0, 0, 0, 0], ...extra });
 
-test("calendar: 24 Oct – 2 Nov local days, claims stay open 3 more days", () => {
-  assert.equal(activeEvent(day(10, 23)), null);
-  assert.equal(activeEvent(day(10, 24))?.id, "halloween-2026");
-  assert.equal(activeEvent(day(11, 2))?.id, "halloween-2026");
-  assert.equal(activeEvent(day(11, 3)), null);
-  assert.equal(trackEvent(day(11, 5))?.id, "halloween-2026");
-  assert.equal(trackEvent(day(11, 6)), null);
+test("calendar: 19 Oct – 8 Nov local days, claims stay open 3 more days", () => {
+  assert.equal(activeEvent(day(10, 18)), null);
+  assert.equal(activeEvent(day(10, 19))?.id, "halloween-2026");
+  assert.equal(activeEvent(day(11, 8))?.id, "halloween-2026");
+  assert.equal(activeEvent(day(11, 9)), null);
+  assert.equal(trackEvent(day(11, 11))?.id, "halloween-2026");
+  assert.equal(trackEvent(day(11, 12)), null);
   assert.equal(activeEvent(dayNumber(new Date(2027, 9, 30)))?.id, "halloween-2027");
 });
 
@@ -66,8 +66,8 @@ test("pumpkins join any chain and spawn only with the event chance", () => {
 });
 
 test("points: free play pumpkins and ghosts, daily pays for new stars, nothing outside the event", () => {
-  const s0 = newState(at(10, 20));
-  const off = finishRound(s0, sum("free", { pumpkins: 5, ghosts: 2 }), at(10, 20));
+  const s0 = newState(at(10, 15));
+  const off = finishRound(s0, sum("free", { pumpkins: 5, ghosts: 2 }), at(10, 15));
   assert.equal(off.reward.points, 0);
   assert.equal(off.state.event.points, 0);
   const free = finishRound(s0, sum("free", { pumpkins: 5, ghosts: 2 }), at(10, 25));
@@ -81,7 +81,7 @@ test("points: free play pumpkins and ghosts, daily pays for new stars, nothing o
 });
 
 test("track: claims in order, rewards credited, survives save/load, next year starts fresh", () => {
-  let s: GameState = { ...newState(at(10, 24)), event: { id: "halloween-2026", points: 50, claimed: 0 } };
+  let s: GameState = { ...newState(at(10, 24)), event: { id: "halloween-2026", points: 75, claimed: 0 } };
   assert.equal(claimable(s.event), 3);
   const jelly = s.jelly;
   let r = claimTrackStep(s, at(10, 24))!;
@@ -90,15 +90,15 @@ test("track: claims in order, rewards credited, survives save/load, next year st
   assert.equal(r.state.loot.boxes.wood, s.loot.boxes.wood + 1);
   r = claimTrackStep(r.state, at(10, 24))!;
   assert.equal(r.state.loot.seeds.pumpkin, 2);
-  assert.equal(claimTrackStep(r.state, at(10, 24)), null); // 70 not reached
+  assert.equal(claimTrackStep(r.state, at(10, 24)), null); // 105 not reached
   // a costume step whose skin is not registered waits instead of being burned
-  const hat = { ...r.state, event: { ...r.state.event, points: 70 } };
+  const hat = { ...r.state, event: { ...r.state.event, points: 105 } };
   const c = claimTrackStep(hat, at(10, 24));
   assert.ok(c === null || c.state.loot.owned.includes("witchhat"));
   s = migrate(JSON.parse(JSON.stringify(r.state)), at(10, 24));
-  assert.deepEqual(s.event, { id: "halloween-2026", points: 50, claimed: 3 });
-  assert.ok(claimTrackStep({ ...s, event: { ...s.event, points: 999, claimed: 4 } }, at(11, 5))); // grace day
-  assert.equal(claimTrackStep({ ...s, event: { ...s.event, points: 999, claimed: 4 } }, at(11, 6)), null);
+  assert.deepEqual(s.event, { id: "halloween-2026", points: 75, claimed: 3 });
+  assert.ok(claimTrackStep({ ...s, event: { ...s.event, points: 999, claimed: 4 } }, at(11, 11))); // grace day
+  assert.equal(claimTrackStep({ ...s, event: { ...s.event, points: 999, claimed: 4 } }, at(11, 12)), null);
   assert.equal(eventView(s, new Date(2027, 9, 25, 12).getTime())?.progress.points, 0);
   assert.equal(TRACK.length, 12);
   assert.ok(TRACK.every((st, i) => i === 0 || st.at > TRACK[i - 1].at));
@@ -130,8 +130,8 @@ test("costumes: on the track, wearable, never in combs, the shop or the album pa
 });
 
 test("trick or treat: one guest a day during the event, +5 points and a sweet", () => {
-  const s = newState(at(10, 20));
-  assert.equal(trickGuest(s, at(10, 20)), null);
+  const s = newState(at(10, 15));
+  assert.equal(trickGuest(s, at(10, 15)), null);
   assert.ok(trickGuest(s, at(10, 26)));
   const r = treatGuest(s, at(10, 26))!;
   assert.equal(r.state.event.points, 5);

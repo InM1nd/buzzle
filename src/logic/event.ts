@@ -17,9 +17,9 @@ export const PUMPKIN_CHANCE = 0.05;
 export const POINTS = { pumpkin: 1, ghost: 3, star: 2, trick: 5 };
 
 const utcDay = (y: number, m: number, d: number) => Math.floor(Date.UTC(y, m - 1, d) / 86400000);
-/** Halloween of the year that day falls in: 24 October – 2 November (inclusive) */
+/** Halloween of the year that day falls in: three weeks, 19 October – 8 November (inclusive) */
 export function halloween(year: number): EventDef {
-  return { id: `halloween-${year}`, start: utcDay(year, 10, 24), end: utcDay(year, 11, 2) };
+  return { id: `halloween-${year}`, start: utcDay(year, 10, 19), end: utcDay(year, 11, 8) };
 }
 const yearOf = (day: number) => new Date(day * 86400000).getUTCFullYear();
 
@@ -32,7 +32,7 @@ export function activeEvent(day: number): EventDef | null {
   const e = halloween(yearOf(day));
   if (day >= e.start && day <= e.end) return e;
   // own id: preview points never carry into the real event
-  return forced ? { id: `${e.id}-preview`, start: day, end: day + 9 } : null;
+  return forced ? { id: `${e.id}-preview`, start: day, end: day + 20 } : null;
 }
 /** the event whose track is still open: running, or ended at most CLAIM_GRACE days ago */
 export function trackEvent(day: number): EventDef | null {
@@ -45,20 +45,21 @@ export const eventProgress = (s: EventState, e: EventDef): EventState => (s.id =
 
 export interface TrackReward { honey?: number; jelly?: number; box?: BoxKind; seeds?: { id: string; n: number }; skin?: string }
 export interface TrackStep { at: number; reward: TrackReward }
-/** cumulative points. Calibration: ~6–10 points per free round, 6 per 3-star daily → a casual 10 days ≈ 300 */
+/** cumulative points. Calibration: ~10 per free round, 6 per 3-star daily, 5 per guest → a casual player (~21 a day)
+ * closes the track in about three weeks; daily puzzle + guest only reaches ~230 */
 export const TRACK: TrackStep[] = [
-  { at: 10, reward: { jelly: 2 } },
-  { at: 25, reward: { box: "wood" } },
-  { at: 45, reward: { seeds: { id: "pumpkin", n: 2 } } },
-  { at: 70, reward: { skin: "witchhat" } },
-  { at: 95, reward: { box: "wax" } },
-  { at: 125, reward: { jelly: 4 } },
-  { at: 155, reward: { skin: "pumpkinhat" } },
-  { at: 185, reward: { box: "gold" } },
-  { at: 215, reward: { seeds: { id: "pumpkin", n: 3 } } },
-  { at: 245, reward: { skin: "vampcape" } },
-  { at: 275, reward: { jelly: 6 } },
-  { at: 300, reward: { skin: "ghosthood", box: "royal" } },
+  { at: 15, reward: { jelly: 2 } },
+  { at: 38, reward: { box: "wood" } },
+  { at: 68, reward: { seeds: { id: "pumpkin", n: 2 } } },
+  { at: 105, reward: { skin: "witchhat" } },
+  { at: 143, reward: { box: "wax" } },
+  { at: 188, reward: { jelly: 4 } },
+  { at: 233, reward: { skin: "pumpkinhat" } },
+  { at: 278, reward: { box: "gold" } },
+  { at: 323, reward: { seeds: { id: "pumpkin", n: 3 } } },
+  { at: 368, reward: { skin: "vampcape" } },
+  { at: 413, reward: { jelly: 6 } },
+  { at: 450, reward: { skin: "ghosthood", box: "royal" } },
 ];
 /** steps reached but not claimed yet */
 export const claimable = (s: EventState) => TRACK.filter((st, i) => i >= s.claimed && s.points >= st.at).length;

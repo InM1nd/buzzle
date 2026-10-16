@@ -64,11 +64,11 @@ test("rewards: nectar and event points are capped per run", () => {
 
 test("finishFlight: first 3 runs a day pay nectar, record kept, event points only during the event, saved", () => {
   const at = (d: number) => new Date(2026, 9, d, 12).getTime();
-  let s = newState(at(20));
+  let s = newState(at(15));
   const n0 = s.nectar;
-  for (let i = 0; i < 4; i++) s = finishFlight(s, { passed: 10, candies: 6 }, at(20)).state;
+  for (let i = 0; i < 4; i++) s = finishFlight(s, { passed: 10, candies: 6 }, at(15)).state;
   assert.equal(s.nectar - n0, 3 * 11);
-  assert.equal(flightRunsToday(s, at(20)), 4);
+  assert.equal(flightRunsToday(s, at(15)), 4);
   assert.equal(s.event.points, 0);
   const r = finishFlight(s, { passed: 12, candies: 9 }, at(25));
   assert.equal(r.reward.nectar, 15);

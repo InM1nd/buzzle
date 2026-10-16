@@ -1,0 +1,21 @@
+{
+  "change": "Only current bright bomb resized uniformly; artwork/colors/canvas unchanged",
+  "canvas": [
+    512,
+    512
+  ],
+  "alpha_before": [
+    87,
+    72,
+    425,
+    440
+  ],
+  "alpha_after": [
+    108,
+    95,
+    404,
+    417
+  ],
+  "visible_width": 296,
+  "status": "candidate"
+}

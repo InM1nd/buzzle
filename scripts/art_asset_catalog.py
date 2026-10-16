@@ -149,6 +149,8 @@ def classify(rel):
         reviews_v5={'all-glyph-styles-v5':'Все глифы / единые Halloween-детали v5','bomb-size-v5':'Яркие бомбы / размер до и после','zhuzha-vampire-v5':'Жужа / плащ вампира до и после v5'}
         if stem in reviews_v5:title=reviews_v5[stem];role='Лист / сравнение';status='Кандидат / вариант';style='Сравнение стилей'
         if '/sources/rework-v5/' in p:role='Лист / источник';status='Архив / пробы'
+    if p == 'design/2d/halloween/review/bright-bomb-size-v6.png':
+        title='Яркая бомба / уменьшение до размера остальных v6';role='Лист / сравнение';status='Кандидат / вариант';style='Сравнение стилей'
     return dict(title=title,category=category,role=role,style=style,season=season,status=status,species=species,accessory=accessory)
 
 def build(target):

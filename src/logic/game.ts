@@ -21,6 +21,7 @@ import {
   openComb, SKIN_BY_ID, DECOS,
 } from "./loot";
 import { hashString } from "./rng";
+import { FLIGHT_PAID_RUNS, flightNectar, flightPoints } from "./nightFlight";
 import { activeEvent, EventState, eventProgress, newEventState, POINTS, TRACK, TrackReward, trackEvent } from "./event";
 
 /** v2 (Buzzle 1.2): nectar, bee levels, garden. The storage key stays the same; v1 saves are migrated on load
@@ -70,6 +71,8 @@ export interface GameState {
   early: EarlyPlayer;
   /** v1.6 seasonal event progress (points + claimed track steps); reset when a new event starts */
   event: EventState;
+  /** v1.6 Meadow mini-game «Ночной полёт»: runs today (the first few pay nectar) and the record */
+  flight: { day: number; runs: number; best: number };
   /** anti clock-rollback bookkeeping */
   clock: { maxSeen: number; maxDay: number };
 }
@@ -122,6 +125,7 @@ export function newState(now: number): GameState {
     },
     early: { firstSeen: isoDay(now), version: APP_VERSION, early: isEarlyVersion(APP_VERSION) },
     event: newEventState(),
+    flight: { day, runs: 0, best: 0 },
     clock: { maxSeen: now, maxDay: day },
   };
 }
@@ -186,6 +190,7 @@ export function migrate(raw: unknown, now: number): GameState {
     event: typeof obj(s.event).id === "string"
       ? { id: obj(s.event).id, points: Math.max(0, num(obj(s.event).points, 0) | 0), claimed: Math.max(0, Math.min(TRACK.length, num(obj(s.event).claimed, 0) | 0)) }
       : newEventState(),
+    flight: { day: num(obj(s.flight).day, d.flight.day), runs: Math.max(0, num(obj(s.flight).runs, 0) | 0), best: Math.max(0, num(obj(s.flight).best, 0) | 0) },
     clock: { maxSeen: clockMax, maxDay },
   };
 }
@@ -694,4 +699,27 @@ export function claimTrackStep(s0: GameState, now: number): { state: GameState; 
   if (r.seeds) n = { ...n, loot: { ...n.loot, seeds: { ...n.loot.seeds, [r.seeds.id]: (n.loot.seeds[r.seeds.id] ?? 0) + r.seeds.n } } };
   if (r.skin && SKIN_BY_ID[r.skin] && !n.loot.owned.includes(r.skin)) n = { ...n, loot: { ...n.loot, owned: [...n.loot.owned, r.skin] } };
   return { state: n, reward: r };
+}
+
+// ---------------------------------------------------------------- v1.6 Meadow: night flight
+export interface FlightReward { nectar: number; points: number; record: boolean; paidLeft: number }
+export const flightRunsToday = (s: GameState, now: number) => (s.flight.day === today(s, now) ? s.flight.runs : 0);
+export function finishFlight(s0: GameState, r: { passed: number; candies: number }, now: number): { state: GameState; reward: FlightReward } {
+  let s = tick(s0, now);
+  const day = today(s, now);
+  const runs = flightRunsToday(s, now);
+  const nectar = runs < FLIGHT_PAID_RUNS ? flightNectar(r.passed, r.candies) : 0;
+  const record = r.passed > s.flight.best;
+  s = {
+    ...s, nectar: s.nectar + nectar, flight: { day, runs: runs + 1, best: Math.max(s.flight.best, r.passed) },
+    stats: { ...s.stats, totalNectar: s.stats.totalNectar + nectar },
+  };
+  let points = 0;
+  const ev = activeEvent(day);
+  if (ev) {
+    points = flightPoints(r.candies);
+    const e = eventProgress(s.event, ev);
+    s = { ...s, event: { ...e, points: e.points + points } };
+  }
+  return { state: s, reward: { nectar, points, record, paidLeft: Math.max(0, FLIGHT_PAID_RUNS - runs - 1) } };
 }

@@ -50,6 +50,7 @@ export const ART = {
   point: require("../../assets/art/halloween/point.webp"),
   hiveNight: require("../../assets/art/halloween/hive_bg_night.webp"),
   gardenNight: require("../../assets/art/halloween/garden_bg_night.webp"),
+  flightIcon: require("../../assets/art/halloween/fl_icon.webp"),
 };
 
 // Bee body, wing and outfit layers are registered separately in turnArt.ts.

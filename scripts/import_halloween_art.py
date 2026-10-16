@@ -20,6 +20,8 @@ M = {  # target: (source, size)
     **{f"fl_candy_{i}.webp": (f"flight/candy_{i}.png", (96, 96)) for i in (1, 2, 3)},
     "fl_firefly.webp": ("flight/firefly.png", (64, 64)),
     "fl_icon.webp": ("flight/icon.png", (192, 192)),
+    # bee layer: same 512 canvas as the side views in assets/art/turn/<bee>/*_side_288
+    "lantern_side_288.webp": ("flight/lantern-side-view.png", (288, 288)),
 }
 os.makedirs(A, exist_ok=True)
 for t, (s, size) in M.items():

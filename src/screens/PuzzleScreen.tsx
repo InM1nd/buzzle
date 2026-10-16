@@ -17,7 +17,7 @@ import { activeEvent } from "../logic/event";
 import { Pt } from "../ui/Fly";
 import { EventCard } from "./EventTrack";
 
-interface Props { s: GameState; now: number; onPlay: (mode: RoundMode, boosters?: RoundBoosters) => void; onBuyBooster: (b: BoosterId) => boolean; onClaimTrack: (from: Pt | null) => void }
+interface Props { s: GameState; now: number; onPlay: (mode: RoundMode, boosters?: RoundBoosters) => void; onBuyBooster: (b: BoosterId) => boolean; onClaimTrack: (from: Pt | null) => void; onFlight: () => void }
 
 function HexCluster() {
   const pos = [[0, 0, 2], [1, -0.5, 0], [1, 0.5, 1], [-1, -0.5, 3], [-1, 0.5, 0], [0, -1, 4], [0, 1, 2]];
@@ -31,7 +31,7 @@ function HexCluster() {
   );
 }
 
-export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrack }: Props) {
+export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrack, onFlight }: Props) {
   const [pick, setPick] = React.useState(false);
   const [useMoves, setUseMoves] = React.useState(false);
   const [useBomb, setUseBomb] = React.useState(false);
@@ -144,10 +144,13 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
           <GameButton title={weekendOpen(s, now) ? t("pz.play") : t("pz.weekendOnly")} disabled={!weekendOpen(s, now)} color={weekendOpen(s, now) ? "purple" : "grey"} style={{ marginTop: 8 }}
             onPress={() => onPlay("weekend")} label={t("mode.weekend")} />
         </Card>
-        <Card style={{ flex: 1, backgroundColor: "#E8F5DD", borderWidth: 2, borderColor: "#CFE6BC" }}>
-          <Image source={ART.lock} style={{ width: 30, height: 30, tintColor: "#6E9A55" }} />
-          <Txt v="h3" style={{ marginTop: 6 }}>{t("pz.meadow")}</Txt>
-          <Txt v="tiny" color={C.dim}>{t("pz.meadowSub")}</Txt>
+        <Card style={{ flex: 1, backgroundColor: "#2B1B3D", borderWidth: 2, borderColor: "#3A2F5B" }}>
+          <Image source={ART.flightIcon} style={{ width: 40, height: 40 }} />
+          <Txt v="h3" color="#fff" style={{ marginTop: 6 }}>{t("fl.title")}</Txt>
+          <Txt v="tiny" color="#BFF5E6">{t("fl.sub")}</Txt>
+          {s.flight.best > 0 ? <Txt v="tiny" color="#FFC56B" style={{ marginTop: 2 }}>{t("fl.best", { n: s.flight.best })}</Txt> : null}
+          <View style={{ flex: 1 }} />
+          <GameButton title={t("pz.play")} color="honey" style={{ marginTop: 8 }} onPress={onFlight} label={t("fl.title")} />
         </Card>
       </View>
 

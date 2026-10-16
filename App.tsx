@@ -49,7 +49,9 @@ import { Lang, setLang } from "./src/i18n";
 import { chooseLanguage, setSetting, Settings } from "./src/logic/game";
 import { compareVersions } from "./src/logic/update";
 import { activeEvent, forceEvent, PUMPKIN_CHANCE } from "./src/logic/event";
-import { claimTrackStep } from "./src/logic/game";
+import { claimTrackStep, finishFlight, flightRunsToday } from "./src/logic/game";
+import { FLIGHT_PAID_RUNS } from "./src/logic/nightFlight";
+import FlightScreen from "./src/screens/FlightScreen";
 import { useUpdater } from "./src/ui/useUpdater";
 import { APP_VERSION } from "./src/version";
 
@@ -87,6 +89,7 @@ function Main() {
   const [tab, setTab] = useState<Tab>("hive");
   const [hiveView, setHiveView] = useState<"hive" | "garden">("hive");
   const [lootSeg, setLootSeg] = useState<"chests" | "shop" | "album">("chests");
+  const [flight, setFlight] = useState<{ key: number; seed: number; bee: string } | null>(null);
   const [game, setGame] = useState<{ mode: RoundMode; seed: number; key: number; extraMoves: number; bomb: boolean } | null>(null);
   const [boxOpen, setBoxOpen] = useState<BoxKind | null>(null);
   const [showTutorial, setShowTutorial] = useState(false);
@@ -179,7 +182,7 @@ function Main() {
 
   useEffect(() => {
     const sub = addBackListener(() => {
-      if (game) return false; // GameScreen handles its own back
+      if (game || flight) return false; // GameScreen / FlightScreen handle their own back
       if (boxOpen) return false; // BoxOpen handles its own back
       if (showSettings) return false; // SettingsModal handles its own back (sub-page → main → close)
       if (showLogin) { setShowLogin(false); return true; }
@@ -188,9 +191,9 @@ function Main() {
       return false;
     });
     return () => sub.remove();
-  }, [game, boxOpen, showSettings, showLogin, tab, hiveView]);
+  }, [game, flight, boxOpen, showSettings, showLogin, tab, hiveView]);
   // Telegram's BackButton mirrors in-app navigation (hidden on the home screen)
-  const canBack = !!game || !!boxOpen || showSettings || showLogin || tab !== "hive" || hiveView !== "hive";
+  const canBack = !!game || !!flight || !!boxOpen || showSettings || showLogin || tab !== "hive" || hiveView !== "hive";
   useEffect(() => setBackButton(canBack, () => { dispatchBack(); }), [canBack]);
 
   // ----- reward flight to the currency pills -----
@@ -403,6 +406,17 @@ function Main() {
       applyPlan([]).catch(() => {});
       setTimeout(() => setShowTutorial(true), 300);
     },
+    flight: () => {
+      const cur = sRef.current;
+      if (!cur) return;
+      // a random bee of the player's flies each run
+      setFlight({ key: Date.now(), seed: (Date.now() ^ 0x2c1b3c6d) >>> 0, bee: cur.bees[Math.floor(Math.random() * cur.bees.length)] ?? "zhuzha" });
+    },
+    finishFlight: (r: { passed: number; candies: number }) => {
+      const res = finishFlight(sRef.current!, r, Date.now());
+      commit(res.state);
+      return res.reward;
+    },
     play: (mode: RoundMode, boosters?: RoundBoosters) => {
       const cur = sRef.current;
       if (!cur) return;
@@ -483,6 +497,16 @@ function Main() {
 
   if (!s) return <View style={{ flex: 1, backgroundColor: C.bg }} />;
 
+  if (flight) {
+    return (
+      <View style={{ flex: 1, backgroundColor: "#2B1B3D" }}>
+        <StatusBar style="light" />
+        <FlightScreen key={flight.key} seed={flight.seed} beeId={flight.bee} skin={s.beeSkins[flight.bee]} level={s.beeLevels[flight.bee] ?? 1}
+          best={s.flight.best} paidLeft={Math.max(0, FLIGHT_PAID_RUNS - flightRunsToday(s, now))} event={!!activeEvent(todayOf(s, now))}
+          onFinish={act.finishFlight} onExit={() => setFlight(null)} onReplay={act.flight} />
+      </View>
+    );
+  }
   if (game) {
     const b = boostsFor(s.bees, s.beeLevels);
     const rules = rulesFor(game.mode === "free" ? "free" : "daily", b, dayColorInfo(s, now).active ? dayColorInfo(s, now).color : null);
@@ -554,7 +578,7 @@ function Main() {
           )}
           </View>
         ) : tab === "puzzle" ? (
-          <PuzzleScreen s={s} now={now} onPlay={act.play} onBuyBooster={(bid) => act.simple((c) => shopBuyBooster(c, bid))} onClaimTrack={act.track} />
+          <PuzzleScreen s={s} now={now} onPlay={act.play} onBuyBooster={(bid) => act.simple((c) => shopBuyBooster(c, bid))} onClaimTrack={act.track} onFlight={act.flight} />
         ) : tab === "bees" ? (
           <BeesScreen s={s} onSkin={(bee, k) => act.simple((c) => setSkin(c, bee, k))} onAssemble={() => act.simple((c) => assembleNightBee(c, Date.now()))} onUnlock={act.unlock} onLevelUp={act.levelUp} onRename={act.rename} onGarden={() => { setTab("hive"); setHiveView("garden"); }} />
         ) : tab === "loot" ? (

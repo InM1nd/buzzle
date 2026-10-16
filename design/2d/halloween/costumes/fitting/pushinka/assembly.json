@@ -14,5 +14,8 @@
     "costumes/witchhat-side-view.png",
     "costumes/fitting/pushinka/antennae-side-front.png"
   ],
-  "note": "Support layers preserve original body and antenna artwork; posed wings are a review candidate, not a runtime update."
+  "note": "Exact earlier hat placement restored byte-for-byte. Original antennae are composited last; v3 wing pose unchanged.",
+  "revision": 4,
+  "hat_source_commit": "b1a5ddd",
+  "hat_sha256": "117b0cb61a69a6614fb0803c3f473d2b739cfcebe542991a0a75f3f229752888"
 }

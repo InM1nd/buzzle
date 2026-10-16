@@ -1,0 +1,17 @@
+{
+  "revision": 4,
+  "reason": "Owner rejected rearward displacement in v3",
+  "hat_restored_from_commit": "b1a5ddd",
+  "hat_sha256": "117b0cb61a69a6614fb0803c3f473d2b739cfcebe542991a0a75f3f229752888",
+  "hat_transform": "none; exact original PNG restored",
+  "antennae": "unchanged v3 original pixel layer, composited above hat",
+  "wings": "unchanged v3 pose",
+  "layers": [
+    "costumes/fitting/pushinka/wing-far-side.png",
+    "costumes/fitting/pushinka/wing-near-side.png",
+    "costumes/fitting/pushinka/body-side.png",
+    "costumes/witchhat-side-view.png",
+    "costumes/fitting/pushinka/antennae-side-front.png"
+  ],
+  "other_views": "unchanged hashes verified"
+}

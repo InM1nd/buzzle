@@ -171,7 +171,7 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
           </View>
         </View>
         <View style={[styles.dayColor, { borderColor: COLOR_HEX[dc.color] }]}>
-          <View style={[styles.dot, { backgroundColor: COLOR_HEX[dc.color] }]} />
+          <Image source={ART.cells[dc.color]} style={styles.glyphBig} />
           <Txt v="small" color={C.text} style={{ flex: 1 }}>
             {t("gd.dayColor", { color: colorName(dc.color) })}{dc.active ? t("gd.dayColorOn") : t("gd.dayColorPlant", { flower: dcFlower.name })}
           </Txt>
@@ -234,22 +234,26 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
               const unlocked = pocket > 0 || flowerUnlocked(s, f.id);
               const price = seedPrice(s, f.id);
               return (
-                <View key={f.id} style={styles.seedRow}>
-                  <Image source={GARDEN_ART[`${f.id}_bloom`]} style={{ width: 52, height: 52, opacity: unlocked ? 1 : 0.4 }} />
-                  <View style={{ flex: 1 }}>
+                <View key={f.id} style={[styles.seedRow, !unlocked && { opacity: 0.6 }]}>
+                  <Image source={GARDEN_ART[`${f.id}_bloom`]} style={{ width: 50, height: 50, opacity: unlocked ? 1 : 0.5 }} />
+                  <View style={{ flex: 1, minWidth: 0, gap: 3 }}>
                     <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-                      <Txt v="h3" color={f.rare ? RARITY_UI.rare.color : undefined}>{f.name}</Txt>
-                      <View style={[styles.dot, { backgroundColor: COLOR_HEX[f.color] }]} />
+                      <Image source={ART.cells[f.color]} style={styles.glyph} accessibilityLabel={colorName(f.color)} />
+                      <Txt v="h3" numberOfLines={1} style={{ flexShrink: 1 }} color={f.rare ? RARITY_UI.rare.color : undefined}>{f.name}</Txt>
                     </View>
-                    <Txt v="small" color={C.dim}>{t("gd.flowerInfo", { h: f.growHours, n: f.nectar })}{pocket ? t("gd.pocket", { n: pocket }) : ""}</Txt>
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                      <View style={styles.fact}><Txt v="tiny" color="#6E5232">⏱ {t("gd.hours", { h: f.growHours })}</Txt></View>
+                      <View style={styles.fact}><Image source={ART.nectar} style={{ width: 14, height: 14 }} /><Txt v="tiny" color="#6E5232">+{f.nectar}</Txt></View>
+                      {pocket ? <View style={styles.fact}><Image source={ART.seed} style={{ width: 14, height: 14 }} /><Txt v="tiny" color="#6E5232">×{pocket}</Txt></View> : null}
+                    </View>
                   </View>
                   {pocket > 0 ? (
                     <GameButton small title={t("gd.free")} icon={ART.seed} color="green" onPress={() => { if (onPlant(sel, f.id)) setSel(null); }}
-                      label={t("gd.plantPocket", { name: f.name })} style={{ minWidth: 92 }} />
+                      label={t("gd.plantPocket", { name: f.name })} style={styles.seedBtn} />
                   ) : unlocked ? (
                     <GameButton small title={fmt(price)} icon={ART.honey} disabled={s.honey < price} onPress={() => { if (onPlant(sel, f.id)) setSel(null); }}
-                      label={t("gd.plant", { name: f.name })} style={{ minWidth: 92 }} />
-                  ) : <Txt v="small" color={C.faint}>{t("gd.fromLevel", { n: f.minLevel })}</Txt>}
+                      label={t("gd.plant", { name: f.name })} style={styles.seedBtn} />
+                  ) : <Txt v="tiny" color={C.dim} center style={styles.seedBtn}>{t("gd.fromLevel", { n: f.minLevel })}</Txt>}
                 </View>
               );
             })}
@@ -265,7 +269,6 @@ const styles = StyleSheet.create({
   head: { backgroundColor: "rgba(255,250,238,0.94)", borderRadius: 24, padding: 14 },
   nectarBox: { alignItems: "center", backgroundColor: "#fff", borderRadius: 18, paddingHorizontal: 12, paddingVertical: 6 },
   dayColor: { flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: "#fff", borderRadius: 14, padding: 10, marginTop: 12, borderWidth: 2 },
-  dot: { width: 14, height: 14, borderRadius: 7, borderWidth: 2, borderColor: "#fff" },
   bed: { backgroundColor: "rgba(255,250,236,0.78)", borderRadius: 20, padding: 6, paddingBottom: 8, alignItems: "center", overflow: "visible", borderWidth: 2, borderColor: "rgba(255,255,255,0.9)" },
   bedPlot: { backgroundColor: "rgba(255,250,236,0.45)", borderStyle: "dashed", borderColor: "rgba(160,120,60,0.45)" },
   chip: { flexDirection: "row", gap: 3 },
@@ -280,5 +283,9 @@ const styles = StyleSheet.create({
   plus: { width: 40, height: 40, borderRadius: 20, backgroundColor: "#7CBF4E", borderWidth: 3, borderColor: "#fff", alignItems: "center", justifyContent: "center", marginBottom: 10 },
   readyDot: { position: "absolute", top: -6, right: -6, width: 30, height: 30, borderRadius: 15, backgroundColor: "#FFE3EE", alignItems: "center", justifyContent: "center" },
   cost: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 4 },
-  seedRow: { flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 6, borderTopWidth: 1, borderTopColor: C.line },
+  seedRow: { flexDirection: "row", alignItems: "center", gap: 10, padding: 8, marginBottom: 6, borderRadius: 16, backgroundColor: "#FFF8EA", borderWidth: 1.5, borderColor: C.line },
+  seedBtn: { width: 92 },
+  fact: { flexDirection: "row", alignItems: "center", gap: 3, backgroundColor: "#F3E6CC", borderRadius: 8, paddingHorizontal: 6, paddingVertical: 1 },
+  glyph: { width: 22, height: 19 },
+  glyphBig: { width: 28, height: 24 },
 });

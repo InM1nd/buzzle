@@ -215,7 +215,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, onTog
 
       {banner}
       {/* hive: free-standing comb field on the meadow */}
-      <View style={[styles.hiveArea, { height: areaH + 64 }]}>
+      <View style={[styles.hiveArea, { height: areaH + 64 + 28 }]}>{/* +28: the bottom decorations and their empty-spot rings stand below the field */}
         {/* level + production as one sign above the hive */}
         <View style={styles.plaque} accessibilityLabel={`${t("hv.level", { n: level(s) })} · ${t("hive.rate", { r: rateFmt(r) })}`}>
           <View style={styles.plaqueHex}>

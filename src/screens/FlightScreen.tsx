@@ -6,7 +6,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Animated, AppState, Image, StyleSheet, Text, View } from "react-native";
 import { t } from "../i18n";
-import { batY, FH, newWorld, step, STEM_W, World } from "../logic/nightFlight";
+import { batY, FH, newWorld, step, STEM_W, World, Z } from "../logic/nightFlight";
 import { FlightReward } from "../logic/game";
 import { addBackListener } from "../platform/back";
 import { useInsets } from "../platform/insets";
@@ -26,12 +26,15 @@ const FA = {
   bats: [require("../../assets/art/halloween/fl_bat_1.webp"), require("../../assets/art/halloween/fl_bat_2.webp"), require("../../assets/art/halloween/fl_bat_3.webp")],
   picks: [require("../../assets/art/halloween/fl_candy_1.webp"), require("../../assets/art/halloween/fl_candy_2.webp"), require("../../assets/art/halloween/fl_candy_3.webp"), require("../../assets/art/halloween/fl_firefly.webp")],
   lantern: require("../../assets/art/halloween/lantern_side_288.webp"),
+  glow: require("../../assets/art/halloween/fl_glow.webp"),
 };
-const STEMS = 5, PICKS = 8, BATS = 3, BEE = 150, BAT = 150, CANDY = 92, FIREFLY = 64;
-const LAYERS: [keyof typeof FA, number][] = [["sky", 0.04], ["far", 0.25], ["near", 1]];
+const STEMS = 6, PICKS = 8, BATS = 3, BEE = 150 * Z, BAT = 150 * Z, CANDY = 92 * Z, FIREFLY = 64 * Z, GLOW = 540 * Z;
+const STEM_H = STEM_W * 900 / 200; // stem art keeps its 200×900 aspect
+/** parallax strips (only their painted bottom part, see scripts/import_halloween_art.py): a 16:9 tile drawn at BG_SCALE of
+ *  the screen height and anchored to the bottom; top = where the strip starts in the tile. The sky stays still. */
+const BG_SCALE = 0.8;
+const LAYERS: { name: "far" | "near"; f: number; top: number }[] = [{ name: "far", f: 0.25, top: 594 / 900 }, { name: "near", f: 1, top: 702 / 900 }];
 const OFF = -99999;
-/** lantern light: stacked faint discs read as a soft radial glow (no gradients in RN) */
-const GLOW = [270, 240, 210, 182, 156, 132, 110, 90, 72, 56];
 
 interface Props {
   beeId: string; skin?: string; level: number; best: number; paidLeft: number; event: boolean; seed: number;
@@ -75,8 +78,8 @@ export default function FlightScreen(p: Props) {
   useEffect(() => { if (box.h) reset(); }, [box.h, reset]);
 
   const draw = useCallback((w: World) => {
-    const tileW = FH * k * (16 / 9);
-    LAYERS.forEach(([, f], i) => pool.layers[i].setValue(-((w.dist * f * k) % tileW)));
+    const tileW = FH * k * BG_SCALE * (16 / 9);
+    LAYERS.forEach(({ f }, i) => pool.layers[i].setValue(-((w.dist * f * k) % tileW)));
     pool.beeY.setValue(w.y * k);
     pool.beeRot.setValue(Math.max(-25, Math.min(40, (w.vy / 900) * 35)));
     const cam = w.dist;
@@ -85,7 +88,7 @@ export default function FlightScreen(p: Props) {
       const s = stems[i];
       if (!s) { sl.x.setValue(OFF); return; }
       sl.x.setValue((s.x - cam - STEM_W / 2) * k);
-      sl.top.setValue((s.gapY - s.gap / 2 - FH) * k);
+      sl.top.setValue((s.gapY - s.gap / 2 - STEM_H) * k);
       sl.bot.setValue((s.gapY + s.gap / 2) * k);
     });
     const picks = w.picks.filter((q) => !q.taken && q.x - cam > -100 && q.x - cam < W + 100);
@@ -182,21 +185,22 @@ export default function FlightScreen(p: Props) {
   };
 
   const kpx = (u: number) => u * k;
-  const tileW = FH * k * (16 / 9);
+  const tileH = box.h * BG_SCALE, tileW = tileH * (16 / 9);
   return (
     <View style={styles.root} onLayout={(e) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}
       onStartShouldSetResponder={() => true} onResponderGrant={tap}>
       {k > 0 ? (
         <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-          {LAYERS.map(([name], i) => (
-            <Animated.View key={name} style={[StyleSheet.absoluteFill, { flexDirection: "row", transform: [{ translateX: pool.layers[i] }] }]}>
-              {[0, 1, 2].map((j) => <Image key={j} source={FA[name]} style={{ width: tileW, height: box.h }} />)}
+          <Image source={FA.sky} resizeMode="cover" style={StyleSheet.absoluteFill} />
+          {LAYERS.map(({ name, top }, i) => (
+            <Animated.View key={name} style={{ position: "absolute", left: 0, bottom: 0, height: tileH * (1 - top), flexDirection: "row", transform: [{ translateX: pool.layers[i] }] }}>
+              {[0, 1, 2].map((j) => <Image key={j} source={FA[name]} style={{ width: tileW, height: tileH * (1 - top) }} />)}
             </Animated.View>
           ))}
           {pool.stems.map((sl, i) => (
             <Animated.View key={i} style={{ position: "absolute", left: 0, top: 0, transform: [{ translateX: sl.x }] }}>
-              <Animated.Image source={FA.stemTop} style={{ position: "absolute", width: kpx(STEM_W), height: kpx(FH), transform: [{ translateY: sl.top }] }} />
-              <Animated.Image source={FA.stemBottom} style={{ position: "absolute", width: kpx(STEM_W), height: kpx(FH), transform: [{ translateY: sl.bot }] }} />
+              <Animated.Image source={FA.stemTop} style={{ position: "absolute", width: kpx(STEM_W), height: kpx(STEM_H), transform: [{ translateY: sl.top }] }} />
+              <Animated.Image source={FA.stemBottom} style={{ position: "absolute", width: kpx(STEM_W), height: kpx(STEM_H), transform: [{ translateY: sl.bot }] }} />
             </Animated.View>
           ))}
           {pool.picks.map((sl, i) => {
@@ -210,9 +214,7 @@ export default function FlightScreen(p: Props) {
           ))}
           {/* the bee with its lantern and a soft pool of light */}
           <Animated.View style={{ position: "absolute", left: kpx(W * 0.3) - kpx(BEE) / 2, top: -kpx(BEE) / 2, width: kpx(BEE), height: kpx(BEE), transform: [{ translateY: pool.beeY }] }}>
-            {GLOW.map((r) => (
-              <View key={r} style={[styles.glow, { width: kpx(2 * r), height: kpx(2 * r), borderRadius: kpx(r), left: kpx(BEE / 2 + 22 - r), top: kpx(BEE / 2 + 30 - r) }]} />
-            ))}
+            <Image source={FA.glow} style={{ position: "absolute", width: kpx(GLOW), height: kpx(GLOW), left: kpx(BEE / 2 + 22 * Z - GLOW / 2), top: kpx(BEE / 2 + 30 * Z - GLOW / 2) }} />
             <Animated.View style={{ width: kpx(BEE), height: kpx(BEE), transform: [{ rotate: pool.beeRot.interpolate({ inputRange: [-90, 90], outputRange: ["-90deg", "90deg"] }) }] }}>
               <BeeSprite id={p.beeId} size={kpx(BEE)} turn={1} level={p.level} skin={p.skin} seed={4} />
               <Image source={FA.lantern} style={{ position: "absolute", width: kpx(BEE), height: kpx(BEE) }} />
@@ -248,19 +250,44 @@ export default function FlightScreen(p: Props) {
 
       <Overlay visible={phase === "over" && !!result} dismissable={false}>
         {result ? (
-          <View style={{ alignItems: "center" }} accessibilityLabel={t("game.results")}>
-            <Image source={FA.lantern} style={{ width: 84, height: 84 }} />
-            <Txt v="h1" center>{result.record ? t("fl.record") : t("fl.over")}</Txt>
-            <Txt v="tiny" color={C.dim} style={{ marginTop: 10 }}>{t("fl.stems")}</Txt>
-            <CountUp value={score.passed} duration={700} style={[F.black, { fontSize: 40, lineHeight: 46, color: C.text }]} />
-            {p.best > 0 && !result.record ? <Txt v="small" color={C.dim}>{t("game.best", { n: String(p.best) })}</Txt> : null}
-            <View style={styles.rewardRow}>
-              <View style={styles.rewardItem}><Image source={FA.picks[0]} style={{ width: 30, height: 30 }} /><Text style={[F.black, styles.rw]}>{score.candies}</Text></View>
-              {result.nectar > 0 ? <View style={styles.rewardItem}><Image source={ART.nectar} style={{ width: 30, height: 30 }} /><Text style={[F.black, styles.rw]}>+{result.nectar}</Text></View> : null}
-              {result.points > 0 ? <View style={styles.rewardItem}><Image source={ART.point} style={{ width: 30, height: 30 }} /><Text style={[F.black, styles.rw, { color: "#C25E00" }]}>+{result.points}</Text></View> : null}
+          <View accessibilityLabel={t("game.results")}>
+            {/* a little night scene: the bee with its lantern over the meadow */}
+            <View style={styles.resHead}>
+              <Image source={FA.sky} resizeMode="cover" style={StyleSheet.absoluteFill} />
+              <Image source={FA.near} resizeMode="cover" style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 44, width: "100%" }} />
+              <Image source={FA.glow} style={{ position: "absolute", width: 170, height: 170, left: "50%", marginLeft: -78, top: -10 }} />
+              <View style={{ width: 110, height: 110 }}>
+                <BeeSprite id={p.beeId} size={110} turn={1} level={p.level} skin={p.skin} seed={4} flap={false} />
+                <Image source={FA.lantern} style={{ position: "absolute", width: 110, height: 110 }} />
+              </View>
+              {result.record ? <View style={styles.ribbon}><Txt v="tiny" color="#fff" style={F.black}>{t("fl.record").toUpperCase()}</Txt></View> : null}
             </View>
+            <Txt v="h1" center style={{ marginTop: 10 }}>{result.record ? t("fl.record") : t("fl.over")}</Txt>
+            <View style={styles.statRow}>
+              <View style={styles.stat}>
+                <CountUp value={score.passed} duration={700} style={[F.black, { fontSize: 34, lineHeight: 40, color: C.text }]} />
+                <Txt v="tiny" color={C.dim} center>{t("fl.stemsShort")}</Txt>
+              </View>
+              <View style={[styles.stat, styles.statMid]}>
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+                  <Image source={FA.picks[0]} style={{ width: 26, height: 26 }} />
+                  <Text style={[F.black, { fontSize: 26, lineHeight: 40, color: C.honeyDark }]}>{score.candies}</Text>
+                </View>
+                <Txt v="tiny" color={C.dim} center>{t("fl.candiesShort")}</Txt>
+              </View>
+              <View style={styles.stat}>
+                <Text style={[F.black, { fontSize: 26, lineHeight: 40, color: result.record ? "#C25E00" : C.text }]}>{Math.max(p.best, score.passed)}</Text>
+                <Txt v="tiny" color={C.dim} center>{t("fl.bestShort")}</Txt>
+              </View>
+            </View>
+            {result.nectar > 0 || result.points > 0 ? (
+              <View style={styles.rewardRow}>
+                {result.nectar > 0 ? <View style={styles.rewardItem}><Image source={ART.nectar} style={{ width: 30, height: 30 }} /><Text style={[F.black, styles.rw]}>+{result.nectar}</Text></View> : null}
+                {result.points > 0 ? <View style={styles.rewardItem}><Image source={ART.point} style={{ width: 30, height: 30 }} /><Text style={[F.black, styles.rw, { color: "#C25E00" }]}>+{result.points}</Text></View> : null}
+              </View>
+            ) : null}
             <Txt v="small" color={C.dim} center style={{ marginTop: 10 }}>{result.paidLeft > 0 ? t("fl.paidLeft", { n: result.paidLeft }) : t("fl.forFun")}</Txt>
-            <View style={{ alignSelf: "stretch", marginTop: 16, gap: 10 }}>
+            <View style={{ alignSelf: "stretch", marginTop: 14, gap: 10 }}>
               <GameButton title={t("game.again")} color="green" onPress={() => { hSuccess(); p.onReplay(); }} />
               <GameButton title={t("game.menu")} color="white" onPress={p.onExit} />
             </View>
@@ -273,12 +300,16 @@ export default function FlightScreen(p: Props) {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: "#2B1B3D", overflow: "hidden" },
-  glow: { position: "absolute", backgroundColor: "#FFC56B", opacity: 0.03 },
   hud: { position: "absolute", left: 14, right: 14, flexDirection: "row", alignItems: "center", gap: 10 },
   iconBtn: { width: 46, height: 46, borderRadius: 23, backgroundColor: "#fff", alignItems: "center", justifyContent: "center", ...shadow },
   score: { fontSize: 44, lineHeight: 50, color: "#fff", textShadowColor: "rgba(0,0,0,0.35)", textShadowRadius: 8, textShadowOffset: { width: 0, height: 2 } },
   candy: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: "rgba(58,47,91,0.85)", borderRadius: 18, paddingHorizontal: 10, height: 40 },
   center: { position: "absolute", left: 24, right: 24, top: "22%", alignItems: "center" },
+  resHead: { height: 132, borderRadius: 20, overflow: "hidden", alignItems: "center", justifyContent: "center", backgroundColor: "#2B1B3D" },
+  ribbon: { position: "absolute", top: 10, right: 10, backgroundColor: "#F08A24", borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3 },
+  statRow: { flexDirection: "row", marginTop: 10, backgroundColor: "#FFF8EA", borderRadius: 18, borderWidth: 1.5, borderColor: C.line, paddingVertical: 8 },
+  stat: { flex: 1, alignItems: "center" },
+  statMid: { borderLeftWidth: 1.5, borderRightWidth: 1.5, borderColor: C.line },
   rewardRow: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 12, marginTop: 14 },
   rewardItem: { flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: "#FFF", borderRadius: 18, paddingHorizontal: 12, paddingVertical: 8, ...shadow },
   rw: { fontSize: 20, color: C.honeyDark },

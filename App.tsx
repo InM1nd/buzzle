@@ -31,7 +31,8 @@ import { pinArt } from "./src/platform/pinArt";
 import { hideBootScreen, initTelegram, NOTIFICATIONS_SUPPORTED, onHide, setBackButton, telegramLanguage } from "./src/platform/telegram";
 import { applyPlan, ensureChannel, getPermission, requestPermission } from "./src/ui/notifications";
 import { hError, hSuccess, setHaptics } from "./src/ui/haptics";
-import { ART, seasonalTiles, setTileStyle } from "./src/ui/art";
+import { ART, sceneBg, seasonalTiles, setTileStyle } from "./src/ui/art";
+import { SceneBg } from "./src/ui/SceneBg";
 import { TabIcon } from "./src/ui/TabIcon";
 import { Mascot } from "./src/ui/BeeSprite";
 import { C, F, shadow } from "./src/ui/theme";
@@ -561,7 +562,7 @@ function Main() {
     <View key={`${s.settings.lang}-${seasonalTiles(s.settings.tiles, night)}`} style={{ flex: 1, backgroundColor: C.bg }}>
       <StatusBar style={night && tab === "hive" ? "light" : "dark"} />
       {tab === "hive" ? (
-        <Image source={hiveView === "garden" ? (night ? ART.gardenNight : require("./assets/art/env/garden_bg.webp")) : night ? ART.hiveNight : require("./assets/art/env/hive_bg.webp")} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} />
+        <SceneBg source={sceneBg(hiveView === "garden" ? "garden" : "hive", night, isAutumn(todayOf(s, now)))} />
       ) : null}
       <TopPad.Provider value={topH}>
       <View style={{ flex: 1 }}>

@@ -241,7 +241,7 @@ export default function GameScreen(props: Props) {
   // board wrap adds 6px padding + 3px border on each side; keep 12px air to the screen edge
   const avail = Math.max(1, Math.min(containerW - 42, 560));
   const sByW = avail / (1.5 * COLS + 0.5);
-  const availH = height - insets.top - insets.bottom - 190;
+  const availH = height - insets.top - insets.bottom - 196;
   const sByH = availH / (SQ3 * (ROWS + 0.5));
   const s = Math.max(20, Math.min(sByW, sByH));
   // spare vertical room (tall phones) → stretch the lattice a little so the tiles are not squat
@@ -271,6 +271,7 @@ export default function GameScreen(props: Props) {
   const [result, setResult] = useState<{ reward: RoundReward; score: number } | null>(null);
   const [starsNow, setStarsNow] = useState(0);
   const [dockH, setDockH] = useState(0);
+  const [barW, setBarW] = useState(0);
   const narrow = size.width < 335;
   const tile = tileSize(s, k);
 
@@ -515,30 +516,32 @@ export default function GameScreen(props: Props) {
 
   return (
     <View onLayout={(e) => setContainerW(e.nativeEvent.layout.width)} style={[styles.root, { paddingTop: insets.top + 6, paddingBottom: insets.bottom + 8 }]}>
-      {/* top bar */}
-      <View style={styles.top}>
-        <Press onPress={() => (finished ? props.onExit() : setQuitAsk(true))} style={styles.iconBtn} accessibilityRole="button" accessibilityLabel={t("game.exit")}>
-          <Image source={ART.close} style={{ width: 18, height: 18, tintColor: C.brown }} />
-        </Press>
-        <View style={{ flex: 1, alignItems: "center" }}>
-          <Txt v="tiny" color={props.night ? NIGHT_DIM : C.dim}>{props.title.toUpperCase()}</Txt>
-          <CountUp value={score} duration={450} style={[F.black, { fontSize: 32, lineHeight: 38, color: props.night ? "#fff" : C.text }]} />
-        </View>
-        <Animated.View style={[styles.moves, movesLeft <= 5 && { backgroundColor: C.red }, { transform: [{ scale: movesPulse }] }]} accessibilityLabel={t("game.movesLeft", { n: movesLeft })}>
-          <Text style={[F.black, { fontSize: 24, lineHeight: 28, color: "#fff" }]}>{Math.max(0, movesLeft)}</Text>
-          <Text style={[F.xbold, { fontSize: 10, lineHeight: 12, color: "#fff", opacity: 0.9 }]}>{t("game.movesCaps")}</Text>
-        </Animated.View>
-      </View>
-      {/* score bar */}
-      <View style={{ width: size.width, alignSelf: "center", marginTop: 4, marginBottom: 6 }}>
-        <Bar progress={score / maxBar} height={14} color={C.honey} />
-        {isDaily ? STARS.map((t, i) => (
-          <View key={i} style={{ position: "absolute", left: (t / maxBar) * size.width - 11, top: -4 }}>
-            <Image source={starsNow > i ? ART.star : ART.starOff} style={{ width: 22, height: 22 }} />
+      {/* top bar: one panel with exit, score, moves and the progress bar (reads the same on every backdrop) */}
+      <View style={[styles.hud, { width: size.width + 12 }]}>
+        <View style={styles.top}>
+          <Press onPress={() => (finished ? props.onExit() : setQuitAsk(true))} style={styles.iconBtn} accessibilityRole="button" accessibilityLabel={t("game.exit")}>
+            <Image source={ART.close} style={{ width: 16, height: 16, tintColor: C.brown }} />
+          </Press>
+          <View style={{ flex: 1, alignItems: "center" }}>
+            <Txt v="tiny" color={C.dim}>{props.title.toUpperCase()}</Txt>
+            <CountUp value={score} duration={450} style={[F.black, { fontSize: 30, lineHeight: 34, color: C.text }]} />
           </View>
-        )) : props.best > 0 ? (
-          <View style={{ position: "absolute", right: 6, top: -1 }}><Txt v="tiny" color={props.night ? "#FFC56B" : C.honeyDark}>{t("game.best", { n: fmt(props.best) })}</Txt></View>
-        ) : null}
+          <Animated.View style={[styles.moves, movesLeft <= 5 && { backgroundColor: C.red }, { transform: [{ scale: movesPulse }] }]} accessibilityLabel={t("game.movesLeft", { n: movesLeft })}>
+            <Text style={[F.black, { fontSize: 22, lineHeight: 25, color: "#fff" }]}>{Math.max(0, movesLeft)}</Text>
+            <Text style={[F.xbold, { fontSize: 9, lineHeight: 11, color: "#fff", opacity: 0.9 }]}>{t("game.movesCaps")}</Text>
+          </Animated.View>
+        </View>
+        {/* score bar */}
+        <View style={{ marginTop: 8 }} onLayout={(e) => setBarW(e.nativeEvent.layout.width)}>
+          <Bar progress={score / maxBar} height={12} color={C.honey} />
+          {isDaily ? STARS.map((t, i) => (
+            <View key={i} style={{ position: "absolute", left: (t / maxBar) * barW - 11, top: -5 }}>
+              <Image source={starsNow > i ? ART.star : ART.starOff} style={{ width: 22, height: 22 }} />
+            </View>
+          )) : props.best > 0 ? (
+            <View style={{ position: "absolute", right: 6, top: -2 }}><Txt v="tiny" color={C.honeyDark}>{t("game.best", { n: fmt(props.best) })}</Txt></View>
+          ) : null}
+        </View>
       </View>
       <View style={styles.statusRow}>
         <View style={[styles.chip, { opacity: combo > 0 ? 1 : 0 }]}>
@@ -746,11 +749,12 @@ function ResultCard({ mode, score, reward, onExit, onReplay }: { mode: RoundMode
 const NIGHT_DIM = "#E4D8FF";
 const styles = StyleSheet.create({
   root: { flex: 1, alignItems: "center" }, // background: App (C.bg, or the event backdrop)
-  top: { flexDirection: "row", alignItems: "center", paddingHorizontal: 14, alignSelf: "stretch", gap: 10 },
-  iconBtn: { width: 46, height: 46, borderRadius: 23, backgroundColor: "#fff", alignItems: "center", justifyContent: "center", ...shadow },
-  moves: { width: 62, height: 58, borderRadius: 20, backgroundColor: C.honeyDeep, alignItems: "center", justifyContent: "center", ...shadow },
-  statusRow: { flexDirection: "row", justifyContent: "space-between", alignSelf: "stretch", paddingHorizontal: 16, height: 32, alignItems: "center" },
-  chip: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: "#FFF", borderRadius: 14, paddingHorizontal: 10, height: 28 },
+  hud: { backgroundColor: "rgba(255,250,238,0.95)", borderRadius: 24, padding: 8, paddingBottom: 10, borderWidth: 2, borderColor: "rgba(255,255,255,0.9)", ...shadow },
+  top: { flexDirection: "row", alignItems: "center", gap: 10 },
+  iconBtn: { width: 42, height: 42, borderRadius: 21, backgroundColor: "#FFF0D2", alignItems: "center", justifyContent: "center" },
+  moves: { width: 56, height: 48, borderRadius: 16, backgroundColor: C.honeyDeep, alignItems: "center", justifyContent: "center" },
+  statusRow: { flexDirection: "row", justifyContent: "center", gap: 8, alignSelf: "stretch", paddingHorizontal: 16, height: 36, alignItems: "center" },
+  chip: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: "#FFF", borderRadius: 14, paddingHorizontal: 10, height: 28, ...shadow },
   dock: { flexDirection: "row", flexWrap: "wrap", gap: 10, marginTop: 10 },
   dockCard: { flexGrow: 1, flexBasis: "45%", flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: "#fff", borderRadius: 18, borderWidth: 2, borderColor: C.line, paddingHorizontal: 10, paddingVertical: 8, minHeight: 56 },
   dockHint: { backgroundColor: "#FFF3D6", borderColor: "#FFB51F" },

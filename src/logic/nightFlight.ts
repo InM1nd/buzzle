@@ -6,15 +6,18 @@
 import { Rng } from "./rng";
 
 export const FH = 1000;
-export const GROUND = 885;
-export const BEE_R = 28;          // hitbox, ~70% of the drawn bee
-export const STEM_W = 222;        // drawn width (art 200×900 at height 1000)
-export const STEM_HIT = 44;       // half-width of the stem hitbox (trunk + leaves)
-export const BAT_R = 30;
-export const PICK_R = 46;         // generous pickup radius
-const GRAVITY = 2300, FLAP = -680, MAX_FALL = 900;
-const SPACING = 540, SPEED0 = 290, SPEED_MAX = 430;
-const GAP0 = 340, GAP_MIN = 255;
+/** zoom: everything that moves is drawn and simulated at 80% of the first tuning, so more of the night fits the screen
+ *  (same feel: sizes, speeds and gravity scale together) */
+export const Z = 0.8;
+export const GROUND = 908;        // the ground line of the near parallax strip (drawn at 80% screen height, see FlightScreen)
+export const BEE_R = 28 * Z;      // hitbox, ~70% of the drawn bee
+export const STEM_W = 222 * Z;    // drawn width (art 200×900)
+export const STEM_HIT = 44 * Z;   // half-width of the stem hitbox (trunk + leaves)
+export const BAT_R = 30 * Z;
+export const PICK_R = 46 * Z;     // generous pickup radius
+const GRAVITY = 2300 * Z, FLAP = -680 * Z, MAX_FALL = 900 * Z;
+const SPACING = 540 * Z, SPEED0 = 290 * Z, SPEED_MAX = 430 * Z;
+const GAP0 = 340 * Z, GAP_MIN = 255 * Z;
 const STEP = 1 / 120;
 
 export interface Stem { x: number; gapY: number; gap: number; passed: boolean }
@@ -27,8 +30,8 @@ export interface World {
   passed: number; candies: number; over: boolean; rng: number; nextX: number;
 }
 
-export const speedAt = (passed: number) => Math.min(SPEED_MAX, SPEED0 + passed * 6);
-export const gapAt = (passed: number) => Math.max(GAP_MIN, GAP0 - passed * 4);
+export const speedAt = (passed: number) => Math.min(SPEED_MAX, SPEED0 + passed * 6 * Z);
+export const gapAt = (passed: number) => Math.max(GAP_MIN, GAP0 - passed * 4 * Z);
 export const pickValue = (kind: number) => (kind === 3 ? 3 : 1);
 
 export function newWorld(seed: number, W: number): World {
@@ -47,13 +50,13 @@ function spawn(w: World) {
     const gap = gapAt(n);
     const lo = 150 + gap / 2, hi = GROUND - 120 - gap / 2;
     const prev = w.stems[n - 1]?.gapY ?? FH * 0.45;
-    // consecutive gaps stay reachable: at most ±260 from the previous one
-    const gapY = Math.max(lo, Math.min(hi, prev + (rng.next() * 2 - 1) * 260));
+    // consecutive gaps stay reachable: at most ±260·Z from the previous one
+    const gapY = Math.max(lo, Math.min(hi, prev + (rng.next() * 2 - 1) * 260 * Z));
     w.stems.push({ x: w.nextX, gapY, gap, passed: false });
     if (rng.next() < 0.7) w.picks.push({ x: w.nextX, y: gapY + (rng.next() - 0.5) * gap * 0.3, kind: rng.int(3), taken: false });
     const mid = w.nextX + SPACING / 2;
     // bats from the 8th stem: they sway around the gap height, so there is always room above or below
-    if (n >= 8 && rng.next() < 0.3) w.bats.push({ x: mid, y0: gapY, amp: 60 + rng.next() * 40, ph: rng.next() * Math.PI * 2 });
+    if (n >= 8 && rng.next() < 0.3) w.bats.push({ x: mid, y0: gapY, amp: (60 + rng.next() * 40) * Z, ph: rng.next() * Math.PI * 2 });
     else if (rng.next() < 0.45) w.picks.push({ x: mid, y: 200 + rng.next() * (GROUND - 360), kind: rng.next() < 0.15 ? 3 : rng.int(3), taken: false });
     w.nextX += SPACING;
   }

@@ -77,6 +77,7 @@ export const play = {
   "gd.waterBed": { en: "Water the bed", uk: "Полити грядку", ru: "Полить грядку" },
   "gd.whatPlant": { en: "What shall we plant?", uk: "Що посадимо?", ru: "Что посадим?" },
   "gd.flowerInfo": { en: "{h} h to grow · +{n} nectar", uk: "{h} год росту · +{n} нектару", ru: "{h} ч роста · +{n} нектара" },
+  "gd.hours": { en: "{h} h", uk: "{h} год", ru: "{h} ч" },
   "gd.pocket": { en: " · in pocket ×{n}", uk: " · у кишені ×{n}", ru: " · в кармане ×{n}" },
   "gd.free": { en: "Free", uk: "Даром", ru: "Даром" },
   "gd.plantPocket": { en: "Plant from pocket: {name}", uk: "Посадити з кишені: {name}", ru: "Посадить из кармана: {name}" },

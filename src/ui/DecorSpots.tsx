@@ -44,7 +44,9 @@ function DecoArt({ id, height, on, ghost }: { id: string; height: number; on: bo
       {motion === "glow" && !ghost ? (
         <Animated.View pointerEvents="none" style={{
           position: "absolute", left: -w * 0.25, top: height * 0.05, width: w * 1.5, height: w * 1.5, borderRadius: w,
-          backgroundColor: "#FFE9A0", opacity: v.interpolate({ inputRange: [0, 0.5, 1], outputRange: [0.15, 0.45, 0.15] }),
+          // jack-o'-lanterns glow warm orange and softer (a pale disc reads grey on the night hive)
+          backgroundColor: id.startsWith("jack") ? "#FF9F3A" : "#FFE9A0",
+          opacity: v.interpolate({ inputRange: [0, 0.5, 1], outputRange: id.startsWith("jack") ? [0.06, 0.2, 0.06] : [0.15, 0.45, 0.15] }),
         }} />
       ) : null}
       {motion === "spin" && !ghost ? (

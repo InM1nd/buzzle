@@ -1,0 +1,82 @@
+[
+  {
+    "view": "front",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-2abb2419-db19-46d4-bd11-c5c4d3545dba.png",
+    "prompt": "Create a precise accessory layer for a game sprite. Image 1 is Pushinka FRONT on a 512x512 canvas. Image 2 is the approved beret wearing reference, NOT an isolated layer. Draw ONLY a small soft witch hat, deep plum faceted fabric, slightly bent tip leaning viewer-left, pumpkin-orange band with tiny golden buckle. Cozy Honey Crystal style with broad irregular polygon facets and soft upper-left light. Output on same full square canvas, truly transparent outside the hat. Match exactly the head seating location: brim centered x=256, y=177, width about222 px, thickness about28; cone rises to y=36, no crop. Antennae at x200 and310 around y155 must remain unobstructed by brim via subtle fitted side notches/openings, cone fits between them. Hat should sit on rounded head, curved elliptical brim, front band gently curved downward in middle, correct frontal perspective. Do NOT draw bee, antennae, wings, eyes, background, shadow plane, text or guides. Keep all lower area below y=214 fully transparent; use full 512 square framing, do not enlarge hat to fill canvas. A single isolated hat, not contact sheet.",
+    "refs": [
+      "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/front-base-view.png",
+      "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/beret-front-view.png"
+    ],
+    "export": {
+      "source_crop": [
+        270,
+        137,
+        984,
+        597
+      ],
+      "fitted_size": [
+        224,
+        144
+      ],
+      "paste_xy": [
+        144,
+        65
+      ],
+      "method": "Crop empty alpha margins then uniform resize; no distortion or painted pixels"
+    }
+  },
+  {
+    "view": "q3-front",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-8f8b3bd8-93f3-4374-9b5a-a8bfac0e0b53.png",
+    "prompt": "Create ONLY an accessory transparent layer: the SAME witch hat in Image 3, now THREE-QUARTER FRONT view facing slightly to viewer-right to fit Pushinka in Image 1. Image 2 shows approved beret seating/perspective, bee must NOT be included. Same deep plum low-poly soft fabric, bent cone tip (character's right, viewer-left in frontal reference), orange band, tiny square golden buckle at forward center. Rotate this same physical hat about35 degrees with the bee: brim ellipse and band turn in perspective, buckle moves toward viewer-right, preserve shape proportions and materials. Upper-left light, broad honey-crystal facets. Exact full square canvas coordinate reference: brim centered near x270,y177, width210px, bottom near y208; cone tip around y45. Leave lower60% fully transparent. Hat only, NO bee body, antennae, wings, face, background, text or guides. Small natural antenna openings at brim sides; do not create or draw extra antennae. Hat goes around their bases without covering eyes. Keep full reference canvas framing rather than isolated close-up fill.",
+    "refs": [
+      "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/q3-front-base-view.png",
+      "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/beret-q3-front-view.png",
+      "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-2abb2419-db19-46d4-bd11-c5c4d3545dba.png"
+    ],
+    "export": {
+      "source_crop": [
+        286,
+        126,
+        1069,
+        696
+      ],
+      "fitted_size": [
+        218,
+        159
+      ],
+      "paste_xy": [
+        161,
+        49
+      ],
+      "method": "Crop empty alpha margins then uniform resize; no distortion or painted pixels"
+    }
+  },
+  {
+    "view": "side",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-15f58792-d95a-4f04-b59a-0b82f3937b64.png",
+    "prompt": "Draw ONLY the SAME witch hat from Image 3, rotated to strict SIDE PROFILE facing RIGHT, matching bee in Image 1. Image 2 shows existing beret seating: use head alignment, not its shape. Small soft deep plum witch hat, broad low-poly facets, bent tip toward the bee's right (bend foreshortened in right profile), same orange ribbon, small square gold buckle on FRONT RIGHT EDGE in profile, seen nearly edge-on, not a large frontal buckle. Brim ellipse seen in side perspective, gently tilted following head in image1; should sit centered x340,y180 with width200px, underside ends y211, top cone near y45. All other canvas transparent. A SINGLE accessory isolated on full 512x512 square canvas. Same plum/orange/gold material, upper-left light, Honey Crystal rendering as Image3; cozy friendly. DO NOT include bee body, antennae, wings, eyes, background, lettering, guides, drop shadow. Antennae pierce brim naturally through small openings. Keep face region below brim and whole lower half transparent. Important true right side view consistent with character, not another threequarter frontal hat.",
+    "refs": [
+      "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/side-base-view.png",
+      "/Users/oleksandrzabolotnyi/buzzle/design/2d/all-species-accessories-v1/pushinka/beret-side-view.png",
+      "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-2abb2419-db19-46d4-bd11-c5c4d3545dba.png"
+    ],
+    "export": {
+      "source_crop": [
+        280,
+        154,
+        984,
+        647
+      ],
+      "fitted_size": [
+        200,
+        140
+      ],
+      "paste_xy": [
+        240,
+        71
+      ],
+      "method": "Crop empty alpha margins then uniform resize; no distortion or painted pixels"
+    }
+  }
+]

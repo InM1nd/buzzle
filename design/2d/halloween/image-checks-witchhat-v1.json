@@ -1,0 +1,50 @@
+[
+  {
+    "file": "costumes/witchhat-front-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      144,
+      65,
+      368,
+      209
+    ],
+    "sha256": "3effb0f046924f8d11f73ce938dd59253e2d1b09a6a1ed790a74765ecbd85262"
+  },
+  {
+    "file": "costumes/witchhat-q3-front-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      161,
+      49,
+      379,
+      208
+    ],
+    "sha256": "282f4dbba15bdc722e761f38a543a7cf049cd2cb9763a85cbc36457137fc339f"
+  },
+  {
+    "file": "costumes/witchhat-side-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      240,
+      71,
+      440,
+      211
+    ],
+    "sha256": "df9ab936f34c57bd5cc4c90130ea85698bdc896eecda11470d5f1c42f19de36a"
+  }
+]

@@ -13,9 +13,9 @@
 | env/garden_bg_night.png | 940 × 1672 | Обязательный | На просмотре |
 | garden/pumpkin_bud.png | 249 × 249 | Обязательный | На просмотре |
 | garden/pumpkin_bloom.png | 249 × 249 | Обязательный | На просмотре |
-| costumes/witchhat-front-view.png | 512 × 512 | Обязательный | Не подготовлен |
-| costumes/witchhat-q3-front-view.png | 512 × 512 | Обязательный | Не подготовлен |
-| costumes/witchhat-side-view.png | 512 × 512 | Обязательный | Не подготовлен |
+| costumes/witchhat-front-view.png | 512 × 512 | Обязательный | На просмотре |
+| costumes/witchhat-q3-front-view.png | 512 × 512 | Обязательный | На просмотре |
+| costumes/witchhat-side-view.png | 512 × 512 | Обязательный | На просмотре |
 | costumes/pumpkinhat-front-view.png | 512 × 512 | Обязательный | Не подготовлен |
 | costumes/pumpkinhat-q3-front-view.png | 512 × 512 | Обязательный | Не подготовлен |
 | costumes/pumpkinhat-side-view.png | 512 × 512 | Обязательный | Не подготовлен |

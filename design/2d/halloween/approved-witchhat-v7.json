@@ -1,0 +1,14 @@
+{
+  "revision": 7,
+  "owner_confirmation": "да, так окей. Фиксируем это и продолжаем",
+  "scope": "witch hat fitting, antennae and profile wing depth; Pushinka front/q3/side review",
+  "files": {
+    "costumes/fitting/pushinka/wing-far-side.png": "a9805f740c0ccb2d4a41275e9167e5d9e82a413d8f53d7fe972516df832a12fc",
+    "costumes/fitting/pushinka/body-side.png": "bb969e66ddf257bf83fa64f814f97faf2dd1bc032dbd2743633cd2fc0f513928",
+    "costumes/fitting/pushinka/wing-near-side.png": "8460116ad94603e838068ed40b1598d31c328edd53cb020d10c8efff30736f7a",
+    "costumes/witchhat-side-view.png": "cd970c122756f8f56466451a2ab08b7380f00cc0c48ae3a3321e8966b8a38714",
+    "costumes/fitting/pushinka/antennae-side-front.png": "15ff30d48e9cd749b91a1644fff488eb19d085e7a15551bccca37c00d808641d",
+    "costumes/witchhat-front-view.png": "3effb0f046924f8d11f73ce938dd59253e2d1b09a6a1ed790a74765ecbd85262",
+    "costumes/witchhat-q3-front-view.png": "282f4dbba15bdc722e761f38a543a7cf049cd2cb9763a85cbc36457137fc339f"
+  }
+}

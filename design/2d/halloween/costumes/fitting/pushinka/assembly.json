@@ -5,7 +5,7 @@
   ],
   "species": "pushinka",
   "view": "side",
-  "status": "candidate",
+  "status": "approved by owner",
   "required_asset_count_unchanged": 24,
   "layers": [
     "costumes/fitting/pushinka/wing-far-side.png",
@@ -15,5 +15,7 @@
     "costumes/fitting/pushinka/antennae-side-front.png"
   ],
   "note": "Far wing behind body. Near wing visible in front of shoulder; full outline and attachment are retained. Hat, antennae and body remain byte-identical to accepted v6 antenna fitting.",
-  "revision": 7
+  "revision": 7,
+  "approved_revision": 7,
+  "approved_date": "2026-10-16"
 }

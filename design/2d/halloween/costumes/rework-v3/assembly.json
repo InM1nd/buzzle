@@ -1,0 +1,238 @@
+{
+  "revision": 3,
+  "status": "candidate",
+  "canvas": [
+    512,
+    512
+  ],
+  "body_reference": "Original approved wing-far/body-original/wing-near in exact unchanged positions. Gold generated wing pair v2 rejected and not used.",
+  "costumes": {
+    "vampcape": {
+      "front": [
+        "costumes/rework-v3/vampcape-back-front-view.png",
+        "design/2d/all-species-accessories-v1/pushinka/front-base-view.png",
+        "costumes/rework-v3/vampcape-front-front-view.png",
+        "costumes/rework-v3/vampcape-ruff-front-view.png"
+      ],
+      "q3-front": [
+        "costumes/rework-v3/vampcape-back-q3-front-view.png",
+        "design/2d/all-species-accessories-v1/pushinka/q3-front-base-view.png",
+        "costumes/rework-v3/vampcape-front-q3-front-view.png",
+        "costumes/rework-v3/vampcape-ruff-q3-front-view.png"
+      ],
+      "side": [
+        "costumes/rework-v3/vampcape-back-side-view.png",
+        "costumes/fitting/pushinka/wing-far-side.png",
+        "costumes/fitting/pushinka/body-side-original.png",
+        "costumes/fitting/pushinka/wing-near-side.png",
+        "costumes/rework-v3/vampcape-front-side-view.png",
+        "costumes/rework-v3/vampcape-ruff-side-view.png"
+      ]
+    },
+    "pumpkinwreath": {
+      "front": [
+        "design/2d/all-species-accessories-v1/pushinka/front-base-view.png",
+        "costumes/rework-v3/pumpkinwreath-front-view.png",
+        "costumes/rework-v3/pumpkinwreath-antennae-front-view.png"
+      ],
+      "q3-front": [
+        "design/2d/all-species-accessories-v1/pushinka/q3-front-base-view.png",
+        "costumes/rework-v3/pumpkinwreath-q3-front-view.png",
+        "costumes/rework-v3/pumpkinwreath-antennae-q3-front-view.png"
+      ],
+      "side": [
+        "costumes/fitting/pushinka/wing-far-side.png",
+        "costumes/fitting/pushinka/body-side-original.png",
+        "costumes/fitting/pushinka/wing-near-side.png",
+        "costumes/rework-v3/pumpkinwreath-side-view.png",
+        "costumes/rework-v3/pumpkinwreath-antennae-side-view.png"
+      ]
+    },
+    "batwings": {
+      "front": [
+        "costumes/batwings-back-front-view.png",
+        "design/2d/all-species-accessories-v1/pushinka/front-base-view.png"
+      ],
+      "q3-front": [
+        "costumes/rework-v3/batwings-back-q3-front-view.png",
+        "design/2d/all-species-accessories-v1/pushinka/q3-front-base-view.png",
+        "costumes/rework-v3/batwings-front-q3-front-view.png"
+      ],
+      "side": [
+        "costumes/rework-v3/batwings-back-side-view.png",
+        "costumes/fitting/pushinka/wing-far-side.png",
+        "costumes/fitting/pushinka/body-side-original.png",
+        "costumes/fitting/pushinka/wing-near-side.png",
+        "costumes/rework-v3/batwings-front-side-view.png"
+      ]
+    }
+  },
+  "wreath_registration": {
+    "front": {
+      "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/costumes/pumpkinwreath-front-view.png",
+      "export": {
+        "crop": [
+          147,
+          135,
+          365,
+          234
+        ],
+        "uniform_resize": [
+          202,
+          92
+        ],
+        "paste_xy": [
+          155,
+          146
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      },
+      "whole": "costumes/rework-v3/pumpkinwreath-front-view.png",
+      "antennae": "exact original brown pixels above y185, no movement"
+    },
+    "q3-front": {
+      "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/costumes/pumpkinwreath-q3-front-view.png",
+      "export": {
+        "crop": [
+          166,
+          137,
+          374,
+          237
+        ],
+        "uniform_resize": [
+          196,
+          94
+        ],
+        "paste_xy": [
+          162,
+          145
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      },
+      "whole": "costumes/rework-v3/pumpkinwreath-q3-front-view.png",
+      "antennae": "exact original brown pixels above y185, no movement"
+    },
+    "side": {
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-997cb9fc-51fa-4f32-8c27-9214d8660b17.png",
+      "export": {
+        "crop": [
+          504,
+          345,
+          944,
+          572
+        ],
+        "uniform_resize": [
+          150,
+          77
+        ],
+        "paste_xy": [
+          208,
+          145
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      },
+      "whole": "costumes/rework-v3/pumpkinwreath-side-view.png",
+      "antennae": "exact original brown pixels above y185, no movement"
+    }
+  },
+  "bat_depth_registration": {
+    "q3-front": {
+      "source": "costumes/batwings-back-q3-front-view.png",
+      "crop": [
+        64,
+        282,
+        300,
+        395
+      ],
+      "uniform_resize": [
+        140,
+        67
+      ],
+      "paste_xy": [
+        64,
+        306
+      ],
+      "foreground_file": "costumes/rework-v3/batwings-front-q3-front-view.png",
+      "background_file": "costumes/rework-v3/batwings-back-q3-front-view.png",
+      "split": "x<300"
+    },
+    "side": {
+      "source": "costumes/batwings-back-side-view.png",
+      "crop": [
+        45,
+        297,
+        245,
+        392
+      ],
+      "uniform_resize": [
+        140,
+        66
+      ],
+      "paste_xy": [
+        54,
+        292
+      ],
+      "foreground_file": "costumes/rework-v3/batwings-front-side-view.png",
+      "background_file": "costumes/rework-v3/batwings-back-side-view.png",
+      "split": [
+        [
+          45,
+          325
+        ],
+        [
+          62,
+          315
+        ],
+        [
+          86,
+          305
+        ],
+        [
+          112,
+          299
+        ],
+        [
+          145,
+          297
+        ],
+        [
+          169,
+          304
+        ],
+        [
+          192,
+          318
+        ],
+        [
+          205,
+          325
+        ],
+        [
+          219,
+          343
+        ],
+        [
+          245,
+          355
+        ],
+        [
+          248,
+          402
+        ],
+        [
+          40,
+          402
+        ]
+      ]
+    }
+  }
+}

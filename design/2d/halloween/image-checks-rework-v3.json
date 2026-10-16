@@ -1,0 +1,674 @@
+{
+  "status": "candidate",
+  "files": [
+    {
+      "file": "costumes/rework-v3/batwings-back-q3-front-view.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "421b2fe202019411fabf6cca71f0a4546e6e3d5a559bc334a1f3208a5befa7b0",
+      "alpha_bbox": [
+        327,
+        282,
+        444,
+        370
+      ]
+    },
+    {
+      "file": "costumes/rework-v3/batwings-back-side-view.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "486af327101966893e29b45420bf6195dc9496b2d9132ba6b41210fd9090dda1",
+      "alpha_bbox": [
+        81,
+        270,
+        182,
+        301
+      ]
+    },
+    {
+      "file": "costumes/rework-v3/batwings-front-q3-front-view.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "7de0e0a748fc1040b9c49aa9ee1c83ac36f9f28efaab36c0b851c326519c48a6",
+      "alpha_bbox": [
+        64,
+        306,
+        187,
+        373
+      ]
+    },
+    {
+      "file": "costumes/rework-v3/batwings-front-side-view.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "ca31b3776d20cc3b2d9b621386734b29af9320e455865a97ad0e5bf8a67baa3c",
+      "alpha_bbox": [
+        56,
+        292,
+        194,
+        358
+      ]
+    },
+    {
+      "file": "costumes/rework-v3/pumpkinwreath-antennae-front-view.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "56972cb092b47cf938f7d2da0ea06ea5b562e708f5c60fbe6eb5b739669aa92e",
+      "alpha_bbox": [
+        142,
+        83,
+        389,
+        185
+      ]
+    },
+    {
+      "file": "costumes/rework-v3/pumpkinwreath-antennae-q3-front-view.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "d914fdcc8aea2c2639b79665f04e511b4d81edebd1e7c4a836adef91628d84b6",
+      "alpha_bbox": [
+        160,
+        78,
+        364,
+        178
+      ]
+    },
+    {
+      "file": "costumes/rework-v3/pumpkinwreath-antennae-side-view.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "6074c8805fed351afbc5aea4175c7d03031004c895f09411d9f193b43cd416e2",
+      "alpha_bbox": [
+        280,
+        67,
+        384,
+        172
+      ]
+    },
+    {
+      "file": "costumes/rework-v3/pumpkinwreath-front-view.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "0b52a4f0cb24a91f05d32444e54d2a54e9bc7c128ff5750f3b7477ac7e2b1796",
+      "alpha_bbox": [
+        155,
+        146,
+        357,
+        238
+      ]
+    },
+    {
+      "file": "costumes/rework-v3/pumpkinwreath-q3-front-view.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "c329a772a94d608944e51ab9a2cbd52490f79016c5318d34193aaaa95af9a33b",
+      "alpha_bbox": [
+        162,
+        145,
+        358,
+        239
+      ]
+    },
+    {
+      "file": "costumes/rework-v3/pumpkinwreath-side-view.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "0bf5de05c160f228dd0f22f8f886e025703ad14abbb9e95ba8181aad00a9eb92",
+      "alpha_bbox": [
+        208,
+        145,
+        358,
+        222
+      ]
+    },
+    {
+      "file": "costumes/rework-v3/vampcape-back-front-view.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "5814584e9a5bb20f39e47bc31cb422adcd4f887e963bacb180c5e26c7a350743",
+      "alpha_bbox": [
+        81,
+        278,
+        431,
+        454
+      ]
+    },
+    {
+      "file": "costumes/rework-v3/vampcape-back-q3-front-view.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "01c9a30e81d32fd742dd6d133348195241b688e94f726d1e51748f4c39da9739",
+      "alpha_bbox": [
+        83,
+        278,
+        418,
+        468
+      ]
+    },
+    {
+      "file": "costumes/rework-v3/vampcape-back-side-view.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "73dbbe4076be9d66c690ec837bf7295fcc6ddb7299ff4f4b1c908d33a719c7dc",
+      "alpha_bbox": [
+        82,
+        267,
+        282,
+        457
+      ]
+    },
+    {
+      "file": "costumes/rework-v3/vampcape-front-front-view.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "1873c0b5744016e4ca28c905805ded0620e09613d590c9faf48d7e85fa0896bc",
+      "alpha_bbox": [
+        192,
+        330,
+        342,
+        382
+      ]
+    },
+    {
+      "file": "costumes/rework-v3/vampcape-front-q3-front-view.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "14082496139d4b5c1cb725cbac7ebd49336113e3abeedf6fddf3c001674f8693",
+      "alpha_bbox": [
+        221,
+        328,
+        371,
+        380
+      ]
+    },
+    {
+      "file": "costumes/rework-v3/vampcape-front-side-view.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "d4a7c19d60373cf6c68b52e4b6dbef8520222237f5ad83457f6aee97922303a1",
+      "alpha_bbox": [
+        300,
+        341,
+        400,
+        375
+      ]
+    },
+    {
+      "file": "costumes/rework-v3/vampcape-ruff-front-view.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "00977572e4ada1be238a7572378f88eaffd71f2f4bf3e3c05553e302b2f6e090",
+      "alpha_bbox": [
+        145,
+        310,
+        391,
+        372
+      ]
+    },
+    {
+      "file": "costumes/rework-v3/vampcape-ruff-q3-front-view.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "9856aa011f4dd6edf4aa938f7e2fa426dfd3bfc65803b99b8d9d697d6a8255c3",
+      "alpha_bbox": [
+        145,
+        310,
+        390,
+        372
+      ]
+    },
+    {
+      "file": "costumes/rework-v3/vampcape-ruff-side-view.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "e7dcd632ee957bb14f19b6541c5be1d82991748540441ccad004907493e48460",
+      "alpha_bbox": [
+        145,
+        310,
+        397,
+        372
+      ]
+    },
+    {
+      "file": "env/puzzle-autumn-v3.png",
+      "size": [
+        940,
+        1672
+      ],
+      "mode": "RGB",
+      "sRGB": true,
+      "sha256": "ef884027a3a4a96ce8056f8ef550ce5dd4362ae9fa6afc0bb671faf5a87e505f"
+    },
+    {
+      "file": "env/puzzle-halloween-v3.png",
+      "size": [
+        940,
+        1672
+      ],
+      "mode": "RGB",
+      "sRGB": true,
+      "sha256": "364d6e1ce118c2ab8cf5155ca7837769edacca4f5053628d7fad7dc99fb70f8a"
+    },
+    {
+      "file": "review/all-changes-v3.png",
+      "size": [
+        1800,
+        2600
+      ],
+      "mode": "RGB",
+      "sRGB": true,
+      "sha256": "d6367705f4e26760b0bfae0ef9a3bff723b390f1fd3f4e6c77ceb8a6d871ab1d"
+    },
+    {
+      "file": "review/batwings-rework-v3.png",
+      "size": [
+        1600,
+        690
+      ],
+      "mode": "RGB",
+      "sRGB": true,
+      "sha256": "24702b1aa942334b591d438f49ef099c2c5ca29adde13cc9f84ad835ae243aea"
+    },
+    {
+      "file": "review/costumes-rework-v3.png",
+      "size": [
+        1600,
+        1940
+      ],
+      "mode": "RGB",
+      "sRGB": true,
+      "sha256": "960d676d33856d6c4f5ac67c83180fc44ef0efb624233def77009126dcdcfeac"
+    },
+    {
+      "file": "review/hbright-glyphs-v3.png",
+      "size": [
+        1800,
+        690
+      ],
+      "mode": "RGB",
+      "sRGB": true,
+      "sha256": "bf4b0c8d4806c5ed40a646efa9613637420cd8acd1727479750c2f4b656b17e0"
+    },
+    {
+      "file": "review/profile-locked-wings-v3.png",
+      "size": [
+        1100,
+        660
+      ],
+      "mode": "RGB",
+      "sRGB": true,
+      "sha256": "a8ec82b880e833b9a5e47d7ee4e151085ad1ac614e9cfb2ef4921644a1c7b214"
+    },
+    {
+      "file": "review/pumpkin-styles-v3.png",
+      "size": [
+        1800,
+        680
+      ],
+      "mode": "RGB",
+      "sRGB": true,
+      "sha256": "2ed094e9f5f7dca0b5d9691474e0773c1ff9f1f7343dc56a863c007881b805d1"
+    },
+    {
+      "file": "review/pumpkinwreath-rework-v3.png",
+      "size": [
+        1600,
+        690
+      ],
+      "mode": "RGB",
+      "sRGB": true,
+      "sha256": "3526209ea1971e963b6afa5f107d437600cdf371237b29ded4e17693be3e943b"
+    },
+    {
+      "file": "review/puzzle-backgrounds-v3.png",
+      "size": [
+        1620,
+        825
+      ],
+      "mode": "RGB",
+      "sRGB": true,
+      "sha256": "aa30ef8e68a6815dce0496a237f4067154bcd73b25ed3df138eeb3fd2e42327c"
+    },
+    {
+      "file": "review/vampcape-rework-v3.png",
+      "size": [
+        1600,
+        690
+      ],
+      "mode": "RGB",
+      "sRGB": true,
+      "sha256": "5871ae2040fce9e0fded04eb5ac72a95810a450f4c1d38854145c5241d5adf48"
+    },
+    {
+      "file": "review/witchhat-profile-check-v3.png",
+      "size": [
+        1536,
+        620
+      ],
+      "mode": "RGB",
+      "sRGB": true,
+      "sha256": "0072c88c6ab1f428bd3d4c68f6956a9100df2864a4c9df2767bb011da798be8f"
+    },
+    {
+      "file": "review/witchhat-profile-v3.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGB",
+      "sRGB": true,
+      "sha256": "7e13b72d22a8f40d43195a4404b992e265dca773c4c3ba652388705f321801ef"
+    },
+    {
+      "file": "tiles/hbright/bomb.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "1dec0e927f89c8d10b9ecafc5865ad3000e2c496eab839692a8789dc90bffd56",
+      "alpha_bbox": [
+        147,
+        115,
+        364,
+        397
+      ]
+    },
+    {
+      "file": "tiles/hbright/cell0.png",
+      "size": [
+        720,
+        624
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "130438ad780b3b4931d2e96b4ce38158f19b4c4baa5d7a2696cda73d738bf089",
+      "alpha_bbox": [
+        0,
+        8,
+        720,
+        616
+      ]
+    },
+    {
+      "file": "tiles/hbright/cell1.png",
+      "size": [
+        720,
+        624
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "20a3206f7e4f9312b9c58a1d2a1a07b4c5c52797ca4527bdcea249c6dcd56bac",
+      "alpha_bbox": [
+        0,
+        3,
+        720,
+        620
+      ]
+    },
+    {
+      "file": "tiles/hbright/cell2.png",
+      "size": [
+        720,
+        624
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "2cbcb204ce7421fe4f4c52c73347ac8c49d4b1740c83b2c32a80903629a16499",
+      "alpha_bbox": [
+        0,
+        5,
+        720,
+        619
+      ]
+    },
+    {
+      "file": "tiles/hbright/cell3.png",
+      "size": [
+        720,
+        624
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "23c0c3da9f1c0a01ea0cf2f54a1944aa269d1fe1cc999933ed1376d5a260b8d0",
+      "alpha_bbox": [
+        0,
+        3,
+        720,
+        621
+      ]
+    },
+    {
+      "file": "tiles/hbright/cell4.png",
+      "size": [
+        720,
+        624
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "976185437db4b84c9700d0bbffbc11c4529dd6a7a8a1e41bf8713b858dba34cb",
+      "alpha_bbox": [
+        0,
+        4,
+        720,
+        620
+      ]
+    },
+    {
+      "file": "tiles/hbright/cell_wild.png",
+      "size": [
+        720,
+        624
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "a08dd20b938ce325943ac0f370ed87e1afa308b3944c69eef7d79233bcdbb263",
+      "alpha_bbox": [
+        0,
+        8,
+        720,
+        615
+      ]
+    },
+    {
+      "file": "tiles/styles/bright/cell_pumpkin.png",
+      "size": [
+        720,
+        624
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "27e0ac4cdef3a6f6eaf9d351abf69e614d872e99a7c724e3c39e14eb88aa6fec",
+      "alpha_bbox": [
+        0,
+        0,
+        720,
+        624
+      ]
+    },
+    {
+      "file": "tiles/styles/hpastel/cell_pumpkin.png",
+      "size": [
+        720,
+        624
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "a497968b04e1726bbffd669b502ad27300f0185dc4ab1d6c17d45b8728d3e40c",
+      "alpha_bbox": [
+        0,
+        3,
+        720,
+        620
+      ]
+    },
+    {
+      "file": "tiles/styles/hsoft/cell_pumpkin.png",
+      "size": [
+        720,
+        624
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "62452e6dd0cbdd0abdb82bf34af71d454b6c75399aeb44b579d8d3f0792043a2",
+      "alpha_bbox": [
+        0,
+        5,
+        720,
+        618
+      ]
+    },
+    {
+      "file": "tiles/styles/hwax/cell_pumpkin.png",
+      "size": [
+        720,
+        624
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "6d718a0374738746922f71c8f9915cdab4df1bc02dcb2f543b2982b7b39a02d4",
+      "alpha_bbox": [
+        0,
+        2,
+        720,
+        622
+      ]
+    },
+    {
+      "file": "tiles/styles/pastel/cell_pumpkin.png",
+      "size": [
+        720,
+        624
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "82e3357f7da7d4678e6ef75e2e9a55ca204f83156d423331d6dc4cf12810e57c",
+      "alpha_bbox": [
+        0,
+        3,
+        720,
+        621
+      ]
+    },
+    {
+      "file": "tiles/styles/soft/cell_pumpkin.png",
+      "size": [
+        720,
+        624
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "f86d506aea21da4387dc7af13237499ed4da0064da6bb73e513634dab977f57c",
+      "alpha_bbox": [
+        0,
+        0,
+        720,
+        624
+      ]
+    },
+    {
+      "file": "tiles/styles/wax/cell_pumpkin.png",
+      "size": [
+        720,
+        624
+      ],
+      "mode": "RGBA",
+      "sRGB": true,
+      "sha256": "f9ab8da49569ddc06a2fb3cf8f4714bdaf1bc2045dcdff7c3fed28e96d467f95",
+      "alpha_bbox": [
+        0,
+        4,
+        720,
+        619
+      ]
+    }
+  ],
+  "protected_sha256": {
+    "costumes/fitting/pushinka/wing-far-side.png": "a9805f740c0ccb2d4a41275e9167e5d9e82a413d8f53d7fe972516df832a12fc",
+    "costumes/fitting/pushinka/body-side.png": "bb969e66ddf257bf83fa64f814f97faf2dd1bc032dbd2743633cd2fc0f513928",
+    "costumes/fitting/pushinka/wing-near-side.png": "8460116ad94603e838068ed40b1598d31c328edd53cb020d10c8efff30736f7a",
+    "costumes/witchhat-side-view.png": "cd970c122756f8f56466451a2ab08b7380f00cc0c48ae3a3321e8966b8a38714",
+    "costumes/fitting/pushinka/antennae-side-front.png": "15ff30d48e9cd749b91a1644fff488eb19d085e7a15551bccca37c00d808641d",
+    "costumes/witchhat-front-view.png": "3effb0f046924f8d11f73ce938dd59253e2d1b09a6a1ed790a74765ecbd85262",
+    "costumes/witchhat-q3-front-view.png": "282f4dbba15bdc722e761f38a543a7cf049cd2cb9763a85cbc36457137fc339f"
+  },
+  "original_side_wing_transforms": "none; same files, 512 canvas, original positions",
+  "runtime_changes": false
+}

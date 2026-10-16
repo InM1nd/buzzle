@@ -112,6 +112,23 @@ def classify(rel):
     if species and not preserve_costume_title:
         pose=next((label for key,label in [('q3-front-left','Три четверти спереди / влево'),('q3-back-left','Три четверти сзади / влево'),('q3-front','Три четверти спереди'),('q3-back','Три четверти сзади'),('side-left','Профиль / влево'),('front','Спереди'),('back','Со спины'),('side','Профиль'),('top','Сверху')] if key in stem.replace('backpack','bag')),'')
         if pose:title=' · '.join(v for v in (species,accessory,pose) if v)
+    if p.startswith('design/2d/halloween/'):
+        style_names={'bright':'Медовый кристалл','soft':'Мягкий кристалл','pastel':'Матовая пастель','wax':'Тёплый воск','hsoft':'Мягкий кристалл','hpastel':'Матовая пастель','hwax':'Тёплый воск'}
+        labels={'bright':'яркий','soft':'мягкий кристалл','pastel':'матовая пастель','wax':'тёплый воск','hsoft':'Halloween / мягкий кристалл','hpastel':'Halloween / матовая пастель','hwax':'Halloween / тёплый воск'}
+        if '/tiles/styles/' in p:
+            code=p.split('/tiles/styles/')[1].split('/')[0];style=style_names.get(code,style);title='Тыквенная сота / '+labels.get(code,code)+' / v3'
+        if '/tiles/hbright/' in p:
+            title='Яркий Halloween / '+{'cell0':'солнце','cell1':'сердце','cell2':'цветок','cell3':'капля','cell4':'лист','cell_wild':'джокер','bomb':'компактная бомба'}.get(stem,stem)+' / v3'
+        if '/costumes/rework-v3/' in p:
+            status='Кандидат / вариант';role='Отдельный слой';title='Костюм v3 / '+stem.replace('-',' ')
+        review_titles={'pumpkin-styles-v3':'Тыквенные соты / все семь стилей','hbright-glyphs-v3':'Яркие глифы / обычные и Halloween','puzzle-backgrounds-v3':'Головоломка / осенний и Halloween фоны','pumpkinwreath-rework-v3':'Осенний венок / актуальная посадка v3','vampcape-rework-v3':'Плащ вампира / пересборка v3','batwings-rework-v3':'Крылья летучей мыши / передний слой v3','costumes-rework-v3':'Все костюмы / пересборка v3','profile-locked-wings-v3':'Профиль / обычные крылья в исходном положении','all-changes-v3':'Halloween / все изменения v3'}
+        if stem in review_titles:
+            title=review_titles[stem];status='Кандидат / вариант';role='Лист / сравнение'
+        if stem in {'pumpkin-styles-v3','all-changes-v3'}:style='Сравнение стилей'
+        if stem in {'puzzle-autumn-v3','puzzle-halloween-v3'}:
+            title='Фон головоломки / '+('осень' if 'autumn' in stem else 'Halloween');season='Осень' if 'autumn' in stem else 'Хеллоуин'
+        if stem in {'batwings-natural-side-v2','batwings-fit-v2','batwings-profile-check-v2','pumpkinwreath-fit-v1'}:status='Архив / пробы'
+        if '/costumes/' in p and '/rework-v3/' not in p and stem.startswith('pumpkinwreath-'):status='Архив / пробы'
     return dict(title=title,category=category,role=role,style=style,season=season,status=status,species=species,accessory=accessory)
 
 def build(target):

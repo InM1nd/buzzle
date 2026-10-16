@@ -1,0 +1,397 @@
+{
+  "tool": "built-in image_gen for cape and wreath profile; mechanical registration and layer separation for bat wings",
+  "entries": [
+    {
+      "prompt": "Use case: stylized-concept. REWORK Buzzle vampire cape FRONT foreground layer only for exact frontal bee image1. Image2 is FAILED OLD costume: avoid its huge rigid U-shaped collar and low belly clasp. NEW design is an elegant SOFT short plum cape with muted burgundy lining, high collar sits BEHIND bee head in separate back layer. This requested FRONT layer must be ONLY a slim curved neckband with a tiny gold hexagonal clasp directly under fluffy chin, NOT tall collar points, NOT bib or shoulder shields. Logical512: band fromx176,y345 curves downward to centered tiny clasp atx270,y374 then up tox365,y345, 6-9px band thickness, gold clasp around12px high. Slightly U-curved band follows round bee body surface directly BELOW original fluffy ruff (ruff ends y365). Ends hide around body sides. Dark plum fabric edge with muted red satin narrow inset, warm upper-left broad low-poly fabric folds, no strong black outline. Foreground band overallbboxroughlyx174..366,y343..383, everything outside transparent. Entire body/face area above343 transparent. Draw ONLY accessory, no bee pixels, antennae, wings, legs, background, guide or text. NO giant collar, bow, hanging medallion, rigid floating ring or flat frontal strip. Same registered square scale, do not enlarge band to fill frame.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/all-species-accessories-v1/pushinka/front-base-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/review/vampcape-fit-v1.png"
+      ],
+      "view": "front",
+      "layer": "front",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-070ff68e-3626-49e9-94d3-d1adf2f254cb.png",
+      "export": {
+        "crop": [
+          291,
+          684,
+          965,
+          919
+        ],
+        "uniform_resize": [
+          150,
+          52
+        ],
+        "paste_xy": [
+          192,
+          330
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      },
+      "file": "costumes/rework-v3/vampcape-front-front-view.png"
+    },
+    {
+      "prompt": "Use case: stylized-concept. NEW unified BACK layer of soft short VAMPIRE CAPE for exact FRONT-view bee image1. Image2 is rejected old try-on with detached rigid U collar/skirt; redesign as one coherent draped cape. Cozy Honey Crystal broad fabric folds, dark charcoal-plum outside (#302130), muted burgundy satin inside (#8D2E44), soft warm upper-left light. BOTH tall collar points and flowing main cape are ONE continuous garment in this BACK layer. Collar points gently flare outward beside lower head, aroundx116,y278 andx405,y278, underside curved shoulder neck area hidden by body. Main cape descends from same shoulder attachment behind the body, soft asymmetric folds and gently rounded/scalloped lower hem, slight side flare nearx88 and430,y422, hem aroundy449. Not a rigid flat trapezoid skirt, bat wings, separate floating pieces or circle. The original bee will be drawn ON TOP so central cloth and collar inside body silhouette disappear; only small collar/side drapes and hem show. Keep all cloth BELOW y270 so golden wings remain distinct; no shoulder point reaches eye height. A narrow front clasp/neckband is separate and NOT drawn here. No body, face, antennae, wings, feet, clasp, necklace, text, background or ground shadow. Transparent canvas512 registration, overallaboutx85..433,y273..451. Maintain large empty upper canvas, do not fill frame. No horror, bright red, black outline, or ornamental emblem.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/all-species-accessories-v1/pushinka/front-base-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/review/vampcape-fit-v1.png"
+      ],
+      "view": "front",
+      "layer": "back",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-53192afc-c823-4cb5-9369-8514157ef4f8.png",
+      "export": {
+        "crop": [
+          125,
+          544,
+          1128,
+          1048
+        ],
+        "uniform_resize": [
+          350,
+          176
+        ],
+        "paste_xy": [
+          81,
+          278
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      },
+      "file": "costumes/rework-v3/vampcape-back-front-view.png"
+    },
+    {
+      "prompt": "Use case: stylized-concept. Separate vampire cape FRONT layer for same bee in THREE-QUARTER FRONT pose, image1 gives exact anatomy/scale. Image2 is matching newly reworked FRONT-VIEW front garment layer, image3 successful frontal try-on. Rotate SAME soft plum/burgundy costume, preserve fabric and modest size. A VERY SHALLOW curved narrow front neckband with tiny hex gold clasp; both ends hide around lower fluffy chin. No high collar points here. Logical512 band spansx220..375,y348..379, clasp nearx306,y373. Slim cloth thickness6px and clasp12px, overall shallow U, WIDTH:HEIGHT about6:1, NOT giantU or bib. Three-quarter depth hugging body below fluff. Charcoal-plum outside, muted burgundy satin inside, broad irregular low-poly fabric folds, warm upper-left light, friendly costume not horror. Return garment ONLY on true transparent fullsquare512 reference registration, no bee pixels, face, antennae, gold wings, legs, background, ground shadow, letters or guides. Keep large empty upper canvas; do not enlarge prop to fill frame. All face and eyes untouched/open. Natural wings will be composited in ORIGINAL placement.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/all-species-accessories-v1/pushinka/q3-front-base-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/costumes/rework-v3/vampcape-front-front-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/../../work/rework-v3/cape-front.png"
+      ],
+      "view": "q3-front",
+      "layer": "front",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-64b7e42f-6c0f-4b9c-9289-15cdc6ffa0e9.png",
+      "export": {
+        "crop": [
+          291,
+          684,
+          965,
+          919
+        ],
+        "uniform_resize": [
+          150,
+          52
+        ],
+        "paste_xy": [
+          221,
+          328
+        ],
+        "canvas": [
+          512,
+          512
+        ],
+        "source_override": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-070ff68e-3626-49e9-94d3-d1adf2f254cb.png",
+        "reason": "reuse complete clean neckband, no clipped cape flaps; most band occluded under original ruff"
+      },
+      "file": "costumes/rework-v3/vampcape-front-q3-front-view.png"
+    },
+    {
+      "prompt": "Use case: stylized-concept. Separate vampire cape BACK layer for same bee in THREE-QUARTER FRONT pose, image1 gives exact anatomy/scale. Image2 is matching newly reworked FRONT-VIEW back garment layer, image3 successful frontal try-on. Rotate SAME soft plum/burgundy costume, preserve fabric and modest size. ONE coherent soft short cape INCLUDING two flared stand-up collar corners behind lower head, no clasp/frontband. Near/back-left curtain broader, far/right foreshortened. Logical512 overallx84..422,y278..454, small collar corners aroundx121,y280 and400,y284, side drapes fall smoothly to hem behind body/legs. Keep collar mostly hidden by body, no giantcircularU or wings. Matching front-view garment, asymmetry comes from rotation. Charcoal-plum outside, muted burgundy satin inside, broad irregular low-poly fabric folds, warm upper-left light, friendly costume not horror. Return garment ONLY on true transparent fullsquare512 reference registration, no bee pixels, face, antennae, gold wings, legs, background, ground shadow, letters or guides. Keep large empty upper canvas; do not enlarge prop to fill frame. All face and eyes untouched/open. Natural wings will be composited in ORIGINAL placement.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/all-species-accessories-v1/pushinka/q3-front-base-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/costumes/rework-v3/vampcape-back-front-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/../../work/rework-v3/cape-front.png"
+      ],
+      "view": "q3-front",
+      "layer": "back",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-3a1bf2dc-6c3e-4e5b-ad60-4336c11f3bda.png",
+      "export": {
+        "crop": [
+          271,
+          708,
+          1004,
+          1124
+        ],
+        "uniform_resize": [
+          335,
+          190
+        ],
+        "paste_xy": [
+          83,
+          278
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      },
+      "file": "costumes/rework-v3/vampcape-back-q3-front-view.png"
+    },
+    {
+      "prompt": "Use case: stylized-concept. Separate vampire cape FRONT layer for same bee in TRUE RIGHT-FACING SIDE PROFILE pose, image1 gives exact anatomy/scale. Image2 is matching newly reworked FRONT-VIEW front garment layer, image3 successful frontal try-on. Rotate SAME soft plum/burgundy costume, preserve fabric and modest size. ONLY slim short curved lower-neckband fragment visible under chin with tiny gold hex clasp toward front-right, logical512 overallx294..386,y344..377, clasp nearx366,y368. Real right-facing profile, not a wide symmetric U. The head and fluffy ruff occlude most band. No tall collar, cape, bib or necklace. Charcoal-plum outside, muted burgundy satin inside, broad irregular low-poly fabric folds, warm upper-left light, friendly costume not horror. Return garment ONLY on true transparent fullsquare512 reference registration, no bee pixels, face, antennae, gold wings, legs, background, ground shadow, letters or guides. Keep large empty upper canvas; do not enlarge prop to fill frame. All face and eyes untouched/open. Natural wings will be composited in ORIGINAL placement.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/review/pumpkinhat-side-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/costumes/rework-v3/vampcape-front-front-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/../../work/rework-v3/cape-front.png"
+      ],
+      "view": "side",
+      "layer": "front",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-3c5ee94c-4799-4b87-9c0b-c26614ed961a.png",
+      "export": {
+        "crop": [
+          291,
+          684,
+          965,
+          919
+        ],
+        "uniform_resize": [
+          100,
+          35
+        ],
+        "paste_xy": [
+          300,
+          340
+        ],
+        "canvas": [
+          512,
+          512
+        ],
+        "source_override": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-070ff68e-3626-49e9-94d3-d1adf2f254cb.png",
+        "reason": "reuse complete clean neckband, no clipped cape flaps; most band occluded under original ruff"
+      },
+      "file": "costumes/rework-v3/vampcape-front-side-view.png"
+    },
+    {
+      "prompt": "Use case: stylized-concept. Separate vampire cape BACK layer for same bee in TRUE RIGHT-FACING SIDE PROFILE pose, image1 gives exact anatomy/scale. Image2 is matching newly reworked FRONT-VIEW back garment layer, image3 successful frontal try-on. Rotate SAME soft plum/burgundy costume, preserve fabric and modest size. ONLY unified cape with collar BEHIND body in right-facing profile, same garment as frontal ref. Rear collar point nearx171,y276 behind head, partly hidden by original gold wings; far collar almost fully occluded. Cloth drapes backward-left from shoulderx193,y310 to soft flarex96,y422 and gently curving hemx140..309,y451; front-right cloth hidden behind body. Narrow coherent profile of cape, not wide frontal skirt or isolated two symmetric flaps. No clasp/front neckband. Charcoal-plum outside, muted burgundy satin inside, broad irregular low-poly fabric folds, warm upper-left light, friendly costume not horror. Return garment ONLY on true transparent fullsquare512 reference registration, no bee pixels, face, antennae, gold wings, legs, background, ground shadow, letters or guides. Keep large empty upper canvas; do not enlarge prop to fill frame. All face and eyes untouched/open. Natural wings will be composited in ORIGINAL placement.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/review/pumpkinhat-side-base.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/costumes/rework-v3/vampcape-back-front-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/../../work/rework-v3/cape-front.png"
+      ],
+      "view": "side",
+      "layer": "back",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-ad74c42a-7444-4c00-93df-7ed2693cb28b.png",
+      "export": {
+        "crop": [
+          236,
+          568,
+          734,
+          1041
+        ],
+        "uniform_resize": [
+          200,
+          190
+        ],
+        "paste_xy": [
+          82,
+          267
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      },
+      "file": "costumes/rework-v3/vampcape-back-side-view.png"
+    },
+    {
+      "prompt": "Use case: precise-object-edit. Rework image1 AUTUMN WREATH for TRUE 90-DEGREE RIGHT-FACING SIDE VIEW of bee in image2. Old wreath reads like frontal floating crown/visor; make it a SMALL thin ring sitting snugly around rounded crown behind forehead, NOT pushed toward face. Strong correct side foreshortening: a narrow ellipse, rear edge partly hidden behind head/antennae, near rim wraps around side. Only two pumpkins prominently visible in profile; third tiny pumpkin partly occluded on far rim (same physical three-pumpkin wreath). Mini copper/ochre/olive leaves and brown acorns, all shorter/less bushy, keep exact faceted Honey Crystal palette/style. Image2 crown top atx285,y157 on logical512: wreathcenteraroundx281,y179, overallx212..355,y146..215, no leaves extend over eye/forehead to rightx390. Keep ring hollow center transparent, flat/small crown-hugging ellipse with depth, no upright halo or basket handle. Do not draw bee body, face, antennae, wings, feet, background, text or drop shadow. Only isolated accessory on transparent512 registration. Warm upper-left light, broad irregular facets, tiny pumpkins not giant orange balls. Keep wide empty canvas and exact small placement; do not enlarge to fill frame.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/costumes/pumpkinwreath-side-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/review/pumpkinhat-side-base.png"
+      ],
+      "view": "side",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-997cb9fc-51fa-4f32-8c27-9214d8660b17.png",
+      "kind": "wreath",
+      "export": {
+        "crop": [
+          504,
+          345,
+          944,
+          572
+        ],
+        "uniform_resize": [
+          150,
+          77
+        ],
+        "paste_xy": [
+          208,
+          145
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      }
+    }
+  ],
+  "wreath": {
+    "front": {
+      "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/costumes/pumpkinwreath-front-view.png",
+      "export": {
+        "crop": [
+          147,
+          135,
+          365,
+          234
+        ],
+        "uniform_resize": [
+          202,
+          92
+        ],
+        "paste_xy": [
+          155,
+          146
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      },
+      "whole": "costumes/rework-v3/pumpkinwreath-front-view.png",
+      "antennae": "exact original brown pixels above y185, no movement"
+    },
+    "q3-front": {
+      "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/costumes/pumpkinwreath-q3-front-view.png",
+      "export": {
+        "crop": [
+          166,
+          137,
+          374,
+          237
+        ],
+        "uniform_resize": [
+          196,
+          94
+        ],
+        "paste_xy": [
+          162,
+          145
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      },
+      "whole": "costumes/rework-v3/pumpkinwreath-q3-front-view.png",
+      "antennae": "exact original brown pixels above y185, no movement"
+    },
+    "side": {
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-997cb9fc-51fa-4f32-8c27-9214d8660b17.png",
+      "export": {
+        "crop": [
+          504,
+          345,
+          944,
+          572
+        ],
+        "uniform_resize": [
+          150,
+          77
+        ],
+        "paste_xy": [
+          208,
+          145
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      },
+      "whole": "costumes/rework-v3/pumpkinwreath-side-view.png",
+      "antennae": "exact original brown pixels above y185, no movement"
+    }
+  },
+  "bat_depth": {
+    "q3-front": {
+      "source": "costumes/batwings-back-q3-front-view.png",
+      "crop": [
+        64,
+        282,
+        300,
+        395
+      ],
+      "uniform_resize": [
+        140,
+        67
+      ],
+      "paste_xy": [
+        64,
+        306
+      ],
+      "foreground_file": "costumes/rework-v3/batwings-front-q3-front-view.png",
+      "background_file": "costumes/rework-v3/batwings-back-q3-front-view.png",
+      "split": "x<300"
+    },
+    "side": {
+      "source": "costumes/batwings-back-side-view.png",
+      "crop": [
+        45,
+        297,
+        245,
+        392
+      ],
+      "uniform_resize": [
+        140,
+        66
+      ],
+      "paste_xy": [
+        54,
+        292
+      ],
+      "foreground_file": "costumes/rework-v3/batwings-front-side-view.png",
+      "background_file": "costumes/rework-v3/batwings-back-side-view.png",
+      "split": [
+        [
+          45,
+          325
+        ],
+        [
+          62,
+          315
+        ],
+        [
+          86,
+          305
+        ],
+        [
+          112,
+          299
+        ],
+        [
+          145,
+          297
+        ],
+        [
+          169,
+          304
+        ],
+        [
+          192,
+          318
+        ],
+        [
+          205,
+          325
+        ],
+        [
+          219,
+          343
+        ],
+        [
+          245,
+          355
+        ],
+        [
+          248,
+          402
+        ],
+        [
+          40,
+          402
+        ]
+      ]
+    }
+  }
+}

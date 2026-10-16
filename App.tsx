@@ -10,6 +10,7 @@ import {
   RoundBoosters, RoundMode, startFreeRound, useShuffle, openBox, openAllBoxes, claimWeekly, buyFreeze, assembleNightBee,
   shopBuyItem, shopBuyBooster, shopBuyFragment, setSkin, toggleDeco, currentTasks,
   dayColorInfo, harvestAction, levelUpBee, renameBee, plantFlower, unlockBed, waterAllAction, waterBedAction,
+  eventIntroDue, eventIntroSeen, eventView,
 } from "./src/logic/game";
 import { canWater, isReady } from "./src/logic/garden";
 import { boostsFor, rulesFor } from "./src/logic/bees";
@@ -48,9 +49,9 @@ import LanguagePicker from "./src/screens/LanguagePicker";
 import { Lang, setLang } from "./src/i18n";
 import { chooseLanguage, setSetting, Settings } from "./src/logic/game";
 import { compareVersions } from "./src/logic/update";
-import { activeEvent, forceEvent, PUMPKIN_CHANCE } from "./src/logic/event";
+import { activeEvent, forceEvent, isAutumn, PUMPKIN_CHANCE } from "./src/logic/event";
 import { claimTrackStep, finishFlight, flightRunsToday, treatGuest } from "./src/logic/game";
-import { JackCarved, TrickBanner } from "./src/screens/EventTrack";
+import { EventIntro, JackCarved, TrickBanner } from "./src/screens/EventTrack";
 import { FLIGHT_PAID_RUNS } from "./src/logic/nightFlight";
 import FlightScreen from "./src/screens/FlightScreen";
 import { useUpdater } from "./src/ui/useUpdater";
@@ -521,11 +522,12 @@ function Main() {
   if (game) {
     const b = boostsFor(s.bees, s.beeLevels);
     const rules = rulesFor(game.mode === "free" ? "free" : "daily", b, dayColorInfo(s, now).active ? dayColorInfo(s, now).color : null);
-    const halloween = game.mode === "free" && !!activeEvent(todayOf(s, now));
+    const puzzleNight = !!activeEvent(todayOf(s, now));
+    const halloween = game.mode === "free" && puzzleNight;
     return (
       <View style={{ flex: 1, backgroundColor: C.bg }}>
-        <StatusBar style="dark" />
-        {activeEvent(todayOf(s, now)) ? <Image source={ART.puzzleBg} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} /> : null}
+        <StatusBar style={puzzleNight ? "light" : "dark"} />
+        {puzzleNight || isAutumn(todayOf(s, now)) ? <Image source={puzzleNight ? ART.puzzleNight : ART.puzzleAutumn} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} /> : null}
         <GameScreen
           key={game.key}
           mode={game.mode}
@@ -543,6 +545,7 @@ function Main() {
           onReplay={() => { setHold({}); pendingFly.current = null; act.play(game.mode); }}
           beeIds={s.bees}
           beeLevels={s.beeLevels}
+          night={puzzleNight}
         />
       </View>
     );
@@ -682,6 +685,10 @@ function Main() {
         <LanguagePicker initial={s.settings.lang !== "en" ? s.settings.lang : telegramLanguage() ?? "en"} suggested={telegramLanguage()} onDone={act.pickLang} />
       ) : null}
       <JackCarved id={jack} onClose={() => setJack(null)} />
+      <EventIntro visible={eventIntroDue(s, now) && s.settings.langPicked && s.settings.tutorialDone && !showTutorial && !showWhatsNew && !showLogin}
+        daysLeft={eventView(s, now)?.daysLeft ?? 0}
+        onClose={() => act.simple((c) => eventIntroSeen(c, Date.now()))}
+        onGo={() => { act.simple((c) => eventIntroSeen(c, Date.now())); setTab("puzzle"); }} />
       {boxOpen ? (
         <BoxOpen key={boxOpen} kind={boxOpen} left={s.loot.boxes[boxOpen]} bees={s.bees} skins={s.beeSkins}
           onOpen={() => act.openBox(boxOpen)} onOpenAll={() => act.openAll(boxOpen)} onClose={() => setBoxOpen(null)} />

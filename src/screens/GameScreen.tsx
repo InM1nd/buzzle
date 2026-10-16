@@ -41,6 +41,8 @@ interface Props {
   beeLevels?: Record<string, number>;
   /** colour of the day (×1.5) and whether the garden has switched its bonus on */
   dayColor?: { color: number; active: boolean };
+  /** v1.6: dark Halloween backdrop behind the screen: light text where it sits right on the backdrop */
+  night?: boolean;
 }
 
 // ---------- cell ----------
@@ -519,8 +521,8 @@ export default function GameScreen(props: Props) {
           <Image source={ART.close} style={{ width: 18, height: 18, tintColor: C.brown }} />
         </Press>
         <View style={{ flex: 1, alignItems: "center" }}>
-          <Txt v="tiny" color={C.dim}>{props.title.toUpperCase()}</Txt>
-          <CountUp value={score} duration={450} style={[F.black, { fontSize: 32, lineHeight: 38, color: C.text }]} />
+          <Txt v="tiny" color={props.night ? NIGHT_DIM : C.dim}>{props.title.toUpperCase()}</Txt>
+          <CountUp value={score} duration={450} style={[F.black, { fontSize: 32, lineHeight: 38, color: props.night ? "#fff" : C.text }]} />
         </View>
         <Animated.View style={[styles.moves, movesLeft <= 5 && { backgroundColor: C.red }, { transform: [{ scale: movesPulse }] }]} accessibilityLabel={t("game.movesLeft", { n: movesLeft })}>
           <Text style={[F.black, { fontSize: 24, lineHeight: 28, color: "#fff" }]}>{Math.max(0, movesLeft)}</Text>
@@ -535,7 +537,7 @@ export default function GameScreen(props: Props) {
             <Image source={starsNow > i ? ART.star : ART.starOff} style={{ width: 22, height: 22 }} />
           </View>
         )) : props.best > 0 ? (
-          <View style={{ position: "absolute", right: 6, top: -1 }}><Txt v="tiny" color={C.honeyDark}>{t("game.best", { n: fmt(props.best) })}</Txt></View>
+          <View style={{ position: "absolute", right: 6, top: -1 }}><Txt v="tiny" color={props.night ? "#FFC56B" : C.honeyDark}>{t("game.best", { n: fmt(props.best) })}</Txt></View>
         ) : null}
       </View>
       <View style={styles.statusRow}>
@@ -661,7 +663,7 @@ export default function GameScreen(props: Props) {
             ) : null}
           </View>
         ) : (
-          <Txt v="small" color={C.dim} center style={{ marginTop: 8 }}>
+          <Txt v="small" color={props.night ? NIGHT_DIM : C.dim} center style={{ marginTop: 8 }}>
             {isDaily ? t("game.hintDaily") : t("game.hintFree", { n: props.rules.bombAt })}
           </Txt>
         )}
@@ -741,6 +743,7 @@ function ResultCard({ mode, score, reward, onExit, onReplay }: { mode: RoundMode
   );
 }
 
+const NIGHT_DIM = "#E4D8FF";
 const styles = StyleSheet.create({
   root: { flex: 1, alignItems: "center" }, // background: App (C.bg, or the event backdrop)
   top: { flexDirection: "row", alignItems: "center", paddingHorizontal: 14, alignSelf: "stretch", gap: 10 },

@@ -192,7 +192,7 @@ export function migrate(raw: unknown, now: number): GameState {
     settings: migrateSettings(d.settings, obj(s.settings), s.version),
     early: migrateEarly(s, now),
     event: typeof obj(s.event).id === "string"
-      ? { id: obj(s.event).id, points: Math.max(0, num(obj(s.event).points, 0) | 0), claimed: Math.max(0, Math.min(TRACK.length, num(obj(s.event).claimed, 0) | 0)), ...(typeof obj(s.event).trickDay === "number" ? { trickDay: obj(s.event).trickDay } : {}) }
+      ? { id: obj(s.event).id, points: Math.max(0, num(obj(s.event).points, 0) | 0), claimed: Math.max(0, Math.min(TRACK.length, num(obj(s.event).claimed, 0) | 0)), ...(typeof obj(s.event).trickDay === "number" ? { trickDay: obj(s.event).trickDay } : {}), ...(obj(s.event).intro === true ? { intro: true } : {}) }
       : newEventState(),
     flight: { day: num(obj(s.flight).day, d.flight.day), runs: Math.max(0, num(obj(s.flight).runs, 0) | 0), best: Math.max(0, num(obj(s.flight).best, 0) | 0) },
     clock: { maxSeen: clockMax, maxDay },
@@ -730,6 +730,17 @@ export function finishFlight(s0: GameState, r: { passed: number; candies: number
     s = { ...s, event: { ...e, points: e.points + points } };
   }
   return { state: s, reward: { nectar, points, record, paidLeft: Math.max(0, FLIGHT_PAID_RUNS - runs - 1) } };
+}
+
+// ---------------------------------------------------------------- v1.6 start popup
+/** the event runs and its start popup was not shown yet (once per event) */
+export function eventIntroDue(s: GameState, now: number): boolean {
+  const ev = activeEvent(today(s, now));
+  return !!ev && !eventProgress(s.event, ev).intro;
+}
+export function eventIntroSeen(s: GameState, now: number): GameState {
+  const ev = activeEvent(today(s, now));
+  return ev ? { ...s, event: { ...eventProgress(s.event, ev), intro: true } } : s;
 }
 
 // ---------------------------------------------------------------- v1.6 trick or treat

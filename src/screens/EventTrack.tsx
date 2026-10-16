@@ -110,6 +110,32 @@ export function TrickBanner({ s, now, onTreat }: { s: GameState; now: number; on
   );
 }
 
+/** v1.6: once per event, on the first visit while it runs */
+export function EventIntro({ visible, daysLeft, onClose, onGo }: { visible: boolean; daysLeft: number; onClose: () => void; onGo: () => void }) {
+  const rows: [ImageSourcePropType, string][] = [
+    [ART.pumpkin, t("ev.i1")], [ART.ghost, t("ev.i2")], [ART.trickBasket, t("ev.i3")], [ART.flightIcon, t("ev.i4")], [ART.point, t("ev.i5")],
+  ];
+  return (
+    <Overlay visible={visible} onClose={onClose}>
+      <CloseBtn onPress={onClose} />
+      <View style={styles.introHead}>
+        <Image source={ART.eventHeader} resizeMode="cover" style={{ width: "100%", height: "100%" }} />
+      </View>
+      <Txt v="h1" center style={{ marginTop: 12 }}>{t("ev.title")}</Txt>
+      <Txt v="small" color="#C25E00" center>{t("ev.introSub")} · {t("ev.daysLeft", { n: daysLeft })}</Txt>
+      <View style={{ gap: 8, marginTop: 12 }}>
+        {rows.map(([img, text], i) => (
+          <View key={i} style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+            <Image source={img} style={{ width: 32, height: 32 }} resizeMode="contain" />
+            <Txt v="small" style={{ flex: 1 }}>{text}</Txt>
+          </View>
+        ))}
+      </View>
+      <GameButton title={t("ev.introGo")} color="green" onPress={onGo} style={{ marginTop: 14 }} />
+    </Overlay>
+  );
+}
+
 /** v1.6: a harvested pumpkin became a jack-o'-lantern for the hive */
 export function JackCarved({ id, onClose }: { id: string | null; onClose: () => void }) {
   return (
@@ -134,5 +160,6 @@ const styles = StyleSheet.create({
   step: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: "#fff", borderRadius: 16, borderWidth: 2, borderColor: "#F0DFC0", padding: 8 },
   stepDone: { opacity: 0.6 },
   trick: { flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: NIGHT.bg, borderRadius: 22, padding: 12, borderWidth: 2, borderColor: NIGHT.card },
+  introHead: { height: 120, borderRadius: 18, overflow: "hidden", marginTop: 4, marginRight: 44 },
   stepReady: { borderColor: "#4CC777", backgroundColor: "#E4F7EA" },
 });

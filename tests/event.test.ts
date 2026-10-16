@@ -163,3 +163,20 @@ test("trick or treat: one guest a day during the event, +5 points and a sweet", 
   assert.ok(trickGuest(r.state, at(10, 27)));
   assert.equal(migrate(JSON.parse(JSON.stringify(r.state)), at(10, 26)).event.trickDay, r.state.event.trickDay);
 });
+
+test("start popup once per event; autumn backdrop 1 Sep – 30 Nov; start and ending reminders", async () => {
+  const { eventIntroDue, eventIntroSeen } = await import("../src/logic/game");
+  const { isAutumn } = await import("../src/logic/event");
+  const { planNotifications } = await import("../src/logic/notifyPlan");
+  let s = newState(at(10, 16));
+  assert.equal(eventIntroDue(s, at(10, 16)), false);
+  assert.equal(eventIntroDue(s, at(10, 19)), true);
+  s = eventIntroSeen(s, at(10, 19));
+  assert.equal(eventIntroDue(migrate(JSON.parse(JSON.stringify(s)), at(10, 20)), at(10, 20)), false);
+  assert.ok(!isAutumn(day(8, 31)) && isAutumn(day(9, 1)) && isAutumn(day(11, 30)) && !isAutumn(day(12, 1)));
+  const n = { ...newState(at(10, 16)), settings: { ...newState(at(10, 16)).settings, notifications: true } };
+  const plan = planNotifications(n, at(10, 16));
+  assert.equal(plan.find((x) => x.id === "event-start")?.at, new Date(2026, 9, 19, 10).getTime());
+  assert.equal(plan.find((x) => x.id === "event-end")?.at, new Date(2026, 10, 6, 18).getTime());
+  assert.ok(!planNotifications(n, at(11, 7)).some((x) => x.id.startsWith("event")));
+});

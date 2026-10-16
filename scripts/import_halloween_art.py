@@ -22,7 +22,8 @@ M = {  # target: (source, size)
     "fl_icon.webp": ("flight/icon.png", (192, 192)),
     # bee layer: same 512 canvas as the side views in assets/art/turn/<bee>/*_side_288
     "lantern_side_288.webp": ("flight/lantern-side-view.png", (288, 288)),
-    "puzzle_bg.webp": ("env/puzzle-autumn-v3.png", (940, 1672)),  # light: the puzzle HUD stays readable (night v3 is the dark candidate)
+    "puzzle_autumn.webp": ("env/puzzle-autumn-v3.png", (940, 1672)),  # all autumn
+    "puzzle_night.webp": ("env/puzzle-halloween-v3.png", (940, 1672)),  # during the event (GameScreen switches to night text colours)
     "event_header.webp": ("ui/event_header.png", (1000, 400)),
     "trick_door.webp": ("trick/door.png", (480, 480)),
     "trick_basket.webp": ("trick/basket.png", (192, 192)),

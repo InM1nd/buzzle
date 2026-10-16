@@ -4,6 +4,7 @@ import { t } from "../i18n";
 import { msUntilFull, capHours } from "./economy";
 import { boostsFor } from "./bees";
 import { nextGardenEvent } from "./garden";
+import { eventProgress, halloween, TRACK } from "./event";
 
 export interface PlannedNotification { id: string; at: number; title: string; body: string }
 
@@ -60,5 +61,11 @@ export function planNotifications(s: GameState, now: number): PlannedNotificatio
     const n = (s.loot.boxes.wood ?? 0) + (s.loot.boxes.wax ?? 0) + (s.loot.boxes.gold ?? 0);
     if (n > 0) out.push({ id: "combs", at: q(at(1, 18)), title: t("nt.combsT"), body: t("nt.combsB", { n }) });
   }
+  // v1.6 Pumpkin Night: its start (10:00) and two days before the end (18:00), from the built-in calendar
+  const ev = halloween(new Date(now).getFullYear());
+  const local = (dayNum: number, h: number) => { const u = new Date(dayNum * 86400000); return new Date(u.getUTCFullYear(), u.getUTCMonth(), u.getUTCDate(), h, 0, 0).getTime(); };
+  const start = local(ev.start, 10), ending = local(ev.end - 2, 18);
+  if (start > now + 60_000) out.push({ id: "event-start", at: q(start), title: t("nt.evStartT"), body: t("nt.evStartB") });
+  if (ending > now + 60_000 && eventProgress(s.event, ev).claimed < TRACK.length) out.push({ id: "event-end", at: q(ending), title: t("nt.evEndT"), body: t("nt.evEndB") });
   return out;
 }

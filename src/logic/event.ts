@@ -7,8 +7,8 @@
 import { BoxKind } from "./loot";
 
 export interface EventDef { id: string; start: number; end: number }
-/** trickDay: the game day the trick-or-treat guest was last treated */
-export interface EventState { id: string; points: number; claimed: number; trickDay?: number }
+/** trickDay: the game day the trick-or-treat guest was last treated; intro: the start popup was shown */
+export interface EventState { id: string; points: number; claimed: number; trickDay?: number; intro?: boolean }
 export const newEventState = (): EventState => ({ id: "", points: 0, claimed: 0 });
 
 /** rewards can still be claimed this many days after the last event day */
@@ -22,6 +22,12 @@ export function halloween(year: number): EventDef {
   return { id: `halloween-${year}`, start: utcDay(year, 10, 19), end: utcDay(year, 11, 8) };
 }
 const yearOf = (day: number) => new Date(day * 86400000).getUTCFullYear();
+
+/** autumn (1 September – 30 November): the puzzle gets its autumn backdrop; Halloween's own backdrop wins during the event */
+export function isAutumn(day: number): boolean {
+  const y = yearOf(day);
+  return day >= utcDay(y, 9, 1) && day <= utcDay(y, 11, 30);
+}
 
 /** web / screenshots only: `?event=1` turns the event on outside its dates (see App.tsx) */
 let forced = false;

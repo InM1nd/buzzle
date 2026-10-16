@@ -1,0 +1,372 @@
+{
+  "tool": "built-in image_gen; atlas extraction, uniform registration and compositing with Pillow",
+  "prompts": {
+    "glyphs": [
+      {
+        "style": "hsoft",
+        "prompt": "Use case: style-transfer. Output a production transparent sprite ATLAS, exactly FOUR columns by TWO rows, eight evenly spaced cells, landscape2:1. Image1 is the APPROVED bright Halloween glyph atlas: copy its precise icon identities, decoration placement and detailed motifs, not its glossy high contrast. Image2 is the target material/palette only. Make ALL eight sprites in Image1 in target material. Keep flat-top hex outlines width:height1.1547:1 for seven hex tiles, creamy embossed main symbols. Exact order: top row yellow SUN with tiny orange pumpkin and green leaves upper left; pink HEART with TWO crossed golden stitches upper right; purple FIVE-PETAL FLOWER with purple hollow center and a finely woven white SPIDERWEB upper right; blue DROP with tiny gold crescent upper right. Bottom row green LEAF with slit vein and TWO small detailed COPPER MAPLE LEAVES at upperright and lowerleft; RAINBOW STAR joker with golden moon upperright and TWO purple crystal insets at upperleft and lowerright; standalone faceted creamy honey ORB wearing PURPLE WITCH HAT with orange band/gold buckle, NO CROWN, NO HEX underneath; orange JACK O LANTERN HEX tile with small stem, triangular carved eyes and friendly toothy smile. All the same composition and accessory detail count as Image1, each decoration should be fully modelled and legible, not simplified sticks or generic leaves. Main symbols remain dominant. No new flourishes. Do NOT include any crowns anywhere. Keep each sprite isolated in its own equally sized cell with at least8percent whitespace around. No touching, background, labels, shadows outside silhouettes or grid lines. The bomb orb/hat size within its cell should be about80percent the HEIGHT of a hex tile, NOT tiny. Preserve transparency. TARGET SOFT CRYSTAL: gently faceted translucent honey crystals, broad clear facets, softened reflections, medium-low contrast, mellow yellow, rose pink, lavender, sky blue, mint green, pastel rainbow. All intricate motifs from Image1 still present, subtly faceted. Purple hat still saturated enough to identify."
+      },
+      {
+        "style": "hpastel",
+        "prompt": "Use case: style-transfer. Output a production transparent sprite ATLAS, exactly FOUR columns by TWO rows, eight evenly spaced cells, landscape2:1. Image1 is the APPROVED bright Halloween glyph atlas: copy its precise icon identities, decoration placement and detailed motifs, not its glossy high contrast. Image2 is the target material/palette only. Make ALL eight sprites in Image1 in target material. Keep flat-top hex outlines width:height1.1547:1 for seven hex tiles, creamy embossed main symbols. Exact order: top row yellow SUN with tiny orange pumpkin and green leaves upper left; pink HEART with TWO crossed golden stitches upper right; purple FIVE-PETAL FLOWER with purple hollow center and a finely woven white SPIDERWEB upper right; blue DROP with tiny gold crescent upper right. Bottom row green LEAF with slit vein and TWO small detailed COPPER MAPLE LEAVES at upperright and lowerleft; RAINBOW STAR joker with golden moon upperright and TWO purple crystal insets at upperleft and lowerright; standalone faceted creamy honey ORB wearing PURPLE WITCH HAT with orange band/gold buckle, NO CROWN, NO HEX underneath; orange JACK O LANTERN HEX tile with small stem, triangular carved eyes and friendly toothy smile. All the same composition and accessory detail count as Image1, each decoration should be fully modelled and legible, not simplified sticks or generic leaves. Main symbols remain dominant. No new flourishes. Do NOT include any crowns anywhere. Keep each sprite isolated in its own equally sized cell with at least8percent whitespace around. No touching, background, labels, shadows outside silhouettes or grid lines. The bomb orb/hat size within its cell should be about80percent the HEIGHT of a hex tile, NOT tiny. Preserve transparency. TARGET MATTE PASTEL: chalky smooth ceramic pastel tiles with subtle broad facets, low contrast, NO glossy white hot highlights or glass rims. Soft butter yellow, dusty rose, muted lilac, powder blue, sage mint, muted pastel rainbow. All detailed motifs from Image1 still present, rendered as tiny carefully shaped matte charms. Purple hat matte lavender/plum, orb creamy peach."
+      },
+      {
+        "style": "hwax",
+        "prompt": "Use case: style-transfer. Output a production transparent sprite ATLAS, exactly FOUR columns by TWO rows, eight evenly spaced cells, landscape2:1. Image1 is the APPROVED bright Halloween glyph atlas: copy its precise icon identities, decoration placement and detailed motifs, not its glossy high contrast. Image2 is the target material/palette only. Make ALL eight sprites in Image1 in target material. Keep flat-top hex outlines width:height1.1547:1 for seven hex tiles, creamy embossed main symbols. Exact order: top row yellow SUN with tiny orange pumpkin and green leaves upper left; pink HEART with TWO crossed golden stitches upper right; purple FIVE-PETAL FLOWER with purple hollow center and a finely woven white SPIDERWEB upper right; blue DROP with tiny gold crescent upper right. Bottom row green LEAF with slit vein and TWO small detailed COPPER MAPLE LEAVES at upperright and lowerleft; RAINBOW STAR joker with golden moon upperright and TWO purple crystal insets at upperleft and lowerright; standalone faceted creamy honey ORB wearing PURPLE WITCH HAT with orange band/gold buckle, NO CROWN, NO HEX underneath; orange JACK O LANTERN HEX tile with small stem, triangular carved eyes and friendly toothy smile. All the same composition and accessory detail count as Image1, each decoration should be fully modelled and legible, not simplified sticks or generic leaves. Main symbols remain dominant. No new flourishes. Do NOT include any crowns anywhere. Keep each sprite isolated in its own equally sized cell with at least8percent whitespace around. No touching, background, labels, shadows outside silhouettes or grid lines. The bomb orb/hat size within its cell should be about80percent the HEIGHT of a hex tile, NOT tiny. Preserve transparency. TARGET WARM WAX: softly faceted beeswax tiles with satin soft rounded bevels, autumnal muted honey-orange, dusty terracotta pink, mauve, slateblue, olive sage, warm muted rainbow. Low-medium contrast, no glossy crystal reflections. Same detailed motifs from Image1, tiny carefully sculpted wax charms. Purple hat plum with ochre orange band, orb warm creamy honey."
+      }
+    ],
+    "capes": [
+      {
+        "view": "q3-front",
+        "prompt": "Use case: precise-object-edit. Design a proper anatomically fitted VAMPIRE CAPE accessory overlay for the exact bee in reference1. Reference2 shows previous failed fitting for diagnosis and colour only. Change CLOTHING ONLY; output ONLY garment on genuine transparency, NO bee pixels. It will be placed over the unchanged bee in image1. Deep charcoal plum fabric, muted burgundy satin lining, tiny gold hexagonal clasp, broad irregular low-poly fabric facets in cozy Honey Crystal style. The bee's face, eyes, antennae and gold wings must remain fully unobscured. A real garment, not disconnected floating necklace plus skirt. Neckband is VERY narrow and follows body volume below face. Collar rises at the rear cheek/back of head only, attached continuously to draping cloth. Main cape flows over rear side of the bee (image-left) from shoulder height down beside abdomen, with a soft short hem above feet; some cloth wraps in FRONT of the rear edge of body, creating convincing attachment and thickness. No giant U ring, side-to-side horizontal smile-shaped band, symmetric front skirt, long train or floating pieces. Draw same canvas and small exact registration as bee reference512. Keep broad empty area above and around accessory. THREE-QUARTER FRONT pose, body turns right. Bee body x145..390,y160..434. Face centerx310,y284, smilex307,y303. Near rear/imageLEFT shoulder atx175,y300. Main near cape drapes down LEFT SIDE x120..210,y290..427, folds overlap rear outermost edge of body only. Far cape is only a little edge aroundx373,y330..420. A tiny gold clasp is atx294,y345 below smile, slim narrow perspective neckband fromx183,y307 tox294,y345 then briefly aroundrightx369,y330; no big upward horns next to cheeks. Collar starts under original gold wings, not behind antennae. Main central body x220..355,y0..330 remains TRANSPARENT. Hem aroundy425, do not make a broad skirt."
+      },
+      {
+        "view": "side",
+        "prompt": "Use case: precise-object-edit. Design a proper anatomically fitted VAMPIRE CAPE accessory overlay for the exact bee in reference1. Reference2 shows previous failed fitting for diagnosis and colour only. Change CLOTHING ONLY; output ONLY garment on genuine transparency, NO bee pixels. It will be placed over the unchanged bee in image1. Deep charcoal plum fabric, muted burgundy satin lining, tiny gold hexagonal clasp, broad irregular low-poly fabric facets in cozy Honey Crystal style. The bee's face, eyes, antennae and gold wings must remain fully unobscured. A real garment, not disconnected floating necklace plus skirt. Neckband is VERY narrow and follows body volume below face. Collar rises at the rear cheek/back of head only, attached continuously to draping cloth. Main cape flows over rear side of the bee (image-left) from shoulder height down beside abdomen, with a soft short hem above feet; some cloth wraps in FRONT of the rear edge of body, creating convincing attachment and thickness. No giant U ring, side-to-side horizontal smile-shaped band, symmetric front skirt, long train or floating pieces. Draw same canvas and small exact registration as bee reference512. Keep broad empty area above and around accessory. TRUE RIGHT-FACING SIDE PROFILE. Bee body extends x138..375,y165..418. Face atx350,y275, smilex370,y300. Gold wings atx85..205,y145..280 MUST stay completely visible. Cape rear collar starts just BELOW wing-root atx196,y283; short near side cloth folds wrap the rear-left edge x150..220,y300..405. The collar follows the slanted rounded throat line fromx206,y296 tox351,y332, with only a tiny gold clasp nearx350,y333. The band is a perspective-curved DIAGONAL not a frontal horizontal U. Main purple curtain is narrow in profile: x115..220,y290..415, continuous from shoulder, with little burgundy edge and slight volume. No cloth extends to the right of the face or belowy430. The central face/body region remains transparent, especially allx230..375,y0..320."
+      }
+    ],
+    "side_cleanup": "Use case: precise-object-edit. Remove ONLY the two translucent GOLD INSECT WINGS from this transparent accessory image. They are an unwanted copy of bee anatomy, located upper-left above the purple cape. Replace those two gold wings with transparency. Preserve EVERY purple/burgundy cloth pixel, the complete silhouette and folds of the vampire cape, long narrow collar strap and gold hexagonal clasp at right. Do not redraw, reposition, scale, add, or alter the garment. Keep exact original square canvas, registration and all empty margins. Output garment ONLY on transparent background. NO insect wings, bee, body, new anatomy or text."
+  },
+  "exports": {
+    "hsoft": {
+      "cell0": {
+        "source": "sources/rework-v5/hsoft-atlas.png",
+        "atlas_crop": [
+          0,
+          0,
+          444,
+          444
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "cell1": {
+        "source": "sources/rework-v5/hsoft-atlas.png",
+        "atlas_crop": [
+          444,
+          0,
+          887,
+          444
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "cell2": {
+        "source": "sources/rework-v5/hsoft-atlas.png",
+        "atlas_crop": [
+          887,
+          0,
+          1330,
+          444
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "cell3": {
+        "source": "sources/rework-v5/hsoft-atlas.png",
+        "atlas_crop": [
+          1330,
+          0,
+          1774,
+          444
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "cell4": {
+        "source": "sources/rework-v5/hsoft-atlas.png",
+        "atlas_crop": [
+          0,
+          444,
+          444,
+          887
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "cell_wild": {
+        "source": "sources/rework-v5/hsoft-atlas.png",
+        "atlas_crop": [
+          444,
+          444,
+          887,
+          887
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "bomb": {
+        "source": "sources/rework-v5/hsoft-atlas.png",
+        "atlas_crop": [
+          887,
+          444,
+          1330,
+          887
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      },
+      "cell_pumpkin": {
+        "source": "sources/rework-v5/hsoft-atlas.png",
+        "atlas_crop": [
+          1330,
+          444,
+          1774,
+          887
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      }
+    },
+    "hpastel": {
+      "cell0": {
+        "source": "sources/rework-v5/hpastel-atlas.png",
+        "atlas_crop": [
+          0,
+          0,
+          444,
+          444
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "cell1": {
+        "source": "sources/rework-v5/hpastel-atlas.png",
+        "atlas_crop": [
+          444,
+          0,
+          887,
+          444
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "cell2": {
+        "source": "sources/rework-v5/hpastel-atlas.png",
+        "atlas_crop": [
+          887,
+          0,
+          1330,
+          444
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "cell3": {
+        "source": "sources/rework-v5/hpastel-atlas.png",
+        "atlas_crop": [
+          1330,
+          0,
+          1774,
+          444
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "cell4": {
+        "source": "sources/rework-v5/hpastel-atlas.png",
+        "atlas_crop": [
+          0,
+          444,
+          444,
+          887
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "cell_wild": {
+        "source": "sources/rework-v5/hpastel-atlas.png",
+        "atlas_crop": [
+          444,
+          444,
+          887,
+          887
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "bomb": {
+        "source": "sources/rework-v5/hpastel-atlas.png",
+        "atlas_crop": [
+          887,
+          444,
+          1330,
+          887
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      },
+      "cell_pumpkin": {
+        "source": "sources/rework-v5/hpastel-atlas.png",
+        "atlas_crop": [
+          1330,
+          444,
+          1774,
+          887
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      }
+    },
+    "hwax": {
+      "cell0": {
+        "source": "sources/rework-v5/hwax-atlas.png",
+        "atlas_crop": [
+          0,
+          0,
+          444,
+          444
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "cell1": {
+        "source": "sources/rework-v5/hwax-atlas.png",
+        "atlas_crop": [
+          444,
+          0,
+          887,
+          444
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "cell2": {
+        "source": "sources/rework-v5/hwax-atlas.png",
+        "atlas_crop": [
+          887,
+          0,
+          1330,
+          444
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "cell3": {
+        "source": "sources/rework-v5/hwax-atlas.png",
+        "atlas_crop": [
+          1330,
+          0,
+          1774,
+          444
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "cell4": {
+        "source": "sources/rework-v5/hwax-atlas.png",
+        "atlas_crop": [
+          0,
+          444,
+          444,
+          887
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "cell_wild": {
+        "source": "sources/rework-v5/hwax-atlas.png",
+        "atlas_crop": [
+          444,
+          444,
+          887,
+          887
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      },
+      "bomb": {
+        "source": "sources/rework-v5/hwax-atlas.png",
+        "atlas_crop": [
+          887,
+          444,
+          1330,
+          887
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      },
+      "cell_pumpkin": {
+        "source": "sources/rework-v5/hwax-atlas.png",
+        "atlas_crop": [
+          1330,
+          444,
+          1774,
+          887
+        ],
+        "canvas": [
+          720,
+          624
+        ]
+      }
+    },
+    "q3-front": {
+      "source": "sources/rework-v5/vampcape-q3-front.png",
+      "uniform_resize": [
+        255,
+        142
+      ],
+      "paste_xy": [
+        94,
+        269
+      ]
+    },
+    "side": {
+      "source": "sources/rework-v5/vampcape-side.png",
+      "uniform_resize": [
+        230,
+        166
+      ],
+      "paste_xy": [
+        128,
+        245
+      ]
+    }
+  }
+}

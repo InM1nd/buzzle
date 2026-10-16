@@ -1,0 +1,37 @@
+{
+  "status": "candidate",
+  "canvas": [
+    512,
+    512
+  ],
+  "registration": {
+    "q3-front": {
+      "source": "sources/rework-v5/vampcape-q3-front.png",
+      "uniform_resize": [
+        255,
+        142
+      ],
+      "paste_xy": [
+        94,
+        269
+      ]
+    },
+    "side": {
+      "source": "sources/rework-v5/vampcape-side.png",
+      "uniform_resize": [
+        230,
+        166
+      ],
+      "paste_xy": [
+        128,
+        245
+      ]
+    }
+  },
+  "layers": [
+    "unchanged original Zhuzha",
+    "vampcape overlay",
+    "original wing occlusion patch at original coordinates"
+  ],
+  "front_view": "unchanged costumes/rework-v3/zhuzha front layers"
+}

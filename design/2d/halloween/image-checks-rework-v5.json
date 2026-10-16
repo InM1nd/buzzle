@@ -1,0 +1,262 @@
+{
+  "pngs": [
+    {
+      "file": "tiles/rework-v5/bright/bomb.png",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "eaf1198ae0ca690073e0f93b0442ed5edd5ebd0eeeeb600fb2409d41a306f305"
+    },
+    {
+      "file": "tiles/rework-v5/hbright/bomb.png",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "2b1c0b658c129510c9e49bcc0df057c172d0b365466ef8e8cf5e200da884c07c"
+    },
+    {
+      "file": "tiles/rework-v5/hpastel/cell2.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "c30ce095461bebcdd16d937d8ee0cc9abe546a14153febbffd3552218173b1da"
+    },
+    {
+      "file": "tiles/rework-v5/hpastel/cell3.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "1ac2378536f4b2e76ce746784db099e6e8b5780c558d53287332f54c56b49dea"
+    },
+    {
+      "file": "tiles/rework-v5/hpastel/bomb.png",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "21d02bd2cbf7823158f3c27073d1ffa08001d43752626b708e0ee72bd9bb7b6b"
+    },
+    {
+      "file": "tiles/rework-v5/hpastel/cell1.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "240674232d72760c6ffdcff0f65b841c09594b87a37de062897b49588f05895c"
+    },
+    {
+      "file": "tiles/rework-v5/hpastel/cell0.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "7af8c275595e583bbaa94d3397b449d22c4df57c0358eb8e486934a606716aff"
+    },
+    {
+      "file": "tiles/rework-v5/hpastel/cell4.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "20dd9b9390d5beb479253de65a0ac4dcf48bf185ef3e61279704ebef5898dd11"
+    },
+    {
+      "file": "tiles/rework-v5/hpastel/cell_wild.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "661e957fa15a9bfbdfc43b0e982a873b9185f39358adbcc5d2ab6b6fc841a4e3"
+    },
+    {
+      "file": "tiles/rework-v5/hpastel/cell_pumpkin.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "3eb3ccf21ab4c91d92a54731d0a881579e2d966c8640131fba6403136829ec89"
+    },
+    {
+      "file": "tiles/rework-v5/hwax/cell2.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "bd48c16a2d354a1acc187d1ad8d6af7350e45bd36b20ebfa8d92d379c5746f28"
+    },
+    {
+      "file": "tiles/rework-v5/hwax/cell3.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "11257e83b2791fdce404fd002a8581180b1d1e0cb37f55685c57a7b3f6daba80"
+    },
+    {
+      "file": "tiles/rework-v5/hwax/bomb.png",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "01b4a0bb2d4586325994840c17caa02f45b5c0c72c83b2552b019a0cadef90f7"
+    },
+    {
+      "file": "tiles/rework-v5/hwax/cell1.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "48a76a1f28efa7f434c8fb797638e9bb8a61675c433d8bcc3747ac9e67958662"
+    },
+    {
+      "file": "tiles/rework-v5/hwax/cell0.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "63f611c40b1a4d7b36143694e1925aeaeaa3ce0563430261f7ce8751cb094a14"
+    },
+    {
+      "file": "tiles/rework-v5/hwax/cell4.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "80da3a2d4ac8147c59492266500fc66bf21d7a5f98ea6da787ef47e34a0421a0"
+    },
+    {
+      "file": "tiles/rework-v5/hwax/cell_wild.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "94ca518111b8c9e5dc9c2c0c6163d7fcb9691cdcd3dbbb829a37b0beb91bf17f"
+    },
+    {
+      "file": "tiles/rework-v5/hwax/cell_pumpkin.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "b0a9916e47a987d1754ba086bde2e79413794ab52758f2d70a7e2e227da47075"
+    },
+    {
+      "file": "tiles/rework-v5/hsoft/cell2.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "02dc4265dee43fb1ff026f22d12d6d4a65eb13582df3d2f085692c0ef11ad408"
+    },
+    {
+      "file": "tiles/rework-v5/hsoft/cell3.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "85df2abdb896f1d9ab2e46d713e189062ccac7b0759f24bc2b8ecc6dee5cc546"
+    },
+    {
+      "file": "tiles/rework-v5/hsoft/bomb.png",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "3a449b285be4a00df9bd00b424099fad87f44c2e4952ed3434913add67754a7a"
+    },
+    {
+      "file": "tiles/rework-v5/hsoft/cell1.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "9ea823f2448e5c15a175640472a7a46eebfbc06434c2f2fd8a8a00109c774198"
+    },
+    {
+      "file": "tiles/rework-v5/hsoft/cell0.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "b3af601b813d1cf0a48f10280ec6de708d692012af02ccef44e0a662c7d32667"
+    },
+    {
+      "file": "tiles/rework-v5/hsoft/cell4.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "79e0831611e1d3923305429fa419c8b245475b0b90ee7a354d5410bd810aac38"
+    },
+    {
+      "file": "tiles/rework-v5/hsoft/cell_wild.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "695eeadae4411e250052ce07b5325848aab92c5db26d5c08983af7c9d81a81bb"
+    },
+    {
+      "file": "tiles/rework-v5/hsoft/cell_pumpkin.png",
+      "size": [
+        720,
+        624
+      ],
+      "sha256": "32e22b1daf95f927dfd978d1394e00977cf2e1960259543f036432cf8ddb11ae"
+    },
+    {
+      "file": "costumes/rework-v5/zhuzha/preview-side.png",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "da7779aabc0fe03051358237ad9b645c832cad14c310f73a1d6bd898fa2eb010"
+    },
+    {
+      "file": "costumes/rework-v5/zhuzha/preview-q3-front.png",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "da44019097a1599adffc14a0d9d982c9631dbad5cf5b433fa3da66792825eb84"
+    },
+    {
+      "file": "costumes/rework-v5/zhuzha/wing-occlusion-q3-front.png",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "fa03b2eded357181e6b97bf006a1783ac4c017dd62c3815a68a909894aabc256"
+    },
+    {
+      "file": "costumes/rework-v5/zhuzha/vampcape-side.png",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "ecf5adbe8bff9c189d2c75bd37e796b5a38d21bd060d161189aa315f37831eba"
+    },
+    {
+      "file": "costumes/rework-v5/zhuzha/wing-occlusion-side.png",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "b453b174bb5ad1ef8ca36627617d968c8b6ab733a830a38a92eacc6f079900a9"
+    },
+    {
+      "file": "costumes/rework-v5/zhuzha/vampcape-q3-front.png",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "1964c1ba1229c21d1fdc1c6ad80da7c26a4c21cde72f9f882405f4fad146e976"
+    }
+  ],
+  "protected_wreath_and_witchhat": "unchanged",
+  "status": "candidates"
+}

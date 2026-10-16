@@ -137,6 +137,18 @@ def classify(rel):
         if '/costumes/rework-v3/zhuzha/' in p:
             species='Жужа';title='Жужа / примерка / '+stem.replace('-',' ')
             if stem.startswith('vampcape'):status='Требует доработки'
+    if p.startswith('design/2d/halloween/'):
+        if '/tiles/rework-v5/' in p:
+            code=p.split('/tiles/rework-v5/')[1].split('/')[0]
+            style={'bright':'Медовый кристалл','hbright':'Медовый кристалл','hsoft':'Мягкий кристалл','hpastel':'Матовая пастель','hwax':'Тёплый воск'}.get(code,style)
+            title='Глифы v5 / '+code+' / '+{'cell0':'солнце','cell1':'сердце','cell2':'цветок','cell3':'капля','cell4':'лист','cell_wild':'джокер','bomb':'бомба — размер исправлен','cell_pumpkin':'тыква'}.get(stem,stem)
+            status='Кандидат / вариант';role='Изображение'
+        if '/costumes/rework-v5/zhuzha/' in p:
+            species='Жужа';title='Жужа / плащ вампира v5 / '+stem;status='Кандидат / вариант';role='Изображение' if stem.startswith('preview-') else 'Отдельный слой'
+        if '/costumes/rework-v3/zhuzha/' in p and stem.startswith(('wreath-','antennae-')):status='Одобрено'
+        reviews_v5={'all-glyph-styles-v5':'Все глифы / единые Halloween-детали v5','bomb-size-v5':'Яркие бомбы / размер до и после','zhuzha-vampire-v5':'Жужа / плащ вампира до и после v5'}
+        if stem in reviews_v5:title=reviews_v5[stem];role='Лист / сравнение';status='Кандидат / вариант';style='Сравнение стилей'
+        if '/sources/rework-v5/' in p:role='Лист / источник';status='Архив / пробы'
     return dict(title=title,category=category,role=role,style=style,season=season,status=status,species=species,accessory=accessory)
 
 def build(target):

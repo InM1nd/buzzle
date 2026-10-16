@@ -87,6 +87,7 @@ def classify(rel):
         title={'bg_sky':'Ночной полёт / небо','bg_far':'Ночной полёт / дальние холмы','bg_near':'Ночной полёт / передний план','parallax-repeat-check':'Фоны полёта / проверка повторов','parallax-scene':'Ночной полёт / общий вид','parallax-motion':'Ночной полёт / проба параллакса'}.get(stem,title)
         if p.startswith('design/2d/halloween/flight/') and stem=='icon':title='Иконка Ночного полёта'
         if stem.startswith('vampcape-'):
+            status='Требует доработки'
             title='Плащ вампира / '+{'vampcape-fit-v1':'примерка трёх ракурсов','vampcape-layers-v1':'все отдельные слои','vampcape-front-front-view':'воротник / спереди','vampcape-front-q3-front-view':'воротник / три четверти','vampcape-front-side-view':'воротник / профиль','vampcape-back-front-view':'задняя ткань / спереди','vampcape-back-q3-front-view':'задняя ткань / три четверти','vampcape-back-side-view':'задняя ткань / профиль'}.get(stem,stem)
             if section=='costumes':role='Отдельный слой'
         if stem.startswith('pumpkinhat-'):

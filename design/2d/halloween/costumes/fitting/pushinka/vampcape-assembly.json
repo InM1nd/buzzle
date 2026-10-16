@@ -4,7 +4,7 @@
     512
   ],
   "species": "pushinka",
-  "status": "candidate",
+  "status": "needs-rework",
   "views": {
     "front": [
       "costumes/vampcape-back-front-view.png",
@@ -24,5 +24,6 @@
       "costumes/vampcape-front-side-view.png"
     ]
   },
-  "note": "Paths beginning design/ are repository relative; others relative to Halloween root. Side uses original unmoved antennae and approved wing depth. No witch-hat fitting files were modified."
+  "note": "Paths beginning design/ are repository relative; others relative to Halloween root. Side uses original unmoved antennae and approved wing depth. No witch-hat fitting files were modified.",
+  "owner_feedback": "плащ вампира кривой вообще, нужно будет доработать"
 }

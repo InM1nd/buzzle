@@ -254,7 +254,7 @@
         512
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "costumes/batwings-back-q3-front-view.png",
@@ -263,7 +263,7 @@
         512
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "costumes/batwings-back-side-view.png",
@@ -272,7 +272,7 @@
         512
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "trick/door.png",

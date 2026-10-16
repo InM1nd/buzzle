@@ -86,6 +86,9 @@ def classify(rel):
     if p.startswith('design/2d/halloween/'):
         title={'bg_sky':'Ночной полёт / небо','bg_far':'Ночной полёт / дальние холмы','bg_near':'Ночной полёт / передний план','parallax-repeat-check':'Фоны полёта / проверка повторов','parallax-scene':'Ночной полёт / общий вид','parallax-motion':'Ночной полёт / проба параллакса'}.get(stem,title)
         if p.startswith('design/2d/halloween/flight/') and stem=='icon':title='Иконка Ночного полёта'
+        if stem.startswith('batwings-'):
+            title='Крылья летучей мыши / '+{'batwings-back-front-view':'спереди','batwings-back-q3-front-view':'три четверти','batwings-back-side-view':'профиль','batwings-fit-v1':'примерка трёх ракурсов'}.get(stem,stem)
+            if section=='costumes':role='Отдельный слой'
         if stem.startswith('ghosthood-'):
             title='Капюшон-привидение / '+{'ghosthood-front-view':'спереди','ghosthood-q3-front-view':'три четверти','ghosthood-side-view':'профиль','ghosthood-fit-v1':'примерка трёх ракурсов','ghosthood-side-antennae-front':'исходные усики / профиль','ghosthood-q3-front-antennae-front':'исходные усики / три четверти'}.get(stem,stem)
             if section=='costumes':role='Отдельный слой'

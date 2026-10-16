@@ -1,0 +1,129 @@
+{
+  "tool": "built-in image_gen",
+  "transparent_background": true,
+  "entries": [
+    {
+      "prompt": "Use case: stylized-concept. Asset: isolated BACK costume layer, a PAIR of SMALL cute bat wings worn by the exact Pushinka bee in image1, STRAIGHT FRONT view. Image2 is a material/style reference ONLY, do not draw its bat body/head. Deep plum membranes with muted lavender-burgundy facet highlights, broad irregular low-poly triangles, warm upper-left light, no black outlines. Scalloped rounded trailing edges, 2 or3 shallow scallops per wing; softly pointed outer tips, no claws or sharp spikes. The new wings attach behind bee upper body BELOW and slightly behind its original translucent gold bee wings, BOTH natural bee wings must remain visible. These are a small friendly dress-up accessory, not huge demonic dragon wings or a neck collar. Logical512 canvas: hidden roots nearx200,y294 andx311,y294; outer plum tips nearx65,y274 andx447,y274; shallow scallops down toy363. All costume pixels below y260 and above y385; overallspan aboutx60..452. Draw TWO separate matching wings with transparent gap between inner roots, do NOT add any central body, strap, buckle, garment, torso or connector. The bee will be composited ON TOP of this layer, so inner portions are naturally hidden. Draw ONLY the wing pair, NO bee or bat body, eyes, antennae, normal transparent wings, feet, background, floor shadow, text or guides. Genuine transparent square canvas, keep garment in same registered relative position and scale, do not enlarge to fill square. Cozy Honey Crystal Halloween game art.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/all-species-accessories-v1/pushinka/front-base-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/flight/bat_2.png"
+      ],
+      "view": "front",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-54eff535-09f7-419e-8812-8ee56d559872.png",
+      "file": "costumes/batwings-back-front-view.png",
+      "export": {
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          37,
+          492,
+          1217,
+          780
+        ],
+        "uniform_resize": [
+          390,
+          95
+        ],
+        "paste_xy": [
+          61,
+          265
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      }
+    },
+    {
+      "prompt": "Use case: stylized-concept. Draw ONLY a pair of SMALL costume BAT WINGS for Pushinka in THREE-QUARTER FRONT pose as image1. Image2 is exact front-view costume layer; image3 shows correct intended size and low placement. Rotate that same pair with the bee, maintain same deep plum/purple faceted membranes and two shallow scallops per wing, warm upper-left light. Near wing on viewer LEFT is broad, farther wing on viewer RIGHT foreshortened and partially hidden by the bee when assembled. Wing roots hidden behind upper body BELOW natural translucent bee wings, no covering bee wings. Logical512: left outer tipx60,y283, rootx194,y309, scallops toy363; right far tipx432,y271, rootx323,y298, scallops toy341. Overall isolated pair bounds aboutx59..435,y267..366; no cloth or costume pixels above y260. Different projected sizes/perspective for near and far wing; NOT identical symmetric front pair, not mirrored lighting. These are tiny cute dress-up wings, not huge dragon wings or spiky epaulettes. Return ONLY two wing membranes with transparent gap between hidden roots, no central connector/torso, bee body, bat head, eyes, horns, regular bee wings, feet, background, lettering, drop shadow or guides. Genuine transparent canvas512 reference scale/position, keep generous transparent upper canvas. Honey Crystal broad low-poly facets, no black outlines, cozy rather than scary.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/all-species-accessories-v1/pushinka/q3-front-base-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/costumes/batwings-back-front-view.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/../batwings-fit/front-fit.png"
+      ],
+      "view": "q3-front",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-c213472a-817e-4e31-8399-d94688af5747.png",
+      "file": "costumes/batwings-back-q3-front-view.png",
+      "export": {
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          162,
+          634,
+          1093,
+          910
+        ],
+        "uniform_resize": [
+          380,
+          113
+        ],
+        "paste_xy": [
+          64,
+          282
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      }
+    },
+    {
+      "prompt": "Use case: precise-object-edit. Re-arrange ONLY these two purple costume wing cutouts into one coherent SIDE-PROFILE wing pair, with their RIGHT-HAND ROOT ENDS sharing the SAME attachment area. Current image wrongly separates them vertically. Keep exact wing design, plum/lavender facets, scalloped edges, warm top-left light. Large near wing in FRONT; smaller far wing BEHIND, mostly occluded by large wing, with only a smaller upper-left silhouette and tip peeking above it. Both root ends converge together at the RIGHT, both tips flare toward the LEFT. Wing pair should look attached to the same invisible shoulder, not a vertical list of two separate wings or a symmetric front pair. Far wing rotated slightly upward and compressed in perspective. The total overlapping pair is WIDE and LOW (roughly twice as wide as tall), not tall stacked wings. Completely isolated prop on genuine alpha background; do NOT draw any bee, creature, body, head, antennae, face, normal gold wings, feet, backpack, connector, background or letters. Only the two overlapping plum membranes, root ends right. Keep a small cluster low-left in the square canvas with plenty of transparent room above/right. NO yellow or brown objects. This is clothing artwork ONLY.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-9ca0cb64-3ab0-4fcd-ae64-af0f71441896.png"
+      ],
+      "view": "side",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-48e66f8a-598f-4c9c-9986-ff8344d59c1a.png",
+      "revision_history": [
+        {
+          "prompt": "Use case: stylized-concept. Asset: ONLY the SMALL costume bat-wing pair in TRUE RIGHT-FACING SIDE PROFILE, fitted behind exact bee in image1. Image2 is same costume in front projection, image3 confirms modest size and low placement. Both bat wings are attached at back/left of the right-facing bee, clearly BELOW its natural light-gold translucent shoulder wings, not replacing them. Near plum wing extends BACKWARD LEFT, its root hidden atx210,y314 and its outer tip nearx58,y282, scalloped hem down toy367. Far plum wing is more edge-on, a smaller sliver behind the near wing, root nearx224,y306 and tip aroundx111,y272. Overlap the two properly in depth; both roots toward RIGHT, tips toLEFT. NOT a frontal symmetric pair sticking out left AND right of the bee; no wing sticking toward face. Same softly pointed shape, two shallow scallops, deep plum structure and muted lavender polygonal membrane facets as image2, warm upper-left light. Logical512-square: pair overallbounds roughlyx58..230,y270..370, all pixels above y260 transparent, costume will be placed BEHIND BODY and both existing translucent bee wings so hidden roots naturally disappear. No huge dragon wing, claws, bat torso/head, eyes, bee body, antennae, normal bee wings, feet, connector, backpack, background, shadow, text or guides. Only isolated projected costume wing membranes on genuine transparent square, same relative registration to image1, do not fill canvas. Friendly cozy Honey Crystal art with broad irregular facets and no outlines.",
+          "refs": [
+            "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/review/pumpkinhat-side-base.png",
+            "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/costumes/batwings-back-front-view.png",
+            "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/../batwings-fit/front-fit.png"
+          ],
+          "view": "side",
+          "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-662797e4-6396-4490-9b74-945aec81edb8.png"
+        },
+        {
+          "prompt": "Use case: background-extraction / precise-object-edit. Image1 EDIT TARGET contains a bee with small purple costume bat wings. EXTRACT ONLY THE TWO PURPLE BAT WINGS from image1 and return isolated on actual transparent alpha. REMOVE THE ENTIRE BEE including cream and brown body, face, pink cheek, antennae, fluffy beard, legs, and BOTH golden translucent normal wings. Absolutely no bee pixels in output, no yellow or brown object, no animal face. Keep the two dark-plum bat wings at the LEFT: large lower near wing and smaller upper far wing, their existing Honey Crystal facets, color, lighting, side-profile orientation and small relative size. Reconstruct only the tiny hidden root ends so both wing roots point toRIGHT and bat-wing tips point toLEFT; both roots will be hidden behind original body later. Do not add anything else or draw a whole creature. Image2 confirms wing material design only. Output standalone pair of detached purple costume wing membranes with scalloped edges, ONE near wing and ONE smaller far wing, no central connector. Transparent exterior/gap. Keep generous empty upper/right canvas as in image1, don't enlarge to fill image. No background, floor shadow, text, guides or bee silhouette.",
+          "refs": [
+            "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-662797e4-6396-4490-9b74-945aec81edb8.png",
+            "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/costumes/batwings-back-front-view.png"
+          ],
+          "view": "side",
+          "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-9ca0cb64-3ab0-4fcd-ae64-af0f71441896.png"
+        }
+      ],
+      "file": "costumes/batwings-back-side-view.png",
+      "export": {
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          73,
+          552,
+          933,
+          1077
+        ],
+        "uniform_resize": [
+          200,
+          122
+        ],
+        "paste_xy": [
+          45,
+          270
+        ],
+        "canvas": [
+          512,
+          512
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "file": "costumes/batwings-back-front-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      61,
+      265,
+      451,
+      360
+    ],
+    "sha256": "e263afc0d6a6384c467542ff5890ce32759a82c0e484f66b3846b8d416e41bc7"
+  },
+  {
+    "file": "costumes/batwings-back-q3-front-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      64,
+      282,
+      444,
+      395
+    ],
+    "sha256": "ee889f3ed632d2d4f56e93f9c7a016e10c760c7258b3b24efcbe6ba20a40891a"
+  },
+  {
+    "file": "costumes/batwings-back-side-view.png",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "alpha_bbox": [
+      45,
+      270,
+      245,
+      392
+    ],
+    "sha256": "f2b9f9063512db216f717832291dd5fcc4ccba7c2ab6c6471f973cc6b83d433b"
+  }
+]

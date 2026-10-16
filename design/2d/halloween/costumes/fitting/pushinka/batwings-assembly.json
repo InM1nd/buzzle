@@ -1,0 +1,25 @@
+{
+  "canvas": [
+    512,
+    512
+  ],
+  "species": "pushinka",
+  "status": "candidate",
+  "views": {
+    "front": [
+      "costumes/batwings-back-front-view.png",
+      "design/2d/all-species-accessories-v1/pushinka/front-base-view.png"
+    ],
+    "q3-front": [
+      "costumes/batwings-back-q3-front-view.png",
+      "design/2d/all-species-accessories-v1/pushinka/q3-front-base-view.png"
+    ],
+    "side": [
+      "costumes/batwings-back-side-view.png",
+      "costumes/fitting/pushinka/wing-far-side.png",
+      "costumes/fitting/pushinka/body-side-original.png",
+      "costumes/fitting/pushinka/wing-near-side.png"
+    ]
+  },
+  "note": "Paths beginning design/ are repository relative; others relative to Halloween root. Costume wings are behind the body and below original wings. Side uses original unmoved antennae and owner-approved near/far wing layering. No body or normal bee wings are included in costume layer."
+}

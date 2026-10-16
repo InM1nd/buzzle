@@ -520,7 +520,7 @@ function Main() {
 
   return (
     <View key={s.settings.lang} style={{ flex: 1, backgroundColor: C.bg }}>
-      <StatusBar style="dark" />
+      <StatusBar style={night && tab === "hive" ? "light" : "dark"} />
       {tab === "hive" ? (
         <Image source={hiveView === "garden" ? (night ? ART.gardenNight : require("./assets/art/env/garden_bg.webp")) : night ? ART.hiveNight : require("./assets/art/env/hive_bg.webp")} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} />
       ) : null}
@@ -534,7 +534,7 @@ function Main() {
               onToggleDeco={(id) => act.simple((c) => toggleDeco(c, id))} onShop={() => { setLootSeg("shop"); setTab("loot"); }} />
           ) : (
           <HiveScreen
-            s={s} now={now}
+            s={s} now={now} night={night}
             onCollect={act.collect} onComb={act.comb} onUpgrade={act.upgrade} cheer={cheer}
             onToggleDeco={(id) => act.simple((c) => toggleDeco(c, id))} onShop={() => { setLootSeg("shop"); setTab("loot"); }}
             banner={showNotifPrompt ? (

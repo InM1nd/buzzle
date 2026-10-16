@@ -25,6 +25,8 @@ const UP_ICON: Record<UpgradeId, React.ReactNode> = {
 };
 
 interface Props {
+  /** v1.6 event night scene: light text on the scene */
+  night?: boolean;
   s: GameState;
   now: number;
   onCollect: (from: Pt | null) => void;
@@ -149,7 +151,7 @@ const HIVE_SPOTS: Spot[] = [
   { id: "fountain", x: 0.88, y: 0.99, h: 0.24 },
 ];
 
-export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, onToggleDeco, onShop, banner, cheer = 0 }: Props) {
+export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, onToggleDeco, onShop, banner, cheer = 0, night }: Props) {
   const { width: winW } = useWindowDimensions();
   const [containerW, setContainerW] = useState(winW);
   const [sel, setSel] = useState<number | null>(null);
@@ -271,7 +273,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, onTog
       </View>
 
       {/* upgrades right on the screen: icon, level, what the next level gives, price */}
-      <Txt v="h3" style={{ marginTop: 2, marginLeft: 2 }}>{t("hive.upgrades")}</Txt>
+      <Txt v="h3" color={night ? "#FFE9C4" : undefined} style={{ marginTop: 2, marginLeft: 2 }}>{t("hive.upgrades")}</Txt>
       <View style={styles.upGrid}>
         {UPGRADES.map((u) => {
           const lvl = s.upgrades[u.id];

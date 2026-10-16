@@ -30,7 +30,8 @@ export const forceEvent = (on: boolean) => { forced = on; };
 export function activeEvent(day: number): EventDef | null {
   const e = halloween(yearOf(day));
   if (day >= e.start && day <= e.end) return e;
-  return forced ? { ...e, start: day, end: day + 9 } : null;
+  // own id: preview points never carry into the real event
+  return forced ? { id: `${e.id}-preview`, start: day, end: day + 9 } : null;
 }
 /** the event whose track is still open: running, or ended at most CLAIM_GRACE days ago */
 export function trackEvent(day: number): EventDef | null {

@@ -687,6 +687,8 @@ export function claimTrackStep(s0: GameState, now: number): { state: GameState; 
   const step = TRACK[e.claimed];
   if (!step || e.points < step.at) return null;
   const r = step.reward;
+  // a costume whose art is not in the game yet must not be burned: the step waits
+  if (r.skin && !SKIN_BY_ID[r.skin]) return null;
   let n: GameState = { ...add(s, r), event: { ...e, claimed: e.claimed + 1 } };
   if (r.box) n = addBoxes(n, [r.box]);
   if (r.seeds) n = { ...n, loot: { ...n.loot, seeds: { ...n.loot.seeds, [r.seeds.id]: (n.loot.seeds[r.seeds.id] ?? 0) + r.seeds.n } } };

@@ -90,10 +90,14 @@ test("track: claims in order, rewards credited, survives save/load, next year st
   r = claimTrackStep(r.state, at(10, 24))!;
   assert.equal(r.state.loot.seeds.pumpkin, 2);
   assert.equal(claimTrackStep(r.state, at(10, 24)), null); // 70 not reached
+  // a costume step whose skin is not registered waits instead of being burned
+  const hat = { ...r.state, event: { ...r.state.event, points: 70 } };
+  const c = claimTrackStep(hat, at(10, 24));
+  assert.ok(c === null || c.state.loot.owned.includes("witchhat"));
   s = migrate(JSON.parse(JSON.stringify(r.state)), at(10, 24));
   assert.deepEqual(s.event, { id: "halloween-2026", points: 50, claimed: 3 });
-  assert.ok(claimTrackStep({ ...s, event: { ...s.event, points: 999 } }, at(11, 5)));      // grace day
-  assert.equal(claimTrackStep({ ...s, event: { ...s.event, points: 999 } }, at(11, 6)), null);
+  assert.ok(claimTrackStep({ ...s, event: { ...s.event, points: 999, claimed: 4 } }, at(11, 5))); // grace day
+  assert.equal(claimTrackStep({ ...s, event: { ...s.event, points: 999, claimed: 4 } }, at(11, 6)), null);
   assert.equal(eventView(s, new Date(2027, 9, 25, 12).getTime())?.progress.points, 0);
   assert.equal(TRACK.length, 12);
   assert.ok(TRACK.every((st, i) => i === 0 || st.at > TRACK[i - 1].at));

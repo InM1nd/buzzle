@@ -632,7 +632,7 @@ export default function GameScreen(props: Props) {
               </View>
             </Press>
             {props.dayColor ? (
-              <View style={[styles.dockCard, { borderColor: props.dayColor.active ? C.pollen[props.dayColor.color] : C.line, opacity: props.dayColor.active ? 1 : 0.75 }]} accessibilityLabel={t("pz.dayColor")}>
+              <View style={[styles.dockCard, { borderColor: props.dayColor.active ? C.pollen[props.dayColor.color] : C.line, borderStyle: props.dayColor.active ? "solid" : "dashed" }]} accessibilityLabel={t("pz.dayColor")}>
                 <Image source={ART.cells[props.dayColor.color]} style={{ width: 44, height: 38 }} />
                 <View style={{ flex: 1 }}>
                   <Txt v="h3" style={{ fontSize: 14 }} numberOfLines={1}>{narrow ? t("pz.dayColor") : `${t("pz.dayColor")} ×1.5`}</Txt>

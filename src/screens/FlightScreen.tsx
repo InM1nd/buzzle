@@ -31,7 +31,8 @@ const FA = {
 const STEMS = 6, PICKS = 8, BATS = 3, BEE = 150 * Z, BAT = 150 * Z, CANDY = 92 * Z, FIREFLY = 64 * Z, GLOW = 540 * Z;
 const STEM_H = STEM_W * 900 / 200; // stem art keeps its 200×900 aspect
 /** parallax strips (only their painted bottom part, see scripts/import_halloween_art.py): a 16:9 tile drawn at BG_SCALE of
- *  the screen height and anchored to the bottom; top = where the strip starts in the tile. The sky stays still. */
+ *  the screen height and anchored to the bottom; top = where the strip starts in the tile. The sky drifts slowly behind. */
+const SKY_F = 0.06;
 const BG_SCALE = 0.8;
 const LAYERS: { name: "far" | "near"; f: number; top: number }[] = [{ name: "far", f: 0.25, top: 594 / 900 }, { name: "near", f: 1, top: 702 / 900 }];
 const OFF = -99999;
@@ -63,7 +64,7 @@ export default function FlightScreen(p: Props) {
 
   // sprite pools
   const pool = useMemo(() => ({
-    layers: LAYERS.map(() => new Animated.Value(0)),
+    layers: LAYERS.map(() => new Animated.Value(0)), sky: new Animated.Value(0),
     beeY: new Animated.Value(0), beeRot: new Animated.Value(0),
     stems: Array.from({ length: STEMS }, () => ({ x: av(), top: av(), bot: av() })),
     picks: Array.from({ length: PICKS }, () => ({ x: av(), y: av(), o: new Animated.Value(0) })),
@@ -80,6 +81,8 @@ export default function FlightScreen(p: Props) {
   const draw = useCallback((w: World) => {
     const tileW = FH * k * BG_SCALE * (16 / 9);
     LAYERS.forEach(({ f }, i) => pool.layers[i].setValue(-((w.dist * f * k) % tileW)));
+    const skyW = FH * k * (16 / 9);
+    pool.sky.setValue(-((w.dist * SKY_F * k) % skyW));
     pool.beeY.setValue(w.y * k);
     pool.beeRot.setValue(Math.max(-25, Math.min(40, (w.vy / 900) * 35)));
     const cam = w.dist;
@@ -191,7 +194,9 @@ export default function FlightScreen(p: Props) {
       onStartShouldSetResponder={() => true} onResponderGrant={tap}>
       {k > 0 ? (
         <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-          <Image source={FA.sky} resizeMode="cover" style={StyleSheet.absoluteFill} />
+          <Animated.View style={[StyleSheet.absoluteFill, { flexDirection: "row", transform: [{ translateX: pool.sky }] }]}>
+            {[0, 1, 2].map((j) => <Image key={j} source={FA.sky} style={{ width: box.h * (16 / 9), height: box.h }} />)}
+          </Animated.View>
           {LAYERS.map(({ name, top }, i) => (
             <Animated.View key={name} style={{ position: "absolute", left: 0, bottom: 0, height: tileH * (1 - top), flexDirection: "row", transform: [{ translateX: pool.layers[i] }] }}>
               {[0, 1, 2].map((j) => <Image key={j} source={FA[name]} style={{ width: tileW, height: tileH * (1 - top) }} />)}

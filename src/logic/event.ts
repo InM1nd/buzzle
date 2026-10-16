@@ -58,7 +58,7 @@ export const TRACK: TrackStep[] = [
   { at: 278, reward: { box: "gold" } },
   { at: 323, reward: { seeds: { id: "pumpkin", n: 3 } } },
   { at: 368, reward: { skin: "batwings" } },
-  { at: 413, reward: { jelly: 6 } },
+  { at: 413, reward: { skin: "vampcape" } },
   { at: 450, reward: { skin: "ghosthood", box: "royal" } },
 ];
 /** steps reached but not claimed yet */

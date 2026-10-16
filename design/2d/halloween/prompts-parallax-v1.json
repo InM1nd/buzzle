@@ -1,0 +1,40 @@
+{
+  "tool": "image_gen.imagegen",
+  "date": "2026-10-16",
+  "assets": [
+    {
+      "name": "flight/bg_sky",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-2c24c12c-4c3a-4b71-ba1a-5c351804878b.png",
+      "prompt": "A horizontally SEAMLESS repeating night SKY layer for Buzzle side-scrolling flight, exact16:9 landscape, logical1600x900. Opaque deep plum #2B1B3D at top grading VERTICALLY to muted indigo #3A2F5B at bottom, low contrast. ONE soft full moon around x1150 y180, modest size about150px diameter, several very faint faceted clouds and sparse small stars. NO ground, trees, buildings, pumpkins, horizon, frame or side foliage. Left/right edges must join seamlessly: BOTH outer8% strips are the SAME simple vertical plum-to-indigo gradient with NO clouds, stars or moon, no horizontal lighting gradient or vignette. Keep center-left quiet for a flying bee. Moon glow local, does not brighten one outside edge. Full bleed opaque16:9. Existing Buzzle honey crystal low-poly casual game environment: broad clean planar facets, subtle tone shifts, upper-left light, muted plum/indigo palette, warm candle accents, cozy friendly Halloween, no outlines, no text, signature or watermark. This is a SIDE VIEW scrolling flight game, not top-down.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/env/garden_bg_night.png"
+      ]
+    },
+    {
+      "name": "flight/bg_far",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-97845bd2-7c07-4086-9323-813886c329f8.png",
+      "prompt": "A horizontally SEAMLESS repeating DISTANT landscape parallax layer for Buzzle side-scrolling flight,16:9 landscape logical1600x900. Upper60% of canvas is truly TRANSPARENT alpha sky; do not draw any sky or moon. Lower40% soft rolling low-poly hills and rounded forest silhouettes in muted dark indigo and dusty plum. Gentle height variation across middle, trees are round faceted masses, not pointed horror silhouettes. One tiny far cottage with one softly glowing warm window, small and unobtrusive. Low contrast and distant haze, not pitch black. Left and right borders must tile: in BOTH outer8% strips, hills meet edge at the EXACT SAME height y630/900, a simple nearly flat hill segment and same indigo color #34314E, NO tree, branch or cottage touching either edge. Bottom edge solid dark indigo landscape. Preserve a wide open transparent sky and flight corridor. No foreground grass, no large pumpkins, no UI. Full1600x900 transparent canvas, no crop. Existing Buzzle honey crystal low-poly casual game environment: broad clean planar facets, subtle tone shifts, upper-left light, muted plum/indigo palette, warm candle accents, cozy friendly Halloween, no outlines, no text, signature or watermark. This is a SIDE VIEW scrolling flight game, not top-down.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/env/garden_bg_night.png"
+      ]
+    },
+    {
+      "name": "flight/bg_near",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-cfa2b066-517b-484a-8b9b-117ef25b4ee2.png",
+      "prompt": "A horizontally SEAMLESS repeating FOREGROUND GROUND STRIP for Buzzle side-scrolling flight,16:9 landscape logical1600x900. Everything above the bottom22% is fully TRANSPARENT alpha except a few slender grass tips and tiny fireflies just above strip. Dark sage and muted plum faceted soil/grass along bottom, some very small orange pumpkins, a couple mushrooms and sparse tall grass blades. These stay near ground, NOT huge foreground bushes. Ground should take22% canvas HEIGHT only (top edge around y702 in900), full width. Both LEFT and RIGHT outer8% strips are the SAME FLAT simple dark-sage ground profile meeting edge at y720, same material/color #343F3E, no decorative objects or grass clumps touching either edge, so horizontal tiling is seamless. Solid bottom edge. Warm upper-left candle glints only on small pumpkins, local firefly points. No sky or moon, no trees or buildings or vignette. Whole transparent1600x900 canvas, do not trim to the ground strip. Existing Buzzle honey crystal low-poly casual game environment: broad clean planar facets, subtle tone shifts, upper-left light, muted plum/indigo palette, warm candle accents, cozy friendly Halloween, no outlines, no text, signature or watermark. This is a SIDE VIEW scrolling flight game, not top-down.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/env/garden_bg_night.png"
+      ]
+    },
+    {
+      "name": "flight/icon",
+      "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-79bcfb1a-a450-46d4-b02e-b166f6444e3c.png",
+      "prompt": "Create a readable game-mode icon for Buzzle NIGHT FLIGHT using the EXACT cream bee PUSHINKA and her paper lantern in reference1, not a generic yellow bee. Preserve single plump low-poly cream/brown striped body, fluffy cream lower-face ruff, brown antennae, translucent pale golden polygon wings, large dark eye with white glint, pink cheek, friendly small smile. Show Pushinka flying toward RIGHT in three-quarter side view, holding the SAME orange paper lantern on short wooden stick near lower front foot as reference1. Reference2 supplies the design of a SMALL plum bat silhouette in upper background, not a second hero. Composition: big soft ivory moon behind bee upper-left, quiet deep plum/indigo rounded-square night badge behind, bee and warm lantern dominate center and lower-right. Very few details, no lettering, numbers, borders, tiny ornaments, UI or pumpkin pile. Reads cleanly at64px. Entire rounded-square badge fully within square canvas with about5% transparent outer padding and fully transparent outside corners. No full opaque rectangular background. Existing Buzzle honey crystal low-poly illustration, broad irregular planar facets, gentle warm upper-left light and candle accent, no outlines, no photorealism, no horror. Maintain recognizable approved character and actual lantern, no new costume or crown. High-resolution transparent PNG.",
+      "refs": [
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/review/lantern-fit.png",
+        "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/flight/bat_2.png"
+      ]
+    }
+  ],
+  "export": "PNG sRGB; mechanical resize/canvas fit only, no algorithmic seam painting or color correction"
+}

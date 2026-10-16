@@ -371,7 +371,7 @@
         900
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "flight/bg_far.png",
@@ -380,7 +380,7 @@
         900
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "flight/bg_near.png",
@@ -389,7 +389,7 @@
         900
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "flight/stem_top.png",
@@ -479,7 +479,7 @@
         256
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     }
   ]
 }

@@ -1,0 +1,69 @@
+[
+  {
+    "file": "flight/bg_sky.png",
+    "size": [
+      1600,
+      900
+    ],
+    "mode": "RGB",
+    "sRGB": true,
+    "sha256": "1976f8706893e296adee5d83020ab3a48ef044f380382f471e64d273b3ab0569",
+    "seam_rgb_premultiplied_mae": 0.892962962962963,
+    "seam_rgb_premultiplied_max": 5.0,
+    "seam_alpha_mae": 0.0,
+    "meaningful_edge_top_alpha128": [
+      0,
+      0
+    ]
+  },
+  {
+    "file": "flight/bg_far.png",
+    "size": [
+      1600,
+      900
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "sha256": "c31bd9b8f5d713c43d8d1172b51849aca23fcdb58a76d0e45bb2c71eb89c8fa3",
+    "seam_rgb_premultiplied_mae": 0.32099782135076255,
+    "seam_rgb_premultiplied_max": 6.596078431372547,
+    "seam_alpha_mae": 0.08,
+    "meaningful_edge_top_alpha128": [
+      718,
+      719
+    ],
+    "top60percent_alpha128_pixels": 0
+  },
+  {
+    "file": "flight/bg_near.png",
+    "size": [
+      1600,
+      900
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "sha256": "56b93932cefd8c4183685d233616952a5f49e972822a62b2ad91676beaae6315",
+    "seam_rgb_premultiplied_mae": 0.16153086419753085,
+    "seam_rgb_premultiplied_max": 5.666666666666671,
+    "seam_alpha_mae": 0.07111111111111111,
+    "meaningful_edge_top_alpha128": [
+      787,
+      787
+    ],
+    "top60percent_alpha128_pixels": 0
+  },
+  {
+    "file": "flight/icon.png",
+    "size": [
+      768,
+      768
+    ],
+    "mode": "RGBA",
+    "sRGB": true,
+    "sha256": "c94568a0d2597348192a88158ef1381761dcf82b619d02744170c47587a863b7",
+    "alpha_range": [
+      0,
+      255
+    ]
+  }
+]

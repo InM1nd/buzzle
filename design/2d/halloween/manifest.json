@@ -326,7 +326,7 @@
         250
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "deco/deco_jack_2.png",
@@ -335,7 +335,7 @@
         250
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "deco/deco_jack_3.png",
@@ -344,7 +344,7 @@
         250
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "deco/deco_jack_4.png",
@@ -353,7 +353,7 @@
         250
       ],
       "optional": false,
-      "status": "Не подготовлен"
+      "status": "На просмотре"
     },
     {
       "file": "flight/lantern-side-view.png",

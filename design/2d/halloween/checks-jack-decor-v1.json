@@ -1,0 +1,58 @@
+[
+  {
+    "file": "deco/deco_jack_1.png",
+    "size": [
+      640,
+      1000
+    ],
+    "alpha_bbox": [
+      18,
+      334,
+      621,
+      918
+    ],
+    "sha256": "48f673a3c49b07945e64466918faef9d8b3057fc678cd3f197ad20395f50838c"
+  },
+  {
+    "file": "deco/deco_jack_2.png",
+    "size": [
+      640,
+      1000
+    ],
+    "alpha_bbox": [
+      18,
+      334,
+      623,
+      918
+    ],
+    "sha256": "149e912ef79572c36e589113b67a17bdc69fd2f9bf97cbd24200017961d37c48"
+  },
+  {
+    "file": "deco/deco_jack_3.png",
+    "size": [
+      640,
+      1000
+    ],
+    "alpha_bbox": [
+      18,
+      334,
+      622,
+      918
+    ],
+    "sha256": "d9058a9f2afafb47a208154d3f38805734908618d7e7c7223fbf9154759f062a"
+  },
+  {
+    "file": "deco/deco_jack_4.png",
+    "size": [
+      640,
+      1000
+    ],
+    "alpha_bbox": [
+      18,
+      334,
+      622,
+      918
+    ],
+    "sha256": "ee75b277d443c514c2a5906bf439cd23dcc5da1dd0bd53aa89750875189f4967"
+  }
+]

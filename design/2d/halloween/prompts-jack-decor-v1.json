@@ -1,0 +1,43 @@
+{
+  "tool": "built-in image_gen",
+  "sources": [
+    {
+      "index": 1,
+      "path": "sources/jack-decor-v1/deco_jack_1-source.png",
+      "prompt": "Use case: stylized-concept. Production Buzzle HALLOWEEN hive decoration sprite: ONE friendly carved JACK O LANTERN pumpkin standing on a TINY patch of muted grass with two small ochre autumn leaves. References1 and2 establish existing game props, scale, broad facets and upper-left warm light. Reference3 gives pumpkin-orange color and friendly Halloween feel ONLY, DO NOT draw hexagonal tile or badge. Round slightly squat pumpkin, thick short green stem bent left, one small curled leaf, large irregular honey-crystal polygon facets, softly rounded ribbed volume, orange/amber shell with carved openings glowing warm candle yellow. Face expression1: TWO ROUND carved eyes and a KIND WIDE HAPPY SMILE, tiny friendly square tooth, no nose. Cozy casual game art, no scary jagged teeth, no blood/skull/horror, no hard black outline, no photorealistic grain. Soft restrained glow ONLY inside openings, no giant aura, cast shadow, ground plane or scenery. Clear silhouette readable at40px. 3/4 object view slightly from above, face almost frontal, object fully inside canvas. PORTRAIT aspect160:250. Pumpkin and tiny grass patch occupy lower62percent of canvas, max82percent width; bottom grass baseline at94percent canvas height, top third mostly empty TRANSPARENT to allow effect glow. True transparent background. Entire stem, leaves and base fully visible with margins. No text, watermark or extra pumpkins."
+    },
+    {
+      "index": 2,
+      "path": "sources/jack-decor-v1/deco_jack_2-source.png",
+      "prompt": "Use case: precise-object-edit. This is variant 2 of a matched four-pumpkin Buzzle decoration set. Change ONLY the carved facial openings on this exact pumpkin to: Sly playful expression: one ROUND eye open, other eye a single friendly curved SQUINT, a gently lopsided mischievous GRIN with one small square tooth. Cute playful, not evil/angry. Keep EVERYTHING ELSE IDENTICAL: pumpkin outline and size, faceted orange ribs, stem, upper-left light, grass patch, both autumn leaves, camera angle, canvas dimensions, position and large transparent upper area. Do not add a nose, eyebrows outside pumpkin, accessories, text or background. Same warm yellow candle glow inside openings, same broad Honey Crystal low-poly facets. No new pumpkins, no moving/scaling or cropping. Fully transparent RGBA background; whole stem and base fully inside canvas."
+    },
+    {
+      "index": 3,
+      "path": "sources/jack-decor-v1/deco_jack_3-source.png",
+      "prompt": "Use case: precise-object-edit. This is variant 3 of a matched four-pumpkin Buzzle decoration set. Change ONLY the carved facial openings on this exact pumpkin to: Sleepy expression: BOTH eyes CLOSED as two curved crescent-like sleeping eyelid cutouts, and a SMALL ROUND YAWNING mouth. Warm candle glow inside each carved opening. No large smile, no open eyes. Keep EVERYTHING ELSE IDENTICAL: pumpkin outline and size, faceted orange ribs, stem, upper-left light, grass patch, both autumn leaves, camera angle, canvas dimensions, position and large transparent upper area. Do not add a nose, eyebrows outside pumpkin, accessories, text or background. Same warm yellow candle glow inside openings, same broad Honey Crystal low-poly facets. No new pumpkins, no moving/scaling or cropping. Fully transparent RGBA background; whole stem and base fully inside canvas."
+    },
+    {
+      "index": 4,
+      "path": "sources/jack-decor-v1/deco_jack_4-source.png",
+      "prompt": "Use case: precise-object-edit. This is variant 4 of a matched four-pumpkin Buzzle decoration set. Change ONLY the carved facial openings on this exact pumpkin to: Surprised expression: TWO LARGE ROUND open eyes and a SMALL ROUND O-shaped mouth. Cute astonished, not scary; no smile or teeth in O mouth. Keep EVERYTHING ELSE IDENTICAL: pumpkin outline and size, faceted orange ribs, stem, upper-left light, grass patch, both autumn leaves, camera angle, canvas dimensions, position and large transparent upper area. Do not add a nose, eyebrows outside pumpkin, accessories, text or background. Same warm yellow candle glow inside openings, same broad Honey Crystal low-poly facets. No new pumpkins, no moving/scaling or cropping. Fully transparent RGBA background; whole stem and base fully inside canvas."
+    }
+  ],
+  "export": {
+    "size": [
+      640,
+      1000
+    ],
+    "resize_full_canvas": [
+      640,
+      1000
+    ],
+    "paste_xy": [
+      0,
+      0
+    ],
+    "alpha_cleanup": "remove isolated generated flecks, preserve main object alpha",
+    "color": "sRGB",
+    "alpha": "true",
+    "status": "candidate"
+  }
+}

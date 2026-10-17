@@ -1,6 +1,7 @@
 /**
  * Game state model + pure actions (no React Native imports → unit-testable with node:test).
  */
+import { UI_STYLES, UiStyle } from "./uiStyle";
 import { Entry, isLang, Lang, LANGS } from "../i18n/core";
 import { STRINGS } from "../i18n";
 import { APP_VERSION } from "../version";
@@ -96,7 +97,11 @@ export interface Settings {
   tiles: TileStyle;
   /** dev build only: Halloween on (whatever the date) or off */
   devEvent: boolean;
+  /** v1.6 interface style: auto = violet "midnight" during the Halloween event, classic otherwise */
+  ui: UiStyle;
 }
+export { UI_STYLES };
+export type { UiStyle };
 export const TILE_STYLES = ["soft", "pastel", "wax", "classic"] as const;
 export type TileStyle = (typeof TILE_STYLES)[number];
 export interface EarlyPlayer { firstSeen: string; version: string; early: boolean }
@@ -127,7 +132,7 @@ export function newState(now: number): GameState {
     settings: {
       notifications: false, haptics: true, tutorialDone: false, notifPromptDismissed: false, gardenReminders: true, gardenIntroDone: false,
       lang: "en", langPicked: false, sound: true, notifHive: true, notifDaily: true, notifChests: true,
-      quietOn: true, quietFrom: 22, quietTo: 9, autoUpdate: true, lastVersion: APP_VERSION, tiles: "soft", devEvent: true,
+      quietOn: true, quietFrom: 22, quietTo: 9, autoUpdate: true, lastVersion: APP_VERSION, tiles: "soft", devEvent: true, ui: "auto",
     },
     early: { firstSeen: isoDay(now), version: APP_VERSION, early: isEarlyVersion(APP_VERSION) },
     event: newEventState(),
@@ -218,6 +223,7 @@ function migrateSettings(d: Settings, raw: Record<string, any>, version: unknown
     lastVersion: typeof raw.lastVersion === "string" ? raw.lastVersion : old ? "1.3.0" : d.lastVersion,
     tiles: TILE_STYLES.includes(raw.tiles) ? raw.tiles : d.tiles,
     devEvent: typeof raw.devEvent === "boolean" ? raw.devEvent : d.devEvent,
+    ui: UI_STYLES.includes(raw.ui) ? raw.ui : d.ui,
   };
 }
 function migrateEarly(s: Record<string, any>, now: number): EarlyPlayer {

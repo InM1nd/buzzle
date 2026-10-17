@@ -11,8 +11,8 @@ import { ART } from "../ui/art";
 import { BeeSprite } from "../ui/BeeSprite";
 import { sinRange, useAnimActive, useCycle } from "../ui/anim";
 import { buildFlight } from "../logic/flight";
-import { C, F, shadow } from "../ui/theme";
-import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Txt, useTopPad } from "../ui/components";
+import { C, F, shadow, K, themed, activeCard } from "../ui/theme";
+import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Txt, useTopPad, Glow } from "../ui/components";
 import { centerOf, Pt } from "../ui/Fly";
 import { duration, rateFmt } from "../ui/format";
 
@@ -73,7 +73,7 @@ function CombTile({ slot, lvl, x, y, s, state, selected, onPress }: {
           </View>
         ) : state === "open" ? (
           <View style={[StyleSheet.absoluteFill, styles.lvlCenter]} pointerEvents="none">
-            <Text style={[F.black, { fontSize: s * 0.7, color: "#D9A54C", lineHeight: s * 0.8 }]}>+</Text>
+            <Text style={[F.black, { fontSize: s * 0.7, color: K.fg("#D9A54C"), lineHeight: s * 0.8 }]}>+</Text>
           </View>
         ) : null}
       </Animated.View>
@@ -208,7 +208,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, onTog
     <View style={{ flex: 1 }} onLayout={(e) => setContainerW(e.nativeEvent.layout.width)}>
     <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
       {rolled ? (
-        <Card style={{ backgroundColor: "#FFE7DF", padding: 12 }}>
+        <Card style={{ backgroundColor: K.bg("#FFE7DF"), padding: 12 }}>
           <Txt v="small" color={C.red}>{t("hive.rollback")}</Txt>
         </Card>
       ) : null}
@@ -247,7 +247,8 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, onTog
       ) : null}
 
       {/* honey in the hive: how much, how full, when full, and the one big Collect */}
-      <Animated.View style={[styles.meter, shadow, isFull && { borderColor: C.honeyDeep }]}>
+      <Animated.View style={[styles.meter, shadow, isFull && { borderColor: C.honeyDeep }, activeCard()]}>
+        <Glow radius={26} />
         <View style={styles.jarBox}>
           <Image source={ART.honey} style={{ width: 46, height: 46, transform: isFull ? [{ rotate: glow.interpolate({ inputRange: [0, 0.25, 0.75, 1], outputRange: ["0deg", "-7deg", "7deg", "0deg"] }) }] : undefined }} />
         </View>
@@ -270,7 +271,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, onTog
           />
         </View>
       </Animated.View>
-      <View style={[styles.when, isFull && { backgroundColor: "#FFE4DC" }]}>
+      <View style={[styles.when, isFull && { backgroundColor: K.bg("#FFE4DC") }]}>
         <Image source={ART.clock} style={{ width: 14, height: 14, tintColor: isFull ? C.red : C.honeyDark }} />
         <Txt v="tiny" color={isFull ? C.red : C.honeyDark} style={F.xbold} numberOfLines={1}>
           {isFull ? t("hv.fullNow") : full > 0 ? t("hv.fullIn", { d: duration(full) }) : t("hive.stored")}
@@ -285,7 +286,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, onTog
           const cost = upgradeCostFor(s, u.id);
           const can = cost !== null && s.honey >= cost;
           return (
-            <View key={u.id} style={[styles.upCard, shadow, can && { borderColor: "#BDE8C9" }]}>
+            <View key={u.id} style={[styles.upCard, shadow, can && { borderColor: K.bd("#BDE8C9") }]}>
               <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
                 <View style={styles.upIcon}>{UP_ICON[u.id]}</View>
                 <View style={{ flex: 1, minWidth: 0 }}>
@@ -342,24 +343,24 @@ function CombPanel({ s, slot, onAction, onClose }: { s: GameState; slot: number;
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => StyleSheet.create({
   hiveArea: { alignItems: "center", paddingTop: 4, overflow: "hidden" },
-  storeChip: { backgroundColor: "rgba(255,250,235,0.85)", borderRadius: 12, paddingHorizontal: 10, paddingVertical: 3 },
+  storeChip: { backgroundColor: K.bg("rgba(255,250,235,0.85)"), borderRadius: 12, paddingHorizontal: 10, paddingVertical: 3 },
   decoGrass: { flexDirection: "row", alignItems: "flex-end", minHeight: 90 },
-  decoSpot: { width: 92, height: 56, borderRadius: 46, borderWidth: 2, borderStyle: "dashed", borderColor: "rgba(255,255,255,0.9)", alignItems: "center", justifyContent: "center", alignSelf: "center", marginLeft: 8 },
-  plaque: { flexDirection: "row", alignItems: "center", gap: 8, alignSelf: "center", backgroundColor: "rgba(255,250,235,0.92)", borderRadius: 22, paddingVertical: 5, paddingLeft: 6, paddingRight: 14, borderWidth: 2, borderColor: "#F3C66B", marginBottom: 8, ...shadow },
+  decoSpot: { width: 92, height: 56, borderRadius: 46, borderWidth: 2, borderStyle: "dashed", borderColor: K.bd("rgba(255,255,255,0.9)"), alignItems: "center", justifyContent: "center", alignSelf: "center", marginLeft: 8 },
+  plaque: { flexDirection: "row", alignItems: "center", gap: 8, alignSelf: "center", backgroundColor: K.bg("rgba(255,250,235,0.92)"), borderRadius: 22, paddingVertical: 5, paddingLeft: 6, paddingRight: 14, borderWidth: 2, borderColor: K.bd("#F3C66B"), marginBottom: 8, ...shadow },
   plaqueHex: { width: 40, height: 36, alignItems: "center", justifyContent: "center" },
-  when: { flexDirection: "row", alignItems: "center", gap: 5, alignSelf: "center", marginTop: -8, backgroundColor: "rgba(255,248,228,0.95)", borderRadius: 12, paddingHorizontal: 10, paddingVertical: 3 },
-  meter: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: "rgba(255,251,240,0.96)", borderRadius: 24, padding: 12, borderWidth: 2, borderColor: "#F6DDA6" },
-  jarBox: { width: 52, height: 52, borderRadius: 18, backgroundColor: "#FFF0C9", alignItems: "center", justifyContent: "center" },
+  when: { flexDirection: "row", alignItems: "center", gap: 5, alignSelf: "center", marginTop: -8, backgroundColor: K.bg("rgba(255,248,228,0.95)"), borderRadius: 12, paddingHorizontal: 10, paddingVertical: 3 },
+  meter: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: K.bg("rgba(255,251,240,0.96)"), borderRadius: 24, padding: 12, borderWidth: 2, borderColor: K.bd("#F6DDA6") },
+  jarBox: { width: 52, height: 52, borderRadius: 18, backgroundColor: K.bg("#FFF0C9"), alignItems: "center", justifyContent: "center" },
   upGrid: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
-  upCard: { flexBasis: "47%", flexGrow: 1, backgroundColor: "rgba(255,251,240,0.96)", borderRadius: 20, padding: 10, borderWidth: 2, borderColor: "transparent" },
-  lvlChip: { alignSelf: "flex-start", backgroundColor: "#FFF0C9", borderRadius: 8, paddingHorizontal: 6, marginTop: 2 },
-  maxChip: { height: 40, borderRadius: 14, backgroundColor: "#E4F7EA", alignItems: "center", justifyContent: "center" },
+  upCard: { flexBasis: "47%", flexGrow: 1, backgroundColor: K.bg("rgba(255,251,240,0.96)"), borderRadius: 20, padding: 10, borderWidth: 2, borderColor: "transparent" },
+  lvlChip: { alignSelf: "flex-start", backgroundColor: K.bg("#FFF0C9"), borderRadius: 8, paddingHorizontal: 6, marginTop: 2 },
+  maxChip: { height: 40, borderRadius: 14, backgroundColor: K.bg("#E4F7EA"), alignItems: "center", justifyContent: "center" },
   hiveHead: { flexDirection: "row", alignSelf: "stretch", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 14, height: 34 },
   levelChip: { backgroundColor: C.honeyDeep, borderRadius: 14, paddingHorizontal: 12, paddingVertical: 4 },
   lvlCenter: { flex: 1, alignItems: "center", justifyContent: "center" },
-  lvlText: { color: "#7A4300", textShadowColor: "rgba(255,255,255,0.8)", textShadowRadius: 4, textShadowOffset: { width: 0, height: 1 } },
+  lvlText: { color: K.fg("#7A4300"), textShadowColor: "rgba(255,255,255,0.8)", textShadowRadius: 4, textShadowOffset: { width: 0, height: 1 } },
   upRow: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 12 },
-  upIcon: { width: 44, height: 44, borderRadius: 14, backgroundColor: "#FFF3D6", alignItems: "center", justifyContent: "center" },
-});
+  upIcon: { width: 44, height: 44, borderRadius: 14, backgroundColor: K.bg("#FFF3D6"), alignItems: "center", justifyContent: "center" },
+}));

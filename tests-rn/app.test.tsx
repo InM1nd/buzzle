@@ -279,3 +279,32 @@ test("v1.2.0 save (v2) migrates to v3 with bee names and keeps progress", async 
     expect(st.beeNames).toEqual({ zhuzha: "Бзз" });
   });
 });
+
+// ---------------- v1.6 interface style ----------------
+test("settings: interface style switch re-themes the app and is saved; classic restores the old look", async () => {
+  const { C, themeName } = require("../src/ui/theme");
+  await seed((s) => s);
+  await boot();
+  expect(themeName()).toBe("classic");
+  const cardBefore = C.card;
+  await fireEvent.press(screen.getByLabelText("Настройки"));
+  expect(await screen.findByText("Стиль интерфейса")).toBeTruthy();
+  await fireEvent.press(screen.getByLabelText("Полночь"));
+  await waitFor(async () => expect((await stored()).settings.ui).toBe("midnight"));
+  expect(themeName()).toBe("midnight");
+  expect(C.card).toBe("#221C4D");
+  expect(await screen.findByLabelText("Вибрация")).toBeTruthy();
+  await fireEvent.press(screen.getByLabelText("Классика"));
+  await waitFor(async () => expect((await stored()).settings.ui).toBe("classic"));
+  expect(themeName()).toBe("classic");
+  expect(C.card).toBe(cardBefore);
+  await fireEvent.press(screen.getByLabelText("Авто"));
+  await waitFor(async () => expect((await stored()).settings.ui).toBe("auto"));
+});
+
+test("saved midnight style is applied on start", async () => {
+  const { themeName } = require("../src/ui/theme");
+  await seed((s) => ({ ...s, settings: { ...s.settings, ui: "midnight" } }));
+  await boot();
+  expect(themeName()).toBe("midnight");
+});

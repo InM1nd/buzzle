@@ -1,7 +1,7 @@
 import { t, tx } from "../i18n";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, Linking, StyleSheet, TextInput, View } from "react-native";
-import { F } from "../ui/theme";
+import { F, K, themed } from "../ui/theme";
 import { Reward } from "../logic/tasks";
 import { ART } from "../ui/art";
 import { BeeSprite, Hover, Mascot } from "../ui/BeeSprite";
@@ -27,7 +27,7 @@ function SlideArt({ i }: { i: number }) {
           const [px, py] = pts[k];
           const ax = px * s + s, ay = py * s + 0.6 * s + 0.866 * s, bx = x * s + s, by = y * s + 0.6 * s + 0.866 * s;
           const len = Math.hypot(bx - ax, by - ay), ang = Math.atan2(by - ay, bx - ax);
-          return <View key={`l${k}`} style={{ position: "absolute", left: (ax + bx) / 2 - len / 2, top: (ay + by) / 2 - 6, width: len, height: 12, borderRadius: 6, backgroundColor: "#E04585", borderWidth: 2.5, borderColor: "#fff", transform: [{ rotate: `${ang}rad` }] }} />;
+          return <View key={`l${k}`} style={{ position: "absolute", left: (ax + bx) / 2 - len / 2, top: (ay + by) / 2 - 6, width: len, height: 12, borderRadius: 6, backgroundColor: K.bg("#E04585"), borderWidth: 2.5, borderColor: K.bd("#fff"), transform: [{ rotate: `${ang}rad` }] }} />;
         })}
         <Hover amp={0} sway={0} period={1300} style={{ position: "absolute", right: -8, top: -18 }}>
           <BeeSprite id="klevera" size={64} flap={false} seed={1} />
@@ -126,14 +126,14 @@ export function Row({ title, sub, children }: { title: string; sub: string; chil
   );
 }
 
-const styles = StyleSheet.create({
-  code: { minHeight: 70, maxHeight: 120, fontSize: 12, color: C.text, backgroundColor: "#FFF8EA", borderRadius: 14, borderWidth: 2, borderColor: C.honey, padding: 8, textAlignVertical: "top" },
+const styles = themed(() => StyleSheet.create({
+  code: { minHeight: 70, maxHeight: 120, fontSize: 12, color: C.text, backgroundColor: K.bg("#FFF8EA"), borderRadius: 14, borderWidth: 2, borderColor: C.honey, padding: 8, textAlignVertical: "top" },
   dots: { flexDirection: "row", justifyContent: "center", gap: 6, marginVertical: 16 },
-  dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: "#EBD6B0" },
+  dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: K.bg("#EBD6B0") },
   dotOn: { width: 24, backgroundColor: C.honeyDeep },
   rw: { flexDirection: "row", alignItems: "center", gap: 6 },
   row: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: C.line },
-});
+}));
 
 // ---------- v1.4: what's new (once after the version changes) ----------
 export function WhatsNew({ visible, version, onClose }: { visible: boolean; version: string; onClose: () => void }) {

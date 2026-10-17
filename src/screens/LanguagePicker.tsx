@@ -10,7 +10,7 @@ import { render } from "../i18n/core";
 import { STRINGS } from "../i18n";
 import { Mascot } from "../ui/BeeSprite";
 import { GameButton, Press, Txt } from "../ui/components";
-import { C, F } from "../ui/theme";
+import { C, F, K, themed, isNight } from "../ui/theme";
 
 export const LANG_NAME: Record<Lang, string> = { en: "English", uk: "Українська", ru: "Русский" };
 const HELLO: Record<Lang, string> = { en: "Hello, beekeeper!", uk: "Привіт, пасічнику!", ru: "Привет, пчеловод!" };
@@ -54,12 +54,12 @@ export default function LanguagePicker({ initial, suggested, onDone }: { initial
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => StyleSheet.create({
   wrap: { zIndex: 80, elevation: 80, backgroundColor: C.bg, alignItems: "center", justifyContent: "center", padding: 22 },
-  card: { width: "100%", maxWidth: 420, backgroundColor: "#fff", borderRadius: 28, padding: 20 },
-  opt: { flexDirection: "row", alignItems: "center", gap: 12, padding: 14, borderRadius: 18, borderWidth: 2, borderColor: "#F0DFC0", backgroundColor: "#FFFBF2" },
-  optOn: { borderColor: C.honeyDeep, backgroundColor: "#FFF1D2" },
-  radio: { width: 24, height: 24, borderRadius: 12, borderWidth: 2.5, borderColor: "#D9BF92", alignItems: "center", justifyContent: "center" },
+  card: { width: "100%", maxWidth: 420, backgroundColor: K.bg("#fff"), borderRadius: 28, padding: 20, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
+  opt: { flexDirection: "row", alignItems: "center", gap: 12, padding: 14, borderRadius: 18, borderWidth: 2, borderColor: K.bd("#F0DFC0"), backgroundColor: K.bg("#FFFBF2") },
+  optOn: { borderColor: C.honeyDeep, backgroundColor: K.bg("#FFF1D2") },
+  radio: { width: 24, height: 24, borderRadius: 12, borderWidth: 2.5, borderColor: K.bd("#D9BF92"), alignItems: "center", justifyContent: "center" },
   radioOn: { borderColor: C.honeyDeep },
   dot: { width: 12, height: 12, borderRadius: 6, backgroundColor: C.honeyDeep },
-});
+}));

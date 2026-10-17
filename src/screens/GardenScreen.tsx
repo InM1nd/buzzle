@@ -11,9 +11,9 @@ import { colorName } from "../logic/bees";
 import { ART } from "../ui/art";
 import { GARDEN_ART } from "../ui/beeArt";
 import { Mascot } from "../ui/BeeSprite";
-import { C, shadow } from "../ui/theme";
+import { C, shadow, K, themed, isNight, activeCard } from "../ui/theme";
 import { sinDeg, useAnimActive, useCycle } from "../ui/anim";
-import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Txt, useTopPad } from "../ui/components";
+import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Txt, useTopPad, Glow } from "../ui/components";
 import { centerOf, Pt } from "../ui/Fly";
 import { duration, durationShort } from "../ui/format";
 
@@ -96,6 +96,7 @@ function BedTile({ b, i, w, selected, onPress }: { b: Bed; i: number; w: number;
   return (
     <Press onPress={() => onPress(ref.current)} style={[styles.bed, { width: w, height: h }, selected && styles.bedSel]}
       accessibilityRole="button" accessibilityLabel={t("gd.bedLabel", { i: i + 1, what: `${b.flower ? FLOWER_BY_ID[b.flower].name + ", " : ""}${st.text}` })}>
+      <Glow on={selected} radius={20} />
       <View ref={ref} collapsable={false} style={{ flex: 1, alignItems: "center" }}>
         {/* plant stands IN the bed: bed → plant → the bed's front rim drawn again over the stem */}
         <View style={{ flex: 1, width: "100%", alignItems: "center", justifyContent: "flex-end" }}>
@@ -114,14 +115,14 @@ function BedTile({ b, i, w, selected, onPress }: { b: Bed; i: number; w: number;
             </View>
           </View>
         </View>
-        <Txt v="tiny" center numberOfLines={1} color="#3E2A12" style={{ marginTop: 2 }}>{b.flower ? FLOWER_BY_ID[b.flower].name : t("gd.emptyBed")}</Txt>
+        <Txt v="tiny" center numberOfLines={1} color={K.fg("#3E2A12")} style={{ marginTop: 2 }}>{b.flower ? FLOWER_BY_ID[b.flower].name : t("gd.emptyBed")}</Txt>
         {b.flower && !isReady(b) ? <Bar progress={progress(b)} height={6} color={wet ? "#4AA8EE" : C.honey} track="#EADBC0" style={{ width: "86%", marginTop: 4 }} /> : <View style={{ height: 10 }} />}
         <View style={[styles.status, styles.chip, { backgroundColor: TONE_BG[chip.tone] }]}>
           <Image source={chip.icon} style={{ width: 14, height: 14, tintColor: chip.tint }} />
           <Txt v="tiny" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75} color={TONE[chip.tone]} style={{ fontWeight: "900" }}>{chip.text}</Txt>
         </View>
         {st.tone === "ready" ? <View style={styles.readyDot}><Image source={ART.nectar} style={{ width: 22, height: 22 }} /></View> : null}
-        {st.tone === "dry" ? <View style={[styles.readyDot, { backgroundColor: "#DDF0FF" }]}><Image source={ART.can} style={{ width: 18, height: 18, tintColor: "#3B8FD6" }} /></View> : null}
+        {st.tone === "dry" ? <View style={[styles.readyDot, { backgroundColor: K.bg("#DDF0FF") }]}><Image source={ART.can} style={{ width: 18, height: 18, tintColor: K.fg("#3B8FD6") }} /></View> : null}
       </View>
     </Press>
   );
@@ -165,9 +166,9 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
       <View style={[styles.head, shadow]}>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
           <View style={{ flex: 1 }}>
-            <Txt v="tiny" color="#4E7A2A">{t("gd.caps")}</Txt>
-            <Txt v="h2" color="#2F4A17">{t("gd.beds", { a: beds.length, b: MAX_BEDS })}</Txt>
-            <Txt v="small" color="#4E7A2A">{t("gd.bonus", { p: Math.round(BED_HIVE_BONUS * 100) })}{bonus ? t("gd.bonusNow", { p: bonus }) : ""}</Txt>
+            <Txt v="tiny" color={K.fg("#4E7A2A")}>{t("gd.caps")}</Txt>
+            <Txt v="h2" color={K.fg("#2F4A17")}>{t("gd.beds", { a: beds.length, b: MAX_BEDS })}</Txt>
+            <Txt v="small" color={K.fg("#4E7A2A")}>{t("gd.bonus", { p: Math.round(BED_HIVE_BONUS * 100) })}{bonus ? t("gd.bonusNow", { p: bonus }) : ""}</Txt>
           </View>
         </View>
         <View style={[styles.dayColor, { borderColor: COLOR_HEX[dc.color] }]}>
@@ -194,7 +195,7 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
                 <Image source={ART.shovel} style={{ width: 30, height: 30, opacity: 0.8, marginBottom: 6 }} />
               </View>
               <Image source={require("../../assets/art/env/bed_dry.webp")} resizeMode="contain" style={{ width: "100%", height: bw * 0.32, marginTop: -bw * 0.1, opacity: 0.45 }} />
-              <Txt v="tiny" color="#6E5232" style={{ marginTop: 2 }}>{t("gd.newBedCaps")}</Txt>
+              <Txt v="tiny" color={K.fg("#6E5232")} style={{ marginTop: 2 }}>{t("gd.newBedCaps")}</Txt>
               {next ? (
                 <View style={[styles.status, { backgroundColor: s.honey >= (bedCost ?? 0) ? "#FFF0C9" : "#F6ECD8", flexDirection: "row", gap: 3, marginTop: 14 }]}>
                   <Image source={ART.honey} style={{ width: 14, height: 14 }} />
@@ -207,10 +208,10 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
       </View>
 
       <GameButton title={t("gd.waterAll")} icon={ART.can} color="green" disabled={!canWaterAny} onPress={() => onWaterAll()} label={t("gd.waterAll")} />
-      <View style={styles.hint}><Txt v="small" color="#4A3218" center>{t("gd.tapHint")}</Txt></View>
-      <View style={styles.hint}><Txt v="tiny" color="#5E4426" center>{t("gd.levelHint", { n: level(s) })}</Txt></View>
+      <View style={styles.hint}><Txt v="small" color={K.fg("#4A3218")} center>{t("gd.tapHint")}</Txt></View>
+      <View style={styles.hint}><Txt v="tiny" color={K.fg("#5E4426")} center>{t("gd.levelHint", { n: level(s) })}</Txt></View>
     </ScrollView>
-    <Overlay visible={selBed !== null} onClose={() => setSel(null)}>
+    <Overlay visible={selBed !== null} onClose={() => setSel(null)} glow={!!selBed && !selBed.flower}>
       <CloseBtn onPress={() => setSel(null)} />
       {selBed && sel !== null ? (
         selBed.flower ? (
@@ -242,9 +243,9 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
                       <Txt v="h3" numberOfLines={1} style={{ flexShrink: 1 }} color={f.rare ? RARITY_UI.rare.color : undefined}>{f.name}</Txt>
                     </View>
                     <View style={{ flexDirection: "row", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-                      <View style={styles.fact}><Txt v="tiny" color="#6E5232">⏱ {t("gd.hours", { h: f.growHours })}</Txt></View>
-                      <View style={styles.fact}><Image source={ART.nectar} style={{ width: 14, height: 14 }} /><Txt v="tiny" color="#6E5232">+{f.nectar}</Txt></View>
-                      {pocket ? <View style={styles.fact}><Image source={ART.seed} style={{ width: 14, height: 14 }} /><Txt v="tiny" color="#6E5232">×{pocket}</Txt></View> : null}
+                      <View style={styles.fact}><Txt v="tiny" color={K.fg("#6E5232")}>⏱ {t("gd.hours", { h: f.growHours })}</Txt></View>
+                      <View style={styles.fact}><Image source={ART.nectar} style={{ width: 14, height: 14 }} /><Txt v="tiny" color={K.fg("#6E5232")}>+{f.nectar}</Txt></View>
+                      {pocket ? <View style={styles.fact}><Image source={ART.seed} style={{ width: 14, height: 14 }} /><Txt v="tiny" color={K.fg("#6E5232")}>×{pocket}</Txt></View> : null}
                     </View>
                   </View>
                   {pocket > 0 ? (
@@ -265,27 +266,27 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
   );
 }
 
-const styles = StyleSheet.create({
-  head: { backgroundColor: "rgba(255,250,238,0.94)", borderRadius: 24, padding: 14 },
-  nectarBox: { alignItems: "center", backgroundColor: "#fff", borderRadius: 18, paddingHorizontal: 12, paddingVertical: 6 },
-  dayColor: { flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: "#fff", borderRadius: 14, padding: 10, marginTop: 12, borderWidth: 2 },
-  bed: { backgroundColor: "rgba(255,250,236,0.78)", borderRadius: 20, padding: 6, paddingBottom: 8, alignItems: "center", overflow: "visible", borderWidth: 2, borderColor: "rgba(255,255,255,0.9)" },
-  bedPlot: { backgroundColor: "rgba(255,250,236,0.45)", borderStyle: "dashed", borderColor: "rgba(160,120,60,0.45)" },
+const styles = themed(() => StyleSheet.create({
+  head: { backgroundColor: K.bg("rgba(255,250,238,0.94)"), borderRadius: 24, padding: 14 },
+  nectarBox: { alignItems: "center", backgroundColor: K.bg("#fff"), borderRadius: 18, paddingHorizontal: 12, paddingVertical: 6, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
+  dayColor: { flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: K.bg("#fff"), borderRadius: 14, padding: 10, marginTop: 12, borderWidth: 2 },
+  bed: { backgroundColor: K.bg("rgba(255,250,236,0.78)"), borderRadius: 20, padding: 6, paddingBottom: 8, alignItems: "center", overflow: "visible", borderWidth: 2, borderColor: K.bd("rgba(255,255,255,0.9)") },
+  bedPlot: { backgroundColor: K.bg("rgba(255,250,236,0.45)"), borderStyle: "dashed", borderColor: K.bd("rgba(160,120,60,0.45)") },
   chip: { flexDirection: "row", gap: 3 },
   status: { marginTop: 5, borderRadius: 10, paddingHorizontal: 7, paddingVertical: 2, maxWidth: "100%", alignItems: "center" },
-  hint: { alignSelf: "center", backgroundColor: "rgba(255,250,236,0.88)", borderRadius: 14, paddingHorizontal: 12, paddingVertical: 6 },
-  decoSpot: { width: 92, height: 56, borderRadius: 46, borderWidth: 2, borderStyle: "dashed", borderColor: "rgba(255,255,255,0.9)", alignItems: "center", justifyContent: "center", marginLeft: 8 },
-  bedSel: { borderWidth: 3, borderColor: C.honey, padding: 5, backgroundColor: "rgba(255,247,226,0.6)" },
-  bedLocked: { backgroundColor: "#F6EAD3", justifyContent: "center", borderWidth: 2, borderStyle: "dashed", borderColor: "#E2C99C", ...shadow, shadowOpacity: 0 },
-  soil: { width: "92%", height: 18, borderRadius: 9, backgroundColor: "#B07A4A", overflow: "hidden" },
-  soilWet: { backgroundColor: "#7A4E2B" },
-  soilRidge: { position: "absolute", left: 6, right: 6, top: 3, height: 4, borderRadius: 2, backgroundColor: "#C9935F" },
-  plus: { width: 40, height: 40, borderRadius: 20, backgroundColor: "#7CBF4E", borderWidth: 3, borderColor: "#fff", alignItems: "center", justifyContent: "center", marginBottom: 10 },
-  readyDot: { position: "absolute", top: -6, right: -6, width: 30, height: 30, borderRadius: 15, backgroundColor: "#FFE3EE", alignItems: "center", justifyContent: "center" },
+  hint: { alignSelf: "center", backgroundColor: K.bg("rgba(255,250,236,0.88)"), borderRadius: 14, paddingHorizontal: 12, paddingVertical: 6 },
+  decoSpot: { width: 92, height: 56, borderRadius: 46, borderWidth: 2, borderStyle: "dashed", borderColor: K.bd("rgba(255,255,255,0.9)"), alignItems: "center", justifyContent: "center", marginLeft: 8 },
+  bedSel: { borderWidth: 3, borderColor: C.honey, padding: 5, backgroundColor: isNight() ? "rgba(34,28,77,0.9)" : "rgba(255,247,226,0.6)", ...activeCard() },
+  bedLocked: { backgroundColor: K.bg("#F6EAD3"), justifyContent: "center", borderWidth: 2, borderStyle: "dashed", borderColor: K.bd("#E2C99C"), ...shadow, shadowOpacity: 0 },
+  soil: { width: "92%", height: 18, borderRadius: 9, backgroundColor: K.bg("#B07A4A"), overflow: "hidden" },
+  soilWet: { backgroundColor: K.bg("#7A4E2B") },
+  soilRidge: { position: "absolute", left: 6, right: 6, top: 3, height: 4, borderRadius: 2, backgroundColor: K.bg("#C9935F") },
+  plus: { width: 40, height: 40, borderRadius: 20, backgroundColor: K.bg("#7CBF4E"), borderWidth: 3, borderColor: K.bd("#fff"), alignItems: "center", justifyContent: "center", marginBottom: 10 },
+  readyDot: { position: "absolute", top: -6, right: -6, width: 30, height: 30, borderRadius: 15, backgroundColor: K.bg("#FFE3EE"), alignItems: "center", justifyContent: "center" },
   cost: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 4 },
-  seedRow: { flexDirection: "row", alignItems: "center", gap: 10, padding: 8, marginBottom: 6, borderRadius: 16, backgroundColor: "#FFF8EA", borderWidth: 1.5, borderColor: C.line },
+  seedRow: { flexDirection: "row", alignItems: "center", gap: 10, padding: 8, marginBottom: 6, borderRadius: 16, backgroundColor: isNight() ? "#221C4D" : "#FFF8EA", borderWidth: 1.5, borderColor: C.line },
   seedBtn: { width: 92 },
-  fact: { flexDirection: "row", alignItems: "center", gap: 3, backgroundColor: "#F3E6CC", borderRadius: 8, paddingHorizontal: 6, paddingVertical: 1 },
+  fact: { flexDirection: "row", alignItems: "center", gap: 3, backgroundColor: K.bg("#F3E6CC"), borderRadius: 8, paddingHorizontal: 6, paddingVertical: 1 },
   glyph: { width: 22, height: 19 },
   glyphBig: { width: 28, height: 24 },
-});
+}));

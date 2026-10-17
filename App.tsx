@@ -35,7 +35,7 @@ import { ART, sceneBg, seasonalTiles, setTileStyle } from "./src/ui/art";
 import { SceneBg } from "./src/ui/SceneBg";
 import { TabIcon } from "./src/ui/TabIcon";
 import { Mascot } from "./src/ui/BeeSprite";
-import { C, F, shadow } from "./src/ui/theme";
+import { C, F, shadow, K, themed, resolveTheme, setTheme, themeName, isNight } from "./src/ui/theme";
 import { Bar, GameButton, Pill, Press, TopPad, Txt } from "./src/ui/components";
 import { centerOf, FlyProvider, Pt, useFly } from "./src/ui/Fly";
 import HiveScreen from "./src/screens/HiveScreen";
@@ -514,9 +514,13 @@ function Main() {
 
   if (!s) return <View style={{ flex: 1, backgroundColor: C.bg }} />;
 
+  // interface theme: set before any child renders (the keyed roots below remount on a change)
+  setTheme(resolveTheme(s.settings.ui, !!activeEvent(todayOf(s, now))));
+  const themeKey = themeName();
+
   if (flight) {
     return (
-      <View style={{ flex: 1, backgroundColor: "#2B1B3D" }}>
+      <View key={themeKey} style={{ flex: 1, backgroundColor: K.bg("#2B1B3D") }}>
         <StatusBar style="light" />
         <FlightScreen key={flight.key} seed={flight.seed} beeId={flight.bee} skin={s.beeSkins[flight.bee]} level={s.beeLevels[flight.bee] ?? 1}
           best={s.flight.best} paidLeft={Math.max(0, FLIGHT_PAID_RUNS - flightRunsToday(s, now))} event={!!activeEvent(todayOf(s, now))}
@@ -530,7 +534,7 @@ function Main() {
     const puzzleNight = !!activeEvent(todayOf(s, now));
     const halloween = game.mode === "free" && puzzleNight;
     return (
-      <View style={{ flex: 1, backgroundColor: C.bg }}>
+      <View key={themeKey} style={{ flex: 1, backgroundColor: C.bg }}>
         <StatusBar style={puzzleNight ? "light" : "dark"} />
         {puzzleNight || isAutumn(todayOf(s, now)) ? <Image source={puzzleNight ? ART.puzzleNight : ART.puzzleAutumn} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} /> : null}
         <GameScreen
@@ -563,7 +567,7 @@ function Main() {
   const gardenBadge = s.garden.beds.some((b) => isReady(b) || (canWater(b) && b.water <= 0));
 
   return (
-    <View key={`${s.settings.lang}-${seasonalTiles(s.settings.tiles, night)}`} style={{ flex: 1, backgroundColor: C.bg }}>
+    <View key={`${s.settings.lang}-${seasonalTiles(s.settings.tiles, night)}-${themeKey}`} style={{ flex: 1, backgroundColor: C.bg }}>
       <StatusBar style={night && tab === "hive" ? "light" : "dark"} />
       {tab === "hive" ? (
         <SceneBg source={sceneBg(hiveView === "garden" ? "garden" : "hive", night, isAutumn(todayOf(s, now)))} />
@@ -624,10 +628,10 @@ function Main() {
         <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }} pointerEvents="box-none">
           <View style={styles.cur}>
             <Pill icon={ART.honey} value={hold.honey ?? s.honey} bump={bump.honey} label={t("c.honey")} onLayoutIcon={(r) => { honeyIcon.current = r; }} />
-            <Pill icon={ART.nectar} value={hold.nectar ?? s.nectar} bump={bump.nectar} label={t("c.nectar")} color="#B03A68" onLayoutIcon={(r) => { nectarIcon.current = r; }} />
-            <Pill icon={ART.jelly} value={hold.jelly ?? s.jelly} bump={bump.jelly} label={t("c.jelly")} color="#7B52C2" onLayoutIcon={(r) => { jellyIcon.current = r; }} />
-            <Pill icon={ART.pollen} value={s.loot.pollen} label={t("c.pollen")} color="#B07A10" />
-            <Pill icon={ART.fragment} value={s.loot.fragments} label={t("c.fragments")} color="#5B5FC7" />
+            <Pill icon={ART.nectar} value={hold.nectar ?? s.nectar} bump={bump.nectar} label={t("c.nectar")} color={K.fg("#B03A68")} onLayoutIcon={(r) => { nectarIcon.current = r; }} />
+            <Pill icon={ART.jelly} value={hold.jelly ?? s.jelly} bump={bump.jelly} label={t("c.jelly")} color={K.fg("#7B52C2")} onLayoutIcon={(r) => { jellyIcon.current = r; }} />
+            <Pill icon={ART.pollen} value={s.loot.pollen} label={t("c.pollen")} color={K.fg("#B07A10")} />
+            <Pill icon={ART.fragment} value={s.loot.fragments} label={t("c.fragments")} color={K.fg("#5B5FC7")} />
           </View>
           <Press onPress={() => { setSettingsPage("main"); setShowSettings(true); }} style={styles.gear} accessibilityRole="button" accessibilityLabel={updater.available ? `${t("c.settings")} · ${t("up.badge")}` : t("c.settings")}>
             <Image source={ART.gear} style={{ width: 22, height: 22, tintColor: C.brown }} />
@@ -709,20 +713,20 @@ function taskBadge(s: GameState) {
   return ready || (!s.tasks.bonus && s.tasks.claimed.length >= 3);
 }
 
-const styles = StyleSheet.create({
-  zcard: { flexDirection: "row", alignItems: "center", gap: 10, marginHorizontal: 16, marginBottom: 6, paddingVertical: 8, paddingLeft: 14, paddingRight: 8, borderRadius: 22, backgroundColor: "rgba(255,247,226,0.94)" },
+const styles = themed(() => StyleSheet.create({
+  zcard: { flexDirection: "row", alignItems: "center", gap: 10, marginHorizontal: 16, marginBottom: 6, paddingVertical: 8, paddingLeft: 14, paddingRight: 8, borderRadius: 22, backgroundColor: K.bg("rgba(255,247,226,0.94)") },
   top: { position: "absolute", top: 0, left: 0, right: 0, paddingHorizontal: 12, paddingBottom: 2 },
-  cur: { flex: 1, flexDirection: "row", alignItems: "center", height: 40, paddingHorizontal: 6, gap: 2, borderRadius: 20, backgroundColor: "#FFFFFF", ...shadow },
+  cur: { flex: 1, flexDirection: "row", alignItems: "center", height: 40, paddingHorizontal: 6, gap: 2, borderRadius: 20, backgroundColor: K.bg("#FFFFFF"), ...shadow, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   lvl: { width: 36, height: 36, borderRadius: 12, backgroundColor: C.honeyDeep, alignItems: "center", justifyContent: "center", transform: [{ rotate: "45deg" }], marginRight: 4 },
-  gear: { width: 40, height: 40, borderRadius: 20, backgroundColor: "#fff", alignItems: "center", justifyContent: "center", ...shadow },
-  tabs: { flexDirection: "row", backgroundColor: "#FFFFFF", borderRadius: 26, marginHorizontal: 10, padding: 6, gap: 2, ...shadow, shadowOffset: { width: 0, height: 3 }, elevation: 12 },
+  gear: { width: 40, height: 40, borderRadius: 20, backgroundColor: K.bg("#fff"), alignItems: "center", justifyContent: "center", ...shadow, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
+  tabs: { flexDirection: "row", backgroundColor: K.bg("#FFFFFF"), borderRadius: 26, marginHorizontal: 10, padding: 6, gap: 2, ...shadow, shadowOffset: { width: 0, height: 3 }, elevation: 12, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   tab: { flex: 1, alignItems: "center", borderRadius: 20, paddingVertical: 6 },
   tabOn: { backgroundColor: C.honey, ...shadow, elevation: 4 },
   tabIcon: { width: 40, height: 30, alignItems: "center", justifyContent: "center" },
   tabIconOn: { backgroundColor: C.honey },
-  badge: { position: "absolute", top: 2, right: 8, width: 10, height: 10, borderRadius: 5, backgroundColor: C.red, borderWidth: 2, borderColor: "#fff" },
-  banner: { flexDirection: "row", gap: 12, backgroundColor: "#fff", borderRadius: 22, padding: 14 },
-  seg: { flexDirection: "row", alignSelf: "center", width: 220, marginTop: 8, marginBottom: 6, backgroundColor: "rgba(255,255,255,0.92)", borderRadius: 20, padding: 4, gap: 4, ...shadow },
+  badge: { position: "absolute", top: 2, right: 8, width: 10, height: 10, borderRadius: 5, backgroundColor: C.red, borderWidth: 2, borderColor: K.bd("#fff") },
+  banner: { flexDirection: "row", gap: 12, backgroundColor: K.bg("#fff"), borderRadius: 22, padding: 14, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
+  seg: { flexDirection: "row", alignSelf: "center", width: 220, marginTop: 8, marginBottom: 6, backgroundColor: K.bg("rgba(255,255,255,0.92)"), borderRadius: 20, padding: 4, gap: 4, ...shadow },
   segBtn: { flex: 1, flexDirection: "row", gap: 6, alignItems: "center", justifyContent: "center", height: 36, borderRadius: 14 },
   segOn: { backgroundColor: C.honey },
-});
+}));

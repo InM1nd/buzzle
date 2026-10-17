@@ -18,7 +18,7 @@ import { ART } from "../ui/art";
 import { BeeSprite } from "../ui/BeeSprite";
 import { CountUp, GameButton, Overlay, Press, Txt } from "../ui/components";
 import { hError, hLight, hSuccess } from "../ui/haptics";
-import { C, F, shadow } from "../ui/theme";
+import { C, F, shadow, K, themed, isNight } from "../ui/theme";
 import { USE_NATIVE_DRIVER } from "../ui/anim";
 
 /* eslint-disable @typescript-eslint/no-require-imports */
@@ -277,9 +277,9 @@ export default function FlightScreen(p: Props) {
       {phase === "ready" || phase === "paused" ? (
         <View pointerEvents="none" style={styles.center}>
           <Txt v="h1" color="#fff" center>{t(phase === "ready" ? "fl.title" : "fl.paused")}</Txt>
-          <Txt v="body" color="#FFC56B" center style={{ marginTop: 6 }}>{t("fl.tap")}</Txt>
+          <Txt v="body" color={K.fg("#FFC56B")} center style={{ marginTop: 6 }}>{t("fl.tap")}</Txt>
           {phase === "ready" ? (
-            <Txt v="small" color="#BFF5E6" center style={{ marginTop: 10 }}>
+            <Txt v="small" color={K.fg("#BFF5E6")} center style={{ marginTop: 10 }}>
               {p.paidLeft > 0 ? t("fl.paidLeft", { n: p.paidLeft }) : t("fl.forFun")}{p.event ? ` · ${t("fl.eventHint")}` : ""}
             </Txt>
           ) : null}
@@ -321,7 +321,7 @@ export default function FlightScreen(p: Props) {
             {result.nectar > 0 || result.points > 0 ? (
               <View style={styles.rewardRow}>
                 {result.nectar > 0 ? <View style={styles.rewardItem}><Image source={ART.nectar} style={{ width: 30, height: 30 }} /><Text style={[F.black, styles.rw]}>+{result.nectar}</Text></View> : null}
-                {result.points > 0 ? <View style={styles.rewardItem}><Image source={ART.point} style={{ width: 30, height: 30 }} /><Text style={[F.black, styles.rw, { color: "#C25E00" }]}>+{result.points}</Text></View> : null}
+                {result.points > 0 ? <View style={styles.rewardItem}><Image source={ART.point} style={{ width: 30, height: 30 }} /><Text style={[F.black, styles.rw, { color: K.fg("#C25E00") }]}>+{result.points}</Text></View> : null}
               </View>
             ) : null}
             <Txt v="small" color={C.dim} center style={{ marginTop: 10 }}>{result.paidLeft > 0 ? t("fl.paidLeft", { n: result.paidLeft }) : t("fl.forFun")}</Txt>
@@ -336,19 +336,19 @@ export default function FlightScreen(p: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: "#2B1B3D", overflow: "hidden" },
+const styles = themed(() => StyleSheet.create({
+  root: { flex: 1, backgroundColor: K.bg("#2B1B3D"), overflow: "hidden" },
   hud: { position: "absolute", left: 14, right: 14, flexDirection: "row", alignItems: "center", gap: 10 },
-  iconBtn: { width: 46, height: 46, borderRadius: 23, backgroundColor: "#fff", alignItems: "center", justifyContent: "center", ...shadow },
+  iconBtn: { width: 46, height: 46, borderRadius: 23, backgroundColor: K.bg("#fff"), alignItems: "center", justifyContent: "center", ...shadow, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   score: { fontSize: 44, lineHeight: 50, color: "#fff", textShadowColor: "rgba(0,0,0,0.35)", textShadowRadius: 8, textShadowOffset: { width: 0, height: 2 } },
-  candy: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: "rgba(58,47,91,0.85)", borderRadius: 18, paddingHorizontal: 10, height: 40 },
+  candy: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: K.bg("rgba(58,47,91,0.85)"), borderRadius: 18, paddingHorizontal: 10, height: 40 },
   center: { position: "absolute", left: 24, right: 24, top: "22%", alignItems: "center" },
-  resHead: { height: 132, borderRadius: 20, overflow: "hidden", alignItems: "center", justifyContent: "center", backgroundColor: "#2B1B3D" },
-  ribbon: { position: "absolute", top: 10, right: 10, backgroundColor: "#F08A24", borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3 },
-  statRow: { flexDirection: "row", marginTop: 10, backgroundColor: "#FFF8EA", borderRadius: 18, borderWidth: 1.5, borderColor: C.line, paddingVertical: 8 },
+  resHead: { height: 132, borderRadius: 20, overflow: "hidden", alignItems: "center", justifyContent: "center", backgroundColor: K.bg("#2B1B3D") },
+  ribbon: { position: "absolute", top: 10, right: 10, backgroundColor: K.bg("#F08A24"), borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3 },
+  statRow: { flexDirection: "row", marginTop: 10, backgroundColor: K.bg("#FFF8EA"), borderRadius: 18, borderWidth: 1.5, borderColor: C.line, paddingVertical: 8 },
   stat: { flex: 1, alignItems: "center" },
   statMid: { borderLeftWidth: 1.5, borderRightWidth: 1.5, borderColor: C.line },
   rewardRow: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 12, marginTop: 14 },
-  rewardItem: { flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: "#FFF", borderRadius: 18, paddingHorizontal: 12, paddingVertical: 8, ...shadow },
+  rewardItem: { flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: K.bg("#FFF"), borderRadius: 18, paddingHorizontal: 12, paddingVertical: 8, ...shadow, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   rw: { fontSize: 20, color: C.honeyDark },
-});
+}));

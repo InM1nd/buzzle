@@ -10,8 +10,8 @@ import { FLOWERS } from "../logic/garden";
 import { DAILY_MOVES, DAILY_STARS } from "../logic/day";
 import { colorName } from "../logic/bees";
 import { ART } from "../ui/art";
-import { C, shadow } from "../ui/theme";
-import { Bobbing, Card, CloseBtn, fmt, GameButton, Overlay, Press, Stars, Txt, useTopPad } from "../ui/components";
+import { C, shadow, K, themed, activeCard, isNight } from "../ui/theme";
+import { Bobbing, Card, CloseBtn, fmt, GameButton, Glow, Overlay, Press, Stars, Txt, useTopPad } from "../ui/components";
 import { dateLong, days, weekday } from "../ui/format";
 import { activeEvent } from "../logic/event";
 import { Pt } from "../ui/Fly";
@@ -57,33 +57,34 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
     <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
       <Txt v="h1" style={{ marginBottom: 2 }}>{t("tab.puzzle")}</Txt>
       <EventCard s={s} now={now} onClaim={onClaimTrack} />
-      <View style={[styles.daily, shadow]}>
+      <View style={[styles.daily, shadow, activeCard()]}>
+        <Glow radius={28} />
         <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
           <View style={{ flex: 1 }}>
-            <Txt v="tiny" color="#8A5200">{t("pz.dailyCaps")}</Txt>
-            <Txt v="h1" color="#4A2C12" style={{ marginTop: 2 }}>{dateLong(date)}</Txt>
-            <Txt v="small" color="#8A5200">{t("pz.dailySub", { wd: weekday(date), n: DAILY_MOVES })}</Txt>
+            <Txt v="tiny" color={"#8A5200"}>{t("pz.dailyCaps")}</Txt>
+            <Txt v="h1" color={"#4A2C12"} style={{ marginTop: 2 }}>{dateLong(date)}</Txt>
+            <Txt v="small" color={"#8A5200"}>{t("pz.dailySub", { wd: weekday(date), n: DAILY_MOVES })}</Txt>
           </View>
           <Bobbing amp={4}><HexCluster /></Bobbing>
         </View>
         <View style={styles.dailyRow}>
           <Stars n={res?.stars ?? 0} size={34} gap={4} />
           <View style={{ flex: 1, alignItems: "flex-end" }}>
-            {res ? <Txt v="small" color="#8A5200">{t("pz.bestScore")}</Txt> : null}
-            {res ? <Txt v="num" color="#4A2C12">{fmt(res.score)}</Txt> : <Txt v="small" color="#8A5200">{t("pz.notPlayed")}</Txt>}
+            {res ? <Txt v="small" color={"#8A5200"}>{t("pz.bestScore")}</Txt> : null}
+            {res ? <Txt v="num" color={"#4A2C12"}>{fmt(res.score)}</Txt> : <Txt v="small" color={"#8A5200"}>{t("pz.notPlayed")}</Txt>}
           </View>
         </View>
         <View style={styles.thresholds}>
           {DAILY_STARS.map((t, i) => (
             <View key={i} style={styles.th}>
               <Image source={ART.star} style={{ width: 16, height: 16 }} />
-              <Txt v="small" color="#6B3E00">{fmt(t)}</Txt>
+              <Txt v="small" color={"#6B3E00"}>{fmt(t)}</Txt>
             </View>
           ))}
         </View>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginTop: 10, marginBottom: 12 }}>
           <Image source={ART.flame} style={{ width: 22, height: 22, opacity: streak ? 1 : 0.4 }} />
-          <Txt v="small" color="#6B3E00">
+          <Txt v="small" color={"#6B3E00"}>
             {streak ? t("pz.streak", { n: streak }) : t("pz.startStreak")}
             {s.daily.best > 1 ? t("pz.bestStreak", { n: s.daily.best }) : ""}
           </Txt>
@@ -119,7 +120,7 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
         </View>
         {chips.length ? (
           <View style={styles.chips}>
-            {chips.map((c) => <View key={c} style={styles.chip}><Txt v="tiny" color="#7B52C2">{c}</Txt></View>)}
+            {chips.map((c) => <View key={c} style={styles.chip}><Txt v="tiny" color={K.fg("#7B52C2")}>{c}</Txt></View>)}
           </View>
         ) : <Txt v="small" color={C.dim} style={{ marginTop: 10 }}>{t("pz.unlockBees")}</Txt>}
         {s.stats.bestScore > 0 ? <Txt v="small" color={C.dim} style={{ marginTop: 8 }}>{t("pz.record", { n: fmt(s.stats.bestScore) })}</Txt> : null}
@@ -136,7 +137,7 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
       </Card>
 
       <View style={{ flexDirection: "row", gap: 10 }}>
-        <Card style={{ flex: 1, backgroundColor: "#F1E9FF", borderWidth: 2, borderColor: weekendOpen(s, now) ? "#9A6BE0" : "#E2D6F7" }}>
+        <Card style={{ flex: 1, backgroundColor: K.bg("#F1E9FF"), borderWidth: 2, borderColor: weekendOpen(s, now) ? "#9A6BE0" : "#E2D6F7" }}>
           <Image source={ART.cells[2]} style={{ width: 38, height: 34 }} />
           <Txt v="h3" style={{ marginTop: 6 }}>{t("pz.weekend")}</Txt>
           <Txt v="tiny" color={C.dim}>{t("pz.weekendSub", { n: WEEKEND_MOVES })}</Txt>
@@ -144,11 +145,11 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
           <GameButton title={weekendOpen(s, now) ? t("pz.play") : t("pz.weekendOnly")} disabled={!weekendOpen(s, now)} color={weekendOpen(s, now) ? "purple" : "grey"} style={{ marginTop: 8 }}
             onPress={() => onPlay("weekend")} label={t("mode.weekend")} />
         </Card>
-        <Card style={{ flex: 1, backgroundColor: "#2B1B3D", borderWidth: 2, borderColor: "#3A2F5B" }}>
+        <Card style={{ flex: 1, backgroundColor: K.bg("#2B1B3D"), borderWidth: 2, borderColor: K.bd("#3A2F5B") }}>
           <Image source={ART.flightIcon} style={{ width: 40, height: 40 }} />
           <Txt v="h3" color="#fff" style={{ marginTop: 6 }}>{t("fl.title")}</Txt>
-          <Txt v="tiny" color="#BFF5E6">{t("fl.sub")}</Txt>
-          {s.flight.best > 0 ? <Txt v="tiny" color="#FFC56B" style={{ marginTop: 2 }}>{t("fl.best", { n: s.flight.best })}</Txt> : null}
+          <Txt v="tiny" color={K.fg("#BFF5E6")}>{t("fl.sub")}</Txt>
+          {s.flight.best > 0 ? <Txt v="tiny" color={K.fg("#FFC56B")} style={{ marginTop: 2 }}>{t("fl.best", { n: s.flight.best })}</Txt> : null}
           <View style={{ flex: 1 }} />
           <GameButton title={t("pz.play")} color="honey" style={{ marginTop: 8 }} onPress={onFlight} label={t("fl.title")} />
         </Card>
@@ -214,19 +215,19 @@ function Rule({ img, overlay, title, text }: { img: number; overlay?: number; ti
   );
 }
 
-const styles = StyleSheet.create({
-  daily: { backgroundColor: "#FFC94A", borderRadius: 28, padding: 18, borderWidth: 3, borderColor: "#FFB51F" },
-  dailyRow: { flexDirection: "row", alignItems: "center", marginTop: 12, backgroundColor: "rgba(255,255,255,0.45)", borderRadius: 18, padding: 10 },
+const styles = themed(() => StyleSheet.create({
+  daily: { backgroundColor: isNight() ? "#FFB52E" : "#FFC94A", borderRadius: 28, padding: 18, borderWidth: 3, borderColor: "#FFB51F" },
+  dailyRow: { flexDirection: "row", alignItems: "center", marginTop: 12, backgroundColor: K.bg("rgba(255,255,255,0.45)"), borderRadius: 18, padding: 10 },
   thresholds: { flexDirection: "row", gap: 8, marginTop: 10 },
-  th: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: "rgba(255,255,255,0.45)", borderRadius: 12, paddingHorizontal: 8, paddingVertical: 3 },
-  freeIcon: { width: 58, height: 58, borderRadius: 18, backgroundColor: "#FFF3D6", alignItems: "center", justifyContent: "center" },
+  th: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: K.bg("rgba(255,255,255,0.45)"), borderRadius: 12, paddingHorizontal: 8, paddingVertical: 3 },
+  freeIcon: { width: 58, height: 58, borderRadius: 18, backgroundColor: K.bg("#FFF3D6"), alignItems: "center", justifyContent: "center" },
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 6, marginTop: 10 },
   boostRow: { flexDirection: "row", gap: 8, marginTop: 12 },
-  boostMini: { flexDirection: "row", alignItems: "center", gap: 4, borderRadius: 12, borderWidth: 2, borderColor: C.line, paddingHorizontal: 8, paddingVertical: 3, backgroundColor: "#fff" },
-  boostCard: { flexDirection: "row", alignItems: "center", gap: 10, borderRadius: 18, borderWidth: 2, borderColor: C.line, padding: 10, backgroundColor: "#fff" },
-  check: { width: 40, height: 40, borderRadius: 14, borderWidth: 2, borderColor: C.line, alignItems: "center", justifyContent: "center", backgroundColor: "#fff" },
-  checkOn: { borderColor: C.green, backgroundColor: "#E4F7EA" },
-  boost: { flex: 1, flexDirection: "row", alignItems: "center", gap: 6, borderRadius: 14, borderWidth: 2, borderColor: C.line, padding: 6, backgroundColor: "#fff" },
-  boostOn: { borderColor: C.green, backgroundColor: "#E4F7EA" },
-  chip: { backgroundColor: "#F1E8FF", borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3 },
-});
+  boostMini: { flexDirection: "row", alignItems: "center", gap: 4, borderRadius: 12, borderWidth: 2, borderColor: C.line, paddingHorizontal: 8, paddingVertical: 3, backgroundColor: K.bg("#fff") },
+  boostCard: { flexDirection: "row", alignItems: "center", gap: 10, borderRadius: 18, borderWidth: 2, borderColor: C.line, padding: 10, backgroundColor: K.bg("#fff") },
+  check: { width: 40, height: 40, borderRadius: 14, borderWidth: 2, borderColor: C.line, alignItems: "center", justifyContent: "center", backgroundColor: K.bg("#fff") },
+  checkOn: { borderColor: C.green, backgroundColor: K.bg("#E4F7EA") },
+  boost: { flex: 1, flexDirection: "row", alignItems: "center", gap: 6, borderRadius: 14, borderWidth: 2, borderColor: C.line, padding: 6, backgroundColor: K.bg("#fff") },
+  boostOn: { borderColor: C.green, backgroundColor: K.bg("#E4F7EA") },
+  chip: { backgroundColor: K.bg("#F1E8FF"), borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3 },
+}));

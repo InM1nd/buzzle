@@ -8,13 +8,22 @@ import { ART } from "./art";
 import { GARDEN_ART, ITEM_ART } from "./beeArt";
 import { BeeSprite } from "./BeeSprite";
 import { fmt } from "./components";
+import { isNight } from "./theme";
 
 /** frame colours follow the pollen colours of the puzzle */
+const RUI = {
+  common: { c: "#2FA864", bg: "#E4F7EA", nc: "#7FE0A4", nbg: "rgba(61,190,106,0.20)" },
+  rare: { c: "#2E8BEA", bg: "#E1EEFC", nc: "#8CC4FF", nbg: "rgba(80,150,255,0.22)" },
+  epic: { c: "#8A5BE6", bg: "#EFE6FF", nc: "#C9A8FF", nbg: "rgba(167,123,234,0.26)" },
+  legendary: { c: "#E09A00", bg: "#FFF0C7", nc: "#FFD27A", nbg: "rgba(255,181,31,0.22)" },
+};
+const rui = (r: Rarity) => ({
+  get color() { return isNight() ? RUI[r].nc : RUI[r].c; },
+  get bg() { return isNight() ? RUI[r].nbg : RUI[r].bg; },
+  get name() { return RARITY_NAME[r]; },
+});
 export const RARITY_UI: Record<Rarity, { color: string; bg: string; name: string }> = {
-  common: { color: "#2FA864", bg: "#E4F7EA", get name() { return RARITY_NAME.common; } },
-  rare: { color: "#2E8BEA", bg: "#E1EEFC", get name() { return RARITY_NAME.rare; } },
-  epic: { color: "#8A5BE6", bg: "#EFE6FF", get name() { return RARITY_NAME.epic; } },
-  legendary: { color: "#E09A00", bg: "#FFF0C7", get name() { return RARITY_NAME.legendary; } },
+  common: rui("common"), rare: rui("rare"), epic: rui("epic"), legendary: rui("legendary"),
 };
 export const BOOSTER_ART: Record<BoosterId, number> = { moves: ART.boostMoves, bomb: require("../../assets/art/boost_bomb.webp"), shuffle: ART.boostShuffle };
 export const boxArt = (kind: string, dmg = 0) => (dmg > 0 && ITEM_ART[`box_${kind}_d${Math.min(2, dmg)}`]?.src) || ITEM_ART[`box_${kind}`]?.src;
@@ -22,7 +31,7 @@ export const boxArt = (kind: string, dmg = 0) => (dmg > 0 && ITEM_ART[`box_${kin
 /** picture of a collectible (skin on Zhuzha, decoration, rare flower, night bee) */
 export function ItemIcon({ id, size, locked }: { id: string; size: number; locked?: boolean }) {
   const it = ITEM_BY_ID[id];
-  const tint = locked ? "#D8C29C" : undefined;
+  const tint = locked ? (isNight() ? "#32296D" : "#D8C29C") : undefined;
   if (!it) return <View style={{ width: size, height: size }} />;
   if (it.kind === "skin") return <BeeSprite id="zhuzha" size={size * 1.15} skin={locked ? undefined : id} tint={tint} flap={false} style={{ margin: -size * 0.075 }} />;
   if (it.kind === "bee") return <BeeSprite id={id} size={size * 1.15} tint={tint} flap={false} style={{ margin: -size * 0.075 }} />;

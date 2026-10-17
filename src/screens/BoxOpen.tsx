@@ -11,7 +11,7 @@ import { BOX_INFO, BoxKind, Drop, Rarity, RARITIES } from "../logic/loot";
 import { ITEM_ART } from "../ui/beeArt";
 import { ART } from "../ui/art";
 import { BeeSprite, Hover } from "../ui/BeeSprite";
-import { C, F, shadow } from "../ui/theme";
+import { C, F, shadow, K, themed, isNight } from "../ui/theme";
 import { GameButton, Press, Txt } from "../ui/components";
 import { hHeavy, hLight, hSuccess, hTick } from "../ui/haptics";
 import { addBackListener } from "../platform/back";
@@ -124,7 +124,7 @@ export default function BoxOpen({ kind, left, bees, skins, onOpen, onOpenAll, on
   return (
     <Animated.View style={[StyleSheet.absoluteFill, styles.root, { opacity: fade, paddingTop: insets.top + 12, paddingBottom: insets.bottom + 14 }]} accessibilityViewIsModal>
       <View style={styles.head}>
-        <Txt v="tiny" color="#FFE2A8">{all ? t("box.opened") : t("box.surprise")}</Txt>
+        <Txt v="tiny" color={K.fg("#FFE2A8")}>{all ? t("box.opened") : t("box.surprise")}</Txt>
         <Txt v="h2" color="#fff" center>{all ? `${all.length} × ${BOX_INFO[kind].name}` : BOX_INFO[kind].name}</Txt>
       </View>
 
@@ -140,7 +140,7 @@ export default function BoxOpen({ kind, left, bees, skins, onOpen, onOpenAll, on
           <View style={styles.dots}>
             {[0, 1, 2].map((i) => <View key={i} style={[styles.dot, i < cracks && { backgroundColor: C.honey }]} />)}
           </View>
-          <Txt v="h3" color="#FFE2A8" center style={{ marginTop: 6 }}>{cracks === 0 ? t("box.tap3") : cracks === 1 ? t("box.more") : cracks === 2 ? t("box.last") : "…"}</Txt>
+          <Txt v="h3" color={K.fg("#FFE2A8")} center style={{ marginTop: 6 }}>{cracks === 0 ? t("box.tap3") : cracks === 1 ? t("box.more") : cracks === 2 ? t("box.last") : "…"}</Txt>
         </View>
       ) : (
         <ScrollView style={{ flex: 1, alignSelf: "stretch" }} contentContainerStyle={{ alignItems: "center", paddingVertical: 10, paddingHorizontal: 14 }} showsVerticalScrollIndicator={false}>
@@ -175,7 +175,7 @@ export default function BoxOpen({ kind, left, bees, skins, onOpen, onOpenAll, on
         ) : <View style={{ height: 62 }} />}
       </View>
 
-      <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: "#FFF4D6", opacity: flash }]} />
+      <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: K.bg("#FFF4D6"), opacity: flash }]} />
     </Animated.View>
   );
 }
@@ -209,7 +209,7 @@ function DropCard({ d, w }: { d: Drop; w: number }) {
   const r = isResource(d) ? null : RARITY_UI[d.rarity];
   const sub = dropSub(d);
   return (
-    <Animated.View style={[styles.card, { width: w, borderColor: r?.color ?? "#F1DFC0", backgroundColor: r ? r.bg : "#FFF9EE", transform: [{ scale: a }] }]}
+    <Animated.View style={[styles.card, { width: w, borderColor: r?.color ?? (isNight() ? C.cardEdge : "#F1DFC0"), backgroundColor: r ? r.bg : isNight() ? "#221C4D" : "#FFF9EE", transform: [{ scale: a }] }]}
       accessibilityLabel={`${dropTitle(d)}${r ? `, ${r.name}` : ""}`}>
       {r && (d.rarity === "epic" || d.rarity === "legendary") ? <View style={[styles.glow, { backgroundColor: r.color }]} /> : null}
       <DropIcon d={d} size={w * 0.52} />
@@ -267,16 +267,16 @@ function Res({ img, n }: { img: "honey" | "nectar" | "jelly" | "pollen"; n: numb
   );
 }
 
-const styles = StyleSheet.create({
-  root: { backgroundColor: "rgba(46,24,6,0.94)", zIndex: 80, elevation: 80, alignItems: "center" },
+const styles = themed(() => StyleSheet.create({
+  root: { backgroundColor: K.bg("rgba(46,24,6,0.94)"), zIndex: 80, elevation: 80, alignItems: "center" },
   head: { alignItems: "center", paddingHorizontal: 20 },
   dots: { flexDirection: "row", gap: 8, marginTop: 18 },
-  dot: { width: 14, height: 14, borderRadius: 7, backgroundColor: "rgba(255,255,255,0.25)" },
+  dot: { width: 14, height: 14, borderRadius: 7, backgroundColor: K.bg("rgba(255,255,255,0.25)") },
   rays: { position: "absolute", width: 150, height: 150, borderRadius: 28, borderWidth: 10 },
   grid: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 10, marginTop: 8 },
   card: { borderRadius: 20, borderWidth: 3, padding: 8, alignItems: "center", overflow: "hidden", ...shadow },
   glow: { position: "absolute", top: -30, width: 120, height: 80, borderRadius: 60, opacity: 0.18 },
   btns: { alignSelf: "stretch", paddingHorizontal: 18, gap: 10 },
   resRow: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 8 },
-  res: { flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: "#FFF9EE", borderRadius: 16, paddingHorizontal: 12, paddingVertical: 6 },
-});
+  res: { flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: K.bg("#FFF9EE"), borderRadius: 16, paddingHorizontal: 12, paddingVertical: 6 },
+}));

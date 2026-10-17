@@ -18,8 +18,8 @@ import { WEEKLY_TASKS } from "../logic/tasks";
 import { WEEKEND_MOVES, WEEKEND_STARS, weekdayOf } from "../logic/day";
 import { ART } from "../ui/art";
 import { GARDEN_ART } from "../ui/beeArt";
-import { C, shadow } from "../ui/theme";
-import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Stars, Txt, useTopPad } from "../ui/components";
+import { C, shadow, K, themed, isNight, activeCard } from "../ui/theme";
+import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Stars, Txt, useTopPad, Glow } from "../ui/components";
 import { BOOSTER_ART, boxArt, ItemIcon, RARITY_UI } from "../ui/lootUi";
 import { centerOf, Pt } from "../ui/Fly";
 import { days } from "../ui/format";
@@ -78,7 +78,7 @@ export default function LootScreen(p: Props) {
           const legLeft = Math.max(0, 30 - s.loot.pity.sinceLeg);
           return (
             <>
-              <Card style={{ alignItems: "center", paddingVertical: 16 }}>
+              <Card active style={{ alignItems: "center", paddingVertical: 16 }}>
                 <Txt v="tiny" color={C.dim}>{ready ? t("ls.ready") : t("ls.sub")}</Txt>
                 <Txt v="h1" center>{BOX_INFO[feat].name}</Txt>
                 <Press onPress={() => (ready ? p.onOpenBox(feat) : setSheet({ odds: feat }))} accessibilityRole="button" accessibilityLabel={BOX_INFO[feat].name}>
@@ -214,12 +214,13 @@ function Shop({ s, onBuyItem, onBuyBooster, onBuyFragment }: { s: GameState; onB
       </Card>
       <Txt v="tiny" color={C.dim} style={{ marginBottom: 6 }}>{t("sh.items")}</Txt>
       <View onLayout={(e) => setGridW(e.nativeEvent.layout.width)} style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
-        {missing.length ? missing.map((it) => {
+        {missing.length ? missing.map((it, i0) => {
           const price = SHOP_PRICE[it.rarity]; const r = RARITY_UI[it.rarity];
           return (
             <Press key={it.id} onPress={() => onBuyItem(it.id)} disabled={s.loot.pollen < price}
-              style={[styles.shopCard, shadow, { width: col }, s.loot.pollen < price && { opacity: 0.5 }]}
+              style={[styles.shopCard, shadow, { width: col }, s.loot.pollen < price && { opacity: 0.5 }, i0 === 0 && activeCard()]}
               accessibilityRole="button" accessibilityLabel={`${it.name}: ${price}`}>
+              <Glow on={i0 === 0} radius={18} />
               <ItemIcon id={it.id} size={48} />
               <Txt v="tiny" numberOfLines={2} center style={{ marginTop: 4, minHeight: 28 }}>{it.name}</Txt>
               <Txt v="tiny" color={r.color} center>{r.name}</Txt>
@@ -307,35 +308,35 @@ function Odds({ kind, s }: { kind: BoxKind; s: GameState }) {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => StyleSheet.create({
   countBig: { position: "absolute", top: 56, right: 24, backgroundColor: C.honeyDeep, borderRadius: 16, paddingHorizontal: 10, paddingVertical: 2 },
-  chip: { backgroundColor: "#F3E8D0", borderRadius: 12, paddingHorizontal: 8, paddingVertical: 4 },
-  rowBox: { flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: "#fff", borderRadius: 20, padding: 12 },
-  shopCard: { backgroundColor: "#fff", borderRadius: 18, padding: 10, alignItems: "center", gap: 2 },
+  chip: { backgroundColor: K.bg("#F3E8D0"), borderRadius: 12, paddingHorizontal: 8, paddingVertical: 4 },
+  rowBox: { flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: K.bg("#fff"), borderRadius: 20, padding: 12, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
+  shopCard: { backgroundColor: K.bg("#fff"), borderRadius: 18, padding: 10, alignItems: "center", gap: 2, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   alCell: { width: "22%", alignItems: "center", gap: 2 },
-  seg3: { flexDirection: "row", backgroundColor: "#FFFFFF", borderRadius: 22, padding: 4, gap: 4, ...shadow },
+  seg3: { flexDirection: "row", backgroundColor: K.bg("#FFFFFF"), borderRadius: 22, padding: 4, gap: 4, ...shadow, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   seg3Btn: { flex: 1, height: 38, borderRadius: 18, alignItems: "center", justifyContent: "center" },
   seg3On: { backgroundColor: C.honey },
-  segPanel: { backgroundColor: "#fff", borderRadius: 22, padding: 14 },
-  tile: { backgroundColor: "#fff", borderRadius: 24, padding: 12, paddingTop: 10 },
+  segPanel: { backgroundColor: K.bg("#fff"), borderRadius: 22, padding: 14, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
+  tile: { backgroundColor: K.bg("#fff"), borderRadius: 24, padding: 12, paddingTop: 10, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   tileReady: { borderWidth: 2, borderColor: C.honey },
-  info: { position: "absolute", right: 8, top: 8, width: 28, height: 28, borderRadius: 14, backgroundColor: "#F6E7CB", alignItems: "center", justifyContent: "center", zIndex: 2 },
-  count: { position: "absolute", right: -4, top: 2, minWidth: 30, height: 30, borderRadius: 15, backgroundColor: C.red, alignItems: "center", justifyContent: "center", paddingHorizontal: 6, borderWidth: 2, borderColor: "#fff" },
+  info: { position: "absolute", right: 8, top: 8, width: 28, height: 28, borderRadius: 14, backgroundColor: K.bg("#F6E7CB"), alignItems: "center", justifyContent: "center", zIndex: 2 },
+  count: { position: "absolute", right: -4, top: 2, minWidth: 30, height: 30, borderRadius: 15, backgroundColor: C.red, alignItems: "center", justifyContent: "center", paddingHorizontal: 6, borderWidth: 2, borderColor: K.bd("#fff") },
   lock: { position: "absolute", left: "34%", top: "34%", width: 40, height: 40 },
   sep: { height: 1, backgroundColor: C.line, marginVertical: 14 },
-  weekendIcon: { width: 54, height: 54, borderRadius: 16, backgroundColor: "#EFE6FF", alignItems: "center", justifyContent: "center" },
-  big: { flex: 1, backgroundColor: "#fff", borderRadius: 24, padding: 14, alignItems: "center" },
+  weekendIcon: { width: 54, height: 54, borderRadius: 16, backgroundColor: K.bg("#EFE6FF"), alignItems: "center", justifyContent: "center" },
+  big: { flex: 1, backgroundColor: K.bg("#fff"), borderRadius: 24, padding: 14, alignItems: "center", ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   inv: { flex: 1, alignItems: "center", backgroundColor: C.cardWarm, borderRadius: 16, paddingVertical: 8, paddingHorizontal: 4 },
   seed: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: C.cardWarm, borderRadius: 14, paddingHorizontal: 8, paddingVertical: 4, borderWidth: 1.5, borderColor: C.line },
   tabs: { flexDirection: "row", flexWrap: "wrap", gap: 6, marginTop: 10, marginBottom: 10 },
-  tabChip: { borderRadius: 12, paddingHorizontal: 10, paddingVertical: 6, backgroundColor: "#F6E7CB" },
+  tabChip: { borderRadius: 12, paddingHorizontal: 10, paddingVertical: 6, backgroundColor: K.bg("#F6E7CB") },
   tabChipOn: { backgroundColor: C.jelly },
-  bonus: { borderRadius: 16, borderWidth: 1.5, borderColor: C.line, backgroundColor: "#fff", padding: 10 },
+  bonus: { borderRadius: 16, borderWidth: 1.5, borderColor: C.line, backgroundColor: K.bg("#fff"), padding: 10 },
   albumGrid: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 10, justifyContent: "center" },
   albumCell: { width: 104, borderRadius: 18, borderWidth: 2.5, padding: 6, alignItems: "center" },
   toggle: { marginTop: 4, backgroundColor: C.green, borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3 },
-  shopRow: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: "#fff", borderRadius: 16, padding: 8, marginBottom: 8, borderWidth: 1.5, borderColor: C.line },
-  buy: { backgroundColor: "#FFF0C7", borderRadius: 14, paddingHorizontal: 10, paddingVertical: 8, borderWidth: 1.5, borderColor: C.honey },
+  shopRow: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: K.bg("#fff"), borderRadius: 16, padding: 8, marginBottom: 8, borderWidth: 1.5, borderColor: C.line },
+  buy: { backgroundColor: K.bg("#FFF0C7"), borderRadius: 14, paddingHorizontal: 10, paddingVertical: 8, borderWidth: 1.5, borderColor: C.honey },
   oddsRow: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 4 },
   oddsCell: { flex: 1, borderRadius: 8, paddingVertical: 4 },
-});
+}));

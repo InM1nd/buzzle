@@ -1,6 +1,7 @@
 import React from "react";
 import { Image } from "react-native";
 import { TAB_ICON_DATA } from "./tabIconData";
+import { isNight } from "./theme";
 
 /**
  * Web / Telegram: pre-tinted icons inlined as data URIs.
@@ -10,5 +11,5 @@ import { TAB_ICON_DATA } from "./tabIconData";
  */
 export function TabIcon({ id, on }: { id: string; on: boolean }) {
   const d = TAB_ICON_DATA[id];
-  return <Image source={{ uri: on ? d.on : d.off }} style={{ width: 26, height: 26 }} />;
+  return <Image source={{ uri: isNight() ? (on ? d.onN : d.offN) : on ? d.on : d.off }} style={{ width: 26, height: 26 }} />;
 }

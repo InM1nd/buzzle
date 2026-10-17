@@ -3,7 +3,7 @@ import React, { createContext, useContext, useEffect, useRef, useState } from "r
 import {
   Animated, Easing, Image, ImageSourcePropType, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleProp, StyleSheet, Text, TextProps, TextStyle, View, ViewStyle,
 } from "react-native";
-import { C, F, shadow } from "./theme";
+import { C, F, shadow, K, themed, isNight, activeCard, glowRings } from "./theme";
 import { ART } from "./art";
 import { hLight } from "./haptics";
 import { sinDeg, sinRange, useAnimActive, useCycle } from "./anim";
@@ -46,19 +46,29 @@ export function Press({ style, children, onPress, disabled, scaleTo = 0.95, hapt
 }
 
 // ---------- chunky game button ----------
-const BTN = {
+const BTN_CLASSIC = {
   honey: { face: "#FFB51F", depth: "#D98200", text: "#5A3200" },
   green: { face: "#4CC777", depth: "#2E9A54", text: "#FFFFFF" },
   purple: { face: "#A77BEA", depth: "#7B52C2", text: "#FFFFFF" },
-  white: { face: "#FFFFFF", depth: "#E8D2AE", text: C.text },
+  white: { face: "#FFFFFF", depth: "#E8D2AE", text: "#4A2C12" },
   grey: { face: "#EADBC2", depth: "#D2BD9A", text: "#A08463" },
 };
-export type BtnColor = keyof typeof BTN;
+/** violet "midnight": dark text on the orange / green buttons, secondary buttons are violet chips */
+const BTN_MIDNIGHT = {
+  honey: { face: "#FFB51F", depth: "#C96A00", text: "#4A2C12" },
+  green: { face: "#4CC777", depth: "#238A4A", text: "#0C3A1C" },
+  purple: { face: "#A77BEA", depth: "#6A44B0", text: "#1E0F44" },
+  white: { face: "#3A3080", depth: "#14103A", text: "#FFE8C2", edge: "#6556B5" },
+  grey: { face: "#3A3070", depth: "#14103A", text: "#BDB0E8", edge: "#6556B5" },
+};
+type BtnPal = { face: string; depth: string; text: string; edge?: string };
+const BTN = (k: keyof typeof BTN_CLASSIC): BtnPal => (isNight() ? BTN_MIDNIGHT : BTN_CLASSIC)[k];
+export type BtnColor = keyof typeof BTN_CLASSIC;
 export function GameButton(p: {
   title: string; onPress: () => void; color?: BtnColor; icon?: ImageSourcePropType; sub?: string; disabled?: boolean;
   small?: boolean; style?: StyleProp<ViewStyle>; label?: string;
 }) {
-  const c = BTN[p.disabled ? "grey" : p.color ?? "honey"];
+  const c = BTN(p.disabled ? "grey" : p.color ?? "honey");
   const y = useRef(new Animated.Value(0)).current;
   const depth = p.small ? 4 : 6;
   const h = p.small ? 42 : 56;
@@ -77,6 +87,7 @@ export function GameButton(p: {
       <Animated.View
         style={{
           height: h, borderRadius: h / 2.4, backgroundColor: c.face, alignItems: "center", justifyContent: "center",
+          ...(c.edge ? { borderWidth: 1.5, borderColor: c.edge } : null),
           flexDirection: "row", gap: 8, paddingHorizontal: 16, transform: [{ translateY: y }],
         }}
       >
@@ -147,15 +158,15 @@ export function Pill({ icon, value, color = C.text, bump, onLayoutIcon, label }:
 }
 
 // ---------- progress bar ----------
-export function Bar({ progress, color = C.honey, height = 12, track = "#F3E3C6", style }: { progress: number; color?: string; height?: number; track?: string; style?: StyleProp<ViewStyle> }) {
+export function Bar({ progress, color = C.honey, height = 12, track = C.track, style }: { progress: number; color?: string; height?: number; track?: string; style?: StyleProp<ViewStyle> }) {
   const w = useRef(new Animated.Value(progress)).current;
   useEffect(() => {
     Animated.timing(w, { toValue: Math.max(0, Math.min(1, progress)), duration: 450, easing: Easing.out(Easing.cubic), useNativeDriver: false }).start();
   }, [progress, w]);
   return (
-    <View style={[{ height, borderRadius: height / 2, backgroundColor: track, overflow: "hidden" }, style]}>
+    <View style={[{ height, borderRadius: height / 2, backgroundColor: track, overflow: "hidden", ...(isNight() && track === C.track ? { borderWidth: 1.5, borderColor: C.trackEdge } : null) }, style]}>
       <Animated.View style={{ height, borderRadius: height / 2, backgroundColor: color, width: w.interpolate({ inputRange: [0, 1], outputRange: ["0%", "100%"] }) }}>
-        <View style={{ position: "absolute", top: 2, left: 6, right: 6, height: Math.max(2, height / 4), borderRadius: 2, backgroundColor: "rgba(255,255,255,0.35)" }} />
+        <View style={{ position: "absolute", top: 2, left: 6, right: 6, height: Math.max(2, height / 4), borderRadius: 2, backgroundColor: K.bg("rgba(255,255,255,0.35)") }} />
       </Animated.View>
     </View>
   );
@@ -185,8 +196,28 @@ function StarIcon({ on, size, delay }: { on: boolean; size: number; delay: numbe
   );
 }
 
-export function Card({ children, style, warm }: { children: React.ReactNode; style?: StyleProp<ViewStyle>; warm?: boolean }) {
-  return <View style={[styles.card, shadow, warm && { backgroundColor: C.cardWarm }, style]}>{children}</View>;
+/** Android stand-in for the orange glow of the active card: three faint hollow rings just outside the card. Put it inside the card. */
+export function Glow({ on = true, radius = 24 }: { on?: boolean; radius?: number }) {
+  if (!on || !glowRings()) return null;
+  return (
+    <>
+      {[[4, 0.34], [8, 0.18], [12, 0.08]].map(([o, a]) => (
+        <View key={o} pointerEvents="none" style={{
+          position: "absolute", left: -o, right: -o, top: -o, bottom: -o, borderRadius: radius + o, borderWidth: 4,
+          borderColor: `rgba(255,138,31,${a})`,
+        }} />
+      ))}
+    </>
+  );
+}
+
+export function Card({ children, style, warm, active }: { children: React.ReactNode; style?: StyleProp<ViewStyle>; warm?: boolean; active?: boolean }) {
+  return (
+    <View style={[styles.card, shadow, warm && { backgroundColor: C.cardWarm }, style, active && activeCard()]}>
+      <Glow on={!!active} />
+      {children}
+    </View>
+  );
 }
 
 /** Gentle bob + slight wobble, for bees. */
@@ -206,7 +237,7 @@ export function Bobbing({ children, amp = 5, period = 1600, delay = 0, style }: 
 }
 
 /** Centered modal card over a dimmed backdrop (in-tree overlay, animated). */
-export function Overlay({ visible, onClose, children, dismissable = true }: { visible: boolean; onClose?: () => void; children: React.ReactNode; dismissable?: boolean }) {
+export function Overlay({ visible, onClose, children, dismissable = true, glow }: { visible: boolean; onClose?: () => void; children: React.ReactNode; dismissable?: boolean; glow?: boolean }) {
   const a = useRef(new Animated.Value(0)).current;
   const [mounted, setMounted] = useState(visible);
   const vis = useRef(visible);
@@ -226,11 +257,12 @@ export function Overlay({ visible, onClose, children, dismissable = true }: { vi
   return (
     <Modal transparent visible={mounted} animationType="none" statusBarTranslucent onRequestClose={() => dismissable && onClose?.()}>
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
-      <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: "rgba(60,32,8,0.45)", opacity: a }]}>
+      <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: C.scrim, opacity: a }]}>
         <Pressable style={StyleSheet.absoluteFill} onPress={() => dismissable && onClose?.()} accessibilityLabel={t("c.closeWindow")} />
       </Animated.View>
       <View style={styles.overlayCenter} pointerEvents="box-none">
-        <Animated.View style={[styles.sheet, { maxHeight: "100%", opacity: a, transform: [{ scale: a.interpolate({ inputRange: [0, 1], outputRange: [0.88, 1] }) }] }]}>
+        <Animated.View style={[styles.sheet, glow && activeCard(), { maxHeight: "100%", opacity: a, transform: [{ scale: a.interpolate({ inputRange: [0, 1], outputRange: [0.88, 1] }) }] }]}>
+          <Glow on={!!glow} radius={30} />
           <ScrollView style={{ flexGrow: 0, flexShrink: 1 }} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>{children}</ScrollView>
         </Animated.View>
       </View>
@@ -247,10 +279,10 @@ export function CloseBtn({ onPress, color = C.dim }: { onPress: () => void; colo
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => StyleSheet.create({
   pill: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 3, flexGrow: 1, flexShrink: 1, minWidth: 0 },
-  card: { backgroundColor: C.card, borderRadius: 24, padding: 16 },
+  card: { backgroundColor: C.card, borderRadius: 24, padding: 16, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   overlayCenter: { position: "absolute", left: 0, right: 0, top: 0, bottom: 0, alignItems: "center", justifyContent: "center", padding: 22 },
-  sheet: { width: "100%", maxWidth: 420, backgroundColor: C.cardWarm, borderRadius: 30, padding: 22, ...shadow, elevation: 12 },
-  close: { position: "absolute", right: 14, top: 14, width: 34, height: 34, borderRadius: 17, backgroundColor: "#F6E7CB", alignItems: "center", justifyContent: "center", zIndex: 2 },
-});
+  sheet: { width: "100%", maxWidth: 420, backgroundColor: C.cardWarm, borderRadius: 30, padding: 22, ...shadow, elevation: isNight() ? 0 : 12, ...(isNight() ? { borderWidth: 1.5, borderColor: C.panelEdge } : null) },
+  close: { position: "absolute", right: 14, top: 14, width: 34, height: 34, borderRadius: 17, backgroundColor: isNight() ? "#3A3080" : "#F6E7CB", alignItems: "center", justifyContent: "center", zIndex: 2 },
+}));

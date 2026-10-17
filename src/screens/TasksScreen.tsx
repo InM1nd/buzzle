@@ -7,7 +7,7 @@ import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { GameState, canClaimLogin, level, nextLoginIndex, canClaimWeekly, canBuyFreeze, FREEZE_COST, WEEKLY_REWARD, dailyStreak } from "../logic/game";
 import { LOGIN_REWARDS, loginReward, taskReward, tasksForDay, bonusReward } from "../logic/tasks";
 import { ART } from "../ui/art";
-import { C } from "../ui/theme";
+import { C, K, themed } from "../ui/theme";
 import { Bar, Card, fmt, GameButton, Txt, useTopPad } from "../ui/components";
 import { centerOf, Pt } from "../ui/Fly";
 import { duration } from "../ui/format";
@@ -62,7 +62,7 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
         </View>
       </View>
       {/* daily tasks */}
-      <Card>
+      <Card active>
         <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 4 }}>
           <Txt v="h2" style={{ flex: 1 }}>{t("tasks.daily")}</Txt>
           <Image source={ART.clock} style={{ width: 14, height: 14, tintColor: C.dim, marginRight: 4 }} />
@@ -129,7 +129,7 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
       </Card>
 
       {/* login calendar */}
-      <Card>
+      <Card active>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Txt v="h2" style={{ flex: 1 }}>{t("tasks.login")}</Txt>
           {s.login.streak > 0 ? (
@@ -218,19 +218,19 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => StyleSheet.create({
   mascotRow: { flexDirection: "row", alignItems: "center", gap: 6, marginBottom: -4 },
-  bubble: { flex: 1, backgroundColor: "#FFFDF6", borderRadius: 18, paddingHorizontal: 14, paddingVertical: 10, borderWidth: 2, borderColor: "#F6D594" },
-  bubbleTail: { position: "absolute", left: -8, top: "50%", marginTop: -7, width: 14, height: 14, backgroundColor: "#FFFDF6", borderLeftWidth: 2, borderBottomWidth: 2, borderColor: "#F6D594", transform: [{ rotate: "45deg" }] },
-  streak: { flexDirection: "row", alignItems: "center", gap: 3, backgroundColor: "#FFF1D4", borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3 },
+  bubble: { flex: 1, backgroundColor: K.bg("#FFFDF6"), borderRadius: 18, paddingHorizontal: 14, paddingVertical: 10, borderWidth: 2, borderColor: K.bd("#F6D594") },
+  bubbleTail: { position: "absolute", left: -8, top: "50%", marginTop: -7, width: 14, height: 14, backgroundColor: K.bg("#FFFDF6"), borderLeftWidth: 2, borderBottomWidth: 2, borderColor: K.bd("#F6D594"), transform: [{ rotate: "45deg" }] },
+  streak: { flexDirection: "row", alignItems: "center", gap: 3, backgroundColor: K.bg("#FFF1D4"), borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3 },
   week: { flexDirection: "row", gap: 5, marginVertical: 12 },
-  day: { flex: 1, alignItems: "center", gap: 3, backgroundColor: "#FFF6E3", borderRadius: 14, paddingVertical: 8, borderWidth: 2, borderColor: "#F3E1BE" },
-  dayClaimed: { backgroundColor: "#F4F0E8", borderColor: "#ECE3D2" },
-  dayCurrent: { backgroundColor: C.honeyDeep, borderColor: "#FFCB5C" },
+  day: { flex: 1, alignItems: "center", gap: 3, backgroundColor: K.bg("#FFF6E3"), borderRadius: 14, paddingVertical: 8, borderWidth: 2, borderColor: K.bd("#F3E1BE") },
+  dayClaimed: { backgroundColor: K.bg("#F4F0E8"), borderColor: K.bd("#ECE3D2") },
+  dayCurrent: { backgroundColor: C.honeyDeep, borderColor: K.bd("#FFCB5C") },
   dayCheck: { position: "absolute", top: 22, width: 22, height: 22 },
   task: { flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: C.line },
   rew: { flexDirection: "row", alignItems: "center", gap: 3 },
-  bonus: { flexDirection: "row", alignItems: "center", gap: 10, marginTop: 12, backgroundColor: "#FFF6E3", borderRadius: 18, padding: 10 },
+  bonus: { flexDirection: "row", alignItems: "center", gap: 10, marginTop: 12, backgroundColor: K.bg("#FFF6E3"), borderRadius: 18, padding: 10 },
   stats: { flexDirection: "row", flexWrap: "wrap", rowGap: 12 },
   stat: { width: "33.3%", paddingRight: 6 },
-});
+}));

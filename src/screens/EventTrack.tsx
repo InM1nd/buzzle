@@ -10,7 +10,7 @@ import { ART } from "../ui/art";
 import { Bar, Bobbing, CloseBtn, GameButton, Overlay, Txt } from "../ui/components";
 import { centerOf, Pt } from "../ui/Fly";
 import { boxArt, ItemIcon } from "../ui/lootUi";
-import { shadow } from "../ui/theme";
+import { shadow, K, themed } from "../ui/theme";
 
 const NIGHT = { bg: "#2B1B3D", card: "#3A2F5B", pumpkin: "#F08A24", candle: "#FFC56B", ghost: "#BFF5E6" };
 
@@ -60,7 +60,7 @@ export function EventCard({ s, now, onClaim }: { s: GameState; now: number; onCl
       <Overlay visible={open} onClose={() => setOpen(false)}>
         <CloseBtn onPress={() => setOpen(false)} />
         <Txt v="h2" style={{ paddingRight: 44 }}>{t("ev.track")}</Txt>
-        <Txt v="small" color="#8A5200" style={{ marginBottom: 12, paddingRight: 44 }}>{t("ev.how")}</Txt>
+        <Txt v="small" color={K.fg("#8A5200")} style={{ marginBottom: 12, paddingRight: 44 }}>{t("ev.how")}</Txt>
         <View style={{ gap: 8 }}>
           {TRACK.map((st, i) => {
             const look = rewardLook(st.reward);
@@ -70,7 +70,7 @@ export function EventCard({ s, now, onClaim }: { s: GameState; now: number; onCl
                 {look.skin ? <ItemIcon id={look.skin} size={36} /> : <Image source={look.icon!} style={{ width: 36, height: 36, opacity: reached || done ? 1 : 0.5 }} resizeMode="contain" />}
                 <View style={{ flex: 1, minWidth: 0 }}>
                   <Txt v="h3" style={{ fontSize: 14 }} numberOfLines={2}>{look.title}</Txt>
-                  <Txt v="tiny" color="#8A6B4A">{t("ev.points", { n: st.at })}</Txt>
+                  <Txt v="tiny" color={K.fg("#8A6B4A")}>{t("ev.points", { n: st.at })}</Txt>
                 </View>
                 {done ? <Image source={ART.check} style={{ width: 26, height: 26 }} />
                   : isNext && reached ? (
@@ -122,7 +122,7 @@ export function EventIntro({ visible, daysLeft, onClose, onGo }: { visible: bool
         <Image source={ART.eventHeader} resizeMode="cover" style={{ width: "100%", height: "100%" }} />
       </View>
       <Txt v="h1" center style={{ marginTop: 12 }}>{t("ev.title")}</Txt>
-      <Txt v="small" color="#C25E00" center>{t("ev.introSub")} · {t("ev.daysLeft", { n: daysLeft })}</Txt>
+      <Txt v="small" color={K.fg("#C25E00")} center>{t("ev.introSub")} · {t("ev.daysLeft", { n: daysLeft })}</Txt>
       <View style={{ gap: 8, marginTop: 12 }}>
         {rows.map(([img, text], i) => (
           <View key={i} style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
@@ -144,7 +144,7 @@ export function JackCarved({ id, onClose }: { id: string | null; onClose: () => 
         <View style={{ alignItems: "center", gap: 8 }}>
           <Bobbing amp={4}><ItemIcon id={id} size={120} /></Bobbing>
           <Txt v="h2" center>{tx(`item.${id}`)}</Txt>
-          <Txt v="small" color="#8A6B4A" center>{t("ev.jack")}</Txt>
+          <Txt v="small" color={K.fg("#8A6B4A")} center>{t("ev.jack")}</Txt>
           <GameButton title={t("ev.jackOk")} color="green" onPress={onClose} style={{ alignSelf: "stretch", marginTop: 6 }} />
         </View>
       ) : null}
@@ -152,14 +152,14 @@ export function JackCarved({ id, onClose }: { id: string | null; onClose: () => 
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => StyleSheet.create({
   card: { backgroundColor: NIGHT.bg, borderRadius: 28, padding: 16, borderWidth: 3, borderColor: NIGHT.card, overflow: "hidden" },
   // the night meadow behind the title row; the moon and pumpkins sit on the right, the text on the calm left
   header: { position: "absolute", left: 0, top: 0, width: "100%", height: 150, opacity: 0.7 },
   points: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: NIGHT.card, borderRadius: 16, paddingHorizontal: 10, paddingVertical: 6 },
-  step: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: "#fff", borderRadius: 16, borderWidth: 2, borderColor: "#F0DFC0", padding: 8 },
+  step: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: K.bg("#fff"), borderRadius: 16, borderWidth: 2, borderColor: K.bd("#F0DFC0"), padding: 8 },
   stepDone: { opacity: 0.6 },
   trick: { flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: NIGHT.bg, borderRadius: 22, padding: 12, borderWidth: 2, borderColor: NIGHT.card },
   introHead: { height: 120, borderRadius: 18, overflow: "hidden", marginTop: 4, marginRight: 44 },
-  stepReady: { borderColor: "#4CC777", backgroundColor: "#E4F7EA" },
-});
+  stepReady: { borderColor: K.bd("#4CC777"), backgroundColor: K.bg("#E4F7EA") },
+}));

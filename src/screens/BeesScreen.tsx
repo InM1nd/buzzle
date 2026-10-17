@@ -7,15 +7,15 @@ import { GameState, beeDisplayName, beeLevel, beeLevelCost, graphemes, MAX_BEE_N
 import { abilityAt, levelCost, BEES, BeeSpecies, LEVEL_HIVE_BONUS, MAX_BEE_LEVEL, Rarity } from "../logic/bees";
 import { ART } from "../ui/art";
 import { BeeSprite, Hover, Mascot, useFace } from "../ui/BeeSprite";
-import { C, F, shadow } from "../ui/theme";
-import { Bar, CloseBtn, fmt, GameButton, Overlay, Press, Txt, useTopPad } from "../ui/components";
+import { C, F, shadow, K, themed, isNight, activeCard } from "../ui/theme";
+import { Bar, CloseBtn, fmt, GameButton, Overlay, Press, Txt, useTopPad, Glow } from "../ui/components";
 import { Text } from "react-native";
 
 const RARITY: Record<Rarity, { name: string; color: string; bg: string }> = {
-  common: { get name() { return t("rarityBee.common"); }, color: "#7A8A3A", bg: "#EEF5D8" },
-  rare: { get name() { return t("rarityBee.rare"); }, color: "#2F7FD0", bg: "#E1EEFC" },
-  epic: { get name() { return t("rarityBee.epic"); }, color: "#8A52D6", bg: "#EFE4FF" },
-  legendary: { get name() { return t("rarityBee.legendary"); }, color: "#D27A00", bg: "#FFEBC2" },
+  common: { get name() { return t("rarityBee.common"); }, color: K.fg("#7A8A3A"), bg: "#EEF5D8" },
+  rare: { get name() { return t("rarityBee.rare"); }, color: K.fg("#2F7FD0"), bg: "#E1EEFC" },
+  epic: { get name() { return t("rarityBee.epic"); }, color: K.fg("#8A52D6"), bg: "#EFE4FF" },
+  legendary: { get name() { return t("rarityBee.legendary"); }, color: K.fg("#D27A00"), bg: "#FFEBC2" },
 };
 
 interface Props { s: GameState; onSkin?: (bee: string, skin: string | null) => boolean; onAssemble?: () => boolean; onUnlock: (id: string) => boolean; onLevelUp: (id: string) => boolean; onRename?: (id: string, name: string) => boolean; onGarden?: () => void }
@@ -54,10 +54,11 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
             const custom = has && !!s.beeNames[b.id];
             const shown = beeDisplayName(s, b.id);
             return (
-              <Press key={b.id} onPress={() => setOpen(b)} style={[styles.card3, shadow, { width: colW }, !has && { backgroundColor: "#F6EDDC" }]}
+              <Press key={b.id} onPress={() => setOpen(b)} style={[styles.card3, shadow, { width: colW }, !has && { backgroundColor: isNight() ? C.cardWarm : "#F6EDDC" }, b.id === "zhuzha" && activeCard()]}
                 accessibilityRole="button" accessibilityLabel={custom ? `${shown} (${b.name})` : (has ? b.name : t("bees.locked", { name: b.name }))}>
+                <Glow on={b.id === "zhuzha"} radius={22} />
                 <View style={{ height: 78, alignItems: "center", justifyContent: "center" }}>
-                  {has ? <CardBee id={b.id} i={i} level={lvl} skin={s.beeSkins[b.id]} /> : <BeeSprite id={b.id} size={70} tint="#DCC7A3" />}
+                  {has ? <CardBee id={b.id} i={i} level={lvl} skin={s.beeSkins[b.id]} /> : <BeeSprite id={b.id} size={70} tint={isNight() ? "#32296D" : "#DCC7A3"} />}
                   {justUnlocked === b.id ? <Sparkle /> : null}
                 </View>
                 {canLvl ? <View style={styles.upDot}><Text style={[F.black, { color: "#fff", fontSize: 13, lineHeight: 16 }]}>↑</Text></View> : null}
@@ -68,7 +69,7 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
                     <Bar progress={lvl / MAX_BEE_LEVEL} height={6} color={lvl >= MAX_BEE_LEVEL ? "#E2A400" : C.honey} track="#EADBC2" style={{ flex: 1 }} />
                   </View>
                 ) : b.fragments ? (
-                  <View style={styles.costMini}><Image source={ART.fragment} style={{ width: 14, height: 14 }} /><Txt v="tiny" color="#5B5FC7">{Math.min(s.loot.fragments, b.fragments)}/{b.fragments}</Txt></View>
+                  <View style={styles.costMini}><Image source={ART.fragment} style={{ width: 14, height: 14 }} /><Txt v="tiny" color={K.fg("#5B5FC7")}>{Math.min(s.loot.fragments, b.fragments)}/{b.fragments}</Txt></View>
                 ) : (
                   <View style={[styles.costMini, can && { backgroundColor: C.jelly }]}><Image source={ART.jelly} style={{ width: 14, height: 14 }} /><Txt v="tiny" color={can ? "#fff" : "#8C6FBF"}>{b.cost}</Txt></View>
                 )}
@@ -83,7 +84,7 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
               const have = s.loot.owned.includes(k.id);
               const wearer = Object.keys(s.beeSkins).find((b) => s.beeSkins[b] === k.id);
               return (
-                <View key={k.id} style={[styles.card3, shadow, { width: colW }, !have && { backgroundColor: "#F6EDDC" }]} accessibilityLabel={k.name}>
+                <View key={k.id} style={[styles.card3, shadow, { width: colW }, !have && { backgroundColor: K.bg("#F6EDDC") }]} accessibilityLabel={k.name}>
                   <ItemIcon id={k.id} size={58} locked={!have} />
                   <Txt v="h3" numberOfLines={1} style={{ marginTop: 6, fontSize: 14 }}>{have ? k.name : "???"}</Txt>
                   <Txt v="tiny" color={C.dim} numberOfLines={1}>{!have ? t("bees.outfitLocked") : wearer ? beeDisplayName(s, wearer) : t("bees.outfitFree")}</Txt>
@@ -199,7 +200,7 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
             <Hover amp={6} sway={3} period={1800}>
               <BeeSprite id={bee.id} size={176} turn={0.5} seed={bee.id.length * 7 + 1} level={level} skin={skin ?? undefined} />
             </Hover>
-          ) : <BeeSprite id={bee.id} size={176} tint="#D8C29C" />}
+          ) : <BeeSprite id={bee.id} size={176} tint={isNight() ? "#32296D" : "#D8C29C"} />}
         </Animated.View>
       </View>
       {has && editing && onRename ? (
@@ -231,11 +232,11 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
         </View>
       ) : null}
       <View style={styles.ability}>
-        <Txt v="h3" color="#6B4CA8" center>{has ? abilityAt(bee, level) : bee.ability}</Txt>
-        {has && level > 1 ? <Txt v="small" color="#6B4CA8" center>{t("bees.levelsBonus", { p: Math.round(LEVEL_HIVE_BONUS * 100 * (level - 1)) })}</Txt> : null}
+        <Txt v="h3" color={K.fg("#6B4CA8")} center>{has ? abilityAt(bee, level) : bee.ability}</Txt>
+        {has && level > 1 ? <Txt v="small" color={K.fg("#6B4CA8")} center>{t("bees.levelsBonus", { p: Math.round(LEVEL_HIVE_BONUS * 100 * (level - 1)) })}</Txt> : null}
         {cost ? <Txt v="small" color={C.dim} center>{t("bees.next", { a: abilityAt(bee, level + 1) })}</Txt> : null}
       </View>
-      {has && cost ? <Txt v="tiny" color="#9C2F5C" center style={{ marginTop: -4, marginBottom: 8 }}>{t("bees.nectarHint")}</Txt> : null}
+      {has && cost ? <Txt v="tiny" color={K.fg("#9C2F5C")} center style={{ marginTop: -4, marginBottom: 8 }}>{t("bees.nectarHint")}</Txt> : null}
       {has && onSkin ? (
         <View style={{ alignSelf: "stretch", marginBottom: 10 }} accessibilityLabel={t("bees.outfits")}>
           <Txt v="tiny" color={C.dim}>{t("bees.outfitCaps")}</Txt>
@@ -330,30 +331,30 @@ function RenameBox({ species, current, custom, onSave, onCancel }: {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => StyleSheet.create({
   sheetHead: { alignSelf: "stretch", flexDirection: "row", justifyContent: "flex-end", marginTop: -6, marginBottom: 6 },
-  sheetClose: { width: 36, height: 36, borderRadius: 18, backgroundColor: "#fff", borderWidth: 2, borderColor: "#F1DFC0", alignItems: "center", justifyContent: "center" },
+  sheetClose: { width: 36, height: 36, borderRadius: 18, backgroundColor: K.bg("#fff"), borderWidth: 2, borderColor: K.bd("#F1DFC0"), alignItems: "center", justifyContent: "center" },
   seg: { flexDirection: "row", gap: 8, marginBottom: 12 },
-  segBtn: { paddingHorizontal: 18, paddingVertical: 9, borderRadius: 20, backgroundColor: "#fff" },
+  segBtn: { paddingHorizontal: 18, paddingVertical: 9, borderRadius: 20, backgroundColor: K.bg("#fff"), ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   segOn: { backgroundColor: C.honey },
-  card3: { backgroundColor: "#fff", borderRadius: 22, padding: 8, paddingBottom: 10, alignItems: "center" },
+  card3: { backgroundColor: K.bg("#fff"), borderRadius: 22, padding: 8, paddingBottom: 10, alignItems: "center", ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   lvlRow: { flexDirection: "row", alignItems: "center", gap: 5, marginTop: 4, alignSelf: "stretch", paddingHorizontal: 6 },
-  costMini: { flexDirection: "row", alignItems: "center", gap: 3, marginTop: 4, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 10, backgroundColor: "#EFE6FA" },
-  skin: { width: 70, borderRadius: 16, borderWidth: 3, borderColor: C.line, alignItems: "center", justifyContent: "center", padding: 4, minHeight: 72, backgroundColor: "#fff" },
-  skinOn: { borderColor: C.honey, backgroundColor: "#FFE7A8" },
+  costMini: { flexDirection: "row", alignItems: "center", gap: 3, marginTop: 4, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 10, backgroundColor: K.bg("#EFE6FA") },
+  skin: { width: 70, borderRadius: 16, borderWidth: 3, borderColor: C.line, alignItems: "center", justifyContent: "center", padding: 4, minHeight: 72, backgroundColor: K.bg("#fff") },
+  skinOn: { borderColor: C.honey, backgroundColor: K.bg("#FFE7A8") },
   titleRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6, marginTop: 8, maxWidth: "100%" },
-  pencil: { width: 36, height: 36, borderRadius: 18, backgroundColor: "#FFF1D6", alignItems: "center", justifyContent: "center" },
+  pencil: { width: 36, height: 36, borderRadius: 18, backgroundColor: K.bg("#FFF1D6"), alignItems: "center", justifyContent: "center" },
   renameBox: { alignSelf: "stretch", marginTop: 8, marginBottom: 2 },
-  input: { marginTop: 6, fontSize: 24, color: C.text, textAlign: "center", backgroundColor: "#FFF8EA", borderRadius: 16, borderWidth: 2, borderColor: C.honey, paddingVertical: 8, paddingHorizontal: 12 },
+  input: { marginTop: 6, fontSize: 24, color: C.text, textAlign: "center", backgroundColor: K.bg("#FFF8EA"), borderRadius: 16, borderWidth: 2, borderColor: C.honey, paddingVertical: 8, paddingHorizontal: 12 },
   head: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
-  nectarHint: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: "#FFE6F0", borderRadius: 16, padding: 10, marginBottom: 10 },
+  nectarHint: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: K.bg("#FFE6F0"), borderRadius: 16, padding: 10, marginBottom: 10 },
   lvlBadge: { position: "absolute", left: 8, top: 8, backgroundColor: C.jelly, borderRadius: 10, paddingHorizontal: 7, paddingVertical: 2 },
   upDot: { position: "absolute", right: 8, top: 8, width: 22, height: 22, borderRadius: 11, backgroundColor: C.green, alignItems: "center", justifyContent: "center" },
-  jellyHint: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: "#F1E8FF", borderRadius: 16, padding: 10, marginBottom: 14 },
-  card: { backgroundColor: "#fff", borderRadius: 22, padding: 12 },
+  jellyHint: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: K.bg("#F1E8FF"), borderRadius: 16, padding: 10, marginBottom: 14 },
+  card: { backgroundColor: K.bg("#fff"), borderRadius: 22, padding: 12, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   beeBg: { height: 104, borderRadius: 16, alignItems: "center", justifyContent: "center", overflow: "hidden" },
   ownedTag: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 6 },
-  costTag: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 6, alignSelf: "flex-start", backgroundColor: "#F1E8FF", borderRadius: 12, paddingHorizontal: 10, paddingVertical: 3 },
+  costTag: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 6, alignSelf: "flex-start", backgroundColor: K.bg("#F1E8FF"), borderRadius: 12, paddingHorizontal: 10, paddingVertical: 3 },
   detailBg: { alignSelf: "stretch", height: 210, borderRadius: 28, alignItems: "center", justifyContent: "center", marginTop: 30 },
-  ability: { backgroundColor: "#F1E8FF", borderRadius: 14, paddingHorizontal: 14, paddingVertical: 8, marginVertical: 10 },
-});
+  ability: { backgroundColor: K.bg("#F1E8FF"), borderRadius: 14, paddingHorizontal: 14, paddingVertical: 8, marginVertical: 10 },
+}));

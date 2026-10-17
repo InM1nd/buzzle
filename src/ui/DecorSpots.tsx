@@ -8,7 +8,7 @@ import { GameState } from "../logic/game";
 import { ITEM_ART } from "./beeArt";
 import { RARITY_UI } from "./lootUi";
 import { useAnimActive } from "./anim";
-import { C, F } from "./theme";
+import { C, F, K, themed } from "./theme";
 import { CloseBtn, GameButton, Overlay, Press, Txt } from "./components";
 
 /** spot = fraction of the scene box (left/top of the item's foot) and the item height relative to the scene height */
@@ -110,8 +110,8 @@ export function DecorSpots({ s, place, spots, w, h, onToggle, onShop }: {
   );
 }
 
-const styles = StyleSheet.create({
-  plus: { position: "absolute", width: 24, height: 24, borderRadius: 12, backgroundColor: "rgba(216,150,40,0.85)", alignItems: "center", justifyContent: "center", borderWidth: 2, borderColor: "#fff" },
-  ghostRing: { position: "absolute", borderRadius: 999, borderWidth: 2, borderStyle: "dashed", borderColor: "rgba(200,140,40,0.55)", backgroundColor: "rgba(255,255,255,0.25)" },
+const styles = themed(() => StyleSheet.create({
+  plus: { position: "absolute", width: 24, height: 24, borderRadius: 12, backgroundColor: K.bg("rgba(216,150,40,0.85)"), alignItems: "center", justifyContent: "center", borderWidth: 2, borderColor: K.bd("#fff") },
+  ghostRing: { position: "absolute", borderRadius: 999, borderWidth: 2, borderStyle: "dashed", borderColor: K.bd("rgba(200,140,40,0.55)"), backgroundColor: K.bg("rgba(255,255,255,0.25)") },
   art: { width: 180, height: 150, borderRadius: 28, alignItems: "center", justifyContent: "center", marginTop: 8 },
-});
+}));

@@ -7,7 +7,7 @@ import { Image, Linking, ScrollView, StyleSheet, Text, TextInput, useWindowDimen
 import { addBackListener } from "../platform/back";
 import { useInsets } from "../platform/insets";
 import { Lang, numFmt, t } from "../i18n";
-import { GameState, Settings, TILE_STYLES } from "../logic/game";
+import { GameState, Settings, TILE_STYLES, UI_STYLES } from "../logic/game";
 import { changelogText } from "../logic/update";
 import { CAN_PICK_FILE, exportSaveCode, inviteFriend, pickSaveFile } from "../platform/share";
 import { inTelegram, NOTIFICATIONS_SUPPORTED } from "../platform/telegram";
@@ -16,8 +16,8 @@ import { ART, seasonalTiles, TILE_SETS } from "../ui/art";
 import { activeEvent } from "../logic/event";
 import { today } from "../logic/game";
 import { Mascot } from "../ui/BeeSprite";
-import { Bar, CloseBtn, GameButton, Overlay, Press, Txt } from "../ui/components";
-import { C, F } from "../ui/theme";
+import { Bar, CloseBtn, GameButton, Glow, Overlay, Press, Txt } from "../ui/components";
+import { activeCard, C, F, isNight, K, themed } from "../ui/theme";
 import { Toggle } from "../ui/Toggle";
 import { Updater } from "../ui/useUpdater";
 import { APP_VERSION, APP_VERSION_CODE, GITHUB_URL, PRIVACY_URL } from "../version";
@@ -104,7 +104,17 @@ function Main(p: SettingsProps & { go: (pg: Page) => void }) {
           {(["en", "uk", "ru"] as Lang[]).map((l) => (
             <Press key={l} onPress={() => p.onLang(l)} scaleTo={0.96} style={[styles.segBtn, st.lang === l && styles.segOn]}
               accessibilityRole="radio" accessibilityState={{ checked: st.lang === l }} aria-checked={st.lang === l} accessibilityLabel={LANG_NAME[l]}>
-              <Txt v="small" style={F.black} color={st.lang === l ? "#fff" : C.brown} numberOfLines={1}>{LANG_NAME[l]}</Txt>
+              <Txt v="small" style={F.black} color={st.lang === l ? (isNight() ? C.onBtn : "#fff") : C.brown} numberOfLines={1}>{LANG_NAME[l]}</Txt>
+            </Press>
+          ))}
+        </View>
+        <Txt v="h3" style={{ marginTop: 14, marginBottom: 2 }}>{t("st.uiStyle")}</Txt>
+        <Txt v="tiny" color={C.dim} style={{ marginBottom: 8 }}>{t("st.uiStyleSub")}</Txt>
+        <View style={styles.seg} accessibilityRole="radiogroup" accessibilityLabel={t("st.uiStyle")}>
+          {UI_STYLES.map((k) => (
+            <Press key={k} onPress={() => p.onSet("ui", k)} scaleTo={0.96} style={[styles.segBtn, st.ui === k && styles.segOn]}
+              accessibilityRole="radio" accessibilityState={{ checked: st.ui === k }} aria-checked={st.ui === k} accessibilityLabel={t(`st.ui.${k}`)}>
+              <Txt v="small" style={F.black} color={st.ui === k ? (isNight() ? C.onBtn : "#fff") : C.brown} numberOfLines={1}>{t(`st.ui.${k}`)}</Txt>
             </Press>
           ))}
         </View>
@@ -116,6 +126,7 @@ function Main(p: SettingsProps & { go: (pg: Page) => void }) {
             return (
               <Press key={k} onPress={() => p.onSet("tiles", k)} scaleTo={0.96} style={[styles.tileOpt, on && styles.tileOn]}
                 accessibilityRole="radio" accessibilityState={{ checked: on }} aria-checked={on} accessibilityLabel={t(`st.tiles.${k}`)}>
+                <Glow on={on} radius={16} />
                 <View style={{ flexDirection: "row", gap: 2 }}>
                   {[0, 1, 3, 4].map((c) => <Image key={c} source={TILE_SETS[seasonalTiles(k, halloween)].cells[c]} style={{ width: 30, height: 26 }} />)}
                 </View>
@@ -367,27 +378,27 @@ function Stepper({ label, value, onChange }: { label: string; value: number; onC
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => StyleSheet.create({
   page: { position: "absolute", left: 0, right: 0, top: 0, bottom: 0, zIndex: 50, elevation: 50, backgroundColor: C.bg, paddingTop: 44, paddingHorizontal: 16 },
   head: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 12 },
-  closeX: { width: 44, height: 44, borderRadius: 22, alignItems: "center", justifyContent: "center", backgroundColor: "#fff", borderWidth: 2, borderColor: "#F1DFC0" },
-  back: { width: 40, height: 40, borderRadius: 20, alignItems: "center", justifyContent: "center", backgroundColor: "#FFF1D2" },
-  group: { backgroundColor: "#fff", borderRadius: 18, paddingHorizontal: 12, paddingVertical: 8, borderWidth: 1.5, borderColor: "#F3E3C4" },
+  closeX: { width: 44, height: 44, borderRadius: 22, alignItems: "center", justifyContent: "center", backgroundColor: K.bg("#fff"), borderWidth: 2, borderColor: K.bd("#F1DFC0") },
+  back: { width: 40, height: 40, borderRadius: 20, alignItems: "center", justifyContent: "center", backgroundColor: K.bg("#FFF1D2") },
+  group: { backgroundColor: K.bg("#fff"), borderRadius: 18, paddingHorizontal: 12, paddingVertical: 8, borderWidth: 1.5, borderColor: K.bd("#F3E3C4") },
   row: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 9, borderBottomWidth: 1, borderBottomColor: C.line },
   link: { flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 11, borderBottomWidth: 1, borderBottomColor: C.line },
-  seg: { flexDirection: "row", backgroundColor: "#F6E3BF", borderRadius: 14, padding: 3, gap: 3, marginBottom: 4 },
+  seg: { flexDirection: "row", backgroundColor: K.bg("#F6E3BF"), borderRadius: 14, padding: 3, gap: 3, marginBottom: 4 },
   segBtn: { flex: 1, height: 34, borderRadius: 11, alignItems: "center", justifyContent: "center", paddingHorizontal: 4 },
   segOn: { backgroundColor: C.honeyDeep },
   soon: { backgroundColor: C.line, borderRadius: 10, paddingHorizontal: 10, paddingVertical: 4 },
-  code: { minHeight: 70, maxHeight: 120, fontSize: 12, color: C.text, backgroundColor: "#FFF8EA", borderRadius: 14, borderWidth: 2, borderColor: C.honey, padding: 8, textAlignVertical: "top" },
-  stepper: { flex: 1, backgroundColor: "#fff", borderRadius: 14, padding: 8, alignItems: "center", gap: 2 },
-  stepBtn: { width: 30, height: 30, borderRadius: 15, backgroundColor: "#FFF1D2", alignItems: "center", justifyContent: "center" },
+  code: { minHeight: 70, maxHeight: 120, fontSize: 12, color: C.text, backgroundColor: K.bg("#FFF8EA"), borderRadius: 14, borderWidth: 2, borderColor: C.honey, padding: 8, textAlignVertical: "top" },
+  stepper: { flex: 1, backgroundColor: K.bg("#fff"), borderRadius: 14, padding: 8, alignItems: "center", gap: 2, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
+  stepBtn: { width: 30, height: 30, borderRadius: 15, backgroundColor: K.bg("#FFF1D2"), alignItems: "center", justifyContent: "center" },
   dotBadge: { width: 10, height: 10, borderRadius: 5, backgroundColor: C.red },
   center: { alignItems: "center", gap: 8, paddingVertical: 18 },
   relHead: { flexDirection: "row", alignItems: "center", gap: 12 },
-  notes: { backgroundColor: "#FFF9EE", borderRadius: 14, padding: 12, borderWidth: 1.5, borderColor: "#F3E3C4" },
-  perm: { backgroundColor: "#F3EDFF", borderRadius: 14, padding: 12 },
+  notes: { backgroundColor: K.bg("#FFF9EE"), borderRadius: 14, padding: 12, borderWidth: 1.5, borderColor: K.bd("#F3E3C4") },
+  perm: { backgroundColor: K.bg("#F3EDFF"), borderRadius: 14, padding: 12 },
   tiles: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginBottom: 6 },
-  tileOpt: { flexBasis: "47%", flexGrow: 1, alignItems: "center", gap: 6, paddingVertical: 10, borderRadius: 16, borderWidth: 2, borderColor: C.line, backgroundColor: "#fff" },
-  tileOn: { borderColor: C.green, backgroundColor: "#E4F7EA" },
-});
+  tileOpt: { flexBasis: "47%", flexGrow: 1, alignItems: "center", gap: 6, paddingVertical: 10, borderRadius: 16, borderWidth: 2, borderColor: C.line, backgroundColor: K.bg("#fff") },
+  tileOn: isNight() ? { backgroundColor: "#2A2160", ...activeCard() } : { borderColor: C.green, backgroundColor: "#E4F7EA" },
+}));

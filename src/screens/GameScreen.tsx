@@ -15,8 +15,8 @@ import { boxArt } from "../ui/lootUi";
 import { RoundMode, RoundReward, RoundSummary } from "../logic/game";
 import { ART } from "../ui/art";
 import { BeeSprite } from "../ui/BeeSprite";
-import { C, F, shadow } from "../ui/theme";
-import { Bar, CountUp, fmt, GameButton, Overlay, Press, Stars, Txt } from "../ui/components";
+import { C, F, shadow, K, themed, isNight, activeCard } from "../ui/theme";
+import { Bar, CountUp, fmt, GameButton, Overlay, Press, Stars, Txt, Glow } from "../ui/components";
 import { hError, hHeavy, hLight, hSuccess, hTick } from "../ui/haptics";
 
 const SQ3 = Math.sqrt(3);
@@ -527,8 +527,8 @@ export default function GameScreen(props: Props) {
             <CountUp value={score} duration={450} style={[F.black, { fontSize: 30, lineHeight: 34, color: C.text }]} />
           </View>
           <Animated.View style={[styles.moves, movesLeft <= 5 && { backgroundColor: C.red }, { transform: [{ scale: movesPulse }] }]} accessibilityLabel={t("game.movesLeft", { n: movesLeft })}>
-            <Text style={[F.black, { fontSize: 22, lineHeight: 25, color: "#fff" }]}>{Math.max(0, movesLeft)}</Text>
-            <Text style={[F.xbold, { fontSize: 9, lineHeight: 11, color: "#fff", opacity: 0.9 }]}>{t("game.movesCaps")}</Text>
+            <Text style={[F.black, { fontSize: 22, lineHeight: 25, color: isNight() && movesLeft > 5 ? "#4A2C12" : "#fff" }]}>{Math.max(0, movesLeft)}</Text>
+            <Text style={[F.xbold, { fontSize: 9, lineHeight: 11, color: isNight() && movesLeft > 5 ? "#4A2C12" : "#fff", opacity: 0.9 }]}>{t("game.movesCaps")}</Text>
           </Animated.View>
         </View>
         {/* score bar */}
@@ -551,7 +551,7 @@ export default function GameScreen(props: Props) {
         {eventOn ? (
           <View style={styles.chip} accessibilityLabel={t("ev.pointsLabel", { n: evPoints })}>
             <Image source={ART.point} style={{ width: 20, height: 20 }} />
-            <Txt v="small" color="#C25E00">{evPoints}</Txt>
+            <Txt v="small" color={K.fg("#C25E00")}>{evPoints}</Txt>
           </View>
         ) : null}
         <View style={[styles.chip, { opacity: preview ? 1 : 0, backgroundColor: tooFew ? "#FFF" : lineColor }]}>
@@ -596,7 +596,7 @@ export default function GameScreen(props: Props) {
             return (
               <View key={`s${i}`} pointerEvents="none" style={{
                 position: "absolute", left: (a.x + b.x) / 2 - len / 2, top: (a.y + b.y) / 2 - 6, width: len, height: 12, borderRadius: 6,
-                backgroundColor: lineColor, borderWidth: 2.5, borderColor: "#fff", transform: [{ rotate: `${ang}rad` }],
+                backgroundColor: lineColor, borderWidth: 2.5, borderColor: K.bd("#fff"), transform: [{ rotate: `${ang}rad` }],
               }} />
             );
           })}
@@ -625,7 +625,8 @@ export default function GameScreen(props: Props) {
         {dockH >= 78 ? (
           <View style={[styles.dock, { width: size.width + 12 }]}>
             <Press onPress={showHint} style={[styles.dockCard, styles.dockHint]} accessibilityRole="button" accessibilityLabel={t("game.hintBtn")}>
-              <View style={[styles.dockIc, { backgroundColor: "#FFC94A" }]}><Txt v="h2" style={{ fontSize: 22 }}>💡</Txt></View>
+              <Glow radius={18} />
+              <View style={[styles.dockIc, { backgroundColor: K.bg("#FFC94A") }]}><Txt v="h2" style={{ fontSize: 22 }}>💡</Txt></View>
               <View style={{ flex: 1 }}>
                 <Txt v="h3" style={{ fontSize: 14 }} numberOfLines={1}>{t("game.hintBtn")}</Txt>
                 {narrow ? null : <Txt v="tiny" color={C.dim} numberOfLines={1}>{t("game.hintBtnSub")}</Txt>}
@@ -720,7 +721,7 @@ function ResultCard({ mode, score, reward, onExit, onReplay }: { mode: RoundMode
         {reward.points ? (
           <View style={styles.rewardItem} accessibilityLabel={t("ev.pointsLabel", { n: reward.points })}>
             <Image source={ART.point} style={{ width: 34, height: 34 }} />
-            <Text style={[F.black, { fontSize: 22, color: "#C25E00" }]}>+{reward.points}</Text>
+            <Text style={[F.black, { fontSize: 22, color: K.fg("#C25E00") }]}>+{reward.points}</Text>
           </View>
         ) : null}
       </View>
@@ -731,7 +732,7 @@ function ResultCard({ mode, score, reward, onExit, onReplay }: { mode: RoundMode
           ))}
         </View>
       ) : null}
-      {reward.froze ? <Txt v="small" color="#3B7CC4" center style={{ marginTop: 6 }}>{t("game.froze")}</Txt> : null}
+      {reward.froze ? <Txt v="small" color={K.fg("#3B7CC4")} center style={{ marginTop: 6 }}>{t("game.froze")}</Txt> : null}
       {mode === "daily" && reward.stars > 0 && reward.streak > 0 ? (
         <View style={[styles.chip, { marginTop: 10 }]}>
           <Image source={ART.flame} style={{ width: 18, height: 18 }} />
@@ -747,17 +748,17 @@ function ResultCard({ mode, score, reward, onExit, onReplay }: { mode: RoundMode
 }
 
 const NIGHT_DIM = "#E4D8FF";
-const styles = StyleSheet.create({
+const styles = themed(() => StyleSheet.create({
   root: { flex: 1, alignItems: "center" }, // background: App (C.bg, or the event backdrop)
-  hud: { backgroundColor: "rgba(255,250,238,0.95)", borderRadius: 24, padding: 8, paddingBottom: 10, borderWidth: 2, borderColor: "rgba(255,255,255,0.9)", ...shadow },
+  hud: { backgroundColor: K.bg("rgba(255,250,238,0.95)"), borderRadius: 24, padding: 8, paddingBottom: 10, borderWidth: 2, borderColor: K.bd("rgba(255,255,255,0.9)"), ...shadow },
   top: { flexDirection: "row", alignItems: "center", gap: 10 },
-  iconBtn: { width: 42, height: 42, borderRadius: 21, backgroundColor: "#FFF0D2", alignItems: "center", justifyContent: "center" },
+  iconBtn: { width: 42, height: 42, borderRadius: 21, backgroundColor: K.bg("#FFF0D2"), alignItems: "center", justifyContent: "center" },
   moves: { width: 56, height: 48, borderRadius: 16, backgroundColor: C.honeyDeep, alignItems: "center", justifyContent: "center" },
   statusRow: { flexDirection: "row", justifyContent: "center", gap: 8, alignSelf: "stretch", paddingHorizontal: 16, height: 36, alignItems: "center" },
-  chip: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: "#FFF", borderRadius: 14, paddingHorizontal: 10, height: 28, ...shadow },
+  chip: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: K.bg("#FFF"), borderRadius: 14, paddingHorizontal: 10, height: 28, ...shadow, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   dock: { flexDirection: "row", flexWrap: "wrap", gap: 10, marginTop: 10 },
-  dockCard: { flexGrow: 1, flexBasis: "45%", flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: "#fff", borderRadius: 18, borderWidth: 2, borderColor: C.line, paddingHorizontal: 10, paddingVertical: 8, minHeight: 56 },
-  dockHint: { backgroundColor: "#FFF3D6", borderColor: "#FFB51F" },
+  dockCard: { flexGrow: 1, flexBasis: "45%", flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: K.bg("#fff"), borderRadius: 18, borderWidth: 2, borderColor: C.line, paddingHorizontal: 10, paddingVertical: 8, minHeight: 56 },
+  dockHint: { backgroundColor: isNight() ? "#221C4D" : "#FFF3D6", borderColor: "#FFB51F", ...activeCard() },
   dockIc: { width: 40, height: 40, borderRadius: 13, alignItems: "center", justifyContent: "center" },
   dockStats: { flexBasis: "100%", minHeight: 0, paddingVertical: 6, paddingHorizontal: 0, gap: 0 },
   stat: { flex: 1, alignItems: "center" },
@@ -765,5 +766,5 @@ const styles = StyleSheet.create({
   boardWrap: { backgroundColor: C.board, borderRadius: 26, padding: 6, borderWidth: 3, borderColor: C.boardEdge },
   floatText: { textShadowColor: "#fff", textShadowRadius: 6, textShadowOffset: { width: 0, height: 0 } },
   rewardRow: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 14, marginTop: 14 },
-  rewardItem: { flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: "#FFF", borderRadius: 18, paddingHorizontal: 14, paddingVertical: 8, ...shadow },
-});
+  rewardItem: { flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: K.bg("#FFF"), borderRadius: 18, paddingHorizontal: 14, paddingVertical: 8, ...shadow, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
+}));

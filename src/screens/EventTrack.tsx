@@ -91,7 +91,7 @@ export function EventCard({ s, now, onClaim }: { s: GameState; now: number; onCl
                 <View style={[styles.step, done && styles.stepDone, ready && styles.stepReady, isNext && !reached && styles.stepNext]}>
                   {look.skin ? <ItemIcon id={look.skin} size={40} /> : <Image source={look.icon!} style={{ width: 40, height: 40, opacity: reached ? 1 : 0.55 }} resizeMode="contain" />}
                   <View style={{ flex: 1, minWidth: 0 }}>
-                    <Txt v="h3" style={{ fontSize: 14 }} numberOfLines={2}>{look.title}</Txt>
+                    <Txt v="h3" style={{ fontSize: 14, lineHeight: 18 }} numberOfLines={3}>{look.title}</Txt>
                     {isNext && !reached ? (
                       <>
                         <Bar progress={Math.min(1, progress)} height={6} color={NIGHT.pumpkin} style={{ marginTop: 4 }} />
@@ -101,7 +101,7 @@ export function EventCard({ s, now, onClaim }: { s: GameState; now: number; onCl
                   </View>
                   {done ? <Image source={ART.check} style={{ width: 26, height: 26 }} />
                     : ready ? (
-                      <GameButton small title={t("ev.claim")} color="green" style={{ width: 96 }} label={`${t("ev.claim")}: ${look.title}`}
+                      <GameButton small title={t("ev.claim")} color="green" style={{ width: 88, flexShrink: 0 }} label={`${t("ev.claim")}: ${look.title}`}
                         onPress={async () => onClaim(await centerOf(btn.current))} />
                     ) : <Image source={ART.lock} style={{ width: 20, height: 20, opacity: 0.5 }} />}
                 </View>

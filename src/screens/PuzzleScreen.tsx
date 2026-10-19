@@ -182,11 +182,10 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
             const on = id === "moves" ? useMoves : id === "bomb" ? useBomb : false;
             const toggle = id === "moves" ? () => setUseMoves(!useMoves) : id === "bomb" ? () => setUseBomb(!useBomb) : null;
             return (
-              <View key={id} style={[styles.boostCard, on && styles.boostOn]}>
-                <Image source={BOOSTER_ART[id]} style={{ width: 44, height: 44 }} resizeMode="contain" />
+              <View key={id} style={[styles.boostCard, on && styles.boostOn, { flexWrap: "wrap", gap: 8, paddingHorizontal: 8 }]}>
+                <Image source={BOOSTER_ART[id]} style={{ width: 34, height: 34 }} resizeMode="contain" />
                 <View style={{ flex: 1, minWidth: 0 }}>
-                  <Txt v="h3" numberOfLines={1}>{BOOSTERS[id].name} <Txt v="small" color={C.dim}>×{have}</Txt></Txt>
-                  <Txt v="tiny" color={C.dim} numberOfLines={2}>{id === "shuffle" ? t("pz.shuffleInRound") : BOOSTERS[id].desc}</Txt>
+                  <Txt v="h3" style={{ fontSize: 15, lineHeight: 19 }} numberOfLines={2}>{BOOSTERS[id].name} <Txt v="small" color={C.dim}>×{have}</Txt></Txt>
                 </View>
                 {have > 0 && toggle ? (
                   <Press onPress={toggle} style={[styles.check, on && styles.checkOn]} accessibilityRole="checkbox" accessibilityState={{ checked: on }} accessibilityLabel={BOOSTERS[id].name} scaleTo={0.9}>
@@ -194,8 +193,10 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
                   </Press>
                 ) : have === 0 ? (
                   <GameButton small title={`${price}`} icon={ART.pollen} color={s.loot.pollen >= price ? "green" : "white"} disabled={s.loot.pollen < price}
-                    onPress={() => onBuyBooster(id)} label={t("pz.buyBooster", { name: BOOSTERS[id].name, n: price })} style={{ minWidth: 0, width: 84 }} />
+                    onPress={() => onBuyBooster(id)} label={t("pz.buyBooster", { name: BOOSTERS[id].name, n: price })} style={{ minWidth: 0, width: 66 }} />
                 ) : <View style={styles.check}><Txt v="tiny" color={C.green} style={{ fontWeight: "900" }}>✓</Txt></View>}
+                {/* the description runs under the whole row: in a narrow column next to the price it was cut off */}
+                <Txt v="tiny" color={C.dim} numberOfLines={3} style={{ width: "100%", paddingLeft: 42, marginTop: -2 }}>{id === "shuffle" ? t("pz.shuffleInRound") : BOOSTERS[id].desc}</Txt>
               </View>
             );
           })}

@@ -1,0 +1,21 @@
+{
+  "approval": "Owner: Хороший вариант, сохраняем;2026-10-19",
+  "files": {
+    "normal/cell2.png": "c4bff3d637aab8c448e7a6e3156819c88ecda65371f5e0afba637c1ee8794d66",
+    "normal/cell3.png": "f6a20f0508ff508357451a8de0fc13bdccaef65e4ebf8c1e3cb048762b8108ac",
+    "normal/bomb.png": "adbcb9736f8273e935885616b932656bbbfbc270b244cedd861b3a0e531955d0",
+    "normal/cell1.png": "a6b63121ba41c300beb93e2a79e2a56a9ecfdd3afb441b7317d49125eeb4b47e",
+    "normal/cell0.png": "e44aebaa4eaa72c74e21b8506917dcde4941fcc3d4de2d3c4549bcf6e22c0e78",
+    "normal/cell4.png": "bf86e9380068d32b8b346d508d2459c93cd8afe3b9d0414d83b24caec99c4e52",
+    "normal/cell_wild.png": "9a829a3ccaf93651b3cb25353e5eb73ec61d85a5b70d3472e1a38dd270e0946b",
+    "normal/cell_pumpkin.png": "437c037b41fad6ed615176c21d71a34dd8a6c95fa99ecb465b4dba201d731d9b",
+    "halloween/cell2.png": "e61fd820276cfaf8e77ed2aa5f4e27e0c891024972394661c3ce5aeac28b3c03",
+    "halloween/cell3.png": "a8c0e37b38837c2d220840ab9eba4324d67bc2837759bf9776ec373d00a262f7",
+    "halloween/bomb.png": "70378aacebfdd75cbc3aec75221a0af826d40b51403b5461a74975a260a6a59a",
+    "halloween/cell1.png": "22a64fedae384034c625fb1e7d74261438cad98f614fe73230f8b071736f2e49",
+    "halloween/cell0.png": "17a7944f69c40a95979a71c3838b9ace7065b6885d4ea01e02ef329b9eebbd28",
+    "halloween/cell4.png": "6e00fcba707496b4e098a6c4ea1c03e33e03a867f6da743dda4ff72fbcc78063",
+    "halloween/cell_wild.png": "14e5c0f5136f3db33a512e293cac66db70b980a8faefb89e4a1873600ff130c4",
+    "halloween/cell_pumpkin.png": "acfcf22e999264a0142e8b5e2407bb35aee0b4e1a75a3ce1fb2ccf791a7558f3"
+  }
+}

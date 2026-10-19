@@ -1,0 +1,322 @@
+[
+  {
+    "file": "normal/cell0.png",
+    "size": [
+      720,
+      624
+    ],
+    "source_crop": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "alpha_bbox": [
+      8,
+      7,
+      712,
+      617
+    ],
+    "sha256": "1aea1d2f55fdebc7a8d3943f5dd55c7baa1ed27d6c5047b518e8d2169a18afea"
+  },
+  {
+    "file": "normal/cell1.png",
+    "size": [
+      720,
+      624
+    ],
+    "source_crop": [
+      444,
+      0,
+      887,
+      444
+    ],
+    "alpha_bbox": [
+      8,
+      7,
+      712,
+      617
+    ],
+    "sha256": "9c07522a9143ef1c06286b3a6a9b33e3cc368d789f0264ea97b5a1a18d3a0a2c"
+  },
+  {
+    "file": "normal/cell2.png",
+    "size": [
+      720,
+      624
+    ],
+    "source_crop": [
+      887,
+      0,
+      1330,
+      444
+    ],
+    "alpha_bbox": [
+      8,
+      7,
+      712,
+      617
+    ],
+    "sha256": "5ff5d10e2a8ca5eba40f1682791d077bfa607dc931c376bec4e0328ccda7a36f"
+  },
+  {
+    "file": "normal/cell3.png",
+    "size": [
+      720,
+      624
+    ],
+    "source_crop": [
+      1330,
+      0,
+      1774,
+      444
+    ],
+    "alpha_bbox": [
+      8,
+      8,
+      712,
+      616
+    ],
+    "sha256": "0dbf3167af40d9c4cf157db0bc786576368c9485220e3852466d9dc94f712d22"
+  },
+  {
+    "file": "normal/cell4.png",
+    "size": [
+      720,
+      624
+    ],
+    "source_crop": [
+      0,
+      444,
+      444,
+      887
+    ],
+    "alpha_bbox": [
+      10,
+      7,
+      710,
+      617
+    ],
+    "sha256": "49e1378923e95b0f3d6edcb2987d045574095ab96f923652aeaed3b35b0b1cb9"
+  },
+  {
+    "file": "normal/cell_wild.png",
+    "size": [
+      720,
+      624
+    ],
+    "source_crop": [
+      444,
+      444,
+      887,
+      887
+    ],
+    "alpha_bbox": [
+      10,
+      7,
+      710,
+      617
+    ],
+    "sha256": "125cabad1def3834c530aec67c768a7f72abacb625d3883c8d7af8f33e21fbf0"
+  },
+  {
+    "file": "normal/bomb.png",
+    "size": [
+      512,
+      512
+    ],
+    "source_crop": [
+      887,
+      444,
+      1330,
+      887
+    ],
+    "alpha_bbox": [
+      108,
+      72,
+      403,
+      440
+    ],
+    "sha256": "2e9cea4e4c55d9aaf21dd3d8b5151a0c5426b0e0cf28627df49d87ae74f235ea"
+  },
+  {
+    "file": "normal/cell_pumpkin.png",
+    "size": [
+      720,
+      624
+    ],
+    "source_crop": [
+      1330,
+      444,
+      1774,
+      887
+    ],
+    "alpha_bbox": [
+      10,
+      7,
+      710,
+      617
+    ],
+    "sha256": "ded8fc0de9e5abc65f72ea9a6b28f2a01a6a1150211698538ed49b2a92ed5435"
+  },
+  {
+    "file": "halloween/cell0.png",
+    "size": [
+      720,
+      624
+    ],
+    "source_crop": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "alpha_bbox": [
+      8,
+      12,
+      712,
+      612
+    ],
+    "sha256": "a645d4316736ff2c989e63cb4a6e0348b8b5da819294362f3f75d031d4d0614e"
+  },
+  {
+    "file": "halloween/cell1.png",
+    "size": [
+      720,
+      624
+    ],
+    "source_crop": [
+      444,
+      0,
+      887,
+      444
+    ],
+    "alpha_bbox": [
+      8,
+      13,
+      712,
+      610
+    ],
+    "sha256": "269311f976560c88251612397614ebf01acf3cec644aad341b50693570f464c5"
+  },
+  {
+    "file": "halloween/cell2.png",
+    "size": [
+      720,
+      624
+    ],
+    "source_crop": [
+      887,
+      0,
+      1330,
+      444
+    ],
+    "alpha_bbox": [
+      8,
+      12,
+      712,
+      611
+    ],
+    "sha256": "036ed04a51e9fc858db5f1e72aeda5cbe2640cc7011b26f3b10a78fb3bb50e6d"
+  },
+  {
+    "file": "halloween/cell3.png",
+    "size": [
+      720,
+      624
+    ],
+    "source_crop": [
+      1330,
+      0,
+      1774,
+      444
+    ],
+    "alpha_bbox": [
+      8,
+      12,
+      712,
+      611
+    ],
+    "sha256": "d554179949f9b35ca9d8d8053872316ac8989c5d805bc4c9f9ca7cddf9b5cce8"
+  },
+  {
+    "file": "halloween/cell4.png",
+    "size": [
+      720,
+      624
+    ],
+    "source_crop": [
+      0,
+      444,
+      444,
+      887
+    ],
+    "alpha_bbox": [
+      8,
+      9,
+      712,
+      615
+    ],
+    "sha256": "b44667eb144e1a9d2bba68780f8e9fce21feeea8301c83a12c89429c5136f225"
+  },
+  {
+    "file": "halloween/cell_wild.png",
+    "size": [
+      720,
+      624
+    ],
+    "source_crop": [
+      444,
+      444,
+      887,
+      887
+    ],
+    "alpha_bbox": [
+      8,
+      10,
+      712,
+      614
+    ],
+    "sha256": "1f57553dea35f1dc6e6dcb35494e2a2dab92b0a6a5bc4b349db581aab059f716"
+  },
+  {
+    "file": "halloween/bomb.png",
+    "size": [
+      512,
+      512
+    ],
+    "source_crop": [
+      887,
+      444,
+      1330,
+      887
+    ],
+    "alpha_bbox": [
+      113,
+      72,
+      399,
+      440
+    ],
+    "sha256": "1ffbfbcf2e4c049ace77ad9a19afbce4abce75dacebd41fa0dc0e893b743eb8c"
+  },
+  {
+    "file": "halloween/cell_pumpkin.png",
+    "size": [
+      720,
+      624
+    ],
+    "source_crop": [
+      1330,
+      444,
+      1774,
+      887
+    ],
+    "alpha_bbox": [
+      8,
+      8,
+      712,
+      615
+    ],
+    "sha256": "0e3346e762122c6d0037a5d19157f62f9f6f6214c2356515b1157573d3fc1a85"
+  }
+]

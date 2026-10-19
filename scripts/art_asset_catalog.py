@@ -187,6 +187,15 @@ def classify(rel):
             seasonal='/halloween/' in p;title=('Halloween' if seasonal else 'Обычный набор')+' / мягче v2 / '+glyph_labels.get(stem,stem);role='Изображение';season='Хеллоуин' if seasonal else 'Базовый'
         if stem=='compare':title='Глифы / насыщенные цвета и умеренный контраст / сравнение v2';role='Лист / сравнение'
         if '/sources/' in p:role='Лист / источник';status='Архив / пробы'
+    if p.startswith('design/art/glyph-contrast-options-v2/') and '/sources/' not in p:
+        status='Одобрено'
+    if p.startswith('design/art/glyph-contrast-options-v3/'):
+        style='Медовый кристалл / заметнее грани';status='Кандидат / вариант'
+        labels_v3={'cell0':'солнце','cell1':'сердце','cell2':'цветок','cell3':'капля','cell4':'лист','cell_wild':'джокер','bomb':'бомба','cell_pumpkin':'тыква'}
+        if '/normal/' in p or '/halloween/' in p:
+            seasonal='/halloween/' in p;title=('Halloween' if seasonal else 'Обычный набор')+' / заметнее грани v3 / '+labels_v3.get(stem,stem);role='Изображение';season='Хеллоуин' if seasonal else 'Базовый'
+        if stem=='compare':title='Глифы / одобренный и чуть заметнее грани v3';role='Лист / сравнение'
+        if '/sources/' in p:role='Лист / источник';status='Архив / пробы'
     return dict(title=title,category=category,role=role,style=style,season=season,status=status,species=species,accessory=accessory)
 
 def build(target):

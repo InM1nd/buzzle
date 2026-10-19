@@ -275,7 +275,10 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
             label={t("bees.levelLabel", { n: level + 1 })}
           />
         ) : (
-          <GameButton title={t("bees.maxLevel")} color="white" onPress={onClose} style={{ alignSelf: "stretch" }} />
+          // a state, not an action: a badge
+          <View style={styles.maxBadge} accessibilityLabel={t("bees.maxLevel")}>
+            <Txt v="h3" color={C.honeyDark} center>★ {t("bees.maxLevel")}</Txt>
+          </View>
         )
       ) : bee.fragments ? (
         <GameButton title={t("bees.assemble", { a: Math.min(fragments, bee.fragments), b: bee.fragments })} icon={ART.fragment} color={fragments >= bee.fragments ? "purple" : "grey"}
@@ -343,6 +346,7 @@ const styles = themed(() => StyleSheet.create({
   seg: { flexDirection: "row", gap: 8, marginBottom: 12 },
   segBtn: { paddingHorizontal: 18, paddingVertical: 9, borderRadius: 20, backgroundColor: K.bg("#fff"), ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   segOn: { backgroundColor: C.honey },
+  maxBadge: { alignSelf: "center", paddingHorizontal: 18, paddingVertical: 8, borderRadius: 999, borderWidth: 1.5, borderColor: K.bd("#F2C66A"), backgroundColor: K.bg("#FFF4D6") },
   card3: { backgroundColor: K.bg("#fff"), borderRadius: 22, padding: 8, paddingBottom: 10, alignItems: "center", ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   lvlRow: { flexDirection: "row", alignItems: "center", gap: 5, marginTop: 4, alignSelf: "stretch", paddingHorizontal: 6 },
   costMini: { flexDirection: "row", alignItems: "center", gap: 3, marginTop: 4, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 10, backgroundColor: K.bg("#EFE6FA") },

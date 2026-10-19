@@ -18,6 +18,7 @@ export const lootScreen = {
   "ls.lockedSeasons": { en: "locked until seasons", uk: "закрита до сезонів", ru: "закрыта до сезонов" },
   "ls.inSeasons": { en: "Coming with seasons", uk: "З'явиться в сезонах", ru: "Появится в сезонах" },
   "ls.open": { en: "Open", uk: "Відкрити", ru: "Открыть" },
+  "ls.noneYet": { en: "No combs yet — earn them in tasks and puzzles", uk: "Поки немає сот — заробляй їх у завданнях і головоломках", ru: "Пока нет сот — заработай их в заданиях и головоломках" },
   "ls.none": { en: "None", uk: "Немає", ru: "Нет" },
   "ls.openLabel": { en: "Open: {name}", uk: "Відкрити: {name}", ru: "Открыть: {name}" },
   "ls.soon": { en: "Soon", uk: "Скоро", ru: "Скоро" },

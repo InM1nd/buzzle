@@ -98,8 +98,13 @@ export default function LootScreen(p: Props) {
                   <View style={styles.chip}><Txt v="tiny" color={C.dim}>{t("ls.pityEpic", { n: epicLeft })}</Txt></View>
                   <View style={styles.chip}><Txt v="tiny" color={C.dim}>{t("ls.pityLeg", { n: legLeft })}</Txt></View>
                 </View>
-                <GameButton title={ready ? t("ls.open") : t("ls.none")} color={ready ? "green" : "grey"} disabled={!ready}
-                  onPress={() => ready && p.onOpenBox(feat)} label={t("ls.openLabel", { name: BOX_INFO[feat].name })} style={{ alignSelf: "stretch" }} />
+                {ready ? (
+                  <GameButton title={t("ls.open")} color="green"
+                    onPress={() => p.onOpenBox(feat)} label={t("ls.openLabel", { name: BOX_INFO[feat].name })} style={{ alignSelf: "stretch" }} />
+                ) : (
+                  // nothing to open: a quiet line instead of a big disabled button
+                  <Txt v="small" color={C.dim} center style={{ marginTop: 4, paddingHorizontal: 8 }}>{t("ls.noneYet")}</Txt>
+                )}
               </Card>
               {BOX_KINDS.filter((k) => k !== feat).map((k) => {
                 const n = s.loot.boxes[k]; const locked = k === "royal";

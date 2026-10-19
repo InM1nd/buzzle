@@ -17,3 +17,10 @@ test("a paused clock loses no production: one late tick equals many small ones",
   const b = tick(s0, T + 30_000);
   assert.ok(Math.abs(a.hive.stored - b.hive.stored) < 1e-6, `${a.hive.stored} vs ${b.hive.stored}`);
 });
+
+import { canSkip, SKIP_GUARD_MS } from "../src/ui/introVideoShared";
+test("intro clip ignores taps in its first 800 ms", () => {
+  assert.equal(SKIP_GUARD_MS, 800);
+  assert.equal(canSkip(1000, 1500), false);
+  assert.equal(canSkip(1000, 1800), true);
+});

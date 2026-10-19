@@ -4,13 +4,14 @@
 import React, { useEffect, useRef } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { t } from "../i18n";
-import { INTRO_BG, IntroProps } from "./introVideoShared";
+import { canSkip, INTRO_BG, IntroProps } from "./introVideoShared";
 
 const CLIP = require("../../assets/video/halloween_intro.mp4");
 const uri = (m: unknown): string => (typeof m === "string" ? m : (m as { uri?: string; default?: string })?.uri ?? (m as { default?: string })?.default ?? "");
 
 export function IntroVideo({ onEnd, bottomInset }: IntroProps) {
   const done = useRef(false);
+  const shownAt = useRef(Date.now());
   const ref = useRef<HTMLVideoElement | null>(null);
   const end = (played: boolean) => { if (done.current) return; done.current = true; onEnd(played); };
   useEffect(() => {
@@ -19,7 +20,10 @@ export function IntroVideo({ onEnd, bottomInset }: IntroProps) {
     v.muted = true;
     v.play().catch(() => end(false));
     const tm = setTimeout(() => { if (v.currentTime < 0.05) end(false); }, 2500);
-    return () => clearTimeout(tm);
+    // a hidden tab / Telegram in the background pauses the clip: play on when it is visible again
+    const vis = () => { if (document.visibilityState === "visible" && !done.current && v.paused && !v.ended) v.play().catch(() => end(true)); };
+    document.addEventListener("visibilitychange", vis);
+    return () => { clearTimeout(tm); document.removeEventListener("visibilitychange", vis); };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const video = React.createElement("video", {
     ref, src: uri(CLIP), muted: true, playsInline: true, autoPlay: true, preload: "auto",
@@ -27,7 +31,7 @@ export function IntroVideo({ onEnd, bottomInset }: IntroProps) {
     style: { position: "absolute", left: 0, top: 0, width: "100%", height: "100%", objectFit: "cover", background: INTRO_BG },
   });
   return (
-    <Pressable style={[StyleSheet.absoluteFill, styles.root]} onPress={() => end(true)} accessibilityRole="button" accessibilityLabel={t("intro.skip")}>
+    <Pressable style={[StyleSheet.absoluteFill, styles.root]} onPress={() => { if (canSkip(shownAt.current, Date.now())) end(true); }} accessibilityRole="button" accessibilityLabel={t("intro.skip")}>
       {video}
       <View pointerEvents="none" style={[styles.skip, { bottom: 24 + bottomInset }]}><Text style={styles.skipT}>{t("intro.skip")}</Text></View>
     </Pressable>

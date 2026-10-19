@@ -18,7 +18,11 @@ async function stored(): Promise<GameState> {
 async function seed(patch: (s: GameState) => GameState) {
   const now = Date.now();
   let s = newState(now);
-  s = { ...s, settings: { ...s.settings, tutorialDone: true, gardenIntroDone: true, lang: "ru", langPicked: true, lastVersion: "1.5.5" }, login: { lastDay: today(s, now), index: 0, streak: 1 } };
+  // These tests exercise regular screens, independent of the seasonal calendar.
+  // Explicit classic UI and a seen event intro prevent Halloween changing their fixtures.
+  s = { ...s, settings: { ...s.settings, tutorialDone: true, gardenIntroDone: true, lang: "ru", langPicked: true, lastVersion: "1.5.5", ui: "classic" },
+    event: { ...s.event, id: `halloween-${new Date(now).getFullYear()}`, intro: true },
+    login: { lastDay: today(s, now), index: 0, streak: 1 } };
   await AsyncStorage.setItem(KEY, JSON.stringify(patch(s)));
 }
 async function boot() {

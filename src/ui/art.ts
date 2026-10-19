@@ -69,6 +69,39 @@ export const sceneBg = (view: "hive" | "garden", night: boolean, autumn: boolean
  * tiles follows; App re-mounts the tree on a change (like the language). Calm sets: scripts/import_tile_styles.py */
 const tileSet = (st: string, cells: number[], wild: number, bomb: number, pumpkin: number = ART.pumpkin) => ({ st, cells, wild, bomb, pumpkin });
 export const TILE_SETS = {
+  balanced: tileSet("balanced", [
+    require("../../assets/art/tiles/balanced_cell0.webp"),
+    require("../../assets/art/tiles/balanced_cell1.webp"),
+    require("../../assets/art/tiles/balanced_cell2.webp"),
+    require("../../assets/art/tiles/balanced_cell3.webp"),
+    require("../../assets/art/tiles/balanced_cell4.webp"),
+  ], require("../../assets/art/tiles/balanced_cell_wild.webp"), require("../../assets/art/tiles/balanced_bomb.webp"),
+    require("../../assets/art/tiles/balanced_cell_pumpkin.webp")),
+  faceted: tileSet("faceted", [
+    require("../../assets/art/tiles/faceted_cell0.webp"),
+    require("../../assets/art/tiles/faceted_cell1.webp"),
+    require("../../assets/art/tiles/faceted_cell2.webp"),
+    require("../../assets/art/tiles/faceted_cell3.webp"),
+    require("../../assets/art/tiles/faceted_cell4.webp"),
+  ], require("../../assets/art/tiles/faceted_cell_wild.webp"), require("../../assets/art/tiles/faceted_bomb.webp"),
+    require("../../assets/art/tiles/faceted_cell_pumpkin.webp")),
+  hbalanced: tileSet("hbalanced", [
+    require("../../assets/art/tiles/hbalanced_cell0.webp"),
+    require("../../assets/art/tiles/hbalanced_cell1.webp"),
+    require("../../assets/art/tiles/hbalanced_cell2.webp"),
+    require("../../assets/art/tiles/hbalanced_cell3.webp"),
+    require("../../assets/art/tiles/hbalanced_cell4.webp"),
+  ], require("../../assets/art/tiles/hbalanced_cell_wild.webp"), require("../../assets/art/tiles/hbalanced_bomb.webp"),
+    require("../../assets/art/tiles/hbalanced_cell_pumpkin.webp")),
+  hfaceted: tileSet("hfaceted", [
+    require("../../assets/art/tiles/hfaceted_cell0.webp"),
+    require("../../assets/art/tiles/hfaceted_cell1.webp"),
+    require("../../assets/art/tiles/hfaceted_cell2.webp"),
+    require("../../assets/art/tiles/hfaceted_cell3.webp"),
+    require("../../assets/art/tiles/hfaceted_cell4.webp"),
+  ], require("../../assets/art/tiles/hfaceted_cell_wild.webp"), require("../../assets/art/tiles/hfaceted_bomb.webp"),
+    require("../../assets/art/tiles/hfaceted_cell_pumpkin.webp")),
+
   classic: tileSet("classic", ART.cells, ART.wild, ART.bomb),
   soft: tileSet("soft", [
     require("../../assets/art/tiles/soft_cell0.webp"), require("../../assets/art/tiles/soft_cell1.webp"), require("../../assets/art/tiles/soft_cell2.webp"),
@@ -105,7 +138,7 @@ export const TILE_SETS = {
 };
 export type TileSetId = keyof typeof TILE_SETS;
 /** during the Halloween event every style switches to its seasonal version by itself */
-const HALLOWEEN: Record<string, TileSetId> = { soft: "hsoft", pastel: "hpastel", wax: "hwax", classic: "hbright" };
+const HALLOWEEN: Record<string, TileSetId> = { soft: "hsoft", pastel: "hpastel", wax: "hwax", classic: "hbright", balanced: "hbalanced", faceted: "hfaceted" };
 export const seasonalTiles = (st: string, halloween: boolean): TileSetId =>
   !halloween ? ((st in TILE_SETS ? st : "soft") as TileSetId) : HALLOWEEN[st] ?? "hsoft";
 export function setTileStyle(st: TileSetId) {

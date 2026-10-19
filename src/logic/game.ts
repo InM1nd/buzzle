@@ -102,7 +102,7 @@ export interface Settings {
 }
 export { UI_STYLES };
 export type { UiStyle };
-export const TILE_STYLES = ["soft", "pastel", "wax", "classic"] as const;
+export const TILE_STYLES = ["soft", "pastel", "wax", "classic", "balanced", "faceted"] as const;
 export type TileStyle = (typeof TILE_STYLES)[number];
 export interface EarlyPlayer { firstSeen: string; version: string; early: boolean }
 /** everyone who starts before 2.0 is an early player */

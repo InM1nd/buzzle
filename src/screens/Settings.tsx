@@ -121,7 +121,7 @@ function Main(p: SettingsProps & { go: (pg: Page) => void }) {
         <Txt v="h3" style={{ marginTop: 14, marginBottom: 2 }}>{t("st.tiles")}</Txt>
         <Txt v="tiny" color={C.dim} style={{ marginBottom: 8 }}>{t("st.tilesSub")}{halloween ? ` ${t("st.tilesEvent")}` : ""}</Txt>
         <View style={styles.tiles} accessibilityRole="radiogroup" accessibilityLabel={t("st.tiles")}>
-          {TILE_STYLES.map((k) => {
+          {TILE_STYLES.filter((k) => p.dev || (k !== "balanced" && k !== "faceted")).map((k) => {
             const on = st.tiles === k;
             return (
               <Press key={k} onPress={() => p.onSet("tiles", k)} scaleTo={0.96} style={[styles.tileOpt, on && styles.tileOn]}

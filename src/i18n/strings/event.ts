@@ -54,6 +54,8 @@ export const event = {
   "st.tiles.pastel": { en: "Matte pastel", uk: "Матова пастель", ru: "Матовая пастель" },
   "st.tiles.wax": { en: "Warm wax", uk: "Теплий віск", ru: "Тёплый воск" },
   "st.tiles.classic": { en: "Bright (1.5)", uk: "Яскраві (1.5)", ru: "Яркие (1.5)" },
+  "st.tiles.balanced": { en: "Honey · soft", uk: "Медовий · м'якше", ru: "Медовый · мягче" },
+  "st.tiles.faceted": { en: "Honey · facets", uk: "Медовий · грані", ru: "Медовый · грани" },
   "game.ghost": { en: "Ghost caught!", uk: "Привида спіймано!", ru: "Призрак пойман!" },
   "item.witchhat": { en: "Witch Hat", uk: "Капелюх відьми", ru: "Шляпа ведьмы" },
   "item.witchhat.desc": { en: "A little crooked, a lot of magic.", uk: "Трохи кривий, зате чарівний.", ru: "Немного кривая, зато волшебная." },

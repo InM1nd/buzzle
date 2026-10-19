@@ -1,10 +1,11 @@
 /** v1.6 seasonal event card (Play and Tasks tabs) with the reward track window. */
-import React, { useRef, useState } from "react";
-import { Image, ImageSourcePropType, StyleSheet, View } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Animated, Easing, Image, ImageSourcePropType, StyleSheet, View } from "react-native";
 import { t, tx } from "../i18n";
 import { claimable, TRACK, TrackReward } from "../logic/event";
-import { eventView, GameState, trickGuest } from "../logic/game";
-import { BeeSprite } from "../ui/BeeSprite";
+import { beeDisplayName, eventView, GameState, treatGuest, trickGuest } from "../logic/game";
+import { BeeSprite, Hover } from "../ui/BeeSprite";
+import { USE_NATIVE_DRIVER } from "../ui/anim";
 import { BOX_INFO } from "../logic/loot";
 import { ART } from "../ui/art";
 import { Bar, Bobbing, CloseBtn, GameButton, Overlay, Txt } from "../ui/components";
@@ -109,26 +110,182 @@ export function EventCard({ s, now, onClaim }: { s: GameState; now: number; onCl
   );
 }
 
-/** v1.6 trick or treat: once a day a guest in a costume knocks at the hive */
+/** v1.6 trick or treat: once a day a guest in a costume knocks at the hive. The banner opens the big window; the window keeps
+ *  its guest after the treat (trickGuest() is null by then) until it is closed. */
 export function TrickBanner({ s, now, onTreat }: { s: GameState; now: number; onTreat: (from: Pt | null) => void }) {
-  const ref = useRef<View>(null);
   const g = trickGuest(s, now);
-  if (!g) return null;
+  const [guest, setGuest] = useState<{ bee: string; skin: string } | null>(null);
+  const [visit, setVisit] = useState(0);
   return (
-    <View ref={ref} collapsable={false} style={[styles.trick, shadow]}>
-      {/* the guest knocks at the night hive door */}
-      <View style={{ width: 92, height: 92 }}>
-        <Image source={ART.trickDoor} style={{ position: "absolute", width: 92, height: 92 }} />
-        <Bobbing amp={3} style={{ position: "absolute", left: 22, top: 38 }}><BeeSprite id={g.bee} skin={g.skin} size={52} flap={false} /></Bobbing>
-      </View>
-      <View style={{ flex: 1 }}>
-        <Txt v="h3" color="#fff">{t("ev.trickTitle")}</Txt>
-        <Txt v="small" color={NIGHT.ghost}>{t("ev.trickSub")}</Txt>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginTop: 8 }}>
-          <Image source={ART.trickBasket} style={{ width: 40, height: 40 }} />
-          <GameButton small title={t("ev.treat")} color="honey" style={{ flex: 1 }} onPress={async () => onTreat(await centerOf(ref.current))} label={t("ev.treat")} />
+    <>
+      {g ? (
+        <View style={[styles.trick, shadow]}>
+          {/* the guest knocks at the night hive door */}
+          <View style={{ width: 92, height: 92 }}>
+            <Image source={ART.trickDoor} style={{ position: "absolute", width: 92, height: 92 }} />
+            <Bobbing amp={3} style={{ position: "absolute", left: 22, top: 38 }}><BeeSprite id={g.bee} skin={g.skin} size={52} flap={false} /></Bobbing>
+          </View>
+          <View style={{ flex: 1 }}>
+            <Txt v="h3" color="#fff">{t("ev.trickTitle")}</Txt>
+            <Txt v="small" color={NIGHT.ghost}>{t("ev.trickSub")}</Txt>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginTop: 8 }}>
+              <Image source={ART.trickBasket} style={{ width: 40, height: 40 }} />
+              <GameButton small title={t("ev.trickOpen")} color="honey" style={{ flex: 1 }} onPress={() => { setGuest(g); setVisit((v) => v + 1); }} label={t("ev.trickOpen")} />
+            </View>
+          </View>
         </View>
+      ) : null}
+      <Overlay visible={!!guest} onClose={() => setGuest(null)}>
+        {guest ? <TrickWindow key={visit} s={s} now={now} guest={guest} onTreat={onTreat} onClose={() => setGuest(null)} /> : null}
+      </Overlay>
+    </>
+  );
+}
+
+const TRICK = {
+  door: [0, 1, 2, 3, 4, 5, 6, 7].map((i) => [
+    require("../../assets/art/halloween/trick_door_0.webp"), require("../../assets/art/halloween/trick_door_1.webp"),
+    require("../../assets/art/halloween/trick_door_2.webp"), require("../../assets/art/halloween/trick_door_3.webp"),
+    require("../../assets/art/halloween/trick_door_4.webp"), require("../../assets/art/halloween/trick_door_5.webp"),
+    require("../../assets/art/halloween/trick_door_6.webp"), require("../../assets/art/halloween/trick_door_7.webp"),
+  ][i]),
+  glow: require("../../assets/art/halloween/trick_glow.webp"),
+  bg: require("../../assets/art/halloween/trick_bg.webp"),
+  full: require("../../assets/art/halloween/trick_basket_full.webp"),
+  empty: require("../../assets/art/halloween/trick_basket_empty.webp"),
+  sparkle: require("../../assets/art/halloween/trick_sparkle.webp"),
+  candy: [
+    require("../../assets/art/halloween/trick_candy_1.webp"), require("../../assets/art/halloween/trick_candy_2.webp"),
+    require("../../assets/art/halloween/trick_candy_3.webp"), require("../../assets/art/halloween/trick_candy_4.webp"),
+    require("../../assets/art/halloween/trick_candy_5.webp"), require("../../assets/art/halloween/trick_candy_6.webp"),
+  ],
+};
+/** door canvas (1024²) layout from design/2d/halloween/trick/door_layout.json */
+const APERTURE = { x: 337, y: 332, w: 345, h: 428 };
+type Phase = "knock" | "open" | "guest" | "treat" | "done";
+
+/** knock knock → the door opens frame by frame → the guest peeks out → treat: candies fly from the basket, sparkles, reward */
+function TrickWindow({ s, now, guest, onTreat, onClose }: { s: GameState; now: number; guest: { bee: string; skin: string }; onTreat: (from: Pt | null) => void; onClose: () => void }) {
+  const [W, setW] = useState(0);
+  const [phase, setPhase] = useState<Phase>("knock");
+  const [frame, setFrame] = useState(0);
+  const guestRef = useRef<View>(null);
+  const shake = useRef(new Animated.Value(0)).current;
+  const rise = useRef(new Animated.Value(0)).current;
+  const glow = useRef(new Animated.Value(0)).current;
+  const burst = useRef(new Animated.Value(0)).current;
+  const fly = useRef(TRICK.candy.map(() => new Animated.Value(0))).current;
+  // read the reward up front (treatGuest is pure); App commits it in onTreat
+  const reward = useRef(treatGuest(s, now)).current;
+  const D = W * 0.84, H = W * 0.92, k = D / 1024;
+  const doorL = (W - D) / 2, doorT = H - D * 0.99;
+  const ap = { left: doorL + APERTURE.x * k, top: doorT + APERTURE.y * k, width: APERTURE.w * k, height: APERTURE.h * k };
+  const bs = APERTURE.w * k * 1.05; // guest size
+  const basket = W * 0.3;
+  const from = { x: basket * 0.5, y: H - basket * 0.55 }, to = { x: ap.left + ap.width / 2, y: ap.top + ap.height - bs * 0.45 };
+
+  useEffect(() => {
+    if (!W) return;
+    const knock = (d: number) => Animated.sequence([
+      Animated.delay(d),
+      Animated.timing(shake, { toValue: 1, duration: 45, useNativeDriver: USE_NATIVE_DRIVER }),
+      Animated.timing(shake, { toValue: -1, duration: 70, useNativeDriver: USE_NATIVE_DRIVER }),
+      Animated.timing(shake, { toValue: 0, duration: 45, useNativeDriver: USE_NATIVE_DRIVER }),
+    ]);
+    let timer: ReturnType<typeof setInterval> | null = null;
+    Animated.sequence([knock(250), knock(130), knock(130), Animated.delay(220)]).start(({ finished }) => {
+      if (!finished) return;
+      setPhase("open");
+      let f = 0;
+      timer = setInterval(() => {
+        f++;
+        setFrame(f);
+        if (f < 7) return;
+        if (timer) clearInterval(timer);
+        setPhase("guest");
+        Animated.spring(rise, { toValue: 1, useNativeDriver: USE_NATIVE_DRIVER, speed: 7, bounciness: 9 }).start();
+        Animated.loop(Animated.sequence([
+          Animated.timing(glow, { toValue: 1, duration: 1100, useNativeDriver: USE_NATIVE_DRIVER }),
+          Animated.timing(glow, { toValue: 0, duration: 1100, useNativeDriver: USE_NATIVE_DRIVER }),
+        ])).start();
+      }, 75);
+    });
+    return () => { if (timer) clearInterval(timer); shake.stopAnimation(); glow.stopAnimation(); };
+  }, [W, shake, rise, glow]);
+
+  const treat = () => {
+    if (phase !== "guest") return;
+    setPhase("treat");
+    Animated.stagger(80, fly.map((v) => Animated.timing(v, { toValue: 1, duration: 620, easing: Easing.out(Easing.quad), useNativeDriver: USE_NATIVE_DRIVER }))).start(async () => {
+      Animated.timing(burst, { toValue: 1, duration: 700, easing: Easing.out(Easing.cubic), useNativeDriver: USE_NATIVE_DRIVER }).start();
+      setPhase("done");
+      onTreat(await centerOf(guestRef.current));
+    });
+  };
+
+  const look = reward ? rewardLook(reward.reward) : null;
+  const name = beeDisplayName(s, guest.bee);
+  return (
+    <View>
+      <CloseBtn onPress={onClose} />
+      <Txt v="h2" style={{ paddingRight: 44 }}>{t("ev.trickTitle")}</Txt>
+      <Txt v="small" color={K.fg("#8A5200")} style={{ marginBottom: 10 }}>
+        {phase === "done" ? t("ev.trickThanks", { name }) : phase === "guest" || phase === "treat" ? t("ev.trickGuest", { name, costume: tx(`item.${guest.skin}`) }) : t("ev.trickKnock")}
+      </Txt>
+      <View style={[styles.scene, { height: W ? H : 300 }]} onLayout={(e) => setW(e.nativeEvent.layout.width)}>
+        <Image source={TRICK.bg} resizeMode="cover" style={{ position: "absolute", width: "100%", height: "100%" }} />
+        {W ? (
+          <>
+            <Animated.View style={{ position: "absolute", left: doorL, top: doorT, width: D, height: D, transform: [{ translateX: shake.interpolate({ inputRange: [-1, 1], outputRange: [-5, 5] }) }, { rotate: shake.interpolate({ inputRange: [-1, 1], outputRange: ["-1deg", "1deg"] }) }] }}>
+              {TRICK.door.map((src, i) => <Image key={i} source={src} style={{ position: "absolute", width: D, height: D, opacity: i === frame ? 1 : 0 }} />)}
+            </Animated.View>
+            {/* the guest, clipped to the doorway (top corners rounded like the hexagonal opening) */}
+            <View style={[styles.aperture, ap, { borderTopLeftRadius: ap.width * 0.4, borderTopRightRadius: ap.width * 0.4 }]} pointerEvents="none">
+              <Animated.View ref={guestRef} collapsable={false} style={{ position: "absolute", left: (ap.width - bs) / 2, top: ap.height - bs * 0.86, transform: [{ translateY: rise.interpolate({ inputRange: [0, 1], outputRange: [bs, 0] }) }] }}>
+                {phase !== "knock" && phase !== "open" ? (
+                  <Hover amp={4} sway={3} period={1500}><BeeSprite id={guest.bee} skin={guest.skin} size={bs} turn={0.5} /></Hover>
+                ) : null}
+              </Animated.View>
+            </View>
+            <Animated.Image source={TRICK.glow} style={{ position: "absolute", left: doorL, top: doorT, width: D, height: D, opacity: glow.interpolate({ inputRange: [0, 1], outputRange: [0.15, 0.3] }) }} />
+            {phase === "knock" ? <Txt v="h2" color="#fff" style={[styles.knock, { top: doorT + D * 0.18 }]}>{t("ev.knock")}</Txt> : null}
+            <Image source={phase === "done" ? TRICK.empty : TRICK.full} style={{ position: "absolute", left: 0, top: H - basket, width: basket, height: basket }} />
+            {fly.map((v, i) => {
+              const dx = to.x - from.x + (i - 2.5) * 10, dy = to.y - from.y;
+              const c = W * 0.16;
+              return (
+                <Animated.Image key={i} source={TRICK.candy[i]} style={{
+                  position: "absolute", left: from.x - c / 2, top: from.y - c / 2, width: c, height: c,
+                  opacity: v.interpolate({ inputRange: [0, 0.02, 0.85, 1], outputRange: [0, 1, 1, 0] }),
+                  transform: [
+                    { translateX: v.interpolate({ inputRange: [0, 1], outputRange: [0, dx] }) },
+                    { translateY: v.interpolate({ inputRange: [0, 0.5, 1], outputRange: [0, dy / 2 - H * 0.28 - i * 4, dy] }) },
+                    { rotate: v.interpolate({ inputRange: [0, 1], outputRange: ["0deg", `${i % 2 ? -300 : 300}deg`] }) },
+                    { scale: v.interpolate({ inputRange: [0, 0.5, 1], outputRange: [0.7, 1.1, 0.5] }) },
+                  ],
+                }} />
+              );
+            })}
+            <Animated.Image source={TRICK.sparkle} style={{
+              position: "absolute", left: to.x - W * 0.3, top: to.y - W * 0.3, width: W * 0.6, height: W * 0.6,
+              opacity: burst.interpolate({ inputRange: [0, 0.1, 1], outputRange: [0, 1, 0] }),
+              transform: [{ scale: burst.interpolate({ inputRange: [0, 1], outputRange: [0.4, 1.25] }) }],
+            }} />
+          </>
+        ) : null}
       </View>
+      {phase === "done" && reward && look ? (
+        <View style={styles.trickRew}>
+          <View style={styles.rewChip}><Image source={ART.point} style={{ width: 22, height: 22 }} /><Txt v="h3">+{reward.points}</Txt></View>
+          <View style={styles.rewChip}>
+            {look.icon ? <Image source={look.icon} style={{ width: 24, height: 24 }} resizeMode="contain" /> : null}
+            <Txt v="h3" numberOfLines={1}>{look.title}</Txt>
+          </View>
+        </View>
+      ) : null}
+      {phase === "done"
+        ? <GameButton title={t("ev.trickDone")} color="green" onPress={onClose} style={{ marginTop: 12 }} />
+        : <GameButton title={t("ev.treat")} icon={TRICK.full} color="honey" disabled={phase !== "guest"} onPress={treat} style={{ marginTop: 12 }} label={t("ev.treat")} />}
     </View>
   );
 }
@@ -190,6 +347,11 @@ const styles = themed(() => StyleSheet.create({
   trackHead: { height: 104, borderRadius: 20, overflow: "hidden", padding: 14, justifyContent: "flex-end", backgroundColor: NIGHT.bg },
   trackHeadImg: { position: "absolute", left: 0, top: 0, width: "100%", height: "100%", opacity: 0.75 },
   trick: { flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: NIGHT.bg, borderRadius: 22, padding: 12, borderWidth: 2, borderColor: NIGHT.card },
+  scene: { borderRadius: 22, overflow: "hidden", backgroundColor: NIGHT.bg },
+  aperture: { position: "absolute", overflow: "hidden" },
+  knock: { position: "absolute", left: 0, right: 0, textAlign: "center", textShadowColor: "rgba(0,0,0,0.6)", textShadowRadius: 8 },
+  trickRew: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 8, marginTop: 12 },
+  rewChip: { flexDirection: "row", alignItems: "center", gap: 6, maxWidth: "100%", backgroundColor: K.bg("#FFF1D4"), borderRadius: 14, paddingHorizontal: 12, paddingVertical: 6 },
   introHead: { height: 120, borderRadius: 18, overflow: "hidden", marginTop: 4, marginRight: 44 },
   stepReady: { borderColor: K.bd("#4CC777"), backgroundColor: K.bg("#E4F7EA") },
 }));

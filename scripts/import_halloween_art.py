@@ -10,7 +10,7 @@ M = {  # target: (source, size)
     "pumpkin_bud.webp": ("garden/pumpkin_bud.png", (249, 249)),
     "pumpkin_bloom.webp": ("garden/pumpkin_bloom.png", (249, 249)),
     "hive_bg_night.webp": ("env/hive_bg_night.png", (940, 1672)),
-    "garden_bg_night.webp": ("env/garden_bg_night.png", (940, 1672)),
+    "garden_bg_night.webp": ("env/garden_bg_night_v2.png", (940, 1672)),
     "hive_bg_autumn.webp": ("env/hive_bg_autumn.png", (940, 1672)),
     "garden_bg_autumn.webp": ("env/garden_bg_autumn.png", (940, 1672)),
     "fl_sky.webp": ("flight/bg_sky.png", (1200, 675)),
@@ -31,6 +31,14 @@ M = {  # target: (source, size)
     "event_header.webp": ("ui/event_header.png", (1000, 400)),
     "trick_door.webp": ("trick/door.png", (480, 480)),
     "trick_basket.webp": ("trick/basket.png", (192, 192)),
+    # trick or treat window: the 8 door frames share one canvas (never trim them one by one, see trick/README.ru.md)
+    **{f"trick_door_{i}.webp": (f"trick/door_open_0{i}.png", (600, 600)) for i in range(8)},
+    "trick_glow.webp": ("trick/door_glow.png", (400, 400)),
+    "trick_bg.webp": ("trick/trick_bg.png", (900, 675)),
+    "trick_basket_full.webp": ("trick/basket_full.png", (256, 256)),
+    "trick_basket_empty.webp": ("trick/basket_empty.png", (256, 256)),
+    "trick_sparkle.webp": ("trick/sparkle_burst.png", (320, 320)),
+    **{f"trick_candy_{i}.webp": (f"trick/candy_{i}.png", (112, 112)) for i in range(1, 7)},
     **{f"deco_jack{i}.webp": (f"deco/deco_jack_{i}.png", (160, 250)) for i in (1, 2, 3, 4)},
 }
 os.makedirs(A, exist_ok=True)

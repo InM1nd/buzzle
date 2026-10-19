@@ -2,7 +2,7 @@
 import type { Entry } from "../core";
 export const event = {
   "ev.title": { en: "Pumpkin Night", uk: "Гарбузова ніч", ru: "Тыквенная ночь" },
-  "ev.daysLeft": { en: { one: "{n} day left", other: "{n} days left" }, uk: { one: "ще {n} день", few: "ще {n} дні", many: "ще {n} днів" }, ru: { one: "ещё {n} день", few: "ещё {n} дня", many: "ещё {n} дней" } },
+  "ev.daysLeft": { en: { one: "{n}\u00a0day left", other: "{n}\u00a0days left" }, uk: { one: "ще\u00a0{n}\u00a0день", few: "ще\u00a0{n}\u00a0дні", many: "ще\u00a0{n}\u00a0днів" }, ru: { one: "ещё\u00a0{n}\u00a0день", few: "ещё\u00a0{n}\u00a0дня", many: "ещё\u00a0{n}\u00a0дней" } },
   "ev.ended": { en: "Event over · claim your rewards", uk: "Подію завершено · забери нагороди", ru: "Ивент окончен · заберите награды" },
   "ev.sub": { en: "Pumpkins and a ghost in free play, points for daily stars", uk: "Гарбузи й привид у вільній грі, очки за зірки дня", ru: "Тыквы и призрак в свободной игре, очки за звёзды дня" },
   "ev.next": { en: "{n} to the next reward", uk: "{n} до наступної нагороди", ru: "{n} до следующей награды" },
@@ -60,7 +60,7 @@ export const event = {
   "st.devEvent.calendar": { en: "Calendar", uk: "Календар", ru: "Календарь" },
   "intro.skip": { en: "Skip", uk: "Пропустити", ru: "Пропустить" },
   "st.devCine": { en: "DEV · Replay night transition", uk: "DEV · Повторити перехід у ніч", ru: "DEV · Повторить переход в ночь" },
-  "fl.locked": { en: "Back at Halloween", uk: "Повернеться на Гелловін", ru: "Вернётся на Хэллоуин" },
+  "fl.locked": { en: "Opens on {date}", uk: "Відкриється {date}", ru: "Откроется {date}" },
   "fl.lockedBtn": { en: "Locked", uk: "Закрито", ru: "Закрыто" },
   "fl.lockedSub": { en: "A Pumpkin Night mini-game", uk: "Мінігра Гарбузової ночі", ru: "Мини-игра Тыквенной ночи" },
   "st.tilesEvent": { en: "During Pumpkin Night the tiles wear their Halloween look.", uk: "На Гарбузову ніч соти вбираються по-гелловінськи.", ru: "На Тыквенную ночь соты наряжаются по-хеллоуински." },

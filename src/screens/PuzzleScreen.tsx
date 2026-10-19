@@ -13,7 +13,7 @@ import { ART } from "../ui/art";
 import { C, F, shadow, K, themed, activeCard, isNight } from "../ui/theme";
 import { Bobbing, Card, CloseBtn, fmt, GameButton, Glow, Overlay, Press, Stars, Txt, useTopPad, useBottomPad } from "../ui/components";
 import { dateLong, days, weekday } from "../ui/format";
-import { activeEvent } from "../logic/event";
+import { activeEvent, nextEventStart } from "../logic/event";
 import { Pt } from "../ui/Fly";
 import { EventCard, EventUi } from "./EventTrack";
 
@@ -43,6 +43,9 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
   const date = new Date(now);
   const chips: string[] = [];
   const halloween = !!activeEvent(d) && React.useContext(EventUi);
+  // the locked Night Flight card names the next start date (right this year and next year)
+  const ns = new Date(nextEventStart(today(s, now)) * 86400000);
+  const flLocked = t("fl.locked", { date: dateLong(new Date(ns.getUTCFullYear(), ns.getUTCMonth(), ns.getUTCDate())) });
   if (halloween) chips.push(t("ev.chip"));
   if (freeMoves(s) > 20) chips.push(t("pz.chipMoves", { n: freeMoves(s) - 20 }));
   b.colorMult.forEach((m, i) => { if (m > 1) chips.push(t("pz.chipColor", { color: colorName(i), x: Math.round(m * 100) / 100 })); });
@@ -151,14 +154,14 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
           <Image source={ART.flightIcon} style={{ width: 40, height: 40, opacity: halloween ? 1 : 0.55 }} />
           <Txt v="h3" color="#fff" style={{ marginTop: 6 }}>{t("fl.title")}</Txt>
           <Txt v="tiny" color={K.fg("#BFF5E6")}>{t(halloween ? "fl.sub" : "fl.lockedSub")}</Txt>
-          {!halloween ? <Txt v="tiny" color={K.fg("#FFC56B")} style={[F.black, { marginTop: 2 }]}>{t("fl.locked")}</Txt> : null}
+          {!halloween ? <Txt v="tiny" color={K.fg("#FFC56B")} style={[F.black, { marginTop: 2 }]}>{flLocked}</Txt> : null}
           {s.flight.best > 0 ? <Txt v="tiny" color={K.fg("#FFC56B")} style={{ marginTop: 2 }}>{t("fl.best", { n: s.flight.best })}</Txt> : null}
           <View style={{ flex: 1 }} />
           {/* Night Flight is a Halloween mini-game: outside the event the card stays, locked until next year */}
           {halloween ? (
             <GameButton title={t("pz.play")} color="honey" style={{ marginTop: 8 }} onPress={onFlight} label={t("fl.title")} />
           ) : (
-            <GameButton title={t("fl.lockedBtn")} disabled color="grey" style={{ marginTop: 8 }} onPress={() => {}} label={`${t("fl.title")}: ${t("fl.locked")}`} />
+            <GameButton title={t("fl.lockedBtn")} disabled color="grey" style={{ marginTop: 8 }} onPress={() => {}} label={`${t("fl.title")}: ${flLocked}`} />
           )}
         </Card>
       </View>

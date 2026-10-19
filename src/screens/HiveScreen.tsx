@@ -12,7 +12,7 @@ import { BeeSprite } from "../ui/BeeSprite";
 import { sinRange, useAnimActive, useCycle } from "../ui/anim";
 import { buildFlight } from "../logic/flight";
 import { C, F, shadow, K, themed, activeCard } from "../ui/theme";
-import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Txt, useTopPad, Glow } from "../ui/components";
+import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Txt, useTopPad, useBottomPad, Glow } from "../ui/components";
 import { centerOf, Pt } from "../ui/Fly";
 import { duration, rateFmt } from "../ui/format";
 
@@ -157,12 +157,18 @@ const HIVE_SPOTS: Spot[] = [
 ];
 
 export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, onToggleDeco, onShop, banner, cheer = 0, night }: Props) {
-  const { width: winW } = useWindowDimensions();
+  const { width: winW, height: winH } = useWindowDimensions();
   const [containerW, setContainerW] = useState(winW);
+  const [containerH, setContainerH] = useState(winH);
+  const [bannerH, setBannerH] = useState(0);
+  const topPad = useTopPad(), bottomPad = useBottomPad();
   const [sel, setSel] = useState<number | null>(null);
   const collectRef = useRef<View>(null);
   const areaW = Math.max(1, Math.min(containerW, 520) - 32);
-  const hs = Math.min(areaW / 10.2, 40);
+  // the comb field shrinks on short screens so the honey meter and Collect stay on the first screen above the tab bar
+  // (room: top/bottom pads, a banner, the level sign + bottom decorations (92), the meter (~96) and the gaps)
+  const roomH = containerH - topPad - bottomPad - 16 - (bannerH ? bannerH + 14 : 0) - 92 - 96 - 14;
+  const hs = Math.max(26, Math.min(areaW / 10.2, 40, (roomH - 24) / (SQ3 * 5)));
   const areaH = SQ3 * hs * 5 + 24;
   const r = rate(s), c = cap(s);
   const hours = capHours(s.upgrades.storage, boostsFor(s.bees, s.beeLevels).capHours);
@@ -204,16 +210,18 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, onTog
   }, [s.bees.join(","), builtKey, hs, areaW, areaH]);
 
   const top = useTopPad();
+
+  const bottom = useBottomPad();
   return (
-    <View style={{ flex: 1 }} onLayout={(e) => setContainerW(e.nativeEvent.layout.width)}>
-    <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
+    <View style={{ flex: 1 }} onLayout={(e) => { setContainerW(e.nativeEvent.layout.width); setContainerH(e.nativeEvent.layout.height); }}>
+    <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: bottom, gap: 14 }} showsVerticalScrollIndicator={false}>
       {rolled ? (
         <Card style={{ backgroundColor: K.bg("#FFE7DF"), padding: 12 }}>
           <Txt v="small" color={C.red}>{t("hive.rollback")}</Txt>
         </Card>
       ) : null}
 
-      {banner}
+      {banner ? <View onLayout={(e) => setBannerH(Math.round(e.nativeEvent.layout.height))}>{banner}</View> : null}
       {/* hive: free-standing comb field on the meadow */}
       <View style={[styles.hiveArea, { height: areaH + 64 + 28 }]}>{/* +28: the bottom decorations and their empty-spot rings stand below the field */}
         {/* level + production as one sign above the hive */}

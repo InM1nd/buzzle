@@ -36,7 +36,7 @@ import { SceneBg } from "./src/ui/SceneBg";
 import { TabIcon } from "./src/ui/TabIcon";
 import { Mascot } from "./src/ui/BeeSprite";
 import { C, F, shadow, K, themed, resolveTheme, setTheme, themeName, isNight } from "./src/ui/theme";
-import { Bar, GameButton, Pill, Press, TopPad, Txt } from "./src/ui/components";
+import { Bar, BottomPad, GameButton, Pill, Press, TopPad, Txt } from "./src/ui/components";
 import { centerOf, FlyProvider, Pt, useFly } from "./src/ui/Fly";
 import HiveScreen from "./src/screens/HiveScreen";
 import PuzzleScreen from "./src/screens/PuzzleScreen";
@@ -107,6 +107,7 @@ function Main() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [topH, setTopH] = useState(0);
+  const [tabH, setTabH] = useState(64);
   const [settingsPage, setSettingsPage] = useState<"main" | "update">("main");
   const [showWhatsNew, setShowWhatsNew] = useState(false);
   /** night-falls transition: dir, `look` = whether the event look is shown right now. "prep" renders the old look (a replay
@@ -620,6 +621,7 @@ function Main() {
         <SceneBg source={sceneBg(view, day, night)} />
       ) : null}
       <TopPad.Provider value={topH}>
+      <BottomPad.Provider value={tabH + Math.max(insets.bottom, 8) + 16}>
       <View style={{ flex: 1 }}>
         {tab === "hive" ? (
           <View style={{ flex: 1 }}>
@@ -668,6 +670,7 @@ function Main() {
           <TasksScreen s={s} now={now} onClaimTrack={act.track} onClaimWeekly={act.weekly} onBuyFreeze={() => act.simple((c) => buyFreeze(c, Date.now()))} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} />
         )}
       </View>
+      </BottomPad.Provider>
       </TopPad.Provider>
 
       {/* top bar: one currency bar + gear, floating over the scene like the tab bar */}
@@ -700,7 +703,7 @@ function Main() {
       </View>
 
       {/* tab bar */}
-      <View style={[styles.tabs, { position: "absolute", left: 0, right: 0, bottom: Math.max(insets.bottom, 8) }]}>
+      <View onLayout={(e) => { const h = Math.round(e.nativeEvent.layout.height); if (Math.abs(h - tabH) > 1) setTabH(h); }} style={[styles.tabs, { position: "absolute", left: 0, right: 0, bottom: Math.max(insets.bottom, 8) }]}>
         {TABS.map((t) => {
           const on = tab === t.id;
           const badge = t.id === "loot" ? s.loot.boxes.wood + s.loot.boxes.wax + s.loot.boxes.gold > 0 || (!s.week.chest && s.week.tasks >= 15) : t.id === "tasks" ? tasksReady || canClaimLogin(s, now) : t.id === "puzzle" ? !s.daily.results[todayOf(s, now)]?.stars : t.id === "hive" ? (s.hive.stored >= 1 && s.hive.stored >= 0.999 * capOf(s)) || gardenBadge : false;

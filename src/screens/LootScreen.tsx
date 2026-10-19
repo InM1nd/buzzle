@@ -19,7 +19,7 @@ import { WEEKEND_MOVES, WEEKEND_STARS, weekdayOf } from "../logic/day";
 import { ART } from "../ui/art";
 import { GARDEN_ART } from "../ui/beeArt";
 import { C, shadow, K, themed, isNight, activeCard } from "../ui/theme";
-import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Stars, Txt, useTopPad, Glow } from "../ui/components";
+import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Stars, Txt, useTopPad, useBottomPad, Glow } from "../ui/components";
 import { BOOSTER_ART, boxArt, ItemIcon, RARITY_UI } from "../ui/lootUi";
 import { centerOf, Pt } from "../ui/Fly";
 import { days } from "../ui/format";
@@ -55,9 +55,11 @@ export default function LootScreen(p: Props) {
   const streak = dailyStreak(s, now);
 
   const top = useTopPad();
+
+  const bottom = useBottomPad();
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: bottom, gap: 14 }} showsVerticalScrollIndicator={false}>
         {/* v1.5: one tab, three sections */}
         <Txt v="h1" style={{ marginBottom: -4 }}>{t("tab.loot")}</Txt>
         <View style={styles.seg3} accessibilityRole="tablist">

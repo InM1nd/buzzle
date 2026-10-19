@@ -8,7 +8,7 @@ import { abilityAt, levelCost, BEES, BeeSpecies, LEVEL_HIVE_BONUS, MAX_BEE_LEVEL
 import { ART } from "../ui/art";
 import { BeeSprite, Hover, Mascot, useFace } from "../ui/BeeSprite";
 import { C, F, shadow, K, themed, isNight, activeCard } from "../ui/theme";
-import { Bar, CloseBtn, fmt, GameButton, Overlay, Press, Txt, useTopPad, Glow } from "../ui/components";
+import { Bar, CloseBtn, fmt, GameButton, Overlay, Press, Txt, useTopPad, useBottomPad, Glow } from "../ui/components";
 import { Text } from "react-native";
 
 /** colours stay raw here (module level runs before the theme is set); K.fg / night tints are applied where they are drawn */
@@ -29,9 +29,10 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
   const [view, setView] = useState<"all" | "outfits">("all");
   const owned = new Set(s.bees);
   const top = useTopPad();
+  const bottom = useBottomPad();
   return (
     <>
-      <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: 110 }} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: bottom }} showsVerticalScrollIndicator={false}>
         <View style={styles.head}>
           <Txt v="h1" style={{ flex: 1 }}>{t("bees.title")}</Txt>
           <Txt v="h3" color={C.dim}>{t("bees.count", { a: s.bees.length, b: BEES.length })}</Txt>

@@ -38,7 +38,7 @@ export const event = {
   "fl.candies": { en: "Candies: {n}", uk: "Цукерки: {n}", ru: "Конфеты: {n}" },
   "fl.best": { en: "Record: {n}", uk: "Рекорд: {n}", ru: "Рекорд: {n}" },
   "ev.trickTitle": { en: "Knock knock! Trick or treat?", uk: "Тук-тук! Цукерки чи капость?", ru: "Тук-тук! Гадость или сладость?" },
-  "ev.trickSub": { en: "A guest in a costume came to the hive · +5 event points", uk: "До вулика прийшов гість у костюмі · +5 очок події", ru: "К улью пришёл гость в костюме · +5 очков ивента" },
+  "ev.trickPts": { en: "A guest in a costume · +5 event points", uk: "Гість у костюмі · +5 очок події", ru: "Гость в костюме · +5 очков ивента" },
   "ev.trickOpen": { en: "Open the door", uk: "Відчинити", ru: "Открыть дверь" },
   "ev.trickKnock": { en: "Someone is knocking at the hive door…", uk: "Хтось стукає у двері вулика…", ru: "Кто-то стучит в дверь улья…" },
   "ev.knock": { en: "Knock knock!", uk: "Тук-тук!", ru: "Тук-тук!" },

@@ -11,7 +11,7 @@ import { ART } from "../ui/art";
 import { Bar, Bobbing, CloseBtn, GameButton, Overlay, Txt } from "../ui/components";
 import { centerOf, Pt } from "../ui/Fly";
 import { boxArt, ItemIcon } from "../ui/lootUi";
-import { shadow, K, themed } from "../ui/theme";
+import { F, shadow, K, themed } from "../ui/theme";
 
 /** false while the night-falls transition is due or running: the event UI appears only once the interface is in the event look */
 export const EventUi = createContext(true);
@@ -125,19 +125,16 @@ export function TrickBanner({ s, now, onTreat }: { s: GameState; now: number; on
     <>
       {g && shown ? (
         <View style={[styles.trick, shadow]}>
-          {/* the guest knocks at the night hive door */}
-          <View style={{ width: 92, height: 92 }}>
-            <Image source={ART.trickDoor} style={{ position: "absolute", width: 92, height: 92 }} />
-            <Bobbing amp={3} style={{ position: "absolute", left: 22, top: 38 }}><BeeSprite id={g.bee} skin={g.skin} size={52} flap={false} /></Bobbing>
+          {/* compact: the guest knocks at the night hive door; one row so the honey meter stays on the first screen */}
+          <View style={{ width: 52, height: 52 }}>
+            <Image source={ART.trickDoor} style={{ position: "absolute", width: 52, height: 52 }} />
+            <Bobbing amp={2} style={{ position: "absolute", left: 12, top: 21 }}><BeeSprite id={g.bee} skin={g.skin} size={30} flap={false} /></Bobbing>
           </View>
-          <View style={{ flex: 1 }}>
-            <Txt v="h3" color="#fff">{t("ev.trickTitle")}</Txt>
-            <Txt v="small" color={NIGHT.ghost}>{t("ev.trickSub")}</Txt>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginTop: 8 }}>
-              <Image source={ART.trickBasket} style={{ width: 40, height: 40 }} />
-              <GameButton small title={t("ev.trickOpen")} color="honey" style={{ flex: 1 }} onPress={() => { setGuest(g); setVisit((v) => v + 1); }} label={t("ev.trickOpen")} />
-            </View>
+          <View style={{ flex: 1, minWidth: 0 }}>
+            <Txt v="small" color="#fff" style={F.black} numberOfLines={2}>{t("ev.trickTitle")}</Txt>
+            <Txt v="tiny" color={NIGHT.ghost} numberOfLines={1}>{t("ev.trickPts")}</Txt>
           </View>
+          <GameButton small title={t("ev.trickOpen")} color="honey" style={{ maxWidth: 116 }} onPress={() => { setGuest(g); setVisit((v) => v + 1); }} label={t("ev.trickOpen")} />
         </View>
       ) : null}
       <Overlay visible={!!guest} onClose={() => setGuest(null)}>
@@ -370,7 +367,7 @@ const styles = themed(() => StyleSheet.create({
   nodeOn: { backgroundColor: NIGHT.pumpkin, borderColor: NIGHT.pumpkin },
   trackHead: { height: 104, borderRadius: 20, overflow: "hidden", padding: 14, justifyContent: "flex-end", backgroundColor: NIGHT.bg },
   trackHeadImg: { position: "absolute", left: 0, top: 0, right: 0, bottom: 0, opacity: 0.75 },
-  trick: { flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: NIGHT.bg, borderRadius: 22, padding: 12, borderWidth: 2, borderColor: NIGHT.card },
+  trick: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: NIGHT.bg, borderRadius: 18, paddingVertical: 6, paddingHorizontal: 10, borderWidth: 2, borderColor: NIGHT.card },
   scene: { borderRadius: 22, overflow: "hidden", backgroundColor: NIGHT.bg },
   aperture: { position: "absolute", overflow: "hidden" },
   knock: { position: "absolute", left: 0, right: 0, textAlign: "center", textShadowColor: "rgba(0,0,0,0.6)", textShadowRadius: 8 },

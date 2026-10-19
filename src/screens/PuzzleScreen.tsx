@@ -11,7 +11,7 @@ import { DAILY_MOVES, DAILY_STARS } from "../logic/day";
 import { colorName } from "../logic/bees";
 import { ART } from "../ui/art";
 import { C, F, shadow, K, themed, activeCard, isNight } from "../ui/theme";
-import { Bobbing, Card, CloseBtn, fmt, GameButton, Glow, Overlay, Press, Stars, Txt, useTopPad } from "../ui/components";
+import { Bobbing, Card, CloseBtn, fmt, GameButton, Glow, Overlay, Press, Stars, Txt, useTopPad, useBottomPad } from "../ui/components";
 import { dateLong, days, weekday } from "../ui/format";
 import { activeEvent } from "../logic/event";
 import { Pt } from "../ui/Fly";
@@ -53,8 +53,10 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
   if (honeyBonus > 0) chips.push(t("pz.chipHoney", { n: honeyBonus }));
 
   const top = useTopPad();
+
+  const bottom = useBottomPad();
   return (
-    <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
+    <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: bottom, gap: 14 }} showsVerticalScrollIndicator={false}>
       <Txt v="h1" style={{ marginBottom: 2 }}>{t("tab.puzzle")}</Txt>
       <EventCard s={s} now={now} onClaim={onClaimTrack} />
       <View style={[styles.daily, shadow, activeCard()]}>

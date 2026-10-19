@@ -148,6 +148,10 @@ export function CountUp({ value, style, duration = 600, format = fmt }: { value:
 /** Height of the floating top bar; tab screens pad their scroll content by it so it scrolls under the bar. */
 export const TopPad = createContext(0);
 export const useTopPad = () => useContext(TopPad);
+/** Room under the floating tab bar (its height + its bottom offset + a gap): tab screens pad their scroll content by it so
+ *  the last card can scroll fully above the bar instead of ending half covered. */
+export const BottomPad = createContext(110);
+export const useBottomPad = () => useContext(BottomPad);
 
 /** One currency inside the shared currency bar. */
 export function Pill({ icon, value, color = C.text, bump, onLayoutIcon, label }: {

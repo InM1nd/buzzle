@@ -13,7 +13,7 @@ import { GARDEN_ART } from "../ui/beeArt";
 import { Mascot } from "../ui/BeeSprite";
 import { C, shadow, K, themed, isNight, activeCard } from "../ui/theme";
 import { sinDeg, useAnimActive, useCycle } from "../ui/anim";
-import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Txt, useTopPad, Glow } from "../ui/components";
+import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Txt, useTopPad, useBottomPad, Glow } from "../ui/components";
 import { centerOf, Pt } from "../ui/Fly";
 import { duration, durationShort } from "../ui/format";
 
@@ -149,9 +149,11 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
   };
 
   const top = useTopPad();
+
+  const bottom = useBottomPad();
   return (
     <View style={{ flex: 1 }}>
-    <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
+    <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: bottom, gap: 14 }} showsVerticalScrollIndicator={false}>
       {!s.settings.gardenIntroDone ? (
         <Card style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
           <Mascot id="zhuzha" size={78} seed={11} />

@@ -2,14 +2,14 @@
   "expo": {
     "name": "Buzzle",
     "slug": "bzz",
-    "version": "1.6.0",
+    "version": "1.6.1",
     "orientation": "portrait",
     "icon": "./assets/icon-hive.png",
     "userInterfaceStyle": "light",
     "backgroundColor": "#FFF6E3",
     "android": {
       "package": "com.zabolotny.bzz",
-      "versionCode": 27,
+      "versionCode": 28,
       "adaptiveIcon": {
         "backgroundColor": "#F5A21B",
         "foregroundImage": "./assets/android-icon-hive-foreground.png"

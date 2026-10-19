@@ -93,7 +93,7 @@ export interface Settings {
   autoUpdate: boolean;
   /** last app/web version this save has run on ("What's new" once after a change) */
   lastVersion: string;
-  /** v1.6 puzzle tile look (players found the 1.5 tiles too contrasty: calm "soft" is the default) */
+  /** Owner-selected puzzle tile look; calmer bright glyphs are the default. */
   tiles: TileStyle;
   /** dev build only: Halloween on (whatever the date) or off */
   devEvent: boolean;
@@ -102,7 +102,7 @@ export interface Settings {
 }
 export { UI_STYLES };
 export type { UiStyle };
-export const TILE_STYLES = ["soft", "pastel", "wax", "classic", "balanced", "faceted"] as const;
+export const TILE_STYLES = ["classic", "pastel", "wax", "balanced", "mellow"] as const;
 export type TileStyle = (typeof TILE_STYLES)[number];
 export interface EarlyPlayer { firstSeen: string; version: string; early: boolean }
 /** everyone who starts before 2.0 is an early player */
@@ -132,7 +132,7 @@ export function newState(now: number): GameState {
     settings: {
       notifications: false, haptics: true, tutorialDone: false, notifPromptDismissed: false, gardenReminders: true, gardenIntroDone: false,
       lang: "en", langPicked: false, sound: true, notifHive: true, notifDaily: true, notifChests: true,
-      quietOn: true, quietFrom: 22, quietTo: 9, autoUpdate: true, lastVersion: APP_VERSION, tiles: "soft", devEvent: true, ui: "auto",
+      quietOn: true, quietFrom: 22, quietTo: 9, autoUpdate: true, lastVersion: APP_VERSION, tiles: "mellow", devEvent: true, ui: "auto",
     },
     early: { firstSeen: isoDay(now), version: APP_VERSION, early: isEarlyVersion(APP_VERSION) },
     event: newEventState(),
@@ -208,6 +208,7 @@ export function migrate(raw: unknown, now: number): GameState {
 
 function migrateSettings(d: Settings, raw: Record<string, any>, version: unknown): Settings {
   const old = typeof version !== "number" || version < 5;
+  const tiles = raw.tiles === "soft" ? "mellow" : raw.tiles === "faceted" ? "balanced" : raw.tiles;
   const b = (k: keyof Settings) => (typeof raw[k] === "boolean" ? raw[k] : d[k]) as boolean;
   const hour = (v: unknown, def: number) => (typeof v === "number" && v >= 0 && v < 24 ? Math.floor(v) : def);
   return {
@@ -221,7 +222,7 @@ function migrateSettings(d: Settings, raw: Record<string, any>, version: unknown
     autoUpdate: b("autoUpdate"),
     // a pre-1.4 save has seen 1.3 at most: "What's new" shows for 1.4
     lastVersion: typeof raw.lastVersion === "string" ? raw.lastVersion : old ? "1.3.0" : d.lastVersion,
-    tiles: TILE_STYLES.includes(raw.tiles) ? raw.tiles : d.tiles,
+    tiles: TILE_STYLES.includes(tiles) ? tiles : d.tiles,
     devEvent: typeof raw.devEvent === "boolean" ? raw.devEvent : d.devEvent,
     ui: UI_STYLES.includes(raw.ui) ? raw.ui : d.ui,
   };

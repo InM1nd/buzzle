@@ -16,7 +16,7 @@ OUT = "assets/art/tiles/"
 # hexagon (a pumpkin stem), so they are framed by the plain tile of the same row and scale next to them.
 H2 = D + "halloween-soft-crystal-and-matte-pastel.png"
 STYLES = {
-    "soft": (D + "current-and-all-options.png", 1, 1), "pastel": (D + "current-and-all-options.png", 2, 2),
+    "pastel": (D + "current-and-all-options.png", 2, 2),
     "wax": (D + "current-and-all-options.png", 3, 3),
 }
 ROWS = ["cell0", "cell1", "cell2", "cell3", "cell4", "cell_wild"]
@@ -69,7 +69,6 @@ def bomb512(path):
     out = Image.new("RGBA", (W, H)); out.alpha_composite(b, ((W - n) // 2, (H - n) // 2 - 2))
     return out
 SPRITES = {  # style: (folder with cell0..4 / cell_wild, bomb, pumpkin)
-    "hsoft": (HT + "rework-v5/hsoft/", HT + "rework-v5/hsoft/bomb.png", HT + "rework-v5/hsoft/cell_pumpkin.png"),
     "hpastel": (HT + "rework-v5/hpastel/", HT + "rework-v5/hpastel/bomb.png", HT + "rework-v5/hpastel/cell_pumpkin.png"),
     "hwax": (HT + "rework-v5/hwax/", HT + "rework-v5/hwax/bomb.png", HT + "rework-v5/hwax/cell_pumpkin.png"),
     "hbright": (HT + "hbright/", HT + "rework-v5/hbright/bomb.png", HT + "styles/bright/cell_pumpkin.png"),

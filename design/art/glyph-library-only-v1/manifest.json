@@ -1,0 +1,133 @@
+{
+  "status": "Library only, owner decision 2026-10-19",
+  "styles": [
+    "soft",
+    "faceted"
+  ],
+  "files": [
+    {
+      "file": "soft_cell3.webp",
+      "sha256": "a6b2a6a9fca045a891b97505209cfafe50196d50d8b4f07bacb46de59017d341"
+    },
+    {
+      "file": "soft_cell2.webp",
+      "sha256": "5061c3b6e86268be70165d42836d5700a1f8e685d0353733b3155c7bbe0cb8e4"
+    },
+    {
+      "file": "soft_bomb.webp",
+      "sha256": "a91b67dfdeb03daf6ba856a2c17fec1c3c426570d5dad358afc0c55778230166"
+    },
+    {
+      "file": "soft_cell4.webp",
+      "sha256": "eaa458c4d3de60b928974f4353d0afb3b56435554704d163339eed7cb245c555"
+    },
+    {
+      "file": "soft_cell_wild.webp",
+      "sha256": "37fdcd29dc1f73dc95abf94139308621bc48fae6f45159c393469aa182d9ad36"
+    },
+    {
+      "file": "soft_cell1.webp",
+      "sha256": "c16a72eefbed7192e11c24733d98bd953da2b5b06ef2abf7ed264546a1a8e6d9"
+    },
+    {
+      "file": "soft_cell0.webp",
+      "sha256": "3eb8454af8357f5896cefb658a21b28ada3aa427606d3bbbedb18d1dbf65eee2"
+    },
+    {
+      "file": "hsoft_bomb.webp",
+      "sha256": "4a1bf3ef74943fa5f895ce21b329e9ba80cec529ccfc8e9223d6cc0edd6826d4"
+    },
+    {
+      "file": "hsoft_cell_pumpkin.webp",
+      "sha256": "a6e98b0f40cefc8b360bf9eec656139f200b2ef0da91d0eede0ea184d1b3939c"
+    },
+    {
+      "file": "hsoft_cell4.webp",
+      "sha256": "522fea46b713d85748af8c815cad3d0d135a3bf2999c4b63776a322364c6f9da"
+    },
+    {
+      "file": "hsoft_cell3.webp",
+      "sha256": "619931ab681dc9bee853a3d2503c7662d2fb09e435e50ad4cd5f98540d68d769"
+    },
+    {
+      "file": "hsoft_cell2.webp",
+      "sha256": "5d632a60f502d425ea857b3959246bc264ed3c547c948ed0abea4ce57160f92c"
+    },
+    {
+      "file": "hsoft_cell_wild.webp",
+      "sha256": "aa1e86939e0ce1aa12b695d96b65595d47e9d7c59c7a082411b9a9a093846c3e"
+    },
+    {
+      "file": "hsoft_cell1.webp",
+      "sha256": "f07676c63d9a5d298b6f942a9250c18886d1ebd4c2b2cd9b829707314dc5bae3"
+    },
+    {
+      "file": "hsoft_cell0.webp",
+      "sha256": "982b0c89cf2ce479ba05bb624cdfcd056ecb0d0cb1b5685d395b9d116885e5a7"
+    },
+    {
+      "file": "faceted_cell2.webp",
+      "sha256": "a5ca2c16e890e89110e45cab60a497645f7afd0225b4c2fc207d528d18ab9d17"
+    },
+    {
+      "file": "faceted_cell3.webp",
+      "sha256": "ffe5819364880bfffe07a650f6461366421893f220c6ddb70c4180d361ee9f45"
+    },
+    {
+      "file": "faceted_cell_pumpkin.webp",
+      "sha256": "cc0e6b81ee4faf8740955c952ef41c98b6b4a779b81ec3d994ea0896c8a9f60d"
+    },
+    {
+      "file": "faceted_cell4.webp",
+      "sha256": "bff4d3b78389241e3a916d8bbea78241a75c0675f538d9c6de5d21b34a0d964a"
+    },
+    {
+      "file": "faceted_cell_wild.webp",
+      "sha256": "39aa4c5310a4400f6ed4b1b7635c12544ff99163efbb61663fb4cfda6c0ce4fd"
+    },
+    {
+      "file": "faceted_cell0.webp",
+      "sha256": "31242e31c7f9bcc11c0c4965f22b64bc5922769d817643c629a16e00ed67aff2"
+    },
+    {
+      "file": "faceted_cell1.webp",
+      "sha256": "45459bcbea2ee5f0bda45a6c7ee883468dd863b91ee9a610b21a35083ac81cba"
+    },
+    {
+      "file": "faceted_bomb.webp",
+      "sha256": "20bbe921f5d12df09d60f124df9d01d7cd8b9cf6c71517cb2e0fa24d6c93a609"
+    },
+    {
+      "file": "hfaceted_cell2.webp",
+      "sha256": "a34934a237ecdeda78e927a96864ddc3853631192d46ec0327e82c369e664340"
+    },
+    {
+      "file": "hfaceted_cell3.webp",
+      "sha256": "2ec32196cc97dc2e19c3f6fba82423255413bc680504011e5c4c7ee07e37ad76"
+    },
+    {
+      "file": "hfaceted_cell4.webp",
+      "sha256": "77530c64567f27d29f2c6ac56ce8e1b82471be907c2ab6cb249eb5230a6055aa"
+    },
+    {
+      "file": "hfaceted_cell0.webp",
+      "sha256": "deb90f12e0b2cfae7f75ec2c1a8f3f08563fe426d962e65fcaf40b12dbb0de52"
+    },
+    {
+      "file": "hfaceted_cell_wild.webp",
+      "sha256": "956d4f147600d42874e3fef67e61a601f37ac62546dc8f95f089cf584ef43d4b"
+    },
+    {
+      "file": "hfaceted_bomb.webp",
+      "sha256": "4d1fe8890bc4ca207de5494deeb405a65b50127c3ed8f9fc1fd2d17b29af7b02"
+    },
+    {
+      "file": "hfaceted_cell_pumpkin.webp",
+      "sha256": "673a62a160eeeb4bb59df7396e45ba2afa1b5a6fa9b49057e122bd9f8048ddd3"
+    },
+    {
+      "file": "hfaceted_cell1.webp",
+      "sha256": "2246a0db2e972e8c41e69537fa4c5659fded875ca9984d0e4efe17d65b3f74b9"
+    }
+  ]
+}

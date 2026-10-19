@@ -77,14 +77,14 @@ export const TILE_SETS = {
     require("../../assets/art/tiles/balanced_cell4.webp"),
   ], require("../../assets/art/tiles/balanced_cell_wild.webp"), require("../../assets/art/tiles/balanced_bomb.webp"),
     require("../../assets/art/tiles/balanced_cell_pumpkin.webp")),
-  faceted: tileSet("faceted", [
-    require("../../assets/art/tiles/faceted_cell0.webp"),
-    require("../../assets/art/tiles/faceted_cell1.webp"),
-    require("../../assets/art/tiles/faceted_cell2.webp"),
-    require("../../assets/art/tiles/faceted_cell3.webp"),
-    require("../../assets/art/tiles/faceted_cell4.webp"),
-  ], require("../../assets/art/tiles/faceted_cell_wild.webp"), require("../../assets/art/tiles/faceted_bomb.webp"),
-    require("../../assets/art/tiles/faceted_cell_pumpkin.webp")),
+  mellow: tileSet("mellow", [
+    require("../../assets/art/tiles/mellow_cell0.webp"),
+    require("../../assets/art/tiles/mellow_cell1.webp"),
+    require("../../assets/art/tiles/mellow_cell2.webp"),
+    require("../../assets/art/tiles/mellow_cell3.webp"),
+    require("../../assets/art/tiles/mellow_cell4.webp"),
+  ], require("../../assets/art/tiles/mellow_cell_wild.webp"), require("../../assets/art/tiles/mellow_bomb.webp"),
+    require("../../assets/art/tiles/mellow_cell_pumpkin.webp")),
   hbalanced: tileSet("hbalanced", [
     require("../../assets/art/tiles/hbalanced_cell0.webp"),
     require("../../assets/art/tiles/hbalanced_cell1.webp"),
@@ -93,20 +93,16 @@ export const TILE_SETS = {
     require("../../assets/art/tiles/hbalanced_cell4.webp"),
   ], require("../../assets/art/tiles/hbalanced_cell_wild.webp"), require("../../assets/art/tiles/hbalanced_bomb.webp"),
     require("../../assets/art/tiles/hbalanced_cell_pumpkin.webp")),
-  hfaceted: tileSet("hfaceted", [
-    require("../../assets/art/tiles/hfaceted_cell0.webp"),
-    require("../../assets/art/tiles/hfaceted_cell1.webp"),
-    require("../../assets/art/tiles/hfaceted_cell2.webp"),
-    require("../../assets/art/tiles/hfaceted_cell3.webp"),
-    require("../../assets/art/tiles/hfaceted_cell4.webp"),
-  ], require("../../assets/art/tiles/hfaceted_cell_wild.webp"), require("../../assets/art/tiles/hfaceted_bomb.webp"),
-    require("../../assets/art/tiles/hfaceted_cell_pumpkin.webp")),
+  hmellow: tileSet("hmellow", [
+    require("../../assets/art/tiles/hmellow_cell0.webp"),
+    require("../../assets/art/tiles/hmellow_cell1.webp"),
+    require("../../assets/art/tiles/hmellow_cell2.webp"),
+    require("../../assets/art/tiles/hmellow_cell3.webp"),
+    require("../../assets/art/tiles/hmellow_cell4.webp"),
+  ], require("../../assets/art/tiles/hmellow_cell_wild.webp"), require("../../assets/art/tiles/hmellow_bomb.webp"),
+    require("../../assets/art/tiles/hmellow_cell_pumpkin.webp")),
 
   classic: tileSet("classic", ART.cells, ART.wild, ART.bomb),
-  soft: tileSet("soft", [
-    require("../../assets/art/tiles/soft_cell0.webp"), require("../../assets/art/tiles/soft_cell1.webp"), require("../../assets/art/tiles/soft_cell2.webp"),
-    require("../../assets/art/tiles/soft_cell3.webp"), require("../../assets/art/tiles/soft_cell4.webp"),
-  ], require("../../assets/art/tiles/soft_cell_wild.webp"), require("../../assets/art/tiles/soft_bomb.webp")),
   pastel: tileSet("pastel", [
     require("../../assets/art/tiles/pastel_cell0.webp"), require("../../assets/art/tiles/pastel_cell1.webp"), require("../../assets/art/tiles/pastel_cell2.webp"),
     require("../../assets/art/tiles/pastel_cell3.webp"), require("../../assets/art/tiles/pastel_cell4.webp"),
@@ -115,11 +111,6 @@ export const TILE_SETS = {
     require("../../assets/art/tiles/wax_cell0.webp"), require("../../assets/art/tiles/wax_cell1.webp"), require("../../assets/art/tiles/wax_cell2.webp"),
     require("../../assets/art/tiles/wax_cell3.webp"), require("../../assets/art/tiles/wax_cell4.webp"),
   ], require("../../assets/art/tiles/wax_cell_wild.webp"), require("../../assets/art/tiles/wax_bomb.webp")),
-  hsoft: tileSet("hsoft", [
-    require("../../assets/art/tiles/hsoft_cell0.webp"), require("../../assets/art/tiles/hsoft_cell1.webp"), require("../../assets/art/tiles/hsoft_cell2.webp"),
-    require("../../assets/art/tiles/hsoft_cell3.webp"), require("../../assets/art/tiles/hsoft_cell4.webp"),
-  ], require("../../assets/art/tiles/hsoft_cell_wild.webp"), require("../../assets/art/tiles/hsoft_bomb.webp"),
-    require("../../assets/art/tiles/hsoft_cell_pumpkin.webp")),
   hpastel: tileSet("hpastel", [
     require("../../assets/art/tiles/hpastel_cell0.webp"), require("../../assets/art/tiles/hpastel_cell1.webp"), require("../../assets/art/tiles/hpastel_cell2.webp"),
     require("../../assets/art/tiles/hpastel_cell3.webp"), require("../../assets/art/tiles/hpastel_cell4.webp"),
@@ -138,11 +129,13 @@ export const TILE_SETS = {
 };
 export type TileSetId = keyof typeof TILE_SETS;
 /** during the Halloween event every style switches to its seasonal version by itself */
-const HALLOWEEN: Record<string, TileSetId> = { soft: "hsoft", pastel: "hpastel", wax: "hwax", classic: "hbright", balanced: "hbalanced", faceted: "hfaceted" };
-export const seasonalTiles = (st: string, halloween: boolean): TileSetId =>
-  !halloween ? ((st in TILE_SETS ? st : "soft") as TileSetId) : HALLOWEEN[st] ?? "hsoft";
+const HALLOWEEN: Record<string, TileSetId> = { pastel: "hpastel", wax: "hwax", classic: "hbright", balanced: "hbalanced", mellow: "hmellow" };
+export const seasonalTiles = (st: string, halloween: boolean): TileSetId => {
+  const selected = st === "soft" ? "mellow" : st === "faceted" ? "balanced" : st;
+  return !halloween ? ((Object.prototype.hasOwnProperty.call(TILE_SETS, selected) ? selected : "mellow") as TileSetId) : HALLOWEEN[selected] ?? "hmellow";
+};
 export function setTileStyle(st: TileSetId) {
-  const t = TILE_SETS[st] ?? TILE_SETS.soft;
+  const t = TILE_SETS[st] ?? TILE_SETS.mellow;
   ART.cells = t.cells; ART.wild = t.wild; ART.bomb = t.bomb; ART.pumpkin = t.pumpkin;
 }
 

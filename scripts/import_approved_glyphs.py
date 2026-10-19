@@ -1,6 +1,6 @@
-"""Import only the approved v2/v3 glyph sets. Run from the repository root.
+"""Import the selected v2/v4 glyph sets. Run from the repository root.
 
-Sources: design/art/glyph-contrast-options-v{2,3}/{normal,halloween}/*.png.
+Sources: design/art/glyph-contrast-options-v{2,4}/{normal,halloween}/*.png.
 Older themes and their sprites are not changed.
 """
 from pathlib import Path
@@ -10,7 +10,7 @@ from PIL import Image
 def main():
     out = Path("assets/art/tiles")
     out.mkdir(parents=True, exist_ok=True)
-    for version, style in [(2, "balanced"), (3, "faceted")]:
+    for version, style in [(2, "balanced"), (4, "mellow")]:
         for folder, prefix in [("normal", style), ("halloween", "h" + style)]:
             source = Path(f"design/art/glyph-contrast-options-v{version}") / folder
             for key in ["cell0", "cell1", "cell2", "cell3", "cell4", "cell_wild", "bomb", "cell_pumpkin"]:

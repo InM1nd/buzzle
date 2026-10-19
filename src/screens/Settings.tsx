@@ -329,7 +329,7 @@ function TilesPage(p: SettingsProps) {
       <Txt v="tiny" color={C.dim}>{t("st.tilesSub")}{halloween ? ` ${t("st.tilesEvent")}` : ""}</Txt>
       <Group>
         <View accessibilityRole="radiogroup" accessibilityLabel={t("st.tiles")}>
-          {TILE_STYLES.filter((k) => p.dev || (k !== "balanced" && k !== "faceted")).map((k, i, all) => {
+          {TILE_STYLES.map((k, i, all) => {
             const on = draft === k;
             return (
               <Press key={k} onPress={() => setDraft(k)} scaleTo={0.98} style={[styles.tileItem, i === all.length - 1 && { borderBottomWidth: 0 }]}

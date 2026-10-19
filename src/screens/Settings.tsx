@@ -23,7 +23,7 @@ import { Updater } from "../ui/useUpdater";
 import { APP_VERSION, APP_VERSION_CODE, GITHUB_URL, PRIVACY_URL } from "../version";
 import { LANG_NAME } from "./LanguagePicker";
 
-type Page = "main" | "update" | "about";
+type Page = "main" | "update" | "about" | "tiles";
 const hh = (h: number) => `${String(h).padStart(2, "0")}:00`;
 
 export interface SettingsProps {
@@ -63,13 +63,13 @@ export function SettingsModal(p: SettingsProps) {
               <Text style={[F.black, { fontSize: 26, lineHeight: 28, color: C.honeyDark, marginTop: -3 }]}>‹</Text>
             </Press>
           ) : null}
-          <Txt v="h1" style={{ flex: 1 }} numberOfLines={1}>{page === "about" ? t("ab.title") : page === "update" ? t("up.title") : t("st.title")}</Txt>
+          <Txt v="h1" style={{ flex: 1 }} numberOfLines={1}>{page === "about" ? t("ab.title") : page === "update" ? t("up.title") : page === "tiles" ? t("st.tiles") : t("st.title")}</Txt>
           <Press onPress={p.onClose} hitSlop={12} style={styles.closeX} accessibilityRole="button" accessibilityLabel={t("c.close")} scaleTo={0.88}>
             <Image source={ART.close} style={{ width: 16, height: 16, tintColor: C.brown }} />
           </Press>
         </View>
         <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
-          {page === "main" ? <Main {...p} go={setPage} /> : page === "update" ? <UpdatePage u={p.updater} /> : <About />}
+          {page === "main" ? <Main {...p} go={setPage} /> : page === "update" ? <UpdatePage u={p.updater} /> : page === "tiles" ? <TilesPage {...p} /> : <About />}
         </ScrollView>
       </View>
     </View>
@@ -118,23 +118,17 @@ function Main(p: SettingsProps & { go: (pg: Page) => void }) {
             </Press>
           ))}
         </View>
-        <Txt v="h3" style={{ marginTop: 14, marginBottom: 2 }}>{t("st.tiles")}</Txt>
-        <Txt v="tiny" color={C.dim} style={{ marginBottom: 8 }}>{t("st.tilesSub")}{halloween ? ` ${t("st.tilesEvent")}` : ""}</Txt>
-        <View style={styles.tiles} accessibilityRole="radiogroup" accessibilityLabel={t("st.tiles")}>
-          {TILE_STYLES.filter((k) => p.dev || (k !== "balanced" && k !== "faceted")).map((k) => {
-            const on = st.tiles === k;
-            return (
-              <Press key={k} onPress={() => p.onSet("tiles", k)} scaleTo={0.96} style={[styles.tileOpt, on && styles.tileOn]}
-                accessibilityRole="radio" accessibilityState={{ checked: on }} aria-checked={on} accessibilityLabel={t(`st.tiles.${k}`)}>
-                <Glow on={on} radius={16} />
-                <View style={{ flexDirection: "row", gap: 2 }}>
-                  {[0, 1, 3, 4].map((c) => <Image key={c} source={TILE_SETS[seasonalTiles(k, halloween)].cells[c]} style={{ width: 30, height: 26 }} />)}
-                </View>
-                <Txt v="small" style={F.black} color={on ? C.text : C.brown} numberOfLines={1}>{t(`st.tiles.${k}`)}</Txt>
-              </Press>
-            );
-          })}
-        </View>
+        {/* tiles: one row with the current look, the choice itself is its own page */}
+        <Press onPress={() => p.go("tiles")} style={styles.tilesRow} accessibilityRole="button" accessibilityLabel={`${t("st.tiles")}: ${t(`st.tiles.${st.tiles}`)}`}>
+          <View style={{ flex: 1, minWidth: 0 }}>
+            <Txt v="h3">{t("st.tiles")}</Txt>
+            <Txt v="small" color={C.dim} numberOfLines={1}>{t(`st.tiles.${st.tiles}`)}</Txt>
+          </View>
+          <View style={{ flexDirection: "row", gap: 2 }}>
+            {[0, 1, 3].map((c) => <Image key={c} source={TILE_SETS[seasonalTiles(st.tiles, halloween)].cells[c]} style={{ width: 28, height: 24 }} />)}
+          </View>
+          <Txt v="h2" color={C.faint}>›</Txt>
+        </Press>
         {p.dev ? (
           <Row title={t("st.devEvent")} sub={t("st.devEventSub")}><Toggle value={st.devEvent} onChange={(v) => p.onSet("devEvent", v)} label={t("st.devEvent")} /></Row>
         ) : null}
@@ -317,6 +311,48 @@ function UpdatePage({ u }: { u: Updater }) {
 }
 
 // ---------------------------------------------------------------- about
+/** tile look picker: a big preview of the whole set (draft), the list, Apply. Applying re-mounts the app (art swap), so the
+ *  choice is previewed locally first instead of re-mounting on every tap. */
+function TilesPage(p: SettingsProps) {
+  const cur = p.s.settings.tiles;
+  const [draft, setDraft] = useState(cur);
+  const halloween = !!activeEvent(today(p.s, Date.now()));
+  const set = TILE_SETS[seasonalTiles(draft, halloween)];
+  const big = [...set.cells, set.wild, set.bomb, ...(halloween ? [set.pumpkin] : [])];
+  return (
+    <View style={{ gap: 12 }}>
+      <View style={styles.preview}>
+        <View style={styles.previewRow}>{big.slice(0, 4).map((src, i) => <Image key={i} source={src} style={styles.bigTile} />)}</View>
+        <View style={[styles.previewRow, { marginTop: -10 }]}>{big.slice(4).map((src, i) => <Image key={i} source={src} style={styles.bigTile} />)}</View>
+        <Txt v="h3" center style={{ marginTop: 8 }}>{t(`st.tiles.${draft}`)}</Txt>
+      </View>
+      <Txt v="tiny" color={C.dim}>{t("st.tilesSub")}{halloween ? ` ${t("st.tilesEvent")}` : ""}</Txt>
+      <Group>
+        <View accessibilityRole="radiogroup" accessibilityLabel={t("st.tiles")}>
+          {TILE_STYLES.filter((k) => p.dev || (k !== "balanced" && k !== "faceted")).map((k, i, all) => {
+            const on = draft === k;
+            return (
+              <Press key={k} onPress={() => setDraft(k)} scaleTo={0.98} style={[styles.tileItem, i === all.length - 1 && { borderBottomWidth: 0 }]}
+                accessibilityRole="radio" accessibilityState={{ checked: on }} aria-checked={on} accessibilityLabel={t(`st.tiles.${k}`)}>
+                <View style={{ flexDirection: "row", gap: 1 }}>
+                  {[0, 1, 2, 3, 4].map((c) => <Image key={c} source={TILE_SETS[seasonalTiles(k, halloween)].cells[c]} style={{ width: 24, height: 21 }} />)}
+                </View>
+                <View style={{ flex: 1, minWidth: 0 }}>
+                  <Txt v="small" style={F.black} numberOfLines={1}>{t(`st.tiles.${k}`)}</Txt>
+                  {k === cur ? <Txt v="tiny" color={C.greenDark}>{t("st.tilesNow")}</Txt> : null}
+                </View>
+                <View style={[styles.radio, on && styles.radioOn]}>{on ? <View style={styles.radioDot} /> : null}</View>
+              </Press>
+            );
+          })}
+        </View>
+      </Group>
+      <GameButton title={draft === cur ? t("st.tilesNow") : t("st.tilesApply")} color={draft === cur ? "white" : "green"} disabled={draft === cur}
+        onPress={() => p.onSet("tiles", draft)} label={t("st.tilesApply")} />
+    </View>
+  );
+}
+
 function About() {
   return (
     <View style={{ gap: 12 }}>
@@ -398,7 +434,12 @@ const styles = themed(() => StyleSheet.create({
   relHead: { flexDirection: "row", alignItems: "center", gap: 12 },
   notes: { backgroundColor: K.bg("#FFF9EE"), borderRadius: 14, padding: 12, borderWidth: 1.5, borderColor: K.bd("#F3E3C4") },
   perm: { backgroundColor: K.bg("#F3EDFF"), borderRadius: 14, padding: 12 },
-  tiles: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginBottom: 6 },
-  tileOpt: { flexBasis: "47%", flexGrow: 1, alignItems: "center", gap: 6, paddingVertical: 10, borderRadius: 16, borderWidth: 2, borderColor: C.line, backgroundColor: K.bg("#fff") },
-  tileOn: isNight() ? { backgroundColor: "#2A2160", ...activeCard() } : { borderColor: C.green, backgroundColor: "#E4F7EA" },
+  tilesRow: { flexDirection: "row", alignItems: "center", gap: 10, marginTop: 14, marginBottom: 4, paddingVertical: 10, paddingHorizontal: 12, borderRadius: 16, borderWidth: 2, borderColor: C.line, backgroundColor: K.bg("#fff") },
+  preview: { backgroundColor: C.board, borderRadius: 24, paddingVertical: 16, paddingHorizontal: 8, borderWidth: 2, borderColor: C.boardEdge, alignItems: "center" },
+  previewRow: { flexDirection: "row", justifyContent: "center", gap: 4 },
+  bigTile: { width: 66, height: 57 },
+  tileItem: { flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: C.line },
+  radio: { width: 24, height: 24, borderRadius: 12, borderWidth: 2, borderColor: C.faint, alignItems: "center", justifyContent: "center" },
+  radioOn: { borderColor: C.green },
+  radioDot: { width: 12, height: 12, borderRadius: 6, backgroundColor: C.green },
 }));

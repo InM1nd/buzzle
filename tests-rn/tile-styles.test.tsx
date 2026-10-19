@@ -22,9 +22,14 @@ afterEach(() => { forceEvent(null); setTileStyle("soft"); });
 test("new styles are selectable in dev settings and hidden in regular settings", async () => {
   const p = props(true);
   const view = await render(<SettingsModal {...p} />);
+  // the main list has one row; the picker page previews a style and applies it on "Применить"
+  await fireEvent.press(screen.getByLabelText("Соты головоломки: Мягкий кристалл"));
   await fireEvent.press(screen.getByLabelText("Медовый · мягче"));
+  expect(p.onSet).not.toHaveBeenCalled();
+  await fireEvent.press(screen.getByLabelText("Применить"));
   expect(p.onSet).toHaveBeenCalledWith("tiles", "balanced");
   await fireEvent.press(screen.getByLabelText("Медовый · грани"));
+  await fireEvent.press(screen.getByLabelText("Применить"));
   expect(p.onSet).toHaveBeenCalledWith("tiles", "faceted");
   await view.rerender(<SettingsModal {...props(false)} />);
   expect(screen.queryByLabelText("Медовый · мягче")).toBeNull();

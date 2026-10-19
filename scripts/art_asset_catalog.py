@@ -180,6 +180,13 @@ def classify(rel):
         title='Улей / осенний дневной фон';role='Изображение';season='Осень';style='Медовый кристалл';status='Кандидат / вариант'
     if p == 'design/2d/halloween/sources/autumn-hive-v1.png':
         title='Осенний улей / исходная генерация';role='Лист / источник';season='Осень';status='Архив / пробы'
+    if p.startswith('design/art/glyph-contrast-options-v2/'):
+        style='Медовый кристалл / умеренный контраст';status='Кандидат / вариант'
+        glyph_labels={'cell0':'солнце','cell1':'сердце','cell2':'цветок','cell3':'капля','cell4':'лист','cell_wild':'джокер','bomb':'бомба','cell_pumpkin':'тыква'}
+        if '/normal/' in p or '/halloween/' in p:
+            seasonal='/halloween/' in p;title=('Halloween' if seasonal else 'Обычный набор')+' / мягче v2 / '+glyph_labels.get(stem,stem);role='Изображение';season='Хеллоуин' if seasonal else 'Базовый'
+        if stem=='compare':title='Глифы / насыщенные цвета и умеренный контраст / сравнение v2';role='Лист / сравнение'
+        if '/sources/' in p:role='Лист / источник';status='Архив / пробы'
     return dict(title=title,category=category,role=role,style=style,season=season,status=status,species=species,accessory=accessory)
 
 def build(target):

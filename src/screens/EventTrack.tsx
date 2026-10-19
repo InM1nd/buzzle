@@ -352,6 +352,7 @@ const styles = themed(() => StyleSheet.create({
   knock: { position: "absolute", left: 0, right: 0, textAlign: "center", textShadowColor: "rgba(0,0,0,0.6)", textShadowRadius: 8 },
   trickRew: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 8, marginTop: 12 },
   rewChip: { flexDirection: "row", alignItems: "center", gap: 6, maxWidth: "100%", backgroundColor: K.bg("#FFF1D4"), borderRadius: 14, paddingHorizontal: 12, paddingVertical: 6 },
-  introHead: { height: 120, borderRadius: 18, overflow: "hidden", marginTop: 4, marginRight: 44 },
+  // full width, the close button sits on its corner (like the reward track banner)
+  introHead: { height: 140, borderRadius: 20, overflow: "hidden" },
   stepReady: { borderColor: K.bd("#4CC777"), backgroundColor: K.bg("#E4F7EA") },
 }));

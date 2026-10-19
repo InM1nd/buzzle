@@ -1,0 +1,21 @@
+{
+  "approval": "Owner called this new approved faceted variant;2026-10-19",
+  "files": {
+    "normal/cell2.png": "5ff5d10e2a8ca5eba40f1682791d077bfa607dc931c376bec4e0328ccda7a36f",
+    "normal/cell3.png": "0dbf3167af40d9c4cf157db0bc786576368c9485220e3852466d9dc94f712d22",
+    "normal/bomb.png": "2e9cea4e4c55d9aaf21dd3d8b5151a0c5426b0e0cf28627df49d87ae74f235ea",
+    "normal/cell1.png": "9c07522a9143ef1c06286b3a6a9b33e3cc368d789f0264ea97b5a1a18d3a0a2c",
+    "normal/cell0.png": "1aea1d2f55fdebc7a8d3943f5dd55c7baa1ed27d6c5047b518e8d2169a18afea",
+    "normal/cell4.png": "49e1378923e95b0f3d6edcb2987d045574095ab96f923652aeaed3b35b0b1cb9",
+    "normal/cell_wild.png": "125cabad1def3834c530aec67c768a7f72abacb625d3883c8d7af8f33e21fbf0",
+    "normal/cell_pumpkin.png": "ded8fc0de9e5abc65f72ea9a6b28f2a01a6a1150211698538ed49b2a92ed5435",
+    "halloween/cell2.png": "036ed04a51e9fc858db5f1e72aeda5cbe2640cc7011b26f3b10a78fb3bb50e6d",
+    "halloween/cell3.png": "d554179949f9b35ca9d8d8053872316ac8989c5d805bc4c9f9ca7cddf9b5cce8",
+    "halloween/bomb.png": "1ffbfbcf2e4c049ace77ad9a19afbce4abce75dacebd41fa0dc0e893b743eb8c",
+    "halloween/cell1.png": "269311f976560c88251612397614ebf01acf3cec644aad341b50693570f464c5",
+    "halloween/cell0.png": "a645d4316736ff2c989e63cb4a6e0348b8b5da819294362f3f75d031d4d0614e",
+    "halloween/cell4.png": "b44667eb144e1a9d2bba68780f8e9fce21feeea8301c83a12c89429c5136f225",
+    "halloween/cell_wild.png": "1f57553dea35f1dc6e6dcb35494e2a2dab92b0a6a5bc4b349db581aab059f716",
+    "halloween/cell_pumpkin.png": "0e3346e762122c6d0037a5d19157f62f9f6f6214c2356515b1157573d3fc1a85"
+  }
+}

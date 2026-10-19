@@ -196,6 +196,9 @@ def classify(rel):
             seasonal='/halloween/' in p;title=('Halloween' if seasonal else 'Обычный набор')+' / заметнее грани v3 / '+labels_v3.get(stem,stem);role='Изображение';season='Хеллоуин' if seasonal else 'Базовый'
         if stem=='compare':title='Глифы / одобренный и чуть заметнее грани v3';role='Лист / сравнение'
         if '/sources/' in p:role='Лист / источник';status='Архив / пробы'
+    if p.startswith('design/art/glyph-contrast-options-v3/') and '/sources/' not in p:status='Одобрено'
+    if p == 'design/art/glyph-styles-final-comparison/compare-six.png':
+        title='Глифы / текущий, мягче и гранёный / шесть наборов';role='Лист / сравнение';style='Сравнение стилей';status='На просмотре'
     return dict(title=title,category=category,role=role,style=style,season=season,status=status,species=species,accessory=accessory)
 
 def build(target):

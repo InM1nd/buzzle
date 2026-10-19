@@ -1,0 +1,290 @@
+[
+  {
+    "column": "current",
+    "glyph": "cell0",
+    "source": "/Users/oleksandrzabolotnyi/buzzle/assets/art/cell0.webp",
+    "sha256": "910eba99028e708cb3261804297b474310332b4736f72440a9257ec9769365b1"
+  },
+  {
+    "column": "current",
+    "glyph": "cell1",
+    "source": "/Users/oleksandrzabolotnyi/buzzle/assets/art/cell1.webp",
+    "sha256": "d3f9fd6fd81a9d64a160e4a269e584850040ebd3c71f31d3cf8cc22fa48b843d"
+  },
+  {
+    "column": "current",
+    "glyph": "cell2",
+    "source": "/Users/oleksandrzabolotnyi/buzzle/assets/art/cell2.webp",
+    "sha256": "201179b3132bc51263a55fa2084fa8bf410ea4684e8539bf004aa244ac08c784"
+  },
+  {
+    "column": "current",
+    "glyph": "cell3",
+    "source": "/Users/oleksandrzabolotnyi/buzzle/assets/art/cell3.webp",
+    "sha256": "c72888c8fd819dcd9d3bf8b18a5fbfcb764676f69216e791910236a1de726ffe"
+  },
+  {
+    "column": "current",
+    "glyph": "cell4",
+    "source": "/Users/oleksandrzabolotnyi/buzzle/assets/art/cell4.webp",
+    "sha256": "b619dd62bca84ff327bf87b34db69b0e13ca3bf8d9652994a4f5ebb252b5b95b"
+  },
+  {
+    "column": "current",
+    "glyph": "cell_wild",
+    "source": "/Users/oleksandrzabolotnyi/buzzle/assets/art/cell_wild.webp",
+    "sha256": "de2ec92853f6d2b78805207dacdbdbb58d0be903dcb2cdc5d3351acde3cad4d2"
+  },
+  {
+    "column": "current",
+    "glyph": "bomb",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/tiles/rework-v5/bright/bomb.png",
+    "sha256": "93dc95612098030549d293605dc52d9c79081d33b8b715b4a8a4f08ff40f7acb"
+  },
+  {
+    "column": "current",
+    "glyph": "cell_pumpkin",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/tiles/styles/bright/cell_pumpkin.png",
+    "sha256": "27e0ac4cdef3a6f6eaf9d351abf69e614d872e99a7c724e3c39e14eb88aa6fec"
+  },
+  {
+    "column": "v2",
+    "glyph": "cell0",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v2/normal/cell0.png",
+    "sha256": "e44aebaa4eaa72c74e21b8506917dcde4941fcc3d4de2d3c4549bcf6e22c0e78"
+  },
+  {
+    "column": "v2",
+    "glyph": "cell1",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v2/normal/cell1.png",
+    "sha256": "a6b63121ba41c300beb93e2a79e2a56a9ecfdd3afb441b7317d49125eeb4b47e"
+  },
+  {
+    "column": "v2",
+    "glyph": "cell2",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v2/normal/cell2.png",
+    "sha256": "c4bff3d637aab8c448e7a6e3156819c88ecda65371f5e0afba637c1ee8794d66"
+  },
+  {
+    "column": "v2",
+    "glyph": "cell3",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v2/normal/cell3.png",
+    "sha256": "f6a20f0508ff508357451a8de0fc13bdccaef65e4ebf8c1e3cb048762b8108ac"
+  },
+  {
+    "column": "v2",
+    "glyph": "cell4",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v2/normal/cell4.png",
+    "sha256": "bf86e9380068d32b8b346d508d2459c93cd8afe3b9d0414d83b24caec99c4e52"
+  },
+  {
+    "column": "v2",
+    "glyph": "cell_wild",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v2/normal/cell_wild.png",
+    "sha256": "9a829a3ccaf93651b3cb25353e5eb73ec61d85a5b70d3472e1a38dd270e0946b"
+  },
+  {
+    "column": "v2",
+    "glyph": "bomb",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v2/normal/bomb.png",
+    "sha256": "adbcb9736f8273e935885616b932656bbbfbc270b244cedd861b3a0e531955d0"
+  },
+  {
+    "column": "v2",
+    "glyph": "cell_pumpkin",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v2/normal/cell_pumpkin.png",
+    "sha256": "437c037b41fad6ed615176c21d71a34dd8a6c95fa99ecb465b4dba201d731d9b"
+  },
+  {
+    "column": "v3",
+    "glyph": "cell0",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v3/normal/cell0.png",
+    "sha256": "1aea1d2f55fdebc7a8d3943f5dd55c7baa1ed27d6c5047b518e8d2169a18afea"
+  },
+  {
+    "column": "v3",
+    "glyph": "cell1",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v3/normal/cell1.png",
+    "sha256": "9c07522a9143ef1c06286b3a6a9b33e3cc368d789f0264ea97b5a1a18d3a0a2c"
+  },
+  {
+    "column": "v3",
+    "glyph": "cell2",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v3/normal/cell2.png",
+    "sha256": "5ff5d10e2a8ca5eba40f1682791d077bfa607dc931c376bec4e0328ccda7a36f"
+  },
+  {
+    "column": "v3",
+    "glyph": "cell3",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v3/normal/cell3.png",
+    "sha256": "0dbf3167af40d9c4cf157db0bc786576368c9485220e3852466d9dc94f712d22"
+  },
+  {
+    "column": "v3",
+    "glyph": "cell4",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v3/normal/cell4.png",
+    "sha256": "49e1378923e95b0f3d6edcb2987d045574095ab96f923652aeaed3b35b0b1cb9"
+  },
+  {
+    "column": "v3",
+    "glyph": "cell_wild",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v3/normal/cell_wild.png",
+    "sha256": "125cabad1def3834c530aec67c768a7f72abacb625d3883c8d7af8f33e21fbf0"
+  },
+  {
+    "column": "v3",
+    "glyph": "bomb",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v3/normal/bomb.png",
+    "sha256": "2e9cea4e4c55d9aaf21dd3d8b5151a0c5426b0e0cf28627df49d87ae74f235ea"
+  },
+  {
+    "column": "v3",
+    "glyph": "cell_pumpkin",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v3/normal/cell_pumpkin.png",
+    "sha256": "ded8fc0de9e5abc65f72ea9a6b28f2a01a6a1150211698538ed49b2a92ed5435"
+  },
+  {
+    "column": "hcurrent",
+    "glyph": "cell0",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/tiles/hbright/cell0.png",
+    "sha256": "130438ad780b3b4931d2e96b4ce38158f19b4c4baa5d7a2696cda73d738bf089"
+  },
+  {
+    "column": "hcurrent",
+    "glyph": "cell1",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/tiles/hbright/cell1.png",
+    "sha256": "20a3206f7e4f9312b9c58a1d2a1a07b4c5c52797ca4527bdcea249c6dcd56bac"
+  },
+  {
+    "column": "hcurrent",
+    "glyph": "cell2",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/tiles/hbright/cell2.png",
+    "sha256": "2cbcb204ce7421fe4f4c52c73347ac8c49d4b1740c83b2c32a80903629a16499"
+  },
+  {
+    "column": "hcurrent",
+    "glyph": "cell3",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/tiles/hbright/cell3.png",
+    "sha256": "23c0c3da9f1c0a01ea0cf2f54a1944aa269d1fe1cc999933ed1376d5a260b8d0"
+  },
+  {
+    "column": "hcurrent",
+    "glyph": "cell4",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/tiles/hbright/cell4.png",
+    "sha256": "976185437db4b84c9700d0bbffbc11c4529dd6a7a8a1e41bf8713b858dba34cb"
+  },
+  {
+    "column": "hcurrent",
+    "glyph": "cell_wild",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/tiles/hbright/cell_wild.png",
+    "sha256": "a08dd20b938ce325943ac0f370ed87e1afa308b3944c69eef7d79233bcdbb263"
+  },
+  {
+    "column": "hcurrent",
+    "glyph": "bomb",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/tiles/rework-v5/hbright/bomb.png",
+    "sha256": "2b1c0b658c129510c9e49bcc0df057c172d0b365466ef8e8cf5e200da884c07c"
+  },
+  {
+    "column": "hcurrent",
+    "glyph": "cell_pumpkin",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/2d/halloween/tiles/styles/bright/cell_pumpkin.png",
+    "sha256": "27e0ac4cdef3a6f6eaf9d351abf69e614d872e99a7c724e3c39e14eb88aa6fec"
+  },
+  {
+    "column": "hv2",
+    "glyph": "cell0",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v2/halloween/cell0.png",
+    "sha256": "17a7944f69c40a95979a71c3838b9ace7065b6885d4ea01e02ef329b9eebbd28"
+  },
+  {
+    "column": "hv2",
+    "glyph": "cell1",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v2/halloween/cell1.png",
+    "sha256": "22a64fedae384034c625fb1e7d74261438cad98f614fe73230f8b071736f2e49"
+  },
+  {
+    "column": "hv2",
+    "glyph": "cell2",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v2/halloween/cell2.png",
+    "sha256": "e61fd820276cfaf8e77ed2aa5f4e27e0c891024972394661c3ce5aeac28b3c03"
+  },
+  {
+    "column": "hv2",
+    "glyph": "cell3",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v2/halloween/cell3.png",
+    "sha256": "a8c0e37b38837c2d220840ab9eba4324d67bc2837759bf9776ec373d00a262f7"
+  },
+  {
+    "column": "hv2",
+    "glyph": "cell4",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v2/halloween/cell4.png",
+    "sha256": "6e00fcba707496b4e098a6c4ea1c03e33e03a867f6da743dda4ff72fbcc78063"
+  },
+  {
+    "column": "hv2",
+    "glyph": "cell_wild",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v2/halloween/cell_wild.png",
+    "sha256": "14e5c0f5136f3db33a512e293cac66db70b980a8faefb89e4a1873600ff130c4"
+  },
+  {
+    "column": "hv2",
+    "glyph": "bomb",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v2/halloween/bomb.png",
+    "sha256": "70378aacebfdd75cbc3aec75221a0af826d40b51403b5461a74975a260a6a59a"
+  },
+  {
+    "column": "hv2",
+    "glyph": "cell_pumpkin",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v2/halloween/cell_pumpkin.png",
+    "sha256": "acfcf22e999264a0142e8b5e2407bb35aee0b4e1a75a3ce1fb2ccf791a7558f3"
+  },
+  {
+    "column": "hv3",
+    "glyph": "cell0",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v3/halloween/cell0.png",
+    "sha256": "a645d4316736ff2c989e63cb4a6e0348b8b5da819294362f3f75d031d4d0614e"
+  },
+  {
+    "column": "hv3",
+    "glyph": "cell1",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v3/halloween/cell1.png",
+    "sha256": "269311f976560c88251612397614ebf01acf3cec644aad341b50693570f464c5"
+  },
+  {
+    "column": "hv3",
+    "glyph": "cell2",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v3/halloween/cell2.png",
+    "sha256": "036ed04a51e9fc858db5f1e72aeda5cbe2640cc7011b26f3b10a78fb3bb50e6d"
+  },
+  {
+    "column": "hv3",
+    "glyph": "cell3",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v3/halloween/cell3.png",
+    "sha256": "d554179949f9b35ca9d8d8053872316ac8989c5d805bc4c9f9ca7cddf9b5cce8"
+  },
+  {
+    "column": "hv3",
+    "glyph": "cell4",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v3/halloween/cell4.png",
+    "sha256": "b44667eb144e1a9d2bba68780f8e9fce21feeea8301c83a12c89429c5136f225"
+  },
+  {
+    "column": "hv3",
+    "glyph": "cell_wild",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v3/halloween/cell_wild.png",
+    "sha256": "1f57553dea35f1dc6e6dcb35494e2a2dab92b0a6a5bc4b349db581aab059f716"
+  },
+  {
+    "column": "hv3",
+    "glyph": "bomb",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v3/halloween/bomb.png",
+    "sha256": "1ffbfbcf2e4c049ace77ad9a19afbce4abce75dacebd41fa0dc0e893b743eb8c"
+  },
+  {
+    "column": "hv3",
+    "glyph": "cell_pumpkin",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/work/buzzle/design/art/glyph-contrast-options-v3/halloween/cell_pumpkin.png",
+    "sha256": "0e3346e762122c6d0037a5d19157f62f9f6f6214c2356515b1157573d3fc1a85"
+  }
+]

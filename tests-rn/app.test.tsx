@@ -125,14 +125,16 @@ test("bees: unlock a species with royal jelly", async () => {
   expect(await screen.findByText("Добро пожаловать в улей!")).toBeTruthy();
 });
 
-test("tasks: three daily tasks, claim a finished one, enable reminders", async () => {
+test("tasks: three daily tasks; reminders are switched on in Settings", async () => {
   await seed((s) => s);
   await boot();
   await fireEvent.press(screen.getByLabelText("Задания"));
   expect(await screen.findByText("Задания дня")).toBeTruthy();
   expect(screen.getByText("Сундук дня")).toBeTruthy();
   expect(screen.getByText("Завтра будет новая")).toBeTruthy();
-  await fireEvent.press(screen.getAllByLabelText("Напоминания")[0]);
+  expect(screen.queryByLabelText("Напоминания")).toBeNull();
+  await fireEvent.press(screen.getByLabelText("Настройки"));
+  await fireEvent.press((await screen.findAllByLabelText("Напоминания"))[0]);
   await waitFor(async () => expect((await stored()).settings.notifications).toBe(true));
   expect(Notifications.requestPermissionsAsync).toHaveBeenCalled();
 });
@@ -248,7 +250,7 @@ test("bees: rename Zhuzha (emoji ok, 16 chars max), name shows on the card, then
   await waitFor(async () => expect((await stored()).beeNames).toEqual({ zhuzha: "Королева Бзз 👑 и" }));
   // the sheet shows the new name with the species as subtitle
   expect((await screen.findAllByText("Королева Бзз 👑 и")).length).toBe(2); // card + sheet
-  expect(screen.getByText(/ЖУЖА · ОБЫЧНАЯ · УРОВЕНЬ 1/)).toBeTruthy();
+  expect(screen.getByText("ЖУЖА · ОБЫЧНАЯ")).toBeTruthy();
   await fireEvent.press(screen.getByLabelText("Закрыть"));
   // the collection card uses the custom name too
   expect(await screen.findByLabelText("Королева Бзз 👑 и (Жужа)")).toBeTruthy();

@@ -48,7 +48,7 @@ const MIDNIGHT: typeof CLASSIC = {
   text: "#FFE8C2",
   dim: "#CDBCDD",
   faint: "#8F82C0",
-  line: "#4A3E94",
+  line: "#3B3278",
   honey: "#FFB51F",
   honeyDeep: "#F08A00",
   honeyDark: "#FFB84D",
@@ -58,13 +58,13 @@ const MIDNIGHT: typeof CLASSIC = {
   red: "#F0533A",
   brown: "#CDBCDD",
   board: "#151233",
-  boardEdge: "#5446A0",
+  boardEdge: "#3B3278",
   pollen: ["#FFC233", "#FF6FA3", "#9B74F2", "#3FA2FF", "#47C97E"],
   panel: "#151233",
-  panelEdge: "#5446A0",
-  cardEdge: "#5446A0",
+  panelEdge: "#3B3278",
+  cardEdge: "#3B3278",
   track: "#3A3070",
-  trackEdge: "#6556B5",
+  trackEdge: "#4A3F8C",
   scrim: "rgba(8,5,22,0.66)",
   tabIdle: "#CDBCDD",
   tabOn: "#4A2C12",
@@ -173,7 +173,7 @@ const bg = (c: string): string => {
 };
 const bd = (c: string): string => {
   if (current === "classic") return c;
-  return memo("bd", c, ([r, g, b, a]) => (a >= 0.5 && lum(r, g, b) > 0.62 ? "#5446A0" : c));
+  return memo("bd", c, ([r, g, b, a]) => (a >= 0.5 && lum(r, g, b) > 0.62 ? "#3B3278" : c));
 };
 const FG: Record<string, string> = {
   "#4A2C12": "text", "#5A3200": "text", "#6B3E00": "text", "#3E2A12": "text", "#4A3218": "text", "#5E4426": "text", "#7A4A1E": "text", "#6E5232": "dim",

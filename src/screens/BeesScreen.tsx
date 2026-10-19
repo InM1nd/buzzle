@@ -11,11 +11,12 @@ import { C, F, shadow, K, themed, isNight, activeCard } from "../ui/theme";
 import { Bar, CloseBtn, fmt, GameButton, Overlay, Press, Txt, useTopPad, Glow } from "../ui/components";
 import { Text } from "react-native";
 
-const RARITY: Record<Rarity, { name: string; color: string; bg: string }> = {
-  common: { get name() { return t("rarityBee.common"); }, color: K.fg("#7A8A3A"), bg: "#EEF5D8" },
-  rare: { get name() { return t("rarityBee.rare"); }, color: K.fg("#2F7FD0"), bg: "#E1EEFC" },
-  epic: { get name() { return t("rarityBee.epic"); }, color: K.fg("#8A52D6"), bg: "#EFE4FF" },
-  legendary: { get name() { return t("rarityBee.legendary"); }, color: K.fg("#D27A00"), bg: "#FFEBC2" },
+/** colours stay raw here (module level runs before the theme is set); K.fg / night tints are applied where they are drawn */
+const RARITY: Record<Rarity, { name: string; color: string; bg: string; night: string }> = {
+  common: { get name() { return t("rarityBee.common"); }, color: "#7A8A3A", bg: "#EEF5D8", night: "rgba(155,205,90,0.16)" },
+  rare: { get name() { return t("rarityBee.rare"); }, color: "#2F7FD0", bg: "#E1EEFC", night: "rgba(90,160,255,0.18)" },
+  epic: { get name() { return t("rarityBee.epic"); }, color: "#8A52D6", bg: "#EFE4FF", night: "rgba(167,123,234,0.2)" },
+  legendary: { get name() { return t("rarityBee.legendary"); }, color: "#D27A00", bg: "#FFEBC2", night: "rgba(255,181,31,0.18)" },
 };
 
 interface Props { s: GameState; onSkin?: (bee: string, skin: string | null) => boolean; onAssemble?: () => boolean; onUnlock: (id: string) => boolean; onLevelUp: (id: string) => boolean; onRename?: (id: string, name: string) => boolean; onGarden?: () => void }
@@ -192,7 +193,7 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
           <Image source={ART.close} style={{ width: 14, height: 14, tintColor: C.brown }} />
         </Press>
       </View>
-      <View style={[styles.detailBg, { backgroundColor: has ? r.bg : "#F2E6D0" }]}>
+      <View style={[styles.detailBg, { backgroundColor: !has ? K.bg("#F2E6D0") : isNight() ? r.night : r.bg }]}>
         {has && wasLocked ? <Sparkle /> : null}
         {burst ? <LevelBurst key={burst} level={level} /> : null}
         <Animated.View style={{ transform: [{ scale: pop }] }}>
@@ -216,7 +217,9 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
           ) : null}
         </View>
       )}
-      <Txt v="tiny" color={r.color} center>{has && custom ? `${bee.name.toUpperCase()} · ` : ""}{r.name.toUpperCase()}{has ? t("bees.levelOf", { a: level, b: MAX_BEE_LEVEL }) : ""}</Txt>
+      <View style={[styles.rarity, { backgroundColor: isNight() ? r.night : r.bg }]}>
+        <Txt v="tiny" color={K.fg(r.color)} center>{has && custom ? `${bee.name.toUpperCase()} · ` : ""}{r.name.toUpperCase()}</Txt>
+      </View>
       {burst ? (
         <>
           <Txt v="h2" color={C.honeyDeep} center style={{ marginTop: 4 }}>{t("bees.levelUp", { n: level })}</Txt>
@@ -332,7 +335,9 @@ function RenameBox({ species, current, custom, onSave, onCancel }: {
 }
 
 const styles = themed(() => StyleSheet.create({
-  sheetHead: { alignSelf: "stretch", flexDirection: "row", justifyContent: "flex-end", marginTop: -6, marginBottom: 6 },
+  // the close button sits on the portrait's corner instead of taking its own row
+  sheetHead: { position: "absolute", right: 8, top: 8, zIndex: 3 },
+  rarity: { borderRadius: 10, paddingHorizontal: 10, paddingVertical: 2, marginTop: 2 },
   sheetClose: { width: 36, height: 36, borderRadius: 18, backgroundColor: K.bg("#fff"), borderWidth: 2, borderColor: K.bd("#F1DFC0"), alignItems: "center", justifyContent: "center" },
   seg: { flexDirection: "row", gap: 8, marginBottom: 12 },
   segBtn: { paddingHorizontal: 18, paddingVertical: 9, borderRadius: 20, backgroundColor: K.bg("#fff"), ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
@@ -355,6 +360,6 @@ const styles = themed(() => StyleSheet.create({
   beeBg: { height: 104, borderRadius: 16, alignItems: "center", justifyContent: "center", overflow: "hidden" },
   ownedTag: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 6 },
   costTag: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 6, alignSelf: "flex-start", backgroundColor: K.bg("#F1E8FF"), borderRadius: 12, paddingHorizontal: 10, paddingVertical: 3 },
-  detailBg: { alignSelf: "stretch", height: 210, borderRadius: 28, alignItems: "center", justifyContent: "center", marginTop: 30 },
-  ability: { backgroundColor: K.bg("#F1E8FF"), borderRadius: 14, paddingHorizontal: 14, paddingVertical: 8, marginVertical: 10 },
+  detailBg: { alignSelf: "stretch", height: 210, borderRadius: 24, alignItems: "center", justifyContent: "center" },
+  ability: { alignSelf: "stretch", backgroundColor: K.bg("#F1E8FF"), borderRadius: 16, paddingHorizontal: 14, paddingVertical: 10, marginVertical: 10 },
 }));

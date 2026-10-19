@@ -208,8 +208,6 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
       </View>
 
       <GameButton title={t("gd.waterAll")} icon={ART.can} color="green" disabled={!canWaterAny} onPress={() => onWaterAll()} label={t("gd.waterAll")} />
-      <View style={styles.hint}><Txt v="small" color={K.fg("#4A3218")} center>{t("gd.tapHint")}</Txt></View>
-      <View style={styles.hint}><Txt v="tiny" color={K.fg("#5E4426")} center>{t("gd.levelHint", { n: level(s) })}</Txt></View>
     </ScrollView>
     <Overlay visible={selBed !== null} onClose={() => setSel(null)} glow={!!selBed && !selBed.flower}>
       <CloseBtn onPress={() => setSel(null)} />
@@ -267,16 +265,15 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
 }
 
 const styles = themed(() => StyleSheet.create({
-  head: { backgroundColor: K.bg("rgba(255,250,238,0.94)"), borderRadius: 24, padding: 14 },
+  head: { backgroundColor: K.bg("#FFFAEE"), borderRadius: 24, padding: 14 },
   nectarBox: { alignItems: "center", backgroundColor: K.bg("#fff"), borderRadius: 18, paddingHorizontal: 12, paddingVertical: 6, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   dayColor: { flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: K.bg("#fff"), borderRadius: 14, padding: 10, marginTop: 12, borderWidth: 2 },
-  bed: { backgroundColor: K.bg("rgba(255,250,236,0.78)"), borderRadius: 20, padding: 6, paddingBottom: 8, alignItems: "center", overflow: "visible", borderWidth: 2, borderColor: K.bd("rgba(255,255,255,0.9)") },
-  bedPlot: { backgroundColor: K.bg("rgba(255,250,236,0.45)"), borderStyle: "dashed", borderColor: K.bd("rgba(160,120,60,0.45)") },
+  bed: { backgroundColor: K.bg("#FFFAEC"), borderRadius: 20, padding: 6, paddingBottom: 8, alignItems: "center", overflow: "visible", borderWidth: 2, borderColor: K.bd("rgba(255,255,255,0.9)") },
+  bedPlot: { backgroundColor: K.bg("#FFFAEC"), borderStyle: "dashed", borderColor: K.bd("rgba(160,120,60,0.45)") },
   chip: { flexDirection: "row", gap: 3 },
   status: { marginTop: 5, borderRadius: 10, paddingHorizontal: 7, paddingVertical: 2, maxWidth: "100%", alignItems: "center" },
-  hint: { alignSelf: "center", backgroundColor: K.bg("rgba(255,250,236,0.88)"), borderRadius: 14, paddingHorizontal: 12, paddingVertical: 6 },
   decoSpot: { width: 92, height: 56, borderRadius: 46, borderWidth: 2, borderStyle: "dashed", borderColor: K.bd("rgba(255,255,255,0.9)"), alignItems: "center", justifyContent: "center", marginLeft: 8 },
-  bedSel: { borderWidth: 3, borderColor: C.honey, padding: 5, backgroundColor: isNight() ? "rgba(34,28,77,0.9)" : "rgba(255,247,226,0.6)", ...activeCard() },
+  bedSel: { borderWidth: 3, borderColor: C.honey, padding: 5, backgroundColor: isNight() ? "#221C4D" : "#FFF7E2", ...activeCard() },
   bedLocked: { backgroundColor: K.bg("#F6EAD3"), justifyContent: "center", borderWidth: 2, borderStyle: "dashed", borderColor: K.bd("#E2C99C"), ...shadow, shadowOpacity: 0 },
   soil: { width: "92%", height: 18, borderRadius: 9, backgroundColor: K.bg("#B07A4A"), overflow: "hidden" },
   soilWet: { backgroundColor: K.bg("#7A4E2B") },

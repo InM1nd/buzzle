@@ -618,7 +618,7 @@ function Main() {
             onToggleDeco={(id) => act.simple((c) => toggleDeco(c, id))}
           />
         ) : (
-          <TasksScreen s={s} now={now} onClaimTrack={act.track} onClaimWeekly={act.weekly} onBuyFreeze={() => act.simple((c) => buyFreeze(c, Date.now()))} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} onNotifications={act.notifications} notifBlocked={notifBlocked} />
+          <TasksScreen s={s} now={now} onClaimTrack={act.track} onClaimWeekly={act.weekly} onBuyFreeze={() => act.simple((c) => buyFreeze(c, Date.now()))} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} />
         )}
       </View>
       </TopPad.Provider>
@@ -714,7 +714,7 @@ function taskBadge(s: GameState) {
 }
 
 const styles = themed(() => StyleSheet.create({
-  zcard: { flexDirection: "row", alignItems: "center", gap: 10, marginHorizontal: 16, marginBottom: 6, paddingVertical: 8, paddingLeft: 14, paddingRight: 8, borderRadius: 22, backgroundColor: K.bg("rgba(255,247,226,0.94)") },
+  zcard: { flexDirection: "row", alignItems: "center", gap: 10, marginHorizontal: 16, marginBottom: 6, paddingVertical: 8, paddingLeft: 14, paddingRight: 8, borderRadius: 22, backgroundColor: K.bg("#FFF7E2") },
   top: { position: "absolute", top: 0, left: 0, right: 0, paddingHorizontal: 12, paddingBottom: 2 },
   cur: { flex: 1, flexDirection: "row", alignItems: "center", height: 40, paddingHorizontal: 6, gap: 2, borderRadius: 20, backgroundColor: K.bg("#FFFFFF"), ...shadow, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   lvl: { width: 36, height: 36, borderRadius: 12, backgroundColor: C.honeyDeep, alignItems: "center", justifyContent: "center", transform: [{ rotate: "45deg" }], marginRight: 4 },
@@ -726,7 +726,7 @@ const styles = themed(() => StyleSheet.create({
   tabIconOn: { backgroundColor: C.honey },
   badge: { position: "absolute", top: 2, right: 8, width: 10, height: 10, borderRadius: 5, backgroundColor: C.red, borderWidth: 2, borderColor: K.bd("#fff") },
   banner: { flexDirection: "row", gap: 12, backgroundColor: K.bg("#fff"), borderRadius: 22, padding: 14, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
-  seg: { flexDirection: "row", alignSelf: "center", width: 220, marginTop: 8, marginBottom: 6, backgroundColor: K.bg("rgba(255,255,255,0.92)"), borderRadius: 20, padding: 4, gap: 4, ...shadow },
+  seg: { flexDirection: "row", alignSelf: "center", width: 220, marginTop: 8, marginBottom: 6, backgroundColor: K.bg("#FFFFFF"), borderRadius: 20, padding: 4, gap: 4, ...shadow },
   segBtn: { flex: 1, flexDirection: "row", gap: 6, alignItems: "center", justifyContent: "center", height: 36, borderRadius: 14 },
   segOn: { backgroundColor: C.honey },
 }));

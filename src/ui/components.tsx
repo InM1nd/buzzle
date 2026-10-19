@@ -58,8 +58,8 @@ const BTN_MIDNIGHT = {
   honey: { face: "#FFB51F", depth: "#C96A00", text: "#4A2C12" },
   green: { face: "#4CC777", depth: "#238A4A", text: "#0C3A1C" },
   purple: { face: "#A77BEA", depth: "#6A44B0", text: "#1E0F44" },
-  white: { face: "#3A3080", depth: "#14103A", text: "#FFE8C2", edge: "#6556B5" },
-  grey: { face: "#3A3070", depth: "#14103A", text: "#BDB0E8", edge: "#6556B5" },
+  white: { face: "#3A3080", depth: "#14103A", text: "#FFE8C2", edge: "#4A3F8C" },
+  grey: { face: "#3A3070", depth: "#14103A", text: "#BDB0E8", edge: "#4A3F8C" },
 };
 type BtnPal = { face: string; depth: string; text: string; edge?: string };
 const BTN = (k: keyof typeof BTN_CLASSIC): BtnPal => (isNight() ? BTN_MIDNIGHT : BTN_CLASSIC)[k];
@@ -284,5 +284,5 @@ const styles = themed(() => StyleSheet.create({
   card: { backgroundColor: C.card, borderRadius: 24, padding: 16, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   overlayCenter: { position: "absolute", left: 0, right: 0, top: 0, bottom: 0, alignItems: "center", justifyContent: "center", padding: 22 },
   sheet: { width: "100%", maxWidth: 420, backgroundColor: C.cardWarm, borderRadius: 30, padding: 22, ...shadow, elevation: isNight() ? 0 : 12, ...(isNight() ? { borderWidth: 1.5, borderColor: C.panelEdge } : null) },
-  close: { position: "absolute", right: 14, top: 14, width: 34, height: 34, borderRadius: 17, backgroundColor: isNight() ? "#3A3080" : "#F6E7CB", alignItems: "center", justifyContent: "center", zIndex: 2 },
+  close: { position: "absolute", right: 0, top: 0, width: 34, height: 34, borderRadius: 17, backgroundColor: isNight() ? "#3A3080" : "#F6E7CB", alignItems: "center", justifyContent: "center", zIndex: 2 },
 }));

@@ -11,9 +11,7 @@ import { C, K, themed } from "../ui/theme";
 import { Bar, Card, fmt, GameButton, Txt, useTopPad } from "../ui/components";
 import { centerOf, Pt } from "../ui/Fly";
 import { duration } from "../ui/format";
-import { Toggle } from "../ui/Toggle";
 import { Mascot } from "../ui/BeeSprite";
-import { NOTIFICATIONS_SUPPORTED } from "../platform/telegram";
 import { EventCard } from "./EventTrack";
 
 interface Props {
@@ -22,14 +20,12 @@ interface Props {
   onClaimLogin: (from: Pt | null) => void;
   onClaimTask: (id: string, from: Pt | null) => void;
   onClaimBonus: (from: Pt | null) => void;
-  onNotifications: (on: boolean) => void;
   onClaimWeekly?: (from: Pt | null) => void;
   onBuyFreeze?: () => boolean;
-  notifBlocked: boolean;
   onClaimTrack: (from: Pt | null) => void;
 }
 
-export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaimBonus, onNotifications, notifBlocked, onClaimWeekly, onBuyFreeze, onClaimTrack }: Props) {
+export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaimBonus, onClaimWeekly, onBuyFreeze, onClaimTrack }: Props) {
   const weekRef = useRef<View | null>(null);
   const streak = dailyStreak(s, now);
   const lvl = level(s);
@@ -111,18 +107,25 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
         </View>
       </Card>
 
-      {/* weekly chest */}
+      {/* weekly chest: title + counter, full-width bar, the reward as chips, claim button under it */}
       <Card>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }} accessibilityLabel={t("tasks.weekLabel", { a: Math.min(s.week.tasks, WEEKLY_TASKS), b: WEEKLY_TASKS })}>
-          <Image source={boxArt("wax")} style={{ width: 48, height: 48, opacity: s.week.chest ? 0.5 : 1 }} />
-          <View style={{ flex: 1 }}>
+          <Image source={boxArt("wax")} style={{ width: 52, height: 52, opacity: s.week.chest ? 0.5 : 1 }} resizeMode="contain" />
+          <View style={{ flex: 1, minWidth: 0 }}>
             <Txt v="h3">{t("tasks.week")}</Txt>
-            <Bar progress={Math.min(1, s.week.tasks / WEEKLY_TASKS)} height={8} color={C.jelly} style={{ marginTop: 4 }} />
-            <Txt v="tiny" color={C.dim}>{s.week.chest ? t("tasks.weekGot") : t("tasks.weekProgress2", { a: Math.min(s.week.tasks, WEEKLY_TASKS), b: WEEKLY_TASKS, wax: WEEKLY_REWARD.wax, jelly: WEEKLY_REWARD.jelly })}</Txt>
+            <Txt v="tiny" color={C.dim}>{s.week.chest ? t("tasks.weekGot") : t("tasks.weekSub")}</Txt>
           </View>
+          {s.week.chest ? <Image source={ART.check} style={{ width: 28, height: 28 }} />
+            : <View style={styles.count}><Txt v="small" color={C.text}>{Math.min(s.week.tasks, WEEKLY_TASKS)}/{WEEKLY_TASKS}</Txt></View>}
+        </View>
+        <Bar progress={Math.min(1, s.week.tasks / WEEKLY_TASKS)} height={10} color={C.jelly} style={{ marginTop: 10 }} />
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginTop: 10 }}>
+          <View style={styles.rewChip}><Image source={boxArt("wax")} style={{ width: 20, height: 20 }} /><Txt v="small">×{WEEKLY_REWARD.wax}</Txt></View>
+          <View style={styles.rewChip}><Image source={ART.jelly} style={{ width: 18, height: 18 }} /><Txt v="small">×{WEEKLY_REWARD.jelly}</Txt></View>
+          <View style={{ flex: 1 }} />
           <View ref={weekRef} collapsable={false}>
             {canClaimWeekly(s) && onClaimWeekly ? (
-              <GameButton small title={t("tasks.claim")} color="green" onPress={async () => onClaimWeekly(await centerOf(weekRef.current))} label={t("ls.claimChest")} />
+              <GameButton small title={t("tasks.claim")} color="green" onPress={async () => onClaimWeekly(await centerOf(weekRef.current))} label={t("ls.claimChest")} style={{ width: 120 }} />
             ) : null}
           </View>
         </View>
@@ -181,18 +184,6 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
         </Card>
       ) : null}
 
-      {/* notifications */}
-      <Card>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
-          <View style={{ flex: 1 }}>
-            <Txt v="h3">{t("tasks.reminders")}</Txt>
-            <Txt v="small" color={C.dim}>{NOTIFICATIONS_SUPPORTED ? t("tasks.remindersSub") : t("tasks.remindersWeb")}</Txt>
-          </View>
-          {NOTIFICATIONS_SUPPORTED ? <Toggle value={s.settings.notifications} onChange={onNotifications} label={t("tasks.reminders")} /> : <View style={{ backgroundColor: C.line, borderRadius: 10, paddingHorizontal: 10, paddingVertical: 4 }}><Txt v="small" color={C.dim}>{t("tasks.soon")}</Txt></View>}
-        </View>
-        {notifBlocked ? <Txt v="small" color={C.red} style={{ marginTop: 8 }}>{t("tasks.blocked")}</Txt> : null}
-      </Card>
-
       {/* stats */}
       <Card>
         <Txt v="h3" style={{ marginBottom: 8 }}>{t("tasks.stats")}</Txt>
@@ -231,6 +222,8 @@ const styles = themed(() => StyleSheet.create({
   task: { flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: C.line },
   rew: { flexDirection: "row", alignItems: "center", gap: 3 },
   bonus: { flexDirection: "row", alignItems: "center", gap: 10, marginTop: 12, backgroundColor: K.bg("#FFF6E3"), borderRadius: 18, padding: 10 },
+  count: { backgroundColor: K.bg("#F1E8FF"), borderRadius: 12, paddingHorizontal: 10, paddingVertical: 4 },
+  rewChip: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: K.bg("#FFF6E3"), borderRadius: 12, paddingHorizontal: 10, paddingVertical: 4 },
   stats: { flexDirection: "row", flexWrap: "wrap", rowGap: 12 },
   stat: { width: "33.3%", paddingRight: 6 },
 }));

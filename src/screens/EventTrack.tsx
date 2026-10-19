@@ -59,24 +59,47 @@ export function EventCard({ s, now, onClaim }: { s: GameState; now: number; onCl
       </View>
       <Overlay visible={open} onClose={() => setOpen(false)}>
         <CloseBtn onPress={() => setOpen(false)} />
-        <Txt v="h2" style={{ paddingRight: 44 }}>{t("ev.track")}</Txt>
-        <Txt v="small" color={K.fg("#8A5200")} style={{ marginBottom: 12, paddingRight: 44 }}>{t("ev.how")}</Txt>
-        <View style={{ gap: 8 }}>
+        {/* night banner with the running total */}
+        <View style={styles.trackHead}>
+          <Image source={ART.eventHeader} resizeMode="cover" style={styles.trackHeadImg} />
+          <Txt v="h2" color="#fff">{t("ev.track")}</Txt>
+          <View style={[styles.points, { alignSelf: "flex-start", marginTop: 6 }]}>
+            <Image source={ART.point} style={{ width: 22, height: 22 }} />
+            <Txt v="h3" color="#fff">{e.points}</Txt>
+          </View>
+        </View>
+        <Txt v="small" color={K.fg("#8A5200")} style={{ marginTop: 10, marginBottom: 8 }}>{t("ev.how")}</Txt>
+        <View>
           {TRACK.map((st, i) => {
             const look = rewardLook(st.reward);
             const done = i < e.claimed, reached = e.points >= st.at, isNext = i === e.claimed;
+            const ready = isNext && reached;
             return (
-              <View key={i} style={[styles.step, done && styles.stepDone, isNext && reached && styles.stepReady]}>
-                {look.skin ? <ItemIcon id={look.skin} size={36} /> : <Image source={look.icon!} style={{ width: 36, height: 36, opacity: reached || done ? 1 : 0.5 }} resizeMode="contain" />}
-                <View style={{ flex: 1, minWidth: 0 }}>
-                  <Txt v="h3" style={{ fontSize: 14 }} numberOfLines={2}>{look.title}</Txt>
-                  <Txt v="tiny" color={K.fg("#8A6B4A")}>{t("ev.points", { n: st.at })}</Txt>
+              <View key={i} style={{ flexDirection: "row", alignItems: "stretch" }}>
+                {/* the track: a line through point nodes, lit up to the current total */}
+                <View style={styles.rail}>
+                  <View style={[styles.railLine, i === 0 && { top: "50%" }, i === TRACK.length - 1 && { bottom: "50%" }, reached && { backgroundColor: NIGHT.pumpkin }]} />
+                  <View style={[styles.node, reached && styles.nodeOn]}>
+                    <Txt v="tiny" color={reached ? "#fff" : K.fg("#8A6B4A")} style={{ fontSize: 11 }}>{st.at}</Txt>
+                  </View>
                 </View>
-                {done ? <Image source={ART.check} style={{ width: 26, height: 26 }} />
-                  : isNext && reached ? (
-                    <GameButton small title={t("ev.claim")} color="green" style={{ width: 96 }} label={`${t("ev.claim")}: ${look.title}`}
-                      onPress={async () => onClaim(await centerOf(btn.current))} />
-                  ) : <Image source={ART.lock} style={{ width: 20, height: 20, opacity: reached ? 0.3 : 0.6 }} />}
+                <View style={[styles.step, done && styles.stepDone, ready && styles.stepReady, isNext && !reached && styles.stepNext]}>
+                  {look.skin ? <ItemIcon id={look.skin} size={40} /> : <Image source={look.icon!} style={{ width: 40, height: 40, opacity: reached ? 1 : 0.55 }} resizeMode="contain" />}
+                  <View style={{ flex: 1, minWidth: 0 }}>
+                    <Txt v="h3" style={{ fontSize: 14 }} numberOfLines={2}>{look.title}</Txt>
+                    {isNext && !reached ? (
+                      <>
+                        <Bar progress={Math.min(1, progress)} height={6} color={NIGHT.pumpkin} style={{ marginTop: 4 }} />
+                        <Txt v="tiny" color={K.fg("#C25E00")} style={{ marginTop: 2 }}>{t("ev.next", { n: st.at - e.points })}</Txt>
+                      </>
+                    ) : null}
+                  </View>
+                  {done ? <Image source={ART.check} style={{ width: 26, height: 26 }} />
+                    : ready ? (
+                      <GameButton small title={t("ev.claim")} color="green" style={{ width: 96 }} label={`${t("ev.claim")}: ${look.title}`}
+                        onPress={async () => onClaim(await centerOf(btn.current))} />
+                    ) : <Image source={ART.lock} style={{ width: 20, height: 20, opacity: 0.5 }} />}
+                </View>
               </View>
             );
           })}
@@ -155,10 +178,17 @@ export function JackCarved({ id, onClose }: { id: string | null; onClose: () => 
 const styles = themed(() => StyleSheet.create({
   card: { backgroundColor: NIGHT.bg, borderRadius: 28, padding: 16, borderWidth: 3, borderColor: NIGHT.card, overflow: "hidden" },
   // the night meadow behind the title row; the moon and pumpkins sit on the right, the text on the calm left
-  header: { position: "absolute", left: 0, top: 0, width: "100%", height: 150, opacity: 0.7 },
+  header: { position: "absolute", left: 0, top: 0, right: 0, bottom: 0, width: "100%", height: "100%", opacity: 0.6 },
   points: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: NIGHT.card, borderRadius: 16, paddingHorizontal: 10, paddingVertical: 6 },
-  step: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: K.bg("#fff"), borderRadius: 16, borderWidth: 2, borderColor: K.bd("#F0DFC0"), padding: 8 },
-  stepDone: { opacity: 0.6 },
+  step: { flex: 1, flexDirection: "row", alignItems: "center", gap: 10, marginVertical: 4, backgroundColor: K.bg("#fff"), borderRadius: 16, borderWidth: 2, borderColor: K.bd("#F0DFC0"), padding: 8 },
+  stepDone: { backgroundColor: K.bg("#F6F0E4"), borderColor: K.bd("#EDE3D0") },
+  stepNext: { borderColor: NIGHT.pumpkin },
+  rail: { width: 40, alignItems: "center", justifyContent: "center" },
+  railLine: { position: "absolute", top: 0, bottom: 0, width: 4, borderRadius: 2, backgroundColor: K.bg("#EADBC0") },
+  node: { minWidth: 34, height: 24, borderRadius: 12, paddingHorizontal: 4, alignItems: "center", justifyContent: "center", backgroundColor: K.bg("#FFF6E3"), borderWidth: 2, borderColor: K.bd("#EADBC0") },
+  nodeOn: { backgroundColor: NIGHT.pumpkin, borderColor: NIGHT.pumpkin },
+  trackHead: { height: 104, borderRadius: 20, overflow: "hidden", padding: 14, justifyContent: "flex-end", backgroundColor: NIGHT.bg },
+  trackHeadImg: { position: "absolute", left: 0, top: 0, width: "100%", height: "100%", opacity: 0.75 },
   trick: { flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: NIGHT.bg, borderRadius: 22, padding: 12, borderWidth: 2, borderColor: NIGHT.card },
   introHead: { height: 120, borderRadius: 18, overflow: "hidden", marginTop: 4, marginRight: 44 },
   stepReady: { borderColor: K.bd("#4CC777"), backgroundColor: K.bg("#E4F7EA") },

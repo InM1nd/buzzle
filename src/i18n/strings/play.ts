@@ -83,6 +83,4 @@ export const play = {
   "gd.plantPocket": { en: "Plant from pocket: {name}", uk: "Посадити з кишені: {name}", ru: "Посадить из кармана: {name}" },
   "gd.plant": { en: "Plant: {name}", uk: "Посадити: {name}", ru: "Посадить: {name}" },
   "gd.fromLevel": { en: "from hive lvl {n}", uk: "з {n} рів. вулика", ru: "с {n} ур. улья" },
-  "gd.tapHint": { en: "Tap a bed to plant or water a flower. Ready flowers are harvested with one tap.", uk: "Торкнись грядки, щоб посадити чи полити квітку. Готові квіти збираються одним дотиком.", ru: "Нажми на грядку, чтобы посадить или полить цветок. Готовые цветы собираются одним касанием." },
-  "gd.levelHint": { en: "Hive level {n}: the bigger the hive, the more kinds of seeds.", uk: "Рівень вулика {n}: що вищий вулик, то більше видів насіння.", ru: "Уровень улья {n}: чем выше улей, тем больше видов семян." },
 } satisfies Record<string, Entry>;

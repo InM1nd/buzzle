@@ -1,0 +1,368 @@
+{
+  "assets": [
+    {
+      "file": "door_open_00.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        4,
+        984,
+        1014
+      ],
+      "sha256": "83d6df6acf2f9dddcbb0a62c57ec67129c98002413a521c3b2fc21196ac63f36"
+    },
+    {
+      "file": "door_open_01.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        4,
+        984,
+        1014
+      ],
+      "sha256": "154cb36ee107d159125653aa4af54e809161c80a335dab8991f7cb878f058c7e"
+    },
+    {
+      "file": "door_open_02.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        4,
+        984,
+        1014
+      ],
+      "sha256": "20049404052914d1b3731858ab638ab70563d40b249abdd35a55d4613807bc81"
+    },
+    {
+      "file": "door_open_03.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        4,
+        984,
+        1014
+      ],
+      "sha256": "9db1574db4f3421f867422801210c0f71e69d28fce769e2a910ac45688fbf4d3"
+    },
+    {
+      "file": "door_open_04.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        4,
+        984,
+        1014
+      ],
+      "sha256": "a40788cd8d88c173f640502c3ad2507ac12307fd88280617539c9d26bc24b965"
+    },
+    {
+      "file": "door_open_05.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        4,
+        984,
+        1014
+      ],
+      "sha256": "fbb3bd9936fc97ce915eedcf6237871abc9ae6ca53d31b3b1d350a3a3efc1a69"
+    },
+    {
+      "file": "door_open_06.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        4,
+        984,
+        1014
+      ],
+      "sha256": "4e12e6c7e732f126668836bed9ab4229a61720a63a6a850d414bda1bd811e44c"
+    },
+    {
+      "file": "door_open_07.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        4,
+        984,
+        1014
+      ],
+      "sha256": "949a435bb980fad5e6be2a7965b47ec8b0f399063bf23c946f5ff268ab0b4aab"
+    },
+    {
+      "file": "door_glow.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        252
+      ],
+      "alpha_bbox": [
+        181,
+        197,
+        843,
+        917
+      ],
+      "sha256": "0508b340b1f35a7df98f13d7f03b7f643839a6e43ad43d6af6bee53813f4f7f7"
+    },
+    {
+      "file": "basket_full.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        45,
+        32,
+        467,
+        480
+      ],
+      "sha256": "dd016a2fb2908816922255248c0ebb4373a48a2620d985f98d1e6b9b73675b0c"
+    },
+    {
+      "file": "basket_empty.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        45,
+        32,
+        467,
+        480
+      ],
+      "sha256": "dc2c7c08840130952bddf6403fa6814eec55198d6bbabac9480087f083c9e67c"
+    },
+    {
+      "file": "candy_1.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        55,
+        36,
+        200,
+        220
+      ],
+      "sha256": "9c245cd0065e145b116b1886bcf1e2eafdd3f31e69a0e7cba7eab0755729d890"
+    },
+    {
+      "file": "candy_2.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        36,
+        62,
+        220,
+        194
+      ],
+      "sha256": "0fa8994386c3cede3eb98ae834af185b9460147d71973820bf7b68084bda0007"
+    },
+    {
+      "file": "candy_3.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        40,
+        36,
+        216,
+        220
+      ],
+      "sha256": "abd1957b917b89a2b8662d6fdb321305b2df34723c5f3e55f1397c32ec4afe6f"
+    },
+    {
+      "file": "candy_4.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        60,
+        36,
+        196,
+        220
+      ],
+      "sha256": "fc60a2a932c497900bfbd19dbb0186ed6bb4a58e9a4f3989255ef3612fdecbcf"
+    },
+    {
+      "file": "candy_5.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        36,
+        46,
+        220,
+        210
+      ],
+      "sha256": "fd160308f06e8621a91a326f524e3855139f4d2c77c9ff6c4e5514b1331c47cc"
+    },
+    {
+      "file": "candy_6.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        52,
+        36,
+        203,
+        220
+      ],
+      "sha256": "f54e97b2452c5698670c9f54e2a00778ec14a2705d5dbdb2c18a140092a655ac"
+    },
+    {
+      "file": "trick_bg.png",
+      "size": [
+        1200,
+        900
+      ],
+      "mode": "RGB",
+      "alpha_range": null,
+      "alpha_bbox": null,
+      "sha256": "7a5034c56222cf3e61089a2eb3151a234e75e544bf345b2521ed7b25cec8a13e"
+    },
+    {
+      "file": "sparkle_burst.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        45,
+        41,
+        466,
+        471
+      ],
+      "sha256": "aea42d09d7b0e5cbfa5c039407a68cc99d0b60a903e75bf9e92c68ecaf88b424"
+    }
+  ],
+  "static_frame_max_pixel_difference": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "method": "One generated fixed surround + one registered generated leaf, identical camera and color, deterministic projective opening. PNG sRGB straight alpha; backgrounds opaque RGB."
+}

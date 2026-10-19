@@ -1,0 +1,63 @@
+{
+  "canvas": {
+    "w": 1024,
+    "h": 1024
+  },
+  "frame": "door_open_07.png",
+  "opening_bbox": {
+    "x": 337,
+    "y": 332,
+    "w": 345,
+    "h": 428
+  },
+  "opening_polygon": [
+    [
+      337,
+      509
+    ],
+    [
+      423,
+      347
+    ],
+    [
+      553,
+      332
+    ],
+    [
+      681,
+      501
+    ],
+    [
+      620,
+      759
+    ],
+    [
+      360,
+      759
+    ]
+  ],
+  "opening_mask": "door_aperture_mask.png",
+  "guest_safe_bbox": {
+    "x": 405,
+    "y": 405,
+    "w": 200,
+    "h": 320
+  },
+  "hinge": {
+    "x": 681,
+    "y": 548
+  },
+  "angles_degrees": [
+    0,
+    12,
+    25,
+    40,
+    55,
+    69,
+    81,
+    86
+  ],
+  "coordinates": "pixels from top-left, do not trim individual frame canvases",
+  "compositing": "background -> door frame PNG -> guest clipped to aperture mask -> glow at low opacity -> foreground candy/sparkles",
+  "note_ru": "Проём содержит пустой светящийся интерьер, а не прозрачную дыру. Гостя накладывать после кадра двери и ограничивать маской. Дополнительная safe bbox оставляет место у створки."
+}

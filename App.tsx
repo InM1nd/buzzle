@@ -51,7 +51,9 @@ import { Lang, setLang } from "./src/i18n";
 import { chooseLanguage, setSetting, Settings } from "./src/logic/game";
 import { compareVersions } from "./src/logic/update";
 import { activeEvent, devForce, forceEvent, PUMPKIN_CHANCE } from "./src/logic/event";
-import { EventCine, oldLayerOpacity, useReduceMotion } from "./src/ui/EventCine";
+import { CINE, EventCine, oldLayerOpacity, useReduceMotion } from "./src/ui/EventCine";
+import { IntroVideo } from "./src/ui/IntroVideo";
+import { INTRO_BG } from "./src/ui/introVideoShared";
 import { EventUi } from "./src/screens/EventTrack";
 import { claimTrackStep, finishFlight, flightRunsToday, treatGuest } from "./src/logic/game";
 import { EventIntro, JackCarved, TrickBanner } from "./src/screens/EventTrack";
@@ -110,7 +112,11 @@ function Main() {
   /** night-falls transition: dir, `look` = whether the event look is shown right now. "prep" renders the old look (a replay
    *  may have to switch back to it first), "run" keeps that rendered interface (`from`) frozen on top and fades it out over
    *  the new one */
-  const [cine, setCine] = useState<{ dir: "in" | "out"; key: number; look: boolean; replay?: boolean; phase: "prep" | "run"; from?: Layer } | null>(null);
+  const [cine, setCine] = useState<{ dir: "in" | "out"; key: number; look: boolean; replay?: boolean; phase: "video" | "prep" | "run"; from?: Layer; vid?: boolean } | null>(null);
+  /** the intro clip failed once (codec, autoplay): later runs go straight to the transition */
+  const videoFailed = useRef(false);
+  /** the night falls with the intro clip first: "in", motion allowed, the clip has not failed */
+  const firstPhase = (dir: "in" | "out"): "video" | "prep" => (dir === "in" && !reduced && !videoFailed.current ? "video" : "prep");
   const live = useRef<Layer | null>(null);
   const lastCine = useRef(0);
   const cineP = useRef(new Animated.Value(0)).current;
@@ -532,13 +538,14 @@ function Main() {
     && !showSettings && !boxOpen && !jack && !game && !flight;
   useEffect(() => {
     if (!cineReady || !dueNow) return;
-    const tm = setTimeout(() => setCine({ dir: dueNow, key: Date.now(), look: dueNow === "out", phase: "prep" }), 900);
+    const tm = setTimeout(() => setCine({ dir: dueNow, key: Date.now(), look: dueNow === "out", phase: firstPhase(dueNow) }), 900);
     return () => clearTimeout(tm);
   }, [cineReady, dueNow]);
   // the old look has been committed: freeze it and switch to the new look underneath
   useEffect(() => {
     if (cine?.phase !== "prep" || !live.current) return;
-    setCine({ ...cine, phase: "run", look: cine.dir === "in", from: live.current });
+    // after the clip the screen is solid night: no frozen old layer, the dark cover fades off the new look instead
+    setCine({ ...cine, phase: "run", look: cine.dir === "in", from: cine.vid ? undefined : live.current });
     if (!cine.replay) act.simple((c) => eventCineSeen(c, Date.now()));
   }, [cine]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -720,7 +727,7 @@ function Main() {
         updater={updater}
         onSet={act.setSetting}
         dev={DEV}
-        onReplayCine={() => { setShowSettings(false); setTimeout(() => setCine({ dir: eventOn ? "in" : "out", key: Date.now(), look: !eventOn, replay: true, phase: "prep" }), 350); }}
+        onReplayCine={() => { setShowSettings(false); setTimeout(() => { videoFailed.current = false; setCine({ dir: eventOn ? "in" : "out", key: Date.now(), look: !eventOn, replay: true, phase: firstPhase(eventOn ? "in" : "out") }); }, 350); }}
         onLang={act.lang}
         onNotifications={act.notifications}
         onTutorial={() => { setShowSettings(false); setTimeout(() => setShowTutorial(true), 250); }}
@@ -762,7 +769,15 @@ function Main() {
         <Animated.View key={old.key} pointerEvents="none" renderToHardwareTextureAndroid shouldRasterizeIOS
           style={[StyleSheet.absoluteFill, { opacity: oldOpacity }]}>{old.el}</Animated.View>
       ) : null}
+      {cine?.vid && cine.phase !== "video" ? (
+        <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: INTRO_BG,
+          opacity: cine.phase === "run" ? cineP.interpolate({ inputRange: [0, 0.12, 0.3, 0.5].map((x) => x * CINE.fade), outputRange: [1, 0.9, 0.45, 0], extrapolate: "clamp" }) : 1 }]} />
+      ) : null}
       {cine?.phase === "run" ? <EventCine key={cine.key} dir={cine.dir} reduced={!!reduced} p={cineP} onDone={() => setCine(null)} /> : null}
+      {cine?.phase === "video" ? (
+        <IntroVideo muted={!s.settings.sound} bottomInset={insets.bottom}
+          onEnd={(played) => { if (!played) videoFailed.current = true; cineP.setValue(0); setCine((c) => (c ? { ...c, phase: "prep", vid: played } : c)); }} />
+      ) : null}
     </View>
   );
 }

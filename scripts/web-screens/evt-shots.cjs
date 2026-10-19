@@ -54,7 +54,7 @@ async function cine(browser) {
   await page.goto(URL + "?event=1", { waitUntil: "load" });
   await page.waitForFunction(() => !document.getElementById("bzz-boot"), { timeout: 30000 });
   await cdp.send("Page.startScreencast", { format: "jpeg", quality: 85, everyNthFrame: 1 });
-  await sleep(6500);
+  await sleep(+(process.env.CINE_MS || 6500));
   await cdp.send("Page.stopScreencast");
   frames.forEach((f, i) => fs.writeFileSync(`${OUT}/cine/f${String(i).padStart(4, "0")}.jpg`, Buffer.from(f.d, "base64")));
   fs.writeFileSync(`${OUT}/cine/times.json`, JSON.stringify(frames.map((f) => f.t)));

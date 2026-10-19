@@ -39,7 +39,7 @@ export function EventCard({ s, now, onClaim }: { s: GameState; now: number; onCl
   const progress = next ? (e.points - prevAt) / (next.at - prevAt) : 1;
   return (
     <View style={[styles.card, shadow]}>
-      <Image source={ART.eventHeader} resizeMode="cover" style={styles.header} />
+      <BannerArt style={styles.header} />
       <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
         <Bobbing amp={3}><Image source={ART.pumpkin} style={{ width: 58, height: 50 }} /></Bobbing>
         <View style={{ flex: 1 }}>
@@ -66,7 +66,7 @@ export function EventCard({ s, now, onClaim }: { s: GameState; now: number; onCl
         <CloseBtn onPress={() => setOpen(false)} />
         {/* night banner with the running total */}
         <View style={styles.trackHead}>
-          <Image source={ART.eventHeader} resizeMode="cover" style={styles.trackHeadImg} />
+          <BannerArt style={styles.trackHeadImg} />
           <Txt v="h2" color="#fff">{t("ev.track")}</Txt>
           <View style={[styles.points, { alignSelf: "flex-start", marginTop: 6 }]}>
             <Image source={ART.point} style={{ width: 22, height: 22 }} />
@@ -304,7 +304,7 @@ export function EventIntro({ visible, daysLeft, onClose, onGo }: { visible: bool
     <Overlay visible={visible} onClose={onClose}>
       <CloseBtn onPress={onClose} />
       <View style={styles.introHead}>
-        <Image source={ART.eventHeader} resizeMode="cover" style={StyleSheet.absoluteFill} />
+        <BannerArt style={StyleSheet.absoluteFill} />
       </View>
       <Txt v="h1" center style={{ marginTop: 12 }}>{t("ev.title")}</Txt>
       <Txt v="small" color={K.fg("#C25E00")} center>{t("ev.introSub")} · {t("ev.daysLeft", { n: daysLeft })}</Txt>
@@ -334,6 +334,23 @@ export function JackCarved({ id, onClose }: { id: string | null; onClose: () => 
         </View>
       ) : null}
     </Overlay>
+  );
+}
+
+/** the Pumpkin Night banner (1000×400) drawn at its own aspect ratio in a box of any shape: measured, scaled to cover,
+ *  and shifted so the moon and the big pumpkins on the right (focus) stay in view. Explicit pixel sizes: Android stretched
+ *  the art when it was laid out by insets alone. */
+const BANNER = { w: 1000, h: 400, fx: 0.8, fy: 0.62 };
+export function BannerArt({ style }: { style: object }) {
+  const [box, setBox] = useState({ w: 0, h: 0 });
+  const k = box.w ? Math.max(box.w / BANNER.w, box.h / BANNER.h) : 0;
+  const w = BANNER.w * k, h = BANNER.h * k;
+  const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
+  const left = clamp(box.w * 0.62 - w * BANNER.fx, box.w - w, 0), top = clamp(box.h * 0.6 - h * BANNER.fy, box.h - h, 0);
+  return (
+    <View pointerEvents="none" style={[style, { overflow: "hidden" }]} onLayout={(e) => { const { width, height } = e.nativeEvent.layout; if (width !== box.w || height !== box.h) setBox({ w: width, h: height }); }}>
+      {k ? <Image source={ART.eventHeader} resizeMode="stretch" style={{ position: "absolute", left, top, width: w, height: h }} /> : null}
+    </View>
   );
 }
 

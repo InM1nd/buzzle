@@ -58,6 +58,7 @@ export const event = {
   "st.devEvent.on": { en: "Always", uk: "Завжди", ru: "Всегда" },
   "st.devEvent.off": { en: "Off", uk: "Вимк.", ru: "Выкл." },
   "st.devEvent.calendar": { en: "Calendar", uk: "Календар", ru: "Календарь" },
+  "intro.skip": { en: "Skip", uk: "Пропустити", ru: "Пропустить" },
   "st.devCine": { en: "DEV · Replay night transition", uk: "DEV · Повторити перехід у ніч", ru: "DEV · Повторить переход в ночь" },
   "fl.locked": { en: "Back at Halloween", uk: "Повернеться на Гелловін", ru: "Вернётся на Хэллоуин" },
   "fl.lockedBtn": { en: "Locked", uk: "Закрито", ru: "Закрыто" },

@@ -21,3 +21,9 @@ jest.mock("expo-notifications", () => ({
   AndroidImportance: { DEFAULT: 3 },
   SchedulableTriggerInputTypes: { DATE: "date", TIME_INTERVAL: "timeInterval" },
 }));
+// v1.6 intro clip: no native video module under jest; a player that never starts (the app falls back to the transition)
+jest.mock("expo-video", () => {
+  const { View } = require("react-native");
+  const player = { loop: false, muted: false, playing: false, currentTime: 0, play: jest.fn(), pause: jest.fn(), addListener: jest.fn(() => ({ remove: jest.fn() })) };
+  return { useVideoPlayer: jest.fn((_s: unknown, setup?: (p: typeof player) => void) => { setup?.(player); return player; }), VideoView: View };
+});

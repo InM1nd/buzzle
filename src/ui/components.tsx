@@ -88,7 +88,7 @@ export function GameButton(p: {
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={p.label}
+      accessibilityLabel={p.label ?? p.title}
       accessibilityState={{ disabled: !!p.disabled }}
       onPress={() => { if (!p.disabled) { hLight(); p.onPress(); } }}
       onPressIn={() => !p.disabled && to(depth - 1)}

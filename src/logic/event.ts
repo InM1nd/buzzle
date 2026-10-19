@@ -8,7 +8,8 @@ import { BoxKind } from "./loot";
 
 export interface EventDef { id: string; start: number; end: number }
 /** trickDay: the game day the trick-or-treat guest was last treated; intro: the start popup was shown */
-export interface EventState { id: string; points: number; claimed: number; trickDay?: number; intro?: boolean }
+/** cine: the night-falls transition was played for this event; cineOut: the fade back after it ended was played */
+export interface EventState { id: string; points: number; claimed: number; trickDay?: number; intro?: boolean; cine?: boolean; cineOut?: boolean }
 export const newEventState = (): EventState => ({ id: "", points: 0, claimed: 0 });
 
 /** rewards can still be claimed this many days after the last event day */
@@ -17,22 +18,29 @@ export const PUMPKIN_CHANCE = 0.05;
 export const POINTS = { pumpkin: 1, ghost: 3, star: 2, trick: 5 };
 
 const utcDay = (y: number, m: number, d: number) => Math.floor(Date.UTC(y, m - 1, d) / 86400000);
-/** Halloween of the year that day falls in: three weeks, 19 October – 8 November (inclusive) */
+/** Halloween of the year that day falls in: three weeks, 20 October – 9 November (inclusive, 21 days) */
 export function halloween(year: number): EventDef {
-  return { id: `halloween-${year}`, start: utcDay(year, 10, 19), end: utcDay(year, 11, 8) };
+  return { id: `halloween-${year}`, start: utcDay(year, 10, 20), end: utcDay(year, 11, 9) };
 }
 const yearOf = (day: number) => new Date(day * 86400000).getUTCFullYear();
 
-/** autumn (1 September – 30 November): the puzzle gets its autumn backdrop; Halloween's own backdrop wins during the event */
-export function isAutumn(day: number): boolean {
-  const y = yearOf(day);
-  return day >= utcDay(y, 9, 1) && day <= utcDay(y, 11, 30);
+export type Season = "spring" | "summer" | "autumn" | "winter";
+/** meteorological seasons on local calendar days: spring Mar–May, summer Jun–Aug, autumn Sep–Nov, winter Dec–Feb */
+export function season(day: number): Season {
+  const m = new Date(day * 86400000).getUTCMonth() + 1;
+  return m >= 3 && m <= 5 ? "spring" : m >= 6 && m <= 8 ? "summer" : m >= 9 && m <= 11 ? "autumn" : "winter";
 }
+/** autumn (1 September – 30 November) */
+export const isAutumn = (day: number): boolean => season(day) === "autumn";
 
 /** web previews (`?event=1`) and the dev build's Settings switch (see App.tsx): true = the event runs whatever the date,
  * false = it never runs, null = the calendar decides */
 let forced: boolean | null = null;
 export const forceEvent = (on: boolean | null) => { forced = on; };
+/** dev build event mode (Settings): always on / off / by the calendar */
+export type DevEventMode = "on" | "off" | "calendar";
+export const DEV_EVENT_MODES: DevEventMode[] = ["on", "off", "calendar"];
+export const devForce = (m: DevEventMode): boolean | null => (m === "on" ? true : m === "off" ? false : null);
 
 /** the event running on that game day (null outside the window) */
 export function activeEvent(day: number): EventDef | null {

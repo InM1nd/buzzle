@@ -10,7 +10,7 @@ import {
   RoundBoosters, RoundMode, startFreeRound, useShuffle, openBox, openAllBoxes, claimWeekly, buyFreeze, assembleNightBee,
   shopBuyItem, shopBuyBooster, shopBuyFragment, setSkin, toggleDeco, currentTasks,
   dayColorInfo, harvestAction, levelUpBee, renameBee, plantFlower, unlockBed, waterAllAction, waterBedAction,
-  eventIntroDue, eventIntroSeen, eventView,
+  eventIntroDue, eventIntroSeen, eventView, eventCineDue, eventCineSeen, flightOpen,
 } from "./src/logic/game";
 import { canWater, isReady } from "./src/logic/garden";
 import { boostsFor, rulesFor } from "./src/logic/bees";
@@ -50,7 +50,8 @@ import LanguagePicker from "./src/screens/LanguagePicker";
 import { Lang, setLang } from "./src/i18n";
 import { chooseLanguage, setSetting, Settings } from "./src/logic/game";
 import { compareVersions } from "./src/logic/update";
-import { activeEvent, forceEvent, isAutumn, PUMPKIN_CHANCE } from "./src/logic/event";
+import { activeEvent, devForce, forceEvent, PUMPKIN_CHANCE } from "./src/logic/event";
+import { EventCine } from "./src/ui/EventCine";
 import { claimTrackStep, finishFlight, flightRunsToday, treatGuest } from "./src/logic/game";
 import { EventIntro, JackCarved, TrickBanner } from "./src/screens/EventTrack";
 import { FLIGHT_PAID_RUNS } from "./src/logic/nightFlight";
@@ -105,6 +106,8 @@ function Main() {
   const [topH, setTopH] = useState(0);
   const [settingsPage, setSettingsPage] = useState<"main" | "update">("main");
   const [showWhatsNew, setShowWhatsNew] = useState(false);
+  /** night-falls transition: dir, and `look` = whether the event look is shown right now (flips under the cover) */
+  const [cine, setCine] = useState<{ dir: "in" | "out"; key: number; look: boolean; replay?: boolean } | null>(null);
   const [notifBlocked, setNotifBlocked] = useState(false);
   const [hold, setHold] = useState<{ honey?: number; jelly?: number; nectar?: number }>({});
   const [bump, setBump] = useState({ honey: 0, jelly: 0, nectar: 0 });
@@ -128,8 +131,7 @@ function Main() {
   /** Replace state; persist now (actions) or at most every 15 s (ticks). */
   const commit = useCallback((next: GameState, force = true) => {
     setLang(next.settings.lang);
-    if (DEV && !WEB_EVENT) forceEvent(next.settings.devEvent); // dev switch: Halloween on / normal
-    setTileStyle(seasonalTiles(next.settings.tiles, !!activeEvent(todayOf(next, Date.now()))));
+    if (DEV && !WEB_EVENT) forceEvent(devForce(next.settings.devEvent)); // dev switch: Halloween always / off / calendar
     setS(next);
     const t = Date.now();
     if (writable.current && (force || t - lastSave.current > 15000)) {
@@ -425,7 +427,7 @@ function Main() {
     },
     flight: () => {
       const cur = sRef.current;
-      if (!cur) return;
+      if (!cur || !flightOpen(cur, Date.now())) return; // Night Flight runs only during the Halloween event
       // a random bee of the player's flies each run
       setFlight({ key: Date.now(), seed: (Date.now() ^ 0x2c1b3c6d) >>> 0, bee: cur.bees[Math.floor(Math.random() * cur.bees.length)] ?? "zhuzha" });
     },
@@ -512,10 +514,24 @@ function Main() {
     if (s) setHaptics(s.settings.haptics);
   }, [s?.settings.haptics]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // night-falls transition: starts once nothing else is on screen (tutorial, popups, settings, a round or a flight)
+  const dueNow = s ? eventCineDue(s, now) : null;
+  const cineReady = !!s && !cine && !!dueNow && s.settings.langPicked && s.settings.tutorialDone && !showTutorial && !showWhatsNew && !showLogin
+    && !showSettings && !boxOpen && !game && !flight;
+  useEffect(() => {
+    if (cineReady && dueNow) setCine({ dir: dueNow, key: Date.now(), look: dueNow === "out" });
+  }, [cineReady, dueNow]);
+
   if (!s) return <View style={{ flex: 1, backgroundColor: C.bg }} />;
 
-  // interface theme: set before any child renders (the keyed roots below remount on a change)
-  setTheme(resolveTheme(s.settings.ui, !!activeEvent(todayOf(s, now))));
+  // event look: follows the calendar, except that a due transition keeps the old look until its overlay covers the screen
+  const day = todayOf(s, now);
+  const eventOn = !!activeEvent(day);
+  const cineDue = eventCineDue(s, now);
+  const look = cine ? cine.look : cineDue === "in" ? false : cineDue === "out" ? true : eventOn;
+  // interface theme and tile set: set before any child renders (the keyed roots below remount on a change)
+  setTheme(resolveTheme(s.settings.ui, look));
+  setTileStyle(seasonalTiles(s.settings.tiles, look));
   const themeKey = themeName();
 
   if (flight) {
@@ -523,7 +539,7 @@ function Main() {
       <View key={themeKey} style={{ flex: 1, backgroundColor: K.bg("#2B1B3D") }}>
         <StatusBar style="light" />
         <FlightScreen key={flight.key} seed={flight.seed} beeId={flight.bee} skin={s.beeSkins[flight.bee]} level={s.beeLevels[flight.bee] ?? 1}
-          best={s.flight.best} paidLeft={Math.max(0, FLIGHT_PAID_RUNS - flightRunsToday(s, now))} event={!!activeEvent(todayOf(s, now))}
+          best={s.flight.best} paidLeft={Math.max(0, FLIGHT_PAID_RUNS - flightRunsToday(s, now))} event={eventOn}
           onFinish={act.finishFlight} onExit={() => setFlight(null)} onReplay={act.flight} />
       </View>
     );
@@ -531,12 +547,12 @@ function Main() {
   if (game) {
     const b = boostsFor(s.bees, s.beeLevels);
     const rules = rulesFor(game.mode === "free" ? "free" : "daily", b, dayColorInfo(s, now).active ? dayColorInfo(s, now).color : null);
-    const puzzleNight = !!activeEvent(todayOf(s, now));
-    const halloween = game.mode === "free" && puzzleNight;
+    const puzzleNight = look;
+    const halloween = game.mode === "free" && eventOn;
     return (
       <View key={themeKey} style={{ flex: 1, backgroundColor: C.bg }}>
         <StatusBar style={puzzleNight ? "light" : "dark"} />
-        {puzzleNight || isAutumn(todayOf(s, now)) ? <Image source={puzzleNight ? ART.puzzleNight : ART.puzzleAutumn} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} /> : null}
+        <Image source={sceneBg("puzzle", day, puzzleNight)} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} />
         <GameScreen
           key={game.key}
           mode={game.mode}
@@ -563,14 +579,16 @@ function Main() {
   const loginIdx = nextLoginIndex(s, now);
   const tasksReady = taskBadge(s);
   const showNotifPrompt = NOTIFICATIONS_SUPPORTED && !s.settings.notifications && !s.settings.notifPromptDismissed && s.stats.rounds >= 1;
-  const night = !!activeEvent(todayOf(s, now));
+  const night = look;
+  const view = tab === "hive" && hiveView === "garden" ? "garden" : "hive";
   const gardenBadge = s.garden.beds.some((b) => isReady(b) || (canWater(b) && b.water <= 0));
 
   return (
+    <View style={{ flex: 1 }}>
     <View key={`${s.settings.lang}-${seasonalTiles(s.settings.tiles, night)}-${themeKey}`} style={{ flex: 1, backgroundColor: C.bg }}>
       <StatusBar style={night && tab === "hive" ? "light" : "dark"} />
       {tab === "hive" ? (
-        <SceneBg source={sceneBg(hiveView === "garden" ? "garden" : "hive", night, isAutumn(todayOf(s, now)))} />
+        <SceneBg source={sceneBg(view, day, night)} />
       ) : null}
       <TopPad.Provider value={topH}>
       <View style={{ flex: 1 }}>
@@ -680,6 +698,7 @@ function Main() {
         updater={updater}
         onSet={act.setSetting}
         dev={DEV}
+        onReplayCine={() => { setShowSettings(false); setTimeout(() => setCine({ dir: eventOn ? "in" : "out", key: Date.now(), look: !eventOn, replay: true }), 350); }}
         onLang={act.lang}
         onNotifications={act.notifications}
         onTutorial={() => { setShowSettings(false); setTimeout(() => setShowTutorial(true), 250); }}
@@ -695,7 +714,7 @@ function Main() {
         <LanguagePicker initial={s.settings.lang !== "en" ? s.settings.lang : telegramLanguage() ?? "en"} suggested={telegramLanguage()} onDone={act.pickLang} />
       ) : null}
       <JackCarved id={jack} onClose={() => setJack(null)} />
-      <EventIntro visible={eventIntroDue(s, now) && s.settings.langPicked && s.settings.tutorialDone && !showTutorial && !showWhatsNew && !showLogin}
+      <EventIntro visible={eventIntroDue(s, now) && !cine && !cineDue && s.settings.langPicked && s.settings.tutorialDone && !showTutorial && !showWhatsNew && !showLogin}
         daysLeft={eventView(s, now)?.daysLeft ?? 0}
         onClose={() => act.simple((c) => eventIntroSeen(c, Date.now()))}
         onGo={() => { act.simple((c) => eventIntroSeen(c, Date.now())); setTab("puzzle"); }} />
@@ -703,6 +722,16 @@ function Main() {
         <BoxOpen key={boxOpen} kind={boxOpen} left={s.loot.boxes[boxOpen]} bees={s.bees} skins={s.beeSkins}
           onOpen={() => act.openBox(boxOpen)} onOpenAll={() => act.openAll(boxOpen)} onClose={() => setBoxOpen(null)} />
       ) : null}
+    </View>
+    {/* outside the keyed root: it must survive the remount it hides */}
+    {cine ? (
+      <EventCine key={cine.key} dir={cine.dir} source={sceneBg(view, day, cine.dir === "in")}
+        onCover={() => {
+          setCine((c) => (c ? { ...c, look: c.dir === "in" } : c));
+          if (!cine.replay) act.simple((c) => eventCineSeen(c, Date.now()));
+        }}
+        onDone={() => setCine(null)} />
+    ) : null}
     </View>
   );
 }

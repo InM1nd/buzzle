@@ -23,7 +23,7 @@ import {
 } from "./loot";
 import { hashString } from "./rng";
 import { FLIGHT_PAID_RUNS, flightNectar, flightPoints } from "./nightFlight";
-import { activeEvent, EventState, eventProgress, newEventState, POINTS, TRACK, TrackReward, trackEvent } from "./event";
+import { activeEvent, DEV_EVENT_MODES, DevEventMode, EventState, eventProgress, newEventState, POINTS, TRACK, TrackReward, trackEvent } from "./event";
 
 /** v2 (Buzzle 1.2): nectar, bee levels, garden. The storage key stays the same; v1 saves are migrated on load
  * (and backed up under bzz:backup:v1 by ui/store). */
@@ -95,8 +95,8 @@ export interface Settings {
   lastVersion: string;
   /** Owner-selected puzzle tile look; calmer bright glyphs are the default. */
   tiles: TileStyle;
-  /** dev build only: Halloween on (whatever the date) or off */
-  devEvent: boolean;
+  /** dev build only: Halloween always on, off, or by the calendar */
+  devEvent: DevEventMode;
   /** v1.6 interface style: auto = violet "midnight" during the Halloween event, classic otherwise */
   ui: UiStyle;
 }
@@ -132,7 +132,7 @@ export function newState(now: number): GameState {
     settings: {
       notifications: false, haptics: true, tutorialDone: false, notifPromptDismissed: false, gardenReminders: true, gardenIntroDone: false,
       lang: "en", langPicked: false, sound: true, notifHive: true, notifDaily: true, notifChests: true,
-      quietOn: true, quietFrom: 22, quietTo: 9, autoUpdate: true, lastVersion: APP_VERSION, tiles: "mellow", devEvent: true, ui: "auto",
+      quietOn: true, quietFrom: 22, quietTo: 9, autoUpdate: true, lastVersion: APP_VERSION, tiles: "mellow", devEvent: "on", ui: "auto",
     },
     early: { firstSeen: isoDay(now), version: APP_VERSION, early: isEarlyVersion(APP_VERSION) },
     event: newEventState(),
@@ -199,7 +199,7 @@ export function migrate(raw: unknown, now: number): GameState {
     settings: migrateSettings(d.settings, obj(s.settings), s.version),
     early: migrateEarly(s, now),
     event: typeof obj(s.event).id === "string"
-      ? { id: obj(s.event).id, points: Math.max(0, num(obj(s.event).points, 0) | 0), claimed: Math.max(0, Math.min(TRACK.length, num(obj(s.event).claimed, 0) | 0)), ...(typeof obj(s.event).trickDay === "number" ? { trickDay: obj(s.event).trickDay } : {}), ...(obj(s.event).intro === true ? { intro: true } : {}) }
+      ? { id: obj(s.event).id, points: Math.max(0, num(obj(s.event).points, 0) | 0), claimed: Math.max(0, Math.min(TRACK.length, num(obj(s.event).claimed, 0) | 0)), ...(typeof obj(s.event).trickDay === "number" ? { trickDay: obj(s.event).trickDay } : {}), ...(obj(s.event).intro === true ? { intro: true } : {}), ...(obj(s.event).cine === true ? { cine: true } : {}), ...(obj(s.event).cineOut === true ? { cineOut: true } : {}) }
       : newEventState(),
     flight: { day: num(obj(s.flight).day, d.flight.day), runs: Math.max(0, num(obj(s.flight).runs, 0) | 0), best: Math.max(0, num(obj(s.flight).best, 0) | 0) },
     clock: { maxSeen: clockMax, maxDay },
@@ -223,7 +223,7 @@ function migrateSettings(d: Settings, raw: Record<string, any>, version: unknown
     // a pre-1.4 save has seen 1.3 at most: "What's new" shows for 1.4
     lastVersion: typeof raw.lastVersion === "string" ? raw.lastVersion : old ? "1.3.0" : d.lastVersion,
     tiles: TILE_STYLES.includes(tiles) ? tiles : d.tiles,
-    devEvent: typeof raw.devEvent === "boolean" ? raw.devEvent : d.devEvent,
+    devEvent: raw.devEvent === true ? "on" : raw.devEvent === false ? "off" : DEV_EVENT_MODES.includes(raw.devEvent) ? raw.devEvent : d.devEvent,
     ui: UI_STYLES.includes(raw.ui) ? raw.ui : d.ui,
   };
 }
@@ -722,10 +722,17 @@ export function claimTrackStep(s0: GameState, now: number): { state: GameState; 
 // ---------------------------------------------------------------- v1.6 Meadow: night flight
 export interface FlightReward { nectar: number; points: number; record: boolean; paidLeft: number }
 export const flightRunsToday = (s: GameState, now: number) => (s.flight.day === today(s, now) ? s.flight.runs : 0);
+/** Night Flight is a Halloween mini-game: it can be started only while the event runs */
+export const flightOpen = (s: GameState, now: number) => !!activeEvent(today(s, now));
 export function finishFlight(s0: GameState, r: { passed: number; candies: number }, now: number): { state: GameState; reward: FlightReward } {
   let s = tick(s0, now);
   const day = today(s, now);
   const runs = flightRunsToday(s, now);
+  // outside the event (a run that outlived the last event day): no nectar or points, the record still counts
+  if (!activeEvent(day)) {
+    const record = r.passed > s.flight.best;
+    return { state: { ...s, flight: { ...s.flight, best: Math.max(s.flight.best, r.passed) } }, reward: { nectar: 0, points: 0, record, paidLeft: 0 } };
+  }
   const nectar = runs < FLIGHT_PAID_RUNS ? flightNectar(r.passed, r.candies) : 0;
   const record = r.passed > s.flight.best;
   s = {
@@ -751,6 +758,19 @@ export function eventIntroDue(s: GameState, now: number): boolean {
 export function eventIntroSeen(s: GameState, now: number): GameState {
   const ev = activeEvent(today(s, now));
   return ev ? { ...s, event: { ...eventProgress(s.event, ev), intro: true } } : s;
+}
+
+// ---------------------------------------------------------------- v1.6 night-falls transition
+/** "in": the event runs and its transition was not played yet; "out": the last played event is over and its fade back is due */
+export function eventCineDue(s: GameState, now: number): "in" | "out" | null {
+  const ev = activeEvent(today(s, now));
+  if (ev) return eventProgress(s.event, ev).cine ? null : "in";
+  return s.event.cine && !s.event.cineOut ? "out" : null;
+}
+export function eventCineSeen(s: GameState, now: number): GameState {
+  const ev = activeEvent(today(s, now));
+  if (ev) return { ...s, event: { ...eventProgress(s.event, ev), cine: true, cineOut: false } };
+  return s.event.cine ? { ...s, event: { ...s.event, cineOut: true } } : s;
 }
 
 // ---------------------------------------------------------------- v1.6 trick or treat

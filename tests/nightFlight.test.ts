@@ -1,7 +1,7 @@
 /** v1.6 «Ночной полёт»: determinism, passability (a simple controller clears the course), rewards. */
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { finishFlight, flightRunsToday, migrate, newState } from "../src/logic/game";
+import { finishFlight, flightOpen, flightRunsToday, migrate, newState } from "../src/logic/game";
 import { batY, FH, flightNectar, flightPoints, GROUND, newWorld, step, World } from "../src/logic/nightFlight";
 
 /** flap when below the target height and falling: aims at the next gap, dodges a bat ahead */
@@ -62,14 +62,19 @@ test("rewards: nectar and event points are capped per run", () => {
   assert.equal(flightPoints(100), 8);
 });
 
-test("finishFlight: first 3 runs a day pay nectar, record kept, event points only during the event, saved", () => {
+test("finishFlight: event only; first 3 runs a day pay nectar and points, record kept, saved", () => {
   const at = (d: number) => new Date(2026, 9, d, 12).getTime();
   let s = newState(at(15));
   const n0 = s.nectar;
-  for (let i = 0; i < 4; i++) s = finishFlight(s, { passed: 10, candies: 6 }, at(15)).state;
+  assert.equal(flightOpen(s, at(19)), false);
+  assert.equal(flightOpen(s, at(20)), true);
+  // outside the event: nothing paid, the record still counts
+  const off = finishFlight(s, { passed: 7, candies: 6 }, at(15));
+  assert.deepEqual([off.reward.nectar, off.reward.points, off.reward.record, off.state.nectar, off.state.flight.best], [0, 0, true, n0, 7]);
+  for (let i = 0; i < 4; i++) s = finishFlight(s, { passed: 10, candies: 6 }, at(21)).state;
   assert.equal(s.nectar - n0, 3 * 11);
-  assert.equal(flightRunsToday(s, at(15)), 4);
-  assert.equal(s.event.points, 0);
+  assert.equal(flightRunsToday(s, at(21)), 4);
+  assert.equal(s.event.points, 4 * 3);
   const r = finishFlight(s, { passed: 12, candies: 9 }, at(25));
   assert.equal(r.reward.nectar, 15);
   assert.equal(r.reward.points, 4);

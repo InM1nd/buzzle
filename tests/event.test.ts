@@ -14,13 +14,15 @@ const EVENT: PuzzleRules = { ...DEFAULT_RULES, pumpkinChance: PUMPKIN_CHANCE, gh
 const sum = (mode: RoundSummary["mode"], extra: Partial<RoundSummary> = {}): RoundSummary =>
   ({ mode, score: 0, chains: [], bombs: 0, cellsByColor: [0, 0, 0, 0, 0], ...extra });
 
-test("calendar: 19 Oct – 8 Nov local days, claims stay open 3 more days", () => {
-  assert.equal(activeEvent(day(10, 18)), null);
-  assert.equal(activeEvent(day(10, 19))?.id, "halloween-2026");
-  assert.equal(activeEvent(day(11, 8))?.id, "halloween-2026");
-  assert.equal(activeEvent(day(11, 9)), null);
-  assert.equal(trackEvent(day(11, 11))?.id, "halloween-2026");
-  assert.equal(trackEvent(day(11, 12)), null);
+test("calendar: 20 Oct – 9 Nov local days (21), claims stay open 3 more days", () => {
+  assert.equal(activeEvent(day(10, 19)), null);
+  assert.equal(activeEvent(day(10, 20))?.id, "halloween-2026");
+  assert.equal(activeEvent(day(11, 9))?.id, "halloween-2026");
+  assert.equal(activeEvent(day(11, 10)), null);
+  const e = activeEvent(day(10, 20))!;
+  assert.equal(e.end - e.start + 1, 21);
+  assert.equal(trackEvent(day(11, 12))?.id, "halloween-2026");
+  assert.equal(trackEvent(day(11, 13)), null);
   assert.equal(activeEvent(dayNumber(new Date(2027, 9, 30)))?.id, "halloween-2027");
 });
 
@@ -97,8 +99,8 @@ test("track: claims in order, rewards credited, survives save/load, next year st
   assert.ok(c === null || c.state.loot.owned.includes("witchhat"));
   s = migrate(JSON.parse(JSON.stringify(r.state)), at(10, 24));
   assert.deepEqual(s.event, { id: "halloween-2026", points: 75, claimed: 3 });
-  assert.ok(claimTrackStep({ ...s, event: { ...s.event, points: 999, claimed: 4 } }, at(11, 11))); // grace day
-  assert.equal(claimTrackStep({ ...s, event: { ...s.event, points: 999, claimed: 4 } }, at(11, 12)), null);
+  assert.ok(claimTrackStep({ ...s, event: { ...s.event, points: 999, claimed: 4 } }, at(11, 12))); // grace day
+  assert.equal(claimTrackStep({ ...s, event: { ...s.event, points: 999, claimed: 4 } }, at(11, 13)), null);
   assert.equal(eventView(s, new Date(2027, 9, 25, 12).getTime())?.progress.points, 0);
   assert.equal(TRACK.length, 12);
   assert.ok(TRACK.every((st, i) => i === 0 || st.at > TRACK[i - 1].at));
@@ -169,14 +171,45 @@ test("start popup once per event; autumn backdrop 1 Sep – 30 Nov; start and en
   const { isAutumn } = await import("../src/logic/event");
   const { planNotifications } = await import("../src/logic/notifyPlan");
   let s = newState(at(10, 16));
-  assert.equal(eventIntroDue(s, at(10, 16)), false);
-  assert.equal(eventIntroDue(s, at(10, 19)), true);
-  s = eventIntroSeen(s, at(10, 19));
+  assert.equal(eventIntroDue(s, at(10, 19)), false);
+  assert.equal(eventIntroDue(s, at(10, 20)), true);
+  s = eventIntroSeen(s, at(10, 20));
   assert.equal(eventIntroDue(migrate(JSON.parse(JSON.stringify(s)), at(10, 20)), at(10, 20)), false);
   assert.ok(!isAutumn(day(8, 31)) && isAutumn(day(9, 1)) && isAutumn(day(11, 30)) && !isAutumn(day(12, 1)));
   const n = { ...newState(at(10, 16)), settings: { ...newState(at(10, 16)).settings, notifications: true } };
   const plan = planNotifications(n, at(10, 16));
-  assert.equal(plan.find((x) => x.id === "event-start")?.at, new Date(2026, 9, 19, 10).getTime());
-  assert.equal(plan.find((x) => x.id === "event-end")?.at, new Date(2026, 10, 6, 18).getTime());
-  assert.ok(!planNotifications(n, at(11, 7)).some((x) => x.id.startsWith("event")));
+  assert.equal(plan.find((x) => x.id === "event-start")?.at, new Date(2026, 9, 20, 10).getTime());
+  assert.equal(plan.find((x) => x.id === "event-end")?.at, new Date(2026, 10, 7, 18).getTime());
+  assert.ok(!planNotifications(n, at(11, 8)).some((x) => x.id.startsWith("event")));
+});
+
+test("seasons and scene backdrops: event > season > default", async () => {
+  const { season } = await import("../src/logic/event");
+  const { resolveScene } = await import("../src/logic/scene");
+  assert.deepEqual([day(3, 1), day(6, 1), day(9, 1), day(12, 1), day(2, 28)].map(season), ["spring", "summer", "autumn", "winter", "winter"]);
+  assert.equal(season(day(5, 31)), "spring");
+  assert.equal(season(day(11, 30)), "autumn");
+  const T = {
+    event: { hive: "hive-night", garden: "garden-night", puzzle: "puzzle-night" },
+    seasons: { spring: {}, summer: {}, autumn: { hive: "hive-autumn", garden: "garden-autumn", puzzle: "puzzle-autumn" }, winter: { hive: "hive-winter" } },
+    fallback: { hive: "hive", garden: "garden", puzzle: "puzzle" },
+  };
+  assert.equal(resolveScene(T, "garden", day(10, 19), false), "garden-autumn");
+  assert.equal(resolveScene(T, "garden", day(10, 20), true), "garden-night");
+  assert.equal(resolveScene(T, "puzzle", day(7, 1), false), "puzzle");
+  assert.equal(resolveScene(T, "hive", day(1, 10), false), "hive-winter");
+  assert.equal(resolveScene(T, "garden", day(1, 10), false), "garden"); // a season without that view → default
+});
+
+test("night-falls transition: once per event, then one fade back after it", async () => {
+  const { eventCineDue, eventCineSeen } = await import("../src/logic/game");
+  let s = newState(at(10, 15));
+  assert.equal(eventCineDue(s, at(10, 19)), null);
+  assert.equal(eventCineDue(s, at(10, 20)), "in");
+  s = eventCineSeen(s, at(10, 20));
+  assert.equal(eventCineDue(migrate(JSON.parse(JSON.stringify(s)), at(10, 21)), at(10, 21)), null);
+  assert.equal(eventCineDue(s, at(11, 10)), "out");
+  s = eventCineSeen(s, at(11, 10));
+  assert.equal(eventCineDue(migrate(JSON.parse(JSON.stringify(s)), at(11, 11)), at(11, 11)), null);
+  assert.equal(eventCineDue(newState(at(12, 1)), at(12, 1)), null); // never saw the event: no fade back
 });

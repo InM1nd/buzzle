@@ -10,7 +10,7 @@ import { FLOWERS } from "../logic/garden";
 import { DAILY_MOVES, DAILY_STARS } from "../logic/day";
 import { colorName } from "../logic/bees";
 import { ART } from "../ui/art";
-import { C, shadow, K, themed, activeCard, isNight } from "../ui/theme";
+import { C, F, shadow, K, themed, activeCard, isNight } from "../ui/theme";
 import { Bobbing, Card, CloseBtn, fmt, GameButton, Glow, Overlay, Press, Stars, Txt, useTopPad } from "../ui/components";
 import { dateLong, days, weekday } from "../ui/format";
 import { activeEvent } from "../logic/event";
@@ -146,12 +146,18 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
             onPress={() => onPlay("weekend")} label={t("mode.weekend")} />
         </Card>
         <Card style={{ flex: 1, backgroundColor: K.bg("#2B1B3D"), borderWidth: 2, borderColor: K.bd("#3A2F5B") }}>
-          <Image source={ART.flightIcon} style={{ width: 40, height: 40 }} />
+          <Image source={ART.flightIcon} style={{ width: 40, height: 40, opacity: halloween ? 1 : 0.55 }} />
           <Txt v="h3" color="#fff" style={{ marginTop: 6 }}>{t("fl.title")}</Txt>
-          <Txt v="tiny" color={K.fg("#BFF5E6")}>{t("fl.sub")}</Txt>
+          <Txt v="tiny" color={K.fg("#BFF5E6")}>{t(halloween ? "fl.sub" : "fl.lockedSub")}</Txt>
+          {!halloween ? <Txt v="tiny" color={K.fg("#FFC56B")} style={[F.black, { marginTop: 2 }]}>{t("fl.locked")}</Txt> : null}
           {s.flight.best > 0 ? <Txt v="tiny" color={K.fg("#FFC56B")} style={{ marginTop: 2 }}>{t("fl.best", { n: s.flight.best })}</Txt> : null}
           <View style={{ flex: 1 }} />
-          <GameButton title={t("pz.play")} color="honey" style={{ marginTop: 8 }} onPress={onFlight} label={t("fl.title")} />
+          {/* Night Flight is a Halloween mini-game: outside the event the card stays, locked until next year */}
+          {halloween ? (
+            <GameButton title={t("pz.play")} color="honey" style={{ marginTop: 8 }} onPress={onFlight} label={t("fl.title")} />
+          ) : (
+            <GameButton title={t("fl.lockedBtn")} disabled color="grey" style={{ marginTop: 8 }} onPress={() => {}} label={`${t("fl.title")}: ${t("fl.locked")}`} />
+          )}
         </Card>
       </View>
 

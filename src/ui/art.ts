@@ -1,3 +1,5 @@
+import { Season } from "../logic/event";
+import { resolveScene, SceneView } from "../logic/scene";
 /* eslint-disable @typescript-eslint/no-require-imports */
 export const ART = {
   cells: [
@@ -58,12 +60,28 @@ export const ART = {
   trickBasket: require("../../assets/art/halloween/trick_basket.webp"),
 };
 
-/** v1.6 hive / garden backdrop by season: the Halloween night during the event, autumn art 1 Sep – 30 Nov
- * (ponytail: the autumn garden is not drawn yet: add it to AUTUMN_BG when it arrives), the summer meadow otherwise */
-const DAY_BG = { hive: require("../../assets/art/env/hive_bg.webp"), garden: require("../../assets/art/env/garden_bg.webp") };
-const AUTUMN_BG: Partial<Record<"hive" | "garden", number>> = { hive: require("../../assets/art/halloween/hive_bg_autumn.webp") };
-export const sceneBg = (view: "hive" | "garden", night: boolean, autumn: boolean) =>
-  night ? (view === "garden" ? ART.gardenNight : ART.hiveNight) : (autumn && AUTUMN_BG[view]) || DAY_BG[view];
+/** v1.6 scene backdrops. Two layers: the event backdrop wins while an event runs (Halloween night), otherwise the
+ * season's art, otherwise the default (summer) art. A season without its own picture for a view uses the default. */
+export type { SceneView };
+export const DEFAULT_BG: Record<SceneView, number> = {
+  hive: require("../../assets/art/env/hive_bg.webp"),
+  garden: require("../../assets/art/env/garden_bg.webp"),
+  puzzle: require("../../assets/art/env/puzzle_default.webp"),
+};
+export const SEASON_BG: Record<Season, Partial<Record<SceneView, number>>> = {
+  spring: {},
+  summer: {},
+  autumn: {
+    hive: require("../../assets/art/halloween/hive_bg_autumn.webp"),
+    garden: require("../../assets/art/env/garden_bg_autumn.webp"),
+    puzzle: require("../../assets/art/halloween/puzzle_autumn.webp"),
+  },
+  winter: {},
+};
+export const EVENT_BG: Record<SceneView, number> = { hive: ART.hiveNight, garden: ART.gardenNight, puzzle: ART.puzzleNight };
+/** the backdrop for a view on that game day; `event` = the event look is shown (see App: it lags the calendar during the transition) */
+export const sceneBg = (view: SceneView, day: number, event: boolean): number =>
+  resolveScene({ event: EVENT_BG, seasons: SEASON_BG, fallback: DEFAULT_BG }, view, day, event);
 
 /** v1.6 puzzle tile styles (Settings). setTileStyle swaps ART.cells / wild / bomb / pumpkin in place, so every screen that draws
  * tiles follows; App re-mounts the tree on a change (like the language). Calm sets: scripts/import_tile_styles.py */

@@ -13,7 +13,7 @@ import { CAN_PICK_FILE, exportSaveCode, inviteFriend, pickSaveFile } from "../pl
 import { inTelegram, NOTIFICATIONS_SUPPORTED } from "../platform/telegram";
 import { downloadApk, installApk, openInstallPermission } from "../platform/updater";
 import { ART, seasonalTiles, TILE_SETS } from "../ui/art";
-import { activeEvent } from "../logic/event";
+import { activeEvent, DEV_EVENT_MODES } from "../logic/event";
 import { today } from "../logic/game";
 import { Mascot } from "../ui/BeeSprite";
 import { Bar, CloseBtn, GameButton, Glow, Overlay, Press, Txt } from "../ui/components";
@@ -31,6 +31,8 @@ export interface SettingsProps {
   onSet: <K extends keyof Settings>(k: K, v: Settings[K]) => void;
   /** dev build: developer switches */
   dev?: boolean;
+  /** dev build: replay the night-falls transition */
+  onReplayCine?: () => void;
   onLang: (l: Lang) => void;
   onNotifications: (v: boolean) => void;
   onTutorial: () => void; onWhatsNew: () => void; onReset: () => void; onClose: () => void;
@@ -130,7 +132,19 @@ function Main(p: SettingsProps & { go: (pg: Page) => void }) {
           <Txt v="h2" color={C.faint}>›</Txt>
         </Press>
         {p.dev ? (
-          <Row title={t("st.devEvent")} sub={t("st.devEventSub")}><Toggle value={st.devEvent} onChange={(v) => p.onSet("devEvent", v)} label={t("st.devEvent")} /></Row>
+          <View style={{ marginTop: 14 }}>
+            <Txt v="h3" style={{ marginBottom: 2 }}>{t("st.devEvent")}</Txt>
+            <Txt v="tiny" color={C.dim} style={{ marginBottom: 8 }}>{t("st.devEventSub")}</Txt>
+            <View style={styles.seg} accessibilityRole="radiogroup" accessibilityLabel={t("st.devEvent")}>
+              {DEV_EVENT_MODES.map((k) => (
+                <Press key={k} onPress={() => p.onSet("devEvent", k)} scaleTo={0.96} style={[styles.segBtn, st.devEvent === k && styles.segOn]}
+                  accessibilityRole="radio" accessibilityState={{ checked: st.devEvent === k }} aria-checked={st.devEvent === k} accessibilityLabel={t(`st.devEvent.${k}`)}>
+                  <Txt v="small" style={F.black} color={st.devEvent === k ? (isNight() ? C.onBtn : "#fff") : C.brown} numberOfLines={1}>{t(`st.devEvent.${k}`)}</Txt>
+                </Press>
+              ))}
+            </View>
+            {p.onReplayCine ? <GameButton small title={t("st.devCine")} color="purple" style={{ marginTop: 10 }} onPress={p.onReplayCine} label={t("st.devCine")} /> : null}
+          </View>
         ) : null}
         <Row title={t("st.sound")} sub={t("st.soundSub")}><Toggle value={st.sound} onChange={(v) => p.onSet("sound", v)} label={t("st.sound")} /></Row>
         <Row title={t("st.vibration")} sub={t("st.vibrationSub")} last><Toggle value={st.haptics} onChange={(v) => p.onSet("haptics", v)} label={t("st.vibration")} /></Row>

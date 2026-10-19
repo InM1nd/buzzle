@@ -7,10 +7,11 @@ while the app is closed, tend a small flower garden, and earn more by solving a 
 There is no account, no ads and nothing to buy. Progress is stored on the device (and in Telegram CloudStorage when
 played in Telegram). The game is available in English, Ukrainian and Russian.
 
-Current version: **1.5.0** (versionCode 21), a UI/UX refresh with new "honey crystal" art.
+Current version: **1.6.0** (versionCode 27), "Pumpkin Night": a Halloween event, the Night Flight mini-game and
+seasonal backdrops.
 
-**Download:** [Buzzle-v1.5.0.apk](https://github.com/InM1nd/buzzle/releases/download/v1.5.0/Buzzle-v1.5.0.apk) from the
-[latest release](https://github.com/InM1nd/buzzle/releases/latest) (Android, arm64; installs over 1.4.x with the same
+**Download:** [Buzzle-v1.6.0.apk](https://github.com/InM1nd/buzzle/releases/download/v1.6.0/Buzzle-v1.6.0.apk) from the
+[latest release](https://github.com/InM1nd/buzzle/releases/latest) (Android, arm64; installs over 1.5.x and 1.4.x with the same
 signing key and updates itself from Settings). **Play in Telegram:** [@Buzzle_game_bot](https://t.me/Buzzle_game_bot),
 or in a browser: https://inm1nd.github.io/buzzle/
 
@@ -73,7 +74,7 @@ Settings are a separate page (language, sound, vibration, reminders, invite a fr
 - **Decorations.** Four hive decorations (bunting, lanterns, barrel, fountain) and four garden ones (mushroom, bench,
   pinwheel, gnome). Each has its own spot in the scene and a small animation. Tap a spot to put a decoration out or
   away; an empty spot shows a faint outline and links to the Shop. What decorations should *do* is planned for
-  v1.5.5 (see the [roadmap](design/ROADMAP.md)).
+  a later version (see the [roadmap](design/ROADMAP.md)).
 - **Surprise combs.** Loot boxes for in-game play only, no purchases: wooden (3 daily tasks), wax (3★ daily puzzle,
   weekly chest, weekend puzzle), golden (every 7-day streak, 3★ weekend, a rare bonus inside wax or wooden combs) and
   royal (locked until seasons). Drops: honey, nectar, jelly, seeds, outfits, decorations, boosters and Night-bee
@@ -88,6 +89,20 @@ Settings are a separate page (language, sound, vibration, reminders, invite a fr
   on first launch. On Android the app checks GitHub releases and installs updates from Settings. Saves can be
   exported and imported as a text code `BUZZLE1.…` with a checksum.
 - Clock-rollback protection, tolerant save migrations with backups, haptics.
+
+## What changed in v1.6
+
+- **Pumpkin Night** (20 October – 9 November, rewards can be claimed until 12 November): a short intro clip and a
+  night-falls transition on the first visit, pumpkin tiles and a hopping ghost in free play, event points, a reward
+  track with bee costumes, a trick-or-treat guest at the hive once a day, pumpkins in the garden carved into
+  jack-o'-lanterns for the hive.
+- **Night Flight**: a new mini-game on the Play tab, open during Pumpkin Night only (a locked card the rest of the
+  year).
+- **Seasons**: autumn backdrops for the hive, the garden and the puzzle; during the event the scenes turn to night.
+- **Interface style**: a violet-navy "Midnight" theme with an Auto / Classic / Midnight switch.
+- **Comb styles**: puzzle tile styles on their own Settings page with a big preview (calmer "mellow" default).
+- Fixes from the 1.5.1 plan: one floating currency bar, compact garden timers, planting in a dialog, a clearer bee
+  level; result dialogs no longer clip their picture; button labels sized for the font scale.
 
 ## What changed in v1.5
 

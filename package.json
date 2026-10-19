@@ -1,6 +1,6 @@
 {
   "name": "buzzle",
-  "version": "1.5.5",
+  "version": "1.6.0",
   "main": "index.ts",
   "dependencies": {
     "@expo/metro-runtime": "~57.0.16",

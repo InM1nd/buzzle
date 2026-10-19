@@ -62,12 +62,14 @@ import { FLIGHT_PAID_RUNS } from "./src/logic/nightFlight";
 import FlightScreen from "./src/screens/FlightScreen";
 import { useUpdater } from "./src/ui/useUpdater";
 import { APP_VERSION, DEV_BUILD } from "./src/version";
+import { webFlags } from "./src/logic/devFlags";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
-// web previews / screenshots: `?event=1` runs the seasonal event outside its dates; `?dev=1` shows the dev switches
-const webQuery = Platform.OS === "web" && typeof window !== "undefined" ? window.location?.search ?? "" : "";
-const WEB_EVENT = /[?&]event=1(&|$)/.test(webQuery);
-const DEV = DEV_BUILD || /[?&]dev=1(&|$)/.test(webQuery);
+// web previews / screenshots: `?event=1` / `?dev=1`, only on localhost or in the dev build (see src/logic/devFlags.ts)
+const onWeb = Platform.OS === "web" && typeof window !== "undefined";
+const FLAGS = webFlags(onWeb ? window.location?.search ?? "" : "", onWeb ? window.location?.hostname ?? "" : "", DEV_BUILD);
+const WEB_EVENT = FLAGS.event;
+const DEV = FLAGS.dev;
 if (WEB_EVENT) forceEvent(true);
 pinArt();          // web: keep all art in memory so remounts never refetch (no-op on Android)
 initTelegram(C.bg); // web inside Telegram: ready/expand/fullscreen, no swipe-to-close, header colour

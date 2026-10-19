@@ -304,7 +304,7 @@ export function EventIntro({ visible, daysLeft, onClose, onGo }: { visible: bool
     <Overlay visible={visible} onClose={onClose}>
       <CloseBtn onPress={onClose} />
       <View style={styles.introHead}>
-        <Image source={ART.eventHeader} resizeMode="cover" style={{ width: "100%", height: "100%" }} />
+        <Image source={ART.eventHeader} resizeMode="cover" style={StyleSheet.absoluteFill} />
       </View>
       <Txt v="h1" center style={{ marginTop: 12 }}>{t("ev.title")}</Txt>
       <Txt v="small" color={K.fg("#C25E00")} center>{t("ev.introSub")} · {t("ev.daysLeft", { n: daysLeft })}</Txt>
@@ -340,7 +340,9 @@ export function JackCarved({ id, onClose }: { id: string | null; onClose: () => 
 const styles = themed(() => StyleSheet.create({
   card: { backgroundColor: NIGHT.bg, borderRadius: 28, padding: 16, borderWidth: 3, borderColor: NIGHT.card, overflow: "hidden" },
   // the night meadow behind the title row; the moon and pumpkins sit on the right, the text on the calm left
-  header: { position: "absolute", left: 0, top: 0, right: 0, bottom: 0, width: "100%", height: "100%", opacity: 0.6 },
+  // the art fills the whole card by its four insets only: Yoga resolves a percentage height against the auto-height card
+  // differently on native, where "100%" left the art covering only part of it
+  header: { position: "absolute", left: 0, top: 0, right: 0, bottom: 0, opacity: 0.6 },
   points: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: NIGHT.card, borderRadius: 16, paddingHorizontal: 10, paddingVertical: 6 },
   step: { flex: 1, flexDirection: "row", alignItems: "center", gap: 10, marginVertical: 4, backgroundColor: K.bg("#fff"), borderRadius: 16, borderWidth: 2, borderColor: K.bd("#F0DFC0"), padding: 8 },
   stepDone: { backgroundColor: K.bg("#F6F0E4"), borderColor: K.bd("#EDE3D0") },
@@ -350,7 +352,7 @@ const styles = themed(() => StyleSheet.create({
   node: { minWidth: 34, height: 24, borderRadius: 12, paddingHorizontal: 4, alignItems: "center", justifyContent: "center", backgroundColor: K.bg("#FFF6E3"), borderWidth: 2, borderColor: K.bd("#EADBC0") },
   nodeOn: { backgroundColor: NIGHT.pumpkin, borderColor: NIGHT.pumpkin },
   trackHead: { height: 104, borderRadius: 20, overflow: "hidden", padding: 14, justifyContent: "flex-end", backgroundColor: NIGHT.bg },
-  trackHeadImg: { position: "absolute", left: 0, top: 0, width: "100%", height: "100%", opacity: 0.75 },
+  trackHeadImg: { position: "absolute", left: 0, top: 0, right: 0, bottom: 0, opacity: 0.75 },
   trick: { flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: NIGHT.bg, borderRadius: 22, padding: 12, borderWidth: 2, borderColor: NIGHT.card },
   scene: { borderRadius: 22, overflow: "hidden", backgroundColor: NIGHT.bg },
   aperture: { position: "absolute", overflow: "hidden" },

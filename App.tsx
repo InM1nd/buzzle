@@ -524,12 +524,16 @@ function Main() {
     if (s) setHaptics(s.settings.haptics);
   }, [s?.settings.haptics]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // night-falls transition: starts once nothing else is on screen (tutorial, popups, settings, a round or a flight)
+  // night-falls transition: starts once nothing else is on screen (tutorial, popups, settings, a round or a flight) and has
+  // not been for a moment: popups follow each other with short gaps (What's new → login reward), and a transition started
+  // in such a gap froze the closing popup on the old layer while the next one opened on the new one
   const dueNow = s ? eventCineDue(s, now) : null;
   const cineReady = !!s && !cine && !!dueNow && reduced !== null && s.settings.langPicked && s.settings.tutorialDone && !showTutorial && !showWhatsNew && !showLogin
-    && !showSettings && !boxOpen && !game && !flight;
+    && !showSettings && !boxOpen && !jack && !game && !flight;
   useEffect(() => {
-    if (cineReady && dueNow) setCine({ dir: dueNow, key: Date.now(), look: dueNow === "out", phase: "prep" });
+    if (!cineReady || !dueNow) return;
+    const tm = setTimeout(() => setCine({ dir: dueNow, key: Date.now(), look: dueNow === "out", phase: "prep" }), 900);
+    return () => clearTimeout(tm);
   }, [cineReady, dueNow]);
   // the old look has been committed: freeze it and switch to the new look underneath
   useEffect(() => {
@@ -706,7 +710,7 @@ function Main() {
       </View>
 
       <Tutorial visible={showTutorial && s.settings.langPicked} onDone={act.tutorialDone} />
-      <LoginModal visible={showLogin && !showTutorial && !showWhatsNew && s.settings.langPicked} index={loginIdx} reward={loginReward(loginIdx, level(s))} streak={s.login.lastDay === todayOf(s, now) - 1 ? s.login.streak : 0}
+      <LoginModal visible={showLogin && !cine && !showTutorial && !showWhatsNew && s.settings.langPicked} index={loginIdx} reward={loginReward(loginIdx, level(s))} streak={s.login.lastDay === todayOf(s, now) - 1 ? s.login.streak : 0}
         onClaim={act.login} onClose={() => setShowLogin(false)} />
       <SettingsModal
         visible={showSettings}
@@ -727,7 +731,7 @@ function Main() {
         getCode={() => encodeSave(sRef.current ?? s)}
         onImport={act.importCode}
       />
-      <WhatsNew visible={showWhatsNew} version={APP_VERSION} onClose={act.whatsNewDone} />
+      <WhatsNew visible={showWhatsNew && !cine} version={APP_VERSION} onClose={act.whatsNewDone} />
       {!s.settings.langPicked ? (
         <LanguagePicker initial={s.settings.lang !== "en" ? s.settings.lang : telegramLanguage() ?? "en"} suggested={telegramLanguage()} onDone={act.pickLang} />
       ) : null}

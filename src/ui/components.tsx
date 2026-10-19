@@ -1,7 +1,7 @@
 import { numFmt, t } from "../i18n";
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import {
-  Animated, Easing, Image, ImageSourcePropType, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleProp, StyleSheet, Text, TextProps, TextStyle, View, ViewStyle,
+  Animated, Easing, Image, ImageSourcePropType, KeyboardAvoidingView, Modal, PixelRatio, Platform, Pressable, ScrollView, StyleProp, StyleSheet, Text, TextProps, TextStyle, View, ViewStyle,
 } from "react-native";
 import { C, F, shadow, K, themed, isNight, activeCard, glowRings } from "./theme";
 import { ART } from "./art";
@@ -73,13 +73,18 @@ export function GameButton(p: {
   const depth = p.small ? 4 : 6;
   const h = p.small ? 42 : 56;
   const to = (v: number) => Animated.timing(y, { toValue: v, duration: 70, useNativeDriver: true }).start();
-  // narrow buttons: the label wraps onto two lines and the font shrinks until its longest word fits on one line
-  // (estimated from the width, ~0.64 em per glyph of Nunito Black, so it also works on web where adjustsFontSizeToFit is ignored)
+  // long labels: wrap onto two lines, and the font shrinks until the longest word fits on one line and two lines fit the
+  // button's height. Estimated from the width (~0.64 em per glyph of Nunito Black) and the system font scale, not left to
+  // adjustsFontSizeToFit: web ignores it, and Android's auto-size with a line height cut the label off
   const [w, setW] = useState(0);
   const base = p.small ? 15 : 18;
+  const em = 0.64 * PixelRatio.getFontScale();
   const room = w - 2 * (p.small ? 10 : 12) - 4 - (p.icon ? (p.small ? 28 : 34) : 0);
   const longest = Math.max(...p.title.split(/\s+/).map((x) => x.length));
-  const fs = w ? Math.max(11, Math.min(base, room / (longest * 0.64), (2 * room) / (p.title.length * 0.64))) : base;
+  let fs = w ? Math.min(base, room / (longest * em)) : base;
+  const lines = w && p.title.length * em * fs > room ? 2 : 1;
+  if (lines === 2) fs = Math.min(fs, (2 * room) / (p.title.length * em), (h - 6) / (2 * 1.2 * PixelRatio.getFontScale()));
+  fs = Math.max(10, fs);
   return (
     <Pressable
       accessibilityRole="button"
@@ -102,8 +107,8 @@ export function GameButton(p: {
         {p.icon ? <Image source={p.icon} style={{ width: p.small ? 20 : 26, height: p.small ? 20 : 26 }} /> : null}
         {/* a long label on a narrow button wraps onto a second line (and shrinks on native) instead of running over the edge */}
         <View style={{ alignItems: "center", flexShrink: 1 }}>
-          <Text numberOfLines={p.sub ? 1 : 2} adjustsFontSizeToFit minimumFontScale={0.75}
-            style={[F.black, { color: c.text, fontSize: fs, lineHeight: Math.round(fs * 1.22), flexShrink: 1, textAlign: "center" }]}>{p.title}</Text>
+          <Text numberOfLines={p.sub ? 1 : 2}
+            style={[F.black, { color: c.text, fontSize: fs, lineHeight: Math.round(fs * (lines === 2 ? 1.12 : 1.22)), flexShrink: 1, textAlign: "center" }]}>{p.title}</Text>
           {p.sub ? <Text style={[F.xbold, { color: c.text, opacity: 0.75, fontSize: 12, lineHeight: 15 }]}>{p.sub}</Text> : null}
         </View>
       </Animated.View>

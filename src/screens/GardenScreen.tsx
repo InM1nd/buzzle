@@ -22,6 +22,7 @@ const COLOR_HEX = C.pollen;
 
 interface Props {
   s: GameState;
+  night?: boolean;
   now: number;
   onPlant: (bed: number, flower: string) => boolean;
   onWater: (bed: number) => boolean;
@@ -128,7 +129,7 @@ function BedTile({ b, i, w, selected, onPress }: { b: Bed; i: number; w: number;
   );
 }
 
-export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onHarvest, onUnlockBed, onIntroDone, onToggleDeco, onShop }: Props) {
+export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onHarvest, onUnlockBed, onIntroDone, onToggleDeco, onShop, night }: Props) {
   const [sel, setSel] = useState<number | null>(null);
   const { width: winW } = useWindowDimensions();
   const [gridW, setGridW] = useState(Math.min(winW, 520) - 32);
@@ -183,7 +184,7 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
 
       {/* decorations stand on the grass between the sign and the beds */}
       <View style={{ height: 96, marginTop: -4 }}>
-        <DecorSpots s={s} place="garden" spots={GARDEN_SPOTS} w={gridW} h={96} onToggle={onToggleDeco} onShop={onShop} />
+        <DecorSpots dark={night} s={s} place="garden" spots={GARDEN_SPOTS} w={gridW} h={96} onToggle={onToggleDeco} onShop={onShop} />
       </View>
 
       <View onLayout={(e) => setGridW(e.nativeEvent.layout.width)} style={{ flexDirection: "row", flexWrap: "wrap", gap: GAP, width: "100%", alignSelf: "stretch" }}>

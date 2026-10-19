@@ -626,7 +626,7 @@ function Main() {
         {tab === "hive" ? (
           <View style={{ flex: 1 }}>
           {hiveView === "garden" ? (
-            <GardenScreen s={s} now={now} onPlant={act.plant} onWater={act.water} onWaterAll={act.waterAll} onHarvest={act.harvest}
+            <GardenScreen s={s} now={now} night={night} onPlant={act.plant} onWater={act.water} onWaterAll={act.waterAll} onHarvest={act.harvest}
               onUnlockBed={act.unlockBed} onIntroDone={act.gardenIntroDone}
               onToggleDeco={(id) => act.simple((c) => toggleDeco(c, id))} onShop={() => { setLootSeg("shop"); setTab("loot"); }} />
           ) : (

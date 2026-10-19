@@ -244,7 +244,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, onTog
             <CombTile key={t.i} slot={t.i} lvl={t.lvl} x={t.x} y={t.y} s={hs} state={t.st} selected={sel === t.i}
               onPress={() => setSel(sel === t.i ? null : t.i)} />
           ))}
-          <DecorSpots s={s} place="hive" spots={HIVE_SPOTS} w={areaW} h={areaH} onToggle={onToggleDeco} onShop={onShop} />
+          <DecorSpots dark={night} s={s} place="hive" spots={HIVE_SPOTS} w={areaW} h={areaH} onToggle={onToggleDeco} onShop={onShop} />
           {flyers.map((b) => <HiveBee key={b.key} id={b.id} seed={b.seed} w={areaW} h={areaH} size={beeSize} land={b.land} cheer={cheer} on={act} level={s.beeLevels[b.id] ?? 1} skin={s.beeSkins[b.id]} />)}
         </Pressable>
       </View>

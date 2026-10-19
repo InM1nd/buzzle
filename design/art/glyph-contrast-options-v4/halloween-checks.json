@@ -1,0 +1,117 @@
+{
+  "files": [
+    {
+      "file": "halloween/cell0.png",
+      "size": [
+        720,
+        624
+      ],
+      "alpha_bbox": [
+        8,
+        14,
+        712,
+        609
+      ],
+      "sha256": "be56546eaf2e36563df545607c4f2f028999bfb1338e0382224e8d569758466e"
+    },
+    {
+      "file": "halloween/cell1.png",
+      "size": [
+        720,
+        624
+      ],
+      "alpha_bbox": [
+        8,
+        22,
+        712,
+        602
+      ],
+      "sha256": "ccb84bce99e6e29b4251910352330d1cf36b9ce29785c96a077473e6309506a7"
+    },
+    {
+      "file": "halloween/cell2.png",
+      "size": [
+        720,
+        624
+      ],
+      "alpha_bbox": [
+        8,
+        20,
+        712,
+        603
+      ],
+      "sha256": "7644292e4b94c4738b531e47f211124d97d234c79b6ebe28faf959b74d4cf714"
+    },
+    {
+      "file": "halloween/cell3.png",
+      "size": [
+        720,
+        624
+      ],
+      "alpha_bbox": [
+        8,
+        19,
+        712,
+        605
+      ],
+      "sha256": "519896aa6785954cb7ce04ff1884a5a373cee30a1bc97873e511344c06efc12d"
+    },
+    {
+      "file": "halloween/cell4.png",
+      "size": [
+        720,
+        624
+      ],
+      "alpha_bbox": [
+        8,
+        16,
+        712,
+        607
+      ],
+      "sha256": "61cab84560738b119c2d9e595bbd3810ec9a90276d40e7eae83b9ec6cf9e7c19"
+    },
+    {
+      "file": "halloween/cell_wild.png",
+      "size": [
+        720,
+        624
+      ],
+      "alpha_bbox": [
+        8,
+        16,
+        712,
+        607
+      ],
+      "sha256": "b7a597ae7a3086136358055e41e2d9b146fa051bbd5e4ace70cdefb644bb0df2"
+    },
+    {
+      "file": "halloween/bomb.png",
+      "size": [
+        512,
+        512
+      ],
+      "alpha_bbox": [
+        112,
+        72,
+        399,
+        440
+      ],
+      "sha256": "27d3e864bda2d0176e0febdbb04e6a941b149775b709897df9e6b04ecd7abc34"
+    },
+    {
+      "file": "halloween/cell_pumpkin.png",
+      "size": [
+        720,
+        624
+      ],
+      "alpha_bbox": [
+        8,
+        15,
+        712,
+        609
+      ],
+      "sha256": "d8874f9b5a9f28c40976f80882cad00c280e78034eaf89cb9951d2063960f01d"
+    }
+  ],
+  "export": "Alpha cleanup, atlas splitting, scaling/padding only; RGB not changed."
+}

@@ -1,0 +1,119 @@
+{
+  "owner_choice": "1,3,4,5,7 оставляем; 2,6 только в библиотеку",
+  "date": "2026-10-19",
+  "files": [
+    {
+      "file": "normal/cell0.png",
+      "size": [
+        720,
+        624
+      ],
+      "alpha_bbox": [
+        8,
+        11,
+        712,
+        613
+      ],
+      "sha256": "b36e691e0bd825cb5ec0b0c7134079234e3c1cd85d837d3f8470f0bd2e12e83b"
+    },
+    {
+      "file": "normal/cell1.png",
+      "size": [
+        720,
+        624
+      ],
+      "alpha_bbox": [
+        8,
+        11,
+        712,
+        613
+      ],
+      "sha256": "171a067a5288e28611e32f14b629941f8aec552d92f66b91af196a293820eb37"
+    },
+    {
+      "file": "normal/cell2.png",
+      "size": [
+        720,
+        624
+      ],
+      "alpha_bbox": [
+        8,
+        11,
+        712,
+        612
+      ],
+      "sha256": "6356e9324e32877fec2dc517e27ac43ed8828715bf9511e305a82fe3afbe785f"
+    },
+    {
+      "file": "normal/cell3.png",
+      "size": [
+        720,
+        624
+      ],
+      "alpha_bbox": [
+        8,
+        11,
+        712,
+        612
+      ],
+      "sha256": "63c9449694b2c79d440dc75ab37a69e981c841533ddae87d212431b74622d2ad"
+    },
+    {
+      "file": "normal/cell4.png",
+      "size": [
+        720,
+        624
+      ],
+      "alpha_bbox": [
+        8,
+        11,
+        712,
+        612
+      ],
+      "sha256": "0ce59f5e883f6dbf176d90b5b8fe119b49eee098172d63db04f9e32536d22fde"
+    },
+    {
+      "file": "normal/cell_wild.png",
+      "size": [
+        720,
+        624
+      ],
+      "alpha_bbox": [
+        8,
+        11,
+        712,
+        612
+      ],
+      "sha256": "5bed3b41153516f595b5333facfb47c12d12c37ba0776824b907ba9a2e1addf8"
+    },
+    {
+      "file": "normal/bomb.png",
+      "size": [
+        512,
+        512
+      ],
+      "alpha_bbox": [
+        108,
+        72,
+        404,
+        439
+      ],
+      "sha256": "9b615eabfffc576a754b638b02d43bb8b76189605ed18c548315f2da4ab3fb48"
+    },
+    {
+      "file": "normal/cell_pumpkin.png",
+      "size": [
+        720,
+        624
+      ],
+      "alpha_bbox": [
+        8,
+        11,
+        712,
+        612
+      ],
+      "sha256": "a642ccb5bcca0e272293a52d6262f5c0041a24e050f8341826424d2d4d739af8"
+    }
+  ],
+  "export_note": "Transparent registration corrected to full tile footprint; approved generated artwork unchanged."
+}

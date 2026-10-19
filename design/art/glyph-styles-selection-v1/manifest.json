@@ -1,0 +1,189 @@
+{
+  "families": [
+    {
+      "id": 1,
+      "title": "Яркие (1.5)",
+      "code": "classic",
+      "status": "В сборке",
+      "normal": [
+        "assets/art/cell0.webp",
+        "assets/art/cell1.webp",
+        "assets/art/cell2.webp",
+        "assets/art/cell3.webp",
+        "assets/art/cell4.webp",
+        "assets/art/cell_wild.webp",
+        "assets/art/bomb.webp",
+        "assets/art/halloween/cell_pumpkin.webp"
+      ],
+      "halloween": [
+        "assets/art/tiles/hbright_cell0.webp",
+        "assets/art/tiles/hbright_cell1.webp",
+        "assets/art/tiles/hbright_cell2.webp",
+        "assets/art/tiles/hbright_cell3.webp",
+        "assets/art/tiles/hbright_cell4.webp",
+        "assets/art/tiles/hbright_cell_wild.webp",
+        "assets/art/tiles/hbright_bomb.webp",
+        "assets/art/tiles/hbright_cell_pumpkin.webp"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Мягкий кристалл",
+      "code": "soft",
+      "status": "Только библиотека",
+      "normal": [
+        "design/art/glyph-library-only-v1/runtime/soft_cell0.webp",
+        "design/art/glyph-library-only-v1/runtime/soft_cell1.webp",
+        "design/art/glyph-library-only-v1/runtime/soft_cell2.webp",
+        "design/art/glyph-library-only-v1/runtime/soft_cell3.webp",
+        "design/art/glyph-library-only-v1/runtime/soft_cell4.webp",
+        "design/art/glyph-library-only-v1/runtime/soft_cell_wild.webp",
+        "design/art/glyph-library-only-v1/runtime/soft_bomb.webp",
+        "assets/art/halloween/cell_pumpkin.webp"
+      ],
+      "halloween": [
+        "design/art/glyph-library-only-v1/runtime/hsoft_cell0.webp",
+        "design/art/glyph-library-only-v1/runtime/hsoft_cell1.webp",
+        "design/art/glyph-library-only-v1/runtime/hsoft_cell2.webp",
+        "design/art/glyph-library-only-v1/runtime/hsoft_cell3.webp",
+        "design/art/glyph-library-only-v1/runtime/hsoft_cell4.webp",
+        "design/art/glyph-library-only-v1/runtime/hsoft_cell_wild.webp",
+        "design/art/glyph-library-only-v1/runtime/hsoft_bomb.webp",
+        "design/art/glyph-library-only-v1/runtime/hsoft_cell_pumpkin.webp"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Матовая пастель",
+      "code": "pastel",
+      "status": "В сборке",
+      "normal": [
+        "assets/art/tiles/pastel_cell0.webp",
+        "assets/art/tiles/pastel_cell1.webp",
+        "assets/art/tiles/pastel_cell2.webp",
+        "assets/art/tiles/pastel_cell3.webp",
+        "assets/art/tiles/pastel_cell4.webp",
+        "assets/art/tiles/pastel_cell_wild.webp",
+        "assets/art/tiles/pastel_bomb.webp",
+        "assets/art/halloween/cell_pumpkin.webp"
+      ],
+      "halloween": [
+        "assets/art/tiles/hpastel_cell0.webp",
+        "assets/art/tiles/hpastel_cell1.webp",
+        "assets/art/tiles/hpastel_cell2.webp",
+        "assets/art/tiles/hpastel_cell3.webp",
+        "assets/art/tiles/hpastel_cell4.webp",
+        "assets/art/tiles/hpastel_cell_wild.webp",
+        "assets/art/tiles/hpastel_bomb.webp",
+        "assets/art/tiles/hpastel_cell_pumpkin.webp"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Тёплый воск",
+      "code": "wax",
+      "status": "В сборке",
+      "normal": [
+        "assets/art/tiles/wax_cell0.webp",
+        "assets/art/tiles/wax_cell1.webp",
+        "assets/art/tiles/wax_cell2.webp",
+        "assets/art/tiles/wax_cell3.webp",
+        "assets/art/tiles/wax_cell4.webp",
+        "assets/art/tiles/wax_cell_wild.webp",
+        "assets/art/tiles/wax_bomb.webp",
+        "assets/art/halloween/cell_pumpkin.webp"
+      ],
+      "halloween": [
+        "assets/art/tiles/hwax_cell0.webp",
+        "assets/art/tiles/hwax_cell1.webp",
+        "assets/art/tiles/hwax_cell2.webp",
+        "assets/art/tiles/hwax_cell3.webp",
+        "assets/art/tiles/hwax_cell4.webp",
+        "assets/art/tiles/hwax_cell_wild.webp",
+        "assets/art/tiles/hwax_bomb.webp",
+        "assets/art/tiles/hwax_cell_pumpkin.webp"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Медовый · мягче",
+      "code": "balanced",
+      "status": "В сборке · v2",
+      "normal": [
+        "assets/art/tiles/balanced_cell0.webp",
+        "assets/art/tiles/balanced_cell1.webp",
+        "assets/art/tiles/balanced_cell2.webp",
+        "assets/art/tiles/balanced_cell3.webp",
+        "assets/art/tiles/balanced_cell4.webp",
+        "assets/art/tiles/balanced_cell_wild.webp",
+        "assets/art/tiles/balanced_bomb.webp",
+        "assets/art/tiles/balanced_cell_pumpkin.webp"
+      ],
+      "halloween": [
+        "assets/art/tiles/hbalanced_cell0.webp",
+        "assets/art/tiles/hbalanced_cell1.webp",
+        "assets/art/tiles/hbalanced_cell2.webp",
+        "assets/art/tiles/hbalanced_cell3.webp",
+        "assets/art/tiles/hbalanced_cell4.webp",
+        "assets/art/tiles/hbalanced_cell_wild.webp",
+        "assets/art/tiles/hbalanced_bomb.webp",
+        "assets/art/tiles/hbalanced_cell_pumpkin.webp"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Медовый · грани",
+      "code": "faceted",
+      "status": "Только библиотека · v3",
+      "normal": [
+        "design/art/glyph-library-only-v1/runtime/faceted_cell0.webp",
+        "design/art/glyph-library-only-v1/runtime/faceted_cell1.webp",
+        "design/art/glyph-library-only-v1/runtime/faceted_cell2.webp",
+        "design/art/glyph-library-only-v1/runtime/faceted_cell3.webp",
+        "design/art/glyph-library-only-v1/runtime/faceted_cell4.webp",
+        "design/art/glyph-library-only-v1/runtime/faceted_cell_wild.webp",
+        "design/art/glyph-library-only-v1/runtime/faceted_bomb.webp",
+        "design/art/glyph-library-only-v1/runtime/faceted_cell_pumpkin.webp"
+      ],
+      "halloween": [
+        "design/art/glyph-library-only-v1/runtime/hfaceted_cell0.webp",
+        "design/art/glyph-library-only-v1/runtime/hfaceted_cell1.webp",
+        "design/art/glyph-library-only-v1/runtime/hfaceted_cell2.webp",
+        "design/art/glyph-library-only-v1/runtime/hfaceted_cell3.webp",
+        "design/art/glyph-library-only-v1/runtime/hfaceted_cell4.webp",
+        "design/art/glyph-library-only-v1/runtime/hfaceted_cell_wild.webp",
+        "design/art/glyph-library-only-v1/runtime/hfaceted_bomb.webp",
+        "design/art/glyph-library-only-v1/runtime/hfaceted_cell_pumpkin.webp"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Яркие · спокойнее",
+      "code": "mellow",
+      "status": "В сборке · v4",
+      "normal": [
+        "assets/art/tiles/mellow_cell0.webp",
+        "assets/art/tiles/mellow_cell1.webp",
+        "assets/art/tiles/mellow_cell2.webp",
+        "assets/art/tiles/mellow_cell3.webp",
+        "assets/art/tiles/mellow_cell4.webp",
+        "assets/art/tiles/mellow_cell_wild.webp",
+        "assets/art/tiles/mellow_bomb.webp",
+        "assets/art/tiles/mellow_cell_pumpkin.webp"
+      ],
+      "halloween": [
+        "assets/art/tiles/hmellow_cell0.webp",
+        "assets/art/tiles/hmellow_cell1.webp",
+        "assets/art/tiles/hmellow_cell2.webp",
+        "assets/art/tiles/hmellow_cell3.webp",
+        "assets/art/tiles/hmellow_cell4.webp",
+        "assets/art/tiles/hmellow_cell_wild.webp",
+        "assets/art/tiles/hmellow_bomb.webp",
+        "assets/art/tiles/hmellow_cell_pumpkin.webp"
+      ]
+    }
+  ],
+  "family_count": 7,
+  "set_count": 14,
+  "note": "Comparison uses latest runtime exports for connected styles and PNG sources for library-only v4. Only alpha-cropping, scale and layout; no RGB changes."
+}

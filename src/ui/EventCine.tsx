@@ -21,21 +21,24 @@ const FX = {
 export const CINE = { in: 2600, out: 1600, reduced: 450, fade: 0.8 };
 export const cineMs = (dir: "in" | "out", reduced: boolean) => (reduced ? CINE.reduced : dir === "in" ? CINE.in : CINE.out);
 
-/** the system "reduce motion" switch, read once and followed (no per-transition wait) */
+/** the system "reduce motion" switch, read once at launch and followed; null until known (at most 300 ms) */
 export function useReduceMotion() {
-  const [r, setR] = useState(false);
+  const [r, setR] = useState<boolean | null>(null);
   useEffect(() => {
     let alive = true;
-    AccessibilityInfo.isReduceMotionEnabled?.().then((v) => { if (alive) setR(!!v); }).catch(() => {});
+    AccessibilityInfo.isReduceMotionEnabled?.().then((v) => { if (alive) setR(!!v); }).catch(() => { if (alive) setR(false); });
+    const t = setTimeout(() => { if (alive) setR((v) => v ?? false); }, 300);
     const sub = AccessibilityInfo.addEventListener?.("reduceMotionChanged", (v: boolean) => setR(!!v));
-    return () => { alive = false; sub?.remove?.(); };
+    return () => { alive = false; clearTimeout(t); sub?.remove?.(); };
   }, []);
   return r;
 }
 
-/** opacity of the old interface layer while `p` runs */
-export const oldLayerOpacity = (p: Animated.Value, reduced: boolean) =>
-  p.interpolate({ inputRange: [0, reduced ? 1 : CINE.fade], outputRange: [1, 0], extrapolate: "clamp", easing: Easing.inOut(Easing.quad) });
+/** opacity of the old interface layer while `p` runs: ease-in-out baked into stops (the native driver has no `easing`) */
+export const oldLayerOpacity = (p: Animated.Value, reduced: boolean) => {
+  const end = reduced ? 1 : CINE.fade;
+  return p.interpolate({ inputRange: [0, 0.25, 0.5, 0.75, 1].map((x) => x * end), outputRange: [1, 0.875, 0.5, 0.125, 0], extrapolate: "clamp" });
+};
 
 interface Props { dir: "in" | "out"; reduced: boolean; p: Animated.Value; onDone: () => void }
 export function EventCine({ dir, reduced, p, onDone }: Props) {

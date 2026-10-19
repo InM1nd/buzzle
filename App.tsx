@@ -115,7 +115,7 @@ function Main() {
   const lastCine = useRef(0);
   const cineP = useRef(new Animated.Value(0)).current;
   const reduced = useReduceMotion();
-  const oldOpacity = useMemo(() => oldLayerOpacity(cineP, reduced), [cineP, reduced]);
+  const oldOpacity = useMemo(() => oldLayerOpacity(cineP, !!reduced), [cineP, reduced]);
   const [notifBlocked, setNotifBlocked] = useState(false);
   const [hold, setHold] = useState<{ honey?: number; jelly?: number; nectar?: number }>({});
   const [bump, setBump] = useState({ honey: 0, jelly: 0, nectar: 0 });
@@ -126,6 +126,8 @@ function Main() {
   const honeyIcon = useRef<View | null>(null);
   const jellyIcon = useRef<View | null>(null);
   const nectarIcon = useRef<View | null>(null);
+  // the Pills report their icon views; a null (unmount) is ignored, or the frozen layer of the night-falls transition would
+  // clear the live icon when it goes away, after the new layer has set it
   const pendingFly = useRef<Reward | null>(null);
   const updater = useUpdater(s?.settings.autoUpdate ?? false, !!s);
 
@@ -524,7 +526,7 @@ function Main() {
 
   // night-falls transition: starts once nothing else is on screen (tutorial, popups, settings, a round or a flight)
   const dueNow = s ? eventCineDue(s, now) : null;
-  const cineReady = !!s && !cine && !!dueNow && s.settings.langPicked && s.settings.tutorialDone && !showTutorial && !showWhatsNew && !showLogin
+  const cineReady = !!s && !cine && !!dueNow && reduced !== null && s.settings.langPicked && s.settings.tutorialDone && !showTutorial && !showWhatsNew && !showLogin
     && !showSettings && !boxOpen && !game && !flight;
   useEffect(() => {
     if (cineReady && dueNow) setCine({ dir: dueNow, key: Date.now(), look: dueNow === "out", phase: "prep" });
@@ -661,9 +663,9 @@ function Main() {
       <View style={[styles.top, { paddingTop: insets.top + 8 }]} onLayout={(e) => setTopH(Math.round(e.nativeEvent.layout.height))} pointerEvents="box-none">
         <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }} pointerEvents="box-none">
           <View style={styles.cur}>
-            <Pill icon={ART.honey} value={hold.honey ?? s.honey} bump={bump.honey} label={t("c.honey")} onLayoutIcon={(r) => { honeyIcon.current = r; }} />
-            <Pill icon={ART.nectar} value={hold.nectar ?? s.nectar} bump={bump.nectar} label={t("c.nectar")} color={K.fg("#B03A68")} onLayoutIcon={(r) => { nectarIcon.current = r; }} />
-            <Pill icon={ART.jelly} value={hold.jelly ?? s.jelly} bump={bump.jelly} label={t("c.jelly")} color={K.fg("#7B52C2")} onLayoutIcon={(r) => { jellyIcon.current = r; }} />
+            <Pill icon={ART.honey} value={hold.honey ?? s.honey} bump={bump.honey} label={t("c.honey")} onLayoutIcon={(r) => { if (r) honeyIcon.current = r; }} />
+            <Pill icon={ART.nectar} value={hold.nectar ?? s.nectar} bump={bump.nectar} label={t("c.nectar")} color={K.fg("#B03A68")} onLayoutIcon={(r) => { if (r) nectarIcon.current = r; }} />
+            <Pill icon={ART.jelly} value={hold.jelly ?? s.jelly} bump={bump.jelly} label={t("c.jelly")} color={K.fg("#7B52C2")} onLayoutIcon={(r) => { if (r) jellyIcon.current = r; }} />
             <Pill icon={ART.pollen} value={s.loot.pollen} label={t("c.pollen")} color={K.fg("#B07A10")} />
             <Pill icon={ART.fragment} value={s.loot.fragments} label={t("c.fragments")} color={K.fg("#5B5FC7")} />
           </View>
@@ -756,7 +758,7 @@ function Main() {
         <Animated.View key={old.key} pointerEvents="none" renderToHardwareTextureAndroid shouldRasterizeIOS
           style={[StyleSheet.absoluteFill, { opacity: oldOpacity }]}>{old.el}</Animated.View>
       ) : null}
-      {cine?.phase === "run" ? <EventCine key={cine.key} dir={cine.dir} reduced={reduced} p={cineP} onDone={() => setCine(null)} /> : null}
+      {cine?.phase === "run" ? <EventCine key={cine.key} dir={cine.dir} reduced={!!reduced} p={cineP} onDone={() => setCine(null)} /> : null}
     </View>
   );
 }

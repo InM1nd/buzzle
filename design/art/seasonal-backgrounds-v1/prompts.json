@@ -1,0 +1,25 @@
+[
+  {
+    "name": "garden_bg_autumn",
+    "tool": "built-in image_gen",
+    "transparent_background": false,
+    "referenced_image_paths": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/env/garden_bg.webp",
+      "/Users/oleksandrzabolotnyi/buzzle/design/2d/halloween/env/garden_bg_night_v2.png",
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/halloween/puzzle_autumn.webp"
+    ],
+    "prompt": "Use case: lighting-weather / stylized-concept. Create ONE portrait mobile game background named garden_bg_autumn, aspect940x1672 (9:16). Buzzle cozy low-poly 3D Honey Crystal art with broad irregular polygon facets, soft warm daylight. Reference1 is the summer GARDEN camera/composition, reference2 foliage quality and border arrangement ONLY (NOT night palette), reference3 daytime AUTUMN palette. A beautiful peaceful AUTUMN GARDEN CLEARING viewed from slightly oblique overhead, no horizon. The middle is one large EMPTY calm softly faceted sandy honey/sage-ochre earth area, ~70% width and80% height, suitable for game-drawn beds and plants. Frame only the outer margins with golden amber and burnt-orange maple bushes, a few muted olive-green leaves, pale warm beige/lavender-gray faceted small stones, scattered flat autumn leaves and one or two natural uncarved pumpkins down in the corners. Main foliage in lower corners and upper edge; sparse small side leaves; no border sticking far into the middle. Soft golden sunlight from upper-left, soft local shadows, moderate contrast, inviting and gently luminous, not glaring or bleached. This is a day/autumn BASE garden, not Halloween: NO night, candles, lanterns, moon, cobwebs or carved jack-o-lantern faces, no spooky details. No honeycomb grid, no pots, no garden beds, no flowers planted in the center, no bees or characters or UI/text. No path/river dividing the center, no central bright sunbeam. Entire opaque edge-to-edge illustration, NO transparency, no frames or captions. Preserve the cozy dimensional handcrafted large facets of reference art.",
+    "generated_source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-b5179d13-2e8d-42c7-b3b3-f711662d3d48.png"
+  },
+  {
+    "name": "puzzle_default",
+    "tool": "built-in image_gen",
+    "transparent_background": false,
+    "referenced_image_paths": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/halloween/puzzle_autumn.webp",
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/env/garden_bg.webp"
+    ],
+    "prompt": "Use case: stylized-concept / lighting-weather. ONE portrait mobile game background puzzle_default, aspect940x1672 (9:16), summer/default sibling to reference1 AUTUMN PUZZLE background. Preserve its compositional logic, scale, front-overhead camera and large-faceted low-poly3D Honey Crystal material, but make it a warm peaceful SUMMER honey meadow. A very broad empty calm central ground in muted light warm cream/sage tones with very subtle large polygon facets, ~70% of width and80% height completely free, where code will put a colorful hexagonal game board and HUD. At extreme edges only: small fresh leafy green clover/mint foliage, a few tiny white-and-yellow daisies, warm pale faceted stones, a modest little honeycomb wax cluster at bottom-left corner and upper-right edge (same scale as honeycomb edging in reference1), a few small honey-yellow blossoms at bottom corners. Soft warm upper-left morning sun, gentle local shadows, comfortable moderate brightness, quiet restrained background with enough depth in border objects. Keep border decoration low and outside central area so it never competes with colored game glyphs. Only a few small flowers, NOT dense flower carpet, no big prominent sunflower or bee. NO Halloween, pumpkins, autumn red leaves, candles, moon, webs, sparkles or night colors. NO drawn hex tiles, puzzle grid, board, panels, UI, text or letters. No central flower, winding path, stream or sun flare. Full-bleed opaque landscape on portrait canvas, no transparency, no border stroke. Match reference1 rendering quality and Buzzle world, summer version of the same puzzle stage.",
+    "generated_source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-fee146a8-4088-426f-89bc-12bca1fd104e.png"
+  }
+]

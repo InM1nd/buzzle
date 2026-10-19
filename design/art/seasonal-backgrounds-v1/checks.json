@@ -1,0 +1,42 @@
+[
+  {
+    "file": "garden_bg_autumn.png",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "bytes": 1547474,
+    "sha256": "ad4b2de258bb5018d6563519b8a46577bc67392846aa1bb88d189dee454a1772"
+  },
+  {
+    "file": "garden_bg_autumn.webp",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "bytes": 190060,
+    "sha256": "051400482777b48e4fe1dcd434a4946c78f334a357a0f9ea07b551e7a9d53e0c"
+  },
+  {
+    "file": "puzzle_default.png",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "bytes": 1580780,
+    "sha256": "efc4b60709288ab3be854758feb7fc551295931598a5d544513b910602ceb505"
+  },
+  {
+    "file": "puzzle_default.webp",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "bytes": 188944,
+    "sha256": "2f8818f8839870c74e1d364383fae9c7d0f3b82de53afd02eddd9df3edb96b42"
+  }
+]

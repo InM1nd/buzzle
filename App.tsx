@@ -51,6 +51,7 @@ import { Lang, setLang } from "./src/i18n";
 import { chooseLanguage, setSetting, Settings } from "./src/logic/game";
 import { compareVersions } from "./src/logic/update";
 import { activeEvent, devForce, forceEvent, PUMPKIN_CHANCE } from "./src/logic/event";
+import { clockPaused } from "./src/logic/clock";
 import { CINE, EventCine, oldLayerOpacity, useReduceMotion } from "./src/ui/EventCine";
 import { IntroVideo } from "./src/ui/IntroVideo";
 import { INTRO_BG } from "./src/ui/introVideoShared";
@@ -114,6 +115,8 @@ function Main() {
    *  may have to switch back to it first), "run" keeps that rendered interface (`from`) frozen on top and fades it out over
    *  the new one */
   const [cine, setCine] = useState<{ dir: "in" | "out"; key: number; look: boolean; replay?: boolean; phase: "video" | "prep" | "run"; from?: Layer; vid?: boolean } | null>(null);
+  const busy = useRef({ cine: false, flight: false });
+  busy.current = { cine: !!cine, flight: !!flight };
   /** the intro clip failed once (codec, autoplay): later runs go straight to the transition */
   const videoFailed = useRef(false);
   /** the night falls with the intro clip first: "in", motion allowed, the clip has not failed */
@@ -174,6 +177,7 @@ function Main() {
   // ----- clock -----
   useEffect(() => {
     const id = setInterval(() => {
+      if (clockPaused(busy.current)) return; // full-screen animation: no app-wide re-render (tick catches up after)
       const t = Date.now();
       setNow(t);
       const cur = sRef.current;

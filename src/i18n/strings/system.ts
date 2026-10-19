@@ -62,7 +62,7 @@ export const system = {
   "st.gGame": { en: "GAME", uk: "ГРА", ru: "ИГРА" },
   "st.language": { en: "Language", uk: "Мова", ru: "Язык" },
   "st.sound": { en: "Sound", uk: "Звук", ru: "Звук" },
-  "st.soundSub": { en: "Sounds are coming soon — the switch is ready", uk: "Звуки ще в дорозі — перемикач уже готовий", ru: "Звуки скоро появятся — переключатель уже готов" },
+  "st.soundSub": { en: "Sound in the intro clip; more sounds are coming", uk: "Звук у вступному ролику; інші звуки ще в дорозі", ru: "Звук во вступительном ролике; остальные звуки скоро" },
   "st.vibration": { en: "Vibration", uk: "Вібрація", ru: "Вибрация" },
   "st.vibrationSub": { en: "A gentle buzz when you touch the combs", uk: "Легкий відгук при дотику до сот", ru: "Отклик при касании сот" },
   "st.gNotif": { en: "REMINDERS", uk: "НАГАДУВАННЯ", ru: "НАПОМИНАНИЯ" },

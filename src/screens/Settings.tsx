@@ -380,7 +380,7 @@ function About() {
         <LinkRow title={t("ab.github")} onPress={() => Linking.openURL(GITHUB_URL).catch(() => {})} />
         <LinkRow title={t("ab.privacy")} onPress={() => Linking.openURL(PRIVACY_URL).catch(() => {})} last />
       </Group>
-      <Group title={t("ab.credits").toUpperCase()}>
+      <Group title={t("ab.credits")}>
         <Txt v="small" color={C.dim} style={{ lineHeight: 19 }}>{t("ab.creditsText")}</Txt>
       </Group>
     </View>
@@ -391,7 +391,8 @@ function About() {
 function Group({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
     <View>
-      {title ? <Txt v="tiny" color={C.dim} style={{ marginLeft: 6, marginBottom: 4 }}>{title}</Txt> : null}
+      {/* one header style for every group: small caps-like capitals, letter-spaced */}
+      {title ? <Txt v="tiny" color={C.dim} style={[F.xbold, { marginLeft: 6, marginBottom: 4, letterSpacing: 0.6 }]}>{title.toLocaleUpperCase()}</Txt> : null}
       <View style={styles.group}>{children}</View>
     </View>
   );

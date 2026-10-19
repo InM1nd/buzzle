@@ -1,5 +1,5 @@
 /** v1.6 seasonal event card (Play and Tasks tabs) with the reward track window. */
-import React, { useEffect, useRef, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import { Animated, Easing, Image, ImageSourcePropType, StyleSheet, View } from "react-native";
 import { t, tx } from "../i18n";
 import { claimable, TRACK, TrackReward } from "../logic/event";
@@ -12,6 +12,9 @@ import { Bar, Bobbing, CloseBtn, GameButton, Overlay, Txt } from "../ui/componen
 import { centerOf, Pt } from "../ui/Fly";
 import { boxArt, ItemIcon } from "../ui/lootUi";
 import { shadow, K, themed } from "../ui/theme";
+
+/** false while the night-falls transition is due or running: the event UI appears only once the interface is in the event look */
+export const EventUi = createContext(true);
 
 const NIGHT = { bg: "#2B1B3D", card: "#3A2F5B", pumpkin: "#F08A24", candle: "#FFC56B", ghost: "#BFF5E6" };
 
@@ -26,8 +29,9 @@ function rewardLook(r: TrackReward): { icon: ImageSourcePropType | null; skin?: 
 export function EventCard({ s, now, onClaim }: { s: GameState; now: number; onClaim: (from: Pt | null) => void }) {
   const [open, setOpen] = useState(false);
   const btn = useRef<View>(null);
+  const shown = useContext(EventUi);
   const v = eventView(s, now);
-  if (!v) return null;
+  if (!shown || !v) return null;
   const e = v.progress;
   const next = TRACK[e.claimed];
   const ready = claimable(e);
@@ -116,9 +120,10 @@ export function TrickBanner({ s, now, onTreat }: { s: GameState; now: number; on
   const g = trickGuest(s, now);
   const [guest, setGuest] = useState<{ bee: string; skin: string } | null>(null);
   const [visit, setVisit] = useState(0);
+  const shown = useContext(EventUi);
   return (
     <>
-      {g ? (
+      {g && shown ? (
         <View style={[styles.trick, shadow]}>
           {/* the guest knocks at the night hive door */}
           <View style={{ width: 92, height: 92 }}>

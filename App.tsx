@@ -1,6 +1,6 @@
 import { t } from "./src/i18n";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { AppState, Dimensions, Image, Linking, Platform, StyleSheet, Text, View } from "react-native";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Animated, AppState, Dimensions, Image, Linking, Platform, StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -51,7 +51,8 @@ import { Lang, setLang } from "./src/i18n";
 import { chooseLanguage, setSetting, Settings } from "./src/logic/game";
 import { compareVersions } from "./src/logic/update";
 import { activeEvent, devForce, forceEvent, PUMPKIN_CHANCE } from "./src/logic/event";
-import { EventCine } from "./src/ui/EventCine";
+import { EventCine, oldLayerOpacity, useReduceMotion } from "./src/ui/EventCine";
+import { EventUi } from "./src/screens/EventTrack";
 import { claimTrackStep, finishFlight, flightRunsToday, treatGuest } from "./src/logic/game";
 import { EventIntro, JackCarved, TrickBanner } from "./src/screens/EventTrack";
 import { FLIGHT_PAID_RUNS } from "./src/logic/nightFlight";
@@ -106,8 +107,15 @@ function Main() {
   const [topH, setTopH] = useState(0);
   const [settingsPage, setSettingsPage] = useState<"main" | "update">("main");
   const [showWhatsNew, setShowWhatsNew] = useState(false);
-  /** night-falls transition: dir, and `look` = whether the event look is shown right now (flips under the cover) */
-  const [cine, setCine] = useState<{ dir: "in" | "out"; key: number; look: boolean; replay?: boolean } | null>(null);
+  /** night-falls transition: dir, `look` = whether the event look is shown right now. "prep" renders the old look (a replay
+   *  may have to switch back to it first), "run" keeps that rendered interface (`from`) frozen on top and fades it out over
+   *  the new one */
+  const [cine, setCine] = useState<{ dir: "in" | "out"; key: number; look: boolean; replay?: boolean; phase: "prep" | "run"; from?: Layer } | null>(null);
+  const live = useRef<Layer | null>(null);
+  const lastCine = useRef(0);
+  const cineP = useRef(new Animated.Value(0)).current;
+  const reduced = useReduceMotion();
+  const oldOpacity = useMemo(() => oldLayerOpacity(cineP, reduced), [cineP, reduced]);
   const [notifBlocked, setNotifBlocked] = useState(false);
   const [hold, setHold] = useState<{ honey?: number; jelly?: number; nectar?: number }>({});
   const [bump, setBump] = useState({ honey: 0, jelly: 0, nectar: 0 });
@@ -519,12 +527,18 @@ function Main() {
   const cineReady = !!s && !cine && !!dueNow && s.settings.langPicked && s.settings.tutorialDone && !showTutorial && !showWhatsNew && !showLogin
     && !showSettings && !boxOpen && !game && !flight;
   useEffect(() => {
-    if (cineReady && dueNow) setCine({ dir: dueNow, key: Date.now(), look: dueNow === "out" });
+    if (cineReady && dueNow) setCine({ dir: dueNow, key: Date.now(), look: dueNow === "out", phase: "prep" });
   }, [cineReady, dueNow]);
+  // the old look has been committed: freeze it and switch to the new look underneath
+  useEffect(() => {
+    if (cine?.phase !== "prep" || !live.current) return;
+    setCine({ ...cine, phase: "run", look: cine.dir === "in", from: live.current });
+    if (!cine.replay) act.simple((c) => eventCineSeen(c, Date.now()));
+  }, [cine]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!s) return <View style={{ flex: 1, backgroundColor: C.bg }} />;
 
-  // event look: follows the calendar, except that a due transition keeps the old look until its overlay covers the screen
+  // event look: follows the calendar, except that a due transition keeps the old look until it starts
   const day = todayOf(s, now);
   const eventOn = !!activeEvent(day);
   const cineDue = eventCineDue(s, now);
@@ -580,12 +594,14 @@ function Main() {
   const tasksReady = taskBadge(s);
   const showNotifPrompt = NOTIFICATIONS_SUPPORTED && !s.settings.notifications && !s.settings.notifPromptDismissed && s.stats.rounds >= 1;
   const night = look;
+  // event UI (trick-or-treat banner, event card, Night Flight, event rules) only once the transition is over
+  const eventUi = look && !cine && cineDue !== "in";
   const view = tab === "hive" && hiveView === "garden" ? "garden" : "hive";
   const gardenBadge = s.garden.beds.some((b) => isReady(b) || (canWater(b) && b.water <= 0));
 
-  return (
-    <View style={{ flex: 1 }}>
-    <View key={`${s.settings.lang}-${seasonalTiles(s.settings.tiles, night)}-${themeKey}`} style={{ flex: 1, backgroundColor: C.bg }}>
+  const main = (
+    <View style={{ flex: 1, backgroundColor: C.bg }}>
+      <EventUi.Provider value={eventUi}>
       <StatusBar style={night && tab === "hive" ? "light" : "dark"} />
       {tab === "hive" ? (
         <SceneBg source={sceneBg(view, day, night)} />
@@ -698,7 +714,7 @@ function Main() {
         updater={updater}
         onSet={act.setSetting}
         dev={DEV}
-        onReplayCine={() => { setShowSettings(false); setTimeout(() => setCine({ dir: eventOn ? "in" : "out", key: Date.now(), look: !eventOn, replay: true }), 350); }}
+        onReplayCine={() => { setShowSettings(false); setTimeout(() => setCine({ dir: eventOn ? "in" : "out", key: Date.now(), look: !eventOn, replay: true, phase: "prep" }), 350); }}
         onLang={act.lang}
         onNotifications={act.notifications}
         onTutorial={() => { setShowSettings(false); setTimeout(() => setShowTutorial(true), 250); }}
@@ -722,19 +738,29 @@ function Main() {
         <BoxOpen key={boxOpen} kind={boxOpen} left={s.loot.boxes[boxOpen]} bees={s.bees} skins={s.beeSkins}
           onOpen={() => act.openBox(boxOpen)} onOpenAll={() => act.openAll(boxOpen)} onClose={() => setBoxOpen(null)} />
       ) : null}
+      </EventUi.Provider>
     </View>
-    {/* outside the keyed root: it must survive the remount it hides */}
-    {cine ? (
-      <EventCine key={cine.key} dir={cine.dir} source={sceneBg(view, day, cine.dir === "in")}
-        onCover={() => {
-          setCine((c) => (c ? { ...c, look: c.dir === "in" } : c));
-          if (!cine.replay) act.simple((c) => eventCineSeen(c, Date.now()));
-        }}
-        onDone={() => setCine(null)} />
-    ) : null}
+  );
+  // the root remounts on a language / tile set / theme change; a running transition always gets a fresh one, so even with
+  // the classic theme (same key) the old backdrops stay on the frozen layer and crossfade
+  const liveKey = `${s.settings.lang}-${seasonalTiles(s.settings.tiles, night)}-${themeKey}-${cine?.phase === "run" ? cine.key : lastCine.current}`;
+  if (cine?.phase === "run") lastCine.current = cine.key;
+  live.current = { key: liveKey, el: main };
+  const old = cine?.phase === "run" && cine.from && cine.from.key !== liveKey ? cine.from : null;
+  return (
+    <View style={{ flex: 1 }}>
+      {/* layers are keyed siblings of one parent and the same component, so the old one keeps its views when it becomes the
+          frozen top layer (the same element object: React does not re-render it with the new theme) */}
+      <Animated.View key={liveKey} style={StyleSheet.absoluteFill}>{main}</Animated.View>
+      {old ? (
+        <Animated.View key={old.key} pointerEvents="none" renderToHardwareTextureAndroid shouldRasterizeIOS
+          style={[StyleSheet.absoluteFill, { opacity: oldOpacity }]}>{old.el}</Animated.View>
+      ) : null}
+      {cine?.phase === "run" ? <EventCine key={cine.key} dir={cine.dir} reduced={reduced} p={cineP} onDone={() => setCine(null)} /> : null}
     </View>
   );
 }
+type Layer = { key: string; el: React.ReactElement };
 
 function taskBadge(s: GameState) {
   const ts = currentTasks(s);

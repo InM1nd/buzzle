@@ -15,7 +15,7 @@ import { Bobbing, Card, CloseBtn, fmt, GameButton, Glow, Overlay, Press, Stars, 
 import { dateLong, days, weekday } from "../ui/format";
 import { activeEvent } from "../logic/event";
 import { Pt } from "../ui/Fly";
-import { EventCard } from "./EventTrack";
+import { EventCard, EventUi } from "./EventTrack";
 
 interface Props { s: GameState; now: number; onPlay: (mode: RoundMode, boosters?: RoundBoosters) => void; onBuyBooster: (b: BoosterId) => boolean; onClaimTrack: (from: Pt | null) => void; onFlight: () => void }
 
@@ -42,7 +42,7 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
   const b = boosts(s);
   const date = new Date(now);
   const chips: string[] = [];
-  const halloween = !!activeEvent(d);
+  const halloween = !!activeEvent(d) && React.useContext(EventUi);
   if (halloween) chips.push(t("ev.chip"));
   if (freeMoves(s) > 20) chips.push(t("pz.chipMoves", { n: freeMoves(s) - 20 }));
   b.colorMult.forEach((m, i) => { if (m > 1) chips.push(t("pz.chipColor", { color: colorName(i), x: Math.round(m * 100) / 100 })); });

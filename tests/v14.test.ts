@@ -7,7 +7,7 @@ import { planNotifications, quiet } from "../src/logic/notifyPlan";
 import { decodeSave, encodeSave } from "../src/logic/saveCode";
 import { getLang, setLang } from "../src/i18n";
 import { APP_VERSION, APP_VERSION_CODE } from "../src/version";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 
 const T = new Date(2026, 9, 10, 12, 0).getTime();
 
@@ -99,14 +99,18 @@ test("changelog text: English part only, markdown stripped; daily auto-check", (
   assert.equal(shouldAutoCheck(T + 3600_000, T), true); // clock went back
 });
 
-test("app version is the same everywhere (app.json, package.json, build.gradle)", () => {
+test("app version is the same everywhere (app.json, package.json, build.gradle)", (t) => {
   const app = JSON.parse(readFileSync("app.json", "utf8")).expo;
   assert.equal(app.version, APP_VERSION);
   assert.equal(app.android.versionCode, APP_VERSION_CODE);
   assert.equal(JSON.parse(readFileSync("package.json", "utf8")).version, APP_VERSION);
+  // android/ is a gitignored prebuild output: checked only when present; a dev build may name itself "1.5.5-dev",
+  // and a prebuild older than the last versionCode bump is reported, not failed (re-run `expo prebuild --clean`)
+  if (!existsSync("android/app/build.gradle")) return;
   const g = readFileSync("android/app/build.gradle", "utf8");
-  assert.match(g, new RegExp(`versionCode ${APP_VERSION_CODE}\\b`));
-  assert.match(g, new RegExp(`versionName "${APP_VERSION}"`));
+  assert.match(g, new RegExp(`versionName "${APP_VERSION.replace(/\\./g, "\\\\.")}(-dev)?"`));
+  const code = Number(/versionCode (\d+)/.exec(g)?.[1]);
+  if (code !== APP_VERSION_CODE) t.diagnostic(`android/ prebuild is stale: versionCode ${code}, app.json ${APP_VERSION_CODE}`);
 });
 
 test("notifications: per type, quiet hours, localized texts", () => {

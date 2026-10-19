@@ -69,14 +69,15 @@ export const DEFAULT_BG: Record<SceneView, number> = {
   puzzle: require("../../assets/art/env/puzzle_default.webp"),
 };
 export const SEASON_BG: Record<Season, Partial<Record<SceneView, number>>> = {
+  // winter / spring: no art yet, the default (summer) backdrops are shown; needed assets: design/SEASONS.ru.md
   spring: {},
-  summer: {},
+  summer: {}, // = the defaults
   autumn: {
     hive: require("../../assets/art/halloween/hive_bg_autumn.webp"),
     garden: require("../../assets/art/env/garden_bg_autumn.webp"),
     puzzle: require("../../assets/art/halloween/puzzle_autumn.webp"),
   },
-  winter: {},
+  winter: {}, // see spring
 };
 export const EVENT_BG: Record<SceneView, number> = { hive: ART.hiveNight, garden: ART.gardenNight, puzzle: ART.puzzleNight };
 /** the backdrop for a view on that game day; `event` = the event look is shown (see App: it lags the calendar during the transition) */

@@ -73,6 +73,13 @@ export function GameButton(p: {
   const depth = p.small ? 4 : 6;
   const h = p.small ? 42 : 56;
   const to = (v: number) => Animated.timing(y, { toValue: v, duration: 70, useNativeDriver: true }).start();
+  // narrow buttons: the label wraps onto two lines and the font shrinks until its longest word fits on one line
+  // (estimated from the width, ~0.64 em per glyph of Nunito Black, so it also works on web where adjustsFontSizeToFit is ignored)
+  const [w, setW] = useState(0);
+  const base = p.small ? 15 : 18;
+  const room = w - 2 * (p.small ? 10 : 12) - 4 - (p.icon ? (p.small ? 28 : 34) : 0);
+  const longest = Math.max(...p.title.split(/\s+/).map((x) => x.length));
+  const fs = w ? Math.max(11, Math.min(base, room / (longest * 0.64), (2 * room) / (p.title.length * 0.64))) : base;
   return (
     <Pressable
       accessibilityRole="button"
@@ -85,15 +92,18 @@ export function GameButton(p: {
     >
       <View style={[StyleSheet.absoluteFill, { top: depth, borderRadius: h / 2.4, backgroundColor: c.depth }]} />
       <Animated.View
+        onLayout={(e) => setW(Math.round(e.nativeEvent.layout.width))}
         style={{
           height: h, borderRadius: h / 2.4, backgroundColor: c.face, alignItems: "center", justifyContent: "center",
           ...(c.edge ? { borderWidth: 1.5, borderColor: c.edge } : null),
-          flexDirection: "row", gap: 8, paddingHorizontal: 16, transform: [{ translateY: y }],
+          flexDirection: "row", gap: 8, paddingHorizontal: p.small ? 10 : 12, transform: [{ translateY: y }],
         }}
       >
         {p.icon ? <Image source={p.icon} style={{ width: p.small ? 20 : 26, height: p.small ? 20 : 26 }} /> : null}
-        <View style={{ alignItems: "center" }}>
-          <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8} style={[F.black, { color: c.text, fontSize: p.small ? 15 : 18, lineHeight: p.small ? 19 : 22, flexShrink: 1 }]}>{p.title}</Text>
+        {/* a long label on a narrow button wraps onto a second line (and shrinks on native) instead of running over the edge */}
+        <View style={{ alignItems: "center", flexShrink: 1 }}>
+          <Text numberOfLines={p.sub ? 1 : 2} adjustsFontSizeToFit minimumFontScale={0.75}
+            style={[F.black, { color: c.text, fontSize: fs, lineHeight: Math.round(fs * 1.22), flexShrink: 1, textAlign: "center" }]}>{p.title}</Text>
           {p.sub ? <Text style={[F.xbold, { color: c.text, opacity: 0.75, fontSize: 12, lineHeight: 15 }]}>{p.sub}</Text> : null}
         </View>
       </Animated.View>

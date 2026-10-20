@@ -8,7 +8,7 @@ import { BeeSprite, Hover } from "../ui/BeeSprite";
 import { USE_NATIVE_DRIVER } from "../ui/anim";
 import { BOX_INFO } from "../logic/loot";
 import { ART } from "../ui/art";
-import { Bar, Bobbing, CloseBtn, GameButton, Overlay, Txt } from "../ui/components";
+import { Bar, Bobbing, CloseBtn, FitTxt, GameButton, Overlay, Txt } from "../ui/components";
 import { centerOf, Pt } from "../ui/Fly";
 import { boxArt, ItemIcon } from "../ui/lootUi";
 import { F, shadow, K, themed } from "../ui/theme";
@@ -42,8 +42,8 @@ export function EventCard({ s, now, onClaim }: { s: GameState; now: number; onCl
       <BannerArt style={styles.header} />
       <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
         <Bobbing amp={3}><Image source={ART.pumpkin} style={{ width: 58, height: 50 }} /></Bobbing>
-        <View style={{ flex: 1 }}>
-          <Txt v="h2" color="#fff">{t("ev.title")}</Txt>
+        <View style={{ flex: 1, minWidth: 0 }}>
+          <FitTxt v="h2" color="#fff" text={t("ev.title")} base={21} chars={12} />
           <Txt v="small" color={NIGHT.candle}>{v.running ? t("ev.daysLeft", { n: v.daysLeft }) : t("ev.ended")}</Txt>
         </View>
         <View style={styles.points}>

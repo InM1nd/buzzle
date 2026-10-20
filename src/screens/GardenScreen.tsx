@@ -154,7 +154,7 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
   const bottom = useBottomPad();
   return (
     <View style={{ flex: 1 }}>
-    <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: bottom, gap: 14 }} showsVerticalScrollIndicator={false}>
+    <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: bottom + 52, gap: 14 }} showsVerticalScrollIndicator={false}>
       {!s.settings.gardenIntroDone ? (
         <Card style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
           <Mascot id="zhuzha" size={78} seed={11} />
@@ -210,8 +210,11 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
         })}
       </View>
 
-      <GameButton title={t("gd.waterAll")} icon={ART.can} color="green" disabled={!canWaterAny} onPress={() => onWaterAll()} label={t("gd.waterAll")} />
     </ScrollView>
+    {/* "water all" floats just above the tab bar, so it is on the first screen on short phones too */}
+    <View pointerEvents="box-none" style={{ position: "absolute", left: 0, right: 0, bottom: bottom - 6, alignItems: "center" }}>
+      <GameButton small title={t("gd.waterAll")} icon={ART.can} color="green" disabled={!canWaterAny} onPress={() => onWaterAll()} label={t("gd.waterAll")} style={{ minWidth: 200, paddingHorizontal: 22 }} />
+    </View>
     <Overlay visible={selBed !== null} onClose={() => setSel(null)} glow={!!selBed && !selBed.flower}>
       <CloseBtn onPress={() => setSel(null)} />
       {selBed && sel !== null ? (

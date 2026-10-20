@@ -585,7 +585,7 @@ function Main() {
     const halloween = game.mode === "free" && eventOn;
     return (
       <View key={themeKey} style={{ flex: 1, backgroundColor: C.bg }}>
-        <StatusBar style={puzzleNight ? "light" : "dark"} />
+        <StatusBar style={puzzleNight || isNight() ? "light" : "dark"} />
         <Image source={sceneBg("puzzle", day, puzzleNight)} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} />
         <GameScreen
           key={game.key}
@@ -622,7 +622,8 @@ function Main() {
   const main = (
     <View style={{ flex: 1, backgroundColor: C.bg }}>
       <EventUi.Provider value={eventUi}>
-      <StatusBar style={night && tab === "hive" ? "light" : "dark"} />
+      {/* status bar icons follow what is under them: light on the Midnight theme, a night scene or the transition / intro clip, dark on classic cream */}
+      <StatusBar style={isNight() || !!cine || (night && tab === "hive") ? "light" : "dark"} />
       {tab === "hive" ? (
         <SceneBg source={sceneBg(view, day, night)} />
       ) : null}

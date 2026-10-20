@@ -36,7 +36,7 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
   const [useMoves, setUseMoves] = React.useState(false);
   const [useBomb, setUseBomb] = React.useState(false);
   const bs = s.loot.boosters;
-  const boostFs = Math.min(...(["moves", "bomb", "shuffle"] as const).map((id) => fitSize(BOOSTERS[id].name, 15, 15)));
+  const boostFs = Math.min(...(["moves", "bomb", "shuffle"] as const).map((id) => fitSize(BOOSTERS[id].name, 15, 13)));
   const d = today(s, now);
   const res = s.daily.results[d];
   const streak = dailyStreak(s, now);

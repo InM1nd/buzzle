@@ -39,6 +39,8 @@ export const event = {
   "fl.best": { en: "Record: {n}", uk: "Рекорд: {n}", ru: "Рекорд: {n}" },
   "ev.trickTitle": { en: "Knock knock! Trick or treat?", uk: "Тук-тук! Цукерки чи капость?", ru: "Тук-тук! Гадость или сладость?" },
   "ev.trickPts": { en: "A guest in a costume · +5 event points", uk: "Гість у костюмі · +5 очок події", ru: "Гость в костюме · +5 очков ивента" },
+  "ev.trickWho": { en: "A guest in a costume", uk: "Гість у костюмі", ru: "Гость в костюме" },
+  "ev.trickBtn": { en: "Open", uk: "Відчинити", ru: "Открыть" },
   "ev.trickOpen": { en: "Open the door", uk: "Відчинити", ru: "Открыть дверь" },
   "ev.trickKnock": { en: "Someone is knocking at the hive door…", uk: "Хтось стукає у двері вулика…", ru: "Кто-то стучит в дверь улья…" },
   "ev.knock": { en: "Knock knock!", uk: "Тук-тук!", ru: "Тук-тук!" },

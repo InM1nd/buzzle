@@ -39,7 +39,7 @@ test("first run: tutorial → login reward → honey persisted", async () => {
   await boot();
   expect(await screen.findByText("Привет, я Жужа!")).toBeTruthy();
   await fireEvent.press(screen.getByText("Дальше"));
-  expect(await screen.findByText("Собирайте пыльцу")).toBeTruthy();
+  expect(await screen.findByText("Собирай пыльцу")).toBeTruthy();
   await fireEvent.press(screen.getByText("Пропустить"));
   expect(await screen.findByText("С возвращением!")).toBeTruthy();
   await fireEvent.press(screen.getByLabelText("Забрать награду"));

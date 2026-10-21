@@ -28,7 +28,7 @@ It is best to start with the **garden** (cheap, idle-friendly, gives a reason to
 
 ## 3. Meta progression
 
-- **Hive levels and biomes.** Meadow → Apple orchard → Lavender field → Mountain heather → Winter hive. A new biome opens with the hive level. It brings a new background, its own comb palette in the puzzle, new bee species and a production multiplier. "Moving" (a soft prestige) resets the comb levels but keeps the bees and gives a permanent bonus.
+- **Hive levels and biomes** (later / idea, not in v1.7; see "Open questions" in section 7). Meadow → Apple orchard → Lavender field → Mountain heather → Winter hive. A new biome opens with the hive level. It brings a new background, its own comb palette in the puzzle, new bee species and a production multiplier. "Moving" (a soft prestige) resets the comb levels but keeps the bees and gives a permanent bonus.
 - **Bee levels and evolution.** Every bee has levels 1–10 bought with nectar, the bonus grows (+5% → +15%). At levels 5 and 10 the look changes: a cap, a crown, shiny wings. This is the main long-term sink for jelly and nectar.
 - **Collections.** A flower album (from the garden), hornet trophies, hive decorations. A complete album page gives a permanent bonus.
 - **Seasons and events.** A themed season every 4 weeks ("Autumn Harvest", "New Year Hive") with its own task storyline and an exclusive bee. Fully offline, the calendar is built into the app.
@@ -111,9 +111,10 @@ A minimal backend, if needed: one serverless function with a database (for examp
 | **v1.5 — UX/UI optimisation** | Five equal tabs, the new "honey crystal" art, new bees with flapping wings, reworked hive, garden, puzzle and tasks (see below) | ✅ done (v1.5.0) |
 | **v1.5.1** | Minor fix release after 1.5.0: a single floating currency bar, compact garden timers, a planting dialog, a clearer bee level, softer puzzle tiles (see "v1.5.1 — fix plan" below) | ⏩ folded into v1.6 (v1.6.0) |
 | **v1.6** | A new mini-game (nectar flight) + a Halloween event (pumpkin combs, bee costumes, event tasks) + decorations: decide what they are for (was v1.5.5) | ✅ released (v1.6.0, 19 October 2026): Pumpkin Night event, Night Flight, costumes, guest, seasonal backdrops; the purpose of decorations moves to a later version |
-| **v1.7** | World expansion: a second biome and a moving prestige, **the home screen: one meadow with clickable objects (a house, the hive, the garden…) instead of the Hive tab**, chapter 1 of Zhuzha's story + a winter season (royal comb, a seasonal bee) | |
+| **v1.6.1** | Fixes and polish after 1.6.0: guest banner, booster and reward cards, safe areas and status bar, perf (clock pause), intro clip robustness, texts (informal address in ru) | 🛠 in progress |
+| **v1.7** | Winter season (a seasonal bee, a royal comb) + TBD (see "Open questions" below) | open |
 | **v1.8** | One more mini-game (for example pollen sorting or hive defence) | |
-| **v1.9** | Improvements and fixes from feedback + a New Year event inside the winter season | |
+| **v1.9** | Improvements and fixes from feedback; a Christmas / New Year event (content TBD, see "Open questions") | open |
 | **v2.0** | Event analytics and an economy dashboard; online: sign-in and shared Telegram/Android progress, a leaderboard, friends, gifts; more games; a spring season, then seasons in a loop; perks for beta testers and the start of the public test (posts on Threads) | |
 
 ### v1.4 — QoL: languages, updates, settings
@@ -161,9 +162,22 @@ Status: **released as 1.5.0** (versionCode 21, October 2026) from the `v1.5-ui` 
 
 APK size: reasonably light, a guideline of up to 50–60 MB (the 24 MB limit is lifted). Sprites in WebP.
 
-### v1.7 — home screen: one meadow with objects
+### Open questions (decisions of 21 October 2026, for a later brainstorm with Claude)
 
-Why v1.7: the meadow is needed once the world has more than one location, and the second biome and the moving prestige arrive exactly in v1.7. By then the final scene assets will be ready (meadow background, hive, garden, house, shop), and the UX after v1.5 will have been checked by testers. Until then (v1.5–v1.6) the usual tabs stay.
+Neutral notes, nothing here is final yet.
+
+- **v1.7 is rethought.** The meadow home screen and the biome chain (Meadow → Apple orchard → …) are **not** in v1.7. Both ideas stay below as "later / ideas".
+- **Prestige ("moving")** should be optional, at the player's choice, possibly tied to biomes. When to add it is undecided.
+- **Zhuzha's story, chapter 1** is being prepared separately, possibly for the public release. Not needed now.
+- **Winter season: yes.** Agreed: a seasonal bee and a royal comb. Open: anything more, e.g. a seasonal mini-game or another seasonal activity?
+- **Christmas / New Year event: yes**, content undecided. It should be interesting without overloading the player. Open: what exactly, and how it sits inside the winter season.
+- Open: what else goes into v1.7 besides the winter season.
+
+### Later / ideas: home screen as one meadow with objects
+
+(Moved out of v1.7 on 21 October 2026; kept as an idea.)
+
+Original reasoning: the meadow is needed once the world has more than one location (a second biome, an optional moving prestige).
 
 - The home screen becomes **one solid meadow**, not a set of separate backgrounds or islands: common ground, common light and shadows, with objects standing on it. You tap an object and land in its location.
 - Objects: a **cosy bee house** (opens "Bees"), a **tree or a stand with the hive** ("Hive"), **garden beds** ("Garden"), a **board with combs or a signpost** ("Play"), a **shop and chests** ("Surprises"), a **task board** ("Tasks"). The "house → Bees" link can be changed after testing.
@@ -238,7 +252,8 @@ The 24 MB limit only applied to chat attachments; the APKs are distributed throu
 1. **v1.5:** ✅ released as 1.5.0 (sounds, the leftovers of old art and the APK size carry over).
 2. **v1.5.1:** the minor fixes from Alexander's feedback (see "v1.5.1 — fix plan").
 3. **v1.6:** the nectar flight, the Halloween event and the purpose of decorations (was v1.5.5), by October 31.
-4. **v1.7:** the second biome, the meadow home screen, Zhuzha's story.
+4. **v1.6.1:** 🛠 in progress (fixes and polish).
+5. **v1.7:** winter season (seasonal bee, royal comb) + TBD; biomes, the meadow home screen and prestige are later ideas, Zhuzha's story is prepared separately.
 
 ## v1.4.2 — fix plan (folded into v1.5)
 - ✅ On narrow screens (360 px) the settings gear was clipped on the right of the top bar: in v1.5 all currencies and the gear fit, checked at 360 px.

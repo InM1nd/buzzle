@@ -156,11 +156,16 @@ const HIVE_SPOTS: Spot[] = [
   { id: "jack4", x: 0.72, y: 0.17, h: 0.12, flip: true },
 ];
 
+// last measured layout survives remounts (switching Hive ⇄ Garden/other tabs), so the comb field
+// is sized right on the very first frame instead of jumping when onLayout reports the real height
+const lastLayout = { w: 0, h: 0, banner: 0 };
+
 export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, onToggleDeco, onShop, banner, cheer = 0, night }: Props) {
   const { width: winW, height: winH } = useWindowDimensions();
-  const [containerW, setContainerW] = useState(winW);
-  const [containerH, setContainerH] = useState(winH);
-  const [bannerH, setBannerH] = useState(0);
+  const [containerW, setContainerW] = useState(lastLayout.w || winW);
+  const [containerH, setContainerH] = useState(lastLayout.h || winH);
+  const [bannerRaw, setBannerH] = useState(lastLayout.banner);
+  const bannerH = banner ? bannerRaw : 0;
   const topPad = useTopPad(), bottomPad = useBottomPad();
   const [sel, setSel] = useState<number | null>(null);
   const collectRef = useRef<View>(null);
@@ -213,7 +218,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, onTog
 
   const bottom = useBottomPad();
   return (
-    <View style={{ flex: 1 }} onLayout={(e) => { setContainerW(e.nativeEvent.layout.width); setContainerH(e.nativeEvent.layout.height); }}>
+    <View style={{ flex: 1 }} onLayout={(e) => { const { width, height } = e.nativeEvent.layout; lastLayout.w = width; lastLayout.h = height; setContainerW(width); setContainerH(height); }}>
     <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: bottom, gap: 14 }} showsVerticalScrollIndicator={false}>
       {rolled ? (
         <Card style={{ backgroundColor: K.bg("#FFE7DF"), padding: 12 }}>
@@ -221,7 +226,7 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, onTog
         </Card>
       ) : null}
 
-      {banner ? <View onLayout={(e) => setBannerH(Math.round(e.nativeEvent.layout.height))}>{banner}</View> : null}
+      {banner ? <View onLayout={(e) => { lastLayout.banner = Math.round(e.nativeEvent.layout.height); setBannerH(lastLayout.banner); }}>{banner}</View> : null}
       {/* hive: free-standing comb field on the meadow */}
       <View style={[styles.hiveArea, { height: areaH + 64 + 28 }]}>{/* +28: the bottom decorations and their empty-spot rings stand below the field */}
         {/* level + production as one sign above the hive */}

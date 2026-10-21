@@ -106,7 +106,7 @@ test("free play shows bee bonuses and starts a round", async () => {
   await seed((s) => ({ ...s, bees: ["zhuzha", "boris", "solnyshko"] }));
   await boot();
   await fireEvent.press(screen.getByLabelText("Играть"));
-  expect(await screen.findByText("+1 ход.")).toBeTruthy();
+  expect(await screen.findByText("Ходы +1")).toBeTruthy();
   expect(screen.getByText(/жёлт.*×2/i)).toBeTruthy();
   await fireEvent.press(screen.getByLabelText("Свободная игра"));
   await fireEvent.press(await screen.findByLabelText("Начать свободную игру"));

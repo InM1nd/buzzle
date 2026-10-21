@@ -1,11 +1,13 @@
 /** Puzzle tab and garden. */
 import type { Entry } from "../core";
 export const play = {
-  "pz.chipMoves": { en: "+{n} moves", uk: "+{n} ход.", ru: "+{n} ход." },
+  "pz.bonuses": { en: "Round bonuses", uk: "Бонуси раунду", ru: "Бонусы раунда" },
+  "pz.chipEvent": { en: "Pumpkins & a ghost", uk: "Гарбузи й привид", ru: "Тыквы и призрак" },
+  "pz.chipMoves": { en: "Moves +{n}", uk: "Ходи +{n}", ru: "Ходы +{n}" },
   "pz.chipColor": { en: "{color} ×{x}", uk: "{color} ×{x}", ru: "{color} ×{x}" },
-  "pz.chipJokers": { en: "more jokers", uk: "більше джокерів", ru: "больше джокеров" },
-  "pz.chipBomb": { en: "bomb from {n}", uk: "бомба з {n}", ru: "бомба из {n}" },
-  "pz.chipHoney": { en: "honey +{n}%", uk: "мед +{n}%", ru: "мёд +{n}%" },
+  "pz.chipJokers": { en: "More jokers", uk: "Більше джокерів", ru: "Больше джокеров" },
+  "pz.chipBomb": { en: "Bomb from {n} cells", uk: "Бомба від {n} сот", ru: "Бомба от {n} сот" },
+  "pz.chipHoney": { en: "Honey +{n}%", uk: "Мед +{n}%", ru: "Мёд +{n}%" },
   "pz.dailyCaps": { en: "DAILY PUZZLE", uk: "ГОЛОВОЛОМКА ДНЯ", ru: "ЕЖЕДНЕВНАЯ ГОЛОВОЛОМКА" },
   "pz.dailySub": { en: "{wd} · {n} moves · same for everyone", uk: "{wd} · {n} ходів · одна на всіх", ru: "{wd} · {n} ходов · одна на всех" },
   "pz.bestScore": { en: "best score", uk: "найкращий рахунок", ru: "лучший счёт" },
@@ -29,7 +31,7 @@ export const play = {
   "pz.dayColorTitle": { en: "Colour of the day: {color} ×1.5", uk: "Колір дня: {color} ×1,5", ru: "Цвет дня: {color} ×1,5" },
   "pz.dayColorOn": { en: "Switched on by your garden: in free play these cells score ×1.5, in the daily puzzle they give +50% honey.", uk: "Увімкнено садом: у вільній грі ці соти дають ×1,5 очок, у головоломці дня — +50% меду за них.", ru: "Включён садом: в свободной игре эти соты дают ×1,5 очков, в головоломке дня — +50% мёда за них." },
   "pz.dayColorOff": { en: "Plant a {flower} in the garden to switch the bonus on.", uk: "Посади в саду «{flower}», щоб увімкнути бонус.", ru: "Посади в саду «{flower}», чтобы включить бонус." },
-  "pz.freeSub": { en: "{n} moves · no limits · honey for the hive", uk: "{n} ходів · без обмежень · мед у вулик", ru: "{n} ходов · без ограничений · мёд в улей" },
+  "pz.freeSub": { en: "{n} moves · honey for the hive", uk: "{n} ходів · мед у вулик", ru: "{n} ходов · мёд в улей" },
   "pz.unlockBees": { en: "Unlock bees — they give bonuses in free play.", uk: "Відкривай бджілок — вони дають бонуси у вільній грі.", ru: "Открывай пчёл — они дают бонусы в свободной игре." },
   "pz.record": { en: "Record: {n} points", uk: "Рекорд: {n} очок", ru: "Рекорд: {n} очков" },
   "pz.boostersCaps": { en: "BOOSTERS FOR THIS ROUND", uk: "БУСТЕРИ НА РАУНД", ru: "БУСТЕРЫ НА РАУНД" },

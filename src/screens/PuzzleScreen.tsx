@@ -187,8 +187,8 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
             const on = id === "moves" ? useMoves : id === "bomb" ? useBomb : false;
             const toggle = id === "moves" ? () => setUseMoves(!useMoves) : id === "bomb" ? () => setUseBomb(!useBomb) : null;
             return (
-              <View key={id} style={[styles.boostCard, on && styles.boostOn, { minHeight: 66, paddingVertical: 8, paddingHorizontal: 10 }]}>
-                {/* one row: icon with the owned-count badge · name over a one-line benefit · price / switch, all centred */}
+              <View key={id} style={[styles.boostCard, on && styles.boostOn, { flexWrap: "wrap", gap: 10, paddingHorizontal: 10 }]}>
+                {/* one tidy row: icon with the count badge · one-line name over a two-line description · price / switch */}
                 <View style={{ width: 40, height: 40 }}>
                   <Image source={BOOSTER_ART[id]} style={{ width: 40, height: 40 }} resizeMode="contain" />
                   <View style={[styles.countBadge, have > 0 && styles.countBadgeOn]} accessibilityLabel={`×${have}`}>
@@ -197,7 +197,6 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
                 </View>
                 <View style={{ flex: 1, minWidth: 0 }}>
                   <FitTxt text={BOOSTERS[id].name} base={boostFs} chars={99} />
-                  <Txt v="tiny" color={C.dim} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.85} style={{ fontSize: 11.5, lineHeight: 15, marginTop: 1 }}>{t(`pz.fp.${id}`)}</Txt>
                 </View>
                 {have > 0 && toggle ? (
                   <Press onPress={toggle} style={[styles.check, on && styles.checkOn]} accessibilityRole="checkbox" accessibilityState={{ checked: on }} accessibilityLabel={BOOSTERS[id].name} scaleTo={0.9}>
@@ -207,18 +206,13 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
                   <GameButton small title={`${price}`} icon={ART.pollen} color={s.loot.pollen >= price ? "green" : "white"} disabled={s.loot.pollen < price}
                     onPress={() => onBuyBooster(id)} label={t("pz.buyBooster", { name: BOOSTERS[id].name, n: price })} style={{ minWidth: 0, width: 66 }} />
                 ) : <View style={styles.check}><Txt v="tiny" color={C.green} style={{ fontWeight: "900" }}>✓</Txt></View>}
+                {/* the description runs under the whole row (two lines reserved so all three cards are the same height) */}
+                <Txt v="tiny" color={C.dim} numberOfLines={2} style={{ width: "100%", minHeight: 30, paddingLeft: 50, marginTop: -4 }}>{id === "shuffle" ? t("pz.shuffleInRound") : BOOSTERS[id].desc}</Txt>
               </View>
             );
           })}
         </View>
-        {/* footer: your pollen as a chip, the drop hint as one quiet line */}
-        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, marginTop: 12 }}>
-          <View style={styles.pollenChip} accessibilityLabel={t("pz.pollenHave", { n: fmt(s.loot.pollen) })}>
-            <Image source={ART.pollen} style={{ width: 16, height: 16 }} />
-            <Txt v="tiny" style={[F.black, { fontSize: 12, lineHeight: 16 }]}>{fmt(s.loot.pollen)}</Txt>
-          </View>
-          <Txt v="tiny" color={C.dim} numberOfLines={1} style={{ flexShrink: 1 }}>{t("pz.fp.drops")}</Txt>
-        </View>
+        <Txt v="tiny" color={C.dim} center style={{ marginTop: 10 }}>{t("pz.pollenHave", { n: fmt(s.loot.pollen) })}</Txt>
         <GameButton title={useMoves || useBomb ? t("pz.playWith") : t("pz.play")} color="green" style={{ marginTop: 12 }}
           onPress={() => { setPick(false); onPlay("free", { moves: useMoves && bs.moves > 0, bomb: useBomb && bs.bomb > 0 }); setUseMoves(false); setUseBomb(false); }} label={t("pz.startFree")} />
       </Overlay>
@@ -254,7 +248,6 @@ const styles = themed(() => StyleSheet.create({
   check: { width: 40, height: 40, borderRadius: 14, borderWidth: 2, borderColor: C.line, alignItems: "center", justifyContent: "center", backgroundColor: K.bg("#fff") },
   checkOn: { borderColor: C.green, backgroundColor: K.bg("#E4F7EA") },
   boost: { flex: 1, flexDirection: "row", alignItems: "center", gap: 6, borderRadius: 14, borderWidth: 2, borderColor: C.line, padding: 6, backgroundColor: K.bg("#fff") },
-  pollenChip: { flexDirection: "row", alignItems: "center", gap: 4, paddingHorizontal: 8, height: 24, borderRadius: 12, backgroundColor: K.bg("#FFF3D6"), borderWidth: 1.5, borderColor: C.line },
   countBadge: { position: "absolute", right: -6, bottom: -4, minWidth: 22, paddingHorizontal: 4, height: 16, borderRadius: 8, alignItems: "center", justifyContent: "center", backgroundColor: K.bg("#F3EAD8"), borderWidth: 1.5, borderColor: K.bd("#fff") },
   countBadgeOn: { backgroundColor: C.green },
   boostOn: { borderColor: C.green, backgroundColor: K.bg("#E4F7EA") },

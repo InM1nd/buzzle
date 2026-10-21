@@ -110,6 +110,11 @@ function Main() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [topH, setTopH] = useState(0);
+  // the Combs/Garden switcher always stays mounted (hidden off the Hive tab), so the header height never
+  // changes between tabs; screens get a pad computed in the same render as the tab switch instead of a
+  // late onLayout, which used to shift every screen by the switcher height for a frame or two
+  const [segH, setSegH] = useState(0);
+  const padTop = tab === "hive" ? topH : Math.max(0, topH - segH);
   const [tabH, setTabH] = useState(64);
   const [settingsPage, setSettingsPage] = useState<"main" | "update">("main");
   const [showWhatsNew, setShowWhatsNew] = useState(false);
@@ -627,7 +632,7 @@ function Main() {
       {tab === "hive" ? (
         <SceneBg source={sceneBg(view, day, night)} />
       ) : null}
-      <TopPad.Provider value={topH}>
+      <TopPad.Provider value={padTop}>
       <BottomPad.Provider value={tabH + Math.max(insets.bottom, 8) + 16}>
       <View style={{ flex: 1 }}>
         {tab === "hive" ? (
@@ -695,8 +700,10 @@ function Main() {
             {updater.available ? <View style={[styles.badge, { top: -1, right: -1 }]} /> : null}
           </Press>
         </View>
-        {tab === "hive" ? (
-          <View style={styles.seg} accessibilityRole="tablist">
+        {(
+          <View style={[styles.seg, tab !== "hive" && { opacity: 0 }]} accessibilityRole="tablist" pointerEvents={tab === "hive" ? "auto" : "none"}
+            accessibilityElementsHidden={tab !== "hive"} importantForAccessibility={tab === "hive" ? "auto" : "no-hide-descendants"} aria-hidden={tab !== "hive"}
+            onLayout={(e) => setSegH(Math.round(e.nativeEvent.layout.height) + 14)}>
             {(["hive", "garden"] as const).map((v) => (
               <Press key={v} onPress={() => setHiveView(v)} style={[styles.segBtn, hiveView === v && styles.segOn]} scaleTo={0.96}
                 accessibilityRole="tab" accessibilityLabel={t(v === "hive" ? "seg.combs" : "seg.garden")} accessibilityState={{ selected: hiveView === v }}>
@@ -706,7 +713,7 @@ function Main() {
               </Press>
             ))}
           </View>
-        ) : null}
+        )}
       </View>
 
       {/* tab bar */}

@@ -1,0 +1,16 @@
+{
+  "tool": "built-in image_gen",
+  "transparent_background": true,
+  "prompt": "Use case: ui-mockup asset, not a complete screen. Create ONE blank game UI panel plate on a true transparent background, intended for a cozy mobile bee game Buzzle. Horizontal 4:1 composition, at least 1600px wide if possible. A single warm pale honey parchment / pressed beeswax board, very subtle low-poly facet texture on its outer rim only. Soft creamy center, nearly uniform #FFF1CE and wide completely empty center usable for small dark text. Gentle irregular beveled clipped corners, restrained narrow toasted-honey outline, softly raised matte paper/wax material; tiny warm edge shadow only attached to the panel itself, no shadow floating on background. Not a golden gem frame, not shiny plastic, not pill shaped. Top and bottom edges just slightly naturally uneven, professionally polished mobile casual game UI. Reference image 1 is Buzzle honeycrystal comb for material/color vocabulary, NOT a shape to copy. Reference image 2 is the game's environment for palette. Designed so the corners can be preserved while edges stretch as a 9-slice UI panel. No icons, NO TEXT, no decorations, no rivets, no honey dripping, no holes, no characters, no extra panels. True alpha cutout only, object centered with 6 percent transparent margins.",
+  "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-5a4c04d0-cc44-4cd0-b880-679cb01f8375.png",
+  "mechanicalExport": {
+    "crop": [
+      45,
+      76,
+      2130,
+      638
+    ],
+    "format": "lossless WebP",
+    "borderImageSlice": 140
+  }
+}

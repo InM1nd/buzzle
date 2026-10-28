@@ -1,0 +1,21 @@
+{
+  "viewports": [
+    360,
+    390,
+    412
+  ],
+  "height": 640,
+  "screens": 9,
+  "checks": 27,
+  "brokenImages": 0,
+  "horizontalOverflow": false,
+  "contentScroll": false,
+  "clickPath": "4/6/2 -> 2/8/2 -> meadow -> winter -> quota -> bonus -> spring",
+  "result": {
+    "honeyBeforeQuota": 180,
+    "honeyAfterQuota": 0,
+    "nectar": 0,
+    "bees": 14
+  },
+  "scope": "design only"
+}

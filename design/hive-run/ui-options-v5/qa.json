@@ -1,0 +1,21 @@
+{
+  "viewports": [
+    360,
+    390,
+    430
+  ],
+  "height": 640,
+  "cases": 48,
+  "failures": [],
+  "clickFlows": {
+    "a": "4/6/2 -> 2/8/2 -> save -> result",
+    "b": "forage tab -2 -> honey tab +2 -> save -> result"
+  },
+  "expectedResult": {
+    "honey": 180,
+    "nectar": 0,
+    "bees": 14
+  },
+  "screenshotsReducedMotion": true,
+  "scope": "design only"
+}

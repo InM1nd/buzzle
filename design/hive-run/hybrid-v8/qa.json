@@ -1,0 +1,29 @@
+{
+  "cases": 24,
+  "widths": [
+    360,
+    390,
+    430
+  ],
+  "height": 640,
+  "backgrounds": 4,
+  "states": [
+    "initial",
+    "prepared"
+  ],
+  "errors": [],
+  "failures": [],
+  "interaction": {
+    "plusDisabledWhenFreeZero": true,
+    "planScrollAt360": false,
+    "savedJobs": [
+      2,
+      8,
+      2
+    ],
+    "primaryAfterSave": "\u041d\u0430\u0447\u0430\u0442\u044c \u0437\u0438\u043c\u0443",
+    "resultVisible": true,
+    "quotaDetailsVisible": true
+  },
+  "scope": "design mockup only"
+}

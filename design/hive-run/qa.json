@@ -1,0 +1,314 @@
+[
+  {
+    "id": "01-play-entry",
+    "width": 360,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "01-play-entry",
+    "width": 390,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "01-play-entry",
+    "width": 412,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "02-run-main",
+    "width": 360,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "02-run-main",
+    "width": 390,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "02-run-main",
+    "width": 412,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "03a-allocation-stepper",
+    "width": 360,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "03a-allocation-stepper",
+    "width": 390,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "03a-allocation-stepper",
+    "width": 412,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "03b-allocation-drag",
+    "width": 360,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "03b-allocation-drag",
+    "width": 390,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "03b-allocation-drag",
+    "width": 412,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "04-meadow-choice",
+    "width": 360,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "04-meadow-choice",
+    "width": 390,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "04-meadow-choice",
+    "width": 412,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "05-expedition-result",
+    "width": 360,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "05-expedition-result",
+    "width": 390,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "05-expedition-result",
+    "width": 412,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "06a-year-success",
+    "width": 360,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "06a-year-success",
+    "width": 390,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "06a-year-success",
+    "width": 412,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "06b-year-shortfall",
+    "width": 360,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "06b-year-shortfall",
+    "width": 390,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "06b-year-shortfall",
+    "width": 412,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "07-modifier-choice",
+    "width": 360,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "07-modifier-choice",
+    "width": 390,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "07-modifier-choice",
+    "width": 412,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "08-run-summary",
+    "width": 360,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "08-run-summary",
+    "width": 390,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "08-run-summary",
+    "width": 412,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "09a-market-v2",
+    "width": 360,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "09a-market-v2",
+    "width": 390,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "09a-market-v2",
+    "width": 412,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "09b-defense-v2",
+    "width": 360,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "09b-defense-v2",
+    "width": 390,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "09b-defense-v2",
+    "width": 412,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "02a-run-start",
+    "width": 360,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "02a-run-start",
+    "width": 390,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  },
+  {
+    "id": "02a-run-start",
+    "width": 412,
+    "verticalOverflow": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "tapTargetsPass": true
+  }
+]

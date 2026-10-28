@@ -1,0 +1,37 @@
+{
+  "sizes": [
+    [
+      360,
+      600
+    ],
+    [
+      360,
+      640
+    ],
+    [
+      390,
+      720
+    ],
+    [
+      430,
+      840
+    ]
+  ],
+  "seasonSeconds": [
+    0,
+    31,
+    61,
+    91
+  ],
+  "cases": 16,
+  "overflow": false,
+  "overlap": false,
+  "brokenImages": false,
+  "pageErrors": [],
+  "minimumTarget": 44,
+  "allocationAfterUi": [
+    4,
+    4
+  ],
+  "bankStylesChanged": false
+}

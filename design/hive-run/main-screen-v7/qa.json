@@ -1,0 +1,25 @@
+{
+  "widths": [
+    360,
+    390,
+    430
+  ],
+  "height": 640,
+  "variants": 2,
+  "backgrounds": 4,
+  "cases": 24,
+  "errors": [],
+  "failures": [],
+  "checks": [
+    "image loading",
+    "page overflow",
+    "hive and bees vs HUD",
+    "hive and bees vs bottom actions",
+    "44px touch targets"
+  ],
+  "interactionPaths": [
+    "a: 4/6/2 -> 2/8/2 -> save -> result -> close",
+    "b: 4/6/2 -> 2/8/2 -> save -> result -> close"
+  ],
+  "scope": "main-screen design"
+}

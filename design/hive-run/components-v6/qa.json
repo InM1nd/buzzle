@@ -1,0 +1,39 @@
+{
+  "widths": [
+    360,
+    390,
+    430
+  ],
+  "height": 640,
+  "horizontalOverflow": false,
+  "smallTargets": [],
+  "final360Scroll": {
+    "a": 0,
+    "b": 0
+  },
+  "paths": {
+    "a": {
+      "jobs": [
+        2,
+        8,
+        2
+      ],
+      "saved": true
+    },
+    "b": {
+      "jobs": [
+        2,
+        8,
+        2
+      ],
+      "saved": true,
+      "afterChangingSource": [
+        2,
+        7,
+        3
+      ],
+      "total": 12
+    }
+  },
+  "scope": "UI component study"
+}

@@ -1,0 +1,128 @@
+{
+  "a-plan-winter-day.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "sha256": "e7fe83d269ddd089a63575ee6470fbbb915c0e399c94c45628bc2cbdc13695ae"
+  },
+  "b-plan-winter-day.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "sha256": "4048cc827f794779d5adff8c648b01715135a300ca3aeba976baed5335b4a176"
+  },
+  "a-main-autumn.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "sha256": "a23796af4d5408479f4e00123972694c5d3a829598c906914c9ae7cfb459f4d9"
+  },
+  "b-plan-summer.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "sha256": "bd6e00f9f64a72c8969a14c918f8242e21703345e965bff07972df519f48e3a6"
+  },
+  "b-plan.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "sha256": "018ae582410abcfea0506529b9563f32c8268cc0a432ae58cf7c6cf590257a77"
+  },
+  "a-main.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "sha256": "b725c837dda81c8ddd012c1665a69a4ccd89f69ba4f7f89feccf973035a88b03"
+  },
+  "a-plan-autumn.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "sha256": "419f7f8ad4a61db45324051ce1119b9692685265824ded06357a0dd207f1c1da"
+  },
+  "b-main-summer.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "sha256": "0aa7b4981fd0862115d8b5719513b564b23a7e74a280d80a5f038b090223046f"
+  },
+  "a-plan.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "sha256": "025f7ab40c2c5e2de4e2e3419a2c2455918105ab3dcbd1422e3f2b9eea11b752"
+  },
+  "b-main-autumn.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "sha256": "ba8bbc8da5406d1c02eb36b20abfac8207b8fa7707f75c6e0ba1274f155ecc45"
+  },
+  "a-plan-summer.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "sha256": "2db262e90fa18d53b041bd7c7306e015c892f5f2a9372293816588505f2d991e"
+  },
+  "seasonal-compare.png": {
+    "size": [
+      1520,
+      1450
+    ],
+    "sha256": "188ea7a67741e356cd445d480ed9130277c39e8b58014fc5bb7203336c69e18a"
+  },
+  "b-plan-autumn.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "sha256": "5c8658f7bc8b6705463974f36dd0cc7aa4666d4e2ac84482dd13957c485b9796"
+  },
+  "a-main-summer.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "sha256": "bdb003a56fe2511d77f066dfe21b112df1a9b39c14aaa0603f38b1bec33893a3"
+  },
+  "b-main-winter-day.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "sha256": "2cd0405a59eed6a1e49a043d54b3c52a69692e4d5cd4a24f9d99d732042acb42"
+  },
+  "b-main.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "sha256": "4333e1f3f163a42c7e63c4a326f2108c15a6aa15b8df096fdcd8c58428d7d14a"
+  },
+  "compare.png": {
+    "size": [
+      1520,
+      740
+    ],
+    "sha256": "df7f18a19e4fd24106c4fa7f992ec68fd60a43f09b990a29a418d3104a77823e"
+  },
+  "a-main-winter-day.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "sha256": "e0d55ddf2b3a8f1821c6cb3befbbdc3c9f2c64fe1ab8d2c4fd12c51aa62c88a0"
+  }
+}

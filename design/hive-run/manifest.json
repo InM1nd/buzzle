@@ -1,0 +1,93 @@
+[
+  {
+    "file": "01-play-entry.png",
+    "title": "01 · Вход на вкладке «Играть»",
+    "width": 1080,
+    "height": 1920,
+    "sha256": "e595018bb2d767467df724ccb93e7a18a35193262009be2b4f929b84125cdcc5"
+  },
+  {
+    "file": "02a-run-start.png",
+    "title": "02а · Начало забега",
+    "width": 1080,
+    "height": 1920,
+    "sha256": "fc0b935e9c000190acc1e20aea46e2c266759a150d0eeeb872592f6178a3248c"
+  },
+  {
+    "file": "02-run-main.png",
+    "title": "02б · Главный экран",
+    "width": 1080,
+    "height": 1920,
+    "sha256": "f57977b2c907a7cb989f9d916be8ede17ced853778eda45a151b87eefd361f22"
+  },
+  {
+    "file": "03a-allocation-stepper.png",
+    "title": "03а · Распределение − / +",
+    "width": 1080,
+    "height": 1920,
+    "sha256": "6205ecc125d657353fdbcfbd62759bf08adb67b4de50355babddcba36d7bedba"
+  },
+  {
+    "file": "03b-allocation-drag.png",
+    "title": "03б · Перетаскивание",
+    "width": 1080,
+    "height": 1920,
+    "sha256": "8e65695e897631e1f0895aaee457f7d90bd199fc535ab3f4fca49040a18c248f"
+  },
+  {
+    "file": "04-meadow-choice.png",
+    "title": "04 · Выбор луга",
+    "width": 1080,
+    "height": 1920,
+    "sha256": "65cb9baa300c416de360e1f2b8bd4f9559584073803fc12aafb32f326ed2264e"
+  },
+  {
+    "file": "05-expedition-result.png",
+    "title": "05 · Результат вылазки",
+    "width": 1080,
+    "height": 1920,
+    "sha256": "908cf95abb896eddff5ad3396afa6771f8b357bdbabe5bf5fff7256615507b00"
+  },
+  {
+    "file": "06a-year-success.png",
+    "title": "06а · Квота выполнена",
+    "width": 1080,
+    "height": 1920,
+    "sha256": "f4c016e7a7f9dbcca3091ceb5c08ec5b7668c9e7172338f400c3f85d789b161d"
+  },
+  {
+    "file": "06b-year-shortfall.png",
+    "title": "06б · Мёда не хватило",
+    "width": 1080,
+    "height": 1920,
+    "sha256": "d95ffe39cad1a77024f6f5ddc0da0309c8a81ee7b4c3efef74fe6d1e9701649e"
+  },
+  {
+    "file": "07-modifier-choice.png",
+    "title": "07 · Выбор бонуса",
+    "width": 1080,
+    "height": 1920,
+    "sha256": "ac70b0366a69681183f2aa022706289fdb21e1ff11783757591ba349bc95f84a"
+  },
+  {
+    "file": "08-run-summary.png",
+    "title": "08 · Итоги забега",
+    "width": 1080,
+    "height": 1920,
+    "sha256": "09652df9d83df579f1b51690ed4740f7f17d0a9ec02b49e453f8282348d725ca"
+  },
+  {
+    "file": "09a-market-v2.png",
+    "title": "09а · Рынок · версия 2",
+    "width": 1080,
+    "height": 1920,
+    "sha256": "7015692ef27e72c15792e92d95d918a0c83496941830e6a4ee24e0c9eac5cda7"
+  },
+  {
+    "file": "09b-defense-v2.png",
+    "title": "09б · Защита · версия 2",
+    "width": 1080,
+    "height": 1920,
+    "sha256": "baf179ceefc822e2ac99beea831f4fe5e2776680ec15c997647e85fd61e0778f"
+  }
+]

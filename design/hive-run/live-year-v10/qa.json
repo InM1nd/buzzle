@@ -1,0 +1,68 @@
+{
+  "engineTests": "passed",
+  "viewports": [
+    [
+      360,
+      600
+    ],
+    [
+      360,
+      640
+    ],
+    [
+      390,
+      720
+    ],
+    [
+      430,
+      840
+    ]
+  ],
+  "seasons": 4,
+  "uiCases": 16,
+  "uiFailures": [],
+  "resourceConservation": "passed",
+  "liveTimerAdvanced": true,
+  "pauseChecks": {
+    "manual": true,
+    "modal": true,
+    "hidden": true
+  },
+  "clickChecks": [
+    "harvest adds bank and clears cell",
+    "queen boost spends 8 and births bee",
+    "worker assignment saved",
+    "forest honey reaches bank",
+    "win after quota debit",
+    "loss without collecting",
+    "nested Escape restores focus"
+  ],
+  "winningRun": {
+    "time": 120,
+    "gathered": 90,
+    "made": 102,
+    "collected": 99,
+    "eaten": 28,
+    "quotaPaid": 80,
+    "jar": 11,
+    "population": 12
+  },
+  "humanPaceRuns": [
+    {
+      "harvestEverySeconds": 8,
+      "status": "won",
+      "jarAfterQuota": 5
+    },
+    {
+      "harvestEverySeconds": 12,
+      "status": "won",
+      "jarAfterQuota": 5
+    }
+  ],
+  "animation": {
+    "honeySpriteDuring": 1,
+    "spritesAfterFinish": 0,
+    "secondTapCollected": true
+  },
+  "productionChanged": false
+}

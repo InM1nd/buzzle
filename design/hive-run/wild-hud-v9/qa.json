@@ -1,0 +1,58 @@
+{
+  "viewports": [
+    [
+      360,
+      640
+    ],
+    [
+      390,
+      720
+    ],
+    [
+      430,
+      840
+    ],
+    [
+      360,
+      600
+    ]
+  ],
+  "backgrounds": 4,
+  "checks": 16,
+  "errors": [],
+  "smallTargetsAt600Fixed": true,
+  "minWorldTargetHeight": 44.19,
+  "flow": {
+    "jobs": [
+      2,
+      8,
+      2
+    ],
+    "prepared": true,
+    "honey": 180,
+    "nectar": 0,
+    "births": 2
+  },
+  "accessibility": {
+    "mainInert": true,
+    "modalInitialFocus": "minus-1",
+    "nestedStack": [
+      "menu",
+      "quota"
+    ],
+    "afterEscape": [
+      "menu"
+    ],
+    "restoredFocus": "quota-menu",
+    "tabWrappedTo": "close"
+  },
+  "feedback": {
+    "numberPopAnimationsOnEvent": 1,
+    "runningAfterFinish": 0
+  },
+  "notTested": [
+    "gamepad",
+    "native Android",
+    "real Telegram safe-area"
+  ]
+}

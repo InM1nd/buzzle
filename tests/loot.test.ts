@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import {
   BOX_ODDS, BoxKind, Drop, DUP_POLLEN, ITEMS, KIND_ODDS, Loot, newLoot, openComb, OpenCtx, PITY_EPIC, PITY_LEGENDARY, RARITIES,
   SHOP_PRICE, buyItem, FRAGMENTS_FOR_BEE, albumBonus, PAGES, migrateLoot, BONUS_GOLD,
+  RETIRED,
 } from "../src/logic/loot";
 import { addBoxes, assembleNightBee, canAssembleNightBee, harvestAction, newState, openAllBoxes, openBox, plantFlower, setSkin, shopBuyItem, waterBedAction, unlockBee, migrate, rate, puzzleHoneyMult } from "../src/logic/game";
 import { BEE_BY_ID } from "../src/logic/bees";
@@ -179,7 +180,7 @@ test("album: a complete page gives its permanent bonus", () => {
   assert.equal(albumBonus([...skins.slice(1)], false).puzzleHoney, 0);
   assert.equal(albumBonus(["moonpoppy", "goldsun"], true).capHours, 3);
   // every box item is on a page
-  for (const it of ITEMS) assert.ok(PAGES.some((p) => p.items.includes(it.id)), it.id);
+  for (const it of ITEMS) if (!RETIRED.includes(it.id)) assert.ok(PAGES.some((p) => p.items.includes(it.id)), it.id);
   assert.ok(shopBuyItem({ ...s, loot: { ...s.loot, pollen: 30 } }, "scarf")!.loot.owned.includes("scarf"));
 });
 

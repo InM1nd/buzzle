@@ -50,6 +50,11 @@ export function activeEvent(day: number): EventDef | null {
   // own id: preview points never carry into the real event
   return forced === true ? { id: `${e.id}-preview`, start: day, end: day + 20 } : null;
 }
+/** the first day of the next Halloween that has not ended yet (this year's while it runs or is ahead, else next year's) */
+export function nextEventStart(day: number): number {
+  const e = halloween(yearOf(day));
+  return day <= e.end ? e.start : halloween(yearOf(day) + 1).start;
+}
 /** the event whose track is still open: running, or ended at most CLAIM_GRACE days ago */
 export function trackEvent(day: number): EventDef | null {
   if (forced === false) return null;

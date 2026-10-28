@@ -5,15 +5,16 @@
  */
 /* eslint-disable @typescript-eslint/no-require-imports */
 import React, { useEffect, useRef } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { AppState, Pressable, StyleSheet, Text, View } from "react-native";
 import { useVideoPlayer, VideoView } from "expo-video";
 import { t } from "../i18n";
-import { INTRO_BG, IntroProps } from "./introVideoShared";
+import { canSkip, INTRO_BG, IntroProps } from "./introVideoShared";
 
 const CLIP = require("../../assets/video/halloween_intro.mp4");
 
 export function IntroVideo({ muted, onEnd, bottomInset }: IntroProps) {
   const done = useRef(false);
+  const shownAt = useRef(Date.now());
   const end = (played: boolean) => { if (done.current) return; done.current = true; onEnd(played); };
   const player = useVideoPlayer(CLIP, (p) => { p.loop = false; p.muted = muted; p.play(); });
   useEffect(() => {
@@ -21,11 +22,17 @@ export function IntroVideo({ muted, onEnd, bottomInset }: IntroProps) {
       player.addListener("playToEnd", () => end(true)),
       player.addListener("statusChange", ({ status }) => { if (status === "error") end(false); }),
     ];
+    // back from the background: the player was paused by the system; play on, or hand over if it failed meanwhile
+    const app = AppState.addEventListener("change", (st) => {
+      if (st !== "active" || done.current) return;
+      if (player.status === "error") end(false);
+      else player.play();
+    });
     const tm = setTimeout(() => { if (!player.playing && player.currentTime < 0.05) end(false); }, 2000);
-    return () => { subs.forEach((s) => s.remove()); clearTimeout(tm); };
+    return () => { subs.forEach((s) => s.remove()); app.remove(); clearTimeout(tm); };
   }, [player]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
-    <Pressable style={[StyleSheet.absoluteFill, styles.root]} onPress={() => end(true)} accessibilityRole="button" accessibilityLabel={t("intro.skip")}>
+    <Pressable style={[StyleSheet.absoluteFill, styles.root]} onPress={() => { if (canSkip(shownAt.current, Date.now())) end(true); }} accessibilityRole="button" accessibilityLabel={t("intro.skip")}>
       <View pointerEvents="none" style={StyleSheet.absoluteFill}>
         <VideoView player={player} style={StyleSheet.absoluteFill} contentFit="cover" nativeControls={false} surfaceType="textureView" />
       </View>

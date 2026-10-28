@@ -8,6 +8,7 @@ import { ART } from "./art";
 import { hLight } from "./haptics";
 import { sinDeg, sinRange, useAnimActive, useCycle } from "./anim";
 import { addBackListener } from "../platform/back";
+import { useInsets } from "../platform/insets";
 
 // ---------- text ----------
 type V = "title" | "h1" | "h2" | "h3" | "body" | "small" | "tiny" | "num";
@@ -88,7 +89,7 @@ export function GameButton(p: {
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={p.label}
+      accessibilityLabel={p.label ?? p.title}
       accessibilityState={{ disabled: !!p.disabled }}
       onPress={() => { if (!p.disabled) { hLight(); p.onPress(); } }}
       onPressIn={() => !p.disabled && to(depth - 1)}
@@ -144,10 +145,23 @@ export function CountUp({ value, style, duration = 600, format = fmt }: { value:
   return <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8} style={style}>{format(shown)}</Text>;
 }
 
+/** a one-line label that shrinks instead of wrapping: an estimated size from its length (web has no auto-fit), then
+ *  Android/iOS auto-fit on top; `chars` = how many characters fit at the base size */
+export const fitSize = (text: string, base: number, chars: number, min = 0.7) =>
+  text.length <= chars ? base : Math.max(base * min, Math.floor((base * chars) / text.length * 10) / 10);
+export function FitTxt({ text, base, chars, style, color, v = "h3" }: { text: string; base: number; chars: number; style?: TextProps["style"]; color?: string; v?: V }) {
+  const fs = fitSize(text, base, chars);
+  return <Txt v={v} color={color} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.7} style={[style, { fontSize: fs, lineHeight: Math.round(fs * 1.3) }]}>{text}</Txt>;
+}
+
 // ---------- currency bar ----------
 /** Height of the floating top bar; tab screens pad their scroll content by it so it scrolls under the bar. */
 export const TopPad = createContext(0);
 export const useTopPad = () => useContext(TopPad);
+/** Room under the floating tab bar (its height + its bottom offset + a gap): tab screens pad their scroll content by it so
+ *  the last card can scroll fully above the bar instead of ending half covered. */
+export const BottomPad = createContext(110);
+export const useBottomPad = () => useContext(BottomPad);
 
 /** One currency inside the shared currency bar. */
 export function Pill({ icon, value, color = C.text, bump, onLayoutIcon, label }: {
@@ -255,6 +269,7 @@ export function Bobbing({ children, amp = 5, period = 1600, delay = 0, style }: 
 export function Overlay({ visible, onClose, children, dismissable = true, glow }: { visible: boolean; onClose?: () => void; children: React.ReactNode; dismissable?: boolean; glow?: boolean }) {
   const a = useRef(new Animated.Value(0)).current;
   const [mounted, setMounted] = useState(visible);
+  const ins = useInsets();
   const vis = useRef(visible);
   vis.current = visible;
   useEffect(() => {
@@ -275,7 +290,8 @@ export function Overlay({ visible, onClose, children, dismissable = true, glow }
       <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: C.scrim, opacity: a }]}>
         <Pressable style={StyleSheet.absoluteFill} onPress={() => dismissable && onClose?.()} accessibilityLabel={t("c.closeWindow")} />
       </Animated.View>
-      <View style={styles.overlayCenter} pointerEvents="box-none">
+      {/* the window stays inside the safe area: never under the status bar / camera cut-out or the gesture bar */}
+      <View style={[styles.overlayCenter, { paddingTop: Math.max(22, ins.top + 10), paddingBottom: Math.max(22, ins.bottom + 10) }]} pointerEvents="box-none">
         <Animated.View style={[styles.sheet, glow && activeCard(), { maxHeight: "100%", opacity: a, transform: [{ scale: a.interpolate({ inputRange: [0, 1], outputRange: [0.88, 1] }) }] }]}>
           <Glow on={!!glow} radius={30} />
           <ScrollView style={{ flexGrow: 0, flexShrink: 1 }} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>{children}</ScrollView>

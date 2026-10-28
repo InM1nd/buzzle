@@ -8,7 +8,7 @@ import { GameState, canClaimLogin, level, nextLoginIndex, canClaimWeekly, canBuy
 import { LOGIN_REWARDS, loginReward, taskReward, tasksForDay, bonusReward } from "../logic/tasks";
 import { ART } from "../ui/art";
 import { C, K, themed } from "../ui/theme";
-import { Bar, Card, fmt, GameButton, Txt, useTopPad } from "../ui/components";
+import { Bar, Card, fmt, GameButton, Txt, useTopPad, useBottomPad } from "../ui/components";
 import { centerOf, Pt } from "../ui/Fly";
 import { duration } from "../ui/format";
 import { Mascot } from "../ui/BeeSprite";
@@ -45,8 +45,10 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
     : t("tasks.sayProgress", { a: doneCount, b: tasks.length });
 
   const top = useTopPad();
+
+  const bottom = useBottomPad();
   return (
-    <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
+    <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: bottom, gap: 14 }} showsVerticalScrollIndicator={false}>
       <Txt v="h1" style={{ marginBottom: 2 }}>{t("tab.tasks")}</Txt>
       <EventCard s={s} now={now} onClaim={onClaimTrack} />
       {/* mascot */}

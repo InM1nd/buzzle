@@ -19,7 +19,7 @@ import {
 import { bonusReward, loginReward, Reward, TaskDef, TaskEvent, taskById, tasksForDay, taskReward, WEEKLY_TASKS } from "./tasks";
 import {
   albumBonus, BoosterId, BoxKind, buyBooster, buyFragment, buyItem, Drop, FRAGMENTS_FOR_BEE, Loot, migrateLoot, newLoot, NIGHT_BEE,
-  openComb, SKIN_BY_ID, ALL_DECOS, EVENT_DECOS,
+  openComb, SKIN_BY_ID, ALL_DECOS, EVENT_DECOS, RETIRED,
 } from "./loot";
 import { hashString } from "./rng";
 import { FLIGHT_PAID_RUNS, flightNectar, flightPoints } from "./nightFlight";
@@ -168,7 +168,7 @@ export function migrate(raw: unknown, now: number): GameState {
   const loot = migrateLoot(s.loot, hashString(`bzz-loot-${clockMax}-${bees.join(",")}`));
   const rawSkins = obj(s.beeSkins);
   const beeSkins: Record<string, string> = {};
-  for (const id of bees) if (typeof rawSkins[id] === "string" && SKIN_BY_ID[rawSkins[id]] && loot.owned.includes(rawSkins[id])) beeSkins[id] = rawSkins[id];
+  for (const id of bees) if (typeof rawSkins[id] === "string" && SKIN_BY_ID[rawSkins[id]] && loot.owned.includes(rawSkins[id]) && !RETIRED.includes(rawSkins[id])) beeSkins[id] = rawSkins[id];
   const w = obj(s.week);
   const week: Week = typeof w.id === "number"
     ? { id: w.id, tasks: Math.max(0, num(w.tasks, 0) | 0), chest: !!w.chest, weekendBest: Math.max(0, num(w.weekendBest, 0)), weekendStars: Math.max(0, Math.min(3, num(w.weekendStars, 0) | 0)), freezeBought: !!w.freezeBought }

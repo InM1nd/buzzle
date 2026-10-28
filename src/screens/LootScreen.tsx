@@ -19,7 +19,7 @@ import { WEEKEND_MOVES, WEEKEND_STARS, weekdayOf } from "../logic/day";
 import { ART } from "../ui/art";
 import { GARDEN_ART } from "../ui/beeArt";
 import { C, shadow, K, themed, isNight, activeCard } from "../ui/theme";
-import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Stars, Txt, useTopPad, Glow } from "../ui/components";
+import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Stars, Txt, useTopPad, useBottomPad, Glow } from "../ui/components";
 import { BOOSTER_ART, boxArt, ItemIcon, RARITY_UI } from "../ui/lootUi";
 import { centerOf, Pt } from "../ui/Fly";
 import { days } from "../ui/format";
@@ -55,9 +55,11 @@ export default function LootScreen(p: Props) {
   const streak = dailyStreak(s, now);
 
   const top = useTopPad();
+
+  const bottom = useBottomPad();
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: bottom, gap: 14 }} showsVerticalScrollIndicator={false}>
         {/* v1.5: one tab, three sections */}
         <Txt v="h1" style={{ marginBottom: -4 }}>{t("tab.loot")}</Txt>
         <View style={styles.seg3} accessibilityRole="tablist">
@@ -96,8 +98,13 @@ export default function LootScreen(p: Props) {
                   <View style={styles.chip}><Txt v="tiny" color={C.dim}>{t("ls.pityEpic", { n: epicLeft })}</Txt></View>
                   <View style={styles.chip}><Txt v="tiny" color={C.dim}>{t("ls.pityLeg", { n: legLeft })}</Txt></View>
                 </View>
-                <GameButton title={ready ? t("ls.open") : t("ls.none")} color={ready ? "green" : "grey"} disabled={!ready}
-                  onPress={() => ready && p.onOpenBox(feat)} label={t("ls.openLabel", { name: BOX_INFO[feat].name })} style={{ alignSelf: "stretch" }} />
+                {ready ? (
+                  <GameButton title={t("ls.open")} color="green"
+                    onPress={() => p.onOpenBox(feat)} label={t("ls.openLabel", { name: BOX_INFO[feat].name })} style={{ alignSelf: "stretch" }} />
+                ) : (
+                  // nothing to open: a quiet line instead of a big disabled button
+                  <Txt v="small" color={C.dim} center style={{ marginTop: 4, paddingHorizontal: 8 }}>{t("ls.noneYet")}</Txt>
+                )}
               </Card>
               {BOX_KINDS.filter((k) => k !== feat).map((k) => {
                 const n = s.loot.boxes[k]; const locked = k === "royal";

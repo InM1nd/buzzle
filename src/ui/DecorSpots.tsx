@@ -8,7 +8,7 @@ import { GameState } from "../logic/game";
 import { ITEM_ART } from "./beeArt";
 import { RARITY_UI } from "./lootUi";
 import { useAnimActive } from "./anim";
-import { C, F, K, themed } from "./theme";
+import { C, F, isNight, K, themed } from "./theme";
 import { CloseBtn, GameButton, Overlay, Press, Txt } from "./components";
 
 /** spot = fraction of the scene box (left/top of the item's foot) and the item height relative to the scene height */
@@ -21,7 +21,7 @@ const MOTION: Record<string, Motion> = {
   jack1: "glow", jack2: "glow", jack3: "glow", jack4: "glow",
 };
 
-function DecoArt({ id, height, on, ghost }: { id: string; height: number; on: boolean; ghost: boolean }) {
+function DecoArt({ id, height, on, ghost, night }: { id: string; height: number; on: boolean; ghost: boolean; night?: boolean }) {
   const a = ITEM_ART[`deco_${id}`];
   const v = useRef(new Animated.Value(0)).current;
   const motion = ghost ? "none" : MOTION[id] ?? "none";
@@ -53,14 +53,14 @@ function DecoArt({ id, height, on, ghost }: { id: string; height: number; on: bo
         // the pinwheel's head turns; the stick stays
         <Animated.Image source={a.src} style={{ width: w, height, transform: [{ rotate: v.interpolate({ inputRange: [0, 1], outputRange: ["0deg", "8deg"] }) }] }} />
       ) : (
-        <Animated.Image source={a.src} style={{ width: w, height, opacity: ghost ? 0.22 : 1, tintColor: ghost ? "#8A5A1E" : undefined, transform: tr }} />
+        <Animated.Image source={a.src} style={{ width: w, height, opacity: ghost ? (night ? 0.16 : 0.22) : 1, tintColor: ghost ? (night ? "#FFE9C4" : "#8A5A1E") : undefined, transform: tr }} />
       )}
     </View>
   );
 }
 
-export function DecorSpots({ s, place, spots, w, h, onToggle, onShop }: {
-  s: GameState; place: "hive" | "garden"; spots: Spot[]; w: number; h: number;
+export function DecorSpots({ s, place, spots, w, h, onToggle, onShop, dark }: {
+  dark?: boolean; s: GameState; place: "hive" | "garden"; spots: Spot[]; w: number; h: number;
   onToggle: (id: string) => void; onShop: () => void;
 }) {
   const on = useAnimActive();
@@ -68,6 +68,8 @@ export function DecorSpots({ s, place, spots, w, h, onToggle, onShop }: {
   const owned = (id: string) => s.loot.owned.includes(id);
   const shown = (id: string) => owned(id) && !s.loot.hidden.includes(id);
   const it = open ? ITEM_BY_ID[open] : null;
+  // a night scene or the Midnight theme: a thin light dashed outline, no fill (a filled pill reads as a grey blob on dark art)
+  const night = !!dark || isNight();
   return (
     <>
       {/* event lanterns are not sold: their spot stays empty until one is carved */}
@@ -81,8 +83,8 @@ export function DecorSpots({ s, place, spots, w, h, onToggle, onShop }: {
           <Press key={sp.id} onPress={() => setOpen(sp.id)} scaleTo={0.92}
             accessibilityRole="button" accessibilityLabel={ghost ? t("dec.spot", { name }) : name}
             style={{ position: "absolute", left: sp.x * w - iw / 2, top: sp.y * h - ih, width: iw, height: ih, transform: sp.flip ? [{ scaleX: -1 }] : undefined }}>
-            {ghost ? <View style={[styles.ghostRing, { width: iw * 1.1, height: ih * 0.3, left: -iw * 0.05, top: ih * 0.8 }]} /> : null}
-            <DecoArt id={sp.id} height={ih} on={on} ghost={ghost} />
+            {ghost ? <View style={[styles.ghostRing, night && styles.ghostRingNight, { width: iw * 1.1, height: ih * 0.3, left: -iw * 0.05, top: ih * 0.8 }]} /> : null}
+            <DecoArt id={sp.id} height={ih} on={on} ghost={ghost} night={night} />
             {ghost ? <View style={[styles.plus, { left: iw / 2 - 12, top: ih * 0.45 - 12 }]}><Txt v="small" color="#fff" style={[F.black, { lineHeight: 18 }]}>+</Txt></View> : null}
           </Press>
         );
@@ -112,6 +114,7 @@ export function DecorSpots({ s, place, spots, w, h, onToggle, onShop }: {
 
 const styles = themed(() => StyleSheet.create({
   plus: { position: "absolute", width: 24, height: 24, borderRadius: 12, backgroundColor: K.bg("rgba(216,150,40,0.85)"), alignItems: "center", justifyContent: "center", borderWidth: 2, borderColor: K.bd("#fff") },
-  ghostRing: { position: "absolute", borderRadius: 999, borderWidth: 2, borderStyle: "dashed", borderColor: K.bd("rgba(200,140,40,0.55)"), backgroundColor: K.bg("rgba(255,255,255,0.25)") },
+  ghostRing: { position: "absolute", borderRadius: 999, borderWidth: 2, borderStyle: "dashed", borderColor: "rgba(200,140,40,0.55)", backgroundColor: "transparent" },
+  ghostRingNight: { borderWidth: 1.5, borderColor: "rgba(255,240,210,0.28)" },
   art: { width: 180, height: 150, borderRadius: 28, alignItems: "center", justifyContent: "center", marginTop: 8 },
 }));

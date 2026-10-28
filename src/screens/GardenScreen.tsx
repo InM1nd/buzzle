@@ -13,7 +13,7 @@ import { GARDEN_ART } from "../ui/beeArt";
 import { Mascot } from "../ui/BeeSprite";
 import { C, shadow, K, themed, isNight, activeCard } from "../ui/theme";
 import { sinDeg, useAnimActive, useCycle } from "../ui/anim";
-import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Txt, useTopPad, Glow } from "../ui/components";
+import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Txt, useTopPad, useBottomPad, Glow } from "../ui/components";
 import { centerOf, Pt } from "../ui/Fly";
 import { duration, durationShort } from "../ui/format";
 
@@ -22,6 +22,7 @@ const COLOR_HEX = C.pollen;
 
 interface Props {
   s: GameState;
+  night?: boolean;
   now: number;
   onPlant: (bed: number, flower: string) => boolean;
   onWater: (bed: number) => boolean;
@@ -128,7 +129,7 @@ function BedTile({ b, i, w, selected, onPress }: { b: Bed; i: number; w: number;
   );
 }
 
-export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onHarvest, onUnlockBed, onIntroDone, onToggleDeco, onShop }: Props) {
+export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onHarvest, onUnlockBed, onIntroDone, onToggleDeco, onShop, night }: Props) {
   const [sel, setSel] = useState<number | null>(null);
   const { width: winW } = useWindowDimensions();
   const [gridW, setGridW] = useState(Math.min(winW, 520) - 32);
@@ -138,6 +139,18 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
   const dc = dayColorInfo(s, now);
   const dcFlower = FLOWERS.find((f) => f.color === dc.color)!;
   const canWaterAny = beds.some(canWater);
+  const needWater = beds.filter(canWater).length;
+  const bottomPadForMorph = useBottomPad();
+  // FAB ⇄ wide button morph, driven by the scroll position on the native thread (no JS per frame)
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const [viewH, setViewH] = useState(0);
+  const [slot, setSlot] = useState({ y: 0, h: 0 });
+  const morphAt = slot.h && viewH ? slot.y + slot.h - (viewH - bottomPadForMorph) : 1e6;
+  const one = useRef(new Animated.Value(1)).current;
+  const morph = morphAt <= 0 ? one
+    : scrollY.interpolate({ inputRange: [morphAt - 90, morphAt - 10], outputRange: [0, 1], extrapolate: "clamp" });
+  const [atEnd, setAtEnd] = useState(false);
+  useEffect(() => { if (morphAt <= 0 && !atEnd) setAtEnd(true); }, [morphAt, atEnd]);
   const bonus = Math.round(BED_HIVE_BONUS * 100 * beds.filter((b) => b.flower).length);
   const bedCost = nextBedCost(s);
   const selBed = sel !== null ? beds[sel] : null;
@@ -149,9 +162,13 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
   };
 
   const top = useTopPad();
+
+  const bottom = useBottomPad();
   return (
     <View style={{ flex: 1 }}>
-    <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
+    <Animated.ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: bottom, gap: 14 }} showsVerticalScrollIndicator={false}
+      onLayout={(e) => setViewH(e.nativeEvent.layout.height)} scrollEventThrottle={16}
+      onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: true, listener: (e: any) => { const on = e.nativeEvent.contentOffset.y >= morphAt - 40; if (on !== atEnd) setAtEnd(on); } })}>
       {!s.settings.gardenIntroDone ? (
         <Card style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
           <Mascot id="zhuzha" size={78} seed={11} />
@@ -181,7 +198,7 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
 
       {/* decorations stand on the grass between the sign and the beds */}
       <View style={{ height: 96, marginTop: -4 }}>
-        <DecorSpots s={s} place="garden" spots={GARDEN_SPOTS} w={gridW} h={96} onToggle={onToggleDeco} onShop={onShop} />
+        <DecorSpots dark={night} s={s} place="garden" spots={GARDEN_SPOTS} w={gridW} h={96} onToggle={onToggleDeco} onShop={onShop} />
       </View>
 
       <View onLayout={(e) => setGridW(e.nativeEvent.layout.width)} style={{ flexDirection: "row", flexWrap: "wrap", gap: GAP, width: "100%", alignSelf: "stretch" }}>
@@ -207,8 +224,21 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
         })}
       </View>
 
-      <GameButton title={t("gd.waterAll")} icon={ART.can} color="green" disabled={!canWaterAny} onPress={() => onWaterAll()} label={t("gd.waterAll")} />
-    </ScrollView>
+      {/* the release-style wide button under the beds: the round FAB below morphs into it as this spot scrolls into view */}
+      <Animated.View onLayout={(e) => setSlot({ y: e.nativeEvent.layout.y, h: e.nativeEvent.layout.height })} pointerEvents={atEnd ? "auto" : "none"}
+        style={{ opacity: morph, transform: [{ scale: morph.interpolate({ inputRange: [0, 1], outputRange: [0.86, 1] }) }] }}>
+        <GameButton title={t("gd.waterAll")} icon={ART.can} color="green" disabled={!canWaterAny} onPress={() => onWaterAll()} label={t("gd.waterAll")} />
+      </Animated.View>
+    </Animated.ScrollView>
+    {/* variant B: a round watering-can button in the bottom-right corner with the number of beds that need water */}
+    <Animated.View pointerEvents={atEnd ? "none" : "box-none"} style={{ position: "absolute", right: 16, bottom: bottom - 2, opacity: Animated.subtract(1, morph),
+      transform: [{ scale: morph.interpolate({ inputRange: [0, 1], outputRange: [1, 0.4] }) }, { translateX: morph.interpolate({ inputRange: [0, 1], outputRange: [0, -60] }) }] }}>
+      <Press onPress={() => canWaterAny && onWaterAll()} disabled={!canWaterAny} accessibilityRole="button" accessibilityLabel={t("gd.waterAll")} scaleTo={0.9}
+        style={[styles.fab, !canWaterAny && { opacity: 0.55 }]}>
+        <Image source={ART.can} style={{ width: 30, height: 30, tintColor: "#fff" }} />
+        {needWater > 0 ? <View style={styles.fabBadge}><Txt v="tiny" color="#fff" style={{ fontWeight: "900", fontSize: 12, lineHeight: 15 }}>{needWater}</Txt></View> : null}
+      </Press>
+    </Animated.View>
     <Overlay visible={selBed !== null} onClose={() => setSel(null)} glow={!!selBed && !selBed.flower}>
       <CloseBtn onPress={() => setSel(null)} />
       {selBed && sel !== null ? (
@@ -265,6 +295,8 @@ export default function GardenScreen({ s, now, onPlant, onWater, onWaterAll, onH
 }
 
 const styles = themed(() => StyleSheet.create({
+  fab: { width: 58, height: 58, borderRadius: 29, alignItems: "center", justifyContent: "center", backgroundColor: "#3FB867", borderWidth: 3, borderColor: "#2E9A52", borderBottomWidth: 6, ...shadow },
+  fabBadge: { position: "absolute", top: -4, right: -4, minWidth: 22, height: 22, borderRadius: 11, paddingHorizontal: 5, alignItems: "center", justifyContent: "center", backgroundColor: "#3B8FD6", borderWidth: 2, borderColor: "#fff" },
   head: { backgroundColor: K.bg("#FFFAEE"), borderRadius: 24, padding: 14 },
   nectarBox: { alignItems: "center", backgroundColor: K.bg("#fff"), borderRadius: 18, paddingHorizontal: 12, paddingVertical: 6, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   dayColor: { flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: K.bg("#fff"), borderRadius: 14, padding: 10, marginTop: 12, borderWidth: 2 },

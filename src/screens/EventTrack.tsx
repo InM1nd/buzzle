@@ -11,7 +11,7 @@ import { ART } from "../ui/art";
 import { Bar, Bobbing, CloseBtn, GameButton, Overlay, Txt } from "../ui/components";
 import { centerOf, Pt } from "../ui/Fly";
 import { boxArt, ItemIcon } from "../ui/lootUi";
-import { shadow, K, themed } from "../ui/theme";
+import { F, shadow, K, themed } from "../ui/theme";
 
 /** false while the night-falls transition is due or running: the event UI appears only once the interface is in the event look */
 export const EventUi = createContext(true);
@@ -42,7 +42,7 @@ export function EventCard({ s, now, onClaim }: { s: GameState; now: number; onCl
       <BannerArt style={styles.header} />
       <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
         <Bobbing amp={3}><Image source={ART.pumpkin} style={{ width: 58, height: 50 }} /></Bobbing>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, minWidth: 0 }}>
           <Txt v="h2" color="#fff">{t("ev.title")}</Txt>
           <Txt v="small" color={NIGHT.candle}>{v.running ? t("ev.daysLeft", { n: v.daysLeft }) : t("ev.ended")}</Txt>
         </View>
@@ -67,13 +67,13 @@ export function EventCard({ s, now, onClaim }: { s: GameState; now: number; onCl
         {/* night banner with the running total */}
         <View style={styles.trackHead}>
           <BannerArt style={styles.trackHeadImg} />
-          <Txt v="h2" color="#fff">{t("ev.track")}</Txt>
-          <View style={[styles.points, { alignSelf: "flex-start", marginTop: 6 }]}>
-            <Image source={ART.point} style={{ width: 22, height: 22 }} />
-            <Txt v="h3" color="#fff">{e.points}</Txt>
+          <View style={[styles.points, { position: "absolute", left: 12, top: 10 }]}>
+            <Image source={ART.point} style={{ width: 18, height: 18 }} />
+            <Txt v="h3" color="#fff" style={{ fontSize: 15, lineHeight: 19 }}>{e.points}</Txt>
           </View>
+          <Txt v="h2" color="#fff" numberOfLines={1} style={{ fontSize: 20, lineHeight: 25 }}>{t("ev.track")}</Txt>
         </View>
-        <Txt v="small" color={K.fg("#8A5200")} style={{ marginTop: 10, marginBottom: 8 }}>{t("ev.how")}</Txt>
+        <Txt v="tiny" color={K.fg("#8A5200")} style={{ marginTop: 8, marginBottom: 4 }}>{t("ev.how")}</Txt>
         <View>
           {TRACK.map((st, i) => {
             const look = rewardLook(st.reward);
@@ -89,9 +89,9 @@ export function EventCard({ s, now, onClaim }: { s: GameState; now: number; onCl
                   </View>
                 </View>
                 <View style={[styles.step, done && styles.stepDone, ready && styles.stepReady, isNext && !reached && styles.stepNext]}>
-                  {look.skin ? <ItemIcon id={look.skin} size={40} /> : <Image source={look.icon!} style={{ width: 40, height: 40, opacity: reached ? 1 : 0.55 }} resizeMode="contain" />}
+                  {look.skin ? <ItemIcon id={look.skin} size={34} /> : <Image source={look.icon!} style={{ width: 34, height: 34, opacity: reached ? 1 : 0.55 }} resizeMode="contain" />}
                   <View style={{ flex: 1, minWidth: 0 }}>
-                    <Txt v="h3" style={{ fontSize: 14 }} numberOfLines={2}>{look.title}</Txt>
+                    <Txt v="h3" style={{ fontSize: 13, lineHeight: 16 }} numberOfLines={2}>{look.title}</Txt>
                     {isNext && !reached ? (
                       <>
                         <Bar progress={Math.min(1, progress)} height={6} color={NIGHT.pumpkin} style={{ marginTop: 4 }} />
@@ -101,7 +101,7 @@ export function EventCard({ s, now, onClaim }: { s: GameState; now: number; onCl
                   </View>
                   {done ? <Image source={ART.check} style={{ width: 26, height: 26 }} />
                     : ready ? (
-                      <GameButton small title={t("ev.claim")} color="green" style={{ width: 96 }} label={`${t("ev.claim")}: ${look.title}`}
+                      <GameButton small title={t("ev.claim")} color="green" style={{ width: 76, minWidth: 0, flexShrink: 0 }} label={`${t("ev.claim")}: ${look.title}`}
                         onPress={async () => onClaim(await centerOf(btn.current))} />
                     ) : <Image source={ART.lock} style={{ width: 20, height: 20, opacity: 0.5 }} />}
                 </View>
@@ -124,20 +124,22 @@ export function TrickBanner({ s, now, onTreat }: { s: GameState; now: number; on
   return (
     <>
       {g && shown ? (
-        <View style={[styles.trick, shadow]}>
-          {/* the guest knocks at the night hive door */}
-          <View style={{ width: 92, height: 92 }}>
-            <Image source={ART.trickDoor} style={{ position: "absolute", width: 92, height: 92 }} />
-            <Bobbing amp={3} style={{ position: "absolute", left: 22, top: 38 }}><BeeSprite id={g.bee} skin={g.skin} size={52} flap={false} /></Bobbing>
+        <View style={styles.trick}>
+          {/* a calm night pill: the guest in a glowing round window · "Knock knock!" with who it is · +5 chip · one honey button */}
+          <View style={styles.trickWin}>
+            <Bobbing amp={2}><BeeSprite id={g.bee} skin={g.skin} size={32} flap={false} /></Bobbing>
           </View>
-          <View style={{ flex: 1 }}>
-            <Txt v="h3" color="#fff">{t("ev.trickTitle")}</Txt>
-            <Txt v="small" color={NIGHT.ghost}>{t("ev.trickSub")}</Txt>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginTop: 8 }}>
-              <Image source={ART.trickBasket} style={{ width: 40, height: 40 }} />
-              <GameButton small title={t("ev.trickOpen")} color="honey" style={{ flex: 1 }} onPress={() => { setGuest(g); setVisit((v) => v + 1); }} label={t("ev.trickOpen")} />
+          <View style={{ flex: 1, minWidth: 0 }}>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+              <Txt v="h3" color="#fff" numberOfLines={1} style={{ fontSize: 15, lineHeight: 19, flexShrink: 1 }}>{t("ev.knock")}</Txt>
+              <View style={styles.trickPts} accessibilityLabel={t("ev.trickPts")}>
+                <Image source={ART.point} style={{ width: 13, height: 13 }} />
+                <Txt v="tiny" color={NIGHT.candle} style={[F.black, { fontSize: 11, lineHeight: 14 }]}>+5</Txt>
+              </View>
             </View>
+            <Txt v="tiny" color={NIGHT.ghost} numberOfLines={1}>{t("ev.trickWho")}</Txt>
           </View>
+          <GameButton small title={t("ev.trickBtn")} color="honey" style={{ minWidth: 0, flexShrink: 0 }} onPress={() => { setGuest(g); setVisit((v) => v + 1); }} label={`${t("ev.trickTitle")} ${t("ev.trickOpen")}`} />
         </View>
       ) : null}
       <Overlay visible={!!guest} onClose={() => setGuest(null)}>
@@ -361,16 +363,18 @@ const styles = themed(() => StyleSheet.create({
   // differently on native, where "100%" left the art covering only part of it
   header: { position: "absolute", left: 0, top: 0, right: 0, bottom: 0, opacity: 0.6 },
   points: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: NIGHT.card, borderRadius: 16, paddingHorizontal: 10, paddingVertical: 6 },
-  step: { flex: 1, flexDirection: "row", alignItems: "center", gap: 10, marginVertical: 4, backgroundColor: K.bg("#fff"), borderRadius: 16, borderWidth: 2, borderColor: K.bd("#F0DFC0"), padding: 8 },
+  step: { flex: 1, flexDirection: "row", alignItems: "center", gap: 8, minHeight: 52, marginVertical: 3, backgroundColor: K.bg("#fff"), borderRadius: 16, borderWidth: 2, borderColor: K.bd("#F0DFC0"), paddingVertical: 5, paddingHorizontal: 8 },
   stepDone: { backgroundColor: K.bg("#F6F0E4"), borderColor: K.bd("#EDE3D0") },
   stepNext: { borderColor: NIGHT.pumpkin },
-  rail: { width: 40, alignItems: "center", justifyContent: "center" },
+  rail: { width: 34, alignItems: "center", justifyContent: "center" },
   railLine: { position: "absolute", top: 0, bottom: 0, width: 4, borderRadius: 2, backgroundColor: K.bg("#EADBC0") },
   node: { minWidth: 34, height: 24, borderRadius: 12, paddingHorizontal: 4, alignItems: "center", justifyContent: "center", backgroundColor: K.bg("#FFF6E3"), borderWidth: 2, borderColor: K.bd("#EADBC0") },
   nodeOn: { backgroundColor: NIGHT.pumpkin, borderColor: NIGHT.pumpkin },
-  trackHead: { height: 104, borderRadius: 20, overflow: "hidden", padding: 14, justifyContent: "flex-end", backgroundColor: NIGHT.bg },
+  trackHead: { height: 76, borderRadius: 20, overflow: "hidden", padding: 12, paddingTop: 8, paddingRight: 44, justifyContent: "flex-end", backgroundColor: NIGHT.bg },
   trackHeadImg: { position: "absolute", left: 0, top: 0, right: 0, bottom: 0, opacity: 0.75 },
-  trick: { flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: NIGHT.bg, borderRadius: 22, padding: 12, borderWidth: 2, borderColor: NIGHT.card },
+  trick: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: "rgba(32,20,48,0.92)", borderRadius: 26, paddingVertical: 6, paddingLeft: 6, paddingRight: 8, borderWidth: 1.5, borderColor: "rgba(240,138,36,0.55)" },
+  trickWin: { width: 44, height: 44, borderRadius: 22, alignItems: "center", justifyContent: "center", backgroundColor: "rgba(255,197,107,0.16)", borderWidth: 1.5, borderColor: "rgba(255,197,107,0.45)" },
+  trickPts: { flexDirection: "row", alignItems: "center", gap: 2, paddingHorizontal: 6, height: 18, borderRadius: 9, backgroundColor: "rgba(240,138,36,0.22)" },
   scene: { borderRadius: 22, overflow: "hidden", backgroundColor: NIGHT.bg },
   aperture: { position: "absolute", overflow: "hidden" },
   knock: { position: "absolute", left: 0, right: 0, textAlign: "center", textShadowColor: "rgba(0,0,0,0.6)", textShadowRadius: 8 },

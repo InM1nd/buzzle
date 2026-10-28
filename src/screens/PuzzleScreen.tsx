@@ -4,16 +4,16 @@ import { BoosterId, BOOSTERS, SHOP_BOOSTER } from "../logic/loot";
 import { WEEKEND_MOVES, WEEKEND_STARS } from "../logic/day";
 import { BOOSTER_ART } from "../ui/lootUi";
 import React from "react";
-import { Image, ScrollView, StyleSheet, View } from "react-native";
+import { Image, ImageSourcePropType, ScrollView, StyleSheet, View } from "react-native";
 import { GameState, boosts, dailyStreak, dayColorInfo, freeMoves, puzzleHoneyMult, today } from "../logic/game";
 import { FLOWERS } from "../logic/garden";
 import { DAILY_MOVES, DAILY_STARS } from "../logic/day";
 import { colorName } from "../logic/bees";
 import { ART } from "../ui/art";
 import { C, F, shadow, K, themed, activeCard, isNight } from "../ui/theme";
-import { Bobbing, Card, CloseBtn, fmt, GameButton, Glow, Overlay, Press, Stars, Txt, useTopPad } from "../ui/components";
+import { Bobbing, Card, CloseBtn, fmt, GameButton, Glow, Overlay, Press, Stars, Txt, useTopPad, useBottomPad, FitTxt, fitSize } from "../ui/components";
 import { dateLong, days, weekday } from "../ui/format";
-import { activeEvent } from "../logic/event";
+import { activeEvent, nextEventStart } from "../logic/event";
 import { Pt } from "../ui/Fly";
 import { EventCard, EventUi } from "./EventTrack";
 
@@ -36,25 +36,32 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
   const [useMoves, setUseMoves] = React.useState(false);
   const [useBomb, setUseBomb] = React.useState(false);
   const bs = s.loot.boosters;
+  const boostFs = Math.min(...(["moves", "bomb", "shuffle"] as const).map((id) => fitSize(BOOSTERS[id].name, 15, 13)));
   const d = today(s, now);
   const res = s.daily.results[d];
   const streak = dailyStreak(s, now);
   const b = boosts(s);
   const date = new Date(now);
-  const chips: string[] = [];
+  // round bonuses on the free play card: one icon + one short label each
+  const chips: { k: string; icon: ImageSourcePropType; text: string }[] = [];
   const halloween = !!activeEvent(d) && React.useContext(EventUi);
-  if (halloween) chips.push(t("ev.chip"));
-  if (freeMoves(s) > 20) chips.push(t("pz.chipMoves", { n: freeMoves(s) - 20 }));
-  b.colorMult.forEach((m, i) => { if (m > 1) chips.push(t("pz.chipColor", { color: colorName(i), x: Math.round(m * 100) / 100 })); });
+  // the locked Night Flight card names the next start date (right this year and next year)
+  const ns = new Date(nextEventStart(today(s, now)) * 86400000);
+  const flLocked = t("fl.locked", { date: dateLong(new Date(ns.getUTCFullYear(), ns.getUTCMonth(), ns.getUTCDate())) });
+  if (halloween) chips.push({ k: "ev", icon: ART.pumpkin, text: t("pz.chipEvent") });
+  if (freeMoves(s) > 20) chips.push({ k: "mv", icon: BOOSTER_ART.moves, text: t("pz.chipMoves", { n: freeMoves(s) - 20 }) });
+  b.colorMult.forEach((m, i) => { if (m > 1) chips.push({ k: `c${i}`, icon: ART.cells[i], text: t("pz.chipColor", { color: colorName(i), x: Math.round(m * 100) / 100 }) }); });
   const dc = dayColorInfo(s, now);
-  if (b.wildChance > 0) chips.push(t("pz.chipJokers"));
-  if (b.bombAt < 6) chips.push(t("pz.chipBomb", { n: b.bombAt }));
+  if (b.wildChance > 0) chips.push({ k: "wild", icon: ART.wild, text: t("pz.chipJokers") });
+  if (b.bombAt < 6) chips.push({ k: "bomb", icon: ART.bomb, text: t("pz.chipBomb", { n: b.bombAt }) });
   const honeyBonus = Math.round((puzzleHoneyMult(s) - 1) * 100);
-  if (honeyBonus > 0) chips.push(t("pz.chipHoney", { n: honeyBonus }));
+  if (honeyBonus > 0) chips.push({ k: "honey", icon: ART.honey, text: t("pz.chipHoney", { n: honeyBonus }) });
 
   const top = useTopPad();
+
+  const bottom = useBottomPad();
   return (
-    <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: 110, gap: 14 }} showsVerticalScrollIndicator={false}>
+    <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: bottom, gap: 14 }} showsVerticalScrollIndicator={false}>
       <Txt v="h1" style={{ marginBottom: 2 }}>{t("tab.puzzle")}</Txt>
       <EventCard s={s} now={now} onClaim={onClaimTrack} />
       <View style={[styles.daily, shadow, activeCard()]}>
@@ -119,9 +126,17 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
           </View>
         </View>
         {chips.length ? (
-          <View style={styles.chips}>
-            {chips.map((c) => <View key={c} style={styles.chip}><Txt v="tiny" color={K.fg("#7B52C2")}>{c}</Txt></View>)}
-          </View>
+          <>
+            <Txt v="tiny" color={C.dim} style={{ marginTop: 12, letterSpacing: 0.6 }}>{t("pz.bonuses").toLocaleUpperCase()}</Txt>
+            <View style={styles.chips}>
+              {chips.map((c) => (
+                <View key={c.k} style={styles.chip}>
+                  <Image source={c.icon} style={{ width: 16, height: 16 }} resizeMode="contain" />
+                  <Txt v="tiny" numberOfLines={1} style={{ fontSize: 12, lineHeight: 16, fontWeight: "800" }}>{c.text}</Txt>
+                </View>
+              ))}
+            </View>
+          </>
         ) : <Txt v="small" color={C.dim} style={{ marginTop: 10 }}>{t("pz.unlockBees")}</Txt>}
         {s.stats.bestScore > 0 ? <Txt v="small" color={C.dim} style={{ marginTop: 8 }}>{t("pz.record", { n: fmt(s.stats.bestScore) })}</Txt> : null}
         {/* boosters you take into the round, always visible */}
@@ -149,14 +164,14 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
           <Image source={ART.flightIcon} style={{ width: 40, height: 40, opacity: halloween ? 1 : 0.55 }} />
           <Txt v="h3" color="#fff" style={{ marginTop: 6 }}>{t("fl.title")}</Txt>
           <Txt v="tiny" color={K.fg("#BFF5E6")}>{t(halloween ? "fl.sub" : "fl.lockedSub")}</Txt>
-          {!halloween ? <Txt v="tiny" color={K.fg("#FFC56B")} style={[F.black, { marginTop: 2 }]}>{t("fl.locked")}</Txt> : null}
+          {!halloween ? <Txt v="tiny" color={K.fg("#FFC56B")} style={[F.black, { marginTop: 2 }]}>{flLocked}</Txt> : null}
           {s.flight.best > 0 ? <Txt v="tiny" color={K.fg("#FFC56B")} style={{ marginTop: 2 }}>{t("fl.best", { n: s.flight.best })}</Txt> : null}
           <View style={{ flex: 1 }} />
           {/* Night Flight is a Halloween mini-game: outside the event the card stays, locked until next year */}
           {halloween ? (
             <GameButton title={t("pz.play")} color="honey" style={{ marginTop: 8 }} onPress={onFlight} label={t("fl.title")} />
           ) : (
-            <GameButton title={t("fl.lockedBtn")} disabled color="grey" style={{ marginTop: 8 }} onPress={() => {}} label={`${t("fl.title")}: ${t("fl.locked")}`} />
+            <GameButton title={t("fl.lockedBtn")} disabled color="grey" style={{ marginTop: 8 }} onPress={() => {}} label={`${t("fl.title")}: ${flLocked}`} />
           )}
         </Card>
       </View>
@@ -175,16 +190,22 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
         <Txt v="h2" style={{ marginBottom: 2, paddingRight: 44 }}>{t("mode.free")}</Txt>
         <Txt v="small" color={C.dim} style={{ marginBottom: 12, paddingRight: 44 }}>{t("pz.pickBoosters")}</Txt>
         <View style={{ gap: 10 }}>
+          {/* one font size for all three names (the longest decides), so the cards read evenly */}
           {(["moves", "bomb", "shuffle"] as const).map((id) => {
             const have = bs[id], price = SHOP_BOOSTER[id];
             const on = id === "moves" ? useMoves : id === "bomb" ? useBomb : false;
             const toggle = id === "moves" ? () => setUseMoves(!useMoves) : id === "bomb" ? () => setUseBomb(!useBomb) : null;
             return (
-              <View key={id} style={[styles.boostCard, on && styles.boostOn]}>
-                <Image source={BOOSTER_ART[id]} style={{ width: 44, height: 44 }} resizeMode="contain" />
+              <View key={id} style={[styles.boostCard, on && styles.boostOn, { flexWrap: "wrap", gap: 10, paddingHorizontal: 10 }]}>
+                {/* one tidy row: icon with the count badge · one-line name over a two-line description · price / switch */}
+                <View style={{ width: 40, height: 40 }}>
+                  <Image source={BOOSTER_ART[id]} style={{ width: 40, height: 40 }} resizeMode="contain" />
+                  <View style={[styles.countBadge, have > 0 && styles.countBadgeOn]} accessibilityLabel={`×${have}`}>
+                    <Txt v="tiny" color={have > 0 ? "#fff" : C.dim} style={[F.black, { fontSize: 10, lineHeight: 13 }]}>×{have}</Txt>
+                  </View>
+                </View>
                 <View style={{ flex: 1, minWidth: 0 }}>
-                  <Txt v="h3" numberOfLines={1}>{BOOSTERS[id].name} <Txt v="small" color={C.dim}>×{have}</Txt></Txt>
-                  <Txt v="tiny" color={C.dim} numberOfLines={2}>{id === "shuffle" ? t("pz.shuffleInRound") : BOOSTERS[id].desc}</Txt>
+                  <FitTxt text={BOOSTERS[id].name} base={boostFs} chars={99} />
                 </View>
                 {have > 0 && toggle ? (
                   <Press onPress={toggle} style={[styles.check, on && styles.checkOn]} accessibilityRole="checkbox" accessibilityState={{ checked: on }} accessibilityLabel={BOOSTERS[id].name} scaleTo={0.9}>
@@ -192,8 +213,10 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
                   </Press>
                 ) : have === 0 ? (
                   <GameButton small title={`${price}`} icon={ART.pollen} color={s.loot.pollen >= price ? "green" : "white"} disabled={s.loot.pollen < price}
-                    onPress={() => onBuyBooster(id)} label={t("pz.buyBooster", { name: BOOSTERS[id].name, n: price })} style={{ minWidth: 0, width: 84 }} />
+                    onPress={() => onBuyBooster(id)} label={t("pz.buyBooster", { name: BOOSTERS[id].name, n: price })} style={{ minWidth: 0, width: 66 }} />
                 ) : <View style={styles.check}><Txt v="tiny" color={C.green} style={{ fontWeight: "900" }}>✓</Txt></View>}
+                {/* the description runs under the whole row (two lines reserved so all three cards are the same height) */}
+                <Txt v="tiny" color={C.dim} numberOfLines={2} style={{ width: "100%", minHeight: 30, paddingLeft: 50, marginTop: -4 }}>{id === "shuffle" ? t("pz.shuffleInRound") : BOOSTERS[id].desc}</Txt>
               </View>
             );
           })}
@@ -227,13 +250,15 @@ const styles = themed(() => StyleSheet.create({
   thresholds: { flexDirection: "row", gap: 8, marginTop: 10 },
   th: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: K.bg("rgba(255,255,255,0.45)"), borderRadius: 12, paddingHorizontal: 8, paddingVertical: 3 },
   freeIcon: { width: 58, height: 58, borderRadius: 18, backgroundColor: K.bg("#FFF3D6"), alignItems: "center", justifyContent: "center" },
-  chips: { flexDirection: "row", flexWrap: "wrap", gap: 6, marginTop: 10 },
+  chips: { flexDirection: "row", flexWrap: "wrap", gap: 6, marginTop: 6 },
   boostRow: { flexDirection: "row", gap: 8, marginTop: 12 },
   boostMini: { flexDirection: "row", alignItems: "center", gap: 4, borderRadius: 12, borderWidth: 2, borderColor: C.line, paddingHorizontal: 8, paddingVertical: 3, backgroundColor: K.bg("#fff") },
   boostCard: { flexDirection: "row", alignItems: "center", gap: 10, borderRadius: 18, borderWidth: 2, borderColor: C.line, padding: 10, backgroundColor: K.bg("#fff") },
   check: { width: 40, height: 40, borderRadius: 14, borderWidth: 2, borderColor: C.line, alignItems: "center", justifyContent: "center", backgroundColor: K.bg("#fff") },
   checkOn: { borderColor: C.green, backgroundColor: K.bg("#E4F7EA") },
   boost: { flex: 1, flexDirection: "row", alignItems: "center", gap: 6, borderRadius: 14, borderWidth: 2, borderColor: C.line, padding: 6, backgroundColor: K.bg("#fff") },
+  countBadge: { position: "absolute", right: -6, bottom: -4, minWidth: 22, paddingHorizontal: 4, height: 16, borderRadius: 8, alignItems: "center", justifyContent: "center", backgroundColor: K.bg("#F3EAD8"), borderWidth: 1.5, borderColor: K.bd("#fff") },
+  countBadgeOn: { backgroundColor: C.green },
   boostOn: { borderColor: C.green, backgroundColor: K.bg("#E4F7EA") },
-  chip: { backgroundColor: K.bg("#F1E8FF"), borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3 },
+  chip: { flexDirection: "row", alignItems: "center", gap: 5, height: 28, paddingLeft: 6, paddingRight: 10, borderRadius: 14, backgroundColor: K.bg("#FFF6E3"), borderWidth: 1.5, borderColor: C.line },
 }));

@@ -94,8 +94,11 @@ export const ITEM_BY_ID: Record<string, Collectible> = Object.fromEntries([...IT
 export const SKIN_BY_ID: Record<string, Collectible> = Object.fromEntries([...SKINS, ...EVENT_SKINS].map((i) => [i.id, i]));
 
 export interface Page { id: PageId; title: string; items: string[]; bonus: string }
+/** v1.6.1: items taken out of the combs (the headphones skin). Owners keep the id in the save (it is hidden in the album,
+ *  shop and wardrobe) and get the duplicate pollen for it once, see migrateLoot. */
+export const RETIRED: readonly string[] = ["headphones"];
 export const PAGES: Page[] = [
-  { id: "skins", title: "", items: SKINS.map((i) => i.id), bonus: "" },
+  { id: "skins", title: "", items: SKINS.filter((i) => !RETIRED.includes(i.id)).map((i) => i.id), bonus: "" },
   { id: "hive", title: "", items: DECOS.filter((d) => d.place === "hive").map((i) => i.id), bonus: "" },
   { id: "garden", title: "", items: DECOS.filter((d) => d.place === "garden").map((i) => i.id), bonus: "" },
   { id: "rare", title: "", items: RARE_ENTRIES.map((i) => i.id), bonus: "" },
@@ -156,12 +159,16 @@ export interface Loot {
   opened: Record<BoxKind, number>;
   /** decorations the player put away */
   hidden: string[];
+  /** v1.6.1: retired items this save was already compensated for (one-time duplicate pollen) */
+  retired?: string[];
 }
 export const newLoot = (seed: number): Loot => ({
   boxes: { wood: 0, wax: 0, gold: 0, royal: 0 }, rng: seed >>> 0, pity: { sinceEpic: 0, sinceLeg: 0 },
   owned: [], pollen: 0, fragments: 0, boosters: { moves: 0, bomb: 0, shuffle: 0 }, seeds: {},
-  opened: { wood: 0, wax: 0, gold: 0, royal: 0 }, hidden: [],
+  opened: { wood: 0, wax: 0, gold: 0, royal: 0 }, hidden: [], retired: [],
 });
+/** what a comb item slot can roll: every box item except the retired ones */
+export const LOOT_ITEMS = (): Collectible[] => ITEMS.filter((i) => !RETIRED.includes(i.id));
 
 /** slot: the drop came from an item slot (rolled with the visible odds), not from the fixed resources */
 export type Drop = (
@@ -225,7 +232,7 @@ export function openComb(l: Loot, kind: BoxKind, ctx: OpenCtx): { loot: Loot; dr
   for (const r of slots) {
     const what = pickWeighted(rng, KIND_ODDS[r]);
     if (what === "item") {
-      const pool = ITEMS.filter((it) => it.rarity === r);
+      const pool = LOOT_ITEMS().filter((it) => it.rarity === r);
       let it = pool[rng.int(pool.length)];
       // soft duplicate protection: a duplicate is re-rolled once (shown in the odds sheet)
       if (owned.has(it.id) && DUP_REROLL) it = pool[rng.int(pool.length)];
@@ -280,7 +287,7 @@ export const bestRarity = (drops: Drop[]): Rarity =>
 // ---------------------------------------------------------------- shop
 export function buyItem(l: Loot, id: string): Loot | null {
   const it = ITEMS.find((i) => i.id === id);
-  if (!it || l.owned.includes(id) || l.pollen < SHOP_PRICE[it.rarity]) return null;
+  if (!it || RETIRED.includes(id) || l.owned.includes(id) || l.pollen < SHOP_PRICE[it.rarity]) return null;
   return { ...l, pollen: l.pollen - SHOP_PRICE[it.rarity], owned: [...l.owned, id] };
 }
 export function buyBooster(l: Loot, b: BoosterId): Loot | null {
@@ -310,14 +317,20 @@ export function migrateLoot(raw: unknown, seed: number): Loot {
   const ids = (v: unknown, ok: (s: string) => boolean) => (Array.isArray(v) ? Array.from(new Set(v.filter((x): x is string => typeof x === "string" && ok(x)))) : []);
   const seeds: Record<string, number> = {};
   for (const [k, v] of Object.entries(o.seeds && typeof o.seeds === "object" ? o.seeds : {})) { const n = num(v); if (n > 0 && typeof k === "string") seeds[k] = n; }
+  const owned = ids(o.owned, (x) => !!ITEM_BY_ID[x] && x !== NIGHT_BEE);
+  // one-time compensation for retired items the player owns: the same pollen a duplicate of that rarity gives
+  const retired = ids(o.retired, (x) => RETIRED.includes(x));
+  let pollen = num(o.pollen);
+  for (const id of RETIRED) if (owned.includes(id) && !retired.includes(id)) { pollen += DUP_POLLEN[ITEM_BY_ID[id].rarity]; retired.push(id); }
   return {
     boxes: rec(BOX_KINDS, o.boxes),
     rng: typeof o.rng === "number" && Number.isFinite(o.rng) ? o.rng >>> 0 : d.rng,
     pity: { sinceEpic: Math.min(PITY_EPIC - 1, num(o.pity?.sinceEpic)), sinceLeg: Math.min(PITY_LEGENDARY - 1, num(o.pity?.sinceLeg)) },
-    owned: ids(o.owned, (x) => !!ITEM_BY_ID[x] && x !== NIGHT_BEE),
-    pollen: num(o.pollen), fragments: Math.min(FRAGMENTS_FOR_BEE, num(o.fragments)),
+    owned,
+    pollen, fragments: Math.min(FRAGMENTS_FOR_BEE, num(o.fragments)),
     boosters: rec(["moves", "bomb", "shuffle"] as BoosterId[], o.boosters),
     seeds, opened: rec(BOX_KINDS, o.opened),
     hidden: ids(o.hidden, (x) => ALL_DECOS.some((dd) => dd.id === x)),
+    retired,
   };
 }

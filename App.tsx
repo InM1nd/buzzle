@@ -36,7 +36,7 @@ import { SceneBg } from "./src/ui/SceneBg";
 import { TabIcon } from "./src/ui/TabIcon";
 import { Mascot } from "./src/ui/BeeSprite";
 import { C, F, shadow, K, themed, resolveTheme, setTheme, themeName, isNight } from "./src/ui/theme";
-import { Bar, GameButton, Pill, Press, TopPad, Txt } from "./src/ui/components";
+import { Bar, BottomPad, GameButton, Pill, Press, TopPad, Txt } from "./src/ui/components";
 import { centerOf, FlyProvider, Pt, useFly } from "./src/ui/Fly";
 import HiveScreen from "./src/screens/HiveScreen";
 import PuzzleScreen from "./src/screens/PuzzleScreen";
@@ -51,6 +51,7 @@ import { Lang, setLang } from "./src/i18n";
 import { chooseLanguage, setSetting, Settings } from "./src/logic/game";
 import { compareVersions } from "./src/logic/update";
 import { activeEvent, devForce, forceEvent, PUMPKIN_CHANCE } from "./src/logic/event";
+import { clockPaused } from "./src/logic/clock";
 import { CINE, EventCine, oldLayerOpacity, useReduceMotion } from "./src/ui/EventCine";
 import { IntroVideo } from "./src/ui/IntroVideo";
 import { INTRO_BG } from "./src/ui/introVideoShared";
@@ -61,12 +62,14 @@ import { FLIGHT_PAID_RUNS } from "./src/logic/nightFlight";
 import FlightScreen from "./src/screens/FlightScreen";
 import { useUpdater } from "./src/ui/useUpdater";
 import { APP_VERSION, DEV_BUILD } from "./src/version";
+import { webFlags } from "./src/logic/devFlags";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
-// web previews / screenshots: `?event=1` runs the seasonal event outside its dates; `?dev=1` shows the dev switches
-const webQuery = Platform.OS === "web" && typeof window !== "undefined" ? window.location?.search ?? "" : "";
-const WEB_EVENT = /[?&]event=1(&|$)/.test(webQuery);
-const DEV = DEV_BUILD || /[?&]dev=1(&|$)/.test(webQuery);
+// web previews / screenshots: `?event=1` / `?dev=1`, only on localhost or in the dev build (see src/logic/devFlags.ts)
+const onWeb = Platform.OS === "web" && typeof window !== "undefined";
+const FLAGS = webFlags(onWeb ? window.location?.search ?? "" : "", onWeb ? window.location?.hostname ?? "" : "", DEV_BUILD);
+const WEB_EVENT = FLAGS.event;
+const DEV = FLAGS.dev;
 if (WEB_EVENT) forceEvent(true);
 pinArt();          // web: keep all art in memory so remounts never refetch (no-op on Android)
 initTelegram(C.bg); // web inside Telegram: ready/expand/fullscreen, no swipe-to-close, header colour
@@ -107,12 +110,20 @@ function Main() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [topH, setTopH] = useState(0);
+  // the Combs/Garden switcher always stays mounted (hidden off the Hive tab), so the header height never
+  // changes between tabs; screens get a pad computed in the same render as the tab switch instead of a
+  // late onLayout, which used to shift every screen by the switcher height for a frame or two
+  const [segH, setSegH] = useState(0);
+  const padTop = tab === "hive" ? topH : Math.max(0, topH - segH);
+  const [tabH, setTabH] = useState(64);
   const [settingsPage, setSettingsPage] = useState<"main" | "update">("main");
   const [showWhatsNew, setShowWhatsNew] = useState(false);
   /** night-falls transition: dir, `look` = whether the event look is shown right now. "prep" renders the old look (a replay
    *  may have to switch back to it first), "run" keeps that rendered interface (`from`) frozen on top and fades it out over
    *  the new one */
   const [cine, setCine] = useState<{ dir: "in" | "out"; key: number; look: boolean; replay?: boolean; phase: "video" | "prep" | "run"; from?: Layer; vid?: boolean } | null>(null);
+  const busy = useRef({ cine: false, flight: false });
+  busy.current = { cine: !!cine, flight: !!flight };
   /** the intro clip failed once (codec, autoplay): later runs go straight to the transition */
   const videoFailed = useRef(false);
   /** the night falls with the intro clip first: "in", motion allowed, the clip has not failed */
@@ -173,6 +184,7 @@ function Main() {
   // ----- clock -----
   useEffect(() => {
     const id = setInterval(() => {
+      if (clockPaused(busy.current)) return; // full-screen animation: no app-wide re-render (tick catches up after)
       const t = Date.now();
       setNow(t);
       const cur = sRef.current;
@@ -578,7 +590,7 @@ function Main() {
     const halloween = game.mode === "free" && eventOn;
     return (
       <View key={themeKey} style={{ flex: 1, backgroundColor: C.bg }}>
-        <StatusBar style={puzzleNight ? "light" : "dark"} />
+        <StatusBar style={puzzleNight || isNight() ? "light" : "dark"} />
         <Image source={sceneBg("puzzle", day, puzzleNight)} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} />
         <GameScreen
           key={game.key}
@@ -615,16 +627,18 @@ function Main() {
   const main = (
     <View style={{ flex: 1, backgroundColor: C.bg }}>
       <EventUi.Provider value={eventUi}>
-      <StatusBar style={night && tab === "hive" ? "light" : "dark"} />
+      {/* status bar icons follow what is under them: light on the Midnight theme, a night scene or the transition / intro clip, dark on classic cream */}
+      <StatusBar style={isNight() || !!cine || (night && tab === "hive") ? "light" : "dark"} />
       {tab === "hive" ? (
         <SceneBg source={sceneBg(view, day, night)} />
       ) : null}
-      <TopPad.Provider value={topH}>
+      <TopPad.Provider value={padTop}>
+      <BottomPad.Provider value={tabH + Math.max(insets.bottom, 8) + 16}>
       <View style={{ flex: 1 }}>
         {tab === "hive" ? (
           <View style={{ flex: 1 }}>
           {hiveView === "garden" ? (
-            <GardenScreen s={s} now={now} onPlant={act.plant} onWater={act.water} onWaterAll={act.waterAll} onHarvest={act.harvest}
+            <GardenScreen s={s} now={now} night={night} onPlant={act.plant} onWater={act.water} onWaterAll={act.waterAll} onHarvest={act.harvest}
               onUnlockBed={act.unlockBed} onIntroDone={act.gardenIntroDone}
               onToggleDeco={(id) => act.simple((c) => toggleDeco(c, id))} onShop={() => { setLootSeg("shop"); setTab("loot"); }} />
           ) : (
@@ -668,6 +682,7 @@ function Main() {
           <TasksScreen s={s} now={now} onClaimTrack={act.track} onClaimWeekly={act.weekly} onBuyFreeze={() => act.simple((c) => buyFreeze(c, Date.now()))} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} />
         )}
       </View>
+      </BottomPad.Provider>
       </TopPad.Provider>
 
       {/* top bar: one currency bar + gear, floating over the scene like the tab bar */}
@@ -685,8 +700,10 @@ function Main() {
             {updater.available ? <View style={[styles.badge, { top: -1, right: -1 }]} /> : null}
           </Press>
         </View>
-        {tab === "hive" ? (
-          <View style={styles.seg} accessibilityRole="tablist">
+        {(
+          <View style={[styles.seg, tab !== "hive" && { opacity: 0 }]} accessibilityRole="tablist" pointerEvents={tab === "hive" ? "auto" : "none"}
+            accessibilityElementsHidden={tab !== "hive"} importantForAccessibility={tab === "hive" ? "auto" : "no-hide-descendants"} aria-hidden={tab !== "hive"}
+            onLayout={(e) => setSegH(Math.round(e.nativeEvent.layout.height) + 14)}>
             {(["hive", "garden"] as const).map((v) => (
               <Press key={v} onPress={() => setHiveView(v)} style={[styles.segBtn, hiveView === v && styles.segOn]} scaleTo={0.96}
                 accessibilityRole="tab" accessibilityLabel={t(v === "hive" ? "seg.combs" : "seg.garden")} accessibilityState={{ selected: hiveView === v }}>
@@ -696,11 +713,11 @@ function Main() {
               </Press>
             ))}
           </View>
-        ) : null}
+        )}
       </View>
 
       {/* tab bar */}
-      <View style={[styles.tabs, { position: "absolute", left: 0, right: 0, bottom: Math.max(insets.bottom, 8) }]}>
+      <View onLayout={(e) => { const h = Math.round(e.nativeEvent.layout.height); if (Math.abs(h - tabH) > 1) setTabH(h); }} style={[styles.tabs, { position: "absolute", left: 0, right: 0, bottom: Math.max(insets.bottom, 8) }]}>
         {TABS.map((t) => {
           const on = tab === t.id;
           const badge = t.id === "loot" ? s.loot.boxes.wood + s.loot.boxes.wax + s.loot.boxes.gold > 0 || (!s.week.chest && s.week.tasks >= 15) : t.id === "tasks" ? tasksReady || canClaimLogin(s, now) : t.id === "puzzle" ? !s.daily.results[todayOf(s, now)]?.stars : t.id === "hive" ? (s.hive.stored >= 1 && s.hive.stored >= 0.999 * capOf(s)) || gardenBadge : false;

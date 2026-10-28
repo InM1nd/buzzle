@@ -62,7 +62,9 @@ PY
 fi
 # v1.4 in-app updater (GitHub Releases). A Play Store build turns it off:
 #   BZZ_UPDATER=off bash scripts/configure-android.sh && EXPO_PUBLIC_BZZ_UPDATER=off ./gradlew assembleRelease
+#   Google Play build: EXPO_PUBLIC_STORE=play bash scripts/configure-android.sh (implies BZZ_UPDATER=off)
 MAN=android/app/src/main/AndroidManifest.xml
+[ "${EXPO_PUBLIC_STORE:-}" = "play" ] && BZZ_UPDATER=off
 if [ "${BZZ_UPDATER:-on}" = "off" ]; then
   python3 - "$MAN" <<'PY'
 from pathlib import Path

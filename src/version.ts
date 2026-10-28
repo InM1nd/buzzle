@@ -6,3 +6,5 @@ export const GITHUB_URL = `https://github.com/${GITHUB_REPO}`;
 export const PRIVACY_URL = "https://inm1nd.github.io/buzzle/privacy/";
 /** side-by-side dev build (com.zabolotny.bzz.dev): built with EXPO_PUBLIC_BZZ_DEV=1; shows the developer switches */
 export const DEV_BUILD = process.env.EXPO_PUBLIC_BZZ_DEV === "1";
+/** Google Play build (EXPO_PUBLIC_STORE=play): no in-app GitHub updater, updates come from the store */
+export const PLAY_BUILD = process.env.EXPO_PUBLIC_STORE === "play";

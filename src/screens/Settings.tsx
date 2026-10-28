@@ -19,6 +19,7 @@ import { Mascot } from "../ui/BeeSprite";
 import { Bar, CloseBtn, GameButton, Glow, Overlay, Press, Txt } from "../ui/components";
 import { activeCard, C, F, isNight, K, themed } from "../ui/theme";
 import { Toggle } from "../ui/Toggle";
+import { analyticsConfigured } from "../platform/analytics";
 import { Updater } from "../ui/useUpdater";
 import { APP_VERSION, APP_VERSION_CODE, GITHUB_URL, PRIVACY_URL } from "../version";
 import { LANG_NAME } from "./LanguagePicker";
@@ -210,6 +211,13 @@ function Main(p: SettingsProps & { go: (pg: Page) => void }) {
           <Txt v="h2" color={C.faint}>›</Txt>
         </Press>
       </Group>
+
+      {/* anonymous statistics (opt-out) */}
+      {analyticsConfigured() ? (
+        <Group title={t("st.gStats")}>
+          <Row title={t("st.stats")} sub={t("st.statsSub")} last><Toggle value={st.analytics} onChange={(v) => p.onSet("analytics", v)} label={t("st.stats")} /></Row>
+        </Group>
+      ) : null}
 
       {/* progress */}
       <Group title={t("st.gSave")}>

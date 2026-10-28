@@ -6,6 +6,7 @@ import { Entry, isLang, Lang, LANGS } from "../i18n/core";
 import { STRINGS } from "../i18n";
 import { APP_VERSION } from "../version";
 import { boostsFor, BEE_BY_ID, levelCost, MAX_BEE_LEVEL } from "./bees";
+import { isAnalyticsId, newAnalyticsId } from "./analytics";
 import { dayKey, dayNumber, isWeekend, starsFor, weekOf, WEEKEND_STARS } from "./day";
 import {
   buildCost, builtCount, capHours, capacity, Hive, hiveLevel, MAX_COMB_LEVEL, newHive, productionPerHour, settle, UpgradeId,
@@ -76,6 +77,8 @@ export interface GameState {
   flight: { day: number; runs: number; best: number };
   /** anti clock-rollback bookkeeping */
   clock: { maxSeen: number; maxDay: number };
+  /** 1.6.2: random anonymous install id for analytics (no personal data) */
+  aid: string;
 }
 
 export interface Settings {
@@ -99,6 +102,8 @@ export interface Settings {
   devEvent: DevEventMode;
   /** v1.6 interface style: auto = violet "midnight" during the Halloween event, classic otherwise */
   ui: UiStyle;
+  /** 1.6.2: anonymous retention analytics (opt-out) */
+  analytics: boolean;
 }
 export { UI_STYLES };
 export type { UiStyle };
@@ -132,12 +137,13 @@ export function newState(now: number): GameState {
     settings: {
       notifications: false, haptics: true, tutorialDone: false, notifPromptDismissed: false, gardenReminders: true, gardenIntroDone: false,
       lang: "en", langPicked: false, sound: true, notifHive: true, notifDaily: true, notifChests: true,
-      quietOn: true, quietFrom: 22, quietTo: 9, autoUpdate: true, lastVersion: APP_VERSION, tiles: "mellow", devEvent: "on", ui: "auto",
+      quietOn: true, quietFrom: 22, quietTo: 9, autoUpdate: true, lastVersion: APP_VERSION, tiles: "mellow", devEvent: "on", ui: "auto", analytics: true,
     },
     early: { firstSeen: isoDay(now), version: APP_VERSION, early: isEarlyVersion(APP_VERSION) },
     event: newEventState(),
     flight: { day, runs: 0, best: 0 },
     clock: { maxSeen: now, maxDay: day },
+    aid: newAnalyticsId(),
   };
 }
 
@@ -203,6 +209,7 @@ export function migrate(raw: unknown, now: number): GameState {
       : newEventState(),
     flight: { day: num(obj(s.flight).day, d.flight.day), runs: Math.max(0, num(obj(s.flight).runs, 0) | 0), best: Math.max(0, num(obj(s.flight).best, 0) | 0) },
     clock: { maxSeen: clockMax, maxDay },
+    aid: isAnalyticsId(s.aid) ? s.aid : d.aid,
   };
 }
 
@@ -225,6 +232,7 @@ function migrateSettings(d: Settings, raw: Record<string, any>, version: unknown
     tiles: TILE_STYLES.includes(tiles) ? tiles : d.tiles,
     devEvent: raw.devEvent === true ? "on" : raw.devEvent === false ? "off" : DEV_EVENT_MODES.includes(raw.devEvent) ? raw.devEvent : d.devEvent,
     ui: UI_STYLES.includes(raw.ui) ? raw.ui : d.ui,
+    analytics: b("analytics"),
   };
 }
 function migrateEarly(s: Record<string, any>, now: number): EarlyPlayer {

@@ -111,7 +111,7 @@ A minimal backend, if needed: one serverless function with a database (for examp
 | **v1.5 — UX/UI optimisation** | Five equal tabs, the new "honey crystal" art, new bees with flapping wings, reworked hive, garden, puzzle and tasks (see below) | ✅ done (v1.5.0) |
 | **v1.5.1** | Minor fix release after 1.5.0: a single floating currency bar, compact garden timers, a planting dialog, a clearer bee level, softer puzzle tiles (see "v1.5.1 — fix plan" below) | ⏩ folded into v1.6 (v1.6.0) |
 | **v1.6** | A new mini-game (nectar flight) + a Halloween event (pumpkin combs, bee costumes, event tasks) + decorations: decide what they are for (was v1.5.5) | ✅ released (v1.6.0, 19 October 2026): Pumpkin Night event, Night Flight, costumes, guest, seasonal backdrops; the purpose of decorations moves to a later version |
-| **v1.6.1** | Fixes and polish after 1.6.0: guest banner, booster and reward cards, safe areas and status bar, perf (clock pause), intro clip robustness, texts (informal address in ru) | 🛠 in progress |
+| **v1.6.1** | Fixes and polish after 1.6.0: guest banner, booster and reward cards, safe areas and status bar, perf (clock pause), intro clip robustness, texts (informal address in ru) | ✅ released Oct 28, 2026 |
 | **v1.7** | Winter season (a seasonal bee, a royal comb) + TBD (see "Open questions" below) | open |
 | **v1.8** | New permanent Play-tab mode **Hive Run** (a Wild Hive-style roguelite, minimal version; hive defence from wasp raids comes later as part of it). See "v1.8 — Hive Run" below | planned |
 | **v1.9** | Improvements and fixes from feedback; a Christmas / New Year event (content TBD, see "Open questions") | open |
@@ -266,7 +266,7 @@ The 24 MB limit only applied to chat attachments; the APKs are distributed throu
 1. **v1.5:** ✅ released as 1.5.0 (sounds, the leftovers of old art and the APK size carry over).
 2. **v1.5.1:** the minor fixes from Alexander's feedback (see "v1.5.1 — fix plan").
 3. **v1.6:** the nectar flight, the Halloween event and the purpose of decorations (was v1.5.5), by October 31.
-4. **v1.6.1:** 🛠 in progress (fixes and polish).
+4. **v1.6.1:** ✅ released Oct 28, 2026 (fixes and polish).
 5. **v1.7:** winter season (seasonal bee, royal comb) + TBD; biomes, the meadow home screen and prestige are later ideas, Zhuzha's story is prepared separately.
 
 ## v1.4.2 — fix plan (folded into v1.5)

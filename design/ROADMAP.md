@@ -113,9 +113,9 @@ A minimal backend, if needed: one serverless function with a database (for examp
 | **v1.6** | A new mini-game (nectar flight) + a Halloween event (pumpkin combs, bee costumes, event tasks) + decorations: decide what they are for (was v1.5.5) | ✅ released (v1.6.0, 19 October 2026): Pumpkin Night event, Night Flight, costumes, guest, seasonal backdrops; the purpose of decorations moves to a later version |
 | **v1.6.1** | Fixes and polish after 1.6.0: guest banner, booster and reward cards, safe areas and status bar, perf (clock pause), intro clip robustness, texts (informal address in ru) | 🛠 in progress |
 | **v1.7** | Winter season (a seasonal bee, a royal comb) + TBD (see "Open questions" below) | open |
-| **v1.8** | One more mini-game (for example pollen sorting or hive defence) | |
+| **v1.8** | New permanent Play-tab mode **Hive Run** (a Wild Hive-style roguelite, minimal version; hive defence from wasp raids comes later as part of it). See "v1.8 — Hive Run" below | planned |
 | **v1.9** | Improvements and fixes from feedback; a Christmas / New Year event (content TBD, see "Open questions") | open |
-| **v2.0** | Event analytics and an economy dashboard; online: sign-in and shared Telegram/Android progress, a leaderboard, friends, gifts; more games; a spring season, then seasons in a loop; perks for beta testers and the start of the public test (posts on Threads) | |
+| **v2.0** | Event analytics and an economy dashboard; online: sign-in and shared Telegram/Android progress, a leaderboard, friends, gifts; more games; a spring season, then seasons in a loop; perks for beta testers and the start of the public test (posts on Threads); Hive Run expansion: 8–12-year runs, honey market, wasps and queen defence, run leaderboard |
 
 ### v1.4 — QoL: languages, updates, settings
 
@@ -161,6 +161,20 @@ Status: **released as 1.5.0** (versionCode 21, October 2026) from the `v1.5-ui` 
 - Checking an install over 1.4.1 with real progress on a device and the UI inside the Telegram clients (so far only checked in a browser with a Telegram mock).
 
 APK size: reasonably light, a guideline of up to 50–60 MB (the 24 MB limit is lifted). Sprites in WebP.
+
+### v1.8 — Hive Run (Wild Hive-style roguelite mode)
+A permanent mode in the Play tab, like Night Flight, separate from the cozy main loop. Mockups: `design/hive-run/`.
+
+**Minimal version (v1.8):**
+- A run of 3–4 "years" with 4 turns each; your own hive on hexes.
+- One honey type.
+- Sorties for nectar with a chance of losing bees.
+- A yearly honey quota: miss it and the run ends.
+- About 6 modifiers, pick 1 of 3 once a year.
+- Reward: pollen for the main game, with a daily limit.
+- The run is saved between sessions (one year ≈ 3–5 minutes). The architecture must let the run grow longer without a rewrite.
+
+**Expansion (v2.0):** 8–12-year runs, a honey market with a floating price for 2–3 honey types, wasp raids and queen defence, a run leaderboard (needs accounts).
 
 ### Open questions (decisions of 21 October 2026, for a later brainstorm with Claude)
 

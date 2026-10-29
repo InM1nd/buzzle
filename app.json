@@ -9,7 +9,7 @@
     "backgroundColor": "#FFF6E3",
     "android": {
       "package": "com.zabolotny.bzz",
-      "versionCode": 29,
+      "versionCode": 37,
       "adaptiveIcon": {
         "backgroundColor": "#F5A21B",
         "foregroundImage": "./assets/android-icon-hive-foreground.png"

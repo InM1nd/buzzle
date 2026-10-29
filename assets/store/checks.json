@@ -1,0 +1,74 @@
+{
+  "feature-graphic.png": {
+    "size": [
+      1024,
+      500
+    ],
+    "mode": "RGB",
+    "bytes": 576305,
+    "verified": true
+  },
+  "icon-512.png": {
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA",
+    "bytes": 347576,
+    "verified": true
+  },
+  "screenshots-captioned/01.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "mode": "RGB",
+    "bytes": 1658696,
+    "verified": true
+  },
+  "screenshots-captioned/03.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "mode": "RGB",
+    "bytes": 882972,
+    "verified": true
+  },
+  "screenshots-captioned/02.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "mode": "RGB",
+    "bytes": 1034220,
+    "verified": true
+  },
+  "screenshots-captioned/06.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "mode": "RGB",
+    "bytes": 360246,
+    "verified": true
+  },
+  "screenshots-captioned/05.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "mode": "RGB",
+    "bytes": 371080,
+    "verified": true
+  },
+  "screenshots-captioned/04.png": {
+    "size": [
+      1080,
+      1920
+    ],
+    "mode": "RGB",
+    "bytes": 435217,
+    "verified": true
+  }
+}

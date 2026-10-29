@@ -1,0 +1,29 @@
+{
+  "channel-avatar.png": {
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGB",
+    "bytes": 471479,
+    "verified": true
+  },
+  "post-welcome.png": {
+    "size": [
+      1280,
+      720
+    ],
+    "mode": "RGB",
+    "bytes": 1099161,
+    "verified": true
+  },
+  "post-playtest.png": {
+    "size": [
+      1280,
+      720
+    ],
+    "mode": "RGB",
+    "bytes": 1196955,
+    "verified": true
+  }
+}

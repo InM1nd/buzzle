@@ -2,16 +2,16 @@
  * v1.4 Android in-app update: GitHub latest release (public API, no token) → download the APK with progress →
  * the system package installer via a FileProvider content:// URI. Android asks once for "install unknown apps"
  * (REQUEST_INSTALL_PACKAGES); we also offer a shortcut to that settings page.
- * Disabled with EXPO_PUBLIC_BZZ_UPDATER=off (a future Play Store build).
+ * Disabled in the Google Play build (EXPO_PUBLIC_STORE=play) or with EXPO_PUBLIC_BZZ_UPDATER=off.
  */
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as FileSystem from "expo-file-system/legacy";
 import * as IntentLauncher from "expo-intent-launcher";
 import { Platform } from "react-native";
 import { parseRelease, ReleaseInfo } from "../logic/update";
-import { GITHUB_REPO } from "../version";
+import { GITHUB_REPO, PLAY_BUILD } from "../version";
 
-export const UPDATER_ENABLED = Platform.OS === "android" && process.env.EXPO_PUBLIC_BZZ_UPDATER !== "off";
+export const UPDATER_ENABLED = Platform.OS === "android" && process.env.EXPO_PUBLIC_BZZ_UPDATER !== "off" && !PLAY_BUILD;
 const PKG = "com.zabolotny.bzz";
 const KEY = "bzz:update";
 

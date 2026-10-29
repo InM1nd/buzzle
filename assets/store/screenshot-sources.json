@@ -1,0 +1,80 @@
+[
+  {
+    "file": "screenshots-captioned/01.png",
+    "caption": "Solve the daily honeycomb puzzle",
+    "source": "buzzle-screenshots.zip/screenshots/01-puzzle-round.png",
+    "sourceSha256": "521b4464c170b37d046c03c5bb14a794bda6dc85bd3f633fe84919cf7bf8c39b",
+    "screenshotRect": [
+      115,
+      330,
+      850,
+      1511
+    ],
+    "contentUnchanged": true
+  },
+  {
+    "file": "screenshots-captioned/02.png",
+    "caption": "Grow your cozy hive",
+    "source": "buzzle-screenshots.zip/screenshots/02-hive.png",
+    "sourceSha256": "19b547ea2e7bd6f1fff75064a21466d6b067ede1ba7d9dd0fa50cbb06f809c57",
+    "screenshotRect": [
+      115,
+      330,
+      850,
+      1511
+    ],
+    "contentUnchanged": true
+  },
+  {
+    "file": "screenshots-captioned/03.png",
+    "caption": "Tend your garden",
+    "source": "buzzle-screenshots.zip/screenshots/03-garden.png",
+    "sourceSha256": "828f273bbe7bf655823a970cd0aa75e8358c434a07615ad4e8123ffd7e38a8ee",
+    "screenshotRect": [
+      115,
+      330,
+      850,
+      1511
+    ],
+    "contentUnchanged": true
+  },
+  {
+    "file": "screenshots-captioned/04.png",
+    "caption": "Collect bees",
+    "source": "buzzle-screenshots.zip/screenshots/04-bees.png",
+    "sourceSha256": "d7c6b83c9261cc2f87ff3132281a931f6c1224d2222eebe1f54f6568f162ad2b",
+    "screenshotRect": [
+      115,
+      330,
+      850,
+      1511
+    ],
+    "contentUnchanged": true
+  },
+  {
+    "file": "screenshots-captioned/05.png",
+    "caption": "Open surprise combs",
+    "source": "buzzle-screenshots.zip/screenshots/06-surprise-combs.png",
+    "sourceSha256": "bc274116f21ca01295b98ffca1bf4a16b1fc111088fe546f9a47a4298ba9d6dc",
+    "screenshotRect": [
+      115,
+      330,
+      850,
+      1511
+    ],
+    "contentUnchanged": true
+  },
+  {
+    "file": "screenshots-captioned/06.png",
+    "caption": "Daily tasks and streaks",
+    "source": "buzzle-screenshots.zip/screenshots/08-tasks.png",
+    "sourceSha256": "4ff24b3730e09627df887dc5d34dc11b0ff5d9bd9a517bd967ed3a8852912638",
+    "screenshotRect": [
+      115,
+      330,
+      850,
+      1511
+    ],
+    "contentUnchanged": true
+  }
+]

@@ -25,6 +25,10 @@ import { UpgradeId } from "./src/logic/economy";
 import { planNotifications } from "./src/logic/notifyPlan";
 import { today as todayOf, cap as capOf } from "./src/logic/game";
 import { flushCloud, loadState, saveState } from "./src/ui/store";
+import { flushAnalytics, initAnalytics, track } from "./src/platform/analytics";
+import { diffEvents } from "./src/logic/analytics";
+/** a new session starts after 30 min in the background */
+const SESSION_GAP = 30 * 60 * 1000;
 import { addBackListener, dispatchBack } from "./src/platform/back";
 import { useInsets } from "./src/platform/insets";
 import { pinArt } from "./src/platform/pinArt";
@@ -122,8 +126,8 @@ function Main() {
    *  may have to switch back to it first), "run" keeps that rendered interface (`from`) frozen on top and fades it out over
    *  the new one */
   const [cine, setCine] = useState<{ dir: "in" | "out"; key: number; look: boolean; replay?: boolean; phase: "video" | "prep" | "run"; from?: Layer; vid?: boolean } | null>(null);
-  const busy = useRef({ cine: false, flight: false });
-  busy.current = { cine: !!cine, flight: !!flight };
+  const busy = useRef({ cine: false, flight: false, game: false });
+  busy.current = { cine: !!cine, flight: !!flight, game: Platform.OS === "web" && !!game };
   /** the intro clip failed once (codec, autoplay): later runs go straight to the transition */
   const videoFailed = useRef(false);
   /** the night falls with the intro clip first: "in", motion allowed, the clip has not failed */
@@ -156,7 +160,14 @@ function Main() {
   };
 
   /** Replace state; persist now (actions) or at most every 15 s (ticks). */
+  const anPrev = useRef<GameState | null>(null);
+  const bgAt = useRef(0);
   const commit = useCallback((next: GameState, force = true) => {
+    // analytics: events derived from the save change; (re)start when the id or the opt-out changes
+    const pv = anPrev.current;
+    anPrev.current = next;
+    if (!pv || pv.aid !== next.aid || pv.settings.analytics !== next.settings.analytics) initAnalytics(next.aid, next.settings.analytics);
+    else if (next !== pv) track(diffEvents(pv, next));
     setLang(next.settings.lang);
     if (DEV && !WEB_EVENT) forceEvent(devForce(next.settings.devEvent)); // dev switch: Halloween always / off / calendar
     setS(next);
@@ -173,6 +184,7 @@ function Main() {
       writable.current = l.writable;
       const st = tick(l.state, Date.now());
       commit(st);
+      track([...(l.fresh ? [{ event: "first_open" }] : []), { event: "session_start" }]);
       setHaptics(st.settings.haptics);
       if (st.settings.langPicked) afterLanguage(st);
       SplashScreen.hideAsync().catch(() => {});
@@ -201,8 +213,11 @@ function Main() {
       const t = Date.now();
       if (st === "background" || st === "inactive") {
         if (writable.current) saveState(cur);
+        if (st === "background") { bgAt.current = t; flushAnalytics(); }
         applyPlan(planNotifications(cur, t)).catch(() => {});
       } else if (st === "active") {
+        if (bgAt.current && t - bgAt.current > SESSION_GAP) track({ event: "session_start" });
+        bgAt.current = 0;
         const n = tick(cur, t);
         commit(n);
         if (n.settings.tutorialDone && canClaimLogin(n, t)) setShowLogin(true);
@@ -217,6 +232,7 @@ function Main() {
     const cur = sRef.current;
     if (cur && writable.current) saveState(cur);
     flushCloud();
+    flushAnalytics();
   }), []);
 
   useEffect(() => {
@@ -520,6 +536,7 @@ function Main() {
       const cur = sRef.current!;
       const res = finishRound(cur, r, Date.now());
       commit(res.state);
+      if (r.mode === "free") track({ event: "free_play_round", props: { score: r.score, record: res.reward.record } });
       pendingFly.current = { honey: res.reward.honey, jelly: res.reward.jelly };
       setHold({ honey: cur.honey, jelly: cur.jelly });
       return res.reward;

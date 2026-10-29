@@ -5,7 +5,7 @@ These answers are for the **Play build** on branch `play-store` (`EXPO_PUBLIC_ST
 ## Store settings
 - App or game: **Game**. Category: **Puzzle**. You could also pick Casual, but Puzzle fits the main loop better.
 - Free or paid: **Free**.
-- Contact email: zabolotny1111@gmail.com. Website (optional): https://github.com/InM1nd/buzzle
+- Contact email: zabolotnyi.dev@gmail.com. Website (optional): https://github.com/InM1nd/buzzle
 - **Privacy policy URL:** https://inm1nd.github.io/buzzle/privacy/ (live and in en/uk/ru; the app links it in Settings → About).
 
 ## App access

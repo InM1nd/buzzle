@@ -22,10 +22,8 @@ const RARITY: Record<Rarity, { name: string; color: string; bg: string; night: s
 interface Props { s: GameState; onSkin?: (bee: string, skin: string | null) => boolean; onAssemble?: () => boolean; onUnlock: (id: string) => boolean; onLevelUp: (id: string) => boolean; onRename?: (id: string, name: string) => boolean; onGarden?: () => void }
 
 export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp, onRename, onGarden }: Props) {
-  const [gridW, setGridW] = useState(328);
   const [open, setOpen] = useState<BeeSpecies | null>(null);
   const [justUnlocked, setJust] = useState<string | null>(null);
-  const colW = Math.max(1, Math.floor((gridW - 20) / 3));
   const [view, setView] = useState<"all" | "outfits">("all");
   const owned = new Set(s.bees);
   const top = useTopPad();
@@ -46,7 +44,7 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
         </View>
         {view === "all" ? (
         <>
-        <View onLayout={(e) => setGridW(e.nativeEvent.layout.width)} style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+        <View style={styles.grid3}>
           {BEES.map((b, i) => {
             const has = owned.has(b.id);
             const can = !has && s.jelly >= b.cost;
@@ -56,7 +54,8 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
             const custom = has && !!s.beeNames[b.id];
             const shown = beeDisplayName(s, b.id);
             return (
-              <Press key={b.id} onPress={() => setOpen(b)} style={[styles.card3, shadow, { width: colW }, !has && { backgroundColor: isNight() ? C.cardWarm : "#F6EDDC" }, b.id === "zhuzha" && activeCard()]}
+              <View key={b.id} style={styles.cell3}>
+              <Press onPress={() => setOpen(b)} style={[styles.card3, shadow, { width: "100%" }, !has && { backgroundColor: isNight() ? C.cardWarm : "#F6EDDC" }, b.id === "zhuzha" && activeCard()]}
                 accessibilityRole="button" accessibilityLabel={custom ? `${shown} (${b.name})` : (has ? b.name : t("bees.locked", { name: b.name }))}>
                 <Glow on={b.id === "zhuzha"} radius={22} />
                 <View style={{ height: 78, alignItems: "center", justifyContent: "center" }}>
@@ -76,20 +75,23 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
                   <View style={[styles.costMini, can && { backgroundColor: C.jelly }]}><Image source={ART.jelly} style={{ width: 14, height: 14 }} /><Txt v="tiny" color={can ? "#fff" : "#8C6FBF"}>{b.cost}</Txt></View>
                 )}
               </Press>
+              </View>
             );
           })}
         </View>
         </>
         ) : (
-          <View onLayout={(e) => setGridW(e.nativeEvent.layout.width)} style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+          <View style={styles.grid3}>
             {[...SKINS, ...EVENT_SKINS.filter((k) => s.loot.owned.includes(k.id))].filter((k) => k.id !== "headphones").map((k) => {
               const have = s.loot.owned.includes(k.id);
               const wearer = Object.keys(s.beeSkins).find((b) => s.beeSkins[b] === k.id);
               return (
-                <View key={k.id} style={[styles.card3, shadow, { width: colW }, !have && { backgroundColor: K.bg("#F6EDDC") }]} accessibilityLabel={k.name}>
+                <View key={k.id} style={styles.cell3}>
+                <View style={[styles.card3, shadow, { width: "100%" }, !have && { backgroundColor: K.bg("#F6EDDC") }]} accessibilityLabel={k.name}>
                   <ItemIcon id={k.id} size={58} locked={!have} />
                   <Txt v="h3" numberOfLines={1} style={{ marginTop: 6, fontSize: 14 }}>{have ? k.name : "???"}</Txt>
                   <Txt v="tiny" color={C.dim} numberOfLines={1}>{!have ? t("bees.outfitLocked") : wearer ? beeDisplayName(s, wearer) : t("bees.outfitFree")}</Txt>
+                </View>
                 </View>
               );
             })}
@@ -347,6 +349,10 @@ const styles = themed(() => StyleSheet.create({
   segBtn: { paddingHorizontal: 18, paddingVertical: 9, borderRadius: 20, backgroundColor: K.bg("#fff"), ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   segOn: { backgroundColor: C.honey },
   maxBadge: { alignSelf: "center", paddingHorizontal: 18, paddingVertical: 8, borderRadius: 999, borderWidth: 1.5, borderColor: K.bd("#F2C66A"), backgroundColor: K.bg("#FFF4D6") },
+  // 3 even columns from percentages, not a measured pixel width: a measured width can be stale or
+  // fractional in the Telegram webview (viewport expands after load), which wrapped the grid to 2 columns.
+  grid3: { flexDirection: "row", flexWrap: "wrap", marginHorizontal: -5, rowGap: 10 },
+  cell3: { width: "33.3333%", paddingHorizontal: 5 },
   card3: { backgroundColor: K.bg("#fff"), borderRadius: 22, padding: 8, paddingBottom: 10, alignItems: "center", ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   lvlRow: { flexDirection: "row", alignItems: "center", gap: 5, marginTop: 4, alignSelf: "stretch", paddingHorizontal: 6 },
   costMini: { flexDirection: "row", alignItems: "center", gap: 3, marginTop: 4, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 10, backgroundColor: K.bg("#EFE6FA") },

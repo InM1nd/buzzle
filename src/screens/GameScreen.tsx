@@ -772,14 +772,28 @@ export default function GameScreen(props: Props) {
       </Overlay>
 
       {/* results */}
-      <Overlay visible={!!result} dismissable={false}>
-        {result ? <ResultCard mode={props.mode} score={result.score} reward={result.reward} onExit={props.onExit} onReplay={props.onReplay} /> : null}
+      <Overlay visible={!!result} dismissable={false}
+        footer={result ? <ResultButtons mode={props.mode} onExit={props.onExit} onReplay={props.onReplay} /> : null}>
+        {result ? <ResultCard mode={props.mode} score={result.score} reward={result.reward} /> : null}
       </Overlay>
     </View>
   );
 }
 
-function ResultCard({ mode, score, reward, onExit, onReplay }: { mode: RoundMode; score: number; reward: RoundReward; onExit: () => void; onReplay: () => void }) {
+/** pinned under the result card (Overlay footer): always visible, however short the screen */
+function ResultButtons({ mode, onExit, onReplay }: { mode: RoundMode; onExit: () => void; onReplay: () => void }) {
+  const daily = mode !== "free";
+  return (
+    <View style={{ alignSelf: "stretch", gap: 10 }}>
+      <GameButton title={daily ? t("game.done") : t("game.again")} color={daily ? "honey" : "green"} onPress={daily ? onExit : onReplay} />
+      <GameButton title={daily ? t("game.replay") : t("game.menu")} color="white" onPress={daily ? onReplay : onExit} />
+    </View>
+  );
+}
+
+function ResultCard({ mode, score, reward }: { mode: RoundMode; score: number; reward: RoundReward }) {
+  // short viewports (Telegram Mini App, small phones): a more compact card so it usually fits without scrolling
+  const tight = useWindowDimensions().height < 760;
   const bee = useRef(new Animated.Value(0)).current;
   useEffect(() => { Animated.spring(bee, { toValue: 1, useNativeDriver: true, bounciness: 12, speed: 6 }).start(); }, [bee]);
   const daily = mode !== "free";
@@ -789,10 +803,10 @@ function ResultCard({ mode, score, reward, onExit, onReplay }: { mode: RoundMode
     : reward.record ? t("game.record") : t("game.over");
   return (
     <View style={{ alignItems: "center" }} accessibilityLabel={t("game.results")}>
-      <Animated.Image source={ART.honey} style={{ width: 72, height: 72, transform: [{ scale: bee }] }} />
-      <Txt v="h1" center style={{ marginTop: 6 }}>{title}</Txt>
-      {daily ? <View style={{ marginTop: 10 }}><Stars n={reward.stars} size={46} gap={8} animate /></View> : null}
-      <Txt v="tiny" color={C.dim} style={{ marginTop: 14 }}>{t("game.points")}</Txt>
+      <Animated.Image source={ART.honey} style={{ width: tight ? 52 : 72, height: tight ? 52 : 72, transform: [{ scale: bee }] }} />
+      <Txt v="h1" center style={{ marginTop: tight ? 2 : 6 }}>{title}</Txt>
+      {daily ? <View style={{ marginTop: tight ? 6 : 10 }}><Stars n={reward.stars} size={tight ? 38 : 46} gap={8} animate /></View> : null}
+      <Txt v="tiny" color={C.dim} style={{ marginTop: tight ? 8 : 14 }}>{t("game.points")}</Txt>
       <CountUp value={score} duration={900} style={[F.black, { fontSize: 40, lineHeight: 46, color: C.text }]} />
       {daily && reward.stars === 0 ? <Txt v="small" color={C.dim} center>{t("game.needForStar", { n: fmt(STARS[0]) })}</Txt> : null}
       <View style={styles.rewardRow}>
@@ -827,10 +841,6 @@ function ResultCard({ mode, score, reward, onExit, onReplay }: { mode: RoundMode
           <Txt v="small" color={C.honeyDark}>{t("game.streak", { n: reward.streak })}</Txt>
         </View>
       ) : null}
-      <View style={{ alignSelf: "stretch", marginTop: 18, gap: 10 }}>
-        <GameButton title={daily ? t("game.done") : t("game.again")} color={daily ? "honey" : "green"} onPress={daily ? onExit : onReplay} />
-        <GameButton title={daily ? t("game.replay") : t("game.menu")} color="white" onPress={daily ? onReplay : onExit} />
-      </View>
     </View>
   );
 }

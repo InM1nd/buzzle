@@ -266,7 +266,9 @@ export function Bobbing({ children, amp = 5, period = 1600, delay = 0, style }: 
 }
 
 /** Centered modal card over a dimmed backdrop (in-tree overlay, animated). */
-export function Overlay({ visible, onClose, children, dismissable = true, glow }: { visible: boolean; onClose?: () => void; children: React.ReactNode; dismissable?: boolean; glow?: boolean }) {
+/** `footer` (the main buttons) stays pinned under the scrolling content, so it is always on screen even when the
+ *  window is taller than a short viewport (e.g. the Telegram Mini App with its header and the device safe areas). */
+export function Overlay({ visible, onClose, children, dismissable = true, glow, footer }: { visible: boolean; onClose?: () => void; children: React.ReactNode; dismissable?: boolean; glow?: boolean; footer?: React.ReactNode }) {
   const a = useRef(new Animated.Value(0)).current;
   const [mounted, setMounted] = useState(visible);
   const ins = useInsets();
@@ -295,6 +297,7 @@ export function Overlay({ visible, onClose, children, dismissable = true, glow }
         <Animated.View style={[styles.sheet, glow && activeCard(), { maxHeight: "100%", opacity: a, transform: [{ scale: a.interpolate({ inputRange: [0, 1], outputRange: [0.88, 1] }) }] }]}>
           <Glow on={!!glow} radius={30} />
           <ScrollView style={{ flexGrow: 0, flexShrink: 1 }} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>{children}</ScrollView>
+          {footer ? <View style={{ flexShrink: 0, marginTop: 14 }}>{footer}</View> : null}
         </Animated.View>
       </View>
     </KeyboardAvoidingView>

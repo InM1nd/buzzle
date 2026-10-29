@@ -1,7 +1,7 @@
 import { numFmt, t } from "../i18n";
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import {
-  Animated, Easing, Image, ImageSourcePropType, KeyboardAvoidingView, Modal, PixelRatio, Platform, Pressable, ScrollView, StyleProp, StyleSheet, Text, TextProps, TextStyle, View, ViewStyle,
+  Animated, Easing, Image, ImageSourcePropType, KeyboardAvoidingView, Modal, PixelRatio, Platform, Pressable, StyleProp, StyleSheet, Text, TextProps, TextStyle, View, ViewStyle,
 } from "react-native";
 import { C, F, shadow, K, themed, isNight, activeCard, glowRings } from "./theme";
 import { ART } from "./art";
@@ -285,6 +285,13 @@ export function Overlay({ visible, onClose, children, dismissable = true, glow, 
     const listener = addBackListener(() => { if (dismissable) onClose?.(); return true; });
     return () => listener.remove();
   }, [visible, dismissable, onClose]);
+  // No scrolling in windows: if the sheet is taller than the space between the safe areas (short viewports,
+  // the Telegram Mini App), the whole sheet is scaled down to fit. Layout size is unaffected by transforms, so
+  // measuring the sheet and the free area and dividing gives a stable factor.
+  const [sheetH, setSheetH] = useState(0);
+  const [areaH, setAreaH] = useState(0);
+  const padT = Math.max(22, ins.top + 10), padB = Math.max(22, ins.bottom + 10);
+  const fit = sheetH > 0 && areaH > 0 ? Math.min(1, (areaH - padT - padB) / sheetH) : 1;
   if (!mounted) return null;
   return (
     <Modal transparent visible={mounted} animationType="none" statusBarTranslucent onRequestClose={() => dismissable && onClose?.()}>
@@ -293,11 +300,12 @@ export function Overlay({ visible, onClose, children, dismissable = true, glow, 
         <Pressable style={StyleSheet.absoluteFill} onPress={() => dismissable && onClose?.()} accessibilityLabel={t("c.closeWindow")} />
       </Animated.View>
       {/* the window stays inside the safe area: never under the status bar / camera cut-out or the gesture bar */}
-      <View style={[styles.overlayCenter, { paddingTop: Math.max(22, ins.top + 10), paddingBottom: Math.max(22, ins.bottom + 10) }]} pointerEvents="box-none">
-        <Animated.View style={[styles.sheet, glow && activeCard(), { maxHeight: "100%", opacity: a, transform: [{ scale: a.interpolate({ inputRange: [0, 1], outputRange: [0.88, 1] }) }] }]}>
+      <View onLayout={(e) => setAreaH(e.nativeEvent.layout.height)} style={[styles.overlayCenter, { paddingTop: padT, paddingBottom: padB }]} pointerEvents="box-none">
+        <Animated.View onLayout={(e) => setSheetH(e.nativeEvent.layout.height)}
+          style={[styles.sheet, glow && activeCard(), { flexShrink: 0, opacity: a, transform: [{ scale: a.interpolate({ inputRange: [0, 1], outputRange: [0.88 * fit, fit] }) }] }]}>
           <Glow on={!!glow} radius={30} />
-          <ScrollView style={{ flexGrow: 0, flexShrink: 1 }} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>{children}</ScrollView>
-          {footer ? <View style={{ flexShrink: 0, marginTop: 14 }}>{footer}</View> : null}
+          <View>{children}</View>
+          {footer ? <View style={{ marginTop: 14 }}>{footer}</View> : null}
         </Animated.View>
       </View>
     </KeyboardAvoidingView>

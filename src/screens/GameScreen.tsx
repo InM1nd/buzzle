@@ -1,6 +1,6 @@
 import { t } from "../i18n";
 import { colorName } from "../logic/bees";
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { Animated, Easing, Image, PanResponder, StyleSheet, Text, useWindowDimensions, View, ViewStyle } from "react-native";
 import { useInsets } from "../platform/insets";
 import { addBackListener } from "../platform/back";
@@ -47,10 +47,42 @@ interface Props {
   night?: boolean;
 }
 
+// ---------- drag path store ----------
+// web: the chain being drawn lives in a tiny store instead of screen state, so a step of the finger
+// re-renders only the cells whose look changes, the line and the chip, not the whole screen.
+interface PathSnap { path: Pos[]; sel: Set<number>; pc: number | null }
+const EMPTY_SNAP: PathSnap = { path: [], sel: new Set(), pc: null };
+function makePathStore() {
+  let snap = EMPTY_SNAP;
+  const ls = new Set<() => void>();
+  return {
+    get: () => snap,
+    set(next: PathSnap) { snap = next; ls.forEach((l) => l()); },
+    sub(l: () => void) { ls.add(l); return () => { ls.delete(l); }; },
+  };
+}
+type PathStore = ReturnType<typeof makePathStore>;
+const snapOf = (b: Board, path: Pos[]): PathSnap =>
+  path.length ? { path, sel: new Set(path.map((p) => p.c * 100 + p.r)), pc: pathColor(b, path) } : EMPTY_SNAP;
+const noSub = () => () => {};
+/** web: the snapshot from the store; native: the one the screen passed down (unchanged behaviour) */
+function useSnap(store: PathStore, given: PathSnap): PathSnap {
+  return useSyncExternalStore(WEB ? store.sub : noSub, WEB ? store.get : () => given);
+}
+const selDim = (snap: PathSnap, cell: Cell, key: number): number =>
+  snap.sel.has(key) ? 1 : snap.pc !== null && !isJoker(cell) && cell.color !== snap.pc ? 2 : 0;
+
 // ---------- cell ----------
-const CellView = React.memo(function CellView(p: {
+const CellView = React.memo(function CellView(props: {
   cell: Cell; x: number; y: number; startY: number; delay: number; s: number; k: number; selected: boolean; dim: boolean; hint: boolean; pulse: number;
+  store?: PathStore; pos?: number;
 }) {
+  // web: selected / dim come from the path store, read as one small number so only changed cells render
+  const sd = useSyncExternalStore(
+    WEB && props.store ? props.store.sub : noSub,
+    () => (WEB && props.store ? selDim(props.store.get(), props.cell, props.pos ?? -1) : 0),
+  );
+  const p = WEB && props.store ? { ...props, selected: sd === 1, dim: sd === 2 } : props;
   const ty = useRef(new Animated.Value(p.startY)).current;
   const sc = useRef(new Animated.Value(1)).current;
   const hint = useRef(new Animated.Value(0)).current;
@@ -131,6 +163,48 @@ function Ghost({ w, h }: { w: number; h: number }) {
         { rotate: a.interpolate({ inputRange: [0, 1], outputRange: ["-5deg", "5deg"] }) },
       ],
     }} />
+  );
+}
+
+// ---------- chain line and chip ----------
+function PathLine({ store, given, s, k }: { store: PathStore; given: PathSnap; s: number; k: number }) {
+  const { path, pc } = useSnap(store, given);
+  const pathPts = path.map((p) => cellCenter(p.c, p.r, s, k));
+  const lineColor = PATH_COLORS[pc ?? 0];
+  return (
+    <>
+      {pathPts.slice(1).map((b, i) => {
+        const a = pathPts[i];
+        const len = Math.hypot(b.x - a.x, b.y - a.y);
+        const ang = Math.atan2(b.y - a.y, b.x - a.x);
+        return (
+          <View key={`s${i}`} pointerEvents="none" style={{
+            position: "absolute", left: (a.x + b.x) / 2 - len / 2, top: (a.y + b.y) / 2 - 6, width: len, height: 12, borderRadius: 6,
+            backgroundColor: lineColor, borderWidth: 2.5, borderColor: K.bd("#fff"), transform: [{ rotate: `${ang}rad` }],
+          }} />
+        );
+      })}
+      {pathPts.map((p, i) => (
+        <View key={`d${i}`} pointerEvents="none" style={{
+          position: "absolute", left: p.x - (i === pathPts.length - 1 ? 10 : 7), top: p.y - (i === pathPts.length - 1 ? 10 : 7),
+          width: i === pathPts.length - 1 ? 20 : 14, height: i === pathPts.length - 1 ? 20 : 14, borderRadius: 10,
+          backgroundColor: lineColor, borderWidth: 3, borderColor: "#fff",
+        }} />
+      ))}
+    </>
+  );
+}
+
+function ChainChip({ store, given, bombAt }: { store: PathStore; given: PathSnap; bombAt: number }) {
+  const { path, pc } = useSnap(store, given);
+  const lineColor = PATH_COLORS[pc ?? 0];
+  const chainLen = path.length;
+  const preview = chainLen >= 3 ? `${chainLen}${chainLen >= bombAt ? t("game.bombTag") : ""}` : chainLen ? `${chainLen}` : "";
+  const tooFew = chainLen > 0 && chainLen < 3;
+  return (
+    <View style={[styles.chip, { opacity: preview ? 1 : 0, backgroundColor: tooFew ? "#FFF" : lineColor }]}>
+      <Txt v="small" color={tooFew ? C.dim : "#fff"}>{tooFew ? t("game.more", { n: 3 - chainLen }) : t("game.chain", { p: preview })}</Txt>
+    </View>
   );
 }
 
@@ -338,7 +412,8 @@ export default function GameScreen(props: Props) {
     cells[c][r] = { ...cells[c][r], kind: "bomb" };
     return { ...b, cells };
   });
-  const [path, setPath] = useState<Pos[]>([]);
+  const [path, setPathState] = useState<Pos[]>([]);
+  const pathStore = useRef(makePathStore()).current;
   const [movesLeft, setMovesLeft] = useState(props.moves);
   const [score, setScore] = useState(0);
   const [combo, setCombo] = useState(0);
@@ -366,6 +441,12 @@ export default function GameScreen(props: Props) {
   const shake = useRef(new Animated.Value(0)).current;
   const movesPulse = useRef(new Animated.Value(1)).current;
   const pathRef = useRef<Pos[]>([]);
+  // web: the screen only re-renders when a drag starts or ends; every step goes to the store
+  const setPath = useCallback((next: Pos[]) => {
+    pathStore.set(snapOf(boardRef.current, next));
+    if (WEB) setPathState((prev) => (prev.length > 0 === next.length > 0 ? prev : next));
+    else setPathState(next);
+  }, [pathStore]);
   const boardRef = useRef(board);
   boardRef.current = board;
   const finished = movesLeft <= 0 || !!result;
@@ -580,18 +661,14 @@ export default function GameScreen(props: Props) {
   }), [touch]);
 
   // ----- derived render data -----
-  const pc = path.length ? pathColor(board, path) : null;
-  const selected = useMemo(() => new Set(path.map((p) => p.c * 100 + p.r)), [path]);
+  const snap = WEB ? EMPTY_SNAP : pathStore.get();
+  const { pc, sel: selected } = snap;
   const hintSet = useMemo(() => new Set(hint.map((p) => p.c * 100 + p.r)), [hint]);
-  const pathPts = path.map((p) => cellCenter(p.c, p.r, s, k));
-  const lineColor = PATH_COLORS[pc ?? 0];
-  const chainLen = path.length;
-  const preview = chainLen >= 3 ? `${chainLen}${chainLen >= props.rules.bombAt ? t("game.bombTag") : ""}` : chainLen ? `${chainLen}` : "";
 
   const isDaily = props.mode !== "free";
   const STARS = props.mode === "weekend" ? WEEKEND_STARS : DAILY_STARS;
   const showHint = () => {
-    if (busy.current || finished || path.length) { hError(); return; }
+    if (busy.current || finished || pathRef.current.length) { hError(); return; }
     const best = findBestPath(boardRef.current, 6, 3000);
     if (best.length >= 3) { hLight(); setHint(best.slice(0, Math.min(best.length, 5))); } else hError();
   };
@@ -604,7 +681,6 @@ export default function GameScreen(props: Props) {
     setBoard((b) => shuffleBoard(b));
   };
   const maxBar = isDaily ? STARS[2] * 1.12 : Math.max(props.best, 1000);
-  const tooFew = path.length > 0 && path.length < 3;
 
   return (
     <View onLayout={(e) => setContainerW(e.nativeEvent.layout.width)} style={[styles.root, { paddingTop: insets.top + 6, paddingBottom: insets.bottom + 8 }]}>
@@ -646,9 +722,7 @@ export default function GameScreen(props: Props) {
             <Txt v="small" color={K.fg("#C25E00")}>{evPoints}</Txt>
           </View>
         ) : null}
-        <View style={[styles.chip, { opacity: preview ? 1 : 0, backgroundColor: tooFew ? "#FFF" : lineColor }]}>
-          <Txt v="small" color={tooFew ? C.dim : "#fff"}>{tooFew ? t("game.more", { n: 3 - path.length }) : t("game.chain", { p: preview })}</Txt>
-        </View>
+        <ChainChip store={pathStore} given={snap} bombAt={props.rules.bombAt} />
       </View>
 
       {/* board */}
@@ -674,27 +748,12 @@ export default function GameScreen(props: Props) {
               dim={pc !== null && !isJoker(l.cell) && l.cell.color !== pc && !selected.has(l.c * 100 + l.r)}
               hint={hintSet.has(l.c * 100 + l.r)}
               pulse={pulse}
+              store={WEB ? pathStore : undefined}
+              pos={l.c * 100 + l.r}
             />
           ))}
           {/* path */}
-          {pathPts.slice(1).map((b, i) => {
-            const a = pathPts[i];
-            const len = Math.hypot(b.x - a.x, b.y - a.y);
-            const ang = Math.atan2(b.y - a.y, b.x - a.x);
-            return (
-              <View key={`s${i}`} pointerEvents="none" style={{
-                position: "absolute", left: (a.x + b.x) / 2 - len / 2, top: (a.y + b.y) / 2 - 6, width: len, height: 12, borderRadius: 6,
-                backgroundColor: lineColor, borderWidth: 2.5, borderColor: K.bd("#fff"), transform: [{ rotate: `${ang}rad` }],
-              }} />
-            );
-          })}
-          {pathPts.map((p, i) => (
-            <View key={`d${i}`} pointerEvents="none" style={{
-              position: "absolute", left: p.x - (i === pathPts.length - 1 ? 10 : 7), top: p.y - (i === pathPts.length - 1 ? 10 : 7),
-              width: i === pathPts.length - 1 ? 20 : 14, height: i === pathPts.length - 1 ? 20 : 14, borderRadius: 10,
-              backgroundColor: lineColor, borderWidth: 3, borderColor: "#fff",
-            }} />
-          ))}
+          <PathLine store={pathStore} given={snap} s={s} k={k} />
           {pops.map((fx) => <Pop key={fx.key} fx={fx} onDone={removePop} />)}
           {texts.map((t) => <FloatText key={t.id} {...t} onDone={removeText} />)}
         </View>

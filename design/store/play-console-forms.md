@@ -61,7 +61,7 @@ Checked against the code on `release-1.6.2` (`src/platform/analytics.ts`, `src/l
   - Required or optional: **Optional**. It is on by default and can be turned off in Settings → Statistics; turning it off stops sending and deletes queued events.
   - Purpose: **Analytics** only.
 - Encrypted in transit: **Yes** (HTTPS).
-- Can users request deletion? **Yes**. Settings → Reset progress makes a new random ID, so later events can't be linked to earlier ones. Already-sent data is deleted on request to zabolotny1111@gmail.com; the privacy policy says this.
+- Can users request deletion? **Yes**. Settings → Reset progress makes a new random ID, so later events can't be linked to earlier ones. Already-sent data is deleted on request to zabolotnyi.dev@gmail.com; the privacy policy says this.
 - Privacy policy: https://inm1nd.github.io/buzzle/privacy/ describes this from v1.6.2 (it goes live when the release is deployed to the site root).
 - Note on the IP address: PostHog receives the request IP like any web request. The app sends no IP-derived data, and geo lookup is disabled. For extra safety, turn on "Discard client IP data" in the PostHog project settings.
 

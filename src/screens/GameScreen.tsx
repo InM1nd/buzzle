@@ -1,7 +1,7 @@
 import { t } from "../i18n";
 import { colorName } from "../logic/bees";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Animated, Easing, Image, PanResponder, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { Animated, Easing, Image, PanResponder, StyleSheet, Text, useWindowDimensions, View, ViewStyle } from "react-native";
 import { useInsets } from "../platform/insets";
 import { addBackListener } from "../platform/back";
 import {
@@ -18,6 +18,8 @@ import { BeeSprite } from "../ui/BeeSprite";
 import { C, F, shadow, K, themed, isNight, activeCard } from "../ui/theme";
 import { Bar, CountUp, fmt, GameButton, Overlay, Press, Stars, Txt, Glow } from "../ui/components";
 import { hError, hHeavy, hLight, hSuccess, hTick } from "../ui/haptics";
+import { domOf, interp, useDomAnim, WEB } from "../ui/webAnim";
+import { useTinted } from "../ui/tint";
 
 const SQ3 = Math.sqrt(3);
 const PATH_COLORS = ["#E39A00", "#E04585", "#7A4FD6", "#1F7FE0", "#25A35C"];
@@ -77,18 +79,33 @@ const CellView = React.memo(function CellView(p: {
   }, [p.hint, hint]);
   const { w, h } = tileSize(p.s, p.k);
   const src = cellArt(p.cell.kind, p.cell.color);
+  // web: the white "selected" glint as a pre-tinted bitmap instead of an SVG tint filter
+  const glint = useTinted(src, "#fff", p.selected);
+  // web: the fall / select / hint motion is written straight to the element (no React render per frame)
+  const box = useRef<View>(null);
+  useDomAnim([ty, sc, hint], [p.startY, 1, 0], ([y, k, hv]) => {
+    const el = domOf(box.current);
+    if (el) el.style.transform = `translateY(${y}px) scale(${k + hv * 0.1})`;
+  });
+  const frame = { position: "absolute" as const, left: p.x - w / 2, top: -h / 2, width: w, height: h, opacity: p.dim ? 0.5 : 1 };
+  const art = (
+    <>
+      <Image source={src} resizeMode="stretch" style={{ width: w, height: h }} />
+      {p.cell.kind === "bomb" ? <Image source={ART.bomb} resizeMode="stretch" style={{ position: "absolute", left: 0, top: 0, width: w, height: h }} /> : null}
+      {p.cell.ghost ? <Ghost w={w} h={h} /> : null}
+      {p.selected ? <Image source={glint ?? src} resizeMode="stretch" style={{ position: "absolute", left: 0, top: 0, width: w, height: h, tintColor: glint ? undefined : "#fff", opacity: 0.22 }} /> : null}
+    </>
+  );
+  if (WEB) return <View ref={box} pointerEvents="none" style={frame}>{art}</View>;
   return (
     <Animated.View
       pointerEvents="none"
       style={{
-        position: "absolute", left: p.x - w / 2, top: -h / 2, width: w, height: h, opacity: p.dim ? 0.5 : 1,
+        ...frame,
         transform: [{ translateY: ty }, { scale: Animated.add(sc, hint.interpolate({ inputRange: [0, 1], outputRange: [0, 0.1] })) }],
       }}
     >
-      <Image source={src} resizeMode="stretch" style={{ width: w, height: h }} />
-      {p.cell.kind === "bomb" ? <Image source={ART.bomb} resizeMode="stretch" style={{ position: "absolute", left: 0, top: 0, width: w, height: h }} /> : null}
-      {p.cell.ghost ? <Ghost w={w} h={h} /> : null}
-      {p.selected ? <Image source={src} resizeMode="stretch" style={{ position: "absolute", left: 0, top: 0, width: w, height: h, tintColor: "#fff", opacity: 0.22 }} /> : null}
+      {art}
     </Animated.View>
   );
 });
@@ -131,6 +148,34 @@ function Pop({ fx, onDone }: { fx: PopFx; onDone: (k: number) => void }) {
   }, [a, fx, onDone]);
   const { w, h } = tileSize(fx.s, fx.k);
   const col = C.pollen[fx.color];
+  const img = useRef<Image>(null);
+  const dots = useRef<(View | null)[]>([]);
+  useDomAnim([a], [0], ([v]) => {
+    const e = domOf(img.current);
+    if (e) {
+      e.style.opacity = `${interp(v, [0, 0.15, 1], [1, 1, 0])}`;
+      e.style.transform = `scale(${interp(v, [0, 0.25, 1], [1, 1.25, 0.2])})`;
+    }
+    parts.forEach((pt, i) => {
+      const d = domOf(dots.current[i]);
+      if (!d) return;
+      d.style.opacity = `${interp(v, [0, 0.2, 1], [0, 1, 0])}`;
+      d.style.transform = `translateX(${pt.dx * v}px) translateY(${pt.dy * v}px)`;
+    });
+  });
+  if (WEB) {
+    return (
+      <View pointerEvents="none" style={{ position: "absolute", left: fx.x, top: fx.y }}>
+        <Image ref={img} resizeMode="stretch" source={cellArt(fx.kind, fx.color)} style={{ position: "absolute", left: -w / 2, top: -h / 2, width: w, height: h }} />
+        {parts.map((pt, i) => (
+          <View key={i} ref={(r) => { dots.current[i] = r; }} style={{
+            position: "absolute", left: -pt.r, top: -pt.r, width: pt.r * 2, height: pt.r * 2, borderRadius: pt.r,
+            backgroundColor: i % 2 ? col : "#FFE9A8",
+          }} />
+        ))}
+      </View>
+    );
+  }
   return (
     <View pointerEvents="none" style={{ position: "absolute", left: fx.x, top: fx.y }}>
       <Animated.Image
@@ -165,6 +210,15 @@ function FloatText({ x, y, text, color, big, onDone, id }: { x: number; y: numbe
   useEffect(() => {
     Animated.timing(a, { toValue: 1, duration: big ? 1100 : 900, easing: Easing.out(Easing.cubic), useNativeDriver: true }).start(() => onDone(id));
   }, [a, big, id, onDone]);
+  const box = useRef<View>(null);
+  useDomAnim([a], [0], ([v]) => {
+    const e = domOf(box.current);
+    if (!e) return;
+    e.style.opacity = `${interp(v, [0, 0.1, 0.7, 1], [0, 1, 1, 0])}`;
+    e.style.transform = `translateY(${interp(v, [0, 1], [0, big ? -30 : -50])}px) scale(${interp(v, [0, 0.15, 0.3, 1], [0.4, big ? 1.25 : 1.15, 1, 1])})`;
+  });
+  const label = <Text style={[F.black, styles.floatText, { color, fontSize: big ? 34 : 24 }]}>{text}</Text>;
+  if (WEB) return <View ref={box} pointerEvents="none" style={{ position: "absolute", left: x - 120, top: y - 20, width: 240, alignItems: "center" }}>{label}</View>;
   return (
     <Animated.View pointerEvents="none" style={{
       position: "absolute", left: x - 120, top: y - 20, width: 240, alignItems: "center",
@@ -174,7 +228,7 @@ function FloatText({ x, y, text, color, big, onDone, id }: { x: number; y: numbe
         { scale: a.interpolate({ inputRange: [0, 0.15, 0.3, 1], outputRange: [0.4, big ? 1.25 : 1.15, 1, 1] }) },
       ],
     }}>
-      <Text style={[F.black, styles.floatText, { color, fontSize: big ? 34 : 24 }]}>{text}</Text>
+      {label}
     </Animated.View>
   );
 }
@@ -194,18 +248,45 @@ function ZipBee({ id, w, h, dir, y0, big, level = 1, onEnd }: { id: string; w: n
   }, [a, big]);
   const p = useMemo(() => {
     const N = 24, waves = big ? 2.5 : 1.5, amp = h * (big ? 0.16 : 0.1);
-    const t: number[] = [], x: number[] = [], y: number[] = [], rot: string[] = [];
+    const t: number[] = [], x: number[] = [], y: number[] = [], rot: string[] = [], rotN: number[] = [];
     for (let i = 0; i <= N; i++) {
       const u = i / N;
       const px = dir > 0 ? -size + (w + 2 * size) * u : w + size - (w + 2 * size) * u;
       const ph = Math.PI * 2 * waves * u;
       t.push(u); x.push(px); y.push(y0 + Math.sin(ph) * amp);
       const slope = (Math.cos(ph) * amp * Math.PI * 2 * waves) / (w + 2 * size);
-      rot.push(`${(Math.atan(slope) * 180 / Math.PI * dir * 0.8).toFixed(1)}deg`);
+      const deg = +(Math.atan(slope) * 180 / Math.PI * dir * 0.8).toFixed(1);
+      rot.push(`${deg}deg`); rotN.push(deg);
     }
-    return { t, x, y, rot };
+    return { t, x, y, rot, rotN };
   }, [w, h, dir, y0, big, size]);
   const trail = [0.05, 0.1, 0.15, 0.2, 0.26];
+  const body = useRef<View>(null);
+  const sparks = useRef<(Image | null)[]>([]);
+  useDomAnim([a], [0], ([v]) => {
+    trail.forEach((d, k) => {
+      const e = domOf(sparks.current[k]);
+      if (!e) return;
+      const tin = p.t.map((u) => u + d);
+      e.style.opacity = `${interp(v, [0, d, d + 0.02, 0.92, 1], [0, 0, 0.9 - k * 0.14, 0.5, 0], true)}`;
+      e.style.transform = `translateX(${interp(v, tin, p.x, true)}px) translateY(${interp(v, tin, p.y.map((q, i) => q + size * 0.12 + (i % 2 ? 4 : -4)), true)}px)`
+        + ` scale(${1 - k * 0.13}) rotate(${v * dir * 300}deg)`;
+    });
+    const b = domOf(body.current);
+    if (b) b.style.transform = `translateX(${interp(v, p.t, p.x)}px) translateY(${interp(v, p.t, p.y)}px) rotate(${interp(v, p.t, p.rotN)}deg)`;
+  });
+  if (WEB) {
+    return (
+      <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+        {trail.map((_, k) => (
+          <Image key={k} ref={(r) => { sparks.current[k] = r; }} source={ART.star} style={{ position: "absolute", left: -8, top: -8, width: 16, height: 16 }} />
+        ))}
+        <View ref={body} style={{ position: "absolute", left: -size / 2, top: -size / 2, width: size, height: size }}>
+          <BeeSprite id={id} size={size} seed={2} face={{ lookX: look }} turn={dir * 0.85} level={level} />
+        </View>
+      </View>
+    );
+  }
   return (
     <View pointerEvents="none" style={StyleSheet.absoluteFill}>
       {trail.map((d, k) => (
@@ -331,6 +412,17 @@ export default function GameScreen(props: Props) {
     for (let c = 0; c < COLS; c++) for (let r = 0; r < ROWS; r++) { const p = cellCenter(c, r, s, k); out.push({ k: c * 100 + r, x: p.x, y: p.y }); }
     return out;
   }, [s, k]);
+
+  // web: one pre-tinted socket bitmap instead of 56 SVG tint filters; the layer only re-renders when the board size changes
+  const slotArt = useTinted(ART.cells[0], C.boardEdge);
+  const slotLayer = useMemo(() => (
+    <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+      {slots.map((sl) => (
+        <Image key={`slot${sl.k}`} source={slotArt ?? ART.cells[0]} resizeMode="stretch"
+          style={{ position: "absolute", left: sl.x - tile.w / 2, top: sl.y - tile.h / 2, width: tile.w, height: tile.h, tintColor: slotArt ? undefined : C.boardEdge, opacity: 0.35 }} />
+      ))}
+    </View>
+  ), [slots, tile.w, tile.h, slotArt]);
 
   // ----- hint after idle -----
   useEffect(() => {
@@ -560,18 +652,14 @@ export default function GameScreen(props: Props) {
       </View>
 
       {/* board */}
-      <Animated.View style={[styles.boardWrap, { width: size.width + 12, height: size.height + 12, transform: [{ translateX: shake }] }]}>
+      <Animated.View style={[styles.boardWrap, WEB_LAYER, { width: size.width + 12, height: size.height + 12, transform: [{ translateX: shake }] }]}>
         <View
           {...responder.panHandlers}
           accessibilityLabel={t("game.board")}
-          style={{ width: size.width, height: size.height, overflow: "hidden" }}
+          nativeID="bzz-board"
+          style={[{ width: size.width, height: size.height, overflow: "hidden" }, WEB_NO_GESTURES]}
         >
-          <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-            {slots.map((sl) => (
-              <Image key={`slot${sl.k}`} source={ART.cells[0]} resizeMode="stretch"
-                style={{ position: "absolute", left: sl.x - tile.w / 2, top: sl.y - tile.h / 2, width: tile.w, height: tile.h, tintColor: C.boardEdge, opacity: 0.35 }} />
-            ))}
-          </View>
+          {slotLayer}
           {layout.map((l) => (
             <CellView
               key={l.cell.id}
@@ -748,6 +836,10 @@ function ResultCard({ mode, score, reward, onExit, onReplay }: { mode: RoundMode
 }
 
 const NIGHT_DIM = "#E4D8FF";
+/** web: the board is its own compositing layer, so tile motion repaints only the board, not the scene art under it */
+const WEB_LAYER = WEB ? ({ willChange: "transform" } as ViewStyle) : null;
+/** web: drags on the board never pan / zoom / double-tap-zoom the page (the CSS rule in postprocess.py covers the export too) */
+const WEB_NO_GESTURES = WEB ? ({ touchAction: "none" } as unknown as ViewStyle) : null;
 const styles = themed(() => StyleSheet.create({
   root: { flex: 1, alignItems: "center" }, // background: App (C.bg, or the event backdrop)
   hud: { backgroundColor: K.bg("rgba(255,250,238,0.95)"), borderRadius: 24, padding: 8, paddingBottom: 10, borderWidth: 2, borderColor: K.bd("rgba(255,255,255,0.9)"), ...shadow },

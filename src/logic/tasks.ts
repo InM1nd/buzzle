@@ -1,4 +1,5 @@
 import { colorGen } from "./bees";
+import type { BoosterId, BoxKind } from "./loot";
 import { lz, t } from "../i18n";
 import { Rng, hashString } from "./rng";
 
@@ -83,17 +84,32 @@ export function tasksForDay(day: number, opts: TaskPool = {}): TaskDef[] {
   return out;
 }
 
-export interface Reward { honey?: number; jelly?: number }
+/** 1.7: any reward the game hands out (tasks, login, advent, event tracks) — credited by grant() in game.ts */
+export interface Reward {
+  honey?: number; jelly?: number; pollen?: number;
+  boxes?: BoxKind[];
+  boosters?: Partial<Record<BoosterId, number>>;
+  /** pocket seeds by flower id */
+  seeds?: Record<string, number>;
+  /** skins and decorations; an owned one turns into duplicate pollen, one not in the game yet makes the reward wait */
+  items?: string[];
+}
 export const taskReward = (hiveLvl: number): Reward => ({ honey: 40 * hiveLvl, jelly: 1 });
 export const bonusReward = (hiveLvl: number): Reward => ({ honey: 150 * hiveLvl, jelly: 2 });
 /** v1.3 weekly chest: claimed tasks in a calendar week (Mon–Sun) */
 export const WEEKLY_TASKS = 15;
 
-/** 7-day login calendar; honey scales with hive level. */
-export const LOGIN_REWARDS: Reward[] = [
-  { honey: 100 }, { jelly: 1 }, { honey: 200 }, { jelly: 2 }, { honey: 300, jelly: 1 }, { jelly: 3 }, { honey: 600, jelly: 5 },
-];
-export function loginReward(index: number, hiveLvl: number): Reward {
-  const r = LOGIN_REWARDS[index % 7];
-  return { honey: r.honey ? Math.round(r.honey * (1 + 0.5 * (hiveLvl - 1))) : undefined, jelly: r.jelly };
+/** 1.7 login calendar: things that matter all year (boosters, combs, jelly, pollen) instead of honey that scales away.
+ * Day 1 alternates bomb / shuffle by cycle, every 4th cycle day 7 gives a golden comb instead of a wax one. */
+export function loginReward(index: number, cycle = 0): Reward {
+  switch (index % 7) {
+    case 0: return { boosters: { [cycle % 2 ? "shuffle" : "bomb"]: 1 } };
+    case 1: return { jelly: 2 };
+    case 2: return { boxes: ["wood"] };
+    case 3: return { pollen: 10 };
+    case 4: return { jelly: 3 };
+    case 5: return { boxes: ["wood"] };
+    default: return { boxes: [cycle % 4 === 3 ? "gold" : "wax"], jelly: 5 };
+  }
 }
+export const LOGIN_DAYS = 7;

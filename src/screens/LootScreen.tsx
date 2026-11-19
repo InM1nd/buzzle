@@ -73,7 +73,7 @@ export default function LootScreen(p: Props) {
         {seg === "chests" ? (<>
         {/* ready comb + rows */}
         {(() => {
-          const ready = (BOX_KINDS as BoxKind[]).find((k) => k !== "royal" && s.loot.boxes[k] > 0) ?? null;
+          const ready = (BOX_KINDS as BoxKind[]).find((k) => s.loot.boxes[k] > 0) ?? null;
           const feat = ready ?? "wood";
           const od = BOX_ODDS[feat];
           const epicLeft = Math.max(0, 10 - s.loot.pity.sinceEpic);
@@ -107,19 +107,18 @@ export default function LootScreen(p: Props) {
                 )}
               </Card>
               {BOX_KINDS.filter((k) => k !== feat).map((k) => {
-                const n = s.loot.boxes[k]; const locked = k === "royal";
+                const n = s.loot.boxes[k];
                 const opened = s.loot.opened[k] ?? 0;
                 return (
-                  <Press key={k} onPress={() => (!locked && n > 0 ? p.onOpenBox(k) : setSheet({ odds: k }))} style={[styles.rowBox, shadow]}
-                    accessibilityRole="button" accessibilityLabel={`${BOX_INFO[k].name}: ${locked ? t("ls.lockedSeasons") : n}`}>
-                    <Image source={boxArt(k)} style={{ width: 56, height: 56, opacity: locked ? 0.5 : 1 }} />
+                  <Press key={k} onPress={() => (n > 0 ? p.onOpenBox(k) : setSheet({ odds: k }))} style={[styles.rowBox, shadow]}
+                    accessibilityRole="button" accessibilityLabel={`${BOX_INFO[k].name}: ${n}`}>
+                    <Image source={boxArt(k)} style={{ width: 56, height: 56 }} />
                     <View style={{ flex: 1 }}>
                       <Txt v="h3">{BOX_INFO[k].name}{n > 0 ? ` · ${n}` : ""}</Txt>
-                      <Txt v="tiny" color={C.dim}>{locked ? t("ls.inSeasons") : tx(`box.howShort.${k}`)}</Txt>
-                      {!locked ? <Bar progress={Math.min(1, opened / 10)} height={6} color={C.honey} style={{ marginTop: 4 }} /> : null}
+                      <Txt v="tiny" color={C.dim}>{tx(`box.howShort.${k}`)}</Txt>
+                      <Bar progress={Math.min(1, opened / 10)} height={6} color={C.honey} style={{ marginTop: 4 }} />
                     </View>
-                    {locked ? <Image source={ART.lock} style={{ width: 22, height: 22 }} /> :
-                      n > 0 ? <GameButton small title={t("ls.open")} color="green" onPress={() => p.onOpenBox(k)} label={t("ls.openLabel", { name: BOX_INFO[k].name })} /> :
+                    {n > 0 ? <GameButton small title={t("ls.open")} color="green" onPress={() => p.onOpenBox(k)} label={t("ls.openLabel", { name: BOX_INFO[k].name })} /> :
                       <Txt v="tiny" color={C.dim}>{t("ls.none")}</Txt>}
                   </Press>
                 );
@@ -281,7 +280,6 @@ function Odds({ kind, s }: { kind: BoxKind; s: GameState }) {
         <View style={{ flex: 1 }}><Txt v="h2">{BOX_INFO[kind].name}</Txt><Txt v="small" color={C.dim}>{BOX_INFO[kind].how}</Txt></View>
       </View>
       <SheetScroll>
-        {kind === "royal" ? <Txt v="small" color={C.dim} style={{ marginTop: 8 }}>{t("od.royal")}</Txt> : null}
         <Txt v="tiny" color={C.dim} style={{ marginTop: 12 }}>{t("od.perSlot", { n: od.slots })}</Txt>
         <View style={styles.oddsRow}>
           <View style={{ width: 92 }} />

@@ -6,7 +6,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
   GameState, buyUpgrade, canClaimLogin, claimBonus, claimLogin, claimTask, collectHive, combAction, finishRound, freeMoves,
-  level, newState, nextLoginIndex, RoundReward, RoundSummary, tick, unlockBee,
+  level, newState, nextLoginCycle, nextLoginIndex, RoundReward, RoundSummary, tick, unlockBee,
   RoundBoosters, RoundMode, startFreeRound, useShuffle, openBox, openAllBoxes, claimWeekly, buyFreeze, assembleNightBee,
   shopBuyItem, shopBuyBooster, shopBuyFragment, setSkin, toggleDeco, currentTasks,
   dayColorInfo, harvestAction, levelUpBee, renameBee, plantFlower, unlockBed, waterAllAction, waterBedAction,
@@ -54,7 +54,7 @@ import LanguagePicker from "./src/screens/LanguagePicker";
 import { Lang, setLang } from "./src/i18n";
 import { chooseLanguage, setSetting, Settings } from "./src/logic/game";
 import { compareVersions } from "./src/logic/update";
-import { activeEvent, devForce, forceEvent, PUMPKIN_CHANCE } from "./src/logic/event";
+import { activeEvent, devForce, forceEvent, forceSeason, PUMPKIN_CHANCE } from "./src/logic/event";
 import { clockPaused } from "./src/logic/clock";
 import { CINE, EventCine, oldLayerOpacity, useReduceMotion } from "./src/ui/EventCine";
 import { IntroVideo } from "./src/ui/IntroVideo";
@@ -75,6 +75,7 @@ const FLAGS = webFlags(onWeb ? window.location?.search ?? "" : "", onWeb ? windo
 const WEB_EVENT = FLAGS.event;
 const DEV = FLAGS.dev;
 if (WEB_EVENT) forceEvent(true);
+if (FLAGS.winter) forceSeason("winter");
 pinArt();          // web: keep all art in memory so remounts never refetch (no-op on Android)
 initTelegram(C.bg); // web inside Telegram: ready/expand/fullscreen, no swipe-to-close, header colour
 
@@ -751,7 +752,7 @@ function Main() {
       </View>
 
       <Tutorial visible={showTutorial && s.settings.langPicked} onDone={act.tutorialDone} />
-      <LoginModal visible={showLogin && !cine && !showTutorial && !showWhatsNew && s.settings.langPicked} index={loginIdx} reward={loginReward(loginIdx, level(s))} streak={s.login.lastDay === todayOf(s, now) - 1 ? s.login.streak : 0}
+      <LoginModal visible={showLogin && !cine && !showTutorial && !showWhatsNew && s.settings.langPicked} index={loginIdx} reward={loginReward(loginIdx, nextLoginCycle(s))} streak={s.login.lastDay === todayOf(s, now) - 1 ? s.login.streak : 0}
         onClaim={act.login} onClose={() => setShowLogin(false)} />
       <SettingsModal
         visible={showSettings}

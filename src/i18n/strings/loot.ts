@@ -28,9 +28,10 @@ export const loot = {
   "box.gold": { en: "Golden Comb", uk: "Золота сота", ru: "Золотая сота" },
   "box.gold.how": { en: "Every 7 days of your daily streak, 3 stars at the weekend, sometimes inside a wax comb", uk: "Кожні 7 днів серії головоломки дня, 3 зірки у вихідні, зрідка — всередині воскової", ru: "Каждые 7 дней серии головоломки дня, 3 звезды в выходной, редко — внутри восковой" },
   "box.royal": { en: "Royal Comb", uk: "Королівська сота", ru: "Королевская сота" },
-  "box.royal.how": { en: "Seasons only — coming in a future version", uk: "Лише в сезонах — з'являться в наступних версіях", ru: "Только в сезонах — появятся в следующих версиях" },
+  "box.royal.how": { en: "Season rewards: the advent calendar, the end of an event track", uk: "Сезонні нагороди: адвент-календар, фінал лінійки події", ru: "Сезонные награды: адвент-календарь, финал дорожки события" },
   "box.howShort.wood": { en: "Daily, for 3 tasks", uk: "Щодня за 3 завдання", ru: "Раз в день за 3 задания" },
   "box.howShort.wax": { en: "3★ daily puzzle", uk: "3★ у головоломці дня", ru: "3★ в головоломке дня" },
+  "box.howShort.royal": { en: "Season rewards", uk: "Сезонні нагороди", ru: "Сезонные награды" },
   "box.howShort.gold": { en: "Every 7-day streak", uk: "Кожні 7 днів серії", ru: "Каждые 7 дней серии" },
 
   "item.scarf": { en: "Cosy Scarf", uk: "Шарфик", ru: "Шарфик" },

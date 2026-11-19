@@ -25,8 +25,12 @@ export function halloween(year: number): EventDef {
 const yearOf = (day: number) => new Date(day * 86400000).getUTCFullYear();
 
 export type Season = "spring" | "summer" | "autumn" | "winter";
+/** web previews (`?winter=1`) and QA: a season shown whatever the date (null = the calendar decides) */
+let forcedSeason: Season | null = null;
+export const forceSeason = (s: Season | null) => { forcedSeason = s; };
 /** meteorological seasons on local calendar days: spring Mar–May, summer Jun–Aug, autumn Sep–Nov, winter Dec–Feb */
 export function season(day: number): Season {
+  if (forcedSeason) return forcedSeason;
   const m = new Date(day * 86400000).getUTCMonth() + 1;
   return m >= 3 && m <= 5 ? "spring" : m >= 6 && m <= 8 ? "summer" : m >= 9 && m <= 11 ? "autumn" : "winter";
 }

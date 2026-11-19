@@ -22,7 +22,7 @@ async function seed(patch: (s: GameState) => GameState) {
   // Explicit classic UI and a seen event intro prevent Halloween changing their fixtures.
   s = { ...s, settings: { ...s.settings, tutorialDone: true, gardenIntroDone: true, lang: "ru", langPicked: true, lastVersion: "1.6.2", ui: "classic" },
     event: { ...s.event, id: `halloween-${new Date(now).getFullYear()}`, intro: true },
-    login: { lastDay: today(s, now), index: 0, streak: 1 } };
+    login: { lastDay: today(s, now), index: 0, streak: 1, cycle: 0 } };
   await AsyncStorage.setItem(KEY, JSON.stringify(patch(s)));
 }
 async function boot() {

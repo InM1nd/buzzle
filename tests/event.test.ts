@@ -213,3 +213,18 @@ test("night-falls transition: once per event, then one fade back after it", asyn
   assert.equal(eventCineDue(migrate(JSON.parse(JSON.stringify(s)), at(11, 11)), at(11, 11)), null);
   assert.equal(eventCineDue(newState(at(12, 1)), at(12, 1)), null); // never saw the event: no fade back
 });
+
+test("1.7: a track step with a costume the player owns pays duplicate pollen instead of burning the step", async () => {
+  const { grant } = await import("../src/logic/game");
+  const { DUP_POLLEN } = await import("../src/logic/loot");
+  const base = newState(at(10, 20));
+  assert.equal(grant(base, { items: ["no-such-costume"] }), null, "an item not in the game makes the reward wait");
+  const witch = TRACK.findIndex((st) => st.reward.skin === "witchhat");
+  let s: GameState = { ...base, loot: { ...base.loot, owned: ["witchhat"] }, event: { id: "halloween-2026", points: 999, claimed: witch } };
+  const pollen = s.loot.pollen;
+  const c = claimTrackStep(s, at(10, 25))!;
+  assert.ok(c, "the step is claimed");
+  assert.equal(c.state.event.claimed, witch + 1);
+  assert.equal(c.state.loot.pollen, pollen + DUP_POLLEN.epic);
+  assert.equal(c.state.loot.owned.filter((x) => x === "witchhat").length, 1);
+});

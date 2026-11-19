@@ -1,11 +1,11 @@
 import { t, t as tt } from "../i18n";
 import { currentTasks } from "../logic/game";
 import { WEEKLY_TASKS } from "../logic/tasks";
-import { boxArt } from "../ui/lootUi";
+import { boxArt, rewardChips } from "../ui/lootUi";
 import React, { useRef } from "react";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
-import { GameState, canClaimLogin, level, nextLoginIndex, canClaimWeekly, canBuyFreeze, FREEZE_COST, WEEKLY_REWARD, dailyStreak } from "../logic/game";
-import { LOGIN_REWARDS, loginReward, taskReward, tasksForDay, bonusReward } from "../logic/tasks";
+import { GameState, canClaimLogin, level, nextLoginCycle, nextLoginIndex, canClaimWeekly, canBuyFreeze, FREEZE_COST, WEEKLY_REWARD, dailyStreak } from "../logic/game";
+import { LOGIN_DAYS, loginReward, taskReward, tasksForDay, bonusReward } from "../logic/tasks";
 import { ART } from "../ui/art";
 import { C, K, themed } from "../ui/theme";
 import { Bar, Card, fmt, GameButton, Txt, useTopPad, useBottomPad } from "../ui/components";
@@ -142,16 +142,18 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
           ) : null}
         </View>
         <View style={styles.week}>
-          {LOGIN_REWARDS.map((_, i) => {
-            const r = loginReward(i, lvl);
+          {Array.from({ length: LOGIN_DAYS }, (_, i) => {
+            // the shown week: the one being claimed, or (all claimed today) the one just finished
+            const cycle = canLogin ? nextLoginCycle(s) : s.login.cycle;
+            const chips = rewardChips(loginReward(i, cycle));
             const claimed = canLogin ? i < idx : i <= idx;
             const current = canLogin && i === idx;
             return (
               <View key={i} style={[styles.day, claimed && styles.dayClaimed, current && styles.dayCurrent, i === 6 && { flex: 1.35 }]}>
                 <Txt v="tiny" color={current ? "#fff" : C.dim}>{i === 6 ? t("tasks.day7") : t("tasks.dayN", { n: i + 1 })}</Txt>
-                <Image source={i === 6 ? ART.chest : r.jelly && !r.honey ? ART.jelly : ART.honey} style={{ width: 26, height: 26, opacity: claimed ? 0.45 : 1 }} />
+                <Image source={chips[0].img} style={{ width: 26, height: 26, opacity: claimed ? 0.45 : 1 }} resizeMode="contain" />
                 {claimed ? <Image source={ART.check} style={styles.dayCheck} /> : null}
-                <Txt v="tiny" color={current ? "#fff" : C.text} numberOfLines={1}>{r.honey ? fmt(r.honey) : `${r.jelly}`}</Txt>
+                <Txt v="tiny" color={current ? "#fff" : C.text} numberOfLines={1}>{chips.map((c) => c.text).join(" ")}</Txt>
               </View>
             );
           })}

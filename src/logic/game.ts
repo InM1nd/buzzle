@@ -19,8 +19,8 @@ import {
 } from "./garden";
 import { bonusReward, loginReward, Reward, TaskDef, TaskEvent, taskById, tasksForDay, taskReward, WEEKLY_TASKS } from "./tasks";
 import {
-  albumBonus, BoosterId, BoxKind, buyBooster, buyFragment, buyItem, Drop, FRAGMENTS_FOR_BEE, Loot, migrateLoot, newLoot, NIGHT_BEE,
-  openComb, SKIN_BY_ID, ALL_DECOS, EVENT_DECOS, RETIRED,
+  albumBonus, BoosterId, BoxKind, buyBooster, buyFragment, buyItem, Drop, DUP_POLLEN, FRAGMENTS_FOR_BEE, ITEM_BY_ID, Loot, migrateLoot,
+  newLoot, NIGHT_BEE, openComb, SKIN_BY_ID, ALL_DECOS, EVENT_DECOS, RETIRED,
 } from "./loot";
 import { hashString } from "./rng";
 import { FLIGHT_PAID_RUNS, flightNectar, flightPoints } from "./nightFlight";
@@ -62,7 +62,8 @@ export interface GameState {
   garden: Garden;
   /** freeze: streak freezes in stock (0..1), used up automatically when one day is missed */
   daily: { lastDay: number | null; streak: number; best: number; results: Record<string, DailyResult>; freeze: number };
-  login: { lastDay: number | null; index: number; streak: number };
+  /** index: the last claimed calendar day (0..6, -1 = none yet); cycle: full weeks claimed (1.7: a missed day pauses, never resets) */
+  login: { lastDay: number | null; index: number; streak: number; cycle: number };
   /** ids: today's three tasks (picked at the day change); missing in a migrated save = the v1.2 pick */
   tasks: { day: number; progress: Record<string, number>; claimed: string[]; bonus: boolean; ids?: string[] };
   loot: Loot;
@@ -129,7 +130,7 @@ export function newState(now: number): GameState {
     beeSkins: {},
     garden: newGarden(now),
     daily: { lastDay: null, streak: 0, best: 0, results: {}, freeze: 0 },
-    login: { lastDay: null, index: -1, streak: 0 },
+    login: { lastDay: null, index: -1, streak: 0, cycle: 0 },
     tasks: { day, progress: {}, claimed: [], bonus: false, ids: tasksForDay(day).map((t) => t.id) },
     loot: newLoot(hashString(`bzz-loot-${now}`)),
     week: newWeek(weekOf(day)),
@@ -199,7 +200,11 @@ export function migrate(raw: unknown, now: number): GameState {
     // a v1 save has no garden: start it at the newest time the game has seen, so a rolled-back clock can't pre-grow it
     garden: s.garden ? migrateGarden(s.garden, now) : newGarden(Math.max(now, clockMax)),
     daily: { ...d.daily, ...obj(s.daily), results: { ...obj(obj(s.daily).results) }, freeze: Math.max(0, Math.min(1, num(obj(s.daily).freeze, 0) | 0)) },
-    login: { ...d.login, ...obj(s.login) },
+    login: {
+      lastDay: typeof obj(s.login).lastDay === "number" ? obj(s.login).lastDay : null,
+      index: Math.max(-1, Math.min(6, num(obj(s.login).index, -1) | 0)), streak: Math.max(0, num(obj(s.login).streak, 0) | 0),
+      cycle: Math.max(0, num(obj(s.login).cycle, 0) | 0),
+    },
     tasks: { day: num(rawTasks.day, d.tasks.day), progress: { ...obj(rawTasks.progress) }, claimed: Array.isArray(rawTasks.claimed) ? rawTasks.claimed : [], bonus: !!rawTasks.bonus, ids },
     stats: { ...d.stats, ...obj(s.stats) },
     settings: migrateSettings(d.settings, obj(s.settings), s.version),
@@ -284,8 +289,26 @@ export function dayColorInfo(s: GameState, now: number): { color: number; active
   return { color, active: hasColor(s.garden, color) };
 }
 
-function add(s: GameState, r: Reward): GameState {
+function add(s: GameState, r: { honey?: number; jelly?: number }): GameState {
   return { ...s, honey: s.honey + (r.honey ?? 0), jelly: s.jelly + (r.jelly ?? 0) };
+}
+/** 1.7: credit any reward. An owned skin / decoration becomes its duplicate pollen; an item that is not in the game yet
+ * returns null so the caller keeps the reward waiting instead of burning it. */
+export function grant(s0: GameState, r: Reward): GameState | null {
+  if (r.items?.some((id) => !ITEM_BY_ID[id])) return null;
+  let s = add(s0, r);
+  const loot: Loot = { ...s.loot, owned: [...s.loot.owned], boosters: { ...s.loot.boosters }, seeds: { ...s.loot.seeds }, pollen: s.loot.pollen + (r.pollen ?? 0) };
+  for (const id of r.items ?? []) {
+    if (loot.owned.includes(id)) loot.pollen += DUP_POLLEN[ITEM_BY_ID[id].rarity];
+    else loot.owned.push(id);
+  }
+  for (const [b, n] of Object.entries(r.boosters ?? {}) as [BoosterId, number][]) loot.boosters[b] += n;
+  for (const [f, n] of Object.entries(r.seeds ?? {})) {
+    loot.seeds[f] = (loot.seeds[f] ?? 0) + n;
+    if (ITEM_BY_ID[f] && !loot.owned.includes(f)) loot.owned.push(f); // rare flower → album, like openComb
+  }
+  s = { ...s, loot };
+  return r.boxes?.length ? addBoxes(s, r.boxes) : s;
 }
 
 // ---------- actions ----------
@@ -540,19 +563,21 @@ export function claimBonus(s: GameState): { state: GameState; reward: Reward; bo
 }
 
 export const canClaimLogin = (s: GameState, now: number) => s.login.lastDay === null || today(s, now) > s.login.lastDay;
-/** Index (0..6) of the reward that would be claimed today. */
-export function nextLoginIndex(s: GameState, now: number): number {
-  const day = today(s, now);
-  return s.login.lastDay === day - 1 ? (s.login.index + 1) % 7 : 0;
+/** Index (0..6) of the reward that would be claimed next: a missed day pauses the calendar (1.7), it never resets */
+export function nextLoginIndex(s: GameState, _now?: number): number {
+  return (s.login.index + 1) % 7;
 }
+/** the cycle the next claim belongs to */
+export const nextLoginCycle = (s: GameState) => s.login.cycle + (s.login.index === 6 ? 1 : 0);
 export function claimLogin(s0: GameState, now: number): { state: GameState; reward: Reward; index: number } | null {
   const s = tick(s0, now);
   if (!canClaimLogin(s, now)) return null;
   const day = today(s, now);
   const index = nextLoginIndex(s, now);
   const streak = s.login.lastDay === day - 1 ? s.login.streak + 1 : 1;
-  const reward = loginReward(index, level(s));
-  return { state: add({ ...s, login: { lastDay: day, index, streak } }, reward), reward, index };
+  const cycle = nextLoginCycle(s);
+  const reward = loginReward(index, cycle);
+  return { state: grant({ ...s, login: { lastDay: day, index, streak, cycle } }, reward)!, reward, index };
 }
 
 /** Daily puzzle streak as shown today (0 if yesterday was missed). */
@@ -718,13 +743,13 @@ export function claimTrackStep(s0: GameState, now: number): { state: GameState; 
   const step = TRACK[e.claimed];
   if (!step || e.points < step.at) return null;
   const r = step.reward;
-  // a costume whose art is not in the game yet must not be burned: the step waits
-  if (r.skin && !SKIN_BY_ID[r.skin]) return null;
-  let n: GameState = { ...add(s, r), event: { ...e, claimed: e.claimed + 1 } };
-  if (r.box) n = addBoxes(n, [r.box]);
-  if (r.seeds) n = { ...n, loot: { ...n.loot, seeds: { ...n.loot.seeds, [r.seeds.id]: (n.loot.seeds[r.seeds.id] ?? 0) + r.seeds.n } } };
-  if (r.skin && SKIN_BY_ID[r.skin] && !n.loot.owned.includes(r.skin)) n = { ...n, loot: { ...n.loot, owned: [...n.loot.owned, r.skin] } };
-  return { state: n, reward: r };
+  // a costume whose art is not in the game yet must not be burned: grant() refuses and the step waits;
+  // 1.7: a costume the player already owns (Halloween 2027 veterans) pays its duplicate pollen
+  const n = grant({ ...s, event: { ...e, claimed: e.claimed + 1 } }, {
+    honey: r.honey, jelly: r.jelly, boxes: r.box ? [r.box] : undefined,
+    seeds: r.seeds ? { [r.seeds.id]: r.seeds.n } : undefined, items: r.skin ? [r.skin] : undefined,
+  });
+  return n ? { state: n, reward: r } : null;
 }
 
 // ---------------------------------------------------------------- v1.6 Meadow: night flight

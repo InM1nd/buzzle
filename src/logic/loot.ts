@@ -127,6 +127,8 @@ export const KIND_ODDS: Record<Rarity, [DropKind, number][]> = {
   legendary: [["item", 75], ["fragment", 25]],
 };
 type DropKind = "item" | "booster" | "seed" | "fragment";
+/** what a common booster slot rolls, weights in percent */
+export const COMMON_BOOSTER_ODDS: [BoosterId, number][] = [["moves", 50], ["bomb", 25], ["shuffle", 25]];
 export const FRAGMENTS_BY_RARITY: Record<Rarity, number> = { common: 1, rare: 1, epic: 2, legendary: 4 };
 export const DUP_REROLL = true;
 export const DUP_POLLEN: Record<Rarity, number> = { common: 5, rare: 12, epic: 30, legendary: 80 };
@@ -204,7 +206,7 @@ export interface OpenCtx {
  * Resources are reported in drops and must be credited by the caller (game.ts).
  */
 export function openComb(l: Loot, kind: BoxKind, ctx: OpenCtx): { loot: Loot; drops: Drop[] } | null {
-  if (kind === "royal" || l.boxes[kind] <= 0) return null;
+  if (l.boxes[kind] <= 0) return null;
   const rng = new Rng(l.rng);
   const R = BOX_RESOURCES[kind];
   const k = 1 + 0.5 * (Math.max(1, ctx.hiveLvl) - 1);
@@ -240,7 +242,8 @@ export function openComb(l: Loot, kind: BoxKind, ctx: OpenCtx): { loot: Loot; dr
       owned.add(it.id);
       drops.push({ t: "item", id: it.id, rarity: r, dup, pollen: dup ? DUP_POLLEN[r] : 0, slot: true });
     } else if (what === "booster") {
-      const b = r === "common" ? "moves" : ((["moves", "bomb", "shuffle"] as BoosterId[])[rng.int(3)]);
+      // 1.7: common slots were always +3 moves (29 of 31 boosters in a playtest); now moves 50 / bomb 25 / shuffle 25
+      const b = r === "common" ? pickWeighted<BoosterId>(rng, COMMON_BOOSTER_ODDS) : ((["moves", "bomb", "shuffle"] as BoosterId[])[rng.int(3)]);
       drops.push({ t: "booster", b, n: r === "epic" ? 3 : 1, rarity: r, slot: true });
     } else if (what === "seed") {
       if (r === "common") {

@@ -91,7 +91,7 @@ test("daily streak: consecutive days grow, a gap resets; jelly only for new star
   assert.equal(s.daily.best, 2);
 });
 
-test("login calendar: once per day, cycles, resets after a gap, can't re-claim by rolling the clock back", () => {
+test("login calendar: once per day, cycles, a gap pauses it (1.7), can't re-claim by rolling the clock back", () => {
   let s = newState(T0);
   assert.ok(canClaimLogin(s, T0));
   let c = claimLogin(s, T0)!;
@@ -102,7 +102,26 @@ test("login calendar: once per day, cycles, resets after a gap, can't re-claim b
   assert.equal(c.index, 1);
   s = c.state;
   assert.equal(claimLogin(s, T0 - 24 * H), null, "clock rolled back a day");
-  assert.equal(nextLoginIndex(s, T0 + 4 * 24 * H), 0, "gap resets the calendar");
+  assert.equal(nextLoginIndex(s, T0 + 4 * 24 * H), 2, "a gap pauses the calendar, it does not reset");
+});
+
+test("login rewards (1.7): combs, boosters, jelly, pollen; a full week rolls into the next cycle, every 4th gives gold", () => {
+  let s = newState(T0);
+  const sevens: string[] = [];
+  for (let d = 0; d < 28; d++) {
+    const c = claimLogin(s, T0 + d * 24 * H)!;
+    if (c.index === 6) sevens.push(c.reward.boxes![0]);
+    s = c.state;
+  }
+  assert.deepEqual(sevens, ["wax", "wax", "wax", "gold"]);
+  assert.equal(s.login.cycle, 3);
+  assert.equal(s.honey, newState(T0).honey, "no honey in the calendar any more");
+  assert.equal(s.loot.boxes.wood, 8);
+  assert.equal(s.loot.pollen, 40);
+  assert.equal(s.jelly, 4 * (2 + 3 + 5));
+  assert.equal(s.loot.boosters.bomb + s.loot.boosters.shuffle, 4);
+  const again = migrate(JSON.parse(JSON.stringify(s)), T0 + 28 * 24 * H);
+  assert.deepEqual(again.login, s.login, "the cycle survives a reload");
 });
 
 test("daily tasks: deterministic per day, progress from events, claim + bonus", () => {

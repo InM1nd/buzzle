@@ -70,6 +70,7 @@ import CocoaSortScreen from "./src/screens/CocoaSortScreen";
 import { useUpdater } from "./src/ui/useUpdater";
 import { APP_VERSION, DEV_BUILD } from "./src/version";
 import { webFlags } from "./src/logic/devFlags";
+import { setDevDate } from "./src/logic/devClock";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 // web previews / screenshots: `?event=1` / `?dev=1`, only on localhost or in the dev build (see src/logic/devFlags.ts)
@@ -177,7 +178,9 @@ function Main() {
     if (!pv || pv.aid !== next.aid || pv.settings.analytics !== next.settings.analytics) initAnalytics(next.aid, next.settings.analytics);
     else if (next !== pv) track(diffEvents(pv, next));
     setLang(next.settings.lang);
-    if (DEV && !WEB_EVENT) forceEvent(devForce(next.settings.devEvent)); // dev switch: Halloween always / off / calendar
+    // dev switches: Halloween always / off / calendar; a test date (winter presets turn Halloween off)
+    if (DEV) setDevDate(next.settings.devDate);
+    if (DEV && !WEB_EVENT) forceEvent(next.settings.devDate !== "now" ? false : devForce(next.settings.devEvent));
     setS(next);
     const t = Date.now();
     if (writable.current && (force || t - lastSave.current > 15000)) {

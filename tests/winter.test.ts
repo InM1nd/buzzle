@@ -259,3 +259,13 @@ test("New Year track: snowflakes 25 Dec – 7 Jan move it, claims until 10 Jan, 
   const a: GameState = { ...veteran(), winter: { ...newWinter(), id: "winter-2026", advent: Array.from({ length: 24 }, (_, i) => i + 1) } };
   assert.equal(nyView(a, at(2026, 12, 25))!.claimable, 1);
 });
+
+test("dev date presets: the same time of day on a winter day, Jan 2 of the next year", async () => {
+  const { devShift } = await import("../src/logic/devClock");
+  const real = new Date(2026, 10, 20, 15, 30).getTime();
+  const d = new Date(real + devShift("dec12", real));
+  assert.deepEqual([d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()], [2026, 11, 12, 15, 30]);
+  const j = new Date(real + devShift("jan2", real));
+  assert.deepEqual([j.getFullYear(), j.getMonth(), j.getDate()], [2027, 0, 2]);
+  assert.equal(devShift("now", real), 0);
+});

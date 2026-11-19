@@ -2,6 +2,7 @@
  * Game state model + pure actions (no React Native imports → unit-testable with node:test).
  */
 import { UI_STYLES, UiStyle } from "./uiStyle";
+import { DEV_DATES, DevDate } from "./devClock";
 import { Entry, isLang, Lang, LANGS } from "../i18n/core";
 import { STRINGS } from "../i18n";
 import { APP_VERSION } from "../version";
@@ -109,6 +110,8 @@ export interface Settings {
   tiles: TileStyle;
   /** dev build only: Halloween always on, off, or by the calendar */
   devEvent: DevEventMode;
+  /** 1.7 dev build only: test date (DEV_DATES, src/logic/devClock.ts) */
+  devDate: DevDate;
   /** v1.6 interface style: auto = violet "midnight" during the Halloween event, classic otherwise */
   ui: UiStyle;
   /** 1.6.2: anonymous retention analytics (opt-out) */
@@ -146,7 +149,7 @@ export function newState(now: number): GameState {
     settings: {
       notifications: false, haptics: true, tutorialDone: false, notifPromptDismissed: false, gardenReminders: true, gardenIntroDone: false,
       lang: "en", langPicked: false, sound: true, notifHive: true, notifDaily: true, notifChests: true,
-      quietOn: true, quietFrom: 22, quietTo: 9, autoUpdate: true, lastVersion: APP_VERSION, tiles: "mellow", devEvent: "on", ui: "auto", analytics: true,
+      quietOn: true, quietFrom: 22, quietTo: 9, autoUpdate: true, lastVersion: APP_VERSION, tiles: "mellow", devEvent: "on", devDate: "now", ui: "auto", analytics: true,
     },
     early: { firstSeen: isoDay(now), version: APP_VERSION, early: isEarlyVersion(APP_VERSION) },
     event: newEventState(),
@@ -258,6 +261,7 @@ function migrateSettings(d: Settings, raw: Record<string, any>, version: unknown
     lastVersion: typeof raw.lastVersion === "string" ? raw.lastVersion : old ? "1.3.0" : d.lastVersion,
     tiles: TILE_STYLES.includes(tiles) ? tiles : d.tiles,
     devEvent: raw.devEvent === true ? "on" : raw.devEvent === false ? "off" : DEV_EVENT_MODES.includes(raw.devEvent) ? raw.devEvent : d.devEvent,
+    devDate: DEV_DATES.includes(raw.devDate) ? raw.devDate : d.devDate,
     ui: UI_STYLES.includes(raw.ui) ? raw.ui : d.ui,
     analytics: b("analytics"),
   };

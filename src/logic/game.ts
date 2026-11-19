@@ -26,7 +26,7 @@ import { hashString } from "./rng";
 import { FLIGHT_PAID_RUNS, flightNectar, flightPoints } from "./nightFlight";
 import {
   ADVENT, ADVENT_DAYS, ADVENT_POLLEN, addFlakes, adventWindow, decemberDate, FLAKES, newWinter, WINTER_BEE, WINTER_FRAGMENTS, WinterState,
-  winterId, winterProgress, WINTER_FLOWERS, WSHOP,
+  winterId, winterProgress, WINTER_FLOWERS, WSHOP, NY_TRACK, nyActive, nyClaimable, nyPoints, nyTrackOpen,
 } from "./winter";
 import { activeEvent, DEV_EVENT_MODES, DevEventMode, EventState, eventProgress, newEventState, POINTS, TRACK, TrackReward, trackEvent } from "./event";
 
@@ -236,6 +236,7 @@ function migrateWinter(w: Record<string, any>): WinterState {
     flakes: n(w.flakes), frags: Math.min(WINTER_FRAGMENTS, n(w.frags)), credits: n(w.credits),
     advent: Array.isArray(w.advent) ? Array.from(new Set(w.advent.filter((x: unknown) => Number.isInteger(x) && (x as number) >= 1 && (x as number) <= ADVENT_DAYS))) as number[] : [],
     waxDay: n(w.waxDay, -1), goldWeek: n(w.goldWeek, -1),
+    ny: n(w.ny), nyClaimed: Math.min(NY_TRACK.length, n(w.nyClaimed)),
   };
 }
 
@@ -328,6 +329,10 @@ export function grant(s0: GameState, r: Reward): GameState | null {
   for (const [f, n] of Object.entries(r.seeds ?? {})) {
     loot.seeds[f] = (loot.seeds[f] ?? 0) + n;
     if (ITEM_BY_ID[f] && !loot.owned.includes(f)) loot.owned.push(f); // rare flower → album, like openComb
+  }
+  if (r.bee && BEE_BY_ID[r.bee]) {
+    if (s.bees.includes(r.bee)) loot.pollen += 80;
+    else s = { ...s, bees: [...s.bees, r.bee], beeLevels: { ...s.beeLevels, [r.bee]: 1 } };
   }
   if (r.frags) {
     const keep = Math.max(0, Math.min(r.frags, WINTER_FRAGMENTS - s.winter.frags));
@@ -422,7 +427,7 @@ export function buyUpgrade(s0: GameState, id: UpgradeId, now: number): GameState
 
 export function unlockBee(s0: GameState, id: string, now: number): GameState | null {
   const bee = BEE_BY_ID[id];
-  if (!bee || bee.fragments || s0.bees.includes(id) || s0.jelly < bee.cost) return null;
+  if (!bee || bee.fragments || bee.track || s0.bees.includes(id) || s0.jelly < bee.cost) return null;
   const s = tick(s0, now); // production at the old rate up to now
   return { ...s, jelly: s.jelly - bee.cost, bees: [...s.bees, id], beeLevels: { ...s.beeLevels, [id]: 1 } };
 }
@@ -894,7 +899,8 @@ export function giveFlakes(s: GameState, day: number, n: number): GameState {
   const id = winterId(day);
   if (!id || n <= 0) return s;
   const r = addFlakes(winterProgress(s.winter, id), n, winterBeeHome(s));
-  const n2: GameState = { ...s, winter: r.w, loot: { ...s.loot, pollen: s.loot.pollen + r.pollen } };
+  const w = nyActive(day) ? { ...r.w, ny: r.w.ny + n } : r.w;
+  const n2: GameState = { ...s, winter: w, loot: { ...s.loot, pollen: s.loot.pollen + r.pollen } };
   return r.wax ? addBoxes(n2, Array(r.wax).fill("wax")) : n2;
 }
 /** wax, golden and royal combs opened in winter carry snowflakes */
@@ -972,4 +978,29 @@ export function finishCocoa(s0: GameState, level: number, stars: number, now: nu
   if (level !== s0.cocoa.level) return s0;
   const s = tick(s0, now);
   return { ...giveFlakes(s, today(s, now), cocoaFlakes(stars)), cocoa: { level: level + 1 } };
+}
+
+// ---------------------------------------------------------------- 1.7 New Year track
+/** the New Year track shown today (running or in the claim days) with the save's progress, null otherwise */
+export function nyView(s: GameState, now: number) {
+  const day = today(s, now);
+  const w = winterView(s, now);
+  if (!w || !nyTrackOpen(day)) return null;
+  return { w, running: nyActive(day), points: nyPoints(w), claimable: nyClaimable(w) };
+}
+/** claim every reached step at once (stops at one whose reward is not in the game yet) */
+export function claimNySteps(s0: GameState, now: number): GameState | null {
+  let s: GameState | null = null;
+  for (let r = claimNyStep(s0, now); r; r = claimNyStep(r.state, now)) s = r.state;
+  return s;
+}
+/** claim the next reached step; a reward not in the game yet keeps it waiting */
+export function claimNyStep(s0: GameState, now: number): { state: GameState; reward: Reward } | null {
+  const s = tick(s0, now);
+  const v = nyView(s, now);
+  if (!v) return null;
+  const step = NY_TRACK[v.w.nyClaimed];
+  if (!step || v.points < step.at) return null;
+  const state = grant({ ...s, winter: { ...v.w, nyClaimed: v.w.nyClaimed + 1 } }, step.reward);
+  return state ? { state, reward: step.reward } : null;
 }

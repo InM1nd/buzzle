@@ -13,6 +13,8 @@ export interface BeeSpecies {
   effect: Partial<Boosts> & { color?: number; freeze?: boolean };
   /** v1.3: not bought with jelly — assembled from this many fragments from the surprise combs */
   fragments?: number;
+  /** 1.7: not bought with jelly — the reward of an event track */
+  track?: boolean;
 }
 
 export interface Boosts {
@@ -45,6 +47,8 @@ export const BEES: BeeSpecies[] = [
   { id: "nochka", name: "", rarity: "legendary", cost: 0, fragments: 10, ability: "", flavor: "", effect: { prodMult: 0.2 } },
   // 1.7 winter: 10 winter fragments (snowflakes, advent, winter shop) — its own counter, s.winter.frags
   { id: "snowbee", name: "", rarity: "legendary", cost: 0, fragments: 10, ability: "", flavor: "", effect: { freeze: true } },
+  // 1.7 winter: the reward of the New Year track (25 Dec – 7 Jan), can't be bought
+  { id: "gingerbee", name: "", rarity: "legendary", cost: 0, track: true, ability: "", flavor: "", effect: { extraMoves: 2 } },
 ];
 for (const b of BEES) { lz(b, "name", `bee.${b.id}.name`); lz(b, "flavor", `bee.${b.id}.flavor`); Object.defineProperty(b, "ability", { get: () => baseAbility(b), enumerable: true, configurable: true }); }
 export const BEE_BY_ID = Object.fromEntries(BEES.map((b) => [b.id, b]));

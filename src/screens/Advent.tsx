@@ -3,12 +3,13 @@ import React, { useState } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { t, tx } from "../i18n";
 import {
-  adventOpenWay, adventVisible, GameState, rewardReady, today, winterBeeHome, winterView,
+  adventOpenWay, adventVisible, GameState, nyView, rewardReady, today, winterBeeHome, winterView,
 } from "../logic/game";
+import { BeeSprite } from "../ui/BeeSprite";
 import { BOOSTERS, BoosterId, BOX_INFO } from "../logic/loot";
 import { FLOWER_BY_ID } from "../logic/garden";
 import type { Reward } from "../logic/tasks";
-import { ADVENT, ADVENT_DAYS, ADVENT_POLLEN, adventWindow, FLAKES_PER_FRAGMENT, WINTER_FLOWERS, WINTER_FRAGMENTS, WSHOP } from "../logic/winter";
+import { ADVENT, ADVENT_DAYS, ADVENT_POLLEN, adventWindow, FLAKES_PER_FRAGMENT, NY_TRACK, WINTER_FLOWERS, WINTER_FRAGMENTS, WSHOP } from "../logic/winter";
 import { GARDEN_ART } from "../ui/beeArt";
 import { weekOf } from "../logic/day";
 import { ART } from "../ui/art";
@@ -178,6 +179,60 @@ export function AdventSheet({ visible, s, now, onClose, onWindow, onPlay }: {
   );
 }
 
+/** one reward as a small picture + a short line (track rows) */
+function RewardMini({ r }: { r: Reward }) {
+  if (r.bee) return (<View style={styles.mini}><BeeSprite id={r.bee} size={44} flap={false} /><Txt v="small" style={F.black} numberOfLines={1}>{tx(`bee.${r.bee}.name`)}</Txt></View>);
+  const img = (r.boxes?.length ? boxArt(r.boxes[0]) : r.seeds ? ART.seed : r.boosters ? BOOSTER_ART[Object.keys(r.boosters)[0] as BoosterId] : r.pollen ? ART.pollen : ART.jelly);
+  const text = r.boxes?.length ? `${BOX_INFO[r.boxes[0]].name}${r.boxes.length > 1 ? ` ×${r.boxes.length}` : ""}`
+    : r.seeds ? Object.entries(r.seeds).map(([f, n]) => `${FLOWER_BY_ID[f]?.name ?? f} ×${n}`).join(", ")
+    : r.boosters ? (Object.entries(r.boosters) as [BoosterId, number][]).map(([b, n]) => `${BOOSTERS[b].name} ×${n}`).join(", ")
+    : r.pollen ? `+${r.pollen}` : `+${r.jelly ?? 0}`;
+  return (<View style={styles.mini}><Image source={img} style={{ width: 36, height: 36 }} resizeMode="contain" /><Txt v="small" style={F.black} numberOfLines={2}>{text}</Txt></View>);
+}
+
+/** Tasks tab card (25 Dec – 10 Jan): the New Year track */
+export function NyCard({ s, now, onClaim }: { s: GameState; now: number; onClaim: () => void }) {
+  const [open, setOpen] = useState(false);
+  const v = nyView(s, now);
+  if (!v) return null;
+  const next = NY_TRACK[v.w.nyClaimed];
+  const prevAt = v.w.nyClaimed > 0 ? NY_TRACK[v.w.nyClaimed - 1].at : 0;
+  const progress = next ? Math.min(1, (v.points - prevAt) / (next.at - prevAt)) : 1;
+  return (
+    <Card active={v.claimable > 0} style={{ gap: 8, borderWidth: 2, borderColor: "#BFE0F7" }}>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+        <BeeSprite id="gingerbee" size={56} flap={false} />
+        <View style={{ flex: 1, minWidth: 0 }}>
+          <Txt v="h2" numberOfLines={1}>{t("ny.title")}</Txt>
+          <Txt v="tiny" color={C.dim} numberOfLines={2}>{v.running ? t("ny.sub") : t("ny.ended")}</Txt>
+        </View>
+        <View style={styles.flakes}><Image source={ART.flake} style={{ width: 24, height: 20 }} resizeMode="contain" /><Txt v="h3">{v.points}</Txt></View>
+      </View>
+      <Bar progress={progress} height={9} color="#7DB9E8" />
+      <Txt v="tiny" color={v.claimable ? C.greenDark : C.dim}>{v.claimable ? t("ny.ready") : next ? t("ny.next", { n: next.at - v.points }) : t("ny.done")}</Txt>
+      <GameButton small title={v.claimable ? t("ny.claimN", { n: v.claimable }) : t("ny.open")} color={v.claimable ? "green" : "white"}
+        onPress={() => (v.claimable ? onClaim() : setOpen(true))} label={t("ny.title")} />
+      <Overlay visible={open} onClose={() => setOpen(false)}>
+        <CloseBtn onPress={() => setOpen(false)} />
+        <Txt v="h2" style={{ paddingRight: 44 }}>{t("ny.title")}</Txt>
+        {v.w.advent.length >= ADVENT_DAYS ? <Txt v="tiny" color={C.greenDark} style={{ marginTop: 2 }}>{t("ny.advent")}</Txt> : null}
+        <View style={{ gap: 6, marginTop: 10 }}>
+          {NY_TRACK.map((st, i) => {
+            const done = i < v.w.nyClaimed, reached = v.points >= st.at;
+            return (
+              <View key={i} style={[styles.step, done && { opacity: 0.55 }, reached && !done && styles.stepReady]}>
+                <View style={styles.stepAt}><Image source={ART.flake} style={{ width: 16, height: 14 }} resizeMode="contain" /><Txt v="tiny" style={F.black}>{st.at}</Txt></View>
+                <View style={{ flex: 1, minWidth: 0 }}><RewardMini r={st.reward} /></View>
+                {done ? <Image source={ART.check} style={{ width: 22, height: 22 }} /> : reached ? <Txt v="tiny" color={C.greenDark} style={F.black}>✓</Txt> : null}
+              </View>
+            );
+          })}
+        </View>
+      </Overlay>
+    </Card>
+  );
+}
+
 export type WinterBuy = "fragPollen" | "fragJelly" | "wax" | "gold" | `seed:${string}`;
 /** the winter block at the top of the shop (1 Dec – 28 Feb) */
 export function WinterShop({ s, now, onBuy }: { s: GameState; now: number; onBuy: (what: WinterBuy) => boolean }) {
@@ -232,4 +287,8 @@ const styles = themed(() => StyleSheet.create({
   panel: { alignItems: "center", paddingTop: 6 },
   giftRow: { flexDirection: "row", alignItems: "center", gap: 12, padding: 8, borderRadius: 14, backgroundColor: K.bg("#FFF6E3") },
   shopRow: { flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 4 },
+  mini: { flexDirection: "row", alignItems: "center", gap: 8 },
+  step: { flexDirection: "row", alignItems: "center", gap: 10, padding: 6, borderRadius: 12, backgroundColor: K.bg("#F6F1E6") },
+  stepReady: { backgroundColor: K.bg("#E4F6E9"), borderWidth: 1.5, borderColor: "#9ED7AE" },
+  stepAt: { width: 46, flexDirection: "row", alignItems: "center", gap: 3 },
 }));

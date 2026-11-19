@@ -150,7 +150,7 @@ test("fragments beyond 10 (advent, shop) pay pollen; a new winter resets snowfla
 test("save round trip: every 1.7 field survives JSON + migrate", () => {
   let s = veteran();
   s = { ...s, login: { lastDay: day(2026, 12, 3), index: 4, streak: 9, cycle: 3 } };
-  s = { ...s, winter: { id: "winter-2026", flakes: 137, frags: 7, advent: [1, 2, 5], credits: 2, waxDay: day(2026, 12, 3), goldWeek: 2919 } };
+  s = { ...s, winter: { id: "winter-2026", flakes: 137, frags: 7, advent: [1, 2, 5], credits: 2, waxDay: day(2026, 12, 3), goldWeek: 2919, ny: 37, nyClaimed: 2 } };
   const back = migrate(JSON.parse(JSON.stringify(s)), at(2026, 12, 3));
   assert.deepEqual(back.winter, s.winter);
   assert.deepEqual(back.login, s.login);
@@ -234,4 +234,28 @@ test("cocoa sort: opens 20 Dec – 28 Feb; a solved level pays a snowflake per s
   assert.equal(finishCocoa(a, 0, 3, at(2026, 12, 21)), a, "the same level twice counts once");
   const back = migrate(JSON.parse(JSON.stringify(a)), at(2026, 12, 21));
   assert.deepEqual(back.cocoa, { level: 1 });
+});
+
+test("New Year track: snowflakes 25 Dec – 7 Jan move it, claims until 10 Jan, the gingerbread bee at the end, advent head start", async () => {
+  const { claimNyStep, nyView, unlockBee } = await import("../src/logic/game");
+  const { NY_TRACK } = await import("../src/logic/winter");
+  let s = veteran();
+  assert.equal(nyView(s, at(2026, 12, 24)), null);
+  s = giveFlakes(s, day(2026, 12, 24), 30);
+  assert.equal(s.winter.ny, 0, "flakes before 25 Dec don't count");
+  s = giveFlakes(s, day(2026, 12, 25), 30);
+  assert.equal(s.winter.ny, 30);
+  assert.equal(nyView(s, at(2026, 12, 25))!.claimable, 2);
+  s = claimNyStep(s, at(2026, 12, 25))!.state;
+  s = claimNyStep(s, at(2026, 12, 25))!.state;
+  assert.equal(claimNyStep(s, at(2026, 12, 25)), null);
+  assert.equal(unlockBee({ ...s, jelly: 999 }, "gingerbee", at(2026, 12, 25)), null, "can't be bought");
+  s = giveFlakes(s, day(2027, 1, 7), 500);
+  assert.equal(giveFlakes(s, day(2027, 1, 8), 50).winter.ny, s.winter.ny, "the event is over on 8 Jan");
+  for (let i = 2; i < NY_TRACK.length; i++) s = claimNyStep(s, at(2027, 1, 9))!.state;
+  assert.ok(s.bees.includes("gingerbee"));
+  assert.equal(nyView(s, at(2027, 1, 11)), null, "claims close after 10 Jan");
+  // all 24 advent windows: the first step without a single event snowflake
+  const a: GameState = { ...veteran(), winter: { ...newWinter(), id: "winter-2026", advent: Array.from({ length: 24 }, (_, i) => i + 1) } };
+  assert.equal(nyView(a, at(2026, 12, 25))!.claimable, 1);
 });

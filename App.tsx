@@ -5,7 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
-  GameState, adventTodayDue, assembleWinterBee, buyUpgrade, cocoaFlakes, cocoaOpen, finishCocoa, buyWinterComb, buyWinterFragment, buyWinterSeed, openAdvent, canClaimLogin, claimBonus, claimLogin, claimTask, collectHive, combAction, finishRound, freeMoves,
+  GameState, adventTodayDue, assembleWinterBee, buyUpgrade, claimNySteps, cocoaFlakes, cocoaOpen, finishCocoa, buyWinterComb, buyWinterFragment, buyWinterSeed, openAdvent, canClaimLogin, claimBonus, claimLogin, claimTask, collectHive, combAction, finishRound, freeMoves,
   level, newState, nextLoginCycle, nextLoginIndex, RoundReward, RoundSummary, tick, unlockBee,
   RoundBoosters, RoundMode, startFreeRound, useShuffle, openBox, openAllBoxes, claimWeekly, buyFreeze, assembleNightBee,
   shopBuyItem, shopBuyBooster, shopBuyFragment, setSkin, toggleDeco, currentTasks,
@@ -727,7 +727,7 @@ function Main() {
               : what === "wax" || what === "gold" ? buyWinterComb(c, what, Date.now()) : buyWinterFragment(c, what === "fragPollen" ? "pollen" : "jelly", Date.now()))}
           />
         ) : (
-          <TasksScreen s={s} now={now} onAdvent={() => setShowAdvent(true)} onClaimTrack={act.track} onClaimWeekly={act.weekly} onBuyFreeze={() => act.simple((c) => buyFreeze(c, Date.now()))} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} />
+          <TasksScreen s={s} now={now} onAdvent={() => setShowAdvent(true)} onClaimNy={() => act.simple((c) => claimNySteps(c, Date.now()))} onClaimTrack={act.track} onClaimWeekly={act.weekly} onBuyFreeze={() => act.simple((c) => buyFreeze(c, Date.now()))} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} />
         )}
       </View>
       </BottomPad.Provider>

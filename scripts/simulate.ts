@@ -177,6 +177,7 @@ export function simulate(p: Profile, days: number, seed = 7) {
       s = assembleNightBee(s, now) ?? s;
       if (WINTER && s.winter.frags >= WINTER_FRAGMENTS && marks.winterBee == null) marks.winterBee = d - 30; // days after 1 Dec
       if (WINTER && d === 30 + 31) marks.flakesByJan1 = s.winter.flakes;
+      if (WINTER && d === 30 + 38) marks.nyPointsJan7 = s.winter.ny; // snowflakes of the New Year event (no cocoa sort in the bot)
       // pollen shop: the cheapest missing item
       for (;;) {
         const miss = ITEMS.filter((it) => !s.loot.owned.includes(it.id)).sort((a, b) => SHOP_PRICE[a.rarity] - SHOP_PRICE[b.rarity]);

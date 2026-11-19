@@ -34,8 +34,11 @@ export interface WinterState {
   /** winter shop limits: the game day of the last wax comb, the week of the last golden comb */
   waxDay: number;
   goldWeek: number;
+  /** New Year track: snowflakes earned 25 Dec – 7 Jan, steps claimed */
+  ny: number;
+  nyClaimed: number;
 }
-export const newWinter = (): WinterState => ({ id: "", flakes: 0, frags: 0, advent: [], credits: 0, waxDay: -1, goldWeek: -1 });
+export const newWinter = (): WinterState => ({ id: "", flakes: 0, frags: 0, advent: [], credits: 0, waxDay: -1, goldWeek: -1, ny: 0, nyClaimed: 0 });
 
 const date = (day: number) => new Date(day * 86400000);
 /** the winter that day belongs to ("winter-2026" for Dec 2026 – Feb 2027), null outside winter */
@@ -56,6 +59,33 @@ export function winterLook(day: number, hour: number): WinterLook {
   const xmas = (m === 11 && n >= CHRISTMAS.fromDec) || (m === 0 && n <= CHRISTMAS.toJan);
   return `${xmas ? "christmas" : "winter"}_${hour >= 17 || hour < 7 ? "evening" : "day"}`;
 }
+
+/** New Year event: snowflakes count on its track 25 Dec – 7 Jan, rewards can be claimed until 10 Jan */
+export const NY = { fromDec: 25, toJan: 7, claimToJan: 10 };
+function inNy(day: number, toJan: number): boolean {
+  if (!winterId(day)) return false;
+  const d = date(day), m = d.getUTCMonth(), n = d.getUTCDate();
+  return (m === 11 && n >= NY.fromDec) || (m === 0 && n <= toJan);
+}
+export const nyActive = (day: number) => inNy(day, NY.toJan);
+export const nyTrackOpen = (day: number) => inNy(day, NY.claimToJan);
+/** cumulative snowflakes of the New Year track; the gingerbread bee closes it. Calibration (simulate.ts --winter, no cocoa sort):
+ * 25 Dec – 7 Jan a casual player makes ~22, a regular one ~104, an active one ~176; cocoa sort adds ~3 a level, so a regular
+ * player with two levels a day reaches the bee */
+export const NY_TRACK: { at: number; reward: Reward }[] = [
+  { at: 10, reward: { jelly: 3 } },
+  { at: 22, reward: { boxes: ["wax"] } },
+  { at: 40, reward: { seeds: { poinsettia: 2 } } },
+  { at: 62, reward: { boosters: { bomb: 2, shuffle: 1 } } },
+  { at: 85, reward: { boxes: ["gold"] } },
+  { at: 108, reward: { pollen: 20 } },
+  { at: 135, reward: { boxes: ["wax", "wax"] } },
+  { at: 160, reward: { boxes: ["royal"] } },
+  { at: 185, reward: { bee: "gingerbee" } },
+];
+/** track points: the snowflakes of the event, plus the first step for everyone who opened all 24 advent windows */
+export const nyPoints = (w: WinterState) => w.ny + (w.advent.length >= ADVENT_DAYS ? NY_TRACK[0].at : 0);
+export const nyClaimable = (w: WinterState) => NY_TRACK.filter((st, i) => i >= w.nyClaimed && nyPoints(w) >= st.at).length;
 
 /** December date of that day (1..31), 0 outside December */
 export const decemberDate = (day: number): number => (winterId(day) && date(day).getUTCMonth() === 11 ? date(day).getUTCDate() : 0);

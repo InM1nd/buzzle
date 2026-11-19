@@ -95,6 +95,8 @@ export interface Reward {
   items?: string[];
   /** 1.7 winter-bee fragments (beyond 10 in the pocket they pay 4 pollen each) */
   frags?: number;
+  /** 1.7 a bee (the New Year track's gingerbread bee); one already home pays 80 pollen */
+  bee?: string;
 }
 export const taskReward = (hiveLvl: number): Reward => ({ honey: 40 * hiveLvl, jelly: 1 });
 export const bonusReward = (hiveLvl: number): Reward => ({ honey: 150 * hiveLvl, jelly: 2 });

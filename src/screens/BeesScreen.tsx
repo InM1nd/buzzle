@@ -70,6 +70,8 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
                     <Txt v="tiny" color={C.honeyDark} style={{ fontWeight: "900" }}>{t("bees.lvl", { n: lvl })}</Txt>
                     <Bar progress={lvl / MAX_BEE_LEVEL} height={6} color={lvl >= MAX_BEE_LEVEL ? "#E2A400" : C.honey} track="#EADBC2" style={{ flex: 1 }} />
                   </View>
+                ) : b.track ? (
+                  <View style={styles.costMini}><Image source={ART.flake} style={{ width: 16, height: 14 }} resizeMode="contain" /><Txt v="tiny" color={K.fg("#2E6FA8")}>{t("bees.trackShort")}</Txt></View>
                 ) : b.fragments ? (
                   <View style={styles.costMini}><Image source={b.id === WINTER_BEE ? ART.winterFragment : ART.fragment} style={{ width: 14, height: 14 }} /><Txt v="tiny" color={K.fg("#5B5FC7")}>{Math.min(fragmentsFor(s, b.id), b.fragments)}/{b.fragments}</Txt></View>
                 ) : (
@@ -263,7 +265,7 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
         </View>
       ) : null}
       <Txt v="body" color={C.dim} center style={{ marginBottom: 12 }}>
-        {!has && bee.fragments ? t(bee.id === WINTER_BEE ? "bees.fragFlavorWinter" : "bees.fragFlavor", { flavor: bee.flavor, n: bee.fragments }) : !has ? t("bees.unlockHint") : nextLook ? t(nextLook === 5 ? "bees.nextLook5" : "bees.nextLook10", { flavor: bee.flavor }) : bee.flavor}
+        {!has && bee.track ? t("bees.trackFlavor", { flavor: bee.flavor }) : !has && bee.fragments ? t(bee.id === WINTER_BEE ? "bees.fragFlavorWinter" : "bees.fragFlavor", { flavor: bee.flavor, n: bee.fragments }) : !has ? t("bees.unlockHint") : nextLook ? t(nextLook === 5 ? "bees.nextLook5" : "bees.nextLook10", { flavor: bee.flavor }) : bee.flavor}
       </Txt>
       {has ? (
         cost ? (
@@ -283,7 +285,7 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
             <Txt v="h3" color={C.honeyDark} center>★ {t("bees.maxLevel")}</Txt>
           </View>
         )
-      ) : bee.fragments ? (
+      ) : bee.track ? null : bee.fragments ? (
         <GameButton title={t("bees.assemble", { a: Math.min(fragments, bee.fragments), b: bee.fragments })} icon={bee.id === WINTER_BEE ? ART.winterFragment : ART.fragment} color={fragments >= bee.fragments ? "purple" : "grey"}
           disabled={fragments < bee.fragments} onPress={onAssemble} style={{ alignSelf: "stretch" }} label={t("bees.assembleLabel")} />
       ) : (

@@ -118,7 +118,7 @@ test("bees: unlock a species with royal jelly", async () => {
   await boot();
   await fireEvent.press(screen.getByLabelText("Пчёлы"));
   expect(await screen.findAllByText("Пчёлы")).toBeTruthy();
-  expect(screen.getByText("1 из 14")).toBeTruthy();
+  expect(screen.getByText("1 из 15")).toBeTruthy();
   await fireEvent.press(screen.getByLabelText("Пушинка, закрыта"));
   await fireEvent.press(await screen.findByLabelText("Открыть пчелу за 4 молочка"));
   await waitFor(async () => {

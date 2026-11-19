@@ -23,15 +23,15 @@ test.each([true, false])("exactly the five selected styles are available (dev=%s
   const p = props(dev);
   await render(<SettingsModal {...p} />);
   // the main list has one row; the picker page previews a style and applies it on "Применить"
-  await fireEvent.press(screen.getByLabelText("Соты головоломки: Яркие (1.5)"));
+  await fireEvent.press(screen.getByLabelText("Соты головоломки: Сочные"));
   expect(screen.getAllByRole("radio")).toHaveLength(5);
   expect(screen.queryByLabelText("Мягкий кристалл")).toBeNull();
   expect(screen.queryByLabelText("Медовый · грани")).toBeNull();
-  await fireEvent.press(screen.getByLabelText("Медовый · мягче"));
+  await fireEvent.press(screen.getByLabelText("Медовые"));
   expect(p.onSet).not.toHaveBeenCalled();
   await fireEvent.press(screen.getByLabelText("Применить"));
   expect(p.onSet).toHaveBeenCalledWith("tiles", "balanced");
-  await fireEvent.press(screen.getByLabelText("Яркие · спокойнее"));
+  await fireEvent.press(screen.getByLabelText("Кристалл"));
   await fireEvent.press(screen.getByLabelText("Применить"));
   expect(p.onSet).toHaveBeenCalledWith("tiles", "mellow");
 });

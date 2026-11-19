@@ -1,0 +1,36 @@
+{
+  "q3-front": {
+    "canvas": [
+      1366,
+      1151
+    ],
+    "scarf": {
+      "x": 400,
+      "y": 620,
+      "width": 702,
+      "height": 369,
+      "file": "scarf-fitted-q3-front.png"
+    },
+    "drawOrder": [
+      "base",
+      "scarf"
+    ]
+  },
+  "side": {
+    "canvas": [
+      1366,
+      1151
+    ],
+    "scarf": {
+      "x": 414,
+      "y": 580,
+      "width": 698,
+      "height": 395,
+      "file": "scarf-fitted-side.png"
+    },
+    "drawOrder": [
+      "base",
+      "scarf"
+    ]
+  }
+}

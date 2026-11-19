@@ -303,13 +303,14 @@ export default function HiveScreen({ s, now, onCollect, onComb, onUpgrade, onTog
               <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
                 <View style={styles.upIcon}>{UP_ICON[u.id]}</View>
                 <View style={{ flex: 1, minWidth: 0 }}>
-                  <Txt v="small" style={F.black} numberOfLines={2}>{u.name}</Txt>
+                  {/* #18: room for two lines of name and description at any level, so a card never changes height (no jumping) */}
+                  <Txt v="small" style={[F.black, { minHeight: 34 }]} numberOfLines={2}>{u.name}</Txt>
                   <View style={styles.lvlChip} accessibilityLabel={t("hive.upLevel", { l: lvl, max: u.max })}>
                     <Txt v="tiny" color={C.honeyDark} style={F.black}>{lvl}/{u.max}</Txt>
                   </View>
                 </View>
               </View>
-              <Txt v="tiny" color={C.dim} numberOfLines={2} style={{ minHeight: 30, marginVertical: 6 }}>{cost !== null ? u.desc(lvl + 1) : u.desc(lvl)}</Txt>
+              <Txt v="tiny" color={C.dim} numberOfLines={2} style={{ minHeight: 34, marginVertical: 6 }}>{cost !== null ? u.desc(lvl + 1) : u.desc(lvl)}</Txt>
               {cost !== null ? (
                 <GameButton small title={fmt(cost)} icon={ART.honey} color={can ? "green" : "white"} disabled={!can} onPress={() => onUpgrade(u.id)} label={t("hive.buy", { name: u.name })} style={{ minWidth: 0 }} />
               ) : <View style={styles.maxChip}><Txt v="small" color={C.green} style={F.black}>{t("c.max")}</Txt></View>}

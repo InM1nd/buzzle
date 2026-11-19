@@ -1,0 +1,26 @@
+{
+  "deco_winter_icicles": {
+    "size": [
+      1536,
+      768
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-d0555f1f-8d61-4b8f-ae43-0ae168430ee6.png",
+    "operation": "transparent crop and proportional resize only"
+  },
+  "deco_winter_star": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-c2fd70bb-72e8-469f-ba86-dc70c4d3d010.png",
+    "operation": "transparent crop and proportional resize only"
+  }
+}

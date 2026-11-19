@@ -1,0 +1,34 @@
+{
+  "tree": {
+    "sourceSize": [
+      1254,
+      1254
+    ],
+    "alphaRange": [
+      0,
+      255
+    ],
+    "sourceBbox": [
+      23,
+      21,
+      1224,
+      1166
+    ]
+  },
+  "garland": {
+    "sourceSize": [
+      1774,
+      887
+    ],
+    "alphaRange": [
+      0,
+      255
+    ],
+    "sourceBbox": [
+      39,
+      28,
+      1752,
+      887
+    ]
+  }
+}

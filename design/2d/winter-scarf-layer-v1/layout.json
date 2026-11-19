@@ -1,0 +1,16 @@
+{
+  "canvas": [
+    1366,
+    1151
+  ],
+  "scarf": {
+    "x": 303,
+    "y": 585,
+    "width": 698,
+    "height": 386
+  },
+  "drawOrder": [
+    "base",
+    "scarf"
+  ]
+}

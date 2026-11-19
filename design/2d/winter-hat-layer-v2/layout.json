@@ -1,0 +1,48 @@
+{
+  "q3-front": {
+    "canvas": [
+      1366,
+      1151
+    ],
+    "hat": {
+      "x": 514,
+      "y": 65,
+      "width": 515,
+      "height": 510
+    },
+    "antennae": {
+      "x": 470,
+      "y": 65,
+      "width": 580,
+      "height": 307
+    },
+    "drawOrder": [
+      "base",
+      "hat",
+      "antennae"
+    ]
+  },
+  "side": {
+    "canvas": [
+      1366,
+      1151
+    ],
+    "hat": {
+      "x": 620,
+      "y": 120,
+      "width": 446,
+      "height": 445
+    },
+    "antennae": {
+      "x": 775,
+      "y": 65,
+      "width": 320,
+      "height": 320
+    },
+    "drawOrder": [
+      "base",
+      "hat",
+      "antennae"
+    ]
+  }
+}

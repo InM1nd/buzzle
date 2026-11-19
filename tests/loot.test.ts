@@ -93,8 +93,21 @@ test("pity counters force the guaranteed item and reset", () => {
   assert.deepEqual(w.loot.pity, { sinceEpic: 4, sinceLeg: 7 });
 });
 
-test("royal combs are locked until seasons exist", () => {
-  assert.equal(openComb(withBoxes(newLoot(1), "royal", 3), "royal", CTX), null);
+test("royal combs open (1.7): three slots, the first epic or better", () => {
+  const { all } = openMany("royal", 200, 3);
+  for (const d of all) {
+    const slots = d.filter((x) => x.slot);
+    assert.equal(slots.length, 3);
+    assert.ok(slots.every((x) => x.rarity !== "common"));
+    assert.ok(slots.some((x) => x.rarity === "epic" || x.rarity === "legendary"));
+  }
+});
+
+test("common booster slots are mixed (1.7): moves ≈50%, bomb and shuffle ≈25% each", () => {
+  const n: Record<string, number> = { moves: 0, bomb: 0, shuffle: 0 };
+  for (const d of openMany("wood", 6000, 11).all) for (const x of d) if (x.t === "booster" && x.rarity === "common") n[x.b] += 1;
+  const total = n.moves + n.bomb + n.shuffle;
+  assert.ok(Math.abs(n.moves / total - 0.5) < 0.04 && Math.abs(n.bomb / total - 0.25) < 0.04 && Math.abs(n.shuffle / total - 0.25) < 0.04, JSON.stringify(n));
 });
 
 test("duplicates turn into collection pollen; the shop sells a specific item", () => {

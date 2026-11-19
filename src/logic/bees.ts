@@ -9,9 +9,12 @@ export interface BeeSpecies {
   cost: number; // royal jelly
   ability: string;
   flavor: string;
-  effect: Partial<Boosts> & { color?: number };
+  /** freeze (1.7 snow bee): two streak freezes in stock and a free one every week (game.ts maxFreeze / tick) */
+  effect: Partial<Boosts> & { color?: number; freeze?: boolean };
   /** v1.3: not bought with jelly — assembled from this many fragments from the surprise combs */
   fragments?: number;
+  /** 1.7: not bought with jelly — the reward of an event track */
+  track?: boolean;
 }
 
 export interface Boosts {
@@ -42,6 +45,10 @@ export const BEES: BeeSpecies[] = [
   { id: "zorkaya", name: "", rarity: "epic", cost: 22, ability: "", flavor: "", effect: { puzzleHoneyMult: 0.25 } },
   { id: "margo", name: "", rarity: "legendary", cost: 32, ability: "", flavor: "", effect: { bombAt: 5 } },
   { id: "nochka", name: "", rarity: "legendary", cost: 0, fragments: 10, ability: "", flavor: "", effect: { prodMult: 0.2 } },
+  // 1.7 winter: 10 winter fragments (snowflakes, advent, winter shop) — its own counter, s.winter.frags
+  { id: "snowbee", name: "", rarity: "legendary", cost: 0, fragments: 10, ability: "", flavor: "", effect: { freeze: true } },
+  // 1.7 winter: the reward of the New Year track (25 Dec – 7 Jan), can't be bought
+  { id: "gingerbee", name: "", rarity: "legendary", cost: 0, track: true, ability: "", flavor: "", effect: { extraMoves: 2 } },
 ];
 for (const b of BEES) { lz(b, "name", `bee.${b.id}.name`); lz(b, "flavor", `bee.${b.id}.flavor`); Object.defineProperty(b, "ability", { get: () => baseAbility(b), enumerable: true, configurable: true }); }
 export const BEE_BY_ID = Object.fromEntries(BEES.map((b) => [b.id, b]));
@@ -67,6 +74,7 @@ const dec = (v: number) => numFmt(Math.round(v * 100) / 100);
 export function abilityAt(b: BeeSpecies, level: number): string {
   const e = b.effect, m = levelMult(level);
   const pct = (v: number) => Math.round(v * 100);
+  if (e.freeze) return t("ab.freeze");
   if (e.prodMult) return t("ab.prod", { pct: pct(e.prodMult * m) });
   if (e.extraMoves) return t("ab.moves", { n: e.extraMoves + Math.floor(level / 5) });
   if (e.color !== undefined) return t("ab.color", { color: colorName(e.color), x: dec(2 + 0.05 * (level - 1)) });

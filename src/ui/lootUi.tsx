@@ -4,6 +4,7 @@ import React from "react";
 import { Image, View } from "react-native";
 import { BoosterId, BOOSTERS, Drop, ITEM_BY_ID, Rarity, RARITY_NAME } from "../logic/loot";
 import { FLOWER_BY_ID } from "../logic/garden";
+import type { Reward } from "../logic/tasks";
 import { ART } from "./art";
 import { GARDEN_ART, ITEM_ART } from "./beeArt";
 import { BeeSprite } from "./BeeSprite";
@@ -27,6 +28,17 @@ export const RARITY_UI: Record<Rarity, { color: string; bg: string; name: string
 };
 export const BOOSTER_ART: Record<BoosterId, number> = { moves: ART.boostMoves, bomb: require("../../assets/art/boost_bomb.webp"), shuffle: ART.boostShuffle };
 export const boxArt = (kind: string, dmg = 0) => (dmg > 0 && ITEM_ART[`box_${kind}_d${Math.min(2, dmg)}`]?.src) || ITEM_ART[`box_${kind}`]?.src;
+
+/** 1.7: a reward as icon chips (login calendar, advent, popups), the most valuable part first */
+export function rewardChips(r: Reward): { img: number; text: string }[] {
+  const out: { img: number; text: string }[] = [];
+  for (const k of r.boxes ?? []) out.push({ img: boxArt(k), text: "×1" });
+  for (const [b, n] of Object.entries(r.boosters ?? {}) as [BoosterId, number][]) out.push({ img: BOOSTER_ART[b], text: `×${n}` });
+  if (r.jelly) out.push({ img: ART.jelly, text: `+${r.jelly}` });
+  if (r.pollen) out.push({ img: ART.pollen, text: `+${r.pollen}` });
+  if (r.honey) out.push({ img: ART.honey, text: `+${fmt(r.honey)}` });
+  return out;
+}
 
 /** picture of a collectible (skin on Zhuzha, decoration, rare flower, night bee) */
 export function ItemIcon({ id, size, locked }: { id: string; size: number; locked?: boolean }) {

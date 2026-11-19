@@ -3,7 +3,7 @@
 python3 scripts/telegram/postprocess.py DIST
 - loads telegram-web-app.js before the bundle (window.Telegram.WebApp exists at startup)
 - mobile viewport (no zoom, viewport-fit=cover), no overscroll / pull-to-refresh, no text selection,
-  touch-action: none on the puzzle board so drags never scroll or close the webview
+  touch-action: none on the puzzle board (#bzz-board, any language) so drags never scroll or close the webview
 - Nunito web fonts (relative URLs, so any base path works)
 - an HTML boot screen with Жужа that the app removes once the save is loaded
 - .nojekyll (GitHub Pages would otherwise drop the `_expo/` folder)
@@ -44,7 +44,7 @@ head = f'''
       *{{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none}}
       img{{-webkit-user-drag:none;pointer-events:none}}
       input,textarea{{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}} input:focus,textarea:focus{{outline:none}}
-      [aria-label="Игровое поле"]{{touch-action:none}}
+      #bzz-board,[aria-label="Игровое поле"]{{touch-action:none}}
       #bzz-boot{{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;
         background:{BG};transition:opacity .3s ease;font-family:Nunito,system-ui,sans-serif}}
       #bzz-boot img{{width:{bw // 2}px;height:{bh // 2}px;animation:bzz-hover 1.6s ease-in-out infinite}}

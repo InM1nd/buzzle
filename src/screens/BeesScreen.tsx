@@ -3,7 +3,8 @@ import { EVENT_SKINS, SKIN_BY_ID, SKINS } from "../logic/loot";
 import { ItemIcon } from "../ui/lootUi";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, ScrollView, StyleSheet, TextInput, useWindowDimensions, View } from "react-native";
-import { GameState, beeDisplayName, beeLevel, beeLevelCost, graphemes, MAX_BEE_NAME } from "../logic/game";
+import { GameState, beeDisplayName, beeLevel, beeLevelCost, fragmentsFor, graphemes, MAX_BEE_NAME } from "../logic/game";
+import { WINTER_BEE } from "../logic/winter";
 import { abilityAt, levelCost, BEES, BeeSpecies, LEVEL_HIVE_BONUS, MAX_BEE_LEVEL, Rarity } from "../logic/bees";
 import { ART } from "../ui/art";
 import { BeeSprite, Hover, Mascot, useFace } from "../ui/BeeSprite";
@@ -19,13 +20,11 @@ const RARITY: Record<Rarity, { name: string; color: string; bg: string; night: s
   legendary: { get name() { return t("rarityBee.legendary"); }, color: "#D27A00", bg: "#FFEBC2", night: "rgba(255,181,31,0.18)" },
 };
 
-interface Props { s: GameState; onSkin?: (bee: string, skin: string | null) => boolean; onAssemble?: () => boolean; onUnlock: (id: string) => boolean; onLevelUp: (id: string) => boolean; onRename?: (id: string, name: string) => boolean; onGarden?: () => void }
+interface Props { s: GameState; onSkin?: (bee: string, skin: string | null) => boolean; onAssemble?: (bee: string) => boolean; onUnlock: (id: string) => boolean; onLevelUp: (id: string) => boolean; onRename?: (id: string, name: string) => boolean; onGarden?: () => void }
 
 export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp, onRename, onGarden }: Props) {
-  const [gridW, setGridW] = useState(328);
   const [open, setOpen] = useState<BeeSpecies | null>(null);
   const [justUnlocked, setJust] = useState<string | null>(null);
-  const colW = Math.max(1, Math.floor((gridW - 20) / 3));
   const [view, setView] = useState<"all" | "outfits">("all");
   const owned = new Set(s.bees);
   const top = useTopPad();
@@ -46,7 +45,7 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
         </View>
         {view === "all" ? (
         <>
-        <View onLayout={(e) => setGridW(e.nativeEvent.layout.width)} style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+        <View style={styles.grid3}>
           {BEES.map((b, i) => {
             const has = owned.has(b.id);
             const can = !has && s.jelly >= b.cost;
@@ -56,7 +55,8 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
             const custom = has && !!s.beeNames[b.id];
             const shown = beeDisplayName(s, b.id);
             return (
-              <Press key={b.id} onPress={() => setOpen(b)} style={[styles.card3, shadow, { width: colW }, !has && { backgroundColor: isNight() ? C.cardWarm : "#F6EDDC" }, b.id === "zhuzha" && activeCard()]}
+              <View key={b.id} style={styles.cell3}>
+              <Press onPress={() => setOpen(b)} style={[styles.card3, shadow, { width: "100%" }, !has && { backgroundColor: isNight() ? C.cardWarm : "#F6EDDC" }, b.id === "zhuzha" && activeCard()]}
                 accessibilityRole="button" accessibilityLabel={custom ? `${shown} (${b.name})` : (has ? b.name : t("bees.locked", { name: b.name }))}>
                 <Glow on={b.id === "zhuzha"} radius={22} />
                 <View style={{ height: 78, alignItems: "center", justifyContent: "center" }}>
@@ -70,26 +70,31 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
                     <Txt v="tiny" color={C.honeyDark} style={{ fontWeight: "900" }}>{t("bees.lvl", { n: lvl })}</Txt>
                     <Bar progress={lvl / MAX_BEE_LEVEL} height={6} color={lvl >= MAX_BEE_LEVEL ? "#E2A400" : C.honey} track="#EADBC2" style={{ flex: 1 }} />
                   </View>
+                ) : b.track ? (
+                  <View style={styles.costMini}><Image source={ART.flake} style={{ width: 16, height: 14 }} resizeMode="contain" /><Txt v="tiny" color={K.fg("#2E6FA8")}>{t("bees.trackShort")}</Txt></View>
                 ) : b.fragments ? (
-                  <View style={styles.costMini}><Image source={ART.fragment} style={{ width: 14, height: 14 }} /><Txt v="tiny" color={K.fg("#5B5FC7")}>{Math.min(s.loot.fragments, b.fragments)}/{b.fragments}</Txt></View>
+                  <View style={styles.costMini}><Image source={b.id === WINTER_BEE ? ART.winterFragment : ART.fragment} style={{ width: 14, height: 14 }} /><Txt v="tiny" color={K.fg("#5B5FC7")}>{Math.min(fragmentsFor(s, b.id), b.fragments)}/{b.fragments}</Txt></View>
                 ) : (
                   <View style={[styles.costMini, can && { backgroundColor: C.jelly }]}><Image source={ART.jelly} style={{ width: 14, height: 14 }} /><Txt v="tiny" color={can ? "#fff" : "#8C6FBF"}>{b.cost}</Txt></View>
                 )}
               </Press>
+              </View>
             );
           })}
         </View>
         </>
         ) : (
-          <View onLayout={(e) => setGridW(e.nativeEvent.layout.width)} style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+          <View style={styles.grid3}>
             {[...SKINS, ...EVENT_SKINS.filter((k) => s.loot.owned.includes(k.id))].filter((k) => k.id !== "headphones").map((k) => {
               const have = s.loot.owned.includes(k.id);
               const wearer = Object.keys(s.beeSkins).find((b) => s.beeSkins[b] === k.id);
               return (
-                <View key={k.id} style={[styles.card3, shadow, { width: colW }, !have && { backgroundColor: K.bg("#F6EDDC") }]} accessibilityLabel={k.name}>
+                <View key={k.id} style={styles.cell3}>
+                <View style={[styles.card3, shadow, { width: "100%" }, !have && { backgroundColor: K.bg("#F6EDDC") }]} accessibilityLabel={k.name}>
                   <ItemIcon id={k.id} size={58} locked={!have} />
                   <Txt v="h3" numberOfLines={1} style={{ marginTop: 6, fontSize: 14 }}>{have ? k.name : "???"}</Txt>
                   <Txt v="tiny" color={C.dim} numberOfLines={1}>{!have ? t("bees.outfitLocked") : wearer ? beeDisplayName(s, wearer) : t("bees.outfitFree")}</Txt>
+                </View>
                 </View>
               );
             })}
@@ -99,9 +104,9 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
       <Overlay visible={!!open} onClose={() => setOpen(null)}>
         {open ? (
           <BeeDetail bee={open} has={owned.has(open.id)} jelly={s.jelly} nectar={s.nectar} level={beeLevel(s, open.id)}
-            skin={s.beeSkins[open.id] ?? null} skins={s.loot.owned.filter((x) => SKIN_BY_ID[x] && x !== "headphones")} fragments={s.loot.fragments}
+            skin={s.beeSkins[open.id] ?? null} skins={s.loot.owned.filter((x) => SKIN_BY_ID[x] && x !== "headphones")} fragments={fragmentsFor(s, open.id)}
             onSkin={onSkin ? (k) => onSkin(open.id, k) : undefined}
-            onAssemble={() => { if (onAssemble?.()) { setJust(open.id); setTimeout(() => setJust(null), 1600); } }}
+            onAssemble={() => { if (onAssemble?.(open.id)) { setJust(open.id); setTimeout(() => setJust(null), 1600); } }}
             name={beeDisplayName(s, open.id)} custom={!!s.beeNames[open.id]}
             onRename={onRename ? (n) => onRename(open.id, n) : undefined}
             onUnlock={() => { if (onUnlock(open.id)) { setJust(open.id); setTimeout(() => setJust(null), 1600); } }}
@@ -260,7 +265,7 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
         </View>
       ) : null}
       <Txt v="body" color={C.dim} center style={{ marginBottom: 12 }}>
-        {!has && bee.fragments ? t("bees.fragFlavor", { flavor: bee.flavor, n: bee.fragments }) : !has ? t("bees.unlockHint") : nextLook ? t(nextLook === 5 ? "bees.nextLook5" : "bees.nextLook10", { flavor: bee.flavor }) : bee.flavor}
+        {!has && bee.track ? t("bees.trackFlavor", { flavor: bee.flavor }) : !has && bee.fragments ? t(bee.id === WINTER_BEE ? "bees.fragFlavorWinter" : "bees.fragFlavor", { flavor: bee.flavor, n: bee.fragments }) : !has ? t("bees.unlockHint") : nextLook ? t(nextLook === 5 ? "bees.nextLook5" : "bees.nextLook10", { flavor: bee.flavor }) : bee.flavor}
       </Txt>
       {has ? (
         cost ? (
@@ -280,8 +285,8 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
             <Txt v="h3" color={C.honeyDark} center>★ {t("bees.maxLevel")}</Txt>
           </View>
         )
-      ) : bee.fragments ? (
-        <GameButton title={t("bees.assemble", { a: Math.min(fragments, bee.fragments), b: bee.fragments })} icon={ART.fragment} color={fragments >= bee.fragments ? "purple" : "grey"}
+      ) : bee.track ? null : bee.fragments ? (
+        <GameButton title={t("bees.assemble", { a: Math.min(fragments, bee.fragments), b: bee.fragments })} icon={bee.id === WINTER_BEE ? ART.winterFragment : ART.fragment} color={fragments >= bee.fragments ? "purple" : "grey"}
           disabled={fragments < bee.fragments} onPress={onAssemble} style={{ alignSelf: "stretch" }} label={t("bees.assembleLabel")} />
       ) : (
         <GameButton
@@ -347,6 +352,10 @@ const styles = themed(() => StyleSheet.create({
   segBtn: { paddingHorizontal: 18, paddingVertical: 9, borderRadius: 20, backgroundColor: K.bg("#fff"), ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   segOn: { backgroundColor: C.honey },
   maxBadge: { alignSelf: "center", paddingHorizontal: 18, paddingVertical: 8, borderRadius: 999, borderWidth: 1.5, borderColor: K.bd("#F2C66A"), backgroundColor: K.bg("#FFF4D6") },
+  // 3 even columns from percentages, not a measured pixel width: a measured width can be stale or
+  // fractional in the Telegram webview (viewport expands after load), which wrapped the grid to 2 columns.
+  grid3: { flexDirection: "row", flexWrap: "wrap", marginHorizontal: -5, rowGap: 10 },
+  cell3: { width: "33.3333%", paddingHorizontal: 5 },
   card3: { backgroundColor: K.bg("#fff"), borderRadius: 22, padding: 8, paddingBottom: 10, alignItems: "center", ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
   lvlRow: { flexDirection: "row", alignItems: "center", gap: 5, marginTop: 4, alignSelf: "stretch", paddingHorizontal: 6 },
   costMini: { flexDirection: "row", alignItems: "center", gap: 3, marginTop: 4, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 10, backgroundColor: K.bg("#EFE6FA") },

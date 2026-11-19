@@ -6,7 +6,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Image, Linking, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from "react-native";
 import { addBackListener } from "../platform/back";
 import { useInsets } from "../platform/insets";
-import { Lang, numFmt, t } from "../i18n";
+import { Lang, numFmt, t, tx } from "../i18n";
 import { GameState, Settings, TILE_STYLES, UI_STYLES } from "../logic/game";
 import { changelogText } from "../logic/update";
 import { CAN_PICK_FILE, exportSaveCode, inviteFriend, pickSaveFile } from "../platform/share";
@@ -14,11 +14,13 @@ import { inTelegram, NOTIFICATIONS_SUPPORTED } from "../platform/telegram";
 import { downloadApk, installApk, openInstallPermission } from "../platform/updater";
 import { ART, seasonalTiles, TILE_SETS } from "../ui/art";
 import { activeEvent, DEV_EVENT_MODES } from "../logic/event";
+import { DEV_DATES } from "../logic/devClock";
 import { today } from "../logic/game";
 import { Mascot } from "../ui/BeeSprite";
 import { Bar, CloseBtn, GameButton, Glow, Overlay, Press, Txt } from "../ui/components";
 import { activeCard, C, F, isNight, K, themed } from "../ui/theme";
 import { Toggle } from "../ui/Toggle";
+import { analyticsConfigured } from "../platform/analytics";
 import { Updater } from "../ui/useUpdater";
 import { APP_VERSION, APP_VERSION_CODE, GITHUB_URL, PRIVACY_URL } from "../version";
 import { LANG_NAME } from "./LanguagePicker";
@@ -143,6 +145,16 @@ function Main(p: SettingsProps & { go: (pg: Page) => void }) {
                 </Press>
               ))}
             </View>
+            <Txt v="h3" style={{ marginTop: 14, marginBottom: 2 }}>{t("st.devDate")}</Txt>
+            <Txt v="tiny" color={C.dim} style={{ marginBottom: 8 }}>{t("st.devDateSub")}</Txt>
+            <View style={[styles.seg, { flexWrap: "wrap" }]} accessibilityRole="radiogroup" accessibilityLabel={t("st.devDate")}>
+              {DEV_DATES.map((k) => (
+                <Press key={k} onPress={() => p.onSet("devDate", k)} scaleTo={0.96} style={[styles.segBtn, { minWidth: "30%" }, st.devDate === k && styles.segOn]}
+                  accessibilityRole="radio" accessibilityState={{ checked: st.devDate === k }} aria-checked={st.devDate === k} accessibilityLabel={tx(`st.devDate.${k}`)}>
+                  <Txt v="small" style={F.black} color={st.devDate === k ? (isNight() ? C.onBtn : "#fff") : C.brown} numberOfLines={1}>{tx(`st.devDate.${k}`)}</Txt>
+                </Press>
+              ))}
+            </View>
             {p.onReplayCine ? <GameButton small title={t("st.devCine")} color="purple" style={{ marginTop: 10 }} onPress={p.onReplayCine} label={t("st.devCine")} /> : null}
           </View>
         ) : null}
@@ -210,6 +222,13 @@ function Main(p: SettingsProps & { go: (pg: Page) => void }) {
           <Txt v="h2" color={C.faint}>›</Txt>
         </Press>
       </Group>
+
+      {/* anonymous statistics (opt-out) */}
+      {analyticsConfigured() ? (
+        <Group title={t("st.gStats")}>
+          <Row title={t("st.stats")} sub={t("st.statsSub")} last><Toggle value={st.analytics} onChange={(v) => p.onSet("analytics", v)} label={t("st.stats")} /></Row>
+        </Group>
+      ) : null}
 
       {/* progress */}
       <Group title={t("st.gSave")}>

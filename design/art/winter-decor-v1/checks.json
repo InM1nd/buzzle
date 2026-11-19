@@ -1,0 +1,34 @@
+{
+  "snowman": {
+    "sourceSize": [
+      1254,
+      1254
+    ],
+    "alphaRange": [
+      0,
+      255
+    ],
+    "sourceBbox": [
+      0,
+      25,
+      1232,
+      1254
+    ]
+  },
+  "lantern": {
+    "sourceSize": [
+      1254,
+      1254
+    ],
+    "alphaRange": [
+      0,
+      255
+    ],
+    "sourceBbox": [
+      0,
+      25,
+      1198,
+      1234
+    ]
+  }
+}

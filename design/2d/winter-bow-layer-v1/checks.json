@@ -1,0 +1,44 @@
+{
+  "bow-front": {
+    "size": [
+      1069,
+      285
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "bow-fitted-front": {
+    "size": [
+      1366,
+      1151
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "bow-q3-front": {
+    "size": [
+      1108,
+      429
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "bow-fitted-q3-front": {
+    "size": [
+      1366,
+      1151
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "bow-side": {
+    "size": [
+      1140,
+      449
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "bow-fitted-side": {
+    "size": [
+      1366,
+      1151
+    ],
+    "visibleLosslessWebpMatch": true
+  }
+}

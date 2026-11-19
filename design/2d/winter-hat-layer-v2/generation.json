@@ -1,0 +1,18 @@
+{
+  "q3-front": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-0ee94083-d298-49a3-a4b8-c8ef64d8b201.png",
+    "prompt": "Isolate ONLY the blue winter beanie, golden chunky ribbed cuff and ivory pompom from image 1 in its exact RIGHT-facing three quarter view: cuff rises from lower left to higher right with a curved center, keep perspective of first reference; image 2 is the already extracted front view, match its colors and proportions only. Remove bee, both antennae, wings, body, face and scarf; restore uninterrupted blue cloth underneath antennae, no holes. Preserve original angled lower edge to fit head, no new silhouette at underside. Buzzle rich soft low poly 3D, large visible triangulated facets. True transparent background, entire snug hat and pompom centered with padding, no ground shadow, no text.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v2/zhuzha-winter-outfit-q3-front.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-hat-layer-v1/hat-front.png"
+    ]
+  },
+  "side": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-a89c0bd4-7cfe-4a97-bee1-3ab8a6b6a079.png",
+    "prompt": "Isolate ONLY the blue winter beanie, golden chunky ribbed cuff and ivory pompom from image 1 in its exact RIGHT-facing true side profile: back left and front right, lower cuff runs diagonally up from left to right as shown, pompom left of crown center; image 2 is the already extracted front view, match its colors and proportions only. Remove bee, both antennae, wings, body, face and scarf; restore uninterrupted blue cloth underneath antennae, no holes. Preserve original angled lower edge to fit head, no new silhouette at underside. Buzzle rich soft low poly 3D, large visible triangulated facets. True transparent background, entire snug hat and pompom centered with padding, no ground shadow, no text.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v2/zhuzha-winter-outfit-side.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-hat-layer-v1/hat-front.png"
+    ]
+  }
+}

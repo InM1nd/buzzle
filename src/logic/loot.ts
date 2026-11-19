@@ -41,6 +41,8 @@ export interface Collectible {
   hat?: boolean;
   /** v1.6 seasonal costume or lantern: only from the event, never in combs, the shop or the album pages */
   event?: boolean;
+  /** 1.7 winter decorations: the summer spot(s) they take in winter (design/WINTER_ECONOMY.ru.md) */
+  spot?: string[];
   desc: string;
 }
 export const SKINS: Collectible[] = [
@@ -73,24 +75,40 @@ export const EVENT_SKINS: Collectible[] = [
   { id: "ghosthood", kind: "skin", name: "", rarity: "legendary", page: "skins", hat: true, event: true, desc: "" },
   // cape and wreath: owner-approved on Zhuzha, fitted onto every species by scripts/fit_costumes.py
   { id: "vampcape", kind: "skin", name: "", rarity: "legendary", page: "skins", event: true, desc: "" },
+  // 1.7 winter wardrobe (advent gifts): drawn on canonical Zhuzha, scripts/import_winter_wardrobe.py + fit_costumes.py
+  { id: "bobblehat", kind: "skin", name: "", rarity: "epic", page: "skins", hat: true, event: true, desc: "" },
+  { id: "winterscarf", kind: "skin", name: "", rarity: "epic", page: "skins", event: true, desc: "" },
+  { id: "antlers", kind: "skin", name: "", rarity: "epic", page: "skins", hat: true, event: true, desc: "" },
+  { id: "festivebow", kind: "skin", name: "", rarity: "epic", page: "skins", event: true, desc: "" },
+  { id: "santahat", kind: "skin", name: "", rarity: "legendary", page: "skins", hat: true, event: true, desc: "" },
+  { id: "firwreath", kind: "skin", name: "", rarity: "legendary", page: "skins", hat: true, event: true, desc: "" },
 ];
 /** v1.6 jack-o'-lanterns carved from garden pumpkins (one per harvest, in order); like EVENT_SKINS never in combs,
  * the shop or the album pages */
 export const EVENT_DECOS: Collectible[] = [1, 2, 3, 4].map((n) =>
   ({ id: `jack${n}`, kind: "deco", name: "", rarity: "rare", page: "hive", place: "hive", event: true, desc: "" }));
-export const ALL_DECOS = [...DECOS, ...EVENT_DECOS];
+/** 1.7 winter decorations (advent gifts): in winter they stand on the summer spots, the summer ones come back on 1 March */
+const wd = (id: string, place: "hive" | "garden", spot: string[], rarity: Rarity): Collectible =>
+  ({ id, kind: "deco", name: "", rarity, page: place, place, event: true, spot, desc: "" });
+export const WINTER_DECOS: Collectible[] = [
+  wd("garland", "hive", ["flags"], "epic"), wd("snowlanterns", "hive", ["lanterns"], "rare"), wd("firtree", "hive", ["barrel"], "legendary"),
+  wd("gingerhouse", "hive", ["fountain"], "epic"), wd("goldstar", "hive", ["jack1"], "rare"),
+  wd("snowman", "garden", ["mushroom"], "epic"), wd("sled", "garden", ["bench"], "epic"), wd("mailbox", "garden", ["pinwheel"], "rare"),
+  wd("lamppost", "garden", ["gnome"], "rare"),
+];
+export const ALL_DECOS = [...DECOS, ...EVENT_DECOS, ...WINTER_DECOS];
 /** album entries that are not box items: rare flowers (first seed) and the night bee (10 fragments) */
 export const RARE_ENTRIES: Collectible[] = [
   { id: "moonpoppy", kind: "flower", name: "", rarity: "rare", page: "rare", desc: "" },
   { id: "goldsun", kind: "flower", name: "", rarity: "epic", page: "rare", desc: "" },
   { id: "nochka", kind: "bee", name: "", rarity: "legendary", page: "rare", desc: "" },
 ];
-for (const i of [...SKINS, ...EVENT_SKINS, ...ALL_DECOS, ...RARE_ENTRIES]) {
+for (const i of [...SKINS, ...EVENT_SKINS, ...DECOS, ...EVENT_DECOS, ...WINTER_DECOS, ...RARE_ENTRIES]) {
   lz(i, "name", i.kind === "flower" ? `flower.${i.id}` : i.kind === "bee" ? `bee.${i.id}.name` : `item.${i.id}`);
   lz(i, "desc", `item.${i.id}.desc`);
 }
 export const ITEMS: Collectible[] = [...SKINS, ...DECOS];
-export const ITEM_BY_ID: Record<string, Collectible> = Object.fromEntries([...ITEMS, ...EVENT_SKINS, ...EVENT_DECOS, ...RARE_ENTRIES].map((i) => [i.id, i]));
+export const ITEM_BY_ID: Record<string, Collectible> = Object.fromEntries([...ITEMS, ...EVENT_SKINS, ...EVENT_DECOS, ...WINTER_DECOS, ...RARE_ENTRIES].map((i) => [i.id, i]));
 export const SKIN_BY_ID: Record<string, Collectible> = Object.fromEntries([...SKINS, ...EVENT_SKINS].map((i) => [i.id, i]));
 
 export interface Page { id: PageId; title: string; items: string[]; bonus: string }
@@ -127,6 +145,8 @@ export const KIND_ODDS: Record<Rarity, [DropKind, number][]> = {
   legendary: [["item", 75], ["fragment", 25]],
 };
 type DropKind = "item" | "booster" | "seed" | "fragment";
+/** what a common booster slot rolls, weights in percent */
+export const COMMON_BOOSTER_ODDS: [BoosterId, number][] = [["moves", 50], ["bomb", 25], ["shuffle", 25]];
 export const FRAGMENTS_BY_RARITY: Record<Rarity, number> = { common: 1, rare: 1, epic: 2, legendary: 4 };
 export const DUP_REROLL = true;
 export const DUP_POLLEN: Record<Rarity, number> = { common: 5, rare: 12, epic: 30, legendary: 80 };
@@ -204,7 +224,7 @@ export interface OpenCtx {
  * Resources are reported in drops and must be credited by the caller (game.ts).
  */
 export function openComb(l: Loot, kind: BoxKind, ctx: OpenCtx): { loot: Loot; drops: Drop[] } | null {
-  if (kind === "royal" || l.boxes[kind] <= 0) return null;
+  if (l.boxes[kind] <= 0) return null;
   const rng = new Rng(l.rng);
   const R = BOX_RESOURCES[kind];
   const k = 1 + 0.5 * (Math.max(1, ctx.hiveLvl) - 1);
@@ -240,7 +260,8 @@ export function openComb(l: Loot, kind: BoxKind, ctx: OpenCtx): { loot: Loot; dr
       owned.add(it.id);
       drops.push({ t: "item", id: it.id, rarity: r, dup, pollen: dup ? DUP_POLLEN[r] : 0, slot: true });
     } else if (what === "booster") {
-      const b = r === "common" ? "moves" : ((["moves", "bomb", "shuffle"] as BoosterId[])[rng.int(3)]);
+      // 1.7: common slots were always +3 moves (29 of 31 boosters in a playtest); now moves 50 / bomb 25 / shuffle 25
+      const b = r === "common" ? pickWeighted<BoosterId>(rng, COMMON_BOOSTER_ODDS) : ((["moves", "bomb", "shuffle"] as BoosterId[])[rng.int(3)]);
       drops.push({ t: "booster", b, n: r === "epic" ? 3 : 1, rarity: r, slot: true });
     } else if (what === "seed") {
       if (r === "common") {

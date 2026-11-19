@@ -1,0 +1,257 @@
+{
+  "mug_glass": {
+    "png": "mug_glass.png",
+    "webp": "mug_glass.webp",
+    "width": 1024,
+    "height": 1024,
+    "origin": "imagegen",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "bbox": [
+      0,
+      0,
+      1016,
+      1024
+    ]
+  },
+  "background_cafe_winter": {
+    "png": "background_cafe_winter.png",
+    "webp": "background_cafe_winter.webp",
+    "width": 1024,
+    "height": 1536,
+    "origin": "imagegen",
+    "alphaRange": [
+      255,
+      255
+    ],
+    "bbox": [
+      0,
+      0,
+      1024,
+      1536
+    ]
+  },
+  "shelf_wood": {
+    "png": "shelf_wood.png",
+    "webp": "shelf_wood.webp",
+    "width": 1536,
+    "height": 384,
+    "origin": "imagegen",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "bbox": [
+      61,
+      91,
+      1473,
+      292
+    ],
+    "contentBox": [
+      66,
+      97,
+      1469,
+      287
+    ]
+  },
+  "title_plaque": {
+    "png": "title_plaque.png",
+    "webp": "title_plaque.webp",
+    "width": 1536,
+    "height": 512,
+    "origin": "imagegen",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "bbox": [
+      64,
+      87,
+      1471,
+      425
+    ],
+    "contentBox": [
+      67,
+      93,
+      1468,
+      419
+    ]
+  },
+  "topper_marshmallow": {
+    "png": "topper_marshmallow.png",
+    "webp": "topper_marshmallow.webp",
+    "width": 512,
+    "height": 512,
+    "origin": "imagegen",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "bbox": [
+      51,
+      83,
+      460,
+      428
+    ]
+  },
+  "topper_mint": {
+    "png": "topper_mint.png",
+    "webp": "topper_mint.webp",
+    "width": 512,
+    "height": 512,
+    "origin": "imagegen",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "bbox": [
+      51,
+      111,
+      460,
+      400
+    ]
+  },
+  "topper_cinnamon": {
+    "png": "topper_cinnamon.png",
+    "webp": "topper_cinnamon.webp",
+    "width": 512,
+    "height": 512,
+    "origin": "imagegen",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "bbox": [
+      52,
+      99,
+      459,
+      412
+    ]
+  },
+  "topper_berries": {
+    "png": "topper_berries.png",
+    "webp": "topper_berries.webp",
+    "width": 512,
+    "height": 512,
+    "origin": "imagegen",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "bbox": [
+      51,
+      87,
+      460,
+      423
+    ]
+  },
+  "topper_honeycomb": {
+    "png": "topper_honeycomb.png",
+    "webp": "topper_honeycomb.webp",
+    "width": 512,
+    "height": 512,
+    "origin": "imagegen",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "bbox": [
+      76,
+      51,
+      436,
+      460
+    ]
+  },
+  "star_on": {
+    "png": "star_on.png",
+    "webp": "star_on.webp",
+    "width": 144,
+    "height": 144,
+    "origin": "existing Buzzle art: /Users/oleksandrzabolotnyi/buzzle/assets/art/star.webp",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "bbox": [
+      9,
+      6,
+      137,
+      129
+    ]
+  },
+  "star_off": {
+    "png": "star_off.png",
+    "webp": "star_off.webp",
+    "width": 144,
+    "height": 144,
+    "origin": "existing Buzzle art: /Users/oleksandrzabolotnyi/buzzle/assets/art/star_off.webp",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "bbox": [
+      9,
+      4,
+      141,
+      131
+    ]
+  },
+  "icon_close": {
+    "png": "icon_close.png",
+    "webp": "icon_close.webp",
+    "width": 96,
+    "height": 96,
+    "origin": "existing Buzzle art: /Users/oleksandrzabolotnyi/buzzle/assets/art/close.webp",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "bbox": [
+      18,
+      18,
+      78,
+      78
+    ]
+  },
+  "mascot_zhuzha": {
+    "png": "mascot_zhuzha.png",
+    "webp": "mascot_zhuzha.webp",
+    "width": 720,
+    "height": 720,
+    "origin": "existing Buzzle art: /Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/hive-run/assets/zhuzha.png",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "bbox": [
+      36,
+      46,
+      685,
+      705
+    ]
+  },
+  "icon_undo": {
+    "png": "icon_undo.png",
+    "webp": "icon_undo.webp",
+    "svg": "icon_undo.svg",
+    "width": 128,
+    "height": 128,
+    "origin": "code-native SVG glyph"
+  },
+  "icon_add_mug": {
+    "png": "icon_add_mug.png",
+    "webp": "icon_add_mug.webp",
+    "svg": "icon_add_mug.svg",
+    "width": 128,
+    "height": 128,
+    "origin": "code-native SVG glyph"
+  },
+  "mug_liquid_mask": {
+    "png": "mug_liquid_mask.png",
+    "width": 1024,
+    "height": 1024,
+    "origin": "technical geometry"
+  }
+}

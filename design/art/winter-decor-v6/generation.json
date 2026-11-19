@@ -1,0 +1,18 @@
+{
+  "deco_winter_snowman": {
+    "prompt": "Use case: precise-object-edit. EDIT image1 Buzzle winter game decor to match image2 STYLE ONLY (do NOT include tree). Keep the same friendly snowman: two rounded low-poly snowballs, brown eyes, tiny orange carrot nose, curved smile, two simple stick arms raised, small honey hexagon badge on belly. Keep honey-yellow beanie with blueberry cuff and cream pompom, and blueberry/honey striped scarf. Simplify knitted cuff to a single broad softly faceted band, scarf to a few broad sections and ONE short simple tail, no tiny tassels. Keep TWO small brown bee-like antenna accents with honey tips attached on hat. Reduce dense triangulation, harsh saturated yellow and sharp icy blue shadows; snow warm cream white, shadows gently blue-grey. Preserve cute facial expression and complete silhouette. Cozy low-poly 3D with broad clearly readable facets, matte materials, gentle warm upper-left light, medium contrast and restrained honey/blue palette. Not detailed glossy Christmas merchandise. Single centered isolated complete object with ample transparent margins, square composition, genuine transparent alpha background. No scene, ground plane or cast shadow outside object, surrounding glow, particles, text, watermark or UI. Keep original subject recognizable, simplify ornament and materials only.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-decor-v1/deco_winter_snowman.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-decor-v5/deco_winter_tree.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-888e21f8-130c-4082-a4d5-70f0038fe5e0.png"
+  },
+  "deco_winter_lantern": {
+    "prompt": "Use case: precise-object-edit. EDIT image1 Buzzle winter game decor to match image2 STYLE ONLY (do NOT include tree). Keep the exact useful shape: one honey-brown wooden upright post, horizontal crossbar, TWO hanging honey lanterns, a small hexagonal base, snowy caps. Simplify timber to broad flat faces, each lantern to chunky matte honey-gold housing with simple cream-amber panes and a single broad snow cap, soft mild light INSIDE glass only. Match the calm matte lanterns in the revised winter garland. Reduce saturated yellow glare, metallic shine, tiny bevels and snow shards. Small green sprig on post only 4-6 broad polygon shapes, no needle detail. Keep both hanging lanterns fully visible and distinguishable. Cozy low-poly 3D with broad clearly readable facets, matte materials, gentle warm upper-left light, medium contrast and restrained honey/blue palette. Not detailed glossy Christmas merchandise. Single centered isolated complete object with ample transparent margins, square composition, genuine transparent alpha background. No scene, ground plane or cast shadow outside object, surrounding glow, particles, text, watermark or UI. Keep original subject recognizable, simplify ornament and materials only.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-decor-v1/deco_winter_lantern.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-decor-v5/deco_winter_tree.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-93c21e1c-df40-44d3-9de6-99d6eed7318b.png"
+  }
+}

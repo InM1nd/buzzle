@@ -1,0 +1,18 @@
+{
+  "q3-front": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-3633f7fa-c339-499c-b61e-4f50ee9515ba.png",
+    "prompt": "Isolate ONLY the blue and honey yellow striped winter scarf from first Buzzle image, as worn in exact three-quarter right-facing perspective; upper edge curves from high at left down to low near right center, then curls slightly upward at right edge. Copy silhouette, long direction and slope. One short fringed tail hanging at viewer left. Reconstruct smoothly behind any parts of the bee that overlap the scarf, identical broad faceted stripes and depth. Second image is color/material reference only, DO NOT copy its front geometry. No bee, wings, facial features or hat. Just visible foreground strip and tail, not a full ring. Single centered isolated sprite, genuine transparent alpha, no external shadows, text or glow.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v2/zhuzha-winter-outfit-q3-front.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-scarf-layer-v1/scarf-front.png"
+    ]
+  },
+  "side": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-e6494aca-aac6-4724-9709-c73e025cb922.png",
+    "prompt": "Isolate ONLY the blue and honey yellow striped winter scarf from first Buzzle image, as worn in exact right-facing side profile; upper edge descends distinctly from high back at left to low front near mouth at right. Copy silhouette, long direction and slope. One short fringed tail hanging at viewer left. Reconstruct smoothly behind any parts of the bee that overlap the scarf, identical broad faceted stripes and depth. Second image is color/material reference only, DO NOT copy its front geometry. No bee, wings, facial features or hat. Just visible foreground strip and tail, not a full ring. Single centered isolated sprite, genuine transparent alpha, no external shadows, text or glow.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v2/zhuzha-winter-outfit-side.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-scarf-layer-v1/scarf-front.png"
+    ]
+  }
+}

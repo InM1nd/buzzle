@@ -9,8 +9,12 @@ import {
   claimLogin, claimTask, claimBonus, unlockBee, levelUpBee, beeLevelCost, unlockBed, nextBedCost, plantFlower, seedPrice,
   flowerUnlocked, waterAllAction, harvestAction, rate, cap, level, freeMoves,
   openAllBoxes, claimWeekly, canClaimWeekly, assembleNightBee, shopBuyItem, buyFreeze, canBuyFreeze, currentTasks, startFreeRound,
-  weekendOpen, RoundMode,
+  weekendOpen, RoundMode, today, openAdvent,
 } from "../src/logic/game";
+import { decemberDate, winterId, WINTER_FRAGMENTS } from "../src/logic/winter";
+import { PUMPKIN_CHANCE } from "../src/logic/event";
+/** `--winter`: start on 1 Nov 2026 and play through the winter (to 28 Feb 2027); milestones count from 1 Dec */
+const WINTER = process.argv.includes("--winter");
 import { BOX_KINDS, ITEMS, PAGES, SHOP_PRICE, pageDone, NIGHT_BEE, BoxKind } from "../src/logic/loot";
 import { BEES, MAX_BEE_LEVEL } from "../src/logic/bees";
 import { SHOP_FLOWERS as FLOWERS, WATER_HOURS } from "../src/logic/garden";
@@ -39,7 +43,9 @@ function round(s: GameState, mode: RoundMode, mean: number, sd: number, rng: Rng
   const by = [0, 0, 0, 0, 0];
   for (let i = 0; i < cells; i++) by[rng.int(5)]++;
   const chains = [6, 5, 4, 3, 7, 3, 4];
-  return finishRound(s, { mode, score, chains, bombs: 2, cellsByColor: by }, now).state;
+  // 1.7 winter: snowflake tiles in free play (the event tile kind at PUMPKIN_CHANCE of the cleared cells)
+  const pumpkins = mode === "free" && winterId(today(s, now)) ? Math.round(cells * PUMPKIN_CHANCE) : 0;
+  return finishRound(s, { mode, score, chains, bombs: 2, cellsByColor: by, pumpkins }, now).state;
 }
 
 function spendHoney(s: GameState, now: number, gapH: number): GameState {
@@ -106,7 +112,7 @@ function spendJellyNectar(s: GameState, now: number): GameState {
 
 export function simulate(p: Profile, days: number, seed = 7) {
   const rng = new Rng(seed);
-  const start = new Date(2026, 9, 12, 0, 0, 0).getTime();
+  const start = WINTER ? new Date(2026, 10, 1, 0, 0, 0).getTime() : new Date(2026, 9, 12, 0, 0, 0).getTime();
   let s = newState(start + p.sessions[0] * H);
   s = { ...s, settings: { ...s.settings, tutorialDone: true } };
   const marks: Record<string, number | null> = {
@@ -128,6 +134,8 @@ export function simulate(p: Profile, days: number, seed = 7) {
       const box0 = { ...s.loot.boxes };
       if (k === 0) {
         const l = claimLogin(s, now); if (l) s = l.state;
+        const dec = decemberDate(today(s, now));
+        if (dec && dec <= 24) { const a = openAdvent(s, dec, now); if (a) s = a.state; }
         if (p.freeze && canBuyFreeze(s) && s.jelly >= 10) s = buyFreeze(s, now) ?? s;
         // the casual bot forgets the daily puzzle one day in five (that's what the streak freeze is for)
         if (p.name !== "casual" || rng.next() > 0.2) s = round(s, "daily", p.dailyScore[0], p.dailyScore[1], rng, now);
@@ -167,6 +175,8 @@ export function simulate(p: Profile, days: number, seed = 7) {
         }
       }
       s = assembleNightBee(s, now) ?? s;
+      if (WINTER && s.winter.frags >= WINTER_FRAGMENTS && marks.winterBee == null) marks.winterBee = d - 30; // days after 1 Dec
+      if (WINTER && d === 30 + 31) marks.flakesByJan1 = s.winter.flakes;
       // pollen shop: the cheapest missing item
       for (;;) {
         const miss = ITEMS.filter((it) => !s.loot.owned.includes(it.id)).sort((a, b) => SHOP_PRICE[a.rarity] - SHOP_PRICE[b.rarity]);
@@ -237,7 +247,7 @@ if (isMain && process.argv.includes("--loot")) {
   const n = Number(process.argv[process.argv.indexOf("--loot") + 1]) || 20;
   for (const p of PROFILES) console.log(JSON.stringify(lootSummary(p, n)));
 } else if (isMain) {
-  const days = 90;
+  const days = WINTER ? 120 : 90;
   const res = PROFILES.map((p) => simulate(p, days));
   if (process.argv.includes("--json")) console.log(JSON.stringify(res, null, 1));
   else {

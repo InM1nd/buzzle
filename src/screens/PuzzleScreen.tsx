@@ -14,6 +14,7 @@ import { C, F, shadow, K, themed, activeCard, isNight } from "../ui/theme";
 import { Bobbing, Card, CloseBtn, fmt, GameButton, Glow, Overlay, Press, Stars, Txt, useTopPad, useBottomPad, FitTxt, fitSize } from "../ui/components";
 import { dateLong, days, weekday } from "../ui/format";
 import { activeEvent } from "../logic/event";
+import { winterId } from "../logic/winter";
 import { Pt } from "../ui/Fly";
 import { EventCard, EventUi } from "./EventTrack";
 
@@ -47,7 +48,10 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
   // round bonuses on the free play card: one icon + one short label each
   const chips: { k: string; icon: ImageSourcePropType; text: string }[] = [];
   const halloween = !!activeEvent(d) && React.useContext(EventUi);
+  // 1.7: snowflake tiles in winter free play
+  const winter = !halloween && !!winterId(d);
   if (halloween) chips.push({ k: "ev", icon: ART.pumpkin, text: t("pz.chipEvent") });
+  if (winter) chips.push({ k: "flake", icon: ART.flakeTile, text: t("win.chip") });
   if (freeMoves(s) > 20) chips.push({ k: "mv", icon: BOOSTER_ART.moves, text: t("pz.chipMoves", { n: freeMoves(s) - 20 }) });
   b.colorMult.forEach((m, i) => { if (m > 1) chips.push({ k: `c${i}`, icon: ART.cells[i], text: t("pz.chipColor", { color: colorName(i), x: Math.round(m * 100) / 100 }) }); });
   const dc = dayColorInfo(s, now);
@@ -167,6 +171,7 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
         <Rule img={ART.wild} title={t("pz.r3")} text={t("pz.r3t")} />
         <Rule img={ART.flame} title={t("pz.r4")} text={t("pz.r4t")} />
         {halloween ? <Rule img={ART.pumpkin} title={t("ev.rPumpkin")} text={t("ev.rPumpkinT")} /> : null}
+        {winter ? <Rule img={ART.flakeTile} title={t("win.rFlake")} text={t("win.rFlakeT")} /> : null}
         {halloween ? <Rule img={ART.cells[3]} overlay={ART.ghost} title={t("ev.rGhost")} text={t("ev.rGhostT")} /> : null}
       </Card>
       <Overlay visible={pick} onClose={() => setPick(false)}>

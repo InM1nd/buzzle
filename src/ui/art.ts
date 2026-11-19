@@ -61,6 +61,8 @@ export const ART = {
   adventOpen: require("../../assets/art/winter/advent_open.webp"),
   flake: require("../../assets/art/winter/flake.webp"),
   winterFragment: require("../../assets/art/winter/fragment.webp"),
+  /** the winter event tile (free play): drawn instead of the pumpkin, one sprite for every tile style for now */
+  flakeTile: require("../../assets/art/tiles/cell_snowflake.webp"),
 };
 
 /** v1.6 scene backdrops. Two layers: the event backdrop wins while an event runs (Halloween night), otherwise the

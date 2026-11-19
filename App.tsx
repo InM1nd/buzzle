@@ -47,6 +47,7 @@ import PuzzleScreen from "./src/screens/PuzzleScreen";
 import BeesScreen from "./src/screens/BeesScreen";
 import TasksScreen from "./src/screens/TasksScreen";
 import { AdventSheet } from "./src/screens/Advent";
+import { winterId } from "./src/logic/winter";
 import GardenScreen from "./src/screens/GardenScreen";
 import GameScreen from "./src/screens/GameScreen";
 import { LoginModal, Tutorial, WhatsNew } from "./src/screens/Modals";
@@ -602,6 +603,9 @@ function Main() {
   // interface theme and tile set: set before any child renders (the keyed roots below remount on a change)
   setTheme(resolveTheme(s.settings.ui, look));
   setTileStyle(seasonalTiles(s.settings.tiles, look));
+  // 1.7 winter: the event tile kind is a snowflake (free play), see finishRound
+  const winterOn = !look && !!winterId(day);
+  if (winterOn) ART.pumpkin = ART.flakeTile;
   const themeKey = themeName();
 
   if (flight) {
@@ -631,7 +635,7 @@ function Main() {
           startBomb={game.bomb}
           shuffles={game.mode === "free" ? s.loot.boosters.shuffle : 0}
           onShuffle={act.shuffle}
-          rules={halloween ? { ...rules, pumpkinChance: PUMPKIN_CHANCE, ghost: true } : rules}
+          rules={halloween ? { ...rules, pumpkinChance: PUMPKIN_CHANCE, ghost: true } : game.mode === "free" && winterOn ? { ...rules, pumpkinChance: PUMPKIN_CHANCE } : rules}
           dayColor={game.mode === "free" ? dayColorInfo(s, now) : undefined}
           best={game.mode === "daily" ? s.daily.results[todayOf(s, now)]?.score ?? 0 : game.mode === "weekend" ? s.week.weekendBest : s.stats.bestScore}
           title={t(game.mode === "daily" ? "mode.daily" : game.mode === "weekend" ? "mode.weekend" : "mode.free")}

@@ -434,6 +434,8 @@ export default function GameScreen(props: Props) {
   const summary = useRef<RoundSummary>({ mode: props.mode, score: 0, chains: [], bombs: 0, cellsByColor: [0, 0, 0, 0, 0], pumpkins: 0, ghosts: 0 });
   const [evPoints, setEvPoints] = useState(0);
   const eventOn = !!props.rules.ghost;
+  // 1.7 winter: event tiles without the ghost are snowflakes (1 each), counted like the pumpkins
+  const flakesOn = !eventOn && (props.rules.pumpkinChance ?? 0) > 0;
   const prevPos = useRef(new Map<number, number>()); // cell id -> last y
   const first = useRef(true);
   const busy = useRef(false);
@@ -580,6 +582,7 @@ export default function GameScreen(props: Props) {
     sm.pumpkins! += res.pumpkins;
     if (res.ghostCaught) sm.ghosts! += 1;
     if (eventOn) setEvPoints(sm.pumpkins! * POINTS.pumpkin + sm.ghosts! * POINTS.ghost);
+    else if (flakesOn) setEvPoints(sm.pumpkins!);
 
     setCombo(len >= 5 ? comboNow + 1 : 0);
     setScore(sm.score);
@@ -595,7 +598,7 @@ export default function GameScreen(props: Props) {
       }
       return n;
     });
-  }, [combo, props.rules, props.beeIds, s, k, H, size.width, size.height, addText, shake, movesPulse, eventOn]);
+  }, [combo, props.rules, props.beeIds, s, k, H, size.width, size.height, addText, shake, movesPulse, eventOn, flakesOn]);
 
   // ----- end of round -----
   const onFinishRef = useRef(props.onFinish);
@@ -717,6 +720,12 @@ export default function GameScreen(props: Props) {
           <Image source={ART.flame} style={{ width: 18, height: 18 }} />
           <Txt v="small" color={C.honeyDark}>{t("game.combo", { x: 1 + 0.25 * combo })}</Txt>
         </View>
+        {flakesOn ? (
+          <View style={styles.chip} accessibilityLabel={`${t("win.flakes")}: ${evPoints}`}>
+            <Image source={ART.flake} style={{ width: 22, height: 19 }} resizeMode="contain" />
+            <Txt v="small" color={K.fg("#2E6FA8")}>{evPoints}</Txt>
+          </View>
+        ) : null}
         {eventOn ? (
           <View style={styles.chip} accessibilityLabel={t("ev.pointsLabel", { n: evPoints })}>
             <Image source={ART.point} style={{ width: 20, height: 20 }} />
@@ -879,6 +888,12 @@ function ResultCard({ mode, score, reward }: { mode: RoundMode; score: number; r
           <View style={styles.rewardItem}>
             <Image source={ART.jelly} style={{ width: 34, height: 34 }} />
             <Text style={[F.black, { fontSize: 22, color: C.jelly }]}>+{reward.jelly}</Text>
+          </View>
+        ) : null}
+        {reward.flakes ? (
+          <View style={styles.rewardItem} accessibilityLabel={`${t("win.flakes")}: +${reward.flakes}`}>
+            <Image source={ART.flake} style={{ width: 34, height: 30 }} resizeMode="contain" />
+            <Text style={[F.black, { fontSize: 22, color: K.fg("#2E6FA8") }]}>+{reward.flakes}</Text>
           </View>
         ) : null}
         {reward.points ? (

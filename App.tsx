@@ -5,7 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
-  GameState, adventTodayDue, buyUpgrade, buyWinterComb, buyWinterFragment, buyWinterSeed, openAdvent, canClaimLogin, claimBonus, claimLogin, claimTask, collectHive, combAction, finishRound, freeMoves,
+  GameState, adventTodayDue, assembleWinterBee, buyUpgrade, buyWinterComb, buyWinterFragment, buyWinterSeed, openAdvent, canClaimLogin, claimBonus, claimLogin, claimTask, collectHive, combAction, finishRound, freeMoves,
   level, newState, nextLoginCycle, nextLoginIndex, RoundReward, RoundSummary, tick, unlockBee,
   RoundBoosters, RoundMode, startFreeRound, useShuffle, openBox, openAllBoxes, claimWeekly, buyFreeze, assembleNightBee,
   shopBuyItem, shopBuyBooster, shopBuyFragment, setSkin, toggleDeco, currentTasks,
@@ -47,7 +47,7 @@ import PuzzleScreen from "./src/screens/PuzzleScreen";
 import BeesScreen from "./src/screens/BeesScreen";
 import TasksScreen from "./src/screens/TasksScreen";
 import { AdventSheet } from "./src/screens/Advent";
-import { winterId } from "./src/logic/winter";
+import { WINTER_BEE, winterId } from "./src/logic/winter";
 import GardenScreen from "./src/screens/GardenScreen";
 import GameScreen from "./src/screens/GameScreen";
 import { LoginModal, Tutorial, WhatsNew } from "./src/screens/Modals";
@@ -700,7 +700,7 @@ function Main() {
         ) : tab === "puzzle" ? (
           <PuzzleScreen s={s} now={now} onPlay={act.play} onBuyBooster={(bid) => act.simple((c) => shopBuyBooster(c, bid))} onClaimTrack={act.track} onFlight={act.flight} />
         ) : tab === "bees" ? (
-          <BeesScreen s={s} onSkin={(bee, k) => act.simple((c) => setSkin(c, bee, k))} onAssemble={() => act.simple((c) => assembleNightBee(c, Date.now()))} onUnlock={act.unlock} onLevelUp={act.levelUp} onRename={act.rename} onGarden={() => { setTab("hive"); setHiveView("garden"); }} />
+          <BeesScreen s={s} onSkin={(bee, k) => act.simple((c) => setSkin(c, bee, k))} onAssemble={(bee) => act.simple((c) => bee === WINTER_BEE ? assembleWinterBee(c, Date.now()) : assembleNightBee(c, Date.now()))} onUnlock={act.unlock} onLevelUp={act.levelUp} onRename={act.rename} onGarden={() => { setTab("hive"); setHiveView("garden"); }} />
         ) : tab === "loot" ? (
           <LootScreen key={lootSeg} initialSeg={lootSeg} s={s} now={now}
             onOpenBox={(k) => setBoxOpen(k)}

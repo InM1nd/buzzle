@@ -715,6 +715,14 @@ export function openAllBoxes(s0: GameState, kind: BoxKind, now: number, max = 60
   return all.length ? { state: combFlakes(s, kind, all.length, now), drops: all } : null;
 }
 export const canAssembleNightBee = (s: GameState) => !s.bees.includes(NIGHT_BEE) && s.loot.fragments >= FRAGMENTS_FOR_BEE;
+/** fragments in the pocket for a fragment bee: the night bee's from the surprise combs, the snow bee's from the winter */
+export const fragmentsFor = (s: GameState, bee: string) => (bee === WINTER_BEE ? s.winter.frags : s.loot.fragments);
+/** 1.7: the snow bee from 10 winter fragments (any time once they are collected, also after the winter) */
+export function assembleWinterBee(s0: GameState, now: number): GameState | null {
+  if (s0.bees.includes(WINTER_BEE) || s0.winter.frags < WINTER_FRAGMENTS) return null;
+  const s = tick(s0, now);
+  return { ...s, bees: [...s.bees, WINTER_BEE], beeLevels: { ...s.beeLevels, [WINTER_BEE]: 1 }, winter: { ...s.winter, frags: 0 } };
+}
 export function assembleNightBee(s0: GameState, now: number): GameState | null {
   if (!canAssembleNightBee(s0)) return null;
   const s = tick(s0, now); // production at the old rate up to now

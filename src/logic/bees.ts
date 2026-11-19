@@ -42,6 +42,8 @@ export const BEES: BeeSpecies[] = [
   { id: "zorkaya", name: "", rarity: "epic", cost: 22, ability: "", flavor: "", effect: { puzzleHoneyMult: 0.25 } },
   { id: "margo", name: "", rarity: "legendary", cost: 32, ability: "", flavor: "", effect: { bombAt: 5 } },
   { id: "nochka", name: "", rarity: "legendary", cost: 0, fragments: 10, ability: "", flavor: "", effect: { prodMult: 0.2 } },
+  // 1.7 winter: 10 winter fragments (snowflakes, advent, winter shop) — its own counter, s.winter.frags
+  { id: "snowbee", name: "", rarity: "legendary", cost: 0, fragments: 10, ability: "", flavor: "", effect: { prodMult: 0.2 } },
 ];
 for (const b of BEES) { lz(b, "name", `bee.${b.id}.name`); lz(b, "flavor", `bee.${b.id}.flavor`); Object.defineProperty(b, "ability", { get: () => baseAbility(b), enumerable: true, configurable: true }); }
 export const BEE_BY_ID = Object.fromEntries(BEES.map((b) => [b.id, b]));

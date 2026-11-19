@@ -182,3 +182,19 @@ test("winter backdrops: Christmas decor 20 Dec – 7 Jan, evening 17:00–7:00",
   assert.equal(winterLook(day(2027, 1, 7), 10), "christmas_day");
   assert.equal(winterLook(day(2027, 1, 8), 10), "winter_day");
 });
+
+test("snow bee: 10 winter fragments assemble it (its own counter, not the night bee's); then snowflakes give wax combs", async () => {
+  const { assembleWinterBee, fragmentsFor } = await import("../src/logic/game");
+  let s: GameState = { ...veteran(), winter: { ...newWinter(), id: "winter-2026", frags: 9 }, loot: { ...veteran().loot, fragments: 10 } };
+  assert.equal(fragmentsFor(s, "snowbee"), 9);
+  assert.equal(fragmentsFor(s, "nochka"), 10);
+  assert.equal(assembleWinterBee(s, at(2026, 12, 20)), null);
+  s = { ...s, winter: { ...s.winter, frags: 10 } };
+  s = assembleWinterBee(s, at(2026, 12, 20))!;
+  assert.ok(s.bees.includes("snowbee"));
+  assert.equal(s.winter.frags, 0);
+  assert.equal(s.loot.fragments, 10, "the night bee's fragments stay");
+  const wax = s.loot.boxes.wax;
+  s = giveFlakes(s, day(2026, 12, 21), FLAKES_PER_FRAGMENT);
+  assert.equal(s.loot.boxes.wax, wax + 1);
+});

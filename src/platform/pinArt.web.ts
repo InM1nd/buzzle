@@ -7,6 +7,7 @@
  */
 import { Asset } from "expo-asset";
 import { TURN } from "../ui/turnArt";
+import { WINTER_TURN } from "../ui/winterBeeArt";
 import { ART } from "../ui/art";
 import { GARDEN_ART, ITEM_ART } from "../ui/beeArt";
 
@@ -41,7 +42,7 @@ export function pinArt(): void {
   const found = new Set<string>();
   collect(ART, found); collect(ITEM_ART, found); collect(GARDEN_ART, found);
   // Pin only small shared front layers; decoding every 720px outfit at startup wastes mobile memory.
-  Object.values(TURN).forEach(set => ["base", "w0", "w1"].forEach(k => collect(set[k]?.front_288, found)));
+  [...Object.values(TURN), ...Object.values(WINTER_TURN)].forEach(set => ["base", "w0", "w1"].forEach(k => collect(set[k]?.front_288, found)));
   const uris = Array.from(found).filter((u) => /\.(png|webp|jpe?g)(\?|$)/i.test(u) || u.startsWith("data:image"));
   uris.forEach((u) => load(u));
   window.addEventListener("online", () => Array.from(failed).forEach((u) => load(u, 3)));

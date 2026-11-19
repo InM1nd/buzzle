@@ -1,0 +1,24 @@
+{
+  "bee-snow-top": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpVisibleMatch": true
+  },
+  "bee-gingerbread-top": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpVisibleMatch": true
+  }
+}

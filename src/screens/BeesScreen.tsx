@@ -3,7 +3,8 @@ import { EVENT_SKINS, SKIN_BY_ID, SKINS } from "../logic/loot";
 import { ItemIcon } from "../ui/lootUi";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, ScrollView, StyleSheet, TextInput, useWindowDimensions, View } from "react-native";
-import { GameState, beeDisplayName, beeLevel, beeLevelCost, graphemes, MAX_BEE_NAME } from "../logic/game";
+import { GameState, beeDisplayName, beeLevel, beeLevelCost, fragmentsFor, graphemes, MAX_BEE_NAME } from "../logic/game";
+import { WINTER_BEE } from "../logic/winter";
 import { abilityAt, levelCost, BEES, BeeSpecies, LEVEL_HIVE_BONUS, MAX_BEE_LEVEL, Rarity } from "../logic/bees";
 import { ART } from "../ui/art";
 import { BeeSprite, Hover, Mascot, useFace } from "../ui/BeeSprite";
@@ -19,7 +20,7 @@ const RARITY: Record<Rarity, { name: string; color: string; bg: string; night: s
   legendary: { get name() { return t("rarityBee.legendary"); }, color: "#D27A00", bg: "#FFEBC2", night: "rgba(255,181,31,0.18)" },
 };
 
-interface Props { s: GameState; onSkin?: (bee: string, skin: string | null) => boolean; onAssemble?: () => boolean; onUnlock: (id: string) => boolean; onLevelUp: (id: string) => boolean; onRename?: (id: string, name: string) => boolean; onGarden?: () => void }
+interface Props { s: GameState; onSkin?: (bee: string, skin: string | null) => boolean; onAssemble?: (bee: string) => boolean; onUnlock: (id: string) => boolean; onLevelUp: (id: string) => boolean; onRename?: (id: string, name: string) => boolean; onGarden?: () => void }
 
 export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp, onRename, onGarden }: Props) {
   const [open, setOpen] = useState<BeeSpecies | null>(null);
@@ -70,7 +71,7 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
                     <Bar progress={lvl / MAX_BEE_LEVEL} height={6} color={lvl >= MAX_BEE_LEVEL ? "#E2A400" : C.honey} track="#EADBC2" style={{ flex: 1 }} />
                   </View>
                 ) : b.fragments ? (
-                  <View style={styles.costMini}><Image source={ART.fragment} style={{ width: 14, height: 14 }} /><Txt v="tiny" color={K.fg("#5B5FC7")}>{Math.min(s.loot.fragments, b.fragments)}/{b.fragments}</Txt></View>
+                  <View style={styles.costMini}><Image source={b.id === WINTER_BEE ? ART.winterFragment : ART.fragment} style={{ width: 14, height: 14 }} /><Txt v="tiny" color={K.fg("#5B5FC7")}>{Math.min(fragmentsFor(s, b.id), b.fragments)}/{b.fragments}</Txt></View>
                 ) : (
                   <View style={[styles.costMini, can && { backgroundColor: C.jelly }]}><Image source={ART.jelly} style={{ width: 14, height: 14 }} /><Txt v="tiny" color={can ? "#fff" : "#8C6FBF"}>{b.cost}</Txt></View>
                 )}
@@ -101,9 +102,9 @@ export default function BeesScreen({ s, onSkin, onAssemble, onUnlock, onLevelUp,
       <Overlay visible={!!open} onClose={() => setOpen(null)}>
         {open ? (
           <BeeDetail bee={open} has={owned.has(open.id)} jelly={s.jelly} nectar={s.nectar} level={beeLevel(s, open.id)}
-            skin={s.beeSkins[open.id] ?? null} skins={s.loot.owned.filter((x) => SKIN_BY_ID[x] && x !== "headphones")} fragments={s.loot.fragments}
+            skin={s.beeSkins[open.id] ?? null} skins={s.loot.owned.filter((x) => SKIN_BY_ID[x] && x !== "headphones")} fragments={fragmentsFor(s, open.id)}
             onSkin={onSkin ? (k) => onSkin(open.id, k) : undefined}
-            onAssemble={() => { if (onAssemble?.()) { setJust(open.id); setTimeout(() => setJust(null), 1600); } }}
+            onAssemble={() => { if (onAssemble?.(open.id)) { setJust(open.id); setTimeout(() => setJust(null), 1600); } }}
             name={beeDisplayName(s, open.id)} custom={!!s.beeNames[open.id]}
             onRename={onRename ? (n) => onRename(open.id, n) : undefined}
             onUnlock={() => { if (onUnlock(open.id)) { setJust(open.id); setTimeout(() => setJust(null), 1600); } }}
@@ -262,7 +263,7 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
         </View>
       ) : null}
       <Txt v="body" color={C.dim} center style={{ marginBottom: 12 }}>
-        {!has && bee.fragments ? t("bees.fragFlavor", { flavor: bee.flavor, n: bee.fragments }) : !has ? t("bees.unlockHint") : nextLook ? t(nextLook === 5 ? "bees.nextLook5" : "bees.nextLook10", { flavor: bee.flavor }) : bee.flavor}
+        {!has && bee.fragments ? t(bee.id === WINTER_BEE ? "bees.fragFlavorWinter" : "bees.fragFlavor", { flavor: bee.flavor, n: bee.fragments }) : !has ? t("bees.unlockHint") : nextLook ? t(nextLook === 5 ? "bees.nextLook5" : "bees.nextLook10", { flavor: bee.flavor }) : bee.flavor}
       </Txt>
       {has ? (
         cost ? (
@@ -283,7 +284,7 @@ function BeeDetail({ bee, has, jelly, nectar, level, name, custom, onUnlock, onL
           </View>
         )
       ) : bee.fragments ? (
-        <GameButton title={t("bees.assemble", { a: Math.min(fragments, bee.fragments), b: bee.fragments })} icon={ART.fragment} color={fragments >= bee.fragments ? "purple" : "grey"}
+        <GameButton title={t("bees.assemble", { a: Math.min(fragments, bee.fragments), b: bee.fragments })} icon={bee.id === WINTER_BEE ? ART.winterFragment : ART.fragment} color={fragments >= bee.fragments ? "purple" : "grey"}
           disabled={fragments < bee.fragments} onPress={onAssemble} style={{ alignSelf: "stretch" }} label={t("bees.assembleLabel")} />
       ) : (
         <GameButton

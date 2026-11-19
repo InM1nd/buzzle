@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import { Animated, Image, StyleProp, View, ViewStyle } from "react-native";
 import { TURN, WING_ROOT } from "./turnArt";
 import { COSTUME_ART } from "./costumeArt";
+import { WINTER_TURN } from "./winterBeeArt";
 import { sinRange, useFlapClock } from "./anim";
 
 type AV = Animated.Value | Animated.AnimatedInterpolation<number>;
@@ -17,7 +18,9 @@ const COSTUMES: Record<string, { front?: string; back?: string }> = {
   santahat: { front: "santahat" }, firwreath: { front: "firwreath" },
 };
 const HATS = new Set(["wreath", "beret", "witchhat", "pumpkinhat", "ghosthood", "pumpkinwreath", "bobblehat", "antlers", "santahat", "firwreath"]);
-export const hasTurnBee = (id: string) => !!TURN[id];
+/** 1.7 winter bees: own body and wings, Zhuzha's outfits and wing roots (drawn with her geometry, scripts/import_winter_bees.py) */
+const LIKE_ZHUZHA = new Set(Object.keys(WINTER_TURN));
+export const hasTurnBee = (id: string) => !!TURN[id] || LIKE_ZHUZHA.has(id);
 export function outfitLayers(level: number, skin?: string): string[] {
   const hat = !!skin && HATS.has(skin);
   const c = skin ? COSTUMES[skin] : undefined;
@@ -29,7 +32,8 @@ export function TurnBee({ id, size, turn = 0, level = 1, skin, flap = true, seed
   id: string; size: number; turn?: number | AV; level?: number; skin?: string; flap?: boolean; seed?: number;
   tint?: string; rest?: AV; style?: StyleProp<ViewStyle>;
 }) {
-  const set = useMemo(() => ({ ...(TURN[id] ?? TURN.zhuzha), ...(COSTUME_ART[id] ?? {}) }), [id]);
+  const set = useMemo(() => LIKE_ZHUZHA.has(id) ? { ...TURN.zhuzha, ...COSTUME_ART.zhuzha, ...WINTER_TURN[id] }
+    : { ...(TURN[id] ?? TURN.zhuzha), ...(COSTUME_ART[id] ?? {}) }, [id]);
   const moving = flap && !tint;
   const clock = useFlapClock(seed, moving);
   const motion = useMemo(() => {

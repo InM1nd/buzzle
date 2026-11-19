@@ -11,8 +11,8 @@ export const FLAKES_PER_FRAGMENT = 50;
 export const WINTER_FRAGMENTS = 10;
 /** snowflakes per source: a new daily / weekend star, a snowflake tile in free play, a wax / gold / royal comb opened in winter */
 export const FLAKES = { star: 2, tile: 1, comb: 3 };
-/** the winter bee joins BEES once its art is in the game (until then fragments just collect) */
-export const WINTER_BEE = "winterbee";
+/** the snow bee: assembled from 10 winter fragments (art: scripts/import_winter_bees.py) */
+export const WINTER_BEE = "snowbee";
 
 /** advent catch-up: an earlier window opens for one round played (a credit) or this much pollen */
 export const ADVENT_POLLEN = 10;

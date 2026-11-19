@@ -15,23 +15,27 @@ import { CloseBtn, GameButton, Overlay, Press, Txt } from "./components";
 /** spot = fraction of the scene box (left/top of the item's foot) and the item height relative to the scene height */
 export interface Spot { id: string; x: number; y: number; h: number; flip?: boolean }
 
-type Motion = "sway" | "glow" | "spin" | "bob" | "none";
+type Motion = "sway" | "glow" | "spin" | "bob" | "lamps" | "none";
 const MOTION: Record<string, Motion> = {
   flags: "sway", lanterns: "glow", barrel: "none", fountain: "bob",
   mushroom: "bob", bench: "none", pinwheel: "spin", gnome: "sway",
   jack1: "glow", jack2: "glow", jack3: "glow", jack4: "glow",
-  garland: "sway", snowlanterns: "glow", lamppost: "glow", snowman: "bob", goldstar: "glow", firtree: "none",
+  garland: "lamps", snowlanterns: "glow", lamppost: "glow", snowman: "bob", goldstar: "glow", firtree: "none",
 };
 /** 1.7 winter decorations: height relative to the summer spot they take (the garland and icicles are long and flat) */
 const WINTER_H: Record<string, number> = { garland: 0.55, goldstar: 0.8, firtree: 1.25, gingerhouse: 0.95, snowlanterns: 0.95, snowman: 1.5, sled: 1.25, mailbox: 0.95, lamppost: 0.95 };
 
-function DecoArt({ id, height, on, ghost, night }: { id: string; height: number; on: boolean; ghost: boolean; night?: boolean }) {
+/** 1.7: the garland's five lanterns (fractions of the sprite) light up with the advent windows (all 24 → all five) */
+const GARLAND_LAMPS = [[0.14, 0.585], [0.307, 0.694], [0.5, 0.777], [0.692, 0.693], [0.852, 0.581]];
+export const garlandLit = (opened: number) => Math.min(5, Math.ceil((opened * 5) / 24));
+
+function DecoArt({ id, height, on, ghost, night, lit = 0 }: { id: string; height: number; on: boolean; ghost: boolean; night?: boolean; lit?: number }) {
   const a = ITEM_ART[`deco_${id}`];
   const v = useRef(new Animated.Value(0)).current;
   const motion = ghost ? "none" : MOTION[id] ?? "none";
   useEffect(() => {
     if (!on || motion === "none") { v.stopAnimation(); return; }
-    const dur = motion === "spin" ? 2600 : motion === "glow" ? 1500 : 2200;
+    const dur = motion === "spin" ? 2600 : motion === "glow" || motion === "lamps" ? 1500 : 2200;
     const loop = Animated.loop(Animated.timing(v, { toValue: 1, duration: dur, easing: motion === "spin" ? Easing.linear : Easing.inOut(Easing.sin), useNativeDriver: true }));
     v.setValue(0);
     loop.start();
@@ -53,12 +57,22 @@ function DecoArt({ id, height, on, ghost, night }: { id: string; height: number;
           opacity: v.interpolate({ inputRange: [0, 0.5, 1], outputRange: id.startsWith("jack") ? [0.06, 0.2, 0.06] : [0.15, 0.45, 0.15] }),
         }} />
       ) : null}
+      {lit && !ghost ? GARLAND_LAMPS.slice(0, lit).map(([x, y], k) => (
+        <Animated.View key={k} pointerEvents="none" style={{
+          position: "absolute", left: x * w - height * 0.36, top: y * height - height * 0.36, width: height * 0.72, height: height * 0.72, borderRadius: height,
+          backgroundColor: "#FFC94A", opacity: v.interpolate({ inputRange: [0, 0.5, 1], outputRange: k % 2 ? [0.8, 0.4, 0.8] : [0.4, 0.8, 0.4] }),
+        }} />
+      )) : null}
       {motion === "spin" && !ghost ? (
         // the pinwheel's head turns; the stick stays
         <Animated.Image source={a.src} style={{ width: w, height, transform: [{ rotate: v.interpolate({ inputRange: [0, 1], outputRange: ["0deg", "8deg"] }) }] }} />
       ) : (
         <Animated.Image source={a.src} style={{ width: w, height, opacity: ghost ? (night ? 0.16 : 0.22) : 1, tintColor: ghost ? (night ? "#FFE9C4" : "#8A5A1E") : undefined, transform: tr }} />
       )}
+      {/* lanterns not lit yet: dimmed */}
+      {id === "garland" && !ghost ? GARLAND_LAMPS.slice(lit).map(([x, y], k) => (
+        <View key={`d${k}`} pointerEvents="none" style={{ position: "absolute", left: x * w - height * 0.11, top: y * height - height * 0.13, width: height * 0.22, height: height * 0.26, borderRadius: height * 0.05, backgroundColor: "rgba(60,36,20,0.55)" }} />
+      )) : null}
     </View>
   );
 }
@@ -93,7 +107,7 @@ export function DecorSpots({ s, place, spots, w, h, onToggle, onShop, dark }: {
             accessibilityRole="button" accessibilityLabel={ghost ? t("dec.spot", { name }) : name}
             style={{ position: "absolute", left: sp.x * w - iw / 2, top: sp.y * h - ih, width: iw, height: ih, transform: sp.flip ? [{ scaleX: -1 }] : undefined }}>
             {ghost ? <View style={[styles.ghostRing, night && styles.ghostRingNight, { width: iw * 1.1, height: ih * 0.3, left: -iw * 0.05, top: ih * 0.8 }]} /> : null}
-            <DecoArt id={id} height={ih} on={on} ghost={ghost} night={night} />
+            <DecoArt id={id} height={ih} on={on} ghost={ghost} night={night} lit={id === "garland" ? garlandLit(s.winter.advent.length) : 0} />
             {ghost ? <View style={[styles.plus, { left: iw / 2 - 12, top: ih * 0.45 - 12 }]}><Txt v="small" color="#fff" style={[F.black, { lineHeight: 18 }]}>+</Txt></View> : null}
           </Press>
         );

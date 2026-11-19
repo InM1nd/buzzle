@@ -23,6 +23,7 @@ import { Bar, Card, CloseBtn, fmt, GameButton, Overlay, Press, Stars, Txt, useTo
 import { BOOSTER_ART, boxArt, ItemIcon, RARITY_UI } from "../ui/lootUi";
 import { centerOf, Pt } from "../ui/Fly";
 import { days } from "../ui/format";
+import { WinterBuy, WinterShop } from "./Advent";
 
 interface Props {
   initialSeg?: "chests" | "shop" | "album";
@@ -35,6 +36,7 @@ interface Props {
   onBuyItem: (id: string) => boolean;
   onBuyBooster: (b: BoosterId) => boolean;
   onBuyFragment: () => boolean;
+  onWinterBuy: (what: WinterBuy) => boolean;
   onToggleDeco: (id: string) => void;
   onInvite?: () => void;
 }
@@ -140,7 +142,8 @@ export default function LootScreen(p: Props) {
         })()}
 
         </>) : seg === "shop" ? (
-          <View style={[styles.segPanel, shadow]}><Shop s={p.s} onBuyItem={p.onBuyItem} onBuyBooster={p.onBuyBooster} onBuyFragment={p.onBuyFragment} /></View>
+          <View style={[styles.segPanel, shadow]}><WinterShop s={p.s} now={p.now} onBuy={p.onWinterBuy} />
+            <Shop s={p.s} onBuyItem={p.onBuyItem} onBuyBooster={p.onBuyBooster} onBuyFragment={p.onBuyFragment} /></View>
         ) : (
           <View style={[styles.segPanel, shadow]}><Album s={s} onToggleDeco={p.onToggleDeco} onShop={() => setSeg("shop")} /></View>
         )}
@@ -149,7 +152,7 @@ export default function LootScreen(p: Props) {
       <Overlay visible={!!sheet} onClose={() => setSheet(null)}>
         <CloseBtn onPress={() => setSheet(null)} />
         {sheet === "album" ? <Album s={s} onToggleDeco={p.onToggleDeco} onShop={() => setSheet("shop")} />
-          : sheet === "shop" ? <Shop s={p.s} onBuyItem={p.onBuyItem} onBuyBooster={p.onBuyBooster} onBuyFragment={p.onBuyFragment} />
+          : sheet === "shop" ? <><WinterShop s={p.s} now={p.now} onBuy={p.onWinterBuy} /><Shop s={p.s} onBuyItem={p.onBuyItem} onBuyBooster={p.onBuyBooster} onBuyFragment={p.onBuyFragment} /></>
           : sheet ? <Odds kind={sheet.odds} s={s} /> : null}
       </Overlay>
     </View>

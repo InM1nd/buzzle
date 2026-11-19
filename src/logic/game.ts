@@ -311,8 +311,9 @@ function add(s: GameState, r: { honey?: number; jelly?: number }): GameState {
 }
 /** 1.7: credit any reward. An owned skin / decoration becomes its duplicate pollen; an item or a flower that is not in the game yet
  * returns null so the caller keeps the reward waiting instead of burning it. */
+export const rewardReady = (r: Reward) => !r.items?.some((id) => !ITEM_BY_ID[id]) && !Object.keys(r.seeds ?? {}).some((f) => !FLOWER_BY_ID[f]);
 export function grant(s0: GameState, r: Reward): GameState | null {
-  if (r.items?.some((id) => !ITEM_BY_ID[id]) || Object.keys(r.seeds ?? {}).some((f) => !FLOWER_BY_ID[f])) return null;
+  if (!rewardReady(r)) return null;
   let s = add(s0, r);
   const loot: Loot = { ...s.loot, owned: [...s.loot.owned], boosters: { ...s.loot.boosters }, seeds: { ...s.loot.seeds }, pollen: s.loot.pollen + (r.pollen ?? 0) };
   for (const id of r.items ?? []) {
@@ -929,4 +930,9 @@ export function buyWinterComb(s0: GameState, kind: "wax" | "gold", now: number):
   const cost = kind === "wax" ? WSHOP.waxJelly : WSHOP.goldJelly;
   if (s.jelly < cost || (kind === "wax" ? w.waxDay === day : w.goldWeek === wk)) return null;
   return addBoxes({ ...s, jelly: s.jelly - cost, winter: { ...w, ...(kind === "wax" ? { waxDay: day } : { goldWeek: wk }) } }, [kind]);
+}
+/** today's advent window is waiting (and its gift is in the game): the calendar opens by itself once a day */
+export function adventTodayDue(s: GameState, now: number): boolean {
+  const dec = decemberDate(today(s, now));
+  return dec >= 1 && dec <= ADVENT_DAYS && adventOpenWay(s, dec, now) === "free" && rewardReady(ADVENT[dec - 1]);
 }

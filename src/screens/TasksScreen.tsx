@@ -13,11 +13,13 @@ import { centerOf, Pt } from "../ui/Fly";
 import { duration } from "../ui/format";
 import { Mascot } from "../ui/BeeSprite";
 import { EventCard } from "./EventTrack";
+import { AdventCard } from "./Advent";
 
 interface Props {
   s: GameState;
   now: number;
   onClaimLogin: (from: Pt | null) => void;
+  onAdvent: () => void;
   onClaimTask: (id: string, from: Pt | null) => void;
   onClaimBonus: (from: Pt | null) => void;
   onClaimWeekly?: (from: Pt | null) => void;
@@ -25,7 +27,7 @@ interface Props {
   onClaimTrack: (from: Pt | null) => void;
 }
 
-export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaimBonus, onClaimWeekly, onBuyFreeze, onClaimTrack }: Props) {
+export default function TasksScreen({ s, now, onAdvent, onClaimLogin, onClaimTask, onClaimBonus, onClaimWeekly, onBuyFreeze, onClaimTrack }: Props) {
   const weekRef = useRef<View | null>(null);
   const streak = dailyStreak(s, now);
   const lvl = level(s);
@@ -50,6 +52,7 @@ export default function TasksScreen({ s, now, onClaimLogin, onClaimTask, onClaim
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 16 + top, paddingBottom: bottom, gap: 14 }} showsVerticalScrollIndicator={false}>
       <Txt v="h1" style={{ marginBottom: 2 }}>{t("tab.tasks")}</Txt>
+      <AdventCard s={s} now={now} onOpen={onAdvent} />
       <EventCard s={s} now={now} onClaim={onClaimTrack} />
       {/* mascot */}
       <View style={styles.mascotRow}>

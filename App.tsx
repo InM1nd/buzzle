@@ -5,7 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
-  GameState, buyUpgrade, canClaimLogin, claimBonus, claimLogin, claimTask, collectHive, combAction, finishRound, freeMoves,
+  GameState, adventTodayDue, buyUpgrade, buyWinterComb, buyWinterFragment, openAdvent, canClaimLogin, claimBonus, claimLogin, claimTask, collectHive, combAction, finishRound, freeMoves,
   level, newState, nextLoginCycle, nextLoginIndex, RoundReward, RoundSummary, tick, unlockBee,
   RoundBoosters, RoundMode, startFreeRound, useShuffle, openBox, openAllBoxes, claimWeekly, buyFreeze, assembleNightBee,
   shopBuyItem, shopBuyBooster, shopBuyFragment, setSkin, toggleDeco, currentTasks,
@@ -46,6 +46,7 @@ import HiveScreen from "./src/screens/HiveScreen";
 import PuzzleScreen from "./src/screens/PuzzleScreen";
 import BeesScreen from "./src/screens/BeesScreen";
 import TasksScreen from "./src/screens/TasksScreen";
+import { AdventSheet } from "./src/screens/Advent";
 import GardenScreen from "./src/screens/GardenScreen";
 import GameScreen from "./src/screens/GameScreen";
 import { LoginModal, Tutorial, WhatsNew } from "./src/screens/Modals";
@@ -113,6 +114,9 @@ function Main() {
   const [jack, setJack] = useState<string | null>(null);
   const [showTutorial, setShowTutorial] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  // 1.7 advent sheet; adventAuto = the game day it last opened by itself (once a day, after the login reward)
+  const [showAdvent, setShowAdvent] = useState(false);
+  const adventAuto = useRef(-1);
   const [showSettings, setShowSettings] = useState(false);
   const [topH, setTopH] = useState(0);
   // the Combs/Garden switcher always stays mounted (hidden off the Hive tab), so the header height never
@@ -579,6 +583,15 @@ function Main() {
     if (!cine.replay) act.simple((c) => eventCineSeen(c, Date.now()));
   }, [cine]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // 1.7 advent: once a day, when today's window waits and nothing else is on screen (after the login reward), the calendar opens by itself
+  const adventReady = !!s && adventTodayDue(s, now) && s.settings.tutorialDone && !showTutorial && !showWhatsNew && !showLogin && !cine
+    && !showSettings && !boxOpen && !jack && !game && !flight && adventAuto.current !== todayOf(s, now);
+  useEffect(() => {
+    if (!adventReady || !s) return;
+    const tm = setTimeout(() => { adventAuto.current = todayOf(s, Date.now()); setShowAdvent(true); }, 700);
+    return () => clearTimeout(tm);
+  }, [adventReady]); // eslint-disable-line react-hooks/exhaustive-deps
+
   if (!s) return <View style={{ flex: 1, backgroundColor: C.bg }} />;
 
   // event look: follows the calendar, except that a due transition keeps the old look until it starts
@@ -695,9 +708,10 @@ function Main() {
             onBuyBooster={(bid) => act.simple((c) => shopBuyBooster(c, bid))}
             onBuyFragment={() => act.simple((c) => shopBuyFragment(c))}
             onToggleDeco={(id) => act.simple((c) => toggleDeco(c, id))}
+            onWinterBuy={(what) => act.simple((c) => what === "wax" || what === "gold" ? buyWinterComb(c, what, Date.now()) : buyWinterFragment(c, what === "fragPollen" ? "pollen" : "jelly", Date.now()))}
           />
         ) : (
-          <TasksScreen s={s} now={now} onClaimTrack={act.track} onClaimWeekly={act.weekly} onBuyFreeze={() => act.simple((c) => buyFreeze(c, Date.now()))} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} />
+          <TasksScreen s={s} now={now} onAdvent={() => setShowAdvent(true)} onClaimTrack={act.track} onClaimWeekly={act.weekly} onBuyFreeze={() => act.simple((c) => buyFreeze(c, Date.now()))} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} />
         )}
       </View>
       </BottomPad.Provider>
@@ -754,6 +768,9 @@ function Main() {
       <Tutorial visible={showTutorial && s.settings.langPicked} onDone={act.tutorialDone} />
       <LoginModal visible={showLogin && !cine && !showTutorial && !showWhatsNew && s.settings.langPicked} index={loginIdx} reward={loginReward(loginIdx, nextLoginCycle(s))} streak={s.login.lastDay === todayOf(s, now) - 1 ? s.login.streak : 0}
         onClaim={act.login} onClose={() => setShowLogin(false)} />
+      <AdventSheet visible={showAdvent && !showLogin && !cine && !showTutorial && !game} s={s} now={now} onClose={() => setShowAdvent(false)}
+        onWindow={(n) => { const r = openAdvent(s, n, Date.now()); if (!r) return null; commit(r.state); hSuccess(); return r.reward; }}
+        onPlay={() => setTab("puzzle")} />
       <SettingsModal
         visible={showSettings}
         startPage={settingsPage}

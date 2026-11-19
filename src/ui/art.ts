@@ -56,6 +56,11 @@ export const ART = {
   eventHeader: require("../../assets/art/halloween/event_header.webp"),
   trickDoor: require("../../assets/art/halloween/trick_door.webp"),
   trickBasket: require("../../assets/art/halloween/trick_basket.webp"),
+  // 1.7 winter, placeholders until the art is approved (design/art/winter-advent-v2, winter-glyphs-v1, winter-rewards-v2)
+  adventClosed: require("../../assets/art/winter/advent_closed.webp"),
+  adventOpen: require("../../assets/art/winter/advent_open.webp"),
+  flake: require("../../assets/art/winter/flake.webp"),
+  winterFragment: require("../../assets/art/winter/fragment.webp"),
 };
 
 /** v1.6 scene backdrops. Two layers: the event backdrop wins while an event runs (Halloween night), otherwise the

@@ -345,6 +345,9 @@ export function tick(s: GameState, now: number): GameState {
   if (n.tasks.day !== day) n = { ...n, tasks: { day, progress: {}, claimed: [], bonus: false, ids: tasksForDay(day, taskPool(n)).map((t) => t.id) } };
   const wk = weekOf(day);
   if (n.week.id < wk) n = { ...n, week: newWeek(wk) };
+  // 1.7: a new winter starts its own snowflakes / advent here, so nothing written to the slice later lands on last winter's id
+  const wid = winterId(day);
+  if (wid && n.winter.id !== wid) n = { ...n, winter: winterProgress(n.winter, wid) };
   return n;
 }
 

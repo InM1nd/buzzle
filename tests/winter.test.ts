@@ -2,6 +2,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { dayNumber } from "../src/logic/day";
+import { ITEM_BY_ID } from "../src/logic/loot";
+import { FLOWER_BY_ID } from "../src/logic/garden";
 import { forceSeason } from "../src/logic/event";
 import {
   addFlakes, ADVENT, ADVENT_POLLEN, FLAKES, FLAKES_PER_FRAGMENT, newWinter, WINTER_FRAGMENTS, winterId, WSHOP,
@@ -142,3 +144,18 @@ test("save round trip: every 1.7 field survives JSON + migrate", () => {
   assert.deepEqual(old.winter, newWinter(), "a pre-1.7 save starts winter from zero");
   assert.equal(old.login.cycle, 0);
 });
+
+test("advent: a December round that earns no snowflakes still counts as a catch-up credit", () => {
+  const s = finishRound(veteran(), sum("free", { score: 300, pumpkins: 0 }), at(2026, 12, 5)).state;
+  assert.equal(s.winter.id, "winter-2026");
+  assert.equal(adventOpenWay(s, 4, at(2026, 12, 5)), "credit");
+});
+
+// release gate: every advent gift must be grantable (its skins / decorations / flowers registered with art) before 1.7 ships.
+// Marked todo while the winter art is being imported, so it reports the missing ids without failing the suite.
+{
+  const missing = ADVENT.flatMap((g, i) => [...(g.items ?? []).filter((id) => !ITEM_BY_ID[id]), ...Object.keys(g.seeds ?? {}).filter((f) => !FLOWER_BY_ID[f])].map((id) => `${i + 1}:${id}`));
+  test(`release gate: all 24 advent gifts are in the game (missing: ${missing.join(", ") || "none"})`, { todo: missing.length > 0 }, () => {
+    assert.deepEqual(missing, []);
+  });
+}

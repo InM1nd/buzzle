@@ -35,7 +35,7 @@ async function boot() {
   expect(await screen.findByLabelText("Настройки")).toBeTruthy();
 }
 
-test("first run: tutorial → login reward → honey persisted", async () => {
+test("first run: tutorial → login reward (1.7: a bomb booster) persisted", async () => {
   await boot();
   expect(await screen.findByText("Привет, я Жужа!")).toBeTruthy();
   await fireEvent.press(screen.getByText("Дальше"));
@@ -46,7 +46,7 @@ test("first run: tutorial → login reward → honey persisted", async () => {
   await waitFor(async () => {
     const s = await stored();
     expect(s.settings.tutorialDone).toBe(true);
-    expect(s.honey).toBe(150);
+    expect(s.loot.boosters.bomb).toBe(1);
     expect(s.login.lastDay).not.toBeNull();
   });
 });

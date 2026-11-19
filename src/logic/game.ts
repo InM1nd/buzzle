@@ -47,7 +47,7 @@ export interface Week {
   freezeBought: boolean;
 }
 export const newWeek = (id: number): Week => ({ id, tasks: 0, chest: false, weekendBest: 0, weekendStars: 0, freezeBought: false });
-/** streak freeze price (royal jelly); one per week, at most one in stock */
+/** streak freeze price (royal jelly); one per week, at most one in stock (two with the snow bee, see maxFreeze) */
 export const FREEZE_COST = 4;
 export interface GameState {
   version: 5;
@@ -64,7 +64,7 @@ export interface GameState {
   /** v4 (1.3): skin worn by a bee (any owned skin, on any bee) */
   beeSkins: Record<string, string>;
   garden: Garden;
-  /** freeze: streak freezes in stock (0..1), used up automatically when one day is missed */
+  /** freeze: streak freezes in stock (0..maxFreeze), one used up automatically per missed day */
   daily: { lastDay: number | null; streak: number; best: number; results: Record<string, DailyResult>; freeze: number };
   /** index: the last claimed calendar day (0..6, -1 = none yet); cycle: full weeks claimed (1.7: a missed day pauses, never resets) */
   login: { lastDay: number | null; index: number; streak: number; cycle: number };
@@ -206,7 +206,7 @@ export function migrate(raw: unknown, now: number): GameState {
     week,
     // a v1 save has no garden: start it at the newest time the game has seen, so a rolled-back clock can't pre-grow it
     garden: s.garden ? migrateGarden(s.garden, now) : newGarden(Math.max(now, clockMax)),
-    daily: { ...d.daily, ...obj(s.daily), results: { ...obj(obj(s.daily).results) }, freeze: Math.max(0, Math.min(1, num(obj(s.daily).freeze, 0) | 0)) },
+    daily: { ...d.daily, ...obj(s.daily), results: { ...obj(obj(s.daily).results) }, freeze: Math.max(0, Math.min(2, num(obj(s.daily).freeze, 0) | 0)) },
     login: {
       lastDay: typeof obj(s.login).lastDay === "number" ? obj(s.login).lastDay : null,
       index: Math.max(-1, Math.min(6, num(obj(s.login).index, -1) | 0)), streak: Math.max(0, num(obj(s.login).streak, 0) | 0),
@@ -345,7 +345,11 @@ export function tick(s: GameState, now: number): GameState {
   };
   if (n.tasks.day !== day) n = { ...n, tasks: { day, progress: {}, claimed: [], bonus: false, ids: tasksForDay(day, taskPool(n)).map((t) => t.id) } };
   const wk = weekOf(day);
-  if (n.week.id < wk) n = { ...n, week: newWeek(wk) };
+  if (n.week.id < wk) {
+    n = { ...n, week: newWeek(wk) };
+    // 1.7: the snow bee brings one free streak freeze every week
+    if (n.bees.includes(WINTER_BEE) && n.daily.freeze < maxFreeze(n)) n = { ...n, daily: { ...n.daily, freeze: n.daily.freeze + 1 } };
+  }
   // 1.7: a new winter starts its own snowflakes / advent here, so nothing written to the slice later lands on last winter's id
   const wid = winterId(day);
   if (wid && n.winter.id !== wid) n = { ...n, winter: winterProgress(n.winter, wid) };
@@ -548,7 +552,8 @@ export function finishRound(s0: GameState, r: RoundSummary, now: number): { stat
     let { streak, lastDay, best, freeze } = s.daily;
     if (stars > 0 && lastDay !== day) {
       if (lastDay === day - 1) streak += 1;
-      else if (lastDay === day - 2 && freeze > 0 && streak > 0) { streak += 1; freeze -= 1; froze = true; }  // one missed day, frozen
+      // missed days are covered one freeze each (two in stock with the snow bee)
+      else if (lastDay !== null && streak > 0 && freeze >= day - lastDay - 1) { freeze -= day - lastDay - 1; streak += 1; froze = true; }
       else streak = 1;
       lastDay = day;
       best = Math.max(best, streak);
@@ -618,8 +623,8 @@ export function dailyStreak(s: GameState, now: number): number {
   const d = today(s, now);
   if (s.daily.lastDay === null) return 0;
   if (s.daily.lastDay >= d - 1) return s.daily.streak;
-  // one missed day is covered by a streak freeze (used when the next daily puzzle is solved)
-  return s.daily.lastDay === d - 2 && s.daily.freeze > 0 ? s.daily.streak : 0;
+  // missed days are covered by streak freezes, one each (used when the next daily puzzle is solved)
+  return s.daily.freeze >= d - s.daily.lastDay - 1 ? s.daily.streak : 0;
 }
 
 // ---------------------------------------------------------------- bee names (v1.2.1)
@@ -675,11 +680,13 @@ export function claimWeekly(s0: GameState, now: number): GameState | null {
   if (!canClaimWeekly(s)) return null;
   return addBoxes({ ...s, jelly: s.jelly + WEEKLY_REWARD.jelly, week: { ...s.week, chest: true } }, Array(WEEKLY_REWARD.wax).fill("wax"));
 }
-export const canBuyFreeze = (s: GameState) => !s.week.freezeBought && s.daily.freeze < 1 && s.jelly >= FREEZE_COST;
+/** 1.7: the snow bee keeps two streak freezes in stock */
+export const maxFreeze = (s: GameState) => (s.bees.includes(WINTER_BEE) ? 2 : 1);
+export const canBuyFreeze = (s: GameState) => !s.week.freezeBought && s.daily.freeze < maxFreeze(s) && s.jelly >= FREEZE_COST;
 export function buyFreeze(s0: GameState, now: number): GameState | null {
   const s = tick(s0, now);
   if (!canBuyFreeze(s)) return null;
-  return { ...s, jelly: s.jelly - FREEZE_COST, daily: { ...s.daily, freeze: 1 }, week: { ...s.week, freezeBought: true } };
+  return { ...s, jelly: s.jelly - FREEZE_COST, daily: { ...s.daily, freeze: s.daily.freeze + 1 }, week: { ...s.week, freezeBought: true } };
 }
 /** the weekend puzzle is open on Saturday and Sunday (game day, never goes back) */
 export const weekendOpen = (s: GameState, now: number) => isWeekend(today(s, now));

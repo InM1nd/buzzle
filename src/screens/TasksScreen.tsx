@@ -4,7 +4,7 @@ import { WEEKLY_TASKS } from "../logic/tasks";
 import { boxArt, rewardChips } from "../ui/lootUi";
 import React, { useRef } from "react";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
-import { GameState, canClaimLogin, level, nextLoginCycle, nextLoginIndex, canClaimWeekly, canBuyFreeze, FREEZE_COST, WEEKLY_REWARD, dailyStreak } from "../logic/game";
+import { GameState, canClaimLogin, level, maxFreeze, nextLoginCycle, nextLoginIndex, canClaimWeekly, canBuyFreeze, FREEZE_COST, WEEKLY_REWARD, dailyStreak } from "../logic/game";
 import { LOGIN_DAYS, loginReward, taskReward, tasksForDay, bonusReward } from "../logic/tasks";
 import { ART } from "../ui/art";
 import { C, K, themed } from "../ui/theme";
@@ -181,10 +181,10 @@ export default function TasksScreen({ s, now, onAdvent, onClaimLogin, onClaimTas
             <View style={{ flex: 1 }}>
               <Txt v="small" color={C.dim}>{t("ls.freezeSub")}</Txt>
               <Txt v="tiny" color={s.daily.freeze ? C.greenDark : C.dim} style={{ marginTop: 2 }}>
-                {s.daily.freeze ? t("ls.freezeStock", { n: streak }) : s.week.freezeBought ? t("ls.freezeBought") : t("ls.freezeStreak", { n: streak })}
+                {s.daily.freeze ? (s.daily.freeze > 1 ? "×2 · " : "") + t("ls.freezeStock", { n: streak }) : s.week.freezeBought ? t("ls.freezeBought") : t("ls.freezeStreak", { n: streak })}
               </Txt>
             </View>
-            {!s.daily.freeze && !s.week.freezeBought ? (
+            {s.daily.freeze < maxFreeze(s) && !s.week.freezeBought ? (
               <GameButton small title={fmt(FREEZE_COST)} label={t("ls.buyFor", { n: FREEZE_COST })} icon={ART.jelly} color={canBuyFreeze(s) ? "honey" : "grey"} disabled={!canBuyFreeze(s)} onPress={onBuyFreeze} style={{ width: 84, minWidth: 0 }} />
             ) : null}
           </View>

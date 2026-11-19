@@ -63,6 +63,7 @@ export const winter = {
   "bee.snowbee.name": { en: "Flurry", uk: "Сніжка", ru: "Снежка" },
   "bee.snowbee.flavor": { en: "Arrived with the first snow. Hums carols to the combs.", uk: "Прилетіла з першим снігом. Наспівує сотам колядки.", ru: "Прилетела с первым снегом. Напевает сотам колядки." },
   "bees.fragFlavorWinter": { en: "{flavor} Assembled from {n} winter fragments: snowflakes, the advent calendar and the winter shop (1 Dec – 28 Feb).", uk: "{flavor} Збирається з {n} зимових фрагментів: сніжинки, адвент-календар і зимова крамничка (1.12–28.02).", ru: "{flavor} Собирается из {n} зимних фрагментов: снежинки, адвент-календарь и зимняя лавка (1.12–28.02)." },
+  "ab.freeze": { en: "A free streak freeze every week, up to 2 in stock", uk: "Безкоштовна заморозка серії щотижня, до 2 у запасі", ru: "Бесплатная заморозка серии каждую неделю, до 2 в запасе" },
   "wsh.title": { en: "Winter shop", uk: "Зимова крамничка", ru: "Зимняя лавка" },
   "wsh.sub": { en: "Until 28 February", uk: "До 28 лютого", ru: "До 28 февраля" },
   "wsh.wax": { en: "Wax comb · 1 a day", uk: "Воскова сота · 1 на день", ru: "Восковая сота · 1 в день" },

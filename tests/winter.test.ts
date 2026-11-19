@@ -198,3 +198,25 @@ test("snow bee: 10 winter fragments assemble it (its own counter, not the night 
   s = giveFlakes(s, day(2026, 12, 21), FLAKES_PER_FRAGMENT);
   assert.equal(s.loot.boxes.wax, wax + 1);
 });
+
+test("snow bee: two streak freezes in stock, one free every week; two missed days keep the streak", async () => {
+  const { canBuyFreeze, dailyStreak, maxFreeze, tick } = await import("../src/logic/game");
+  // a streak of 5 ending on Sun 6 Dec with the snow bee home
+  let s: GameState = { ...veteran(), bees: ["zhuzha", "snowbee"], jelly: 50,
+    daily: { ...veteran().daily, lastDay: day(2026, 12, 6), streak: 5, best: 5, freeze: 0 } };
+  assert.equal(maxFreeze(s), 2);
+  s = tick({ ...s, week: { ...s.week, id: 0 } }, at(2026, 12, 7));
+  assert.equal(s.daily.freeze, 1, "a free freeze on the new week");
+  assert.ok(canBuyFreeze(s), "a second one can be bought");
+  s = { ...s, daily: { ...s.daily, freeze: 2 } };
+  // missed Mon 7 and Tue 8: on Wed 9 the streak is still shown and continues, both freezes used
+  assert.equal(dailyStreak(s, at(2026, 12, 9)), 5);
+  const r = finishRound(s, sum("daily", { score: 3000 }), at(2026, 12, 9));
+  assert.equal(r.state.daily.streak, 6);
+  assert.equal(r.state.daily.freeze, 0);
+  assert.equal(r.reward.froze, true);
+  // without the bee: one freeze at most, two missed days reset the streak
+  const plain: GameState = { ...s, bees: ["zhuzha"], daily: { ...s.daily, freeze: 1 } };
+  assert.equal(maxFreeze(plain), 1);
+  assert.equal(dailyStreak(plain, at(2026, 12, 9)), 0);
+});

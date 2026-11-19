@@ -1,0 +1,178 @@
+{
+  "mug_glass": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "verified": true
+  },
+  "background_cafe_winter": {
+    "size": [
+      1024,
+      1536
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "verified": true
+  },
+  "shelf_wood": {
+    "size": [
+      1536,
+      384
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "verified": true
+  },
+  "title_plaque": {
+    "size": [
+      1536,
+      512
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "verified": true
+  },
+  "topper_marshmallow": {
+    "size": [
+      512,
+      512
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "verified": true
+  },
+  "topper_mint": {
+    "size": [
+      512,
+      512
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "verified": true
+  },
+  "topper_cinnamon": {
+    "size": [
+      512,
+      512
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "verified": true
+  },
+  "topper_berries": {
+    "size": [
+      512,
+      512
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "verified": true
+  },
+  "topper_honeycomb": {
+    "size": [
+      512,
+      512
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "verified": true
+  },
+  "star_on": {
+    "size": [
+      144,
+      144
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "verified": true
+  },
+  "star_off": {
+    "size": [
+      144,
+      144
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "verified": true
+  },
+  "icon_close": {
+    "size": [
+      96,
+      96
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "verified": true
+  },
+  "mascot_zhuzha": {
+    "size": [
+      720,
+      720
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "verified": true
+  },
+  "icon_undo": {
+    "size": [
+      128,
+      128
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "verified": true
+  },
+  "icon_add_mug": {
+    "size": [
+      128,
+      128
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "verified": true
+  },
+  "mug_liquid_mask": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "verified": true
+  }
+}

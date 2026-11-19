@@ -1,0 +1,17 @@
+[
+  {
+    "key": "mug",
+    "prompt": "Use case: stylized-concept. Single production sprite, an EMPTY transparent glass cocoa MUG, straight-on frontal orthographic camera. Buzzle cozy soft stylized 3D, gentle faceted glass rim, warm cream highlights, dark honey subtle edge, small C-shaped handle on RIGHT. Tall cylindrical straight-sided inner vessel for four liquid puzzle layers, no taper, elliptical top rim, rounded base. On 1024 square canvas, main BODY inner cavity occupies x=240..700 y=130..890, outer body x=205..730 y=95..930, handle x=720..900 y=300..700. This spatial guide is important for compositing animated liquids behind sprite. Body's empty interior must be truly transparent, not white paint: only thin translucent glass highlights along sides, top rim and base, central interior alpha zero. No liquid, no symbols, no shadow on ground, no table, no background, no text. Clean cutout transparent PNG. Simple and readable at 100px display, not photoreal.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-1d5b1004-99f4-4a24-8ef4-dd41e60355f4.png"
+  },
+  {
+    "key": "jar",
+    "prompt": "Use case: stylized-concept. Single production sprite, EMPTY transparent cylindrical glass nectar JAR, straight-on frontal orthographic view. Buzzle cozy soft stylized 3D glass, subtle faceted honey-gold rim and gentle cream highlights. 1024 square canvas. Tall straight-sided vessel, open wide mouth without lid, NO HANDLE. Inner empty liquid cavity x=240..700 y=130..890, outer jar x=205..730 y=95..930. Must align with a cocoa mug using these identical inner coordinates. Only thin translucent glass edge highlights, open rim, rounded thick base, central empty cavity truly transparent alpha zero for dynamic liquids behind it, no white fill. No liquid, no symbols, no label, no table or ground shadow, no text, transparent PNG. Simple readable mobile sprite, not photoreal.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-165bef75-b513-4a2b-986d-478b949fb5a4.png"
+  },
+  {
+    "key": "cafe-background",
+    "prompt": "Use case: stylized-concept. Portrait 1024x1536 mobile game BACKGROUND only for Buzzle cozy cocoa sorting puzzle. Warm winter evening in a small honey-bee wooden cafe, softly faceted stylized 3D art textures, amber wood, muted blueberry shadows, cream. Snowy window in far background, small fir sprigs and lantern warm lights on extreme outer edges. CENTER 80 percent must be calm desaturated soft-focus walnut wood interior with no objects so moving glass cups remain readable. NO mugs, jars, drinks, shelves across center, toys, bees, HUD, signs, letters, buttons. Bottom edge faint wooden counter. No dense festive clutter. Use restrained detail, soft light, strong gameplay clarity. Opaque background.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-af80852c-1ac1-4f2d-8b84-831a30294175.png"
+  }
+]

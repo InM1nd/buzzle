@@ -1,0 +1,242 @@
+{
+  "colors": [
+    "cocoa",
+    "sbiten",
+    "mint",
+    "berry",
+    "honeyMilk"
+  ],
+  "indexing": "zero-based",
+  "levels": [
+    {
+      "id": 1,
+      "capacity": 4,
+      "initialBottomToTop": [
+        [
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          1,
+          0
+        ],
+        [
+          2,
+          4,
+          2,
+          4
+        ],
+        [
+          4,
+          2,
+          4,
+          2
+        ],
+        [],
+        []
+      ],
+      "solution": [
+        {
+          "from": 0,
+          "to": 4,
+          "units": 1
+        },
+        {
+          "from": 1,
+          "to": 0,
+          "units": 1
+        },
+        {
+          "from": 1,
+          "to": 4,
+          "units": 1
+        },
+        {
+          "from": 0,
+          "to": 1,
+          "units": 2
+        },
+        {
+          "from": 0,
+          "to": 4,
+          "units": 1
+        },
+        {
+          "from": 1,
+          "to": 0,
+          "units": 3
+        },
+        {
+          "from": 1,
+          "to": 4,
+          "units": 1
+        },
+        {
+          "from": 2,
+          "to": 1,
+          "units": 1
+        },
+        {
+          "from": 3,
+          "to": 2,
+          "units": 1
+        },
+        {
+          "from": 3,
+          "to": 1,
+          "units": 1
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "units": 2
+        },
+        {
+          "from": 2,
+          "to": 1,
+          "units": 1
+        },
+        {
+          "from": 3,
+          "to": 2,
+          "units": 3
+        },
+        {
+          "from": 1,
+          "to": 3,
+          "units": 3
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "capacity": 4,
+      "initialBottomToTop": [
+        [
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          1,
+          0
+        ],
+        [
+          2,
+          3,
+          2,
+          3
+        ],
+        [
+          3,
+          4,
+          3,
+          4
+        ],
+        [
+          4,
+          2,
+          4,
+          2
+        ],
+        [],
+        [],
+        []
+      ],
+      "solution": [
+        {
+          "from": 0,
+          "to": 5,
+          "units": 1
+        },
+        {
+          "from": 1,
+          "to": 0,
+          "units": 1
+        },
+        {
+          "from": 1,
+          "to": 5,
+          "units": 1
+        },
+        {
+          "from": 0,
+          "to": 1,
+          "units": 2
+        },
+        {
+          "from": 0,
+          "to": 5,
+          "units": 1
+        },
+        {
+          "from": 1,
+          "to": 0,
+          "units": 3
+        },
+        {
+          "from": 1,
+          "to": 5,
+          "units": 1
+        },
+        {
+          "from": 2,
+          "to": 1,
+          "units": 1
+        },
+        {
+          "from": 4,
+          "to": 2,
+          "units": 1
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "units": 1
+        },
+        {
+          "from": 3,
+          "to": 1,
+          "units": 1
+        },
+        {
+          "from": 4,
+          "to": 3,
+          "units": 2
+        },
+        {
+          "from": 2,
+          "to": 4,
+          "units": 2
+        },
+        {
+          "from": 2,
+          "to": 1,
+          "units": 1
+        },
+        {
+          "from": 4,
+          "to": 2,
+          "units": 3
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "units": 3
+        },
+        {
+          "from": 1,
+          "to": 3,
+          "units": 3
+        }
+      ]
+    }
+  ]
+}

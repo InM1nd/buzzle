@@ -1,0 +1,31 @@
+{
+  "titleSafeArea": {
+    "image": "title_plaque.webp",
+    "x": 350,
+    "y": 140,
+    "w": 836,
+    "h": 150
+  },
+  "button": {
+    "background": "#344B93",
+    "pressed": "#293D7A",
+    "disabled": "#70798D",
+    "text": "#FFF6E3",
+    "border": "#5870B3",
+    "radiusDp": 22,
+    "heightDp": 54,
+    "depthDp": 4
+  },
+  "minimumTapDp": 44,
+  "font": "existing Nunito Bold/ExtraBold",
+  "shelf": {
+    "image": "shelf_wood.webp",
+    "contentBox": [
+      66,
+      97,
+      1469,
+      287
+    ],
+    "cupBaselineY": 135
+  }
+}

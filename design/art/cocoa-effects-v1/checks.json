@@ -1,0 +1,24 @@
+{
+  "steam_wisps": {
+    "size": [
+      512,
+      512
+    ],
+    "alphaExtrema": [
+      0,
+      190
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "completion_sparkles": {
+    "size": [
+      512,
+      512
+    ],
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "visibleLosslessWebpMatch": true
+  }
+}

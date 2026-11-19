@@ -1,0 +1,15 @@
+{
+  "selected": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-9d408f65-a58f-44ca-a9da-c65cb54b7f17.png",
+    "prompt": "Use case: precise-object-edit. Edit target is image 1, an unsuccessful steam sprite. Replace the solid sculpted flame/ribbon forms with delicate semi-transparent actual warm drink steam. ONLY three separate short gently wavering thin pale ivory vapor trails with soft diffuse edges and lots of transparent space, no shared solid base, no gold surfaces, no polygon planes on the vapor. Each trail is a subtly S-curved blurred air wisp that breaks up and fades to completely transparent near its top; luminous cream to light gray, muted, never solid or opaque. Stylized cozy casual game visual effect, soft and understated; the steam should be barely visible like breath above warm cocoa, not a physical sculpture or logo. Lower tips begin near the same horizontal line; a short squat overall silhouette, about as tall as wide rather than a tall flame. Reference 2 is the existing glass mug for warm light context ONLY; do not include it. No flame, no pointed leaf silhouettes, no ribbons, no coffee symbol, no mug, no objects, no text, no background or ground shadows. Output one centered transparent RGBA square 1024x1024 with generous margins. Preserve actual partial alpha in the vapor, fade into alpha, not a gray or black background.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-36c186ac-48d6-4149-8bc8-8371ea245e5b.png",
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/cocoa/mug_glass.png"
+    ]
+  },
+  "rejected": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-36c186ac-48d6-4149-8bc8-8371ea245e5b.png",
+    "prompt": "Use case: stylized-concept. Asset type: small transparent game VFX sprite for the cozy Buzzle Cocoa Sort winter water-sort game. Reference 1 is the existing golden faceted glass mug, reference 2 marshmallow topping; match their warm soft low-poly 3D rendering. Draw ONLY one small grouped puff of delicate rising steam: three slender gently curved semi-transparent warm ivory wisps, unequal heights, spaced so there is clear negative space. Broad soft planar facets rather than hairlines, restrained volume, subtle honey-lit side, fade gently to alpha toward their tips. Clear silhouette readable above a 90px mug, not realistic smoke, not solid whipped cream. Upright isolated sprite, 1024x1024 square with generous empty transparent margin. No mug, drink, droplets, stars, halo, characters, text, border or ground shadow. The bottom of the steam group is narrower, flat-ish origin for placement above a mug. Genuinely transparent RGBA background, clean edges on purple #171340 and cream #FFF6E3. This is a reusable static particle texture, not an animation frame sheet.",
+    "reason": "Too solid and flame-like"
+  }
+}

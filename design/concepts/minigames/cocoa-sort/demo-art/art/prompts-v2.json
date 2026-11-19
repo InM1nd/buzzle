@@ -1,0 +1,17 @@
+[
+  {
+    "key": "mug",
+    "prompt": "Use case: stylized-concept. One production PNG sprite on TRANSPARENT background: an empty wide hexagonal low-poly honey-crystal MUG, chunky gold/cream faceted outline, small angular brown-gold handle on right, cozy cute Buzzle style like reference golden honey hex tile and faceted bee. NOT realistic glass. Strict straight-on view. Broad simple irregular polygons, matte cream highlights, warm honey amber edges, soft brown base, NO chrome reflections. Open front cavity completely EMPTY TRANSPARENT alpha zero so game can draw animated colored liquid behind. Only thin low-poly border sides (about 8% width), rim and bottom. Outer silhouette main body x=180..800 y=110..920 on square canvas; handle x=800..970 y=350..690. Inner cavity x=245..730 y=190..830. Body wide enough for mobile readability, roughly 0.7 width to height excluding handle. No opaque filled center, no liquid, no face, no snow, no shadow on ground, no text. One isolated game sprite.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-b5c48594-732b-438d-9018-8baa371afd07.png"
+  },
+  {
+    "key": "jar",
+    "prompt": "Use case: stylized-concept. One production PNG sprite on TRANSPARENT background: empty open hexagonal honey-crystal JAR without lid or handle, chunky golden cream polygonal outline, warm amber rim, matte low-poly honey facets, Buzzle cute soft 3D game style from reference gold honey hex tile and bee. NOT photoreal glass or chrome. Strict frontal view. Main body x=180..800 y=110..920 on square canvas; inner open cavity x=245..730 y=190..830. Thin border sides about8% width, simple faceted bottom, thick open neck. Entire center cavity must be truly empty transparent alpha zero to put moving liquid behind it. Broad flat matte cream highlights not noisy reflections, keep details minimal. No liquid, no lid, no face, no text, no ground shadow or backdrop.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-b0007cd3-531d-48ec-be27-abeb092cb95a.png"
+  },
+  {
+    "key": "cafe-background",
+    "prompt": "Use case: stylized-concept. Portrait mobile game background Buzzle honey-crystal cocoa cafe, matching reference faceted golden honey hex tile and faceted honey bee. ALL geometry softly LOW-POLY with large irregular flat facets, stylized painted warm wooden hexagonal architecture, honey gold, cream and soft blueberry evening sky through small high window. Cozy winter snow and tiny fir edges. No realism, no glossy photographic reflections, no high-frequency wood texture, no cinematic depth of field. Keep central 80% QUIET plain matte warm wall medium chestnut brown, spare large honeycomb wall facets; small hanging honey lantern at very top corner, low snow-window glimpse near top, fir at extreme corners only. No mugs, no objects or fixed shelf crossing central play area, no furniture in center, no characters, text, UI, logos. Calm toy-like Buzzle game background for readable colorful liquids. Opaque portrait illustration.",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-989725a2-d12d-4fcd-8966-98537d193521.png"
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "steam_wisps": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-9d408f65-a58f-44ca-a9da-c65cb54b7f17.png",
+    "prompt": "Use case: precise-object-edit. Edit target is image 1, an unsuccessful steam sprite. Replace the solid sculpted flame/ribbon forms with delicate semi-transparent actual warm drink steam. ONLY three separate short gently wavering thin pale ivory vapor trails with soft diffuse edges and lots of transparent space, no shared solid base, no gold surfaces, no polygon planes on the vapor. Each trail is a subtly S-curved blurred air wisp that breaks up and fades to completely transparent near its top; luminous cream to light gray, muted, never solid or opaque. Stylized cozy casual game visual effect, soft and understated; the steam should be barely visible like breath above warm cocoa, not a physical sculpture or logo. Lower tips begin near the same horizontal line; a short squat overall silhouette, about as tall as wide rather than a tall flame. Reference 2 is the existing glass mug for warm light context ONLY; do not include it. No flame, no pointed leaf silhouettes, no ribbons, no coffee symbol, no mug, no objects, no text, no background or ground shadows. Output one centered transparent RGBA square 1024x1024 with generous margins. Preserve actual partial alpha in the vapor, fade into alpha, not a gray or black background.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-36c186ac-48d6-4149-8bc8-8371ea245e5b.png",
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/cocoa/mug_glass.png"
+    ]
+  },
+  "completion_sparkles": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-0d42dd71-e0d0-40a9-ba8d-3709b9324543.png",
+    "prompt": "Use case: stylized-concept. Asset type: small transparent completion VFX sprite for cozy Buzzle Cocoa Sort game. Match the warm golden faceted material and creamy highlights of reference mug, reference 2 marshmallows. Draw ONLY a restrained loose oval ring of 7 separated small sparkling faceted shapes, mixture of tiny four-point golden glints and 2 small honey hexagonal glints, glowing softly with cream cores and amber facets. Clearly empty center to show the completed mug through it. Wider than tall, subtle highlights at upper left, tasteful low-poly 3D, clean uncluttered silhouette and large transparent gaps. No realistic glitter spray, no cloudy large glow, no confetti, no snowflakes, no gift boxes, no cups, no words, no characters. Center composition inside a 1024x1024 transparent square with safe margins. Genuinely transparent RGBA, no ground shadow. Intended to be briefly scaled and faded as a small success accent, legible on dark purple #171340 and light cream #FFF6E3.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/cocoa/mug_glass.png",
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/cocoa/topper_marshmallow.png"
+    ]
+  }
+}

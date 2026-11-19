@@ -1,0 +1,1 @@
+PASS: both fixed levels solved; maximal top run and capacity; invalid moves; immutable input; completed cups locked; undo limit; extra cup once; reset.

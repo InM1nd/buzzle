@@ -1,0 +1,3 @@
+PASS: two level solutions, undo, extra vessel, nectar theme, 360/390 layout, images loaded.
+PASS: rotated free surface and area-volume preservation, fractional continuous transfer.
+Browser pour sampled at progress 0.208/0.408/0.616: total source+target volume=4; canvas frames differ.

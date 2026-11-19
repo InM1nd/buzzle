@@ -86,6 +86,8 @@ export interface GameState {
   aid: string;
   /** 1.7 winter season: snowflakes, winter-bee fragments, advent, winter shop limits */
   winter: WinterState;
+  /** 1.7 «Какао-сорт»: the current level (0-based) */
+  cocoa: { level: number };
 }
 
 export interface Settings {
@@ -152,6 +154,7 @@ export function newState(now: number): GameState {
     clock: { maxSeen: now, maxDay: day },
     aid: newAnalyticsId(),
     winter: newWinter(),
+    cocoa: { level: 0 },
   };
 }
 
@@ -223,6 +226,7 @@ export function migrate(raw: unknown, now: number): GameState {
     clock: { maxSeen: clockMax, maxDay },
     aid: isAnalyticsId(s.aid) ? s.aid : d.aid,
     winter: migrateWinter(obj(s.winter)),
+    cocoa: { level: Math.max(0, num(obj(s.cocoa).level, 0) | 0) },
   };
 }
 function migrateWinter(w: Record<string, any>): WinterState {
@@ -955,4 +959,17 @@ export function buyWinterComb(s0: GameState, kind: "wax" | "gold", now: number):
 export function adventTodayDue(s: GameState, now: number): boolean {
   const dec = decemberDate(today(s, now));
   return dec >= 1 && dec <= ADVENT_DAYS && adventOpenWay(s, dec, now) === "free" && rewardReady(ADVENT[dec - 1]);
+}
+
+// ---------------------------------------------------------------- 1.7 «Какао-сорт»
+/** the winter mini-game opens with the advent invitation (20 Dec) and stays until the end of winter */
+export const cocoaOpen = (s: GameState, now: number) => { const d = today(s, now); return !!winterId(d) && !(decemberDate(d) >= 1 && decemberDate(d) < COCOA_FROM); };
+export const COCOA_FROM = 20;
+/** snowflakes for a solved level: one per star */
+export const cocoaFlakes = (stars: number) => stars;
+/** a level solved: snowflakes (in winter) and the next level; a stale level (already counted) changes nothing */
+export function finishCocoa(s0: GameState, level: number, stars: number, now: number): GameState {
+  if (level !== s0.cocoa.level) return s0;
+  const s = tick(s0, now);
+  return { ...giveFlakes(s, today(s, now), cocoaFlakes(stars)), cocoa: { level: level + 1 } };
 }

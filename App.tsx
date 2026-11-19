@@ -5,7 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
-  GameState, adventTodayDue, assembleWinterBee, buyUpgrade, buyWinterComb, buyWinterFragment, buyWinterSeed, openAdvent, canClaimLogin, claimBonus, claimLogin, claimTask, collectHive, combAction, finishRound, freeMoves,
+  GameState, adventTodayDue, assembleWinterBee, buyUpgrade, cocoaFlakes, cocoaOpen, finishCocoa, buyWinterComb, buyWinterFragment, buyWinterSeed, openAdvent, canClaimLogin, claimBonus, claimLogin, claimTask, collectHive, combAction, finishRound, freeMoves,
   level, newState, nextLoginCycle, nextLoginIndex, RoundReward, RoundSummary, tick, unlockBee,
   RoundBoosters, RoundMode, startFreeRound, useShuffle, openBox, openAllBoxes, claimWeekly, buyFreeze, assembleNightBee,
   shopBuyItem, shopBuyBooster, shopBuyFragment, setSkin, toggleDeco, currentTasks,
@@ -66,6 +66,7 @@ import { claimTrackStep, finishFlight, flightRunsToday, treatGuest } from "./src
 import { EventIntro, JackCarved, TrickBanner } from "./src/screens/EventTrack";
 import { FLIGHT_PAID_RUNS } from "./src/logic/nightFlight";
 import FlightScreen from "./src/screens/FlightScreen";
+import CocoaSortScreen from "./src/screens/CocoaSortScreen";
 import { useUpdater } from "./src/ui/useUpdater";
 import { APP_VERSION, DEV_BUILD } from "./src/version";
 import { webFlags } from "./src/logic/devFlags";
@@ -110,6 +111,7 @@ function Main() {
   const [hiveView, setHiveView] = useState<"hive" | "garden">("hive");
   const [lootSeg, setLootSeg] = useState<"chests" | "shop" | "album">("chests");
   const [flight, setFlight] = useState<{ key: number; seed: number; bee: string } | null>(null);
+  const [cocoa, setCocoa] = useState(false);
   const [game, setGame] = useState<{ mode: RoundMode; seed: number; key: number; extraMoves: number; bomb: boolean } | null>(null);
   const [boxOpen, setBoxOpen] = useState<BoxKind | null>(null);
   const [jack, setJack] = useState<string | null>(null);
@@ -243,7 +245,7 @@ function Main() {
 
   useEffect(() => {
     const sub = addBackListener(() => {
-      if (game || flight) return false; // GameScreen / FlightScreen handle their own back
+      if (game || flight || cocoa) return false; // GameScreen / FlightScreen / CocoaSortScreen handle their own back
       if (boxOpen) return false; // BoxOpen handles its own back
       if (showSettings) return false; // SettingsModal handles its own back (sub-page → main → close)
       if (showLogin) { setShowLogin(false); return true; }
@@ -252,9 +254,9 @@ function Main() {
       return false;
     });
     return () => sub.remove();
-  }, [game, flight, boxOpen, showSettings, showLogin, tab, hiveView]);
+  }, [game, flight, cocoa, boxOpen, showSettings, showLogin, tab, hiveView]);
   // Telegram's BackButton mirrors in-app navigation (hidden on the home screen)
-  const canBack = !!game || !!flight || !!boxOpen || showSettings || showLogin || tab !== "hive" || hiveView !== "hive";
+  const canBack = !!game || !!flight || cocoa || !!boxOpen || showSettings || showLogin || tab !== "hive" || hiveView !== "hive";
   useEffect(() => setBackButton(canBack, () => { dispatchBack(); }), [canBack]);
 
   // ----- reward flight to the currency pills -----
@@ -608,6 +610,15 @@ function Main() {
   if (winterOn) ART.pumpkin = ART.flakeTile;
   const themeKey = themeName();
 
+  if (cocoa) {
+    return (
+      <View key={themeKey} style={{ flex: 1, backgroundColor: "#3B2418" }}>
+        <StatusBar style="light" />
+        <CocoaSortScreen level={s.cocoa.level} flakes={(st) => (winterId(todayOf(s, Date.now())) ? cocoaFlakes(st) : 0)}
+          onWin={(lv, st) => act.simple((c) => finishCocoa(c, lv, st, Date.now()))} onExit={() => setCocoa(false)} />
+      </View>
+    );
+  }
   if (flight) {
     return (
       <View key={themeKey} style={{ flex: 1, backgroundColor: K.bg("#2B1B3D") }}>
@@ -698,7 +709,7 @@ function Main() {
           )}
           </View>
         ) : tab === "puzzle" ? (
-          <PuzzleScreen s={s} now={now} onPlay={act.play} onBuyBooster={(bid) => act.simple((c) => shopBuyBooster(c, bid))} onClaimTrack={act.track} onFlight={act.flight} />
+          <PuzzleScreen s={s} now={now} onPlay={act.play} onBuyBooster={(bid) => act.simple((c) => shopBuyBooster(c, bid))} onClaimTrack={act.track} onFlight={act.flight} onCocoa={cocoaOpen(s, now) || DEV ? () => setCocoa(true) : undefined} />
         ) : tab === "bees" ? (
           <BeesScreen s={s} onSkin={(bee, k) => act.simple((c) => setSkin(c, bee, k))} onAssemble={(bee) => act.simple((c) => bee === WINTER_BEE ? assembleWinterBee(c, Date.now()) : assembleNightBee(c, Date.now()))} onUnlock={act.unlock} onLevelUp={act.levelUp} onRename={act.rename} onGarden={() => { setTab("hive"); setHiveView("garden"); }} />
         ) : tab === "loot" ? (

@@ -9,9 +9,10 @@ import { lootScreen } from "./strings/lootScreen";
 import { system } from "./strings/system";
 import { event } from "./strings/event";
 import { winter } from "./strings/winter";
+import { cocoaSort } from "./strings/cocoaSort";
 export * from "./core";
 
-export const STRINGS = { ...data, ...loot, ...ui, ...common, ...play, ...screens, ...lootScreen, ...system, ...event, ...winter } satisfies Record<string, Entry>;
+export const STRINGS = { ...data, ...loot, ...ui, ...common, ...play, ...screens, ...lootScreen, ...system, ...event, ...winter, ...cocoaSort } satisfies Record<string, Entry>;
 export type Key = keyof typeof STRINGS;
 const ALL = STRINGS as Record<string, Entry>;
 

@@ -220,3 +220,18 @@ test("snow bee: two streak freezes in stock, one free every week; two missed day
   assert.equal(maxFreeze(plain), 1);
   assert.equal(dailyStreak(plain, at(2026, 12, 9)), 0);
 });
+
+test("cocoa sort: opens 20 Dec – 28 Feb; a solved level pays a snowflake per star once and moves the save on", async () => {
+  const { cocoaOpen, finishCocoa } = await import("../src/logic/game");
+  const s = veteran();
+  assert.equal(cocoaOpen(s, at(2026, 12, 19)), false);
+  assert.equal(cocoaOpen(s, at(2026, 12, 20)), true);
+  assert.equal(cocoaOpen(s, at(2027, 2, 28)), true);
+  assert.equal(cocoaOpen(s, at(2027, 3, 1)), false);
+  const a = finishCocoa(s, 0, 3, at(2026, 12, 21));
+  assert.equal(a.cocoa.level, 1);
+  assert.equal(a.winter.flakes, 3);
+  assert.equal(finishCocoa(a, 0, 3, at(2026, 12, 21)), a, "the same level twice counts once");
+  const back = migrate(JSON.parse(JSON.stringify(a)), at(2026, 12, 21));
+  assert.deepEqual(back.cocoa, { level: 1 });
+});

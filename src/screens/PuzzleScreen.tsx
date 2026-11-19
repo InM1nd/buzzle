@@ -15,10 +15,12 @@ import { Bobbing, Card, CloseBtn, fmt, GameButton, Glow, Overlay, Press, Stars, 
 import { dateLong, days, weekday } from "../ui/format";
 import { activeEvent } from "../logic/event";
 import { winterId } from "../logic/winter";
+/* eslint-disable-next-line @typescript-eslint/no-require-imports */
+const COCOA_ICON = require("../../assets/art/cocoa/topper_marshmallow.webp");
 import { Pt } from "../ui/Fly";
 import { EventCard, EventUi } from "./EventTrack";
 
-interface Props { s: GameState; now: number; onPlay: (mode: RoundMode, boosters?: RoundBoosters) => void; onBuyBooster: (b: BoosterId) => boolean; onClaimTrack: (from: Pt | null) => void; onFlight: () => void }
+interface Props { s: GameState; now: number; onPlay: (mode: RoundMode, boosters?: RoundBoosters) => void; onBuyBooster: (b: BoosterId) => boolean; onClaimTrack: (from: Pt | null) => void; onFlight: () => void; onCocoa?: () => void }
 
 function HexCluster() {
   const pos = [[0, 0, 2], [1, -0.5, 0], [1, 0.5, 1], [-1, -0.5, 3], [-1, 0.5, 0], [0, -1, 4], [0, 1, 2]];
@@ -32,7 +34,7 @@ function HexCluster() {
   );
 }
 
-export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrack, onFlight }: Props) {
+export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrack, onFlight, onCocoa }: Props) {
   const [pick, setPick] = React.useState(false);
   const [useMoves, setUseMoves] = React.useState(false);
   const [useBomb, setUseBomb] = React.useState(false);
@@ -161,6 +163,12 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
           <ModeCard dark icon={<Image source={ART.flightIcon} style={{ width: 38, height: 38 }} />} title={t("fl.title")} sub={t("fl.sub")}
             extra={s.flight.best > 0 ? <Txt v="tiny" color={K.fg("#FFC56B")}>{t("fl.best", { n: s.flight.best })}</Txt> : null}
             bg={K.bg("#2B1B3D")} border={K.bd("#3A2F5B")} button={{ title: t("pz.play"), color: "honey", onPress: onFlight, label: t("fl.title") }} />
+        ) : null}
+        {/* 1.7 winter mini-game: from the advent invitation (20 Dec) to the end of winter */}
+        {onCocoa ? (
+          <ModeCard icon={<Image source={COCOA_ICON} style={{ width: 38, height: 38 }} resizeMode="contain" />} title={t("cs.title")} sub={t("cs.sub")}
+            extra={s.cocoa.level ? <Txt v="tiny" color={K.fg("#8A5A2B")}>{t("cs.level", { n: s.cocoa.level + 1 })}</Txt> : null}
+            bg={K.bg("#FFF1DA")} border={K.bd("#E2B878")} button={{ title: t("pz.play"), color: "honey", onPress: onCocoa, label: t("cs.title") }} />
         ) : null}
       </View>
 

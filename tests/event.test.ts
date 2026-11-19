@@ -144,13 +144,14 @@ test("lanterns: each harvested pumpkin carves the next of four, they stay in the
   assert.deepEqual(shownDecos(back, "hive"), ["jack1", "jack3", "jack4"]);
 });
 
-test("costumes: on the track, wearable, never in combs, the shop or the album pages", async () => {
+test("costumes: on the Halloween track or in the advent (1.7), wearable, never in combs, the shop or the album pages", async () => {
   const { EVENT_SKINS, ITEMS, PAGES, SKIN_BY_ID } = await import("../src/logic/loot");
+  const { ADVENT } = await import("../src/logic/winter");
   for (const k of EVENT_SKINS) {
     assert.ok(SKIN_BY_ID[k.id]);
     assert.ok(!ITEMS.some((i) => i.id === k.id));
     assert.ok(!PAGES.some((p) => p.items.includes(k.id)));
-    assert.ok(TRACK.some((st) => st.reward.skin === k.id), k.id);
+    assert.ok(TRACK.some((st) => st.reward.skin === k.id) || ADVENT.some((g) => g.items?.includes(k.id)), k.id);
   }
 });
 

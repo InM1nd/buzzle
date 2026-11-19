@@ -90,7 +90,7 @@ export const ADVENT: Reward[] = [
   { items: ["santahat"] },
   { items: ["sled"] },
   { items: ["firwreath"] },
-  { boosters: { bomb: 1, shuffle: 2 } },
+  { items: ["festivebow"] },
   { items: ["treestar"], boxes: ["royal"] },
 ];
 

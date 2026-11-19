@@ -12,8 +12,11 @@ const ITEMS = new Set(["scarf", "bow", "glasses", "backpack", "wreath", "beret",
 const COSTUMES: Record<string, { front?: string; back?: string }> = {
   witchhat: { front: "witchhat" }, pumpkinhat: { front: "pumpkinhat" }, ghosthood: { front: "ghosthood" }, pumpkinwreath: { front: "pumpkinwreath" },
   vampcape: { front: "vampcape_f", back: "vampcape_b" }, batwings: { back: "batwings_b" },
+  // 1.7 winter wardrobe
+  bobblehat: { front: "bobblehat" }, winterscarf: { front: "winterscarf" }, antlers: { front: "antlers" }, festivebow: { front: "festivebow" },
+  santahat: { front: "santahat" }, firwreath: { front: "firwreath" },
 };
-const HATS = new Set(["wreath", "beret", "witchhat", "pumpkinhat", "ghosthood", "pumpkinwreath"]);
+const HATS = new Set(["wreath", "beret", "witchhat", "pumpkinhat", "ghosthood", "pumpkinwreath", "bobblehat", "antlers", "santahat", "firwreath"]);
 export const hasTurnBee = (id: string) => !!TURN[id];
 export function outfitLayers(level: number, skin?: string): string[] {
   const hat = !!skin && HATS.has(skin);

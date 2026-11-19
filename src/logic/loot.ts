@@ -73,6 +73,13 @@ export const EVENT_SKINS: Collectible[] = [
   { id: "ghosthood", kind: "skin", name: "", rarity: "legendary", page: "skins", hat: true, event: true, desc: "" },
   // cape and wreath: owner-approved on Zhuzha, fitted onto every species by scripts/fit_costumes.py
   { id: "vampcape", kind: "skin", name: "", rarity: "legendary", page: "skins", event: true, desc: "" },
+  // 1.7 winter wardrobe (advent gifts): drawn on canonical Zhuzha, scripts/import_winter_wardrobe.py + fit_costumes.py
+  { id: "bobblehat", kind: "skin", name: "", rarity: "epic", page: "skins", hat: true, event: true, desc: "" },
+  { id: "winterscarf", kind: "skin", name: "", rarity: "epic", page: "skins", event: true, desc: "" },
+  { id: "antlers", kind: "skin", name: "", rarity: "epic", page: "skins", hat: true, event: true, desc: "" },
+  { id: "festivebow", kind: "skin", name: "", rarity: "epic", page: "skins", event: true, desc: "" },
+  { id: "santahat", kind: "skin", name: "", rarity: "legendary", page: "skins", hat: true, event: true, desc: "" },
+  { id: "firwreath", kind: "skin", name: "", rarity: "legendary", page: "skins", hat: true, event: true, desc: "" },
 ];
 /** v1.6 jack-o'-lanterns carved from garden pumpkins (one per harvest, in order); like EVENT_SKINS never in combs,
  * the shop or the album pages */

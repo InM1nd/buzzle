@@ -1,0 +1,66 @@
+{
+  "front": {
+    "canvas": [
+      1366,
+      1151
+    ],
+    "accessory": {
+      "file": "antlers-front.png",
+      "x": 303,
+      "y": 235,
+      "width": 760,
+      "height": 238
+    },
+    "fittedLayer": "hat-fitted-front.png",
+    "antennaeOverlay": "antennae-front.png",
+    "drawOrder": [
+      "canonical front.png",
+      "hat-fitted-front.png",
+      "antennae-front.png"
+    ]
+  },
+  "q3-front": {
+    "canvas": [
+      1366,
+      1151
+    ],
+    "hat": {
+      "x": 395,
+      "y": 145,
+      "width": 650,
+      "height": 348,
+      "file": "antlers-q3-front.png"
+    },
+    "drawOrder": [
+      "canonical q3-front.png",
+      "hat-fitted-q3-front.png",
+      "antennae-q3-front.png"
+    ],
+    "fittedLayersOrigin": [
+      0,
+      0
+    ]
+  },
+  "side": {
+    "canvas": [
+      1366,
+      1151
+    ],
+    "hat": {
+      "x": 620,
+      "y": 125,
+      "width": 450,
+      "height": 380,
+      "file": "antlers-side.png"
+    },
+    "drawOrder": [
+      "canonical side.png",
+      "hat-fitted-side.png",
+      "antennae-side.png"
+    ],
+    "fittedLayersOrigin": [
+      0,
+      0
+    ]
+  }
+}

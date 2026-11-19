@@ -18,6 +18,10 @@ export const GARDEN_ART: Record<string, number> = {
   "sunflower_bud": require("../../assets/art/garden/sunflower_bud.webp"),
   "pumpkin_bloom": require("../../assets/art/halloween/pumpkin_bloom.webp"),
   "pumpkin_bud": require("../../assets/art/halloween/pumpkin_bud.webp"),
+  "hellebore_bloom": require("../../assets/art/winter/hellebore_bloom.webp"),
+  "hellebore_bud": require("../../assets/art/winter/hellebore_bud.webp"),
+  "poinsettia_bloom": require("../../assets/art/winter/poinsettia_bloom.webp"),
+  "poinsettia_bud": require("../../assets/art/winter/poinsettia_bud.webp"),
 };
 /** v1.3 items: decorations (cropped), surprise combs and wax-crack stages (full comb frame) */
 export const ITEM_ART: Record<string, { src: number; w: number; h: number }> = {
@@ -34,6 +38,16 @@ export const ITEM_ART: Record<string, { src: number; w: number; h: number }> = {
   "deco_jack2": { src: require("../../assets/art/halloween/deco_jack2.webp"), w: 160, h: 250 },
   "deco_jack3": { src: require("../../assets/art/halloween/deco_jack3.webp"), w: 160, h: 250 },
   "deco_jack4": { src: require("../../assets/art/halloween/deco_jack4.webp"), w: 160, h: 250 },
+  // 1.7 winter decorations (scripts/import_winter_art.py)
+  "deco_garland": { src: require("../../assets/art/winter/deco_garland.webp"), w: 842, h: 336 },
+  "deco_goldstar": { src: require("../../assets/art/winter/deco_goldstar.webp"), w: 342, h: 336 },
+  "deco_firtree": { src: require("../../assets/art/winter/deco_firtree.webp"), w: 217, h: 336 },
+  "deco_snowlanterns": { src: require("../../assets/art/winter/deco_snowlanterns.webp"), w: 336, h: 336 },
+  "deco_gingerhouse": { src: require("../../assets/art/winter/deco_gingerhouse.webp"), w: 323, h: 336 },
+  "deco_snowman": { src: require("../../assets/art/winter/deco_snowman.webp"), w: 255, h: 336 },
+  "deco_sled": { src: require("../../assets/art/winter/deco_sled.webp"), w: 329, h: 336 },
+  "deco_mailbox": { src: require("../../assets/art/winter/deco_mailbox.webp"), w: 202, h: 336 },
+  "deco_lamppost": { src: require("../../assets/art/winter/deco_lamppost.webp"), w: 338, h: 336 },
   "box_gold": { src: require("../../assets/art/items/box_gold.webp"), w: 220, h: 220 },
   "box_royal": { src: require("../../assets/art/items/box_royal.webp"), w: 220, h: 220 },
   "box_wax": { src: require("../../assets/art/items/box_wax.webp"), w: 220, h: 220 },

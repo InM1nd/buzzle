@@ -18,7 +18,8 @@ export const WINTER_BEE = "winterbee";
 export const ADVENT_POLLEN = 10;
 export const ADVENT_DAYS = 24;
 /** winter shop prices */
-export const WSHOP = { fragPollen: 25, fragJelly: 6, waxJelly: 6, goldJelly: 20 };
+export const WSHOP = { fragPollen: 25, fragJelly: 6, waxJelly: 6, goldJelly: 20, seedNectar: 150 };
+export const WINTER_FLOWERS = ["hellebore", "poinsettia"];
 
 export interface WinterState {
   /** "winter-2026" = 1 Dec 2026 – 28 Feb 2027 */
@@ -83,7 +84,7 @@ export const ADVENT: Reward[] = [
   { boosters: { shuffle: 2 }, pollen: 10 },
   { boxes: ["wax"] },
   { items: ["bobblehat", "winterscarf"] },
-  { items: ["icicles"] },
+  { items: ["goldstar"] },
   { items: ["gingerhouse"] },
   { frags: 1, boosters: { bomb: 2 } },
   { items: ["snowman"] },
@@ -100,7 +101,7 @@ export const ADVENT: Reward[] = [
   { items: ["sled"] },
   { items: ["firwreath"] },
   { items: ["festivebow"] },
-  { items: ["treestar"], boxes: ["royal"] },
+  { boxes: ["royal"], jelly: 5 }, // the fir tree (window 18) already has its star
 ];
 
 export type AdventState = "open" | "today" | "catchup" | "future" | "closed";

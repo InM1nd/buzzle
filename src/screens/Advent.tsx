@@ -8,7 +8,8 @@ import {
 import { BOOSTERS, BoosterId, BOX_INFO } from "../logic/loot";
 import { FLOWER_BY_ID } from "../logic/garden";
 import type { Reward } from "../logic/tasks";
-import { ADVENT, ADVENT_DAYS, ADVENT_POLLEN, adventWindow, FLAKES_PER_FRAGMENT, WINTER_FRAGMENTS, WSHOP } from "../logic/winter";
+import { ADVENT, ADVENT_DAYS, ADVENT_POLLEN, adventWindow, FLAKES_PER_FRAGMENT, WINTER_FLOWERS, WINTER_FRAGMENTS, WSHOP } from "../logic/winter";
+import { GARDEN_ART } from "../ui/beeArt";
 import { weekOf } from "../logic/day";
 import { ART } from "../ui/art";
 import { Bar, Bobbing, Card, CloseBtn, GameButton, Overlay, Press, Txt } from "../ui/components";
@@ -177,19 +178,20 @@ export function AdventSheet({ visible, s, now, onClose, onWindow, onPlay }: {
   );
 }
 
-export type WinterBuy = "fragPollen" | "fragJelly" | "wax" | "gold";
+export type WinterBuy = "fragPollen" | "fragJelly" | "wax" | "gold" | `seed:${string}`;
 /** the winter block at the top of the shop (1 Dec – 28 Feb) */
 export function WinterShop({ s, now, onBuy }: { s: GameState; now: number; onBuy: (what: WinterBuy) => boolean }) {
   const w = winterView(s, now);
   if (!w) return null;
   const day = today(s, now);
   const fragsDone = winterBeeHome(s) || w.frags >= WINTER_FRAGMENTS;
+  const CUR = [ART.pollen, ART.jelly, ART.nectar];
   const Row = ({ icon, title, price, cur, ok, what, done }: { icon: number; title: string; price: number; cur: number; ok: boolean; what: WinterBuy; done?: string }) => (
     <View style={styles.shopRow}>
       <Image source={icon} style={{ width: 40, height: 40 }} resizeMode="contain" />
       <Txt v="small" style={[F.black, { flex: 1 }]} numberOfLines={2}>{title}</Txt>
       {done ? <Txt v="tiny" color={C.green} style={F.black}>{done}</Txt> : (
-        <GameButton small title={`${price}`} icon={cur === 0 ? ART.pollen : ART.jelly} color={ok ? "green" : "white"} disabled={!ok}
+        <GameButton small title={`${price}`} icon={CUR[cur]} color={ok ? "green" : "white"} disabled={!ok}
           onPress={() => onBuy(what)} label={`${title}: ${price}`} style={{ minWidth: 0, width: 72 }} />
       )}
     </View>
@@ -207,6 +209,9 @@ export function WinterShop({ s, now, onBuy }: { s: GameState; now: number; onBuy
       <Row icon={ART.winterFragment} title={t("win.frag")} price={WSHOP.fragPollen} cur={0} ok={!fragsDone && s.loot.pollen >= WSHOP.fragPollen} what="fragPollen" done={fragsDone ? t("wsh.full") : undefined} />
       {!fragsDone ? <Row icon={ART.winterFragment} title={t("win.frag")} price={WSHOP.fragJelly} cur={1} ok={s.jelly >= WSHOP.fragJelly} what="fragJelly" /> : null}
       <Row icon={boxArt("wax")} title={t("wsh.wax")} price={WSHOP.waxJelly} cur={1} ok={s.jelly >= WSHOP.waxJelly && w.waxDay !== day} what="wax" done={w.waxDay === day ? t("wsh.bought") : undefined} />
+      {WINTER_FLOWERS.map((f) => (
+        <Row key={f} icon={GARDEN_ART[`${f}_bloom`]} title={t("wsh.seed", { name: FLOWER_BY_ID[f].name })} price={WSHOP.seedNectar} cur={2} ok={s.nectar >= WSHOP.seedNectar} what={`seed:${f}`} />
+      ))}
       <Row icon={boxArt("gold")} title={t("wsh.gold")} price={WSHOP.goldJelly} cur={1} ok={s.jelly >= WSHOP.goldJelly && w.goldWeek !== weekOf(day)} what="gold" done={w.goldWeek === weekOf(day) ? t("wsh.bought") : undefined} />
     </Card>
   );

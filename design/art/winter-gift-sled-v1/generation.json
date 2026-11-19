@@ -1,0 +1,9 @@
+{
+  "deco_winter_gift_sled": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-fce4fce7-b212-462d-9400-8ce03dcd3ec8.png",
+    "prompt": "Generate a NEW Buzzle winter garden decoration sprite: a tiny wooden sled carrying two wrapped gifts. Reference only for the exact art direction: warm honey tones, clean pleasantly crisp low-poly facets, carefully modeled charming details, cream snow with pale blue shadow, rich cranberry red. Do not recreate the house or simplify the reference style. Three-quarter view showing curved amber wooden runners, honey wood slats, one tall cream parcel with cranberry ribbon and one smaller cranberry parcel with cream ribbon; one little golden hexagonal gift tag with no writing, small dusting of snow on rear wood. Pleasant compact silhouette, soft warm ambient light, broad facets with depth. One complete object, square transparent PNG with ample margins, true alpha, no floor, no ground shadow, no characters, no text, no background.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-decor-v4/deco_winter_gingerbread_house.png"
+    ]
+  }
+}

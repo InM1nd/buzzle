@@ -42,6 +42,9 @@ export const FLOWERS: FlowerDef[] = [
   { id: "goldsun", name: "", color: 0, growHours: 10, nectar: 70, seed: 0, minLevel: 1, rare: true },
   // v1.6 Halloween: seeds only from the event reward track
   { id: "pumpkin", name: "", color: 0, growHours: 6, nectar: 40, seed: 0, minLevel: 1, rare: true },
+  // 1.7 winter: seeds from the advent and the winter shop
+  { id: "hellebore", name: "", color: 1, growHours: 4, nectar: 30, seed: 0, minLevel: 1, rare: true },
+  { id: "poinsettia", name: "", color: 1, growHours: 8, nectar: 50, seed: 0, minLevel: 1, rare: true },
 ];
 for (const f of FLOWERS) lz(f, "name", `flower.${f.id}`);
 export const SHOP_FLOWERS = FLOWERS.filter((f) => !f.rare);

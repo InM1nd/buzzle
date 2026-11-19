@@ -96,11 +96,25 @@ test("advent: today's window is free, earlier ones for a round credit or pollen,
   assert.equal(adventVisible(fresh, at(2026, 12, 11)), true);
 });
 
-test("advent: a gift whose art is not in the game yet keeps its window closed", () => {
-  assert.deepEqual(ADVENT[0].items, ["garland"]);
-  assert.equal(openAdvent(veteran(), 1, at(2026, 12, 1)), null);
-  assert.equal(openAdvent(veteran(), 3, at(2026, 12, 3)), null, "hellebore seeds wait for the flower");
+test("advent: decorations, costumes and seeds arrive; a gift not in the game would keep its window closed", () => {
   assert.equal(ADVENT.length, 24);
+  const g = openAdvent(veteran(), 1, at(2026, 12, 1))!.state;
+  assert.ok(g.loot.owned.includes("garland"));
+  const h = openAdvent(veteran(), 3, at(2026, 12, 3))!.state;
+  assert.equal(h.loot.seeds.hellebore, 2);
+  const c = openAdvent(veteran(), 6, at(2026, 12, 6))!.state;
+  assert.ok(c.loot.owned.includes("bobblehat") && c.loot.owned.includes("winterscarf"));
+  assert.equal(grant(veteran(), { items: ["no-such-thing"] }), null);
+});
+
+test("winter shop: winter flower seeds for nectar", async () => {
+  const { buyWinterSeed } = await import("../src/logic/game");
+  const s = { ...veteran(), nectar: WSHOP.seedNectar };
+  assert.equal(buyWinterSeed(s, "hellebore", at(2026, 11, 30)), null, "only in winter");
+  const b = buyWinterSeed(s, "poinsettia", at(2026, 12, 2))!;
+  assert.equal(b.nectar, 0);
+  assert.equal(b.loot.seeds.poinsettia, 1);
+  assert.equal(buyWinterSeed(b, "poinsettia", at(2026, 12, 2)), null, "not enough nectar");
 });
 
 test("winter shop: fragments for pollen or jelly; a wax comb a day and a golden comb a week for jelly", () => {

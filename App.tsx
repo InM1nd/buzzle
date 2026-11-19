@@ -5,7 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
-  GameState, adventTodayDue, buyUpgrade, buyWinterComb, buyWinterFragment, openAdvent, canClaimLogin, claimBonus, claimLogin, claimTask, collectHive, combAction, finishRound, freeMoves,
+  GameState, adventTodayDue, buyUpgrade, buyWinterComb, buyWinterFragment, buyWinterSeed, openAdvent, canClaimLogin, claimBonus, claimLogin, claimTask, collectHive, combAction, finishRound, freeMoves,
   level, newState, nextLoginCycle, nextLoginIndex, RoundReward, RoundSummary, tick, unlockBee,
   RoundBoosters, RoundMode, startFreeRound, useShuffle, openBox, openAllBoxes, claimWeekly, buyFreeze, assembleNightBee,
   shopBuyItem, shopBuyBooster, shopBuyFragment, setSkin, toggleDeco, currentTasks,
@@ -712,7 +712,8 @@ function Main() {
             onBuyBooster={(bid) => act.simple((c) => shopBuyBooster(c, bid))}
             onBuyFragment={() => act.simple((c) => shopBuyFragment(c))}
             onToggleDeco={(id) => act.simple((c) => toggleDeco(c, id))}
-            onWinterBuy={(what) => act.simple((c) => what === "wax" || what === "gold" ? buyWinterComb(c, what, Date.now()) : buyWinterFragment(c, what === "fragPollen" ? "pollen" : "jelly", Date.now()))}
+            onWinterBuy={(what) => act.simple((c) => what.startsWith("seed:") ? buyWinterSeed(c, what.slice(5), Date.now())
+              : what === "wax" || what === "gold" ? buyWinterComb(c, what, Date.now()) : buyWinterFragment(c, what === "fragPollen" ? "pollen" : "jelly", Date.now()))}
           />
         ) : (
           <TasksScreen s={s} now={now} onAdvent={() => setShowAdvent(true)} onClaimTrack={act.track} onClaimWeekly={act.weekly} onBuyFreeze={() => act.simple((c) => buyFreeze(c, Date.now()))} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} />

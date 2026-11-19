@@ -1,0 +1,18 @@
+{
+  "hellebore_seeds": {
+    "prompt": "Create ONE isolated inventory/shop item sprite for Buzzle cozy bee garden game. Reference1 is the existing seed packet and determines exact object family: chunky folded cream kraft-paper seed pouch, folded top lip, softly faceted sides, slight three-quarter view showing left side, warm upper-left light, friendly tangible low-poly 3D. Reference2 is the plant whose pictorial emblem belongs on this pouch, NOT a second object. Main request: a cream seed packet matching existing packet proportions, with a large simple printed flower emblem on its front: a five-petal rounded IVORY flower with blush-pink tips and small honey-yellow center, two small green leaves. Do not use a snowflake or blue flower. Flower emblem lies on the paper front, no physical plant growing out of bag, no separate bloom outside. A couple of small faceted brown seeds beside its bottom-right corner like reference1. Keep bag outline and flower symbol readable at48px. Broad clean facets, minimal fine detail, warm honey highlights, soft matte paper. No text, numbers, logo, ribbon, Christmas ornaments, snow, pot, ground, background or background shadow. One centered object group, true transparent background, square canvas with generous clear margins; whole folded lip and seeds visible.",
+    "reference": [
+      "assets/art/seed.webp",
+      "design/art/winter-plants-v1/hellebore_bloom.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-d002f2b5-f5d3-4e24-bdd8-e96f2483ef94.png"
+  },
+  "poinsettia_seeds": {
+    "prompt": "Create ONE isolated inventory/shop item sprite for Buzzle cozy bee garden game. Reference1 is the existing seed packet and determines exact object family: chunky folded cream kraft-paper seed pouch, folded top lip, softly faceted sides, slight three-quarter view showing left side, warm upper-left light, friendly tangible low-poly 3D. Reference2 is the plant whose pictorial emblem belongs on this pouch, NOT a second object. Main request: a cream seed packet matching existing packet proportions, with a large simple printed flower emblem on its front: a bold CRANBERRY-RED star-shaped poinsettia flower with six pointed bracts and tiny honey-yellow center, two green leaves. Do not draw holly or berries. Flower emblem lies on the paper front, no physical plant growing out of bag, no separate bloom outside. A couple of small faceted brown seeds beside its bottom-right corner like reference1. Keep bag outline and flower symbol readable at48px. Broad clean facets, minimal fine detail, warm honey highlights, soft matte paper. No text, numbers, logo, ribbon, Christmas ornaments, snow, pot, ground, background or background shadow. One centered object group, true transparent background, square canvas with generous clear margins; whole folded lip and seeds visible.",
+    "reference": [
+      "assets/art/seed.webp",
+      "design/art/winter-plants-v1/poinsettia_bloom.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-1c8231fe-a181-4523-bf0b-91508a03b266.png"
+  }
+}

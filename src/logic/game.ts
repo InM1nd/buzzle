@@ -26,7 +26,7 @@ import { hashString } from "./rng";
 import { FLIGHT_PAID_RUNS, flightNectar, flightPoints } from "./nightFlight";
 import {
   ADVENT, ADVENT_DAYS, ADVENT_POLLEN, addFlakes, adventWindow, decemberDate, FLAKES, newWinter, WINTER_BEE, WINTER_FRAGMENTS, WinterState,
-  winterId, winterProgress, WSHOP,
+  winterId, winterProgress, WINTER_FLOWERS, WSHOP,
 } from "./winter";
 import { activeEvent, DEV_EVENT_MODES, DevEventMode, EventState, eventProgress, newEventState, POINTS, TRACK, TrackReward, trackEvent } from "./event";
 
@@ -920,6 +920,11 @@ export function buyWinterFragment(s: GameState, pay: "pollen" | "jelly", now: nu
     ...s, winter: { ...w, frags: w.frags + 1 },
     jelly: s.jelly - (pay === "jelly" ? cost : 0), loot: { ...s.loot, pollen: s.loot.pollen - (pay === "pollen" ? cost : 0) },
   };
+}
+/** winter flower seeds for nectar */
+export function buyWinterSeed(s: GameState, flower: string, now: number): GameState | null {
+  if (!winterView(s, now) || !WINTER_FLOWERS.includes(flower) || s.nectar < WSHOP.seedNectar) return null;
+  return { ...s, nectar: s.nectar - WSHOP.seedNectar, loot: { ...s.loot, seeds: { ...s.loot.seeds, [flower]: (s.loot.seeds[flower] ?? 0) + 1 } } };
 }
 /** a wax comb once a day, a golden comb once a week, for royal jelly */
 export function buyWinterComb(s0: GameState, kind: "wax" | "gold", now: number): GameState | null {

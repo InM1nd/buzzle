@@ -3,9 +3,9 @@
 import { t } from "../i18n";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Easing, Image, StyleSheet, View } from "react-native";
-import { ALL_DECOS, ITEM_BY_ID } from "../logic/loot";
+import { ALL_DECOS, ITEM_BY_ID, WINTER_DECOS } from "../logic/loot";
 import { GameState, today } from "../logic/game";
-import { isAutumn } from "../logic/event";
+import { isAutumn, season } from "../logic/event";
 import { ITEM_ART } from "./beeArt";
 import { RARITY_UI } from "./lootUi";
 import { useAnimActive } from "./anim";
@@ -20,7 +20,10 @@ const MOTION: Record<string, Motion> = {
   flags: "sway", lanterns: "glow", barrel: "none", fountain: "bob",
   mushroom: "bob", bench: "none", pinwheel: "spin", gnome: "sway",
   jack1: "glow", jack2: "glow", jack3: "glow", jack4: "glow",
+  garland: "sway", snowlanterns: "glow", lamppost: "glow", snowman: "bob", goldstar: "glow", firtree: "none",
 };
+/** 1.7 winter decorations: height relative to the summer spot they take (the garland and icicles are long and flat) */
+const WINTER_H: Record<string, number> = { garland: 0.55, goldstar: 0.8, firtree: 1.25, gingerhouse: 0.95, snowlanterns: 0.95, snowman: 1.5, sled: 1.25, mailbox: 0.95, lamppost: 0.95 };
 
 function DecoArt({ id, height, on, ghost, night }: { id: string; height: number; on: boolean; ghost: boolean; night?: boolean }) {
   const a = ITEM_ART[`deco_${id}`];
@@ -69,23 +72,28 @@ export function DecorSpots({ s, place, spots, w, h, onToggle, onShop, dark }: {
   const owned = (id: string) => s.loot.owned.includes(id);
   const shown = (id: string) => owned(id) && !s.loot.hidden.includes(id);
   const it = open ? ITEM_BY_ID[open] : null;
+  const winter = season(today(s, Date.now())) === "winter";
   // a night scene or the Midnight theme: a thin light dashed outline, no fill (a filled pill reads as a grey blob on dark art)
   const night = !!dark || isNight();
   return (
     <>
       {/* event lanterns are not sold: their spot stays empty until one is carved; 1.7: jack-o'-lanterns stand only in autumn (#18) */}
-      {spots.filter((sp) => ALL_DECOS.some((d) => d.id === sp.id && d.place === place && (!d.event || (owned(d.id) && isAutumn(today(s, Date.now())))))).map((sp) => {
-        const a = ITEM_ART[`deco_${sp.id}`];
+      {/* 1.7: in winter an owned winter decoration takes the summer spot (shown, or a silhouette when put away) */}
+      {spots.map((sp) => {
+        const wid = winter ? WINTER_DECOS.find((d) => d.place === place && d.spot?.includes(sp.id) && owned(d.id))?.id : undefined;
+        if (!wid && !ALL_DECOS.some((d) => d.id === sp.id && d.place === place && (!d.event || (owned(d.id) && isAutumn(today(s, Date.now())))))) return null;
+        const id = wid ?? sp.id;
+        const a = ITEM_ART[`deco_${id}`];
         if (!a) return null;
-        const ih = sp.h * h, iw = (a.w / a.h) * ih;
-        const ghost = !shown(sp.id);
-        const name = ITEM_BY_ID[sp.id]?.name ?? "";
+        const ih = sp.h * h * (wid ? WINTER_H[wid] ?? 1 : 1), iw = (a.w / a.h) * ih;
+        const ghost = !shown(id);
+        const name = ITEM_BY_ID[id]?.name ?? "";
         return (
-          <Press key={sp.id} onPress={() => setOpen(sp.id)} scaleTo={0.92}
+          <Press key={`${sp.id}-${id}`} onPress={() => setOpen(id)} scaleTo={0.92}
             accessibilityRole="button" accessibilityLabel={ghost ? t("dec.spot", { name }) : name}
             style={{ position: "absolute", left: sp.x * w - iw / 2, top: sp.y * h - ih, width: iw, height: ih, transform: sp.flip ? [{ scaleX: -1 }] : undefined }}>
             {ghost ? <View style={[styles.ghostRing, night && styles.ghostRingNight, { width: iw * 1.1, height: ih * 0.3, left: -iw * 0.05, top: ih * 0.8 }]} /> : null}
-            <DecoArt id={sp.id} height={ih} on={on} ghost={ghost} night={night} />
+            <DecoArt id={id} height={ih} on={on} ghost={ghost} night={night} />
             {ghost ? <View style={[styles.plus, { left: iw / 2 - 12, top: ih * 0.45 - 12 }]}><Txt v="small" color="#fff" style={[F.black, { lineHeight: 18 }]}>+</Txt></View> : null}
           </Press>
         );

@@ -41,6 +41,8 @@ export interface Collectible {
   hat?: boolean;
   /** v1.6 seasonal costume or lantern: only from the event, never in combs, the shop or the album pages */
   event?: boolean;
+  /** 1.7 winter decorations: the summer spot(s) they take in winter (design/WINTER_ECONOMY.ru.md) */
+  spot?: string[];
   desc: string;
 }
 export const SKINS: Collectible[] = [
@@ -85,19 +87,28 @@ export const EVENT_SKINS: Collectible[] = [
  * the shop or the album pages */
 export const EVENT_DECOS: Collectible[] = [1, 2, 3, 4].map((n) =>
   ({ id: `jack${n}`, kind: "deco", name: "", rarity: "rare", page: "hive", place: "hive", event: true, desc: "" }));
-export const ALL_DECOS = [...DECOS, ...EVENT_DECOS];
+/** 1.7 winter decorations (advent gifts): in winter they stand on the summer spots, the summer ones come back on 1 March */
+const wd = (id: string, place: "hive" | "garden", spot: string[], rarity: Rarity): Collectible =>
+  ({ id, kind: "deco", name: "", rarity, page: place, place, event: true, spot, desc: "" });
+export const WINTER_DECOS: Collectible[] = [
+  wd("garland", "hive", ["flags"], "epic"), wd("snowlanterns", "hive", ["lanterns"], "rare"), wd("firtree", "hive", ["barrel"], "legendary"),
+  wd("gingerhouse", "hive", ["fountain"], "epic"), wd("goldstar", "hive", ["jack1"], "rare"),
+  wd("snowman", "garden", ["mushroom"], "epic"), wd("sled", "garden", ["bench"], "epic"), wd("mailbox", "garden", ["pinwheel"], "rare"),
+  wd("lamppost", "garden", ["gnome"], "rare"),
+];
+export const ALL_DECOS = [...DECOS, ...EVENT_DECOS, ...WINTER_DECOS];
 /** album entries that are not box items: rare flowers (first seed) and the night bee (10 fragments) */
 export const RARE_ENTRIES: Collectible[] = [
   { id: "moonpoppy", kind: "flower", name: "", rarity: "rare", page: "rare", desc: "" },
   { id: "goldsun", kind: "flower", name: "", rarity: "epic", page: "rare", desc: "" },
   { id: "nochka", kind: "bee", name: "", rarity: "legendary", page: "rare", desc: "" },
 ];
-for (const i of [...SKINS, ...EVENT_SKINS, ...ALL_DECOS, ...RARE_ENTRIES]) {
+for (const i of [...SKINS, ...EVENT_SKINS, ...DECOS, ...EVENT_DECOS, ...WINTER_DECOS, ...RARE_ENTRIES]) {
   lz(i, "name", i.kind === "flower" ? `flower.${i.id}` : i.kind === "bee" ? `bee.${i.id}.name` : `item.${i.id}`);
   lz(i, "desc", `item.${i.id}.desc`);
 }
 export const ITEMS: Collectible[] = [...SKINS, ...DECOS];
-export const ITEM_BY_ID: Record<string, Collectible> = Object.fromEntries([...ITEMS, ...EVENT_SKINS, ...EVENT_DECOS, ...RARE_ENTRIES].map((i) => [i.id, i]));
+export const ITEM_BY_ID: Record<string, Collectible> = Object.fromEntries([...ITEMS, ...EVENT_SKINS, ...EVENT_DECOS, ...WINTER_DECOS, ...RARE_ENTRIES].map((i) => [i.id, i]));
 export const SKIN_BY_ID: Record<string, Collectible> = Object.fromEntries([...SKINS, ...EVENT_SKINS].map((i) => [i.id, i]));
 
 export interface Page { id: PageId; title: string; items: string[]; bonus: string }

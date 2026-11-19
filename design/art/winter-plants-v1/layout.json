@@ -1,0 +1,24 @@
+{
+  "hellebore_bloom": {
+    "canvas": [
+      1024,
+      1024
+    ],
+    "plantingAnchor": [
+      512,
+      944
+    ],
+    "note": "Align visible stem bottom to bed planting point; scale image and anchor uniformly."
+  },
+  "poinsettia_bloom": {
+    "canvas": [
+      1024,
+      1024
+    ],
+    "plantingAnchor": [
+      512,
+      944
+    ],
+    "note": "Align visible stem bottom to bed planting point; scale image and anchor uniformly."
+  }
+}

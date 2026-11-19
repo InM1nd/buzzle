@@ -47,6 +47,15 @@ export function winterId(day: number): string | null {
 export const winterProgress = (w: WinterState, id: string): WinterState =>
   w.id === id ? w : { ...newWinter(), id, frags: w.frags };
 
+/** winter backdrops: Christmas decor from 20 Dec (the mini-game invitation) to 7 Jan, evening from 17:00 to 7:00 */
+export type WinterLook = "winter_day" | "winter_evening" | "christmas_day" | "christmas_evening";
+export const CHRISTMAS = { fromDec: 20, toJan: 7 };
+export function winterLook(day: number, hour: number): WinterLook {
+  const d = date(day), m = d.getUTCMonth(), n = d.getUTCDate();
+  const xmas = (m === 11 && n >= CHRISTMAS.fromDec) || (m === 0 && n <= CHRISTMAS.toJan);
+  return `${xmas ? "christmas" : "winter"}_${hour >= 17 || hour < 7 ? "evening" : "day"}`;
+}
+
 /** December date of that day (1..31), 0 outside December */
 export const decemberDate = (day: number): number => (winterId(day) && date(day).getUTCMonth() === 11 ? date(day).getUTCDate() : 0);
 

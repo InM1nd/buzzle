@@ -159,3 +159,12 @@ test("advent: a December round that earns no snowflakes still counts as a catch-
     assert.deepEqual(missing, []);
   });
 }
+
+test("winter backdrops: Christmas decor 20 Dec – 7 Jan, evening 17:00–7:00", async () => {
+  const { winterLook } = await import("../src/logic/winter");
+  assert.equal(winterLook(day(2026, 12, 5), 12), "winter_day");
+  assert.equal(winterLook(day(2026, 12, 5), 18), "winter_evening");
+  assert.equal(winterLook(day(2026, 12, 20), 6), "christmas_evening");
+  assert.equal(winterLook(day(2027, 1, 7), 10), "christmas_day");
+  assert.equal(winterLook(day(2027, 1, 8), 10), "winter_day");
+});

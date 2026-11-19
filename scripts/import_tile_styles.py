@@ -16,7 +16,6 @@ OUT = "assets/art/tiles/"
 # hexagon (a pumpkin stem), so they are framed by the plain tile of the same row and scale next to them.
 H2 = D + "halloween-soft-crystal-and-matte-pastel.png"
 STYLES = {
-    "pastel": (D + "current-and-all-options.png", 2, 2),
     "wax": (D + "current-and-all-options.png", 3, 3),
 }
 ROWS = ["cell0", "cell1", "cell2", "cell3", "cell4", "cell_wild"]
@@ -50,6 +49,29 @@ bomb = bomb.crop(bomb.getbbox())
 bh = int(H * 0.8); bw = int(bomb.width * bh / bomb.height)
 bomb = bomb.resize((bw, bh), Image.LANCZOS)
 compact = Image.new("RGBA", (W, H)); compact.alpha_composite(bomb, ((W - bw) // 2, (H - bh) // 2 - 2))
+# 1.7 (#18): matte pastel is cut from its own sheet with a real alpha (the comparison-sheet cut under a hard hexagon mask
+# clipped the pale rim and left cream background slivers in the rounded corners)
+def cut_pastel():
+    from PIL import ImageFilter
+    src = Image.open(D + "02-matte-pastel.png").convert("RGB")
+    bg = src.getpixel((20, 1000))
+    k = src.width / 900  # tile centres measured on a 900 px wide preview
+    centres = [(128, 183), (343, 183), (557, 183), (771, 183), (222, 410), (448, 410)]  # sun heart flower drop leaf | joker
+    for name, (x, y) in zip(ROWS, centres):
+        cx, cy = int(x * k), int(y * k)
+        r = src.crop((cx - 190, cy - 170, cx + 190, cy + 170))
+        m = ImageChops.difference(r, Image.new("RGB", r.size, bg)).convert("L").point(lambda v: 255 if v > 28 else 0)
+        f = m.copy(); ImageDraw.floodfill(f, (0, 0), 128)  # the outside; the cream glyph inside stays part of the tile
+        solid = f.point(lambda v: 0 if v == 128 else 255).filter(ImageFilter.MinFilter(7)).filter(ImageFilter.MaxFilter(7))
+        bb = solid.getbbox()
+        t = r.crop(bb).convert("RGBA")
+        t.putalpha(solid.crop(bb).filter(ImageFilter.MinFilter(3)).filter(ImageFilter.GaussianBlur(0.8)))
+        t.thumbnail((W - 2, H - 4), Image.LANCZOS)
+        out = Image.new("RGBA", (W, H)); out.alpha_composite(t, ((W - t.width) // 2, (H - t.height) // 2))
+        out.save(f"{OUT}pastel_{name}.webp", "WEBP", quality=88, method=6)
+    compact.save(f"{OUT}pastel_bomb.webp", "WEBP", quality=88, method=6)
+    print("pastel")
+cut_pastel()
 for style, (path, col, frame) in STYLES.items():
     for i, name in enumerate(ROWS):
         cut(path, col, frame, i).save(f"{OUT}{style}_{name}.webp", "WEBP", quality=88, method=6)

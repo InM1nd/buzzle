@@ -1,0 +1,20 @@
+{
+  "canvas": [
+    1366,
+    1151
+  ],
+  "accessory": {
+    "file": "antlers-front.png",
+    "x": 303,
+    "y": 235,
+    "width": 760,
+    "height": 238
+  },
+  "fittedLayer": "antlers-fitted.png",
+  "antennaeOverlay": "antennae-overlay.png",
+  "drawOrder": [
+    "canonical front.png",
+    "antlers-fitted.png",
+    "antennae-overlay.png"
+  ]
+}

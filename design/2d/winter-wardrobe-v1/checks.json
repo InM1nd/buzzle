@@ -1,0 +1,38 @@
+{
+  "zhuzha-winter-hat-front": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "fullCharacter": true,
+    "state": "front concept fitting, not separate accessory layers"
+  },
+  "zhuzha-winter-scarf-front": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "fullCharacter": true,
+    "state": "front concept fitting, not separate accessory layers"
+  },
+  "zhuzha-winter-outfit-front": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "fullCharacter": true,
+    "state": "front concept fitting, not separate accessory layers"
+  }
+}

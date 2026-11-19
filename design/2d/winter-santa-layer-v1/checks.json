@@ -1,0 +1,43 @@
+{
+  "santa-front": {
+    "size": [
+      1355,
+      810
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "losslessWebpVisibleMatch": true
+  },
+  "antennae-overlay": {
+    "size": [
+      1366,
+      1151
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "losslessWebpVisibleMatch": true
+  },
+  "hat-fitted": {
+    "size": [
+      1366,
+      1151
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "losslessWebpVisibleMatch": true
+  },
+  "fitting": {
+    "canonicalBeeSourceUnmodified": true,
+    "allEditsInsideHatRegion": true,
+    "canvas": [
+      1366,
+      1151
+    ]
+  }
+}

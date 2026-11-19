@@ -1,0 +1,74 @@
+{
+  "zhuzha-winter-santa-side": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpMatch": true,
+    "status": "concept fitting"
+  },
+  "zhuzha-winter-santa-q3-front": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpMatch": true,
+    "status": "concept fitting"
+  },
+  "zhuzha-winter-antlers-side": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpMatch": true,
+    "status": "concept fitting"
+  },
+  "zhuzha-winter-antlers-q3-front": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpMatch": true,
+    "status": "concept fitting"
+  },
+  "zhuzha-winter-santa-front": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpMatch": true,
+    "status": "concept fitting"
+  },
+  "zhuzha-winter-antlers-front": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpMatch": true,
+    "status": "concept fitting"
+  }
+}

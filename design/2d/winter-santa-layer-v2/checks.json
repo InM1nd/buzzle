@@ -1,0 +1,53 @@
+{
+  "frontCopiedUnchanged": true,
+  "santa-q3-front": {
+    "size": [
+      1146,
+      775
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "hat-fitted-q3-front": {
+    "size": [
+      1366,
+      1151
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "antennae-q3-front": {
+    "size": [
+      1366,
+      1151
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "q3-front": {
+    "sourceBeeUnchanged": true,
+    "allChangesWithinHatRegion": true
+  },
+  "santa-side": {
+    "size": [
+      1149,
+      718
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "hat-fitted-side": {
+    "size": [
+      1366,
+      1151
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "antennae-side": {
+    "size": [
+      1366,
+      1151
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "side": {
+    "sourceBeeUnchanged": true,
+    "allChangesWithinHatRegion": true
+  }
+}

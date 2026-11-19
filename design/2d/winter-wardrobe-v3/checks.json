@@ -1,0 +1,24 @@
+{
+  "zhuzha-winter-santa-front": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpMatch": true
+  },
+  "zhuzha-winter-antlers-front": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpMatch": true
+  }
+}

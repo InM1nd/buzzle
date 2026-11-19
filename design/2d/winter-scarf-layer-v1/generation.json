@@ -1,0 +1,7 @@
+{
+  "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-2eca9e97-73b2-4615-aa9f-03ab5c4dc49f.png",
+  "prompt": "Extract ONLY the winter scarf from reference Buzzle bee. Exact front view of the visible scarf as worn, U shaped bowed downward collar with ends curving upward at shoulders, one short draping tasseled tail on viewer left over body. Match alternating blueberry blue and honey gold blocks and Buzzle's large sculpted low poly triangular facets. Remove bee, wings, eyes, head, legs, and background entirely, preserve empty transparent area above and under the U and at sides. Only foreground visible scarf strip, NO back half or second arc across neckline opening. True transparent alpha, fully in frame, no shadows outside, no lettering.",
+  "references": [
+    "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v1/zhuzha-winter-scarf-front.png"
+  ]
+}

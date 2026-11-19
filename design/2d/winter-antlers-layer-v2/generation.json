@@ -1,0 +1,18 @@
+{
+  "q3-front": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-97038588-aeb4-483b-89d3-b5a8f1348970.png",
+    "prompt": "Use case: stylized-concept. Detached wearable reindeer headband sprite for Buzzle. Reference 1 defines the exact new accessory: TWO short honey-caramel low-poly deer antlers, each with 3 stubby rounded branches, on a slim cranberry red headband. Reference 2 shows how the old accessory is worn at the REQUIRED CAMERA ANGLE, use for perspective only. Reproduce the design of reference 1, with warm soft light and clean large golden facets. Camera FRONT THREE-QUARTER facing RIGHT; headband follows a tilted rounded forehead, near-left end lower, far-right end higher, far antler slightly foreshortened. ONLY the pair of golden branched antlers and thin red curved band, isolated on genuine transparent RGBA background with safe margins. No bee, head, body, antennae, wings, eyes, mannequin, snow, holly, bells, text, ground shadow or extra decorations. Do not include the long brown bee antennae from reference 2: those are NOT part of this asset. Wide empty gap above the center of band for original bee antennae. Match compact simple proportions, no huge branching tree horns. High resolution square canvas.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-antlers-layer-v1/antlers-front.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v4/zhuzha-winter-antlers-q3-front.png"
+    ]
+  },
+  "side": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-d53f0c1d-c24a-42ec-a66d-09b5fe151bbc.png",
+    "prompt": "Use case: stylized-concept. Detached wearable reindeer headband sprite for Buzzle. Reference 1 defines the exact new accessory: TWO short honey-caramel low-poly deer antlers, each with 3 stubby rounded branches, on a slim cranberry red headband. Reference 2 shows how the old accessory is worn at the REQUIRED CAMERA ANGLE, use for perspective only. Reproduce the design of reference 1, with warm soft light and clean large golden facets. Camera STRICT RIGHT-FACING PROFILE; headband curves along side of rounded forehead. Both golden antlers remain visible: larger near antler left of the smaller far antler, overlap in perspective, not a symmetrical front view. ONLY the pair of golden branched antlers and thin red curved band, isolated on genuine transparent RGBA background with safe margins. No bee, head, body, antennae, wings, eyes, mannequin, snow, holly, bells, text, ground shadow or extra decorations. Do not include the long brown bee antennae from reference 2: those are NOT part of this asset. Wide empty gap above the center of band for original bee antennae. Match compact simple proportions, no huge branching tree horns. High resolution square canvas.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-antlers-layer-v1/antlers-front.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v4/zhuzha-winter-antlers-side.png"
+    ]
+  }
+}

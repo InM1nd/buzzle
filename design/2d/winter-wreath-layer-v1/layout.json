@@ -1,0 +1,20 @@
+{
+  "canvas": [
+    1366,
+    1151
+  ],
+  "accessory": {
+    "file": "wreath-front.png",
+    "x": 383,
+    "y": 270,
+    "width": 600,
+    "height": 192
+  },
+  "fittedLayer": "wreath-fitted.png",
+  "antennaeOverlay": "antennae-overlay.png",
+  "drawOrder": [
+    "canonical front.png",
+    "wreath-fitted.png",
+    "antennae-overlay.png"
+  ]
+}

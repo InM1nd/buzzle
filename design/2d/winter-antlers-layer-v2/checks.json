@@ -1,0 +1,53 @@
+{
+  "frontCopiedUnchanged": true,
+  "antlers-q3-front": {
+    "size": [
+      1132,
+      606
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "hat-fitted-q3-front": {
+    "size": [
+      1366,
+      1151
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "antennae-q3-front": {
+    "size": [
+      1366,
+      1151
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "q3-front": {
+    "sourceBeeUnchanged": true,
+    "allChangesWithinHatRegion": true
+  },
+  "antlers-side": {
+    "size": [
+      932,
+      787
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "hat-fitted-side": {
+    "size": [
+      1366,
+      1151
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "antennae-side": {
+    "size": [
+      1366,
+      1151
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "side": {
+    "sourceBeeUnchanged": true,
+    "allChangesWithinHatRegion": true
+  }
+}

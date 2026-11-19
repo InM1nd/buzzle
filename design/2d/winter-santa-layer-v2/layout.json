@@ -1,0 +1,67 @@
+{
+  "front": {
+    "canvas": [
+      1366,
+      1151
+    ],
+    "hat": {
+      "file": "santa-front.png",
+      "x": 385,
+      "y": 90,
+      "width": 720,
+      "height": 430
+    },
+    "fittedHat": "hat-fitted-front.png",
+    "antennaeOverlay": "antennae-front.png",
+    "drawOrder": [
+      "canonical front.png",
+      "hat-fitted-front.png",
+      "antennae-front.png"
+    ],
+    "note": "Fitted layers use the entire canonical canvas and origin (0,0). Original antenna geometry reused, not redrawn. Overlay is specific to this cap placement."
+  },
+  "q3-front": {
+    "canvas": [
+      1366,
+      1151
+    ],
+    "hat": {
+      "x": 450,
+      "y": 125,
+      "width": 690,
+      "height": 467,
+      "file": "santa-q3-front.png"
+    },
+    "drawOrder": [
+      "canonical q3-front.png",
+      "hat-fitted-q3-front.png",
+      "antennae-q3-front.png"
+    ],
+    "fittedLayersOrigin": [
+      0,
+      0
+    ]
+  },
+  "side": {
+    "canvas": [
+      1366,
+      1151
+    ],
+    "hat": {
+      "x": 475,
+      "y": 195,
+      "width": 600,
+      "height": 375,
+      "file": "santa-side.png"
+    },
+    "drawOrder": [
+      "canonical side.png",
+      "hat-fitted-side.png",
+      "antennae-side.png"
+    ],
+    "fittedLayersOrigin": [
+      0,
+      0
+    ]
+  }
+}

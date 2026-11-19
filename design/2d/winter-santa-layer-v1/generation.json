@@ -1,0 +1,8 @@
+{
+  "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-18d12839-d420-4122-b7f5-2524f987e9e1.png",
+  "prompt": "Use case: stylized-concept. Create a standalone wearable Santa hat sprite for Buzzle, using image 1 as the exact design/style reference: its red Christmas cap with a broad ivory cuff, bent toward viewer RIGHT with one faceted ivory pompom on the right. Image 2 is the canonical bee for FRONT camera and warm low-poly material context only. Render ONLY the detached hat, centered on true transparent RGBA background. Match reference 1's rich scarlet red large clean polygon facets, thick softly faceted cream cuff, cream pompom, soft warm diffuse light. Front-facing wearable view, slightly visible crown volume, broad shallow curved cuff that seats on a rounded bee forehead, not a side view. Width-to-height roughly 1.55 including pompom. No head, body, bee, antennae, wings, face, stand, mannequin, ground shadow or text. Do not include antennae or draw holes; existing antenna sprites will be composited over the red cloth. Clean alpha, no extra decor. Generous transparent margins, high-resolution 1024px square. Preserve the simple cap design from the first reference, no holly or extra baubles.",
+  "references": [
+    "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v3/zhuzha-winter-santa-front.png",
+    "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/zhuzha-turnaround-approved-front/front.png"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "zhuzha-winter-outfit-front": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v1/zhuzha-winter-outfit-front.png",
+    "status": "fitting concept, not layered game sprite"
+  },
+  "zhuzha-winter-outfit-side": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-9f6adfd9-b990-4af4-aa3a-f1a5e43e6b5b.png",
+    "status": "fitting concept, not layered game sprite"
+  },
+  "zhuzha-winter-outfit-q3-front": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-528fe530-8bd5-4774-9885-4ab3f015ef39.png",
+    "status": "fitting concept, not layered game sprite"
+  }
+}

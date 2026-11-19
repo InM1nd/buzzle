@@ -1,0 +1,9 @@
+{
+  "prompt": "Precise single-change edit of reference1: ADD the missing NARROW CRANBERRY RED RIBBON BAND that holds the bow, matching reference2 design. A thin red strip (about one sixth of bow height) follows the UPPER EDGE of brown belly stripe, starting on visible left/back flank under wing root, curving down around round body toward the bow knot at front-right, continuing a short visible segment from right of bow to right contour. Ribbon sits ON body, not floating; subtle faceted shading. Keep original three-quarter bee and bow EXACTLY unchanged: pose, camera, silhouette, antennae, wings, eyes, smile, feet, yellow/brown palette, cream bow loops and red center. No added necklace, new bow, headwear or other changes. Background remains true transparent, whole bee fully visible. This is only restoring one slim red band, NOT redesigning bee or resizing bow.",
+  "references": [
+    "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-f9c336f0-7309-457e-9dca-6556f7f91e19.png",
+    "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v5/zhuzha-winter-bow-front.png"
+  ],
+  "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-e8e4b81d-6361-43e1-9277-ddc50c96c727.png",
+  "draftSource": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-f9c336f0-7309-457e-9dca-6556f7f91e19.png"
+}

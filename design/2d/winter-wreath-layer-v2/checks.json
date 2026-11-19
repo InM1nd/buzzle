@@ -1,0 +1,53 @@
+{
+  "frontCopiedUnchanged": true,
+  "wreath-q3-front": {
+    "size": [
+      1617,
+      668
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "wreath-fitted-q3-front": {
+    "size": [
+      1366,
+      1151
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "antennae-q3-front": {
+    "size": [
+      1366,
+      1151
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "q3-front": {
+    "sourceBeeUnchanged": true,
+    "allChangesWithinHatRegion": true
+  },
+  "wreath-side": {
+    "size": [
+      1122,
+      430
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "wreath-fitted-side": {
+    "size": [
+      1366,
+      1151
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "antennae-side": {
+    "size": [
+      1366,
+      1151
+    ],
+    "visibleLosslessWebpMatch": true
+  },
+  "side": {
+    "sourceBeeUnchanged": true,
+    "allChangesWithinHatRegion": true
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "zhuzha-winter-festive-set-front": {
+    "prompt": "Precise accessory-combination edit for Buzzle. Reference1 is TARGET: Zhuzha already wearing ivory-cream small bow with red knot AND narrow red ribbon band below smile. Keep reference1 bee, bow AND red band unchanged. Add ONLY evergreen wreath from reference2, fitted to same head angle: low narrow dark evergreen ring, three cranberry berry clusters, one small honey-gold hexagon ornament. Reference2 supplies wreath design/fit ONLY. Strict FRONT-facing static bee with TWO eyes, wings one each side, original antennae unchanged. Wreath sits snugly at crown around original antenna roots, both brown antenna stems and round tips preserved intact, no new antennae or horns. Keep face, stripes, wing outlines/roots, feet, broad low-poly facets and honey-yellow palette. Bow size remains small, no merging wreath and ribbon, no extra ornaments or winter hat. Both accessories must be visible and distinct, face unobstructed. Whole single bee with ample clear margins, square true transparent background, no ground shadow, scene, text, UI, sparkles or turnaround sheet.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v7/zhuzha-winter-bow-front.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v6/zhuzha-winter-wreath-front.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-ce4bf0c6-efb3-480d-a6b6-376271f11e96.png"
+  },
+  "zhuzha-winter-festive-set-q3-front": {
+    "prompt": "Precise accessory-combination edit for Buzzle. Reference1 is TARGET: Zhuzha already wearing ivory-cream small bow with red knot AND narrow red ribbon band below smile. Keep reference1 bee, bow AND red band unchanged. Add ONLY evergreen wreath from reference2, fitted to same head angle: low narrow dark evergreen ring, three cranberry berry clusters, one small honey-gold hexagon ornament. Reference2 supplies wreath design/fit ONLY. Exact THREE-QUARTER angle of reference1, two eyes. Preserve higher far wing on viewer RIGHT and larger lower near wing at viewer LEFT. Wreath sits snugly at crown around original antenna roots, both brown antenna stems and round tips preserved intact, no new antennae or horns. Keep face, stripes, wing outlines/roots, feet, broad low-poly facets and honey-yellow palette. Bow size remains small, no merging wreath and ribbon, no extra ornaments or winter hat. Both accessories must be visible and distinct, face unobstructed. Whole single bee with ample clear margins, square true transparent background, no ground shadow, scene, text, UI, sparkles or turnaround sheet.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v7/zhuzha-winter-bow-q3-front.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v6/zhuzha-winter-wreath-q3-front.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-c44d70c8-19f6-4853-804d-5f3ef733e3f1.png"
+  },
+  "zhuzha-winter-festive-set-side": {
+    "prompt": "Precise accessory-combination edit for Buzzle. Reference1 is TARGET: Zhuzha already wearing ivory-cream small bow with red knot AND narrow red ribbon band below smile. Keep reference1 bee, bow AND red band unchanged. Add ONLY evergreen wreath from reference2, fitted to same head angle: low narrow dark evergreen ring, three cranberry berry clusters, one small honey-gold hexagon ornament. Reference2 supplies wreath design/fit ONLY. Exact RIGHT-facing PROFILE of reference1, ONE eye. Both wings overlapping upper-left back, broad near wing front/lower and smaller far wing above/behind, roots unchanged. Bow remains at RIGHT/front body contour below smile, EDGE-ON, far loop mostly hidden, never moved onto left flank. Wreath sits snugly at crown around original antenna roots, both brown antenna stems and round tips preserved intact, no new antennae or horns. Keep face, stripes, wing outlines/roots, feet, broad low-poly facets and honey-yellow palette. Bow size remains small, no merging wreath and ribbon, no extra ornaments or winter hat. Both accessories must be visible and distinct, face unobstructed. Whole single bee with ample clear margins, square true transparent background, no ground shadow, scene, text, UI, sparkles or turnaround sheet.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v7/zhuzha-winter-bow-side.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v6/zhuzha-winter-wreath-side.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-9256f4ce-dc53-4e18-a3b0-2c1b8d5a64a6.png"
+  }
+}

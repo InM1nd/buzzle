@@ -1,0 +1,17 @@
+{
+  "q3-front": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-c707a146-3d45-4e09-a7c4-1803954131a9.png",
+    "prompt": "Use case: background-extraction. Edit this exact foliage crown sprite. Preserve ALL existing leaves, berries, golden honey hexagon, the current oblique three-quarter RIGHT-facing perspective and their colors and positions. REMOVE ALL white or gray surrounding haze, ALL backdrop and ALL cast shadows entirely. Every pixel outside the physical sharp silhouette of the leaves, berries and honey hexagon must be fully transparent alpha=0, including the top-left region and gaps between leaves. Output only the isolated physical crown on genuine transparent RGBA. No white matte, no gray shadow cloud, no glow, no contact shadow, no newly painted background. Keep fine clean antialiased edges without light fringe. Do not add bee or antennae. This is a wearable game overlay that must work on deep purple. Same composition and perspective as input, do not flatten to front view.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-38661f13-9fec-41f7-bdac-a82c83b722cf.png"
+    ]
+  },
+  "side": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-cca64d91-15db-40b0-a407-9d38c65a1a4b.png",
+    "prompt": "Use case: stylized-concept. Create ONE detached wearable Christmas foliage crown for Buzzle, true transparent RGBA. Reference 1 defines the exact accessory design: low wide chunky dark evergreen holly/pine leaves, THREE separated small clusters of three faceted cranberry berries, ONE small golden honey hexagon near the front slightly right of center. Reference 2 shows the REQUIRED camera angle on the bee, use for orientation and curve only, NOT anatomy. Camera STRICT RIGHT-FACING PROFILE. Show the side of the low foliage crown wrapping around a rounded forehead, rear-left end and front-right end following reference 2. Front honey hexagon near the RIGHT end, berries arranged along the visible side. Side view of a wearable crown, not a flat front-view floral garland. Same cozy low-poly 3D as reference 1, large clean facets, warm soft light, restrained cream highlights. Low horizontal crown, no circular door-wreath hole. ONLY foliage crown, no head, bee, wings, antennae, face, mannequin, shadow, text, snow, bow or extra decorations. Do not include the original bee antennae from image 2. Keep leaves large and readable at small size. Complete detached accessory centered with generous transparent safe margins, high-resolution square.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wreath-layer-v1/wreath-front.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v6/zhuzha-winter-wreath-side.png"
+    ]
+  }
+}

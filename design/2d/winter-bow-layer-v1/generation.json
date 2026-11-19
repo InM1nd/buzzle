@@ -1,0 +1,23 @@
+{
+  "front": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-b894de6e-7c0b-4b5f-a6d6-ba4b08d0570e.png",
+    "prompt": "Use case: stylized-concept. Detached wearable Christmas bow-tie and slim ribbon collar for Buzzle. Reference image defines exact design AND wearing perspective. Render ONLY the wearable accessory: two chunky faceted IVORY bow loops, ONE small cranberry-red central knot, TWO short pointed red ribbon tails, attached to a very thin cranberry-red band wrapping around the rounded bee body. Cozy low-poly 3D, large clean facets, warm soft light, no gloss or tiny details. Camera strict FRONT. Bow centered, loops equally visible. Band is wide horizontal shallow U, both outer ends a little higher than its center. The bow occupies about one third of total band width, not a huge gift bow. Completely isolated on genuine transparent RGBA. NO bee, antennae, wings, body, face, head, mannequin, text, shadows, wreath or extra items. Every pixel outside physical bow and band must be alpha=0, no white matte or gray haze. Preserve clean edges readable over both #171340 and #FFF6E3. Generous transparent margins, high resolution square canvas.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v5/zhuzha-winter-bow-front.png"
+    ]
+  },
+  "q3-front": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-bf0a817d-7ff7-465b-aa6e-1f78c4651e5d.png",
+    "prompt": "Use case: stylized-concept. Detached wearable Christmas bow-tie and slim ribbon collar for Buzzle. Reference image defines exact design AND wearing perspective. Render ONLY the wearable accessory: two chunky faceted IVORY bow loops, ONE small cranberry-red central knot, TWO short pointed red ribbon tails, attached to a very thin cranberry-red band wrapping around the rounded bee body. Cozy low-poly 3D, large clean facets, warm soft light, no gloss or tiny details. Camera FRONT THREE-QUARTER facing RIGHT. Bow is to the RIGHT of center as in reference, near loop on left larger than far loop on right. Red band follows round body: long segment from rear-left down toward the bow near the right, short foreshortened segment to right edge, matching reference. Completely isolated on genuine transparent RGBA. NO bee, antennae, wings, body, face, head, mannequin, text, shadows, wreath or extra items. Every pixel outside physical bow and band must be alpha=0, no white matte or gray haze. Preserve clean edges readable over both #171340 and #FFF6E3. Generous transparent margins, high resolution square canvas.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v7/zhuzha-winter-bow-q3-front.png"
+    ]
+  },
+  "side": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-e1289442-d3fa-49e4-b32f-f256fc240991.png",
+    "prompt": "Use case: stylized-concept. Detached wearable Christmas bow-tie and slim ribbon collar for Buzzle. Reference image defines exact design AND wearing perspective. Render ONLY the wearable accessory: two chunky faceted IVORY bow loops, ONE small cranberry-red central knot, TWO short pointed red ribbon tails, attached to a very thin cranberry-red band wrapping around the rounded bee body. Cozy low-poly 3D, large clean facets, warm soft light, no gloss or tiny details. Camera STRICT RIGHT-FACING PROFILE. Bow is at the FAR RIGHT end of a long red collar ribbon. Bow viewed almost side-on: larger near ivory loop on left and much smaller far loop on right behind red knot. Red band starts at rear-left high, descends gently toward front-right low, wraps round body as reference. Not a front view bow floating at ribbon center. Completely isolated on genuine transparent RGBA. NO bee, antennae, wings, body, face, head, mannequin, text, shadows, wreath or extra items. Every pixel outside physical bow and band must be alpha=0, no white matte or gray haze. Preserve clean edges readable over both #171340 and #FFF6E3. Generous transparent margins, high resolution square canvas.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v7/zhuzha-winter-bow-side.png"
+    ]
+  }
+}

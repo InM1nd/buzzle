@@ -142,7 +142,7 @@ test("unlocking a bee starts it at level 1", () => {
 });
 
 // ---------------- colour of the day ----------------
-test("colour of the day: deterministic, active only with a matching flower, ×1.5 in free play, honey bonus in the daily", () => {
+test("colour of the day: deterministic, active only with a matching flower, ×1.5 in free play only", () => {
   const day = dayNumber(new Date(T0));
   assert.equal(dayColor(day), dayColor(day));
   const seen = new Set(Array.from({ length: 30 }, (_, i) => dayColor(day + i)));
@@ -158,12 +158,10 @@ test("colour of the day: deterministic, active only with a matching flower, ×1.
   const rules = rulesFor("free", boostsFor(sp.bees, sp.beeLevels), dc.color);
   assert.equal(rules.colorMult[dc.color], 1.5);
   assert.deepEqual(rulesFor("daily", boostsFor([], {}), dc.color).colorMult, [1, 1, 1, 1, 1], "daily keeps equal rules");
-  // daily: +50% honey for that colour's share
+  // 1.7 (#18): no colour-of-the-day honey in the daily puzzle
   const cells = [0, 0, 0, 0, 0]; cells[dc.color] = 50; cells[(dc.color + 1) % 5] = 50;
   const sum = { mode: "daily" as const, score: 2000, chains: [3], bombs: 0, cellsByColor: cells };
-  const off = finishRound(s, sum, T0).reward.honey;
-  const on = finishRound(sp, sum, T0).reward.honey;
-  assert.ok(Math.abs(on / off - 1.25) < 0.02, `${on} vs ${off}`);
+  assert.equal(finishRound(sp, sum, T0).reward.honey, finishRound(s, sum, T0).reward.honey);
 });
 
 // ---------------- reminders ----------------

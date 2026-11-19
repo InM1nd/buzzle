@@ -619,7 +619,7 @@ function Main() {
           shuffles={game.mode === "free" ? s.loot.boosters.shuffle : 0}
           onShuffle={act.shuffle}
           rules={halloween ? { ...rules, pumpkinChance: PUMPKIN_CHANCE, ghost: true } : rules}
-          dayColor={dayColorInfo(s, now)}
+          dayColor={game.mode === "free" ? dayColorInfo(s, now) : undefined}
           best={game.mode === "daily" ? s.daily.results[todayOf(s, now)]?.score ?? 0 : game.mode === "weekend" ? s.week.weekendBest : s.stats.bestScore}
           title={t(game.mode === "daily" ? "mode.daily" : game.mode === "weekend" ? "mode.weekend" : "mode.free")}
           onFinish={act.finish}

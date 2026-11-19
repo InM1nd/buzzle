@@ -4,7 +4,8 @@ import { t } from "../i18n";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Easing, Image, StyleSheet, View } from "react-native";
 import { ALL_DECOS, ITEM_BY_ID } from "../logic/loot";
-import { GameState } from "../logic/game";
+import { GameState, today } from "../logic/game";
+import { isAutumn } from "../logic/event";
 import { ITEM_ART } from "./beeArt";
 import { RARITY_UI } from "./lootUi";
 import { useAnimActive } from "./anim";
@@ -72,8 +73,8 @@ export function DecorSpots({ s, place, spots, w, h, onToggle, onShop, dark }: {
   const night = !!dark || isNight();
   return (
     <>
-      {/* event lanterns are not sold: their spot stays empty until one is carved */}
-      {spots.filter((sp) => ALL_DECOS.some((d) => d.id === sp.id && d.place === place && (!d.event || owned(d.id)))).map((sp) => {
+      {/* event lanterns are not sold: their spot stays empty until one is carved; 1.7: jack-o'-lanterns stand only in autumn (#18) */}
+      {spots.filter((sp) => ALL_DECOS.some((d) => d.id === sp.id && d.place === place && (!d.event || (owned(d.id) && isAutumn(today(s, Date.now())))))).map((sp) => {
         const a = ITEM_ART[`deco_${sp.id}`];
         if (!a) return null;
         const ih = sp.h * h, iw = (a.w / a.h) * ih;

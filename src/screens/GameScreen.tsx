@@ -712,7 +712,8 @@ export default function GameScreen(props: Props) {
         </View>
       </View>
       <View style={styles.statusRow}>
-        <View style={[styles.chip, { opacity: combo > 0 ? 1 : 0 }]}>
+        {/* #18: the combo already sits in the round stats under the board; the pill stays only on short screens without them */}
+        <View style={[styles.chip, { opacity: combo > 0 && dockH < 140 ? 1 : 0 }]}>
           <Image source={ART.flame} style={{ width: 18, height: 18 }} />
           <Txt v="small" color={C.honeyDark}>{t("game.combo", { x: 1 + 0.25 * combo })}</Txt>
         </View>
@@ -783,9 +784,10 @@ export default function GameScreen(props: Props) {
               <View style={[styles.dockCard, { borderColor: props.dayColor.active ? C.pollen[props.dayColor.color] : C.line, borderStyle: props.dayColor.active ? "solid" : "dashed" }]} accessibilityLabel={t("pz.dayColor")}>
                 <Image source={ART.cells[props.dayColor.color]} style={{ width: 44, height: 38 }} />
                 <View style={{ flex: 1 }}>
-                  <Txt v="h3" style={{ fontSize: 14 }} numberOfLines={1}>{narrow ? t("pz.dayColor") : `${t("pz.dayColor")} ×1.5`}</Txt>
-                  <Txt v="tiny" color={props.dayColor.active ? C.greenDark : C.dim} numberOfLines={1}>
-                    {narrow ? (props.dayColor.active ? `×1.5 · ${colorName(props.dayColor.color)}` : "×1.5") : props.dayColor.active ? colorName(props.dayColor.color) : t("game.dayColorOff")}
+                  {/* #18: the title alone on the first line, the multiplier with the colour (or the hint) below — fits narrow screens */}
+                  <Txt v="h3" style={{ fontSize: 14 }} numberOfLines={1} adjustsFontSizeToFit>{t("pz.dayColor")}</Txt>
+                  <Txt v="tiny" color={props.dayColor.active ? C.greenDark : C.dim} numberOfLines={1} adjustsFontSizeToFit>
+                    {props.dayColor.active ? `×1.5 · ${colorName(props.dayColor.color)}` : t("game.dayColorOff")}
                   </Txt>
                 </View>
               </View>

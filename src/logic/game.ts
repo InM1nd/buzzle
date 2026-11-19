@@ -14,7 +14,7 @@ import {
 } from "./economy";
 import { HIVE_SLOTS } from "./hex";
 import {
-  bedCost, dayColor, DAY_COLOR_MULT, FLOWER_BY_ID, Garden, gardenHiveBonus, harvest as harvestBed, hasColor, migrateGarden, newGarden,
+  bedCost, dayColor, FLOWER_BY_ID, Garden, gardenHiveBonus, harvest as harvestBed, hasColor, migrateGarden, newGarden,
   plant as plantBed, seedCost, settleGarden, water as waterBed, waterAll as waterAllBeds, emptyBed,
 } from "./garden";
 import { bonusReward, loginReward, Reward, TaskDef, TaskEvent, taskById, tasksForDay, taskReward, WEEKLY_TASKS } from "./tasks";
@@ -507,12 +507,8 @@ export interface RoundReward {
 
 export function finishRound(s0: GameState, r: RoundSummary, now: number): { state: GameState; reward: RoundReward } {
   let s = tick(s0, now);
-  // colour of the day: free play already scores that colour ×1.5 (rulesFor); the daily puzzle keeps equal
-  // conditions for the stars and pays +50% honey for that colour's share of the score instead.
-  const dc = dayColorInfo(s, now);
-  const cells = r.cellsByColor.reduce((a, b) => a + b, 0);
-  const share = r.mode === "daily" && dc.active && cells > 0 ? (r.cellsByColor[dc.color] ?? 0) / cells : 0;
-  const honey = Math.round((r.score / 10) * puzzleHoneyMult(s) * (1 + (DAY_COLOR_MULT - 1) * share));
+  // colour of the day: free play only (rulesFor scores that colour ×1.5); 1.7 (#18): the daily puzzle no longer shows it or pays for it
+  const honey = Math.round((r.score / 10) * puzzleHoneyMult(s));
   const record = r.score > s.stats.bestScore;
   s = {
     ...s,

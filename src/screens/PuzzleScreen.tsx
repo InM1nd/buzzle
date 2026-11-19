@@ -13,7 +13,7 @@ import { ART } from "../ui/art";
 import { C, F, shadow, K, themed, activeCard, isNight } from "../ui/theme";
 import { Bobbing, Card, CloseBtn, fmt, GameButton, Glow, Overlay, Press, Stars, Txt, useTopPad, useBottomPad, FitTxt, fitSize } from "../ui/components";
 import { dateLong, days, weekday } from "../ui/format";
-import { activeEvent, nextEventStart } from "../logic/event";
+import { activeEvent } from "../logic/event";
 import { Pt } from "../ui/Fly";
 import { EventCard, EventUi } from "./EventTrack";
 
@@ -36,6 +36,8 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
   const [useMoves, setUseMoves] = React.useState(false);
   const [useBomb, setUseBomb] = React.useState(false);
   const bs = s.loot.boosters;
+  // #18: a choice only counts while the booster is in stock (a stale tick stayed on after the last one was used)
+  const takeMoves = useMoves && bs.moves > 0, takeBomb = useBomb && bs.bomb > 0;
   const boostFs = Math.min(...(["moves", "bomb", "shuffle"] as const).map((id) => fitSize(BOOSTERS[id].name, 15, 13)));
   const d = today(s, now);
   const res = s.daily.results[d];
@@ -45,9 +47,6 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
   // round bonuses on the free play card: one icon + one short label each
   const chips: { k: string; icon: ImageSourcePropType; text: string }[] = [];
   const halloween = !!activeEvent(d) && React.useContext(EventUi);
-  // the locked Night Flight card names the next start date (right this year and next year)
-  const ns = new Date(nextEventStart(today(s, now)) * 86400000);
-  const flLocked = t("fl.locked", { date: dateLong(new Date(ns.getUTCFullYear(), ns.getUTCMonth(), ns.getUTCDate())) });
   if (halloween) chips.push({ k: "ev", icon: ART.pumpkin, text: t("pz.chipEvent") });
   if (freeMoves(s) > 20) chips.push({ k: "mv", icon: BOOSTER_ART.moves, text: t("pz.chipMoves", { n: freeMoves(s) - 20 }) });
   b.colorMult.forEach((m, i) => { if (m > 1) chips.push({ k: `c${i}`, icon: ART.cells[i], text: t("pz.chipColor", { color: colorName(i), x: Math.round(m * 100) / 100 }) }); });
@@ -105,24 +104,22 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
         />
       </View>
 
-      <Card style={{ flexDirection: "row", alignItems: "center", gap: 12, borderWidth: 2, borderColor: dc.active ? C.pollen[dc.color] : C.line }}>
-        <Image source={ART.cells[dc.color]} style={{ width: 46, height: 40, opacity: dc.active ? 1 : 0.55 }} />
-        <View style={{ flex: 1 }} accessibilityLabel={t("pz.dayColor")}>
-          <Txt v="h3">{t("pz.dayColorTitle", { color: colorName(dc.color) })}</Txt>
-          <Txt v="small" color={dc.active ? C.greenDark : C.dim}>
-            {dc.active
-              ? t("pz.dayColorOn")
-              : t("pz.dayColorOff", { flower: FLOWERS.find((f) => f.color === dc.color)!.name })}
-          </Txt>
-        </View>
-      </Card>
-
       <Card>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
           <View style={styles.freeIcon}><Image source={ART.honey} style={{ width: 42, height: 42 }} /></View>
           <View style={{ flex: 1 }}>
             <Txt v="h2">{t("mode.free")}</Txt>
             <Txt v="small" color={C.dim}>{t("pz.freeSub", { n: freeMoves(s) })}</Txt>
+          </View>
+        </View>
+        {/* #18: the colour of the day is a free play bonus only, so it lives in this card (the daily puzzle no longer shows it) */}
+        <View style={[styles.dayColor, { borderColor: dc.active ? C.pollen[dc.color] : C.line, borderStyle: dc.active ? "solid" : "dashed" }]} accessibilityLabel={t("pz.dayColor")}>
+          <Image source={ART.cells[dc.color]} style={{ width: 34, height: 30, opacity: dc.active ? 1 : 0.55 }} />
+          <View style={{ flex: 1 }}>
+            <Txt v="small" style={F.black} numberOfLines={1}>{t("pz.dayColorTitle", { color: colorName(dc.color) })}</Txt>
+            <Txt v="tiny" color={dc.active ? C.greenDark : C.dim} numberOfLines={2}>
+              {dc.active ? t("pz.dayColorOn") : t("pz.dayColorOff", { flower: FLOWERS.find((f) => f.color === dc.color)!.name })}
+            </Txt>
           </View>
         </View>
         {chips.length ? (
@@ -142,7 +139,7 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
         {/* boosters you take into the round, always visible */}
         <View style={styles.boostRow}>
           {(["moves", "bomb", "shuffle"] as const).map((id) => (
-            <View key={id} style={[styles.boostMini, (id === "moves" ? useMoves : id === "bomb" ? useBomb : false) && styles.boostOn]}>
+            <View key={id} style={[styles.boostMini, (id === "moves" ? takeMoves : id === "bomb" ? takeBomb : false) && styles.boostOn]}>
               <Image source={BOOSTER_ART[id]} style={{ width: 26, height: 26 }} resizeMode="contain" />
               <Txt v="tiny" color={bs[id] ? C.text : C.faint} style={{ fontWeight: "900" }}>×{bs[id]}</Txt>
             </View>
@@ -151,29 +148,16 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
         <GameButton title={t("pz.play")} color="honey" style={{ marginTop: 12 }} onPress={() => setPick(true)} label={t("mode.free")} />
       </Card>
 
+      {/* side modes share one card layout (#18); a seasonal game shows only in its season (Night Flight: the Halloween event) */}
       <View style={{ flexDirection: "row", gap: 10 }}>
-        <Card style={{ flex: 1, backgroundColor: K.bg("#F1E9FF"), borderWidth: 2, borderColor: weekendOpen(s, now) ? "#9A6BE0" : "#E2D6F7" }}>
-          <Image source={ART.cells[2]} style={{ width: 38, height: 34 }} />
-          <Txt v="h3" style={{ marginTop: 6 }}>{t("pz.weekend")}</Txt>
-          <Txt v="tiny" color={C.dim}>{t("pz.weekendSub", { n: WEEKEND_MOVES })}</Txt>
-          <View style={{ marginTop: 4 }}><Stars n={s.week.weekendStars} size={14} /></View>
-          <GameButton title={weekendOpen(s, now) ? t("pz.play") : t("pz.weekendOnly")} disabled={!weekendOpen(s, now)} color={weekendOpen(s, now) ? "purple" : "grey"} style={{ marginTop: 8 }}
-            onPress={() => onPlay("weekend")} label={t("mode.weekend")} />
-        </Card>
-        <Card style={{ flex: 1, backgroundColor: K.bg("#2B1B3D"), borderWidth: 2, borderColor: K.bd("#3A2F5B") }}>
-          <Image source={ART.flightIcon} style={{ width: 40, height: 40, opacity: halloween ? 1 : 0.55 }} />
-          <Txt v="h3" color="#fff" style={{ marginTop: 6 }}>{t("fl.title")}</Txt>
-          <Txt v="tiny" color={K.fg("#BFF5E6")}>{t(halloween ? "fl.sub" : "fl.lockedSub")}</Txt>
-          {!halloween ? <Txt v="tiny" color={K.fg("#FFC56B")} style={[F.black, { marginTop: 2 }]}>{flLocked}</Txt> : null}
-          {s.flight.best > 0 ? <Txt v="tiny" color={K.fg("#FFC56B")} style={{ marginTop: 2 }}>{t("fl.best", { n: s.flight.best })}</Txt> : null}
-          <View style={{ flex: 1 }} />
-          {/* Night Flight is a Halloween mini-game: outside the event the card stays, locked until next year */}
-          {halloween ? (
-            <GameButton title={t("pz.play")} color="honey" style={{ marginTop: 8 }} onPress={onFlight} label={t("fl.title")} />
-          ) : (
-            <GameButton title={t("fl.lockedBtn")} disabled color="grey" style={{ marginTop: 8 }} onPress={() => {}} label={`${t("fl.title")}: ${flLocked}`} />
-          )}
-        </Card>
+        <ModeCard icon={<Image source={ART.cells[2]} style={{ width: 38, height: 34 }} />} title={t("pz.weekend")} sub={t("pz.weekendSub", { n: WEEKEND_MOVES })}
+          extra={<Stars n={s.week.weekendStars} size={14} />} bg={K.bg("#F1E9FF")} border={weekendOpen(s, now) ? "#9A6BE0" : "#E2D6F7"}
+          button={{ title: weekendOpen(s, now) ? t("pz.play") : t("pz.weekendOnly"), color: weekendOpen(s, now) ? "purple" : "grey", disabled: !weekendOpen(s, now), onPress: () => onPlay("weekend"), label: t("mode.weekend") }} />
+        {halloween ? (
+          <ModeCard dark icon={<Image source={ART.flightIcon} style={{ width: 38, height: 38 }} />} title={t("fl.title")} sub={t("fl.sub")}
+            extra={s.flight.best > 0 ? <Txt v="tiny" color={K.fg("#FFC56B")}>{t("fl.best", { n: s.flight.best })}</Txt> : null}
+            bg={K.bg("#2B1B3D")} border={K.bd("#3A2F5B")} button={{ title: t("pz.play"), color: "honey", onPress: onFlight, label: t("fl.title") }} />
+        ) : null}
       </View>
 
       <Card>
@@ -193,7 +177,7 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
           {/* one font size for all three names (the longest decides), so the cards read evenly */}
           {(["moves", "bomb", "shuffle"] as const).map((id) => {
             const have = bs[id], price = SHOP_BOOSTER[id];
-            const on = id === "moves" ? useMoves : id === "bomb" ? useBomb : false;
+            const on = id === "moves" ? takeMoves : id === "bomb" ? takeBomb : false;
             const toggle = id === "moves" ? () => setUseMoves(!useMoves) : id === "bomb" ? () => setUseBomb(!useBomb) : null;
             return (
               <View key={id} style={[styles.boostCard, on && styles.boostOn, { flexWrap: "wrap", gap: 10, paddingHorizontal: 10 }]}>
@@ -214,7 +198,10 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
                 ) : have === 0 ? (
                   <GameButton small title={`${price}`} icon={ART.pollen} color={s.loot.pollen >= price ? "green" : "white"} disabled={s.loot.pollen < price}
                     onPress={() => onBuyBooster(id)} label={t("pz.buyBooster", { name: BOOSTERS[id].name, n: price })} style={{ minWidth: 0, width: 66 }} />
-                ) : <View style={styles.check}><Txt v="tiny" color={C.green} style={{ fontWeight: "900" }}>✓</Txt></View>}
+                ) : (
+                  // #18: shuffle is not taken into the round (it is a button during the round): a quiet label, not a tick that looked "on by default"
+                  <View style={styles.inRound}><Txt v="tiny" color={C.dim} style={{ fontWeight: "800" }} numberOfLines={1}>{t("pz.inRound")}</Txt></View>
+                )}
                 {/* the description runs under the whole row (two lines reserved so all three cards are the same height) */}
                 <Txt v="tiny" color={C.dim} numberOfLines={2} style={{ width: "100%", minHeight: 30, paddingLeft: 50, marginTop: -4 }}>{id === "shuffle" ? t("pz.shuffleInRound") : BOOSTERS[id].desc}</Txt>
               </View>
@@ -222,10 +209,27 @@ export default function PuzzleScreen({ s, now, onPlay, onBuyBooster, onClaimTrac
           })}
         </View>
         <Txt v="tiny" color={C.dim} center style={{ marginTop: 10 }}>{t("pz.pollenHave", { n: fmt(s.loot.pollen) })}</Txt>
-        <GameButton title={useMoves || useBomb ? t("pz.playWith") : t("pz.play")} color="green" style={{ marginTop: 12 }}
-          onPress={() => { setPick(false); onPlay("free", { moves: useMoves && bs.moves > 0, bomb: useBomb && bs.bomb > 0 }); setUseMoves(false); setUseBomb(false); }} label={t("pz.startFree")} />
+        <GameButton title={takeMoves || takeBomb ? t("pz.playWith") : t("pz.play")} color="green" style={{ marginTop: 12 }}
+          onPress={() => { setPick(false); onPlay("free", { moves: takeMoves, bomb: takeBomb }); setUseMoves(false); setUseBomb(false); }} label={t("pz.startFree")} />
       </Overlay>
     </ScrollView>
+  );
+}
+
+/** a side mode (weekend puzzle, seasonal mini-games): icon, title, one line, an extra line (stars / record), button at the bottom */
+function ModeCard({ icon, title, sub, extra, bg, border, dark, button }: {
+  icon: React.ReactNode; title: string; sub: string; extra?: React.ReactNode; bg: string; border: string; dark?: boolean;
+  button: { title: string; color: "purple" | "grey" | "honey" | "green"; disabled?: boolean; onPress: () => void; label: string };
+}) {
+  return (
+    <Card style={{ flex: 1, backgroundColor: bg, borderWidth: 2, borderColor: border }}>
+      {icon}
+      <Txt v="h3" color={dark ? "#fff" : undefined} style={{ marginTop: 6 }} numberOfLines={1}>{title}</Txt>
+      <Txt v="tiny" color={dark ? K.fg("#BFF5E6") : C.dim} numberOfLines={2} style={{ minHeight: 28 }}>{sub}</Txt>
+      <View style={{ marginTop: 4, minHeight: 16 }}>{extra}</View>
+      <View style={{ flex: 1 }} />
+      <GameButton title={button.title} color={button.color} disabled={button.disabled} style={{ marginTop: 8 }} onPress={button.onPress} label={button.label} />
+    </Card>
   );
 }
 
@@ -254,6 +258,8 @@ const styles = themed(() => StyleSheet.create({
   boostRow: { flexDirection: "row", gap: 8, marginTop: 12 },
   boostMini: { flexDirection: "row", alignItems: "center", gap: 4, borderRadius: 12, borderWidth: 2, borderColor: C.line, paddingHorizontal: 8, paddingVertical: 3, backgroundColor: K.bg("#fff") },
   boostCard: { flexDirection: "row", alignItems: "center", gap: 10, borderRadius: 18, borderWidth: 2, borderColor: C.line, padding: 10, backgroundColor: K.bg("#fff") },
+  dayColor: { flexDirection: "row", alignItems: "center", gap: 10, marginTop: 12, padding: 8, borderRadius: 14, borderWidth: 2 },
+  inRound: { paddingHorizontal: 8, height: 30, borderRadius: 15, alignItems: "center", justifyContent: "center", backgroundColor: K.bg("#F4EEE2") },
   check: { width: 40, height: 40, borderRadius: 14, borderWidth: 2, borderColor: C.line, alignItems: "center", justifyContent: "center", backgroundColor: K.bg("#fff") },
   checkOn: { borderColor: C.green, backgroundColor: K.bg("#E4F7EA") },
   boost: { flex: 1, flexDirection: "row", alignItems: "center", gap: 6, borderRadius: 14, borderWidth: 2, borderColor: C.line, padding: 6, backgroundColor: K.bg("#fff") },

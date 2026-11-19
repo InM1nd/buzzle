@@ -1,0 +1,178 @@
+[
+  {
+    "key": "cell0",
+    "sourceSize": [
+      1347,
+      1167
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      14,
+      712,
+      610
+    ],
+    "sourceSHA256": "2c3e9c36c065535f834b63a45db93ceea530c319db2a320610d8419c14a49526"
+  },
+  {
+    "key": "cell1",
+    "sourceSize": [
+      1347,
+      1167
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      15,
+      712,
+      608
+    ],
+    "sourceSHA256": "538236b5ceff0a6fc30cfb6208a5a840984bf9758afef9a12d09c0db0eaa8151"
+  },
+  {
+    "key": "cell2",
+    "sourceSize": [
+      1347,
+      1168
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      15,
+      712,
+      609
+    ],
+    "sourceSHA256": "b61700af086b82bb5ea9af2d1f44456b68fc512ee8715a0a75de8d874a8ddd15"
+  },
+  {
+    "key": "cell3",
+    "sourceSize": [
+      1347,
+      1167
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      14,
+      712,
+      609
+    ],
+    "sourceSHA256": "2b2948e20d05aaa140f65fa111eecd01cac3675cef9d5a37f92749ceb18fb565"
+  },
+  {
+    "key": "cell4",
+    "sourceSize": [
+      1347,
+      1167
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      14,
+      712,
+      609
+    ],
+    "sourceSHA256": "04c470dc0744ac02ce8b7a85a8ef3501063c3fdedf59669745b4e5c0da728026"
+  },
+  {
+    "key": "cell_wild",
+    "sourceSize": [
+      1347,
+      1167
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      18,
+      712,
+      606
+    ],
+    "sourceSHA256": "dcfafa32545d8c44326b5cee9743dac7a54299c37176493efee0810ebcda1bac"
+  },
+  {
+    "key": "bomb",
+    "sourceSize": [
+      1254,
+      1254
+    ],
+    "exportSize": [
+      512,
+      512
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      108,
+      73,
+      404,
+      439
+    ],
+    "sourceSHA256": "628e9e806e4c592af347954664f4df6e17c33ab03a5aec01098da287a8152057"
+  },
+  {
+    "key": "cell_snowflake",
+    "sourceSize": [
+      1347,
+      1168
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      14,
+      712,
+      610
+    ],
+    "sourceSHA256": "58e975322662b8627478fc1dd815dea01b2c92c6a55672ae6b981d696a20b16b"
+  }
+]

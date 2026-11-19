@@ -1,0 +1,1026 @@
+[
+  {
+    "style": "classic",
+    "key": "cell0",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "nativeVisibleSize": [
+      406,
+      341
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      16,
+      712,
+      607
+    ]
+  },
+  {
+    "style": "classic",
+    "key": "cell1",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      444,
+      0,
+      887,
+      444
+    ],
+    "nativeVisibleSize": [
+      412,
+      342
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      20,
+      711,
+      604
+    ]
+  },
+  {
+    "style": "classic",
+    "key": "cell2",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      887,
+      0,
+      1330,
+      444
+    ],
+    "nativeVisibleSize": [
+      411,
+      342
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      19,
+      712,
+      605
+    ]
+  },
+  {
+    "style": "classic",
+    "key": "cell3",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      1330,
+      0,
+      1774,
+      444
+    ],
+    "nativeVisibleSize": [
+      410,
+      342
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      18,
+      712,
+      605
+    ]
+  },
+  {
+    "style": "classic",
+    "key": "cell4",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      0,
+      444,
+      444,
+      887
+    ],
+    "nativeVisibleSize": [
+      418,
+      350
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      17,
+      712,
+      606
+    ]
+  },
+  {
+    "style": "classic",
+    "key": "cell_wild",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      444,
+      444,
+      887,
+      887
+    ],
+    "nativeVisibleSize": [
+      420,
+      350
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      18,
+      712,
+      605
+    ]
+  },
+  {
+    "style": "classic",
+    "key": "bomb",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      887,
+      444,
+      1330,
+      887
+    ],
+    "nativeVisibleSize": [
+      238,
+      293
+    ],
+    "exportSize": [
+      512,
+      512
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      108,
+      74,
+      404,
+      437
+    ]
+  },
+  {
+    "style": "classic",
+    "key": "cell_snowflake",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      1330,
+      444,
+      1774,
+      887
+    ],
+    "nativeVisibleSize": [
+      420,
+      350
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      19,
+      712,
+      605
+    ]
+  },
+  {
+    "style": "pastel",
+    "key": "cell0",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "nativeVisibleSize": [
+      391,
+      339
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      7,
+      712,
+      616
+    ]
+  },
+  {
+    "style": "pastel",
+    "key": "cell1",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      444,
+      0,
+      887,
+      444
+    ],
+    "nativeVisibleSize": [
+      395,
+      338
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      11,
+      712,
+      613
+    ]
+  },
+  {
+    "style": "pastel",
+    "key": "cell2",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      887,
+      0,
+      1330,
+      444
+    ],
+    "nativeVisibleSize": [
+      396,
+      338
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      11,
+      712,
+      612
+    ]
+  },
+  {
+    "style": "pastel",
+    "key": "cell3",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      1330,
+      0,
+      1774,
+      444
+    ],
+    "nativeVisibleSize": [
+      394,
+      338
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      10,
+      712,
+      614
+    ]
+  },
+  {
+    "style": "pastel",
+    "key": "cell4",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      0,
+      444,
+      444,
+      887
+    ],
+    "nativeVisibleSize": [
+      392,
+      339
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      7,
+      712,
+      616
+    ]
+  },
+  {
+    "style": "pastel",
+    "key": "cell_wild",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      444,
+      444,
+      887,
+      887
+    ],
+    "nativeVisibleSize": [
+      395,
+      338
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      11,
+      712,
+      613
+    ]
+  },
+  {
+    "style": "pastel",
+    "key": "bomb",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      887,
+      444,
+      1330,
+      887
+    ],
+    "nativeVisibleSize": [
+      210,
+      266
+    ],
+    "exportSize": [
+      512,
+      512
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      110,
+      72,
+      401,
+      440
+    ]
+  },
+  {
+    "style": "pastel",
+    "key": "cell_snowflake",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      1330,
+      444,
+      1774,
+      887
+    ],
+    "nativeVisibleSize": [
+      398,
+      338
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      13,
+      712,
+      611
+    ]
+  },
+  {
+    "style": "wax",
+    "key": "cell0",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "nativeVisibleSize": [
+      386,
+      332
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      9,
+      712,
+      615
+    ]
+  },
+  {
+    "style": "wax",
+    "key": "cell1",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      444,
+      0,
+      887,
+      444
+    ],
+    "nativeVisibleSize": [
+      386,
+      332
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      9,
+      712,
+      615
+    ]
+  },
+  {
+    "style": "wax",
+    "key": "cell2",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      887,
+      0,
+      1330,
+      444
+    ],
+    "nativeVisibleSize": [
+      387,
+      332
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      10,
+      712,
+      614
+    ]
+  },
+  {
+    "style": "wax",
+    "key": "cell3",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      1330,
+      0,
+      1774,
+      444
+    ],
+    "nativeVisibleSize": [
+      385,
+      332
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      8,
+      712,
+      615
+    ]
+  },
+  {
+    "style": "wax",
+    "key": "cell4",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      0,
+      444,
+      444,
+      887
+    ],
+    "nativeVisibleSize": [
+      391,
+      339
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      7,
+      712,
+      617
+    ]
+  },
+  {
+    "style": "wax",
+    "key": "cell_wild",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      444,
+      444,
+      887,
+      887
+    ],
+    "nativeVisibleSize": [
+      392,
+      339
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      9,
+      7,
+      712,
+      616
+    ]
+  },
+  {
+    "style": "wax",
+    "key": "bomb",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      887,
+      444,
+      1330,
+      887
+    ],
+    "nativeVisibleSize": [
+      231,
+      300
+    ],
+    "exportSize": [
+      512,
+      512
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      114,
+      72,
+      397,
+      440
+    ]
+  },
+  {
+    "style": "wax",
+    "key": "cell_snowflake",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      1330,
+      444,
+      1774,
+      887
+    ],
+    "nativeVisibleSize": [
+      403,
+      341
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      14,
+      712,
+      610
+    ]
+  },
+  {
+    "style": "balanced",
+    "key": "cell0",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "nativeVisibleSize": [
+      400,
+      345
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      8,
+      712,
+      615
+    ]
+  },
+  {
+    "style": "balanced",
+    "key": "cell1",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      444,
+      0,
+      887,
+      444
+    ],
+    "nativeVisibleSize": [
+      404,
+      345
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      11,
+      712,
+      612
+    ]
+  },
+  {
+    "style": "balanced",
+    "key": "cell2",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      887,
+      0,
+      1330,
+      444
+    ],
+    "nativeVisibleSize": [
+      404,
+      345
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      11,
+      712,
+      611
+    ]
+  },
+  {
+    "style": "balanced",
+    "key": "cell3",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      1330,
+      0,
+      1774,
+      444
+    ],
+    "nativeVisibleSize": [
+      403,
+      345
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      10,
+      712,
+      613
+    ]
+  },
+  {
+    "style": "balanced",
+    "key": "cell4",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      0,
+      444,
+      444,
+      887
+    ],
+    "nativeVisibleSize": [
+      402,
+      346
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      9,
+      712,
+      615
+    ]
+  },
+  {
+    "style": "balanced",
+    "key": "cell_wild",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      444,
+      444,
+      887,
+      887
+    ],
+    "nativeVisibleSize": [
+      405,
+      347
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      10,
+      712,
+      613
+    ]
+  },
+  {
+    "style": "balanced",
+    "key": "bomb",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      887,
+      444,
+      1330,
+      887
+    ],
+    "nativeVisibleSize": [
+      227,
+      285
+    ],
+    "exportSize": [
+      512,
+      512
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      109,
+      72,
+      402,
+      440
+    ]
+  },
+  {
+    "style": "balanced",
+    "key": "cell_snowflake",
+    "atlasSize": [
+      1774,
+      887
+    ],
+    "atlasCell": [
+      1330,
+      444,
+      1774,
+      887
+    ],
+    "nativeVisibleSize": [
+      403,
+      347
+    ],
+    "exportSize": [
+      720,
+      624
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "visibleBbox": [
+      8,
+      9,
+      712,
+      615
+    ]
+  }
+]

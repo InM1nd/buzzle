@@ -1,0 +1,18 @@
+{
+  "garden_winter_can": {
+    "prompt": "Use case: stylized-concept. Asset: individual Buzzle winter garden tool icon, transparent PNG. Image 1 is object shape reference; image 2 is STYLE AND PALETTE ONLY, do not include mailbox. A compact functional winter watering can. Preserve image 1 silhouette: round squat faceted vessel, large open arch handle above, loop handle on left, rising spout pointing right with round perforated sprinkler head. Blueberry blue enamel with lighter icy-blue facets, warm honey-gold narrow rim accents and small ivory six-arm snowflake emblem centered on broad visible vessel side. Empty open handles, all sprinkler holes legible. No snow or ice blocking vessel or spout, no ribbon. Match Buzzle cozy low-poly 3D, clear broad triangular facets, soft warm upper-left light, honey-gold and blueberry palette, softly shaded volume, clean silhouette readable at 48px. Single centered complete object, square image with generous transparent margins. Genuine transparent background, no ground plane, no cast shadow outside object, no text, no UI, no watermark, no characters.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/can.webp",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-decor-v4/deco_winter_mailbox.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-c9569d5c-30ff-4629-871d-03f002c71321.png"
+  },
+  "garden_winter_shovel": {
+    "prompt": "Use case: stylized-concept. Asset: individual Buzzle winter garden tool icon, transparent PNG. Image 1 is object shape reference; image 2 is STYLE AND PALETTE ONLY, do not include mailbox. One small functional garden trowel, not a snow shovel. Preserve image 1 silhouette and diagonal orientation: broad pointed concave silver blade toward lower-left, short wooden handle toward upper-right. Warm honey-brown faceted wood, small blueberry-blue enamel end cap with tiny ivory six-arm snowflake inlay and narrow golden collar at blade connection. Blade remains clean pale silver with restrained cool-blue reflections. No snow, dirt, ribbon or extra items. Match Buzzle cozy low-poly 3D, clear broad triangular facets, soft warm upper-left light, honey-gold and blueberry palette, softly shaded volume, clean silhouette readable at 48px. Single centered complete object, square image with generous transparent margins. Genuine transparent background, no ground plane, no cast shadow outside object, no text, no UI, no watermark, no characters.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/shovel.webp",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-decor-v4/deco_winter_mailbox.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-7a876f3e-5824-44ac-960b-420898191c4d.png"
+  }
+}

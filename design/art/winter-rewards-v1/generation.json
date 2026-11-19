@@ -1,0 +1,18 @@
+{
+  "reward_winter_honey": {
+    "prompt": "Create ONE winter reward item sprite for Buzzle cozy bee game. Reference1 determines original resource identity/shape/material. Reference2 is ONLY seasonal packaging palette reference, do NOT draw the gift box. A SINGLE round squat HONEY JAR matches reference1 silhouette: faceted amber golden honey belly, small warm brown lid. Add a small IVORY-CREAM fabric cover fitted ONLY over lid with softly folded scalloped edge, tied around narrow neck with slim CRANBERRY RED ribbon and one SMALL bow at front-right. Body remains mostly unobstructed golden amber so honey resource reads instantly. One tiny simple hexagon honey tag near knot, no text. Do not wrap jar in a gift box, no evergreen berry cluster, no snow or ice in honey. Broad clean low-poly3D facets, chunky tactile forms, warm soft upper-left light, honey-amber/cream/cranberry palette consistent with Buzzle. Keep decoration subordinate to original resource. Clean readable icon at64px, no intricate pattern or microdetail. Single whole item centered square canvas with ample transparent margins, no scene, snow particles, detached ground shadow, text, numbers, logo, price or UI. True transparent background. One whole icon only, no sheet or alternate views.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/honey.webp",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-advent-v1/advent-gift-wrapped.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-40a18985-7d5f-489c-a06f-5a99294fcdc1.png"
+  },
+  "reward_winter_pollen": {
+    "prompt": "Create ONE winter reward item sprite for Buzzle cozy bee game. Reference1 determines original resource identity/shape/material. Reference2 is ONLY seasonal packaging palette reference, do NOT draw the gift box. A SINGLE shallow circular honey-gold POLLEN COMB CUP matches reference1 identity: near-top three-quarter view, low thick faceted golden rim with warm yellow center and FIVE large rounded pink/coral pollen grains visible inside. Add ONLY a narrow cranberry-red ribbon around exterior sidewall with one SMALL ivory-cream knot/bow at front-right outer rim, not across grains. All five pink grains stay visible. Read as same pollen currency icon presented as a gift, not a bag, seed packet, coin, cake, dessert or jar. No berries, holly, winter hat, snow or ice. Broad clean low-poly3D facets, chunky tactile forms, warm soft upper-left light, honey-amber/cream/cranberry palette consistent with Buzzle. Keep decoration subordinate to original resource. Clean readable icon at64px, no intricate pattern or microdetail. Single whole item centered square canvas with ample transparent margins, no scene, snow particles, detached ground shadow, text, numbers, logo, price or UI. True transparent background. One whole icon only, no sheet or alternate views.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/pollen.webp",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-advent-v1/advent-gift-wrapped.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-1f9924c3-d818-4a91-adb9-84535db67f5c.png"
+  }
+}

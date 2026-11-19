@@ -1,0 +1,32 @@
+{
+  "deco_winter_mailbox": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpVisibleMatch": true,
+    "baseAnchor": [
+      512,
+      944
+    ]
+  },
+  "deco_winter_gingerbread_house": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpVisibleMatch": true,
+    "baseAnchor": [
+      512,
+      944
+    ]
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "red": {
+    "size": [
+      512,
+      512
+    ],
+    "reconstructsOriginalOnBothBackgrounds": true,
+    "losslessWebpVisibleMatch": true,
+    "maskBBox": [
+      107,
+      73,
+      406,
+      187
+    ]
+  },
+  "green": {
+    "size": [
+      512,
+      512
+    ],
+    "reconstructsOriginalOnBothBackgrounds": true,
+    "losslessWebpVisibleMatch": true,
+    "maskBBox": [
+      111,
+      79,
+      402,
+      183
+    ]
+  },
+  "gold": {
+    "size": [
+      512,
+      512
+    ],
+    "reconstructsOriginalOnBothBackgrounds": true,
+    "losslessWebpVisibleMatch": true,
+    "maskBBox": [
+      108,
+      74,
+      403,
+      187
+    ]
+  },
+  "blue": {
+    "size": [
+      512,
+      512
+    ],
+    "reconstructsOriginalOnBothBackgrounds": true,
+    "losslessWebpVisibleMatch": true,
+    "maskBBox": [
+      109,
+      74,
+      403,
+      187
+    ]
+  }
+}

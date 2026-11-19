@@ -1,0 +1,8 @@
+{
+  "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-ca9aa540-47ac-4617-a92e-1c6a845748a7.png",
+  "prompt": "Buzzle sprite sheet for a single matching gift box with TWO fully disconnected separate layers stacked vertically centered, on strictly transparent alpha. Top layer: ONLY the shallow cream wax box lid with faceted red bow, ribbons, small holly and gold tag entirely attached to lid (nothing hanging below the lid lip). Bottom layer: ONLY the matching deep square OPEN box base, empty amber interior visible, cream honeycomb relief outside, red bands on sides. Align both to exact same vertical center axis and identical three-quarter camera, front corner pointing down and centered, symmetric visible left/right panels and identical projected widths and diamond perspective, so lid can simply slide vertically down to perfectly cover the opening without rotating or scaling it. Lid horizontal, parallel to opening, never tilted. At least 100 pixels of completely transparent empty gap between layers on tall portrait 2:3 canvas. No overlap, neither piece occluded or cropped, no markers, no labels, no extra elements, no shadows in gap or outside pieces. Preserve warm rich low poly look of references. Box opening entire rim visible. No ground.",
+  "references": [
+    "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-advent-v3/advent-gift-open.png",
+    "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-advent-v1/advent-gift-wrapped.png"
+  ]
+}

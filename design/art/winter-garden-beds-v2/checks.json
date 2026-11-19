@@ -1,0 +1,18 @@
+{
+  "size": [
+    1536,
+    768
+  ],
+  "identicalAlpha": true,
+  "identicalOutsideSoil": true,
+  "changedBounds": [
+    214,
+    292,
+    1326,
+    430
+  ],
+  "plantAnchor": [
+    768,
+    390
+  ]
+}

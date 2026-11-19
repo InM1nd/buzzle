@@ -1,0 +1,20 @@
+{
+  "winter_card": {
+    "size": [
+      1774,
+      887
+    ],
+    "mode": "RGB",
+    "pngWebpMatch": true,
+    "cropped": false
+  },
+  "christmas_card": {
+    "size": [
+      1774,
+      887
+    ],
+    "mode": "RGB",
+    "pngWebpMatch": true,
+    "cropped": false
+  }
+}

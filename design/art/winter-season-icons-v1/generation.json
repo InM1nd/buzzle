@@ -1,0 +1,18 @@
+{
+  "winter": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-389e530d-f93e-4bdd-abf4-377da80fc5b9.png",
+    "prompt": "Create Buzzle seasonal theme picker icon (not illustrated card). A muted deep blueberry-blue flat-top hexagonal honeycomb medallion with a bold raised ivory six-arm snowflake (simple short branches), icy blue faceted bevel. White snowflake on dark blue, inverse contrast of source, so this cannot be mistaken for the freeze booster. First reference: identical overall frontal flat-top hexagonal badge shape, broad faceted bevel; second: warm palette and sculpted low-poly materials only. Match warm soft game lighting and broad readable facets. One compact complete isolated badge centered on square transparent PNG, genuine alpha, generous margins, no text, no floating decorations, no shadows outside badge. Simplify bold symbol legible at 24 pixels.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-streak-v1/winter_streak_freeze.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-advent-v1/advent-gift-wrapped.png"
+    ]
+  },
+  "christmas": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-092ec7ee-2857-4b23-bb26-172f6d2668f8.png",
+    "prompt": "Create Buzzle seasonal theme picker icon (not illustrated card). A matte honey-gold flat-top hexagonal wax honeycomb medallion, with a single big sculpted cranberry ribbon bow centered, two loops and two short tails, all inside outline. No gift box or other adornments. First reference: identical overall frontal flat-top hexagonal badge shape, broad faceted bevel; second: warm palette and sculpted low-poly materials only. Match warm soft game lighting and broad readable facets. One compact complete isolated badge centered on square transparent PNG, genuine alpha, generous margins, no text, no floating decorations, no shadows outside badge. Simplify bold symbol legible at 24 pixels.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-streak-v1/winter_streak_freeze.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-advent-v1/advent-gift-wrapped.png"
+    ]
+  }
+}

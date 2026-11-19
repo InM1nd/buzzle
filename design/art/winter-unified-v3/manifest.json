@@ -1,0 +1,218 @@
+[
+  {
+    "set": "baseline",
+    "series": "winter-day",
+    "scene": "garden",
+    "file": "baseline/winter-day/garden.png",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-backgrounds-v1/garden_bg_winter.png",
+    "sha256": "656736944362982bd8f954aa0830f7d9405c2eb7a3e5adb64b552add29950721",
+    "preservedSource": true
+  },
+  {
+    "set": "baseline",
+    "series": "winter-day",
+    "scene": "hive",
+    "file": "baseline/winter-day/hive.png",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-backgrounds-v1/hive_bg_christmas.png",
+    "sha256": "c70cbb7a8f5a059bac43c11f398ab269ff0a93607cbf35dcaea567fca488da81",
+    "preservedSource": true
+  },
+  {
+    "set": "baseline",
+    "series": "winter-day",
+    "scene": "puzzle",
+    "file": "baseline/winter-day/puzzle.png",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-b9645f57-1ccf-4d31-9bb5-918d08fbd1f6.png",
+    "sha256": "7958b7c3f12b8dd1c94f5959d6ace63f6bc48b16ab635ff8c6605aca02ba0f70",
+    "preservedSource": false
+  },
+  {
+    "set": "baseline",
+    "series": "winter-evening",
+    "scene": "garden",
+    "file": "baseline/winter-evening/garden.png",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-christmas-backgrounds-v2/winter-evening/garden_bg_winter_evening.png",
+    "sha256": "bd7aa6294fbc71c766c6e057e664d97091d8f131b97b72b72e3ac99a9caa2215",
+    "preservedSource": true
+  },
+  {
+    "set": "baseline",
+    "series": "winter-evening",
+    "scene": "hive",
+    "file": "baseline/winter-evening/hive.png",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-christmas-backgrounds-v2/winter-evening/hive_bg_winter_evening.png",
+    "sha256": "2e9d85276b6e06e595086e8147816f2f82a4461f95f414a2840ff1082c595e22",
+    "preservedSource": true
+  },
+  {
+    "set": "baseline",
+    "series": "winter-evening",
+    "scene": "puzzle",
+    "file": "baseline/winter-evening/puzzle.png",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-christmas-backgrounds-v2/winter-evening/puzzle_bg_winter_evening.png",
+    "sha256": "c4e6baee8b3c5682e42f9e2e0e460cf722ae8b4dca0925b20cc218653e51c015",
+    "preservedSource": true
+  },
+  {
+    "set": "baseline",
+    "series": "christmas-day",
+    "scene": "garden",
+    "file": "baseline/christmas-day/garden.png",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-christmas-backgrounds-v2/christmas-day/garden_bg_christmas_day.png",
+    "sha256": "aa29edafe79d8a189513d1c9d102af2b50993faf477d65e2b527c2463f0fa7b8",
+    "preservedSource": true
+  },
+  {
+    "set": "baseline",
+    "series": "christmas-day",
+    "scene": "hive",
+    "file": "baseline/christmas-day/hive.png",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-christmas-backgrounds-v2/christmas-day/hive_bg_christmas_day.png",
+    "sha256": "6c31ef6d604c8d38a9e3b5f0e82d762dfd3c2b5ca20927453c777a14f3a119c8",
+    "preservedSource": true
+  },
+  {
+    "set": "baseline",
+    "series": "christmas-day",
+    "scene": "puzzle",
+    "file": "baseline/christmas-day/puzzle.png",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-christmas-backgrounds-v2/christmas-day/puzzle_bg_christmas_day.png",
+    "sha256": "59f20b6437cd9b085811b563cbcd02b625102b2be2acf2271e6331c04fe23d23",
+    "preservedSource": true
+  },
+  {
+    "set": "baseline",
+    "series": "christmas-evening",
+    "scene": "garden",
+    "file": "baseline/christmas-evening/garden.png",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-christmas-backgrounds-v2/christmas-evening/garden_bg_christmas_evening.png",
+    "sha256": "63b83d124e2a3ab1af91770fa6a2f413c93d28430b4a0e0882b32d970668b10e",
+    "preservedSource": true
+  },
+  {
+    "set": "baseline",
+    "series": "christmas-evening",
+    "scene": "hive",
+    "file": "baseline/christmas-evening/hive.png",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-christmas-backgrounds-v2/christmas-evening/hive_bg_christmas_evening.png",
+    "sha256": "edefa68cb9efe30992a4eef3deddc4dd609b94bfb7574b34a33cafe8241e7fd9",
+    "preservedSource": true
+  },
+  {
+    "set": "baseline",
+    "series": "christmas-evening",
+    "scene": "puzzle",
+    "file": "baseline/christmas-evening/puzzle.png",
+    "source": "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-christmas-backgrounds-v2/christmas-evening/puzzle_bg_christmas_evening.png",
+    "sha256": "12db9c70a4a914b85fc92d7c3ff6dfa56d701e7c4a83f4e71433c191f75094b6",
+    "preservedSource": true
+  },
+  {
+    "set": "alternative",
+    "series": "winter-day",
+    "scene": "garden",
+    "file": "alternative/winter-day/garden.png",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-9a9393f7-c604-42df-bed3-33632429e1b6.png",
+    "sha256": "91f180eeb369102e330aa47097e6885e181331fb7696e3acc0153edead2d6a9a",
+    "preservedSource": false
+  },
+  {
+    "set": "alternative",
+    "series": "winter-day",
+    "scene": "hive",
+    "file": "alternative/winter-day/hive.png",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-b2b48f5b-5041-4b4d-9e09-3796480f2b6d.png",
+    "sha256": "43abd952200526b738a581727a42519bf40b7ca29d5b37a6289e6ac1066416c8",
+    "preservedSource": false
+  },
+  {
+    "set": "alternative",
+    "series": "winter-day",
+    "scene": "puzzle",
+    "file": "alternative/winter-day/puzzle.png",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-cb630ad4-85e6-44e8-9b6e-0366b403643c.png",
+    "sha256": "9a1c6a109b109e0b5cf49ccec9cc50643c7e5249f8841c431f9bd75ebc1ce0ac",
+    "preservedSource": false
+  },
+  {
+    "set": "alternative",
+    "series": "winter-evening",
+    "scene": "garden",
+    "file": "alternative/winter-evening/garden.png",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-5135a9a8-1e24-40ce-a519-cad813140463.png",
+    "sha256": "00e1cc1f86e0ef6c40b72ebe821b9edb4583cc85e5541fda81958e9f20eb3412",
+    "preservedSource": false
+  },
+  {
+    "set": "alternative",
+    "series": "winter-evening",
+    "scene": "hive",
+    "file": "alternative/winter-evening/hive.png",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-b2de2735-aea2-4834-a40d-7126265ae1d8.png",
+    "sha256": "4bfbfdd25d83d6e9d2738ef0c198fb8bb6e85eb0aebbbed9bae8fbabe9923979",
+    "preservedSource": false
+  },
+  {
+    "set": "alternative",
+    "series": "winter-evening",
+    "scene": "puzzle",
+    "file": "alternative/winter-evening/puzzle.png",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-b1bfcdd2-0dc1-4572-afdc-23a98f71c590.png",
+    "sha256": "dc55fa1b6c386b24930e46ee339185d54786e5e31f032ba8b4144e4451babd64",
+    "preservedSource": false
+  },
+  {
+    "set": "alternative",
+    "series": "christmas-day",
+    "scene": "garden",
+    "file": "alternative/christmas-day/garden.png",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-d785e356-e0dc-4f16-9d8b-04b5bf8ac598.png",
+    "sha256": "c4a150d0a406863cb31fc3cd1008a59ecfb69020b5c5a7ee7682c36388c80085",
+    "preservedSource": false
+  },
+  {
+    "set": "alternative",
+    "series": "christmas-day",
+    "scene": "hive",
+    "file": "alternative/christmas-day/hive.png",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-e85b8d08-b13f-4fcf-961b-0d385fc61c63.png",
+    "sha256": "85855b63d959d228d9b34b8589e969d244855180d239fe97e4f39a9d89e44d2e",
+    "preservedSource": false
+  },
+  {
+    "set": "alternative",
+    "series": "christmas-day",
+    "scene": "puzzle",
+    "file": "alternative/christmas-day/puzzle.png",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-d07e3b20-a85d-426c-8935-05bf6ddb4b2b.png",
+    "sha256": "cc4280828d97db2eec1abda85f904185e4337add7674cb5a1fef335e6d9067db",
+    "preservedSource": false
+  },
+  {
+    "set": "alternative",
+    "series": "christmas-evening",
+    "scene": "garden",
+    "file": "alternative/christmas-evening/garden.png",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-3084fb17-853e-49b0-af00-c927ff41a837.png",
+    "sha256": "efdab8dc2fa778bdf82ac9931b67abfec3d8a9b01b9e1225916712425cf2b492",
+    "preservedSource": false
+  },
+  {
+    "set": "alternative",
+    "series": "christmas-evening",
+    "scene": "hive",
+    "file": "alternative/christmas-evening/hive.png",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-40416ed1-02a1-46e8-ae74-32d9ffc28fb5.png",
+    "sha256": "2f63e0e81044bebb27d18dcd5e6cb7c9553ca3ef34154a883fab62300bbfcf82",
+    "preservedSource": false
+  },
+  {
+    "set": "alternative",
+    "series": "christmas-evening",
+    "scene": "puzzle",
+    "file": "alternative/christmas-evening/puzzle.png",
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-88142bc7-7ab0-4904-ad7a-42d395c744ce.png",
+    "sha256": "aacc03d29a92a8812935f5f35a60dec4ef630bfc4be6cf58154c0e49c2f5afbb",
+    "preservedSource": false
+  }
+]

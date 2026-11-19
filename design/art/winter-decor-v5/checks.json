@@ -1,0 +1,24 @@
+{
+  "deco_winter_tree": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpVisibleMatch": true
+  },
+  "deco_winter_garland": {
+    "size": [
+      2048,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpVisibleMatch": true
+  }
+}

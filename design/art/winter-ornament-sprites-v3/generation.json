@@ -1,0 +1,18 @@
+{
+  "gingerbee": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-bcf67766-43bc-483c-bb07-2ec447228d69.png",
+    "prompt": "Generate ONLY item 5, a gingerbread bee cookie tree ornament, diagonal compact silhouette with head at upper right, two prominent cream-iced wings on left, cocoa stripes, smile and pink cheeks, a short cranberry hanging loop; bevel baked honey-brown cookie, broad clean facets not crumbs. Reference 1 establishes item design, reference 2 gives matching Buzzle low-poly toy style. Bold recognizable silhouette at 32px. Single complete isolated item centered in square transparent PNG with ample margins. No tile, external glow or shadow, background, text or other items.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/ornaments/toy-chain.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-ornament-sprites-v2/bell.png"
+    ]
+  },
+  "goldstar": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-537326fd-bf3c-496a-978a-f122da6fb61f.png",
+    "prompt": "Generate ONLY item 6, a single upright five-point golden star tree ornament, broad honey-gold facets radiating from central raised point, warm ivory highlights and a small gold cap-and-loop; no inset emblems or gems. Reference 1 establishes item design, reference 2 gives matching Buzzle low-poly toy style. Bold recognizable silhouette at 32px. Single complete isolated item centered in square transparent PNG with ample margins. No tile, external glow or shadow, background, text or other items.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/ornaments/toy-chain.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-ornament-sprites-v2/bell.png"
+    ]
+  }
+}

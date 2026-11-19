@@ -1,0 +1,8 @@
+{
+  "prompt": "Create a tall 2:3 transparent sprite sheet for exactly TWO detached parts of the SAME Buzzle Christmas chest. Top half isolated horizontal lid, bottom half isolated open empty fixed base, directly beneath it, with wide fully transparent gap across the whole canvas. Match original honey gold low-poly hexagonal squat chest, three honeycomb embosses on lid, red bow and dark green holly, tiny snow patches, ivory five point star centered on base. Both pieces face EXACT same straight-on slightly elevated camera, symmetrical left/right footprint, centered along x, equal projected widths (lid 3% wider than base), front facets same bevel angles so lid can slide vertically down and completely cover base opening. Two vertical red ribbons at EXACT same x on both pieces, at left and right chamfer. Keep all snow, bow, holly on lid, no hinges, no leaning or tilting. Matte warm wax facets, no floor, no glow, no lettering, no added graphics. Both fully uncut, independent, true transparent PNG.",
+  "references": [
+    "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-chests-v1/chest-christmas-closed.png",
+    "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-chests-v2/chest-christmas-open.png"
+  ],
+  "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-06120a34-aed9-4ba0-8ee6-1599109fbb2c.png"
+}

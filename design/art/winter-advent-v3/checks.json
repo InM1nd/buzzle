@@ -1,0 +1,25 @@
+{
+  "advent-gift-open": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpVisibleMatch": true
+  },
+  "winter-reward-sparkle": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpVisibleMatch": true,
+    "centerAlpha": 0
+  }
+}

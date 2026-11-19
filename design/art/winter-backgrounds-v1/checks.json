@@ -1,0 +1,68 @@
+[
+  {
+    "file": "garden_bg_winter.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 1838341,
+    "sha256": "656736944362982bd8f954aa0830f7d9405c2eb7a3e5adb64b552add29950721"
+  },
+  {
+    "file": "garden_bg_winter.webp",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 148364,
+    "sha256": "9b8feca8d9223fa21971b0f1fafceb22f445be5d2fa9b6bc5725d5682814340b"
+  },
+  {
+    "file": "hive_bg_christmas.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 1840193,
+    "sha256": "c70cbb7a8f5a059bac43c11f398ab269ff0a93607cbf35dcaea567fca488da81"
+  },
+  {
+    "file": "hive_bg_christmas.webp",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 196466,
+    "sha256": "ebae9f5d48ccc732089232dfdad3efb814c3d78834b6b78c77559f29300dd7eb"
+  },
+  {
+    "file": "puzzle_christmas.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 2060280,
+    "sha256": "3038877e5d9b0d8364741e6a4ea5a2fc00762125a4d255a8a1644426fd03d77f"
+  },
+  {
+    "file": "puzzle_christmas.webp",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 265392,
+    "sha256": "82bd00e134a96eafc31cd27043fed2efdbbf72df2f5c98671c327d8c9dea69f7"
+  }
+]

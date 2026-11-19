@@ -1,0 +1,18 @@
+{
+  "deco_winter_mailbox": {
+    "prompt": "Edit first image, use second for matte low-poly Buzzle game art style only. Keep blueberry-blue arched mailbox, cream envelope relief, slim matte honey trim, cranberry signal flag, short wood post and hex base. Remove bow and greenery; one smooth broad cream snow cap on roof and subtle snow on base. Preserve three-quarter camera, appealing chunky shapes and cozy honey palette. Fewer, larger facets; softly diffuse warm light, moderate saturation, no metallic glare or external glow. One complete isolated object with ample margins, square true transparent PNG, no ground shadow, text or scenery.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-decor-v4/deco_winter_mailbox.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-decor-v5/deco_winter_tree.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-133ba2b3-17bc-431f-b9d6-7fd13027f1af.png"
+  },
+  "deco_winter_gingerbread_house": {
+    "prompt": "Edit first image, use second for matte low-poly Buzzle game art style only. Keep honey gingerbread cottage, cocoa gabled roof with just a few broad planar panels, simple continuous cream icing edge, one amber hexagonal window and arched cocoa door. One small matte cranberry bow above door, no bushes. One broad patch of snow on roof, no candy scatter. Preserve three-quarter camera, appealing chunky shapes and cozy honey palette. Fewer, larger facets; softly diffuse warm light, moderate saturation, no metallic glare or external glow. One complete isolated object with ample margins, square true transparent PNG, no ground shadow, text or scenery.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-decor-v4/deco_winter_gingerbread_house.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-decor-v5/deco_winter_tree.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-7edf3217-cb11-4308-a264-3c2bf8b50edb.png"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "zhuzha_red": {
+    "noClipping": true,
+    "visibleWebpMatch": true
+  },
+  "zhuzha_green": {
+    "noClipping": true,
+    "visibleWebpMatch": true
+  },
+  "zhuzha_gold": {
+    "noClipping": true,
+    "visibleWebpMatch": true
+  },
+  "zhuzha_blue": {
+    "noClipping": true,
+    "visibleWebpMatch": true
+  },
+  "snow_red": {
+    "noClipping": true,
+    "visibleWebpMatch": true
+  },
+  "snow_green": {
+    "noClipping": true,
+    "visibleWebpMatch": true
+  },
+  "snow_gold": {
+    "noClipping": true,
+    "visibleWebpMatch": true
+  },
+  "snow_blue": {
+    "noClipping": true,
+    "visibleWebpMatch": true
+  },
+  "gingerbread_red": {
+    "noClipping": true,
+    "visibleWebpMatch": true
+  },
+  "gingerbread_green": {
+    "noClipping": true,
+    "visibleWebpMatch": true
+  },
+  "gingerbread_gold": {
+    "noClipping": true,
+    "visibleWebpMatch": true
+  },
+  "gingerbread_blue": {
+    "noClipping": true,
+    "visibleWebpMatch": true
+  }
+}

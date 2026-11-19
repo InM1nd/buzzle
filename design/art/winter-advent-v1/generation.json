@@ -1,0 +1,17 @@
+{
+  "advent-gift-wrapped": {
+    "prompt": "Create ONE small advent gift PARCEL inventory sprite for Buzzle cozy bee game, match reference honey-crystal low-poly material, lighting and cranberry-gold-evergreen palette. Reference is style only, do NOT duplicate its hexagonal chest. A squat softly bevelled CUBE fully wrapped in warm ivory cream paper, very subtle large honeycomb embossed pattern on paper, wide CRANBERRY RED ribbon crosses sides and top, chunky friendly tied bow on top, small matte HONEY GOLD hexagon gift tag tucked under bow on front. No hinge, snow, lock or chest emblem. Near-front three-quarter view slightly above. Broad soft faceted polygons, warm upper-left light, premium simple tangible game prop, read at64px. No text, numerals, bee, scenery, glitter, confetti, ground shadow. Single centered object with generous transparent margins, true transparent background.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-chests-v1/chest-christmas-closed.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-bef7f2ad-ae50-4caa-ab81-dff05a2700bf.png"
+  },
+  "advent-postcard-zhuzha": {
+    "prompt": "Create ONE illustrated holiday POSTCARD inventory/reward sprite for Buzzle. Reference1 is canonical Zhuzha character; reference2 gives low-poly material and seasonal palette only. A landscape rectangular thick ivory card with softly clipped corners, nearly front facing with just enough perspective to show thin paper thickness, entire card isolated. Card face is an ILLUSTRATION, NOT live bee beside card: on LEFT half depict canonical smiling honey-yellow Zhuzha (two brown antennae, two pearl wings, two black eyes, pink cheeks, tiny smile, no hands, no clothing) hovering beside a tiny evergreen twig with two red berries. Keep RIGHT half mostly clean warm ivory with extremely faint honeycomb emboss, reserved for future localized message added in code. Thin muted honey-gold inset line and small cranberry ribbon corner accent bottom-left. Cozy soft faceted low-poly3D game-art look, warm light, no realistic paper grain. No text, letters, pseudo-writing, numbers, stamps, postmarks or logo anywhere. No snow scene or background outside card, no cast ground shadow. Whole card centered in square transparent canvas with generous margins. True transparent background. Do not let antennae wings or twig extend outside card boundaries.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/hive-run/assets/zhuzha.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-chests-v1/chest-christmas-closed.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-36a8d4ab-2319-4faf-8084-b229ac74d16e.png"
+  }
+}

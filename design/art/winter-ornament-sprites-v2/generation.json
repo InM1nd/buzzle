@@ -1,0 +1,18 @@
+{
+  "bell": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-5fdce57c-478f-4f2d-8ebe-25d75a335588.png",
+    "prompt": "Generate ONLY item 3, honey gold flared Christmas bell, visible single clapper, compact cranberry ribbon bow above the bell with two tiny evergreen accents, short gold loop above. Reference 1 establishes item design, reference 2 gives the matching Buzzle toy scale, rich faceted materials and game art. Bold silhouette legible at 32px; one upright isolated item centered on transparent square PNG with margins. No tile, shadow outside object, background, text, or other items.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/ornaments/toy-chain.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-ornament-sprites-v1/bauble.png"
+    ]
+  },
+  "snowflake": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-2b3d4c38-3687-497a-b0ba-6f9fe4c1baf5.png",
+    "prompt": "Generate ONLY item 4, thick ivory six arm faceted snowflake with ice blue shaded edge, simple bold branches, small gold hanging loop and cap on top. Reference 1 establishes item design, reference 2 gives the matching Buzzle toy scale, rich faceted materials and game art. Bold silhouette legible at 32px; one upright isolated item centered on transparent square PNG with margins. No tile, shadow outside object, background, text, or other items.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/ornaments/toy-chain.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-ornament-sprites-v1/bauble.png"
+    ]
+  }
+}

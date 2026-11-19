@@ -1,0 +1,46 @@
+{
+  "hellebore_sprout": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "losslessMatchOnBothBackgrounds": true
+  },
+  "hellebore_bud": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "losslessMatchOnBothBackgrounds": true
+  },
+  "poinsettia_sprout": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "losslessMatchOnBothBackgrounds": true
+  },
+  "poinsettia_bud": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "losslessMatchOnBothBackgrounds": true
+  }
+}

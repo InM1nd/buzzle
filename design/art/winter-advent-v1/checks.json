@@ -1,0 +1,24 @@
+{
+  "advent-gift-wrapped": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpVisibleMatch": true
+  },
+  "advent-postcard-zhuzha": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpVisibleMatch": true
+  }
+}

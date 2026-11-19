@@ -1,0 +1,8 @@
+{
+  "prompt": "A production sprite sheet of two disconnected parts of ONE Buzzle winter honey chest. Portrait 2:3 true transparent PNG. Top part: detached HORIZONTAL snow-capped hexagonal lid with three honeycomb wax emblems visible on top. Bottom part: matching OPEN empty honey-gold hexagonal chest base, raised icy blue SIX arm snowflake on front, small blue diamond on each side chamfer, no hinges. Both parts at exact same slightly elevated front-facing symmetric camera, x center and footprint width (lid just 3% wider), so lid can slide vertically down to cover opening WITHOUT rotation. Lid is not tilted or hinged upward. Leave a wide fully transparent gap between parts. Preserve Buzzle source cozy low-poly wax facets, warm honey-gold, blue-white snow, crisp full silhouette. No red ribbons, bows, floor, shadow outside objects, glow, scenery, letters or other items. Generous transparent margins all around.",
+  "references": [
+    "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-chests-v1/chest-winter-closed.png",
+    "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-chests-v2/chest-winter-open.png"
+  ],
+  "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-7ca1120b-c9ea-4fff-9c2c-a664a83bb89f.png"
+}

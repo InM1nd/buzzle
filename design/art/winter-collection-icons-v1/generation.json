@@ -1,0 +1,18 @@
+{
+  "winter_shop": {
+    "prompt": "Use case: stylized-concept. Asset: single Buzzle winter seasonal UI illustration, transparent PNG. Image1 is exact identity and composition reference, image2 is LOW-POLY MATERIAL AND PALETTE STYLE ONLY, never include the mailbox. A compact front-facing honey-wood shop kiosk icon, keeping image1 recognizable silhouette: low rectangular honey-gold wooden storefront, broad cranberry-red and cream striped awning above, central brown counter/door panel, small round golden honey emblem above awning. Festive accents: very thin white snow cap on top awning edge, small evergreen sprig with three red berries at one upper corner; tiny warm gold trim. Keep awning stripes and shop structure clearly legible. No broad snow mound or scene, no Christmas tree, no text, no people. Match cozy Buzzle low-poly 3D: clean broad triangular facets, warm honey and cream with restrained blueberry and cranberry accents, soft warm upper-left light, friendly rounded edges, crisp silhouette at 48px. Single centered complete object, square composition with generous transparent margins. Genuine alpha background, no floor, no outside cast shadow, no backdrop, no watermark, no written text, no multi-icon sheet.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/shop.webp",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-decor-v4/deco_winter_mailbox.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-e7ec5f5b-5543-4432-b129-c5137edb9ca9.png"
+  },
+  "winter_album": {
+    "prompt": "Use case: stylized-concept. Asset: single Buzzle winter seasonal UI illustration, transparent PNG. Image1 is exact identity and composition reference, image2 is LOW-POLY MATERIAL AND PALETTE STYLE ONLY, never include the mailbox. An OPEN collectible album icon, keeping image1 recognizable silhouette: open book with two broad pale cream pages, warm honey-brown hard cover, central vertical crease, two honey-gold hexagon emblems, one on each page. Gentle front slightly elevated angle, symmetric pages. Winter accents only on cover edge and outer binding: blueberry-blue cloth binding with thin honey-gold trim, tiny evergreen sprig and red ribbon at lower outside corner. Leave page centers and hexagon emblems unobstructed. No closed book, no text, no numbers, no bee character, no objects floating around, no snow on pages. Match cozy Buzzle low-poly 3D: clean broad triangular facets, warm honey and cream with restrained blueberry and cranberry accents, soft warm upper-left light, friendly rounded edges, crisp silhouette at 48px. Single centered complete object, square composition with generous transparent margins. Genuine alpha background, no floor, no outside cast shadow, no backdrop, no watermark, no written text, no multi-icon sheet.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/album.webp",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-decor-v4/deco_winter_mailbox.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-60616449-4a10-4519-ab75-ad62510129bb.png"
+  }
+}

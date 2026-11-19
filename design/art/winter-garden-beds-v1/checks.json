@@ -1,0 +1,24 @@
+{
+  "bed-winter-dry": {
+    "size": [
+      1536,
+      768
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpVisibleMatch": true
+  },
+  "bed-winter-wet": {
+    "size": [
+      1536,
+      768
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpVisibleMatch": true
+  }
+}

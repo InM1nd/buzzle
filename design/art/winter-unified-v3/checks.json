@@ -1,0 +1,218 @@
+[
+  {
+    "file": "baseline/winter-day/garden.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "baseline/winter-day/hive.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "baseline/winter-day/puzzle.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "baseline/winter-evening/garden.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "baseline/winter-evening/hive.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "baseline/winter-evening/puzzle.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "baseline/christmas-day/garden.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "baseline/christmas-day/hive.png",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "baseline/christmas-day/puzzle.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "baseline/christmas-evening/garden.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "baseline/christmas-evening/hive.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "baseline/christmas-evening/puzzle.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "alternative/winter-day/garden.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "alternative/winter-day/hive.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "alternative/winter-day/puzzle.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "alternative/winter-evening/garden.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "alternative/winter-evening/hive.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "alternative/winter-evening/puzzle.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "alternative/christmas-day/garden.png",
+    "size": [
+      941,
+      1671
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "alternative/christmas-day/hive.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "alternative/christmas-day/puzzle.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "alternative/christmas-evening/garden.png",
+    "size": [
+      941,
+      1671
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "alternative/christmas-evening/hive.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  },
+  {
+    "file": "alternative/christmas-evening/puzzle.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true
+  }
+]

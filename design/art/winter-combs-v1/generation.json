@@ -1,0 +1,23 @@
+{
+  "comb_winter_full": {
+    "prompt": "Use case: stylized-concept. Asset: Buzzle winter HIVE honeycomb tile, a seasonal variation of the attached exact reference tile, not a puzzle gem. Filled cell: warm bright translucent amber honey center, creamy upper-left reflection, honey facets, same warm amber honeycomb rim. Winter detail: delicate pale icy blue frost highlights on only the INSIDE upper bevel and two tiny crystalline frost flecks near inner top corners, calm empty center for a number overlay. Keep honey unmistakable and attractive. Preserve attached composition and silhouette: single regular FLAT-TOP hexagon with horizontal top and bottom edges and points at left and right, width/height 1.1547; symmetrical centered front-facing view, no perspective, same bevel thickness. Cozy low-poly 3D honey crystal, broad faceted wax rim, soft warm upper-left light. Keep winter decoration subtle and WITHIN outer hex silhouette; no snow outside, no extra margin inside shape, no extra inner frame, no blue recolor of entire tile. Isolated on genuine transparent background, generous margins. No floor, cast shadow, text, icons, ornaments, characters, watermark. Render complete unclipped tile.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/comb.webp"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-fa176135-5341-4b42-abf8-2363a5f2fff4.png"
+  },
+  "comb_winter_empty": {
+    "prompt": "Use case: stylized-concept. Asset: Buzzle winter HIVE honeycomb tile, a seasonal variation of the attached exact reference tile, not a puzzle gem. Empty cell: calm pale warm cream wax center, NO honey, amber wax rim. Winter detail: delicate pale icy blue frost highlights only on INSIDE upper bevel and two tiny crystalline frost flecks at inner top corners. Broad unobstructed cream center for UI overlay. Preserve attached composition and silhouette: single regular FLAT-TOP hexagon with horizontal top and bottom edges and points at left and right, width/height 1.1547; symmetrical centered front-facing view, no perspective, same bevel thickness. Cozy low-poly 3D honey crystal, broad faceted wax rim, soft warm upper-left light. Keep winter decoration subtle and WITHIN outer hex silhouette; no snow outside, no extra margin inside shape, no extra inner frame, no blue recolor of entire tile. Isolated on genuine transparent background, generous margins. No floor, cast shadow, text, icons, ornaments, characters, watermark. Render complete unclipped tile.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/comb_empty.webp"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-96420af7-6459-44a0-9510-2d9cbe986ddd.png"
+  },
+  "comb_winter_locked": {
+    "prompt": "Use case: stylized-concept. Asset: Buzzle winter HIVE honeycomb tile, a seasonal variation of the attached exact reference tile, not a puzzle gem. Inactive locked cell: muted desaturated honey-brown wax rim and quiet pale cream slightly grey wax center, clearly duller than normal empty cell. Winter detail: delicate pale icy blue frost highlights only on INSIDE upper bevel and two tiny crystalline frost flecks at inner top corners. Do NOT draw lock, cross, symbol, digits. Broad empty center for UI overlay. Preserve attached composition and silhouette: single regular FLAT-TOP hexagon with horizontal top and bottom edges and points at left and right, width/height 1.1547; symmetrical centered front-facing view, no perspective, same bevel thickness. Cozy low-poly 3D honey crystal, broad faceted wax rim, soft warm upper-left light. Keep winter decoration subtle and WITHIN outer hex silhouette; no snow outside, no extra margin inside shape, no extra inner frame, no blue recolor of entire tile. Isolated on genuine transparent background, generous margins. No floor, cast shadow, text, icons, ornaments, characters, watermark. Render complete unclipped tile.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/comb_locked.webp"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-7f39afec-0d60-4378-9e89-8bff9bb04039.png"
+  }
+}

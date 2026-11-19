@@ -1,0 +1,20 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Зимняя грядка Buzzle</title>
+<style>
+body{margin:0;padding:24px;background:#171340;color:#fff6e3;text-align:center;font:18px system-ui}
+.stage{position:relative;width:min(100%,720px);aspect-ratio:2;margin:0 auto}
+.stage img{position:absolute;display:block}.bed{inset:0;width:100%}.plant{width:16.3%;left:50%;bottom:49.22%;transform:translateX(-50%)}
+#wet{visibility:hidden}.watered #wet{visibility:visible}.watered #dry{visibility:hidden}
+button{background:#ffd384;color:#382516;border:0;border-radius:12px;padding:12px 24px;font:inherit;font-weight:700;cursor:pointer}
+</style>
+<h1>Зимняя грядка</h1>
+<div class="stage" id="stage">
+<img class="bed" id="dry" src="bed-winter-dry.webp" alt="">
+<img class="bed" id="wet" src="bed-winter-wet.webp" alt="">
+<img class="plant" src="demo-plant.webp" alt="Морозник">
+</div>
+<p id="state" aria-live="polite">Сухая почва</p><button type="button" id="toggle">Полить</button>
+<script>
+const stage=document.getElementById('stage'),state=document.getElementById('state'),button=document.getElementById('toggle');
+button.onclick=()=>{const wet=stage.classList.toggle('watered');state.textContent=wet?'Влажная почва':'Сухая почва';button.textContent=wet?'Вернуть сухую':'Полить';};
+</script>
+</html>

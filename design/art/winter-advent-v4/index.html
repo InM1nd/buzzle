@@ -1,0 +1,13 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Адвент-подарок Buzzle</title>
+<style>
+body{margin:0;background:#fff6e3;color:#4a2c12;font:18px system-ui;text-align:center;padding:16px}
+.stage{position:relative;width:min(100%,360px);aspect-ratio:2/3;margin:0 auto;background:#171340;border-radius:20px;overflow:hidden}
+.stage img{position:absolute;left:0;width:100%;display:block}.base{top:46.875%}.lid{top:0;transform:translateY(71.388889%);transition:transform 650ms cubic-bezier(.2,.7,.3,1)}.open .lid{transform:translateY(0)}
+button{font:inherit;font-weight:700;padding:12px 24px;margin:16px;border:0;border-radius:14px;background:#ffc56b;color:#4a2c12}
+@media(prefers-reduced-motion:reduce){.lid{transition:none}}
+</style>
+<h1>Адвент-подарок</h1><div class="stage" id="gift"><img class="base" src="gift-base.webp" alt=""><img class="lid" src="gift-lid.webp" alt=""></div><button type="button" id="toggle" aria-controls="gift">Открыть подарок</button>
+<script>
+const gift=document.getElementById('gift'), button=document.getElementById('toggle');
+button.onclick=()=>{const open=gift.classList.toggle('open');button.textContent=open?'Закрыть подарок':'Открыть подарок';};
+</script></html>

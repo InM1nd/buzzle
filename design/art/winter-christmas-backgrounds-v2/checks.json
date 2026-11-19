@@ -1,0 +1,200 @@
+[
+  {
+    "file": "winter-evening/garden_bg_winter_evening.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 1870766,
+    "sha256": "bd7aa6294fbc71c766c6e057e664d97091d8f131b97b72b72e3ac99a9caa2215"
+  },
+  {
+    "file": "winter-evening/garden_bg_winter_evening.webp",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 177488,
+    "sha256": "376b3a1a03e8b23ae8d5033b6dff981553e51c6a87556b783c5034f0a54c2e14"
+  },
+  {
+    "file": "winter-evening/hive_bg_winter_evening.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 1664630,
+    "sha256": "2e9d85276b6e06e595086e8147816f2f82a4461f95f414a2840ff1082c595e22"
+  },
+  {
+    "file": "winter-evening/hive_bg_winter_evening.webp",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 131494,
+    "sha256": "2c8e80b3936abdb37d929fc9374b19fafa6b2eedc00f1896a2cd2bba55298ff4"
+  },
+  {
+    "file": "winter-evening/puzzle_bg_winter_evening.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 2010723,
+    "sha256": "c4e6baee8b3c5682e42f9e2e0e460cf722ae8b4dca0925b20cc218653e51c015"
+  },
+  {
+    "file": "winter-evening/puzzle_bg_winter_evening.webp",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 253938,
+    "sha256": "4aaebd6abb809c450340d0eb6281640bf2aa756846b41f5900848052a0569816"
+  },
+  {
+    "file": "christmas-day/garden_bg_christmas_day.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 1897574,
+    "sha256": "aa29edafe79d8a189513d1c9d102af2b50993faf477d65e2b527c2463f0fa7b8"
+  },
+  {
+    "file": "christmas-day/garden_bg_christmas_day.webp",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 205792,
+    "sha256": "06dda0286b770b885f69b9b75b6aafbf615a6c9d6218c6b899d509b3b04b3aad"
+  },
+  {
+    "file": "christmas-day/hive_bg_christmas_day.png",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 1934242,
+    "sha256": "6c31ef6d604c8d38a9e3b5f0e82d762dfd3c2b5ca20927453c777a14f3a119c8"
+  },
+  {
+    "file": "christmas-day/hive_bg_christmas_day.webp",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 235174,
+    "sha256": "2dfb443dbf22665d42b035ee22f474c5b71384c1b421f04c763d2c6e2d2454ab"
+  },
+  {
+    "file": "christmas-day/puzzle_bg_christmas_day.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 2004003,
+    "sha256": "59f20b6437cd9b085811b563cbcd02b625102b2be2acf2271e6331c04fe23d23"
+  },
+  {
+    "file": "christmas-day/puzzle_bg_christmas_day.webp",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 262834,
+    "sha256": "ba8a3410a92e981ded85504b08d19e9800c4d6a55bf322e34d4e15ca9eac2d93"
+  },
+  {
+    "file": "christmas-evening/garden_bg_christmas_evening.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 1981447,
+    "sha256": "63b83d124e2a3ab1af91770fa6a2f413c93d28430b4a0e0882b32d970668b10e"
+  },
+  {
+    "file": "christmas-evening/garden_bg_christmas_evening.webp",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 229046,
+    "sha256": "d822add3d4aeb26dc48ecd73a82462f0312241e0fc093c82cf04c0fad8df83d3"
+  },
+  {
+    "file": "christmas-evening/hive_bg_christmas_evening.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 1917826,
+    "sha256": "edefa68cb9efe30992a4eef3deddc4dd609b94bfb7574b34a33cafe8241e7fd9"
+  },
+  {
+    "file": "christmas-evening/hive_bg_christmas_evening.webp",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 228138,
+    "sha256": "8eff873ef64eab9421a9914c3173ce3baeb3f6b35c77ebca0d16e2bd344b5178"
+  },
+  {
+    "file": "christmas-evening/puzzle_bg_christmas_evening.png",
+    "size": [
+      941,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 2077624,
+    "sha256": "12db9c70a4a914b85fc92d7c3ff6dfa56d701e7c4a83f4e71433c191f75094b6"
+  },
+  {
+    "file": "christmas-evening/puzzle_bg_christmas_evening.webp",
+    "size": [
+      940,
+      1672
+    ],
+    "mode": "RGB",
+    "opaque": true,
+    "bytes": 308810,
+    "sha256": "b5ff883ec0e69ef4a281a6a60c66e6f8038cfe8e10275c7ca5190dc128b695b9"
+  }
+]

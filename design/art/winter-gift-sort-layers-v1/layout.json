@@ -1,0 +1,53 @@
+{
+  "canvas": [
+    512,
+    512
+  ],
+  "layerOrder": [
+    "sack_COLOR_back",
+    "moving gift",
+    "sack_COLOR_front"
+  ],
+  "layerOrigin": [
+    0,
+    0
+  ],
+  "giftExample": {
+    "size": [
+      132,
+      132
+    ],
+    "centerX": 256,
+    "topY": [
+      -110,
+      220
+    ]
+  },
+  "mouthMasks": {
+    "red": [
+      107,
+      73,
+      406,
+      187
+    ],
+    "green": [
+      111,
+      79,
+      402,
+      183
+    ],
+    "gold": [
+      108,
+      74,
+      403,
+      187
+    ],
+    "blue": [
+      109,
+      74,
+      403,
+      187
+    ]
+  },
+  "note": "Masks use alpha, not luminance. Mouth bbox is only a bound; use the actual alpha contour. Front/back must keep the same transform and pixel alignment."
+}

@@ -1,0 +1,18 @@
+{
+  "pinecone": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-0ef0e02c-1b66-4b43-86c6-97b495248b76.png",
+    "prompt": "Make ONLY first item: a cinnamon brown pinecone ornament, compact egg silhouette, orderly rows of large angular woody scales with amber edges. Match the relevant item in reference 1, style of clean dimensional faceted Buzzle art in reference 2. Small honey-gold cap and short loop at top. Upright centered single complete object, soft diffuse light, bold silhouette for a 40 px game token. True transparent background with margins. No glow, cast shadow, ground, background, tiles, text or other objects. Square. ",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/ornaments/toy-chain.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-decor-v4/deco_winter_gingerbread_house.png"
+    ]
+  },
+  "bauble": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-f7839e2c-3cae-4616-a5ee-949d31e9ea08.png",
+    "prompt": "Make ONLY second item: a round cranberry-red ball ornament, large jewel-like red triangular facets with a modest warm highlight, rich red not orange. Match the relevant item in reference 1, style of clean dimensional faceted Buzzle art in reference 2. Small honey-gold cap and short loop at top. Upright centered single complete object, soft diffuse light, bold silhouette for a 40 px game token. True transparent background with margins. No glow, cast shadow, ground, background, tiles, text or other objects. Square. ",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/ornaments/toy-chain.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-decor-v4/deco_winter_gingerbread_house.png"
+    ]
+  }
+}

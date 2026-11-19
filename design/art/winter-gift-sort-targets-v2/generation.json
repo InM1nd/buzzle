@@ -1,0 +1,18 @@
+{
+  "gold": {
+    "prompt": "Use case: precise-object-edit. Edit the FIRST image Buzzle open sorting sack. Change ONLY cranberry red cloth, red bow and red interior into warm honey-gold yellow with amber shadows, matched to wrapping color of SECOND image. Keep wide empty open mouth, identical oval opening and perspective, short squat body, snow on rim WHITE, central six-arm snowflake IVORY, thin cord HONEY GOLD, all sculpted broad facets, size and margins. Do not add gift box or other objects. True transparent PNG with no floor, external shadow or glow, lettering or scenery. Same isolated complete sack, not a scene. Distinct readable color at 56px.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-gift-sort-targets-v1/sack_red.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-gift-sort-sprites-v2/gift_gold.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-4baf7da9-99c6-4f88-998d-8f7bc963856f.png"
+  },
+  "blue": {
+    "prompt": "Use case: precise-object-edit. Edit the FIRST image Buzzle open sorting sack. Change ONLY cranberry red cloth, red bow and red interior into clear cornflower ice blue with medium blue shadows, not teal or green, matched to wrapping color of SECOND image. Keep wide empty open mouth, identical oval opening and perspective, short squat body, snow on rim WHITE, central six-arm snowflake IVORY, thin cord HONEY GOLD, all sculpted broad facets, size and margins. Do not add gift box or other objects. True transparent PNG with no floor, external shadow or glow, lettering or scenery. Same isolated complete sack, not a scene. Distinct readable color at 56px.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-gift-sort-targets-v1/sack_red.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-gift-sort-sprites-v2/gift_blue.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-83392493-4163-4caf-874c-5b4b564c34a1.png"
+  }
+}

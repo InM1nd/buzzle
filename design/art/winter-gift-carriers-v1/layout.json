@@ -1,0 +1,518 @@
+{
+  "zhuzha_red": {
+    "canvas": [
+      1024,
+      1200
+    ],
+    "bee": {
+      "file": "bee_zhuzha.png",
+      "source": "zhuzha-turnaround-approved-front/front.png",
+      "sourceBBox": [
+        133,
+        109,
+        1233,
+        1053
+      ],
+      "position": [
+        87,
+        100
+      ],
+      "size": [
+        850,
+        729
+      ]
+    },
+    "gift": {
+      "file": "gift_zhuzha_red.png",
+      "position": [
+        357,
+        741
+      ],
+      "size": [
+        310,
+        345
+      ]
+    },
+    "layerOrder": [
+      "gift",
+      "bee"
+    ],
+    "attachment": [
+      512,
+      801
+    ]
+  },
+  "zhuzha_green": {
+    "canvas": [
+      1024,
+      1200
+    ],
+    "bee": {
+      "file": "bee_zhuzha.png",
+      "source": "zhuzha-turnaround-approved-front/front.png",
+      "sourceBBox": [
+        133,
+        109,
+        1233,
+        1053
+      ],
+      "position": [
+        87,
+        100
+      ],
+      "size": [
+        850,
+        729
+      ]
+    },
+    "gift": {
+      "file": "gift_zhuzha_green.png",
+      "position": [
+        357,
+        741
+      ],
+      "size": [
+        310,
+        322
+      ]
+    },
+    "layerOrder": [
+      "gift",
+      "bee"
+    ],
+    "attachment": [
+      512,
+      801
+    ]
+  },
+  "zhuzha_gold": {
+    "canvas": [
+      1024,
+      1200
+    ],
+    "bee": {
+      "file": "bee_zhuzha.png",
+      "source": "zhuzha-turnaround-approved-front/front.png",
+      "sourceBBox": [
+        133,
+        109,
+        1233,
+        1053
+      ],
+      "position": [
+        87,
+        100
+      ],
+      "size": [
+        850,
+        729
+      ]
+    },
+    "gift": {
+      "file": "gift_zhuzha_gold.png",
+      "position": [
+        357,
+        741
+      ],
+      "size": [
+        310,
+        346
+      ]
+    },
+    "layerOrder": [
+      "gift",
+      "bee"
+    ],
+    "attachment": [
+      512,
+      801
+    ]
+  },
+  "zhuzha_blue": {
+    "canvas": [
+      1024,
+      1200
+    ],
+    "bee": {
+      "file": "bee_zhuzha.png",
+      "source": "zhuzha-turnaround-approved-front/front.png",
+      "sourceBBox": [
+        133,
+        109,
+        1233,
+        1053
+      ],
+      "position": [
+        87,
+        100
+      ],
+      "size": [
+        850,
+        729
+      ]
+    },
+    "gift": {
+      "file": "gift_zhuzha_blue.png",
+      "position": [
+        357,
+        741
+      ],
+      "size": [
+        310,
+        345
+      ]
+    },
+    "layerOrder": [
+      "gift",
+      "bee"
+    ],
+    "attachment": [
+      512,
+      801
+    ]
+  },
+  "snow_red": {
+    "canvas": [
+      1024,
+      1200
+    ],
+    "bee": {
+      "file": "bee_snow.png",
+      "source": "buzzle-winter-bees-v6/bee-snow-front.png",
+      "sourceBBox": [
+        88,
+        143,
+        936,
+        880
+      ],
+      "position": [
+        87,
+        100
+      ],
+      "size": [
+        850,
+        739
+      ]
+    },
+    "gift": {
+      "file": "gift_snow_red.png",
+      "position": [
+        357,
+        751
+      ],
+      "size": [
+        310,
+        345
+      ]
+    },
+    "layerOrder": [
+      "gift",
+      "bee"
+    ],
+    "attachment": [
+      512,
+      811
+    ]
+  },
+  "snow_green": {
+    "canvas": [
+      1024,
+      1200
+    ],
+    "bee": {
+      "file": "bee_snow.png",
+      "source": "buzzle-winter-bees-v6/bee-snow-front.png",
+      "sourceBBox": [
+        88,
+        143,
+        936,
+        880
+      ],
+      "position": [
+        87,
+        100
+      ],
+      "size": [
+        850,
+        739
+      ]
+    },
+    "gift": {
+      "file": "gift_snow_green.png",
+      "position": [
+        357,
+        751
+      ],
+      "size": [
+        310,
+        322
+      ]
+    },
+    "layerOrder": [
+      "gift",
+      "bee"
+    ],
+    "attachment": [
+      512,
+      811
+    ]
+  },
+  "snow_gold": {
+    "canvas": [
+      1024,
+      1200
+    ],
+    "bee": {
+      "file": "bee_snow.png",
+      "source": "buzzle-winter-bees-v6/bee-snow-front.png",
+      "sourceBBox": [
+        88,
+        143,
+        936,
+        880
+      ],
+      "position": [
+        87,
+        100
+      ],
+      "size": [
+        850,
+        739
+      ]
+    },
+    "gift": {
+      "file": "gift_snow_gold.png",
+      "position": [
+        357,
+        751
+      ],
+      "size": [
+        310,
+        346
+      ]
+    },
+    "layerOrder": [
+      "gift",
+      "bee"
+    ],
+    "attachment": [
+      512,
+      811
+    ]
+  },
+  "snow_blue": {
+    "canvas": [
+      1024,
+      1200
+    ],
+    "bee": {
+      "file": "bee_snow.png",
+      "source": "buzzle-winter-bees-v6/bee-snow-front.png",
+      "sourceBBox": [
+        88,
+        143,
+        936,
+        880
+      ],
+      "position": [
+        87,
+        100
+      ],
+      "size": [
+        850,
+        739
+      ]
+    },
+    "gift": {
+      "file": "gift_snow_blue.png",
+      "position": [
+        357,
+        751
+      ],
+      "size": [
+        310,
+        345
+      ]
+    },
+    "layerOrder": [
+      "gift",
+      "bee"
+    ],
+    "attachment": [
+      512,
+      811
+    ]
+  },
+  "gingerbread_red": {
+    "canvas": [
+      1024,
+      1200
+    ],
+    "bee": {
+      "file": "bee_gingerbread.png",
+      "source": "buzzle-winter-bees-v6/bee-gingerbread-front.png",
+      "sourceBBox": [
+        88,
+        145,
+        936,
+        877
+      ],
+      "position": [
+        87,
+        100
+      ],
+      "size": [
+        850,
+        734
+      ]
+    },
+    "gift": {
+      "file": "gift_gingerbread_red.png",
+      "position": [
+        357,
+        746
+      ],
+      "size": [
+        310,
+        345
+      ]
+    },
+    "layerOrder": [
+      "gift",
+      "bee"
+    ],
+    "attachment": [
+      512,
+      806
+    ]
+  },
+  "gingerbread_green": {
+    "canvas": [
+      1024,
+      1200
+    ],
+    "bee": {
+      "file": "bee_gingerbread.png",
+      "source": "buzzle-winter-bees-v6/bee-gingerbread-front.png",
+      "sourceBBox": [
+        88,
+        145,
+        936,
+        877
+      ],
+      "position": [
+        87,
+        100
+      ],
+      "size": [
+        850,
+        734
+      ]
+    },
+    "gift": {
+      "file": "gift_gingerbread_green.png",
+      "position": [
+        357,
+        746
+      ],
+      "size": [
+        310,
+        322
+      ]
+    },
+    "layerOrder": [
+      "gift",
+      "bee"
+    ],
+    "attachment": [
+      512,
+      806
+    ]
+  },
+  "gingerbread_gold": {
+    "canvas": [
+      1024,
+      1200
+    ],
+    "bee": {
+      "file": "bee_gingerbread.png",
+      "source": "buzzle-winter-bees-v6/bee-gingerbread-front.png",
+      "sourceBBox": [
+        88,
+        145,
+        936,
+        877
+      ],
+      "position": [
+        87,
+        100
+      ],
+      "size": [
+        850,
+        734
+      ]
+    },
+    "gift": {
+      "file": "gift_gingerbread_gold.png",
+      "position": [
+        357,
+        746
+      ],
+      "size": [
+        310,
+        346
+      ]
+    },
+    "layerOrder": [
+      "gift",
+      "bee"
+    ],
+    "attachment": [
+      512,
+      806
+    ]
+  },
+  "gingerbread_blue": {
+    "canvas": [
+      1024,
+      1200
+    ],
+    "bee": {
+      "file": "bee_gingerbread.png",
+      "source": "buzzle-winter-bees-v6/bee-gingerbread-front.png",
+      "sourceBBox": [
+        88,
+        145,
+        936,
+        877
+      ],
+      "position": [
+        87,
+        100
+      ],
+      "size": [
+        850,
+        734
+      ]
+    },
+    "gift": {
+      "file": "gift_gingerbread_blue.png",
+      "position": [
+        357,
+        746
+      ],
+      "size": [
+        310,
+        345
+      ]
+    },
+    "layerOrder": [
+      "gift",
+      "bee"
+    ],
+    "attachment": [
+      512,
+      806
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "gold": {
+    "size": [
+      512,
+      512
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpVisibleMatch": true
+  },
+  "blue": {
+    "size": [
+      512,
+      512
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpVisibleMatch": true
+  }
+}

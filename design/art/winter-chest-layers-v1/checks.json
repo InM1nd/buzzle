@@ -1,0 +1,13 @@
+{
+  "canvas": [
+    1024,
+    1306
+  ],
+  "baseFixed": true,
+  "lidTravel": 380,
+  "pngWebpVisibleMatch": true,
+  "comparedBackgrounds": [
+    "#FFF6E3",
+    "#171340"
+  ]
+}

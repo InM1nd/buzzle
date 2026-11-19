@@ -1,0 +1,18 @@
+{
+  "red": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-9fccd021-741b-4fbb-b2ad-3d78973fa335.png",
+    "prompt": "Use case: stylized-concept. Single Buzzle Gift Sort sorting TARGET sack, cranberry red. Reference1: sack shape in bottom row only; NO sleigh, bee, boxes, interface or scene. Reference2: exact rich faceted game material and color family. Round squat soft cloth sack with flared WIDE OPEN elliptical mouth and visible dark interior; its empty opening is the key target for falling gifts. Top-down slightly elevated front view, almost symmetric. cranberry red sack body and small cranberry red bow just below front rim, thin honey gold tie cord, ONE small raised ivory six-arm snowflake emblem centered on broad front. Thin small white snow cap along upper rim only, a few broad cloth facets and folds, no noisy tiny texture. Entire squat sack alone centered with generous transparent margins. True transparent background, no floor shadow, external glow, snow piles, ribbons across opening, letters or watermarks. Strong matching color visible over most body, readable 56px wide.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/gift-sort/gameplay-v2/drag.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-gift-sort-sprites-v2/gift_red.png"
+    ]
+  },
+  "green": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-7883ad05-dcbe-4e48-8492-ee9357b71788.png",
+    "prompt": "Use case: stylized-concept. Single Buzzle Gift Sort sorting TARGET sack, evergreen emerald green. Reference1: sack shape in bottom row only; NO sleigh, bee, boxes, interface or scene. Reference2: exact rich faceted game material and color family. Round squat soft cloth sack with flared WIDE OPEN elliptical mouth and visible dark interior; its empty opening is the key target for falling gifts. Top-down slightly elevated front view, almost symmetric. evergreen emerald green sack body and small evergreen emerald green bow just below front rim, thin honey gold tie cord, ONE small raised ivory six-arm snowflake emblem centered on broad front. Thin small white snow cap along upper rim only, a few broad cloth facets and folds, no noisy tiny texture. Entire squat sack alone centered with generous transparent margins. True transparent background, no floor shadow, external glow, snow piles, ribbons across opening, letters or watermarks. Strong matching color visible over most body, readable 56px wide.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/gift-sort/gameplay-v2/drag.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-gift-sort-sprites-v2/gift_green.png"
+    ]
+  }
+}

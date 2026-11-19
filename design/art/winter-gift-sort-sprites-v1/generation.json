@@ -1,0 +1,18 @@
+{
+  "red": {
+    "prompt": "Use case: stylized-concept. Buzzle Gift Sort minigame carried gift sprite. Generate ONE small closed square cuboid gift box wrapped in cranberry red paper, wide warm cream cross ribbon, compact two-loop cream bow centered on lid. Three quarter slightly elevated view, top visible, front corner centered, two side faces balanced. Reference 1: identity/scale of gift carried by bee only, NO bee; reference2: low-poly sculpted wrapping materials only, NO sled. Clean broad facets, rich dominant cranberry red visible over at least two thirds of box faces, soft warm light, no grain or busy texture. Identical basic compact cube design to other color variants. All complete within generous transparent square margins, true transparent alpha. No letters, label, snow, greenery, tag, surrounding glow, floor or cast shadow outside object, no scene or extra gifts. Readable at 32px.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/gift-sort/gameplay-v2/drag.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-gift-sled-v1/deco_winter_gift_sled.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-ef831eec-f10d-4267-98d1-9c2f4bf8cf9b.png"
+  },
+  "green": {
+    "prompt": "Use case: stylized-concept. Buzzle Gift Sort minigame carried gift sprite. Generate ONE small closed square cuboid gift box wrapped in evergreen emerald green paper, wide warm cream cross ribbon, compact two-loop cream bow centered on lid. Three quarter slightly elevated view, top visible, front corner centered, two side faces balanced. Reference 1: identity/scale of gift carried by bee only, NO bee; reference2: low-poly sculpted wrapping materials only, NO sled. Clean broad facets, rich dominant evergreen emerald green visible over at least two thirds of box faces, soft warm light, no grain or busy texture. Identical basic compact cube design to other color variants. All complete within generous transparent square margins, true transparent alpha. No letters, label, snow, greenery, tag, surrounding glow, floor or cast shadow outside object, no scene or extra gifts. Readable at 32px.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/gift-sort/gameplay-v2/drag.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-gift-sled-v1/deco_winter_gift_sled.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-6de93844-8b74-42b8-9945-66e645a571c8.png"
+  }
+}

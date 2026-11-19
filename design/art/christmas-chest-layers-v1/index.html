@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Рождественский сундук Buzzle</title>
+<style>
+body{margin:0;padding:16px;background:#191639;color:#fff6e3;text-align:center;font:18px system-ui}
+h1{font-size:24px}
+.stage{position:relative;width:min(100%,380px);aspect-ratio:1024/1300;margin:auto}
+.stage img{position:absolute;display:block}.base{width:74.31640625%;left:12.79296875%;top:53.76923077%}
+.lid{width:80.17578125%;left:11.23046875%;top:3.92307692%;transform:translateY(81.25%);transition:transform 620ms cubic-bezier(.2,.7,.25,1)}
+.open .lid{transform:translateY(0)}
+button{font:inherit;font-weight:700;cursor:pointer;background:#ffc56b;color:#432a19;border:0;border-radius:12px;padding:12px 24px}
+@media(prefers-reduced-motion:reduce){.lid{transition:none}}
+</style>
+<h1>Рождественский сундук</h1>
+<div class="stage" id="chest"><img class="base" src="base.webp" alt=""><img class="lid" src="lid.webp" alt=""></div>
+<button id="toggle" aria-controls="chest" type="button">Открыть сундук</button>
+<script>
+const chest=document.getElementById('chest'),toggle=document.getElementById('toggle');
+toggle.onclick=()=>{const open=chest.classList.toggle('open');toggle.textContent=open?'Закрыть сундук':'Открыть сундук';};
+</script></html>

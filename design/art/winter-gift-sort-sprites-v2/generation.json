@@ -1,0 +1,16 @@
+{
+  "gold": {
+    "prompt": "Use case: precise-object-edit. Change ONLY the red wrapping paper on this Buzzle small closed gift box into warm saturated honey amber GOLDEN YELLOW wrapping, distinct from pale cream ribbon. Keep cream ribbon and bow unchanged, same low-poly facets, box shape, perspective, silhouette and size, highlights, center, padding and transparent background. One isolated complete gift, no snow, tag, writing, decorations, outside shadow or glow. Matching sprite for four-color sorting. Strong recognizable wrapping color over most faces. Genuine alpha transparent PNG.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-gift-sort-sprites-v1/gift_red.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-70432097-0f62-4775-a9f5-0044a85a0629.png"
+  },
+  "blue": {
+    "prompt": "Use case: precise-object-edit. Change ONLY the red wrapping paper on this Buzzle small closed gift box into clear icy cornflower BLUE wrapping (not teal, green or violet), medium saturated blue shadows, distinct from pale cream ribbon. Keep cream ribbon and bow unchanged, same low-poly facets, box shape, perspective, silhouette and size, highlights, center, padding and transparent background. One isolated complete gift, no snow, tag, writing, decorations, outside shadow or glow. Matching sprite for four-color sorting. Strong recognizable wrapping color over most faces. Genuine alpha transparent PNG.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-gift-sort-sprites-v1/gift_red.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-a9f91b1f-0e74-4bef-8988-1dca1ee66153.png"
+  }
+}

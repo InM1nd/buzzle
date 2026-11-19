@@ -1,0 +1,35 @@
+{
+  "comb_winter_full": {
+    "size": [
+      1000,
+      866
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpVisibleMatch": true
+  },
+  "comb_winter_empty": {
+    "size": [
+      1000,
+      866
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpVisibleMatch": true
+  },
+  "comb_winter_locked": {
+    "size": [
+      1000,
+      866
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "pngWebpVisibleMatch": true
+  }
+}

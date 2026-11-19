@@ -1,0 +1,23 @@
+{
+  "boost_winter_bomb": {
+    "prompt": "Use case: stylized-concept. Asset: individual Buzzle winter puzzle BOOSTER UI icon. Attached image is exact identity/composition reference. Keep the cream-gold faceted round honey orb and the small THREE-point honey-gold crown with three pink round jewels, as reference. This is Buzzle's crowned honey bomb, NOT a black explosive. Winter accent only: a narrow pale icy-blue inlay at the crown band and two tiny ivory frost marks on its corners. Main orb remains warm creamy honey, crown small and clearly separated from orb; no large extra decorations, no hat, no fuse. Whole orb rounded and fully visible, never clipped or flat-cropped. Keep overall object compact, same visual size as other booster icons. Match cozy Buzzle low-poly 3D honey crystal with broad clear facets, soft warm upper-left light, restrained winter accents rather than snow piled on objects. Single isolated complete object centered in square with generous transparent margins, readable at 48px. Genuine transparent background, no ground, cast shadow, surrounding sparkles, scene, UI frame, watermark. Decorations must stay INSIDE silhouette. Do not create a multi-icon sheet.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/boost_bomb.webp"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-29cf87af-772c-4eb6-bc56-6259ead83104.png"
+  },
+  "boost_winter_shuffle": {
+    "prompt": "Use case: stylized-concept. Asset: individual Buzzle winter puzzle BOOSTER UI icon. Attached image is exact identity/composition reference. Preserve a compact blueberry-blue faceted hexagon token with TWO LARGE cream arrows in the middle, curved around an empty center and pointing opposite ways like reference. Winter accent: slim cool blue highlights and a few tiny frost flecks along ONLY the inside upper rim. Keep both arrows bold, simple, unobstructed and pointing correctly. No extra symbols, no snowflake in the middle. Match cozy Buzzle low-poly 3D honey crystal with broad clear facets, soft warm upper-left light, restrained winter accents rather than snow piled on objects. Single isolated complete object centered in square with generous transparent margins, readable at 48px. Genuine transparent background, no ground, cast shadow, surrounding sparkles, scene, UI frame, watermark. Decorations must stay INSIDE silhouette. Do not create a multi-icon sheet.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/boost_shuffle.webp"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-402ab51e-e7f8-4e32-aea3-75f3f7ccc88d.png"
+  },
+  "boost_winter_moves": {
+    "prompt": "Use case: stylized-concept. Asset: individual Buzzle winter puzzle BOOSTER UI icon. Attached image is exact identity/composition reference. Preserve the faceted evergreen-green hexagon token, with exact centered large raised warm cream characters \"+3\" (plus sign then digit three, verbatim). Winter accent: subtle cool green-blue facets and two tiny pale frost flecks at the INSIDE top corners. Keep green token clearly different from the blue shuffle token, text bold and fully visible, no extra labels or icons. Match cozy Buzzle low-poly 3D honey crystal with broad clear facets, soft warm upper-left light, restrained winter accents rather than snow piled on objects. Single isolated complete object centered in square with generous transparent margins, readable at 48px. Genuine transparent background, no ground, cast shadow, surrounding sparkles, scene, UI frame, watermark. Decorations must stay INSIDE silhouette. Do not create a multi-icon sheet.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/boost_moves.webp"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-c727229c-7ac0-461e-bcf5-a1bdfa1a6170.png"
+  }
+}

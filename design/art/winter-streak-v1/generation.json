@@ -1,0 +1,16 @@
+{
+  "winter_streak_flame": {
+    "prompt": "Use case: stylized-concept. Asset: one Buzzle winter daily tasks/streak UI icon, transparent PNG. Attached image is shape/identity reference. One upright friendly flame with nested rounded flame shapes, preserving the reference silhouette: broad rounded bottom, pointed top bending very slightly to right, cranberry-orange outer flame, honey-gold inner flame, small cream glowing heart. Refine as cozy soft winter hearth fire, broad low-poly facets, warm gold light. It must remain recognizable as the active daily streak, NOT a frozen flame. No blue ice, snow, pedestal, candle, lantern, extra symbols or particles. Match Buzzle cozy low-poly 3D honey-crystal art, soft upper-left light, clean broad triangular facets, compact balanced icon proportions, crisp silhouette. Center complete object on square canvas with generous transparent margins. Genuine transparent alpha, no floor, cast shadow outside object, scene, UI panel, watermark, lettering, multi-icon sheet. Keep whole object unclipped.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/flame.webp"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-c5d248a1-eeeb-4bc4-bbd8-2c224c9894ce.png"
+  },
+  "winter_streak_freeze": {
+    "prompt": "Use case: stylized-concept. Asset: one Buzzle winter daily tasks/streak UI icon, transparent PNG. Attached image is shape/identity reference. One flat-top faceted ice-blue hexagon token with a single LARGE clear raised blueberry-blue SIX-ARM snowflake centered, exactly six radial main arms, each with simple short paired branches. Preserve reference composition. Refine as frosted ice crystal with pale cream-blue upper-left reflections, cool medium-blue edge facets, a few tiny frost specks confined inside the upper bevel. Snowflake bold and unobstructed, broad simple arms readable at 48px. No text, no plus signs, no extra snowflakes or surrounding sparkles. Match Buzzle cozy low-poly 3D honey-crystal art, soft upper-left light, clean broad triangular facets, compact balanced icon proportions, crisp silhouette. Center complete object on square canvas with generous transparent margins. Genuine transparent alpha, no floor, cast shadow outside object, scene, UI panel, watermark, lettering, multi-icon sheet. Keep whole object unclipped.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/freeze.webp"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-1f7e6dcc-941d-4b40-b50c-0485fa8a36d5.png"
+  }
+}

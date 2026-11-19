@@ -1,0 +1,26 @@
+{
+  "reward_winter_nectar": {
+    "prompt": "Create ONE Buzzle winter reward sprite. Reference1 defines existing resource IDENTITY, silhouette, color and symbol. Reference2 gives seasonal wrapping STYLE only, do NOT draw jar. ONE upright GOLDEN-YELLOW NECTAR DROP, rounded teardrop belly with sharp tapered top, broad warm honey low-poly3D facets and one soft cream upper-left highlight. Reference1 tiny drop silhouette/color is resource identity. Add one very slim CRANBERRY RED ribbon loosely hugging only LOWEST quarter of drop with a tiny cream-ivory bow at lower-right, no bow around tapered tip. Keep at least80% golden drop unobstructed, no bottle or container. Still reads as yellow droplet, not honey jar, pear or ornament ball. Same cozy tactile low-poly3D game art, broad soft polygon facets, warm upper-left light and restrained cream/cranberry festive accents consistent with previous honey reward. Decoration subordinate to resource, readable at64px. Single whole icon centered in square transparent canvas with ample clear margins. No extra ornaments, snow or ice on resource, stars, glitter, scene, detached cast shadow, text, numbers, logo or UI. True transparent background. One item only, no comparison sheet.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/drop.webp",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-rewards-v1/reward_winter_honey.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-ea406b29-aa70-4fa1-9772-3ab77ff110a7.png"
+  },
+  "reward_winter_jelly": {
+    "prompt": "Create ONE Buzzle winter reward sprite. Reference1 defines existing resource IDENTITY, silhouette, color and symbol. Reference2 gives seasonal wrapping STYLE only, do NOT draw jar. ONE upright LAVENDER-LILAC ROYAL JELLY DROP matches reference1: pear-shaped pointed top and round broad belly, softly faceted lavender material with one soft cream upper-left highlight. Add a narrow CRANBERRY RED ribbon across LOWEST quarter and one tiny IVORY CREAM bow on lower-right; subtle satin, not wrapping whole drop. Most lilac body unobstructed, pointed tip intact. No jar, bottle, crown or new emblem. Distinct from golden-yellow nectar drop by color. Same cozy tactile low-poly3D game art, broad soft polygon facets, warm upper-left light and restrained cream/cranberry festive accents consistent with previous honey reward. Decoration subordinate to resource, readable at64px. Single whole icon centered in square transparent canvas with ample clear margins. No extra ornaments, snow or ice on resource, stars, glitter, scene, detached cast shadow, text, numbers, logo or UI. True transparent background. One item only, no comparison sheet.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/jelly.webp",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-rewards-v1/reward_winter_honey.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-c15b45db-925f-4d57-9629-61841d3067b4.png"
+  },
+  "reward_winter_fragment": {
+    "prompt": "Create ONE Buzzle winter reward sprite. Reference1 defines existing resource IDENTITY, silhouette, color and symbol. Reference2 gives seasonal wrapping STYLE only, do NOT draw jar. ONE thick VIOLET HEXAGONAL FRAGMENT TOKEN matches reference1: uneven bevelled purple six-sided gem slab, broad clean facets, near-front slight three-quarter thickness. Center has original simple GOLDEN BEE relief (small honey amber striped oval body and two cream wings), large and unobstructed. Add only a narrow CRANBERRY RED ribbon around outer LOWER-RIGHT edge with a very small ivory-cream bow tucked at corner, never across bee. Preserve violet silhouette, not a gold coin, giftbox, snowflake or new currency. Same cozy tactile low-poly3D game art, broad soft polygon facets, warm upper-left light and restrained cream/cranberry festive accents consistent with previous honey reward. Decoration subordinate to resource, readable at64px. Single whole icon centered in square transparent canvas with ample clear margins. No extra ornaments, snow or ice on resource, stars, glitter, scene, detached cast shadow, text, numbers, logo or UI. True transparent background. One item only, no comparison sheet.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/buzzle/assets/art/fragment.webp",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-rewards-v1/reward_winter_honey.png"
+    ],
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-f036d1b5-5bcd-4959-a2c8-371a4eb436cc.png"
+  }
+}

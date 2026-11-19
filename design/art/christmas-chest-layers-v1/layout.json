@@ -1,0 +1,23 @@
+{
+  "canvas": {
+    "width": 1024,
+    "height": 1300
+  },
+  "base": {
+    "x": 131,
+    "y": 699,
+    "width": 761,
+    "height": 567
+  },
+  "lid": {
+    "x": 115,
+    "width": 821,
+    "height": 480,
+    "closedY": 441,
+    "openY": 51
+  },
+  "drawOrder": [
+    "base",
+    "lid"
+  ]
+}

@@ -35,7 +35,7 @@ import { pinArt } from "./src/platform/pinArt";
 import { hideBootScreen, initTelegram, NOTIFICATIONS_SUPPORTED, onHide, setBackButton, telegramLanguage } from "./src/platform/telegram";
 import { applyPlan, ensureChannel, getPermission, requestPermission } from "./src/ui/notifications";
 import { hError, hSuccess, setHaptics } from "./src/ui/haptics";
-import { ART, sceneBg, seasonalTiles, setTileStyle } from "./src/ui/art";
+import { ART, sceneBg, seasonalTiles, setTileStyle, WINTER_FLAKE } from "./src/ui/art";
 import { SceneBg } from "./src/ui/SceneBg";
 import { TabIcon } from "./src/ui/TabIcon";
 import { Mascot } from "./src/ui/BeeSprite";
@@ -607,7 +607,7 @@ function Main() {
   setTileStyle(seasonalTiles(s.settings.tiles, look));
   // 1.7 winter: the event tile kind is a snowflake (free play), see finishRound
   const winterOn = !look && !!winterId(day);
-  if (winterOn) ART.pumpkin = ART.flakeTile;
+  if (winterOn) ART.pumpkin = WINTER_FLAKE[seasonalTiles(s.settings.tiles, false)] ?? ART.flakeTile;
   const themeKey = themeName();
 
   if (cocoa) {

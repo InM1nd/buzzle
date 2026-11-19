@@ -62,7 +62,7 @@ export const ART = {
   adventOpen: require("../../assets/art/winter/advent_open.webp"),
   flake: require("../../assets/art/winter/flake.webp"),
   winterFragment: require("../../assets/art/winter/fragment.webp"),
-  /** the winter event tile (free play): drawn instead of the pumpkin, one sprite for every tile style for now */
+  /** the winter event tile fallback (free play); each tile style has its own, WINTER_FLAKE */
   flakeTile: require("../../assets/art/tiles/cell_snowflake.webp"),
 };
 
@@ -179,6 +179,12 @@ const HALLOWEEN: Record<string, TileSetId> = { pastel: "hpastel", wax: "hwax", c
 export const seasonalTiles = (st: string, halloween: boolean): TileSetId => {
   const selected = st === "soft" ? "mellow" : st === "faceted" ? "balanced" : st;
   return !halloween ? ((Object.prototype.hasOwnProperty.call(TILE_SETS, selected) ? selected : "mellow") as TileSetId) : HALLOWEEN[selected] ?? "hmellow";
+};
+/** 1.7 winter: the snowflake event tile in each tile style (design/art/winter-glyph-styles-v2) */
+export const WINTER_FLAKE: Partial<Record<TileSetId, number>> = {
+  classic: require("../../assets/art/tiles/classic_cell_snowflake.webp"), pastel: require("../../assets/art/tiles/pastel_cell_snowflake.webp"),
+  wax: require("../../assets/art/tiles/wax_cell_snowflake.webp"), balanced: require("../../assets/art/tiles/balanced_cell_snowflake.webp"),
+  mellow: require("../../assets/art/tiles/mellow_cell_snowflake.webp"),
 };
 export function setTileStyle(st: TileSetId) {
   const t = TILE_SETS[st] ?? TILE_SETS.mellow;

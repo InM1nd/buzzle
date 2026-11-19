@@ -93,6 +93,8 @@ export interface Reward {
   seeds?: Record<string, number>;
   /** skins and decorations; an owned one turns into duplicate pollen, one not in the game yet makes the reward wait */
   items?: string[];
+  /** 1.7 winter-bee fragments (beyond 10 in the pocket they pay 4 pollen each) */
+  frags?: number;
 }
 export const taskReward = (hiveLvl: number): Reward => ({ honey: 40 * hiveLvl, jelly: 1 });
 export const bonusReward = (hiveLvl: number): Reward => ({ honey: 150 * hiveLvl, jelly: 2 });

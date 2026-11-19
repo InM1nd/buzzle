@@ -24,6 +24,10 @@ import {
 } from "./loot";
 import { hashString } from "./rng";
 import { FLIGHT_PAID_RUNS, flightNectar, flightPoints } from "./nightFlight";
+import {
+  ADVENT, ADVENT_DAYS, ADVENT_POLLEN, addFlakes, adventWindow, decemberDate, FLAKES, newWinter, WINTER_BEE, WINTER_FRAGMENTS, WinterState,
+  winterId, winterProgress, WSHOP,
+} from "./winter";
 import { activeEvent, DEV_EVENT_MODES, DevEventMode, EventState, eventProgress, newEventState, POINTS, TRACK, TrackReward, trackEvent } from "./event";
 
 /** v2 (Buzzle 1.2): nectar, bee levels, garden. The storage key stays the same; v1 saves are migrated on load
@@ -80,6 +84,8 @@ export interface GameState {
   clock: { maxSeen: number; maxDay: number };
   /** 1.6.2: random anonymous install id for analytics (no personal data) */
   aid: string;
+  /** 1.7 winter season: snowflakes, winter-bee fragments, advent, winter shop limits */
+  winter: WinterState;
 }
 
 export interface Settings {
@@ -145,6 +151,7 @@ export function newState(now: number): GameState {
     flight: { day, runs: 0, best: 0 },
     clock: { maxSeen: now, maxDay: day },
     aid: newAnalyticsId(),
+    winter: newWinter(),
   };
 }
 
@@ -215,6 +222,16 @@ export function migrate(raw: unknown, now: number): GameState {
     flight: { day: num(obj(s.flight).day, d.flight.day), runs: Math.max(0, num(obj(s.flight).runs, 0) | 0), best: Math.max(0, num(obj(s.flight).best, 0) | 0) },
     clock: { maxSeen: clockMax, maxDay },
     aid: isAnalyticsId(s.aid) ? s.aid : d.aid,
+    winter: migrateWinter(obj(s.winter)),
+  };
+}
+function migrateWinter(w: Record<string, any>): WinterState {
+  const n = (v: unknown, def = 0) => Math.max(def, num(v, def) | 0);
+  return {
+    id: typeof w.id === "string" ? w.id : "",
+    flakes: n(w.flakes), frags: Math.min(WINTER_FRAGMENTS, n(w.frags)), credits: n(w.credits),
+    advent: Array.isArray(w.advent) ? Array.from(new Set(w.advent.filter((x: unknown) => Number.isInteger(x) && (x as number) >= 1 && (x as number) <= ADVENT_DAYS))) as number[] : [],
+    waxDay: n(w.waxDay, -1), goldWeek: n(w.goldWeek, -1),
   };
 }
 
@@ -292,10 +309,10 @@ export function dayColorInfo(s: GameState, now: number): { color: number; active
 function add(s: GameState, r: { honey?: number; jelly?: number }): GameState {
   return { ...s, honey: s.honey + (r.honey ?? 0), jelly: s.jelly + (r.jelly ?? 0) };
 }
-/** 1.7: credit any reward. An owned skin / decoration becomes its duplicate pollen; an item that is not in the game yet
+/** 1.7: credit any reward. An owned skin / decoration becomes its duplicate pollen; an item or a flower that is not in the game yet
  * returns null so the caller keeps the reward waiting instead of burning it. */
 export function grant(s0: GameState, r: Reward): GameState | null {
-  if (r.items?.some((id) => !ITEM_BY_ID[id])) return null;
+  if (r.items?.some((id) => !ITEM_BY_ID[id]) || Object.keys(r.seeds ?? {}).some((f) => !FLOWER_BY_ID[f])) return null;
   let s = add(s0, r);
   const loot: Loot = { ...s.loot, owned: [...s.loot.owned], boosters: { ...s.loot.boosters }, seeds: { ...s.loot.seeds }, pollen: s.loot.pollen + (r.pollen ?? 0) };
   for (const id of r.items ?? []) {
@@ -306,6 +323,11 @@ export function grant(s0: GameState, r: Reward): GameState | null {
   for (const [f, n] of Object.entries(r.seeds ?? {})) {
     loot.seeds[f] = (loot.seeds[f] ?? 0) + n;
     if (ITEM_BY_ID[f] && !loot.owned.includes(f)) loot.owned.push(f); // rare flower → album, like openComb
+  }
+  if (r.frags) {
+    const keep = Math.max(0, Math.min(r.frags, WINTER_FRAGMENTS - s.winter.frags));
+    loot.pollen += (r.frags - keep) * 4;
+    s = { ...s, winter: { ...s.winter, frags: s.winter.frags + keep } };
   }
   s = { ...s, loot };
   return r.boxes?.length ? addBoxes(s, r.boxes) : s;
@@ -479,6 +501,8 @@ export interface RoundReward {
   froze?: boolean;
   /** v1.6: event points earned by this round */
   points?: number;
+  /** 1.7: snowflakes earned by this round (winter) */
+  flakes?: number;
 }
 
 export function finishRound(s0: GameState, r: RoundSummary, now: number): { state: GameState; reward: RoundReward } {
@@ -546,7 +570,16 @@ export function finishRound(s0: GameState, r: RoundSummary, now: number): { stat
     const e = eventProgress(s.event, ev);
     s = { ...s, event: { ...e, points: e.points + points } };
   }
-  return { state: s, reward: { honey, stars, newStars, jelly: r.mode === "daily" ? newStars : extraJelly, record, streak: s.daily.streak, boxes, froze, points } };
+  // 1.7 winter: snowflakes for new stars and (free play) snowflake tiles — the event tile kind, drawn as a snowflake in winter;
+  // every round played in December is a credit for catching up an advent window
+  let flakes = 0;
+  const day = today(s, now);
+  if (winterId(day) && !ev) {
+    flakes = r.mode === "free" ? (r.pumpkins ?? 0) * FLAKES.tile : newStars * FLAKES.star;
+    s = giveFlakes(s, day, flakes);
+    if (decemberDate(day)) s = { ...s, winter: { ...s.winter, credits: s.winter.credits + 1 } };
+  }
+  return { state: s, reward: { honey, stars, newStars, jelly: r.mode === "daily" ? newStars : extraJelly, record, streak: s.daily.streak, boxes, froze, points, flakes } };
 }
 
 export function claimTask(s: GameState, id: string): { state: GameState; reward: Reward } | null {
@@ -667,7 +700,7 @@ export function openBox(s0: GameState, kind: BoxKind, now: number): { state: Gam
   const s = tick(s0, now);
   const r = openComb(s.loot, kind, openCtx(s));
   if (!r) return null;
-  return { state: credit({ ...s, loot: r.loot }, r.drops), drops: r.drops };
+  return { state: combFlakes(credit({ ...s, loot: r.loot }, r.drops), kind, 1, now), drops: r.drops };
 }
 /** «Открыть все»: every comb of that kind (bonus golden combs found inside stay for later) */
 export function openAllBoxes(s0: GameState, kind: BoxKind, now: number, max = 60): { state: GameState; drops: Drop[][] } | null {
@@ -679,7 +712,7 @@ export function openAllBoxes(s0: GameState, kind: BoxKind, now: number, max = 60
     s = credit({ ...s, loot: r.loot }, r.drops);
     all.push(r.drops);
   }
-  return all.length ? { state: s, drops: all } : null;
+  return all.length ? { state: combFlakes(s, kind, all.length, now), drops: all } : null;
 }
 export const canAssembleNightBee = (s: GameState) => !s.bees.includes(NIGHT_BEE) && s.loot.fragments >= FRAGMENTS_FOR_BEE;
 export function assembleNightBee(s0: GameState, now: number): GameState | null {
@@ -828,4 +861,73 @@ export function treatGuest(s0: GameState, now: number): { state: GameState; rewa
   let n: GameState = { ...add(s, reward), event: { ...e, points: e.points + POINTS.trick, trickDay: day } };
   if (reward.box) n = addBoxes(n, [reward.box]);
   return { state: n, reward, points: POINTS.trick };
+}
+
+// ---------------------------------------------------------------- 1.7 winter season
+/** the save's winter progress for today (fresh numbers in a new winter), null outside winter */
+export function winterView(s: GameState, now: number): WinterState | null {
+  const id = winterId(today(s, now));
+  return id ? winterProgress(s.winter, id) : null;
+}
+export const winterBeeHome = (s: GameState) => s.bees.includes(WINTER_BEE);
+/** add snowflakes on a winter day (fragments / wax combs / pollen for every crossed 50) */
+export function giveFlakes(s: GameState, day: number, n: number): GameState {
+  const id = winterId(day);
+  if (!id || n <= 0) return s;
+  const r = addFlakes(winterProgress(s.winter, id), n, winterBeeHome(s));
+  const n2: GameState = { ...s, winter: r.w, loot: { ...s.loot, pollen: s.loot.pollen + r.pollen } };
+  return r.wax ? addBoxes(n2, Array(r.wax).fill("wax")) : n2;
+}
+/** wax, golden and royal combs opened in winter carry snowflakes */
+function combFlakes(s: GameState, kind: BoxKind, count: number, now: number): GameState {
+  return kind === "wood" ? s : giveFlakes(s, today(s, now), FLAKES.comb * count);
+}
+
+/** the advent calendar is shown from the player's second day (not during the first-day tutorial) */
+export const adventVisible = (s: GameState, now: number) => !!decemberDate(today(s, now)) && s.early.firstSeen !== dayKey(today(s, now));
+/** how a window can be opened now: free (today's), with a round credit, for pollen, or not at all */
+export function adventOpenWay(s: GameState, n: number, now: number): "free" | "credit" | "pollen" | null {
+  const w = winterView(s, now);
+  if (!w || !adventVisible(s, now)) return null;
+  const st = adventWindow(w, n, today(s, now));
+  if (st === "today") return "free";
+  if (st !== "catchup") return null;
+  return w.credits > 0 ? "credit" : s.loot.pollen >= ADVENT_POLLEN ? "pollen" : null;
+}
+/** open an advent window; a gift whose art is not in the game yet keeps the window closed (null) */
+export function openAdvent(s0: GameState, n: number, now: number): { state: GameState; reward: Reward } | null {
+  const s = tick(s0, now);
+  const way = adventOpenWay(s, n, now);
+  if (!way) return null;
+  const w = winterView(s, now)!;
+  const paid: GameState = {
+    ...s,
+    winter: { ...w, advent: [...w.advent, n], credits: w.credits - (way === "credit" ? 1 : 0) },
+    loot: { ...s.loot, pollen: s.loot.pollen - (way === "pollen" ? ADVENT_POLLEN : 0) },
+  };
+  const reward = ADVENT[n - 1];
+  const state = grant(paid, reward);
+  return state ? { state, reward } : null;
+}
+
+// winter shop (1 Dec – 28 Feb)
+export function buyWinterFragment(s: GameState, pay: "pollen" | "jelly", now: number): GameState | null {
+  const w = winterView(s, now);
+  if (!w || winterBeeHome(s) || w.frags >= WINTER_FRAGMENTS) return null;
+  const cost = pay === "pollen" ? WSHOP.fragPollen : WSHOP.fragJelly;
+  if ((pay === "pollen" ? s.loot.pollen : s.jelly) < cost) return null;
+  return {
+    ...s, winter: { ...w, frags: w.frags + 1 },
+    jelly: s.jelly - (pay === "jelly" ? cost : 0), loot: { ...s.loot, pollen: s.loot.pollen - (pay === "pollen" ? cost : 0) },
+  };
+}
+/** a wax comb once a day, a golden comb once a week, for royal jelly */
+export function buyWinterComb(s0: GameState, kind: "wax" | "gold", now: number): GameState | null {
+  const s = tick(s0, now);
+  const w = winterView(s, now);
+  if (!w) return null;
+  const day = today(s, now), wk = weekOf(day);
+  const cost = kind === "wax" ? WSHOP.waxJelly : WSHOP.goldJelly;
+  if (s.jelly < cost || (kind === "wax" ? w.waxDay === day : w.goldWeek === wk)) return null;
+  return addBoxes({ ...s, jelly: s.jelly - cost, winter: { ...w, ...(kind === "wax" ? { waxDay: day } : { goldWeek: wk }) } }, [kind]);
 }

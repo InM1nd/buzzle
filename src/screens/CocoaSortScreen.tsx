@@ -17,13 +17,14 @@ import { Mascot } from "../ui/BeeSprite";
 import { GameButton, Overlay, Press, Stars, Txt } from "../ui/components";
 import { useReduceMotion } from "../ui/EventCine";
 import { hError, hLight, hSuccess } from "../ui/haptics";
-import { F, shadow } from "../ui/theme";
+import { C, F, isNight, K, shadow, themed } from "../ui/theme";
 
 /* eslint-disable @typescript-eslint/no-require-imports */
 const BG = require("../../assets/art/cocoa/background_cafe_winter.webp");
 const MUG = require("../../assets/art/cocoa/mug_glass.webp");
 const SHELF = require("../../assets/art/cocoa/shelf_wood.webp");
-const PLAQUE = require("../../assets/art/cocoa/title_plaque.webp");
+const UNDO = require("../../assets/art/cocoa/icon_undo.webp");
+const ADD = require("../../assets/art/cocoa/icon_add_mug.webp");
 /** a finished drink gets its topping (cocoa, sbiten, mint tea, berry morse, honey milk; the two extra drinks have none) */
 const TOPPER = [
   require("../../assets/art/cocoa/topper_marshmallow.webp"), require("../../assets/art/cocoa/topper_cinnamon.webp"),
@@ -266,41 +267,40 @@ export default function CocoaSortScreen({ level, onWin, onExit, flakes }: { leve
       <Image source={BG} style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} resizeMode="cover" />
       <View style={[StyleSheet.absoluteFill, { backgroundColor: "rgba(40,22,14,0.12)" }]} />
       <View style={{ flex: 1, paddingTop: insets.top + 8, paddingBottom: insets.bottom + 12, paddingHorizontal: 12 }}>
-        {/* top bar: the plaque is centred on the screen, not between the buttons, so nothing in it moves when numbers change */}
-        <View style={{ height: 96 }}>
-          <View pointerEvents="none" style={{ position: "absolute", left: 0, right: 0, top: 0, alignItems: "center" }}>
-            <View style={styles.plaque}>
-              <Image source={PLAQUE} style={{ position: "absolute", left: 0, top: 0, width: 220, height: 74 }} resizeMode="stretch" />
-              <Text style={[F.black, { fontSize: 19, color: "#4A2C12" }]} numberOfLines={1}>{t("cs.title")}</Text>
+        {/* top bar: the same panel as the puzzle (GameScreen): exit · title and level · moves; stars and what keeps them */}
+        <View style={ui.hud}>
+          <View style={ui.top}>
+            <Press onPress={leave} style={ui.iconBtn} accessibilityRole="button" accessibilityLabel={t("game.exit")}>
+              <Image source={ART.close} style={{ width: 16, height: 16, tintColor: C.brown }} />
+            </Press>
+            <View style={{ flex: 1, alignItems: "center" }}>
+              <Txt v="tiny" color={C.dim}>{t("cs.title").toUpperCase()}</Txt>
+              <Text style={[F.black, { fontSize: 26, lineHeight: 30, color: C.text }]} numberOfLines={1}>{t("cs.level", { n: n + 1 })}</Text>
             </View>
-            <View style={styles.levelPill}>
-              <Text style={[F.xbold, { fontSize: 13, color: "#4A2C12", fontVariant: ["tabular-nums"] }]}>{t("cs.level", { n: n + 1 })}  ·  {t("cs.moves", { n: play.moves })}</Text>
+            <View style={ui.moves} accessibilityLabel={t("cs.moves", { n: play.moves })}>
+              <Text style={[F.black, { fontSize: 22, lineHeight: 25, color: isNight() ? "#4A2C12" : "#fff" }]}>{play.moves}</Text>
+              <Text style={[F.xbold, { fontSize: 9, lineHeight: 11, color: isNight() ? "#4A2C12" : "#fff", opacity: 0.9 }]}>{t("game.movesCaps")}</Text>
             </View>
           </View>
-          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-            <Press onPress={leave} style={styles.close} accessibilityRole="button" accessibilityLabel={t("game.exit")}>
-              <Image source={ART.close} style={{ width: 22, height: 22, tintColor: "#4A2C12" }} />
-            </Press>
-            <Press onPress={restart} style={styles.close} accessibilityRole="button" accessibilityLabel={t("cs.restart")}>
-              <Text style={[F.black, { fontSize: 24, color: "#4A2C12", lineHeight: 28 }]}>↻</Text>
-            </Press>
+          <View style={ui.starRow}>
+            <Stars n={st} size={20} />
+            <Txt v="tiny" color={C.dim}>{st > 1 ? t("cs.starsKeep", { s: st, n: play.par + (st === 3 ? 3 : 8) }) : t("cs.starsLast")}</Txt>
           </View>
         </View>
-        <View style={{ alignItems: "center" }}><Stars n={st} size={24} /></View>
 
         {/* Zhuzha's order ticket */}
         {shape(n).orders ? (
-          <View style={styles.order}>
+          <View style={ui.order}>
             <Mascot size={40} />
             <View style={{ flex: 1 }}>
-              <Txt v="tiny" color="#8A5A2B">{t("cs.order")}</Txt>
+              <Txt v="tiny" color={C.dim}>{t("cs.order")}</Txt>
               {board.orders.length ? (
                 <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
                   <View style={[styles.dot, { backgroundColor: DRINK[board.orders[0]] }]}><Text style={[F.black, { fontSize: 11, color: GLYPH_ON[board.orders[0]] }]}>{GLYPH[board.orders[0]]}</Text></View>
-                  <Txt v="small" color="#4A2C12">{tx(`cs.d${board.orders[0]}`)}</Txt>
-                  {board.orders.length > 1 ? <Txt v="tiny" color="#8A5A2B">{` +${board.orders.length - 1}`}</Txt> : null}
+                  <Txt v="h3" style={{ fontSize: 14 }}>{tx(`cs.d${board.orders[0]}`)}</Txt>
+                  {board.orders.length > 1 ? <Txt v="tiny" color={C.dim}>{` +${board.orders.length - 1}`}</Txt> : null}
                 </View>
-              ) : <Txt v="small" color="#4E7A2A">{t("cs.ordersDone")}</Txt>}
+              ) : <Txt v="h3" style={{ fontSize: 14 }} color={C.greenDark}>{t("cs.ordersDone")}</Txt>}
             </View>
           </View>
         ) : null}
@@ -331,13 +331,17 @@ export default function CocoaSortScreen({ level, onWin, onExit, flakes }: { leve
         </View>
 
         {/* fixed height: a longer hint must not change the shelf area (its height sizes the mugs) */}
-        <View style={{ height: 54, alignItems: "center", justifyContent: "center" }}>
-          <View style={styles.status}><Txt v="small" color="#FFF1DA" center numberOfLines={2}>{msg}</Txt></View>
+        <View style={{ height: 52, alignItems: "center", justifyContent: "center" }}>
+          <View style={ui.chip}><Txt v="small" center numberOfLines={2}>{msg}</Txt></View>
         </View>
-        <View style={{ flexDirection: "row", gap: 10, marginTop: 6 }}>
-          <GameButton style={{ flex: 1 }} color="purple" title={t("cs.undo", { n: play.undos })} disabled={!play.undos || !play.history.length || !!pouring} onPress={undo} />
-          <GameButton style={{ flex: 1 }} color="purple" title={t("cs.addMug", { n: play.added ? 0 : 1 })} disabled={play.added || won || !!pouring} onPress={addMug} />
+        {/* tools: cards like the puzzle's hint card, restart as the small white button (like shuffle) */}
+        <View style={ui.dock}>
+          <Tool icon={UNDO} title={t("cs.undoT")} sub={t("cs.left", { n: play.undos })} color={K.bg("#E8E2FF")} label={t("cs.undo", { n: play.undos })}
+            off={!play.undos || !play.history.length || !!pouring} onPress={undo} />
+          <Tool icon={ADD} title={t("cs.addMugT")} sub={t("cs.left", { n: play.added ? 0 : 1 })} color={K.bg("#FFE3B0")} label={t("cs.addMug", { n: play.added ? 0 : 1 })}
+            off={play.added || won || !!pouring} onPress={addMug} />
         </View>
+        <GameButton small color="white" title={`↻  ${t("cs.restart")}`} onPress={restart} style={{ alignSelf: "center", marginTop: 10 }} />
       </View>
 
       <Overlay visible={won && !pouring && winUp} dismissable={false} glow>
@@ -494,11 +498,32 @@ function Flying({ pr, geo, p }: { pr: Pouring; geo: Geo; p: Animated.Value }) {
   );
 }
 
+/** a tool card (undo / one more mug), the puzzle's dock card */
+function Tool({ icon, title, sub, color, label, off, onPress }: { icon: number; title: string; sub: string; color: string; label: string; off: boolean; onPress: () => void }) {
+  return (
+    <Press onPress={off ? undefined : onPress} disabled={off} style={[ui.dockCard, off && { opacity: 0.5 }]} accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ disabled: off }}>
+      <View style={[ui.dockIc, { backgroundColor: color }]}><Image source={icon} style={{ width: 26, height: 26, tintColor: C.brown }} /></View>
+      <View style={{ flex: 1 }}>
+        <Txt v="h3" style={{ fontSize: 14 }} numberOfLines={1}>{title}</Txt>
+        <Txt v="tiny" color={C.dim} numberOfLines={1}>{sub}</Txt>
+      </View>
+    </Press>
+  );
+}
+
 const styles = StyleSheet.create({
-  close: { width: 44, height: 44, borderRadius: 14, backgroundColor: "#FFF4E2", alignItems: "center", justifyContent: "center", ...shadow },
-  plaque: { width: 220, height: 74, alignItems: "center", justifyContent: "center", paddingHorizontal: 46 },
-  levelPill: { marginTop: -14, paddingHorizontal: 14, paddingVertical: 3, borderRadius: 10, backgroundColor: "#F6E2BC", borderWidth: 1.5, borderColor: "#D9AE6E" },
-  order: { flexDirection: "row", alignItems: "center", gap: 8, marginTop: 8, alignSelf: "center", paddingVertical: 4, paddingRight: 14, paddingLeft: 6, borderRadius: 16, backgroundColor: "#FFF4E2", borderWidth: 1.5, borderColor: "#E2B878", minWidth: 200 },
   dot: { width: 20, height: 20, borderRadius: 6, alignItems: "center", justifyContent: "center" },
-  status: { alignSelf: "center", paddingHorizontal: 16, paddingVertical: 8, borderRadius: 16, backgroundColor: "rgba(60,32,18,0.72)", borderWidth: 1, borderColor: "rgba(255,220,170,0.35)" },
 });
+/** the puzzle's panels and cards (GameScreen styles), themed for the Midnight look */
+const ui = themed(() => StyleSheet.create({
+  hud: { backgroundColor: K.bg("rgba(255,250,238,0.95)"), borderRadius: 24, padding: 8, paddingBottom: 8, borderWidth: 2, borderColor: K.bd("rgba(255,255,255,0.9)"), ...shadow },
+  top: { flexDirection: "row", alignItems: "center", gap: 10 },
+  iconBtn: { width: 42, height: 42, borderRadius: 21, backgroundColor: K.bg("#FFF0D2"), alignItems: "center", justifyContent: "center" },
+  moves: { width: 56, height: 48, borderRadius: 16, backgroundColor: C.honeyDeep, alignItems: "center", justifyContent: "center" },
+  starRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, marginTop: 6 },
+  order: { flexDirection: "row", alignItems: "center", gap: 8, marginTop: 8, alignSelf: "center", paddingVertical: 4, paddingRight: 14, paddingLeft: 6, borderRadius: 18, backgroundColor: K.bg("#fff"), borderWidth: 2, borderColor: C.line, minWidth: 200, ...shadow },
+  chip: { backgroundColor: K.bg("#fff"), borderRadius: 14, paddingHorizontal: 14, paddingVertical: 6, maxWidth: "100%", ...shadow, ...(isNight() ? { borderWidth: 1.5, borderColor: C.cardEdge } : null) },
+  dock: { flexDirection: "row", gap: 10 },
+  dockCard: { flex: 1, flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: K.bg("#fff"), borderRadius: 18, borderWidth: 2, borderColor: C.line, paddingHorizontal: 10, paddingVertical: 8, minHeight: 56 },
+  dockIc: { width: 40, height: 40, borderRadius: 13, alignItems: "center", justifyContent: "center" },
+}));

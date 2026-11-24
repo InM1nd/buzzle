@@ -1,4 +1,5 @@
-import { Season } from "../logic/event";
+import { Season, season } from "../logic/event";
+import { WinterLook, winterLook } from "../logic/winter";
 import { resolveScene, SceneView } from "../logic/scene";
 /* eslint-disable @typescript-eslint/no-require-imports */
 export const ART = {
@@ -56,6 +57,13 @@ export const ART = {
   eventHeader: require("../../assets/art/halloween/event_header.webp"),
   trickDoor: require("../../assets/art/halloween/trick_door.webp"),
   trickBasket: require("../../assets/art/halloween/trick_basket.webp"),
+  // 1.7 winter, placeholders until the art is approved (design/art/winter-advent-v2, winter-glyphs-v1, winter-rewards-v2)
+  adventClosed: require("../../assets/art/winter/advent_closed.webp"),
+  adventOpen: require("../../assets/art/winter/advent_open.webp"),
+  flake: require("../../assets/art/winter/flake.webp"),
+  winterFragment: require("../../assets/art/winter/fragment.webp"),
+  /** the winter event tile fallback (free play); each tile style has its own, WINTER_FLAKE */
+  flakeTile: require("../../assets/art/tiles/cell_snowflake.webp"),
 };
 
 /** v1.6 scene backdrops. Two layers: the event backdrop wins while an event runs (Halloween night), otherwise the
@@ -67,7 +75,7 @@ export const DEFAULT_BG: Record<SceneView, number> = {
   puzzle: require("../../assets/art/env/puzzle_default.webp"),
 };
 export const SEASON_BG: Record<Season, Partial<Record<SceneView, number>>> = {
-  // winter / spring: no art yet, the default (summer) backdrops are shown; needed assets: design/SEASONS.ru.md
+  // spring: no art yet, the default (summer) backdrops are shown; needed assets: design/SEASONS.ru.md. Winter: WINTER_BG below
   spring: {},
   summer: {}, // = the defaults
   autumn: {
@@ -75,12 +83,33 @@ export const SEASON_BG: Record<Season, Partial<Record<SceneView, number>>> = {
     garden: require("../../assets/art/env/garden_bg_autumn.webp"),
     puzzle: require("../../assets/art/halloween/puzzle_autumn.webp"),
   },
-  winter: {}, // see spring
+  winter: {}, // see WINTER_BG
 };
 export const EVENT_BG: Record<SceneView, number> = { hive: ART.hiveNight, garden: ART.gardenNight, puzzle: ART.puzzleNight };
-/** the backdrop for a view on that game day; `event` = the event look is shown (see App: it lags the calendar during the transition) */
-export const sceneBg = (view: SceneView, day: number, event: boolean): number =>
-  resolveScene({ event: EVENT_BG, seasons: SEASON_BG, fallback: DEFAULT_BG }, view, day, event);
+/** 1.7 winter backdrops (design/art/winter-unified-v3, set A "baseline"): winter / Christmas × day / evening */
+export const WINTER_BG: Record<WinterLook, Record<SceneView, number>> = {
+  winter_day: {
+    hive: require("../../assets/art/winter/bg/winter_day_hive.webp"), garden: require("../../assets/art/winter/bg/winter_day_garden.webp"),
+    puzzle: require("../../assets/art/winter/bg/winter_day_puzzle.webp"),
+  },
+  winter_evening: {
+    hive: require("../../assets/art/winter/bg/winter_evening_hive.webp"), garden: require("../../assets/art/winter/bg/winter_evening_garden.webp"),
+    puzzle: require("../../assets/art/winter/bg/winter_evening_puzzle.webp"),
+  },
+  christmas_day: {
+    hive: require("../../assets/art/winter/bg/christmas_day_hive.webp"), garden: require("../../assets/art/winter/bg/christmas_day_garden.webp"),
+    puzzle: require("../../assets/art/winter/bg/christmas_day_puzzle.webp"),
+  },
+  christmas_evening: {
+    hive: require("../../assets/art/winter/bg/christmas_evening_hive.webp"), garden: require("../../assets/art/winter/bg/christmas_evening_garden.webp"),
+    puzzle: require("../../assets/art/winter/bg/christmas_evening_puzzle.webp"),
+  },
+};
+/** the backdrop for a view on that game day; `event` = the event look is shown (see App: it lags the calendar during the transition);
+ * in winter the local hour picks day or evening */
+export const sceneBg = (view: SceneView, day: number, event: boolean, hour = new Date().getHours()): number =>
+  !event && season(day) === "winter" ? WINTER_BG[winterLook(day, hour)][view]
+    : resolveScene({ event: EVENT_BG, seasons: SEASON_BG, fallback: DEFAULT_BG }, view, day, event);
 
 /** v1.6 puzzle tile styles (Settings). setTileStyle swaps ART.cells / wild / bomb / pumpkin in place, so every screen that draws
  * tiles follows; App re-mounts the tree on a change (like the language). Calm sets: scripts/import_tile_styles.py */
@@ -150,6 +179,12 @@ const HALLOWEEN: Record<string, TileSetId> = { pastel: "hpastel", wax: "hwax", c
 export const seasonalTiles = (st: string, halloween: boolean): TileSetId => {
   const selected = st === "soft" ? "mellow" : st === "faceted" ? "balanced" : st;
   return !halloween ? ((Object.prototype.hasOwnProperty.call(TILE_SETS, selected) ? selected : "mellow") as TileSetId) : HALLOWEEN[selected] ?? "hmellow";
+};
+/** 1.7 winter: the snowflake event tile in each tile style (design/art/winter-glyph-styles-v2) */
+export const WINTER_FLAKE: Partial<Record<TileSetId, number>> = {
+  classic: require("../../assets/art/tiles/classic_cell_snowflake.webp"), pastel: require("../../assets/art/tiles/pastel_cell_snowflake.webp"),
+  wax: require("../../assets/art/tiles/wax_cell_snowflake.webp"), balanced: require("../../assets/art/tiles/balanced_cell_snowflake.webp"),
+  mellow: require("../../assets/art/tiles/mellow_cell_snowflake.webp"),
 };
 export function setTileStyle(st: TileSetId) {
   const t = TILE_SETS[st] ?? TILE_SETS.mellow;

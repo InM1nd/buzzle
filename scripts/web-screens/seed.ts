@@ -37,7 +37,7 @@ function mid(): GameState {
       ],
     },
     daily: { lastDay: DAY - 1, streak: 4, best: 6, results: { [DAY - 1]: { stars: 2, score: 2140 }, [DAY - 2]: { stars: 3, score: 3010 } }, freeze: 0 },
-    login: { lastDay: DAY, index: 3, streak: 4 },
+    login: { lastDay: DAY, index: 3, streak: 4, cycle: 0 },
     tasks: { day: DAY, progress: { [t[0].id]: t[0].target, [t[1].id]: Math.ceil(t[1].target / 2) }, claimed: [], bonus: false },
     stats: { rounds: 23, bestScore: 3420, longestChain: 11, totalHoney: 5230, bombs: 17, collects: 31, harvests: 9, totalNectar: 96, levelUps: 3 },
     settings: { ...newState(NOW).settings, notifications: true, haptics: true, tutorialDone: true, notifPromptDismissed: true, gardenReminders: true, gardenIntroDone: true, langPicked: true, lang: (process.env.BZZ_LANG as never) || "ru" },
@@ -50,7 +50,7 @@ const m = mid();
 // garden intro card (first visit after the v1.2 update) and a bee ready to level up
 const gardenNew: GameState = { ...m, settings: { ...m.settings, gardenIntroDone: false } };
 const levelUp: GameState = { ...m, nectar: 400, jelly: 12, beeLevels: { ...m.beeLevels, pushinka: 4 } };
-const loginDue: GameState = { ...m, login: { lastDay: DAY - 1, index: 3, streak: 4 } };
+const loginDue: GameState = { ...m, login: { lastDay: DAY - 1, index: 3, streak: 4, cycle: 0 } };
 const full: GameState = tick({ ...m, hive: { ...m.hive, stored: 0, lastTick: NOW - 30 * H } }, NOW - 1000);
 // greedy playthrough of today's daily puzzle (the board evolves deterministically)
 let b = createBoard(dailySeed(DAY));

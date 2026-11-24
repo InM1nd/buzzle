@@ -20,22 +20,22 @@ async function seed(patch: (s: GameState) => GameState) {
   let s = newState(now);
   // These tests exercise regular screens, independent of the seasonal calendar.
   // Explicit classic UI and a seen event intro prevent Halloween changing their fixtures.
-  s = { ...s, settings: { ...s.settings, tutorialDone: true, gardenIntroDone: true, lang: "ru", langPicked: true, lastVersion: "1.6.1", ui: "classic" },
+  s = { ...s, settings: { ...s.settings, tutorialDone: true, gardenIntroDone: true, lang: "ru", langPicked: true, lastVersion: "1.7.0", ui: "classic" },
     event: { ...s.event, id: `halloween-${new Date(now).getFullYear()}`, intro: true },
-    login: { lastDay: today(s, now), index: 0, streak: 1 } };
+    login: { lastDay: today(s, now), index: 0, streak: 1, cycle: 0 } };
   await AsyncStorage.setItem(KEY, JSON.stringify(patch(s)));
 }
 async function boot() {
   if (!await AsyncStorage.getItem(KEY)) {
     const s = newState(Date.now());
-    s.settings = {...s.settings, lang: "ru", langPicked: true, lastVersion: "1.6.1"};
+    s.settings = {...s.settings, lang: "ru", langPicked: true, lastVersion: "1.7.0"};
     await AsyncStorage.setItem(KEY, JSON.stringify(s));
   }
   await render(<App />);
   expect(await screen.findByLabelText("Настройки")).toBeTruthy();
 }
 
-test("first run: tutorial → login reward → honey persisted", async () => {
+test("first run: tutorial → login reward (1.7: a bomb booster) persisted", async () => {
   await boot();
   expect(await screen.findByText("Привет, я Жужа!")).toBeTruthy();
   await fireEvent.press(screen.getByText("Дальше"));
@@ -46,7 +46,7 @@ test("first run: tutorial → login reward → honey persisted", async () => {
   await waitFor(async () => {
     const s = await stored();
     expect(s.settings.tutorialDone).toBe(true);
-    expect(s.honey).toBe(150);
+    expect(s.loot.boosters.bomb).toBe(1);
     expect(s.login.lastDay).not.toBeNull();
   });
 });
@@ -118,7 +118,7 @@ test("bees: unlock a species with royal jelly", async () => {
   await boot();
   await fireEvent.press(screen.getByLabelText("Пчёлы"));
   expect(await screen.findAllByText("Пчёлы")).toBeTruthy();
-  expect(screen.getByText("1 из 13")).toBeTruthy();
+  expect(screen.getByText("1 из 15")).toBeTruthy();
   await fireEvent.press(screen.getByLabelText("Пушинка, закрыта"));
   await fireEvent.press(await screen.findByLabelText("Открыть пчелу за 4 молочка"));
   await waitFor(async () => {
@@ -268,7 +268,7 @@ test("v1.2.0 save (v2) migrates to v3 with bee names and keeps progress", async 
   const now = Date.now();
   const s = newState(now);
   const { beeNames: _b, ...rest } = s;
-  const v2 = { ...rest, version: 2, honey: 999, nectar: 55, settings: { ...s.settings, tutorialDone: true, gardenIntroDone: true, lang: "ru", langPicked: true, lastVersion: "1.6.1" }, login: { lastDay: today(s, now), index: 0, streak: 1 } };
+  const v2 = { ...rest, version: 2, honey: 999, nectar: 55, settings: { ...s.settings, tutorialDone: true, gardenIntroDone: true, lang: "ru", langPicked: true, lastVersion: "1.7.0" }, login: { lastDay: today(s, now), index: 0, streak: 1 } };
   await AsyncStorage.setItem(KEY, JSON.stringify(v2));
   await boot();
   expect(await AsyncStorage.getItem("bzz:backup:v2")).toBe(JSON.stringify(v2));

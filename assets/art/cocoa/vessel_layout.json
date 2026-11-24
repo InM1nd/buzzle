@@ -1,0 +1,117 @@
+{
+  "coordinateSpace": [
+    1024,
+    1024
+  ],
+  "mugImage": "mug_glass.webp",
+  "liquidMask": "mug_liquid_mask.png",
+  "liquidPolygon": [
+    [
+      252,
+      149
+    ],
+    [
+      690,
+      149
+    ],
+    [
+      703,
+      188
+    ],
+    [
+      713,
+      300
+    ],
+    [
+      715,
+      820
+    ],
+    [
+      703,
+      867
+    ],
+    [
+      683,
+      889
+    ],
+    [
+      650,
+      900
+    ],
+    [
+      300,
+      900
+    ],
+    [
+      267,
+      889
+    ],
+    [
+      245,
+      867
+    ],
+    [
+      234,
+      820
+    ],
+    [
+      236,
+      300
+    ],
+    [
+      243,
+      188
+    ]
+  ],
+  "fillTopY": 165,
+  "fillBottomY": 898,
+  "capacity": 4,
+  "layerHeight": 183.25,
+  "rimCenter": [
+    473,
+    111
+  ],
+  "pourSpoutLeft": [
+    230,
+    114
+  ],
+  "pourSpoutRight": [
+    714,
+    114
+  ],
+  "pivot": [
+    473,
+    515
+  ],
+  "topperAnchor": [
+    473,
+    142
+  ],
+  "mugContactPoint": [
+    473,
+    969
+  ],
+  "note": "Coordinates include transparent padding. Scale all coordinates uniformly with the entire image, never independently crop mug or mask. Polygon is a conservative static guide; for tilt use geometric clipping with a horizontal world-space liquid surface.",
+  "drinks": {
+    "cocoa": {
+      "color": "#824529",
+      "topper": "topper_marshmallow.webp"
+    },
+    "sbiten": {
+      "color": "#F3AA24",
+      "topper": "topper_cinnamon.webp"
+    },
+    "mint": {
+      "color": "#659E57",
+      "topper": "topper_mint.webp"
+    },
+    "berry": {
+      "color": "#B94769",
+      "topper": "topper_berries.webp"
+    },
+    "milk_honey": {
+      "color": "#F4DCA7",
+      "topper": "topper_honeycomb.webp"
+    }
+  }
+}

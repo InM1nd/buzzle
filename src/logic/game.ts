@@ -2,10 +2,12 @@
  * Game state model + pure actions (no React Native imports → unit-testable with node:test).
  */
 import { UI_STYLES, UiStyle } from "./uiStyle";
+import { DEV_DATES, DevDate } from "./devClock";
 import { Entry, isLang, Lang, LANGS } from "../i18n/core";
 import { STRINGS } from "../i18n";
 import { APP_VERSION } from "../version";
 import { boostsFor, BEE_BY_ID, levelCost, MAX_BEE_LEVEL } from "./bees";
+import { isAnalyticsId, newAnalyticsId } from "./analytics";
 import { dayKey, dayNumber, isWeekend, starsFor, weekOf, WEEKEND_STARS } from "./day";
 import {
   buildCost, builtCount, capHours, capacity, Hive, hiveLevel, MAX_COMB_LEVEL, newHive, productionPerHour, settle, UpgradeId,
@@ -13,16 +15,20 @@ import {
 } from "./economy";
 import { HIVE_SLOTS } from "./hex";
 import {
-  bedCost, dayColor, DAY_COLOR_MULT, FLOWER_BY_ID, Garden, gardenHiveBonus, harvest as harvestBed, hasColor, migrateGarden, newGarden,
+  bedCost, dayColor, FLOWER_BY_ID, Garden, gardenHiveBonus, harvest as harvestBed, hasColor, migrateGarden, newGarden,
   plant as plantBed, seedCost, settleGarden, water as waterBed, waterAll as waterAllBeds, emptyBed,
 } from "./garden";
 import { bonusReward, loginReward, Reward, TaskDef, TaskEvent, taskById, tasksForDay, taskReward, WEEKLY_TASKS } from "./tasks";
 import {
-  albumBonus, BoosterId, BoxKind, buyBooster, buyFragment, buyItem, Drop, FRAGMENTS_FOR_BEE, Loot, migrateLoot, newLoot, NIGHT_BEE,
-  openComb, SKIN_BY_ID, ALL_DECOS, EVENT_DECOS, RETIRED,
+  albumBonus, BoosterId, BoxKind, buyBooster, buyFragment, buyItem, Drop, DUP_POLLEN, FRAGMENTS_FOR_BEE, ITEM_BY_ID, Loot, migrateLoot,
+  newLoot, NIGHT_BEE, openComb, SKIN_BY_ID, ALL_DECOS, EVENT_DECOS, RETIRED,
 } from "./loot";
 import { hashString } from "./rng";
 import { FLIGHT_PAID_RUNS, flightNectar, flightPoints } from "./nightFlight";
+import {
+  ADVENT, ADVENT_DAYS, ADVENT_POLLEN, addFlakes, adventWindow, decemberDate, FLAKES, newWinter, WINTER_BEE, WINTER_FRAGMENTS, WinterState,
+  winterId, winterProgress, WINTER_FLOWERS, WSHOP, NY_TRACK, nyActive, nyClaimable, nyPoints, nyTrackOpen,
+} from "./winter";
 import { activeEvent, DEV_EVENT_MODES, DevEventMode, EventState, eventProgress, newEventState, POINTS, TRACK, TrackReward, trackEvent } from "./event";
 
 /** v2 (Buzzle 1.2): nectar, bee levels, garden. The storage key stays the same; v1 saves are migrated on load
@@ -42,7 +48,7 @@ export interface Week {
   freezeBought: boolean;
 }
 export const newWeek = (id: number): Week => ({ id, tasks: 0, chest: false, weekendBest: 0, weekendStars: 0, freezeBought: false });
-/** streak freeze price (royal jelly); one per week, at most one in stock */
+/** streak freeze price (royal jelly); one per week, at most one in stock (two with the snow bee, see maxFreeze) */
 export const FREEZE_COST = 4;
 export interface GameState {
   version: 5;
@@ -59,9 +65,10 @@ export interface GameState {
   /** v4 (1.3): skin worn by a bee (any owned skin, on any bee) */
   beeSkins: Record<string, string>;
   garden: Garden;
-  /** freeze: streak freezes in stock (0..1), used up automatically when one day is missed */
+  /** freeze: streak freezes in stock (0..maxFreeze), one used up automatically per missed day */
   daily: { lastDay: number | null; streak: number; best: number; results: Record<string, DailyResult>; freeze: number };
-  login: { lastDay: number | null; index: number; streak: number };
+  /** index: the last claimed calendar day (0..6, -1 = none yet); cycle: full weeks claimed (1.7: a missed day pauses, never resets) */
+  login: { lastDay: number | null; index: number; streak: number; cycle: number };
   /** ids: today's three tasks (picked at the day change); missing in a migrated save = the v1.2 pick */
   tasks: { day: number; progress: Record<string, number>; claimed: string[]; bonus: boolean; ids?: string[] };
   loot: Loot;
@@ -76,6 +83,12 @@ export interface GameState {
   flight: { day: number; runs: number; best: number };
   /** anti clock-rollback bookkeeping */
   clock: { maxSeen: number; maxDay: number };
+  /** 1.6.2: random anonymous install id for analytics (no personal data) */
+  aid: string;
+  /** 1.7 winter season: snowflakes, winter-bee fragments, advent, winter shop limits */
+  winter: WinterState;
+  /** 1.7 «Какао-сорт»: the current level (0-based) */
+  cocoa: { level: number };
 }
 
 export interface Settings {
@@ -97,8 +110,12 @@ export interface Settings {
   tiles: TileStyle;
   /** dev build only: Halloween always on, off, or by the calendar */
   devEvent: DevEventMode;
+  /** 1.7 dev build only: test date (DEV_DATES, src/logic/devClock.ts) */
+  devDate: DevDate;
   /** v1.6 interface style: auto = violet "midnight" during the Halloween event, classic otherwise */
   ui: UiStyle;
+  /** 1.6.2: anonymous retention analytics (opt-out) */
+  analytics: boolean;
 }
 export { UI_STYLES };
 export type { UiStyle };
@@ -124,7 +141,7 @@ export function newState(now: number): GameState {
     beeSkins: {},
     garden: newGarden(now),
     daily: { lastDay: null, streak: 0, best: 0, results: {}, freeze: 0 },
-    login: { lastDay: null, index: -1, streak: 0 },
+    login: { lastDay: null, index: -1, streak: 0, cycle: 0 },
     tasks: { day, progress: {}, claimed: [], bonus: false, ids: tasksForDay(day).map((t) => t.id) },
     loot: newLoot(hashString(`bzz-loot-${now}`)),
     week: newWeek(weekOf(day)),
@@ -132,12 +149,15 @@ export function newState(now: number): GameState {
     settings: {
       notifications: false, haptics: true, tutorialDone: false, notifPromptDismissed: false, gardenReminders: true, gardenIntroDone: false,
       lang: "en", langPicked: false, sound: true, notifHive: true, notifDaily: true, notifChests: true,
-      quietOn: true, quietFrom: 22, quietTo: 9, autoUpdate: true, lastVersion: APP_VERSION, tiles: "mellow", devEvent: "on", ui: "auto",
+      quietOn: true, quietFrom: 22, quietTo: 9, autoUpdate: true, lastVersion: APP_VERSION, tiles: "mellow", devEvent: "on", devDate: "now", ui: "auto", analytics: true,
     },
     early: { firstSeen: isoDay(now), version: APP_VERSION, early: isEarlyVersion(APP_VERSION) },
     event: newEventState(),
     flight: { day, runs: 0, best: 0 },
     clock: { maxSeen: now, maxDay: day },
+    aid: newAnalyticsId(),
+    winter: newWinter(),
+    cocoa: { level: 0 },
   };
 }
 
@@ -192,8 +212,12 @@ export function migrate(raw: unknown, now: number): GameState {
     week,
     // a v1 save has no garden: start it at the newest time the game has seen, so a rolled-back clock can't pre-grow it
     garden: s.garden ? migrateGarden(s.garden, now) : newGarden(Math.max(now, clockMax)),
-    daily: { ...d.daily, ...obj(s.daily), results: { ...obj(obj(s.daily).results) }, freeze: Math.max(0, Math.min(1, num(obj(s.daily).freeze, 0) | 0)) },
-    login: { ...d.login, ...obj(s.login) },
+    daily: { ...d.daily, ...obj(s.daily), results: { ...obj(obj(s.daily).results) }, freeze: Math.max(0, Math.min(2, num(obj(s.daily).freeze, 0) | 0)) },
+    login: {
+      lastDay: typeof obj(s.login).lastDay === "number" ? obj(s.login).lastDay : null,
+      index: Math.max(-1, Math.min(6, num(obj(s.login).index, -1) | 0)), streak: Math.max(0, num(obj(s.login).streak, 0) | 0),
+      cycle: Math.max(0, num(obj(s.login).cycle, 0) | 0),
+    },
     tasks: { day: num(rawTasks.day, d.tasks.day), progress: { ...obj(rawTasks.progress) }, claimed: Array.isArray(rawTasks.claimed) ? rawTasks.claimed : [], bonus: !!rawTasks.bonus, ids },
     stats: { ...d.stats, ...obj(s.stats) },
     settings: migrateSettings(d.settings, obj(s.settings), s.version),
@@ -203,6 +227,19 @@ export function migrate(raw: unknown, now: number): GameState {
       : newEventState(),
     flight: { day: num(obj(s.flight).day, d.flight.day), runs: Math.max(0, num(obj(s.flight).runs, 0) | 0), best: Math.max(0, num(obj(s.flight).best, 0) | 0) },
     clock: { maxSeen: clockMax, maxDay },
+    aid: isAnalyticsId(s.aid) ? s.aid : d.aid,
+    winter: migrateWinter(obj(s.winter)),
+    cocoa: { level: Math.max(0, num(obj(s.cocoa).level, 0) | 0) },
+  };
+}
+function migrateWinter(w: Record<string, any>): WinterState {
+  const n = (v: unknown, def = 0) => Math.max(def, num(v, def) | 0);
+  return {
+    id: typeof w.id === "string" ? w.id : "",
+    flakes: n(w.flakes), frags: Math.min(WINTER_FRAGMENTS, n(w.frags)), credits: n(w.credits),
+    advent: Array.isArray(w.advent) ? Array.from(new Set(w.advent.filter((x: unknown) => Number.isInteger(x) && (x as number) >= 1 && (x as number) <= ADVENT_DAYS))) as number[] : [],
+    waxDay: n(w.waxDay, -1), goldWeek: n(w.goldWeek, -1),
+    ny: n(w.ny), nyClaimed: Math.min(NY_TRACK.length, n(w.nyClaimed)),
   };
 }
 
@@ -224,7 +261,9 @@ function migrateSettings(d: Settings, raw: Record<string, any>, version: unknown
     lastVersion: typeof raw.lastVersion === "string" ? raw.lastVersion : old ? "1.3.0" : d.lastVersion,
     tiles: TILE_STYLES.includes(tiles) ? tiles : d.tiles,
     devEvent: raw.devEvent === true ? "on" : raw.devEvent === false ? "off" : DEV_EVENT_MODES.includes(raw.devEvent) ? raw.devEvent : d.devEvent,
+    devDate: DEV_DATES.includes(raw.devDate) ? raw.devDate : d.devDate,
     ui: UI_STYLES.includes(raw.ui) ? raw.ui : d.ui,
+    analytics: b("analytics"),
   };
 }
 function migrateEarly(s: Record<string, any>, now: number): EarlyPlayer {
@@ -276,8 +315,36 @@ export function dayColorInfo(s: GameState, now: number): { color: number; active
   return { color, active: hasColor(s.garden, color) };
 }
 
-function add(s: GameState, r: Reward): GameState {
+function add(s: GameState, r: { honey?: number; jelly?: number }): GameState {
   return { ...s, honey: s.honey + (r.honey ?? 0), jelly: s.jelly + (r.jelly ?? 0) };
+}
+/** 1.7: credit any reward. An owned skin / decoration becomes its duplicate pollen; an item or a flower that is not in the game yet
+ * returns null so the caller keeps the reward waiting instead of burning it. */
+export const rewardReady = (r: Reward) => !r.items?.some((id) => !ITEM_BY_ID[id]) && !Object.keys(r.seeds ?? {}).some((f) => !FLOWER_BY_ID[f]);
+export function grant(s0: GameState, r: Reward): GameState | null {
+  if (!rewardReady(r)) return null;
+  let s = add(s0, r);
+  const loot: Loot = { ...s.loot, owned: [...s.loot.owned], boosters: { ...s.loot.boosters }, seeds: { ...s.loot.seeds }, pollen: s.loot.pollen + (r.pollen ?? 0) };
+  for (const id of r.items ?? []) {
+    if (loot.owned.includes(id)) loot.pollen += DUP_POLLEN[ITEM_BY_ID[id].rarity];
+    else loot.owned.push(id);
+  }
+  for (const [b, n] of Object.entries(r.boosters ?? {}) as [BoosterId, number][]) loot.boosters[b] += n;
+  for (const [f, n] of Object.entries(r.seeds ?? {})) {
+    loot.seeds[f] = (loot.seeds[f] ?? 0) + n;
+    if (ITEM_BY_ID[f] && !loot.owned.includes(f)) loot.owned.push(f); // rare flower → album, like openComb
+  }
+  if (r.bee && BEE_BY_ID[r.bee]) {
+    if (s.bees.includes(r.bee)) loot.pollen += 80;
+    else s = { ...s, bees: [...s.bees, r.bee], beeLevels: { ...s.beeLevels, [r.bee]: 1 } };
+  }
+  if (r.frags) {
+    const keep = Math.max(0, Math.min(r.frags, WINTER_FRAGMENTS - s.winter.frags));
+    loot.pollen += (r.frags - keep) * 4;
+    s = { ...s, winter: { ...s.winter, frags: s.winter.frags + keep } };
+  }
+  s = { ...s, loot };
+  return r.boxes?.length ? addBoxes(s, r.boxes) : s;
 }
 
 // ---------- actions ----------
@@ -291,7 +358,14 @@ export function tick(s: GameState, now: number): GameState {
   };
   if (n.tasks.day !== day) n = { ...n, tasks: { day, progress: {}, claimed: [], bonus: false, ids: tasksForDay(day, taskPool(n)).map((t) => t.id) } };
   const wk = weekOf(day);
-  if (n.week.id < wk) n = { ...n, week: newWeek(wk) };
+  if (n.week.id < wk) {
+    n = { ...n, week: newWeek(wk) };
+    // 1.7: the snow bee brings one free streak freeze every week
+    if (n.bees.includes(WINTER_BEE) && n.daily.freeze < maxFreeze(n)) n = { ...n, daily: { ...n.daily, freeze: n.daily.freeze + 1 } };
+  }
+  // 1.7: a new winter starts its own snowflakes / advent here, so nothing written to the slice later lands on last winter's id
+  const wid = winterId(day);
+  if (wid && n.winter.id !== wid) n = { ...n, winter: winterProgress(n.winter, wid) };
   return n;
 }
 
@@ -357,7 +431,7 @@ export function buyUpgrade(s0: GameState, id: UpgradeId, now: number): GameState
 
 export function unlockBee(s0: GameState, id: string, now: number): GameState | null {
   const bee = BEE_BY_ID[id];
-  if (!bee || bee.fragments || s0.bees.includes(id) || s0.jelly < bee.cost) return null;
+  if (!bee || bee.fragments || bee.track || s0.bees.includes(id) || s0.jelly < bee.cost) return null;
   const s = tick(s0, now); // production at the old rate up to now
   return { ...s, jelly: s.jelly - bee.cost, bees: [...s.bees, id], beeLevels: { ...s.beeLevels, [id]: 1 } };
 }
@@ -448,16 +522,14 @@ export interface RoundReward {
   froze?: boolean;
   /** v1.6: event points earned by this round */
   points?: number;
+  /** 1.7: snowflakes earned by this round (winter) */
+  flakes?: number;
 }
 
 export function finishRound(s0: GameState, r: RoundSummary, now: number): { state: GameState; reward: RoundReward } {
   let s = tick(s0, now);
-  // colour of the day: free play already scores that colour ×1.5 (rulesFor); the daily puzzle keeps equal
-  // conditions for the stars and pays +50% honey for that colour's share of the score instead.
-  const dc = dayColorInfo(s, now);
-  const cells = r.cellsByColor.reduce((a, b) => a + b, 0);
-  const share = r.mode === "daily" && dc.active && cells > 0 ? (r.cellsByColor[dc.color] ?? 0) / cells : 0;
-  const honey = Math.round((r.score / 10) * puzzleHoneyMult(s) * (1 + (DAY_COLOR_MULT - 1) * share));
+  // colour of the day: free play only (rulesFor scores that colour ×1.5); 1.7 (#18): the daily puzzle no longer shows it or pays for it
+  const honey = Math.round((r.score / 10) * puzzleHoneyMult(s));
   const record = r.score > s.stats.bestScore;
   s = {
     ...s,
@@ -493,7 +565,8 @@ export function finishRound(s0: GameState, r: RoundSummary, now: number): { stat
     let { streak, lastDay, best, freeze } = s.daily;
     if (stars > 0 && lastDay !== day) {
       if (lastDay === day - 1) streak += 1;
-      else if (lastDay === day - 2 && freeze > 0 && streak > 0) { streak += 1; freeze -= 1; froze = true; }  // one missed day, frozen
+      // missed days are covered one freeze each (two in stock with the snow bee)
+      else if (lastDay !== null && streak > 0 && freeze >= day - lastDay - 1) { freeze -= day - lastDay - 1; streak += 1; froze = true; }
       else streak = 1;
       lastDay = day;
       best = Math.max(best, streak);
@@ -515,7 +588,16 @@ export function finishRound(s0: GameState, r: RoundSummary, now: number): { stat
     const e = eventProgress(s.event, ev);
     s = { ...s, event: { ...e, points: e.points + points } };
   }
-  return { state: s, reward: { honey, stars, newStars, jelly: r.mode === "daily" ? newStars : extraJelly, record, streak: s.daily.streak, boxes, froze, points } };
+  // 1.7 winter: snowflakes for new stars and (free play) snowflake tiles — the event tile kind, drawn as a snowflake in winter;
+  // every round played in December is a credit for catching up an advent window
+  let flakes = 0;
+  const day = today(s, now);
+  if (winterId(day) && !ev) {
+    flakes = r.mode === "free" ? (r.pumpkins ?? 0) * FLAKES.tile : newStars * FLAKES.star;
+    s = giveFlakes(s, day, flakes);
+    if (decemberDate(day)) s = { ...s, winter: { ...s.winter, credits: s.winter.credits + 1 } };
+  }
+  return { state: s, reward: { honey, stars, newStars, jelly: r.mode === "daily" ? newStars : extraJelly, record, streak: s.daily.streak, boxes, froze, points, flakes } };
 }
 
 export function claimTask(s: GameState, id: string): { state: GameState; reward: Reward } | null {
@@ -532,19 +614,21 @@ export function claimBonus(s: GameState): { state: GameState; reward: Reward; bo
 }
 
 export const canClaimLogin = (s: GameState, now: number) => s.login.lastDay === null || today(s, now) > s.login.lastDay;
-/** Index (0..6) of the reward that would be claimed today. */
-export function nextLoginIndex(s: GameState, now: number): number {
-  const day = today(s, now);
-  return s.login.lastDay === day - 1 ? (s.login.index + 1) % 7 : 0;
+/** Index (0..6) of the reward that would be claimed next: a missed day pauses the calendar (1.7), it never resets */
+export function nextLoginIndex(s: GameState, _now?: number): number {
+  return (s.login.index + 1) % 7;
 }
+/** the cycle the next claim belongs to */
+export const nextLoginCycle = (s: GameState) => s.login.cycle + (s.login.index === 6 ? 1 : 0);
 export function claimLogin(s0: GameState, now: number): { state: GameState; reward: Reward; index: number } | null {
   const s = tick(s0, now);
   if (!canClaimLogin(s, now)) return null;
   const day = today(s, now);
   const index = nextLoginIndex(s, now);
   const streak = s.login.lastDay === day - 1 ? s.login.streak + 1 : 1;
-  const reward = loginReward(index, level(s));
-  return { state: add({ ...s, login: { lastDay: day, index, streak } }, reward), reward, index };
+  const cycle = nextLoginCycle(s);
+  const reward = loginReward(index, cycle);
+  return { state: grant({ ...s, login: { lastDay: day, index, streak, cycle } }, reward)!, reward, index };
 }
 
 /** Daily puzzle streak as shown today (0 if yesterday was missed). */
@@ -552,8 +636,8 @@ export function dailyStreak(s: GameState, now: number): number {
   const d = today(s, now);
   if (s.daily.lastDay === null) return 0;
   if (s.daily.lastDay >= d - 1) return s.daily.streak;
-  // one missed day is covered by a streak freeze (used when the next daily puzzle is solved)
-  return s.daily.lastDay === d - 2 && s.daily.freeze > 0 ? s.daily.streak : 0;
+  // missed days are covered by streak freezes, one each (used when the next daily puzzle is solved)
+  return s.daily.freeze >= d - s.daily.lastDay - 1 ? s.daily.streak : 0;
 }
 
 // ---------------------------------------------------------------- bee names (v1.2.1)
@@ -609,11 +693,13 @@ export function claimWeekly(s0: GameState, now: number): GameState | null {
   if (!canClaimWeekly(s)) return null;
   return addBoxes({ ...s, jelly: s.jelly + WEEKLY_REWARD.jelly, week: { ...s.week, chest: true } }, Array(WEEKLY_REWARD.wax).fill("wax"));
 }
-export const canBuyFreeze = (s: GameState) => !s.week.freezeBought && s.daily.freeze < 1 && s.jelly >= FREEZE_COST;
+/** 1.7: the snow bee keeps two streak freezes in stock */
+export const maxFreeze = (s: GameState) => (s.bees.includes(WINTER_BEE) ? 2 : 1);
+export const canBuyFreeze = (s: GameState) => !s.week.freezeBought && s.daily.freeze < maxFreeze(s) && s.jelly >= FREEZE_COST;
 export function buyFreeze(s0: GameState, now: number): GameState | null {
   const s = tick(s0, now);
   if (!canBuyFreeze(s)) return null;
-  return { ...s, jelly: s.jelly - FREEZE_COST, daily: { ...s.daily, freeze: 1 }, week: { ...s.week, freezeBought: true } };
+  return { ...s, jelly: s.jelly - FREEZE_COST, daily: { ...s.daily, freeze: s.daily.freeze + 1 }, week: { ...s.week, freezeBought: true } };
 }
 /** the weekend puzzle is open on Saturday and Sunday (game day, never goes back) */
 export const weekendOpen = (s: GameState, now: number) => isWeekend(today(s, now));
@@ -634,7 +720,7 @@ export function openBox(s0: GameState, kind: BoxKind, now: number): { state: Gam
   const s = tick(s0, now);
   const r = openComb(s.loot, kind, openCtx(s));
   if (!r) return null;
-  return { state: credit({ ...s, loot: r.loot }, r.drops), drops: r.drops };
+  return { state: combFlakes(credit({ ...s, loot: r.loot }, r.drops), kind, 1, now), drops: r.drops };
 }
 /** «Открыть все»: every comb of that kind (bonus golden combs found inside stay for later) */
 export function openAllBoxes(s0: GameState, kind: BoxKind, now: number, max = 60): { state: GameState; drops: Drop[][] } | null {
@@ -646,9 +732,17 @@ export function openAllBoxes(s0: GameState, kind: BoxKind, now: number, max = 60
     s = credit({ ...s, loot: r.loot }, r.drops);
     all.push(r.drops);
   }
-  return all.length ? { state: s, drops: all } : null;
+  return all.length ? { state: combFlakes(s, kind, all.length, now), drops: all } : null;
 }
 export const canAssembleNightBee = (s: GameState) => !s.bees.includes(NIGHT_BEE) && s.loot.fragments >= FRAGMENTS_FOR_BEE;
+/** fragments in the pocket for a fragment bee: the night bee's from the surprise combs, the snow bee's from the winter */
+export const fragmentsFor = (s: GameState, bee: string) => (bee === WINTER_BEE ? s.winter.frags : s.loot.fragments);
+/** 1.7: the snow bee from 10 winter fragments (any time once they are collected, also after the winter) */
+export function assembleWinterBee(s0: GameState, now: number): GameState | null {
+  if (s0.bees.includes(WINTER_BEE) || s0.winter.frags < WINTER_FRAGMENTS) return null;
+  const s = tick(s0, now);
+  return { ...s, bees: [...s.bees, WINTER_BEE], beeLevels: { ...s.beeLevels, [WINTER_BEE]: 1 }, winter: { ...s.winter, frags: 0 } };
+}
 export function assembleNightBee(s0: GameState, now: number): GameState | null {
   if (!canAssembleNightBee(s0)) return null;
   const s = tick(s0, now); // production at the old rate up to now
@@ -710,13 +804,13 @@ export function claimTrackStep(s0: GameState, now: number): { state: GameState; 
   const step = TRACK[e.claimed];
   if (!step || e.points < step.at) return null;
   const r = step.reward;
-  // a costume whose art is not in the game yet must not be burned: the step waits
-  if (r.skin && !SKIN_BY_ID[r.skin]) return null;
-  let n: GameState = { ...add(s, r), event: { ...e, claimed: e.claimed + 1 } };
-  if (r.box) n = addBoxes(n, [r.box]);
-  if (r.seeds) n = { ...n, loot: { ...n.loot, seeds: { ...n.loot.seeds, [r.seeds.id]: (n.loot.seeds[r.seeds.id] ?? 0) + r.seeds.n } } };
-  if (r.skin && SKIN_BY_ID[r.skin] && !n.loot.owned.includes(r.skin)) n = { ...n, loot: { ...n.loot, owned: [...n.loot.owned, r.skin] } };
-  return { state: n, reward: r };
+  // a costume whose art is not in the game yet must not be burned: grant() refuses and the step waits;
+  // 1.7: a costume the player already owns (Halloween 2027 veterans) pays its duplicate pollen
+  const n = grant({ ...s, event: { ...e, claimed: e.claimed + 1 } }, {
+    honey: r.honey, jelly: r.jelly, boxes: r.box ? [r.box] : undefined,
+    seeds: r.seeds ? { [r.seeds.id]: r.seeds.n } : undefined, items: r.skin ? [r.skin] : undefined,
+  });
+  return n ? { state: n, reward: r } : null;
 }
 
 // ---------------------------------------------------------------- v1.6 Meadow: night flight
@@ -795,4 +889,122 @@ export function treatGuest(s0: GameState, now: number): { state: GameState; rewa
   let n: GameState = { ...add(s, reward), event: { ...e, points: e.points + POINTS.trick, trickDay: day } };
   if (reward.box) n = addBoxes(n, [reward.box]);
   return { state: n, reward, points: POINTS.trick };
+}
+
+// ---------------------------------------------------------------- 1.7 winter season
+/** the save's winter progress for today (fresh numbers in a new winter), null outside winter */
+export function winterView(s: GameState, now: number): WinterState | null {
+  const id = winterId(today(s, now));
+  return id ? winterProgress(s.winter, id) : null;
+}
+export const winterBeeHome = (s: GameState) => s.bees.includes(WINTER_BEE);
+/** add snowflakes on a winter day (fragments / wax combs / pollen for every crossed 50) */
+export function giveFlakes(s: GameState, day: number, n: number): GameState {
+  const id = winterId(day);
+  if (!id || n <= 0) return s;
+  const r = addFlakes(winterProgress(s.winter, id), n, winterBeeHome(s));
+  const w = nyActive(day) ? { ...r.w, ny: r.w.ny + n } : r.w;
+  const n2: GameState = { ...s, winter: w, loot: { ...s.loot, pollen: s.loot.pollen + r.pollen } };
+  return r.wax ? addBoxes(n2, Array(r.wax).fill("wax")) : n2;
+}
+/** wax, golden and royal combs opened in winter carry snowflakes */
+function combFlakes(s: GameState, kind: BoxKind, count: number, now: number): GameState {
+  return kind === "wood" ? s : giveFlakes(s, today(s, now), FLAKES.comb * count);
+}
+
+/** the advent calendar is shown from the player's second day (not during the first-day tutorial) */
+export const adventVisible = (s: GameState, now: number) => !!decemberDate(today(s, now)) && s.early.firstSeen !== dayKey(today(s, now));
+/** how a window can be opened now: free (today's), with a round credit, for pollen, or not at all */
+export function adventOpenWay(s: GameState, n: number, now: number): "free" | "credit" | "pollen" | null {
+  const w = winterView(s, now);
+  if (!w || !adventVisible(s, now)) return null;
+  const st = adventWindow(w, n, today(s, now));
+  if (st === "today") return "free";
+  if (st !== "catchup") return null;
+  return w.credits > 0 ? "credit" : s.loot.pollen >= ADVENT_POLLEN ? "pollen" : null;
+}
+/** open an advent window; a gift whose art is not in the game yet keeps the window closed (null) */
+export function openAdvent(s0: GameState, n: number, now: number): { state: GameState; reward: Reward } | null {
+  const s = tick(s0, now);
+  const way = adventOpenWay(s, n, now);
+  if (!way) return null;
+  const w = winterView(s, now)!;
+  const paid: GameState = {
+    ...s,
+    winter: { ...w, advent: [...w.advent, n], credits: w.credits - (way === "credit" ? 1 : 0) },
+    loot: { ...s.loot, pollen: s.loot.pollen - (way === "pollen" ? ADVENT_POLLEN : 0) },
+  };
+  const reward = ADVENT[n - 1];
+  const state = grant(paid, reward);
+  return state ? { state, reward } : null;
+}
+
+// winter shop (1 Dec – 28 Feb)
+export function buyWinterFragment(s: GameState, pay: "pollen" | "jelly", now: number): GameState | null {
+  const w = winterView(s, now);
+  if (!w || winterBeeHome(s) || w.frags >= WINTER_FRAGMENTS) return null;
+  const cost = pay === "pollen" ? WSHOP.fragPollen : WSHOP.fragJelly;
+  if ((pay === "pollen" ? s.loot.pollen : s.jelly) < cost) return null;
+  return {
+    ...s, winter: { ...w, frags: w.frags + 1 },
+    jelly: s.jelly - (pay === "jelly" ? cost : 0), loot: { ...s.loot, pollen: s.loot.pollen - (pay === "pollen" ? cost : 0) },
+  };
+}
+/** winter flower seeds for nectar */
+export function buyWinterSeed(s: GameState, flower: string, now: number): GameState | null {
+  if (!winterView(s, now) || !WINTER_FLOWERS.includes(flower) || s.nectar < WSHOP.seedNectar) return null;
+  return { ...s, nectar: s.nectar - WSHOP.seedNectar, loot: { ...s.loot, seeds: { ...s.loot.seeds, [flower]: (s.loot.seeds[flower] ?? 0) + 1 } } };
+}
+/** a wax comb once a day, a golden comb once a week, for royal jelly */
+export function buyWinterComb(s0: GameState, kind: "wax" | "gold", now: number): GameState | null {
+  const s = tick(s0, now);
+  const w = winterView(s, now);
+  if (!w) return null;
+  const day = today(s, now), wk = weekOf(day);
+  const cost = kind === "wax" ? WSHOP.waxJelly : WSHOP.goldJelly;
+  if (s.jelly < cost || (kind === "wax" ? w.waxDay === day : w.goldWeek === wk)) return null;
+  return addBoxes({ ...s, jelly: s.jelly - cost, winter: { ...w, ...(kind === "wax" ? { waxDay: day } : { goldWeek: wk }) } }, [kind]);
+}
+/** today's advent window is waiting (and its gift is in the game): the calendar opens by itself once a day */
+export function adventTodayDue(s: GameState, now: number): boolean {
+  const dec = decemberDate(today(s, now));
+  return dec >= 1 && dec <= ADVENT_DAYS && adventOpenWay(s, dec, now) === "free" && rewardReady(ADVENT[dec - 1]);
+}
+
+// ---------------------------------------------------------------- 1.7 «Какао-сорт»
+/** the winter mini-game opens with the advent invitation (20 Dec) and stays until the end of winter */
+export const cocoaOpen = (s: GameState, now: number) => { const d = today(s, now); return !!winterId(d) && !(decemberDate(d) >= 1 && decemberDate(d) < COCOA_FROM); };
+export const COCOA_FROM = 20;
+/** snowflakes for a solved level: one per star */
+export const cocoaFlakes = (stars: number) => stars;
+/** a level solved: snowflakes (in winter) and the next level; a stale level (already counted) changes nothing */
+export function finishCocoa(s0: GameState, level: number, stars: number, now: number): GameState {
+  if (level !== s0.cocoa.level) return s0;
+  const s = tick(s0, now);
+  return { ...giveFlakes(s, today(s, now), cocoaFlakes(stars)), cocoa: { level: level + 1 } };
+}
+
+// ---------------------------------------------------------------- 1.7 New Year track
+/** the New Year track shown today (running or in the claim days) with the save's progress, null otherwise */
+export function nyView(s: GameState, now: number) {
+  const day = today(s, now);
+  const w = winterView(s, now);
+  if (!w || !nyTrackOpen(day)) return null;
+  return { w, running: nyActive(day), points: nyPoints(w), claimable: nyClaimable(w) };
+}
+/** claim every reached step at once (stops at one whose reward is not in the game yet) */
+export function claimNySteps(s0: GameState, now: number): GameState | null {
+  let s: GameState | null = null;
+  for (let r = claimNyStep(s0, now); r; r = claimNyStep(r.state, now)) s = r.state;
+  return s;
+}
+/** claim the next reached step; a reward not in the game yet keeps it waiting */
+export function claimNyStep(s0: GameState, now: number): { state: GameState; reward: Reward } | null {
+  const s = tick(s0, now);
+  const v = nyView(s, now);
+  if (!v) return null;
+  const step = NY_TRACK[v.w.nyClaimed];
+  if (!step || v.points < step.at) return null;
+  const state = grant({ ...s, winter: { ...v.w, nyClaimed: v.w.nyClaimed + 1 } }, step.reward);
+  return state ? { state, reward: step.reward } : null;
 }

@@ -1,0 +1,23 @@
+{
+  "canvas": [
+    1366,
+    1151
+  ],
+  "hat": {
+    "x": 409,
+    "y": 71,
+    "width": 548,
+    "height": 456
+  },
+  "antennae": {
+    "x": 375,
+    "y": 100,
+    "width": 616,
+    "height": 268
+  },
+  "drawOrder": [
+    "base",
+    "hat",
+    "antennae"
+  ]
+}

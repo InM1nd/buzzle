@@ -1,0 +1,136 @@
+{
+  "front": {
+    "canvas": [
+      1366,
+      1151
+    ],
+    "accessory": {
+      "file": "bow-front.png",
+      "position": [
+        358,
+        725
+      ],
+      "size": [
+        650,
+        173
+      ]
+    },
+    "fittedLayer": "bow-fitted-front.png",
+    "fittedLayerOrigin": [
+      0,
+      0
+    ],
+    "drawOrder": [
+      "canonical front.png",
+      "bow-fitted-front.png"
+    ],
+    "nearWingOcclusionPolygon": [],
+    "bodySilhouetteClipping": true
+  },
+  "q3-front": {
+    "canvas": [
+      1366,
+      1151
+    ],
+    "accessory": {
+      "file": "bow-q3-front.png",
+      "position": [
+        390,
+        690
+      ],
+      "size": [
+        700,
+        271
+      ]
+    },
+    "fittedLayer": "bow-fitted-q3-front.png",
+    "fittedLayerOrigin": [
+      0,
+      0
+    ],
+    "drawOrder": [
+      "canonical q3-front.png",
+      "bow-fitted-q3-front.png"
+    ],
+    "nearWingOcclusionPolygon": [
+      [
+        395,
+        697
+      ],
+      [
+        439,
+        655
+      ],
+      [
+        475,
+        601
+      ],
+      [
+        460,
+        540
+      ],
+      [
+        400,
+        525
+      ]
+    ],
+    "bodySilhouetteClipping": true
+  },
+  "side": {
+    "canvas": [
+      1366,
+      1151
+    ],
+    "accessory": {
+      "file": "bow-side.png",
+      "position": [
+        455,
+        610
+      ],
+      "size": [
+        650,
+        256
+      ]
+    },
+    "fittedLayer": "bow-fitted-side.png",
+    "fittedLayerOrigin": [
+      0,
+      0
+    ],
+    "drawOrder": [
+      "canonical side.png",
+      "bow-fitted-side.png"
+    ],
+    "nearWingOcclusionPolygon": [
+      [
+        320,
+        550
+      ],
+      [
+        520,
+        510
+      ],
+      [
+        575,
+        576
+      ],
+      [
+        548,
+        600
+      ],
+      [
+        512,
+        625
+      ],
+      [
+        423,
+        663
+      ],
+      [
+        320,
+        660
+      ]
+    ],
+    "bodySilhouetteClipping": true
+  }
+}

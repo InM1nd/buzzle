@@ -1,0 +1,46 @@
+{
+  "hellebore_sprout": {
+    "canvas": [
+      1024,
+      1024
+    ],
+    "plantingAnchor": [
+      512,
+      944
+    ],
+    "visibleStageHeight": 430
+  },
+  "hellebore_bud": {
+    "canvas": [
+      1024,
+      1024
+    ],
+    "plantingAnchor": [
+      512,
+      944
+    ],
+    "visibleStageHeight": 710
+  },
+  "poinsettia_sprout": {
+    "canvas": [
+      1024,
+      1024
+    ],
+    "plantingAnchor": [
+      512,
+      944
+    ],
+    "visibleStageHeight": 430
+  },
+  "poinsettia_bud": {
+    "canvas": [
+      1024,
+      1024
+    ],
+    "plantingAnchor": [
+      512,
+      944
+    ],
+    "visibleStageHeight": 710
+  }
+}

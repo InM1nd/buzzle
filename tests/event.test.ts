@@ -144,13 +144,14 @@ test("lanterns: each harvested pumpkin carves the next of four, they stay in the
   assert.deepEqual(shownDecos(back, "hive"), ["jack1", "jack3", "jack4"]);
 });
 
-test("costumes: on the track, wearable, never in combs, the shop or the album pages", async () => {
+test("costumes: on the Halloween track or in the advent (1.7), wearable, never in combs, the shop or the album pages", async () => {
   const { EVENT_SKINS, ITEMS, PAGES, SKIN_BY_ID } = await import("../src/logic/loot");
+  const { ADVENT } = await import("../src/logic/winter");
   for (const k of EVENT_SKINS) {
     assert.ok(SKIN_BY_ID[k.id]);
     assert.ok(!ITEMS.some((i) => i.id === k.id));
     assert.ok(!PAGES.some((p) => p.items.includes(k.id)));
-    assert.ok(TRACK.some((st) => st.reward.skin === k.id), k.id);
+    assert.ok(TRACK.some((st) => st.reward.skin === k.id) || ADVENT.some((g) => g.items?.includes(k.id)), k.id);
   }
 });
 
@@ -212,4 +213,19 @@ test("night-falls transition: once per event, then one fade back after it", asyn
   s = eventCineSeen(s, at(11, 10));
   assert.equal(eventCineDue(migrate(JSON.parse(JSON.stringify(s)), at(11, 11)), at(11, 11)), null);
   assert.equal(eventCineDue(newState(at(12, 1)), at(12, 1)), null); // never saw the event: no fade back
+});
+
+test("1.7: a track step with a costume the player owns pays duplicate pollen instead of burning the step", async () => {
+  const { grant } = await import("../src/logic/game");
+  const { DUP_POLLEN } = await import("../src/logic/loot");
+  const base = newState(at(10, 20));
+  assert.equal(grant(base, { items: ["no-such-costume"] }), null, "an item not in the game makes the reward wait");
+  const witch = TRACK.findIndex((st) => st.reward.skin === "witchhat");
+  let s: GameState = { ...base, loot: { ...base.loot, owned: ["witchhat"] }, event: { id: "halloween-2026", points: 999, claimed: witch } };
+  const pollen = s.loot.pollen;
+  const c = claimTrackStep(s, at(10, 25))!;
+  assert.ok(c, "the step is claimed");
+  assert.equal(c.state.event.claimed, witch + 1);
+  assert.equal(c.state.loot.pollen, pollen + DUP_POLLEN.epic);
+  assert.equal(c.state.loot.owned.filter((x) => x === "witchhat").length, 1);
 });

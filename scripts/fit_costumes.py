@@ -18,6 +18,7 @@ BEES = [s["id"] for s in json.load(open(f"{AS}/manifest.json"))["species"]]
 VIEWS = ["front", "q3-front", "side"]
 Z3, Z8 = f"{HW}/rework-v3/zhuzha", f"{HW}/rework-v8/zhuzha"
 pk = lambda prefix: {v: f"{HW}/{prefix}-{v}-view.png" for v in VIEWS}
+ww = lambda item: {v: f"design/2d/winter-wardrobe-game-v1/{item}-{v}.png" for v in VIEWS}
 # layer id: (source file per view, bee it was drawn on, reference accessory, anchor: "bottom" = bottom-centre, "center",
 #            optional mask per view: pixels covered by the bee's own wings, cut out because the game draws wings under the body)
 LAYERS = {
@@ -31,6 +32,13 @@ LAYERS = {
                    "zhuzha", "body", "center", {"q3-front": f"{Z8}/wings-q3-front.png", "side": f"{Z8}/wings-side.png"}),
     "vampcape_b": ({"front": f"{Z3}/vampcape-back-front.png", "q3-front": f"{Z8}/back-q3-front.png", "side": f"{Z8}/back-side.png"},
                    "zhuzha", "body", "center", None),
+    # 1.7 winter wardrobe: drawn on canonical Zhuzha, brought onto her game canvas by scripts/import_winter_wardrobe.py
+    "bobblehat": (ww("bobblehat"), "zhuzha", "beret", "bottom", None),
+    "santahat": (ww("santahat"), "zhuzha", "beret", "bottom", None),
+    "antlers": (ww("antlers"), "zhuzha", "beret", "bottom", None),
+    "firwreath": (ww("firwreath"), "zhuzha", "beret", "bottom", None),  # the species wreath runs wider than the head on some bees
+    "winterscarf": (ww("winterscarf"), "zhuzha", "scarf", "center", None),
+    "festivebow": (ww("festivebow"), "zhuzha", "scarf", "center", None),
 }
 SIZES = {288: VIEWS, 720: ["front"]}
 

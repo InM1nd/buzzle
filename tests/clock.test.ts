@@ -3,10 +3,12 @@ import assert from "node:assert/strict";
 import { clockPaused } from "../src/logic/clock";
 import { newState, tick } from "../src/logic/game";
 
-test("app clock pauses only during full-screen animations", () => {
+test("app clock pauses during full-screen animations and (web) puzzle rounds", () => {
   assert.equal(clockPaused({ cine: false, flight: false }), false);
   assert.equal(clockPaused({ cine: true, flight: false }), true);
   assert.equal(clockPaused({ cine: false, flight: true }), true);
+  assert.equal(clockPaused({ cine: false, flight: false, game: false }), false);
+  assert.equal(clockPaused({ cine: false, flight: false, game: true }), true);
 });
 
 test("a paused clock loses no production: one late tick equals many small ones", () => {

@@ -10,6 +10,7 @@ import { C } from "../ui/theme";
 import { Bobbing, CloseBtn, fmt, GameButton, Overlay, Press, Txt } from "../ui/components";
 import { Toggle } from "../ui/Toggle";
 import { centerOf, Pt } from "../ui/Fly";
+import { rewardChips } from "../ui/lootUi";
 
 // ---------- tutorial ----------
 const SLIDES = [0, 1, 2, 3].map((k) => ({ get title() { return tx(`tut.t${k}`); }, get text() { return tx(`tut.x${k}`); } }));
@@ -92,18 +93,18 @@ export function LoginModal({ visible, index, reward, streak, onClaim, onClose }:
 }) {
   const ref = useRef<View>(null);
   const big = index === 6;
+  const chips = rewardChips(reward);
   return (
     <Overlay visible={visible} onClose={onClose}>
       <View style={{ alignItems: "center" }} accessibilityLabel={t("lg.label")}>
         <CloseBtn onPress={onClose} />
         <Txt v="tiny" color={C.dim}>{t("lg.caps", { d: index + 1 })}</Txt>
         <View ref={ref} collapsable={false} style={{ marginVertical: 14 }}>
-          <Bobbing amp={6}><Image source={big ? ART.chestOpen : reward.honey ? ART.honey : ART.jelly} style={{ width: 120, height: 120 }} /></Bobbing>
+          <Bobbing amp={6}><Image source={big ? ART.chestOpen : chips[0].img} style={{ width: 120, height: 120 }} resizeMode="contain" /></Bobbing>
         </View>
         <Txt v="h1" center>{big ? t("lg.big") : t("lg.back")}</Txt>
         <View style={{ flexDirection: "row", gap: 16, marginTop: 10, marginBottom: 6 }}>
-          {reward.honey ? <View style={styles.rw}><Image source={ART.honey} style={{ width: 30, height: 30 }} /><Txt v="h2" color={C.honeyDark}>+{fmt(reward.honey)}</Txt></View> : null}
-          {reward.jelly ? <View style={styles.rw}><Image source={ART.jelly} style={{ width: 30, height: 30 }} /><Txt v="h2" color={C.jelly}>+{reward.jelly}</Txt></View> : null}
+          {chips.map((c, i) => <View key={i} style={styles.rw}><Image source={c.img} style={{ width: 30, height: 30 }} resizeMode="contain" /><Txt v="h2" color={C.honeyDark}>{c.text}</Txt></View>)}
         </View>
         <Txt v="small" color={C.dim} center style={{ marginBottom: 16 }}>
           {streak > 0 ? t("lg.streak", { n: streak + 1 }) : ""}{t("lg.hint")}

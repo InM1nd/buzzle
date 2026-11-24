@@ -5,8 +5,8 @@ import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
-  GameState, buyUpgrade, canClaimLogin, claimBonus, claimLogin, claimTask, collectHive, combAction, finishRound, freeMoves,
-  level, newState, nextLoginIndex, RoundReward, RoundSummary, tick, unlockBee,
+  GameState, adventTodayDue, assembleWinterBee, buyUpgrade, claimNySteps, cocoaFlakes, cocoaOpen, finishCocoa, buyWinterComb, buyWinterFragment, buyWinterSeed, openAdvent, canClaimLogin, claimBonus, claimLogin, claimTask, collectHive, combAction, finishRound, freeMoves,
+  level, newState, nextLoginCycle, nextLoginIndex, RoundReward, RoundSummary, tick, unlockBee,
   RoundBoosters, RoundMode, startFreeRound, useShuffle, openBox, openAllBoxes, claimWeekly, buyFreeze, assembleNightBee,
   shopBuyItem, shopBuyBooster, shopBuyFragment, setSkin, toggleDeco, currentTasks,
   dayColorInfo, harvestAction, levelUpBee, renameBee, plantFlower, unlockBed, waterAllAction, waterBedAction,
@@ -25,13 +25,17 @@ import { UpgradeId } from "./src/logic/economy";
 import { planNotifications } from "./src/logic/notifyPlan";
 import { today as todayOf, cap as capOf } from "./src/logic/game";
 import { flushCloud, loadState, saveState } from "./src/ui/store";
+import { flushAnalytics, initAnalytics, track } from "./src/platform/analytics";
+import { diffEvents } from "./src/logic/analytics";
+/** a new session starts after 30 min in the background */
+const SESSION_GAP = 30 * 60 * 1000;
 import { addBackListener, dispatchBack } from "./src/platform/back";
 import { useInsets } from "./src/platform/insets";
 import { pinArt } from "./src/platform/pinArt";
 import { hideBootScreen, initTelegram, NOTIFICATIONS_SUPPORTED, onHide, setBackButton, telegramLanguage } from "./src/platform/telegram";
 import { applyPlan, ensureChannel, getPermission, requestPermission } from "./src/ui/notifications";
 import { hError, hSuccess, setHaptics } from "./src/ui/haptics";
-import { ART, sceneBg, seasonalTiles, setTileStyle } from "./src/ui/art";
+import { ART, sceneBg, seasonalTiles, setTileStyle, WINTER_FLAKE } from "./src/ui/art";
 import { SceneBg } from "./src/ui/SceneBg";
 import { TabIcon } from "./src/ui/TabIcon";
 import { Mascot } from "./src/ui/BeeSprite";
@@ -42,6 +46,8 @@ import HiveScreen from "./src/screens/HiveScreen";
 import PuzzleScreen from "./src/screens/PuzzleScreen";
 import BeesScreen from "./src/screens/BeesScreen";
 import TasksScreen from "./src/screens/TasksScreen";
+import { AdventSheet } from "./src/screens/Advent";
+import { WINTER_BEE, winterId } from "./src/logic/winter";
 import GardenScreen from "./src/screens/GardenScreen";
 import GameScreen from "./src/screens/GameScreen";
 import { LoginModal, Tutorial, WhatsNew } from "./src/screens/Modals";
@@ -50,7 +56,7 @@ import LanguagePicker from "./src/screens/LanguagePicker";
 import { Lang, setLang } from "./src/i18n";
 import { chooseLanguage, setSetting, Settings } from "./src/logic/game";
 import { compareVersions } from "./src/logic/update";
-import { activeEvent, devForce, forceEvent, PUMPKIN_CHANCE } from "./src/logic/event";
+import { activeEvent, devForce, forceEvent, forceSeason, PUMPKIN_CHANCE } from "./src/logic/event";
 import { clockPaused } from "./src/logic/clock";
 import { CINE, EventCine, oldLayerOpacity, useReduceMotion } from "./src/ui/EventCine";
 import { IntroVideo } from "./src/ui/IntroVideo";
@@ -60,9 +66,11 @@ import { claimTrackStep, finishFlight, flightRunsToday, treatGuest } from "./src
 import { EventIntro, JackCarved, TrickBanner } from "./src/screens/EventTrack";
 import { FLIGHT_PAID_RUNS } from "./src/logic/nightFlight";
 import FlightScreen from "./src/screens/FlightScreen";
+import CocoaSortScreen from "./src/screens/CocoaSortScreen";
 import { useUpdater } from "./src/ui/useUpdater";
 import { APP_VERSION, DEV_BUILD } from "./src/version";
 import { webFlags } from "./src/logic/devFlags";
+import { setDevDate } from "./src/logic/devClock";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 // web previews / screenshots: `?event=1` / `?dev=1`, only on localhost or in the dev build (see src/logic/devFlags.ts)
@@ -71,6 +79,7 @@ const FLAGS = webFlags(onWeb ? window.location?.search ?? "" : "", onWeb ? windo
 const WEB_EVENT = FLAGS.event;
 const DEV = FLAGS.dev;
 if (WEB_EVENT) forceEvent(true);
+if (FLAGS.winter) forceSeason("winter");
 pinArt();          // web: keep all art in memory so remounts never refetch (no-op on Android)
 initTelegram(C.bg); // web inside Telegram: ready/expand/fullscreen, no swipe-to-close, header colour
 
@@ -103,11 +112,15 @@ function Main() {
   const [hiveView, setHiveView] = useState<"hive" | "garden">("hive");
   const [lootSeg, setLootSeg] = useState<"chests" | "shop" | "album">("chests");
   const [flight, setFlight] = useState<{ key: number; seed: number; bee: string } | null>(null);
+  const [cocoa, setCocoa] = useState(false);
   const [game, setGame] = useState<{ mode: RoundMode; seed: number; key: number; extraMoves: number; bomb: boolean } | null>(null);
   const [boxOpen, setBoxOpen] = useState<BoxKind | null>(null);
   const [jack, setJack] = useState<string | null>(null);
   const [showTutorial, setShowTutorial] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  // 1.7 advent sheet; adventAuto = the game day it last opened by itself (once a day, after the login reward)
+  const [showAdvent, setShowAdvent] = useState(false);
+  const adventAuto = useRef(-1);
   const [showSettings, setShowSettings] = useState(false);
   const [topH, setTopH] = useState(0);
   // the Combs/Garden switcher always stays mounted (hidden off the Hive tab), so the header height never
@@ -122,8 +135,8 @@ function Main() {
    *  may have to switch back to it first), "run" keeps that rendered interface (`from`) frozen on top and fades it out over
    *  the new one */
   const [cine, setCine] = useState<{ dir: "in" | "out"; key: number; look: boolean; replay?: boolean; phase: "video" | "prep" | "run"; from?: Layer; vid?: boolean } | null>(null);
-  const busy = useRef({ cine: false, flight: false });
-  busy.current = { cine: !!cine, flight: !!flight };
+  const busy = useRef({ cine: false, flight: false, game: false });
+  busy.current = { cine: !!cine, flight: !!flight, game: Platform.OS === "web" && !!game };
   /** the intro clip failed once (codec, autoplay): later runs go straight to the transition */
   const videoFailed = useRef(false);
   /** the night falls with the intro clip first: "in", motion allowed, the clip has not failed */
@@ -156,9 +169,18 @@ function Main() {
   };
 
   /** Replace state; persist now (actions) or at most every 15 s (ticks). */
+  const anPrev = useRef<GameState | null>(null);
+  const bgAt = useRef(0);
   const commit = useCallback((next: GameState, force = true) => {
+    // analytics: events derived from the save change; (re)start when the id or the opt-out changes
+    const pv = anPrev.current;
+    anPrev.current = next;
+    if (!pv || pv.aid !== next.aid || pv.settings.analytics !== next.settings.analytics) initAnalytics(next.aid, next.settings.analytics);
+    else if (next !== pv) track(diffEvents(pv, next));
     setLang(next.settings.lang);
-    if (DEV && !WEB_EVENT) forceEvent(devForce(next.settings.devEvent)); // dev switch: Halloween always / off / calendar
+    // dev switches: Halloween always / off / calendar; a test date (winter presets turn Halloween off)
+    if (DEV) setDevDate(next.settings.devDate);
+    if (DEV && !WEB_EVENT) forceEvent(next.settings.devDate !== "now" ? false : devForce(next.settings.devEvent));
     setS(next);
     const t = Date.now();
     if (writable.current && (force || t - lastSave.current > 15000)) {
@@ -173,6 +195,7 @@ function Main() {
       writable.current = l.writable;
       const st = tick(l.state, Date.now());
       commit(st);
+      track([...(l.fresh ? [{ event: "first_open" }] : []), { event: "session_start" }]);
       setHaptics(st.settings.haptics);
       if (st.settings.langPicked) afterLanguage(st);
       SplashScreen.hideAsync().catch(() => {});
@@ -201,8 +224,11 @@ function Main() {
       const t = Date.now();
       if (st === "background" || st === "inactive") {
         if (writable.current) saveState(cur);
+        if (st === "background") { bgAt.current = t; flushAnalytics(); }
         applyPlan(planNotifications(cur, t)).catch(() => {});
       } else if (st === "active") {
+        if (bgAt.current && t - bgAt.current > SESSION_GAP) track({ event: "session_start" });
+        bgAt.current = 0;
         const n = tick(cur, t);
         commit(n);
         if (n.settings.tutorialDone && canClaimLogin(n, t)) setShowLogin(true);
@@ -217,11 +243,12 @@ function Main() {
     const cur = sRef.current;
     if (cur && writable.current) saveState(cur);
     flushCloud();
+    flushAnalytics();
   }), []);
 
   useEffect(() => {
     const sub = addBackListener(() => {
-      if (game || flight) return false; // GameScreen / FlightScreen handle their own back
+      if (game || flight || cocoa) return false; // GameScreen / FlightScreen / CocoaSortScreen handle their own back
       if (boxOpen) return false; // BoxOpen handles its own back
       if (showSettings) return false; // SettingsModal handles its own back (sub-page → main → close)
       if (showLogin) { setShowLogin(false); return true; }
@@ -230,9 +257,9 @@ function Main() {
       return false;
     });
     return () => sub.remove();
-  }, [game, flight, boxOpen, showSettings, showLogin, tab, hiveView]);
+  }, [game, flight, cocoa, boxOpen, showSettings, showLogin, tab, hiveView]);
   // Telegram's BackButton mirrors in-app navigation (hidden on the home screen)
-  const canBack = !!game || !!flight || !!boxOpen || showSettings || showLogin || tab !== "hive" || hiveView !== "hive";
+  const canBack = !!game || !!flight || cocoa || !!boxOpen || showSettings || showLogin || tab !== "hive" || hiveView !== "hive";
   useEffect(() => setBackButton(canBack, () => { dispatchBack(); }), [canBack]);
 
   // ----- reward flight to the currency pills -----
@@ -520,6 +547,7 @@ function Main() {
       const cur = sRef.current!;
       const res = finishRound(cur, r, Date.now());
       commit(res.state);
+      if (r.mode === "free") track({ event: "free_play_round", props: { score: r.score, record: res.reward.record } });
       pendingFly.current = { honey: res.reward.honey, jelly: res.reward.jelly };
       setHold({ honey: cur.honey, jelly: cur.jelly });
       return res.reward;
@@ -561,6 +589,15 @@ function Main() {
     if (!cine.replay) act.simple((c) => eventCineSeen(c, Date.now()));
   }, [cine]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // 1.7 advent: once a day, when today's window waits and nothing else is on screen (after the login reward), the calendar opens by itself
+  const adventReady = !!s && adventTodayDue(s, now) && s.settings.tutorialDone && !showTutorial && !showWhatsNew && !showLogin && !cine
+    && !showSettings && !boxOpen && !jack && !game && !flight && adventAuto.current !== todayOf(s, now);
+  useEffect(() => {
+    if (!adventReady || !s) return;
+    const tm = setTimeout(() => { adventAuto.current = todayOf(s, Date.now()); setShowAdvent(true); }, 700);
+    return () => clearTimeout(tm);
+  }, [adventReady]); // eslint-disable-line react-hooks/exhaustive-deps
+
   if (!s) return <View style={{ flex: 1, backgroundColor: C.bg }} />;
 
   // event look: follows the calendar, except that a due transition keeps the old look until it starts
@@ -571,8 +608,20 @@ function Main() {
   // interface theme and tile set: set before any child renders (the keyed roots below remount on a change)
   setTheme(resolveTheme(s.settings.ui, look));
   setTileStyle(seasonalTiles(s.settings.tiles, look));
+  // 1.7 winter: the event tile kind is a snowflake (free play), see finishRound
+  const winterOn = !look && !!winterId(day);
+  if (winterOn) ART.pumpkin = WINTER_FLAKE[seasonalTiles(s.settings.tiles, false)] ?? ART.flakeTile;
   const themeKey = themeName();
 
+  if (cocoa) {
+    return (
+      <View key={themeKey} style={{ flex: 1, backgroundColor: "#3B2418" }}>
+        <StatusBar style="light" />
+        <CocoaSortScreen level={s.cocoa.level} flakes={(st) => (winterId(todayOf(s, Date.now())) ? cocoaFlakes(st) : 0)}
+          onWin={(lv, st) => act.simple((c) => finishCocoa(c, lv, st, Date.now()))} onExit={() => setCocoa(false)} />
+      </View>
+    );
+  }
   if (flight) {
     return (
       <View key={themeKey} style={{ flex: 1, backgroundColor: K.bg("#2B1B3D") }}>
@@ -600,8 +649,8 @@ function Main() {
           startBomb={game.bomb}
           shuffles={game.mode === "free" ? s.loot.boosters.shuffle : 0}
           onShuffle={act.shuffle}
-          rules={halloween ? { ...rules, pumpkinChance: PUMPKIN_CHANCE, ghost: true } : rules}
-          dayColor={dayColorInfo(s, now)}
+          rules={halloween ? { ...rules, pumpkinChance: PUMPKIN_CHANCE, ghost: true } : game.mode === "free" && winterOn ? { ...rules, pumpkinChance: PUMPKIN_CHANCE } : rules}
+          dayColor={game.mode === "free" ? dayColorInfo(s, now) : undefined}
           best={game.mode === "daily" ? s.daily.results[todayOf(s, now)]?.score ?? 0 : game.mode === "weekend" ? s.week.weekendBest : s.stats.bestScore}
           title={t(game.mode === "daily" ? "mode.daily" : game.mode === "weekend" ? "mode.weekend" : "mode.free")}
           onFinish={act.finish}
@@ -663,9 +712,9 @@ function Main() {
           )}
           </View>
         ) : tab === "puzzle" ? (
-          <PuzzleScreen s={s} now={now} onPlay={act.play} onBuyBooster={(bid) => act.simple((c) => shopBuyBooster(c, bid))} onClaimTrack={act.track} onFlight={act.flight} />
+          <PuzzleScreen s={s} now={now} onPlay={act.play} onBuyBooster={(bid) => act.simple((c) => shopBuyBooster(c, bid))} onClaimTrack={act.track} onFlight={act.flight} onCocoa={cocoaOpen(s, now) || DEV ? () => setCocoa(true) : undefined} />
         ) : tab === "bees" ? (
-          <BeesScreen s={s} onSkin={(bee, k) => act.simple((c) => setSkin(c, bee, k))} onAssemble={() => act.simple((c) => assembleNightBee(c, Date.now()))} onUnlock={act.unlock} onLevelUp={act.levelUp} onRename={act.rename} onGarden={() => { setTab("hive"); setHiveView("garden"); }} />
+          <BeesScreen s={s} onSkin={(bee, k) => act.simple((c) => setSkin(c, bee, k))} onAssemble={(bee) => act.simple((c) => bee === WINTER_BEE ? assembleWinterBee(c, Date.now()) : assembleNightBee(c, Date.now()))} onUnlock={act.unlock} onLevelUp={act.levelUp} onRename={act.rename} onGarden={() => { setTab("hive"); setHiveView("garden"); }} />
         ) : tab === "loot" ? (
           <LootScreen key={lootSeg} initialSeg={lootSeg} s={s} now={now}
             onOpenBox={(k) => setBoxOpen(k)}
@@ -677,9 +726,11 @@ function Main() {
             onBuyBooster={(bid) => act.simple((c) => shopBuyBooster(c, bid))}
             onBuyFragment={() => act.simple((c) => shopBuyFragment(c))}
             onToggleDeco={(id) => act.simple((c) => toggleDeco(c, id))}
+            onWinterBuy={(what) => act.simple((c) => what.startsWith("seed:") ? buyWinterSeed(c, what.slice(5), Date.now())
+              : what === "wax" || what === "gold" ? buyWinterComb(c, what, Date.now()) : buyWinterFragment(c, what === "fragPollen" ? "pollen" : "jelly", Date.now()))}
           />
         ) : (
-          <TasksScreen s={s} now={now} onClaimTrack={act.track} onClaimWeekly={act.weekly} onBuyFreeze={() => act.simple((c) => buyFreeze(c, Date.now()))} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} />
+          <TasksScreen s={s} now={now} onAdvent={() => setShowAdvent(true)} onClaimNy={() => act.simple((c) => claimNySteps(c, Date.now()))} onClaimTrack={act.track} onClaimWeekly={act.weekly} onBuyFreeze={() => act.simple((c) => buyFreeze(c, Date.now()))} onClaimLogin={act.login} onClaimTask={act.task} onClaimBonus={act.bonus} />
         )}
       </View>
       </BottomPad.Provider>
@@ -734,8 +785,11 @@ function Main() {
       </View>
 
       <Tutorial visible={showTutorial && s.settings.langPicked} onDone={act.tutorialDone} />
-      <LoginModal visible={showLogin && !cine && !showTutorial && !showWhatsNew && s.settings.langPicked} index={loginIdx} reward={loginReward(loginIdx, level(s))} streak={s.login.lastDay === todayOf(s, now) - 1 ? s.login.streak : 0}
+      <LoginModal visible={showLogin && !cine && !showTutorial && !showWhatsNew && s.settings.langPicked} index={loginIdx} reward={loginReward(loginIdx, nextLoginCycle(s))} streak={s.login.lastDay === todayOf(s, now) - 1 ? s.login.streak : 0}
         onClaim={act.login} onClose={() => setShowLogin(false)} />
+      <AdventSheet visible={showAdvent && !showLogin && !cine && !showTutorial && !game} s={s} now={now} onClose={() => setShowAdvent(false)}
+        onWindow={(n) => { const r = openAdvent(s, n, Date.now()); if (!r) return null; commit(r.state); hSuccess(); return r.reward; }}
+        onPlay={() => setTab("puzzle")} />
       <SettingsModal
         visible={showSettings}
         startPage={settingsPage}

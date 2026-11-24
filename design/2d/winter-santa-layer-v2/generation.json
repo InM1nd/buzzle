@@ -1,0 +1,20 @@
+{
+  "q3-front": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-fe438785-22a5-4472-b80d-26c737b0064f.png",
+    "prompt": "Use case: stylized-concept. Create ONE standalone wearable Santa cap sprite for Buzzle on true transparent RGBA, no bee or anatomy. Image 1 is the exact new cap design/material: rich scarlet red large clean polygon facets, thick faceted ivory cuff, one ivory faceted pompom. Image 2 shows the required wearing angle from the previous wardrobe concept, use it for orientation only. Image 3 is canonical bee for camera and head contour only, do NOT render any part of it. Match image 1 design, not a new hat. Clean soft warm diffuse light, no gloss, no holly, text, antennae, horns, wings, head, ground shadows or extra props. Generous transparent margin, high resolution 1024 square. View: FRONT THREE-QUARTER facing RIGHT, match camera of image 3. Cuff wraps a rounded forehead with its near-left end lower than its far-right end, following image 2. Cap bends toward viewer RIGHT, pompom at the right. Detached complete cap, not front view and not profile.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-santa-layer-v1/santa-front.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v4/zhuzha-winter-santa-q3-front.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/zhuzha-turnaround-approved-front/q3-front.png"
+    ]
+  },
+  "side": {
+    "source": "/Users/oleksandrzabolotnyi/.codex/generated_images/01a13064-61f3-7c13-a6e0-4c69a5e614e3/exec-0ac95c56-6360-4c6b-98b3-50f6140c4c08.png",
+    "prompt": "Use case: stylized-concept. Create ONE standalone wearable Santa cap sprite for Buzzle on true transparent RGBA, no bee or anatomy. Image 1 is the exact new cap design/material: rich scarlet red large clean polygon facets, thick faceted ivory cuff, one ivory faceted pompom. Image 2 shows the required wearing angle from the previous wardrobe concept, use it for orientation only. Image 3 is canonical bee for camera and head contour only, do NOT render any part of it. Match image 1 design, not a new hat. Clean soft warm diffuse light, no gloss, no holly, text, antennae, horns, wings, head, ground shadows or extra props. Generous transparent margin, high resolution 1024 square. View: STRICT RIGHT-FACING PROFILE matching image 3. Cuff seen obliquely side-on follows slope of forehead, its rear-left end lower and front-right end higher as in image 2. Cap bends toward the REAR / viewer LEFT, pompom on left. Detached cap only, preserve red cloth and broad cream cuff. No duplicated pompom, no antenna holes.",
+    "references": [
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-santa-layer-v1/santa-front.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/buzzle-winter-wardrobe-v4/zhuzha-winter-santa-side.png",
+      "/Users/oleksandrzabolotnyi/Documents/Codex/2026-10-12/https-github-com-inm1nd-buzzle-https/outputs/zhuzha-turnaround-approved-front/side.png"
+    ]
+  }
+}

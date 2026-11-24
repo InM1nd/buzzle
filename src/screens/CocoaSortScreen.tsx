@@ -35,7 +35,7 @@ const GLYPH = ["●", "◆", "♣", "♥", "✿", "▲", "★"];
 const GLYPH_ON = ["#FFE9D2", "#5A3200", "#E6FFE9", "#FFE3EC", "#8A5A2B", "#FFE0E0", "#E6E6FF"];
 const FOAM = "#FFFFFF"; // whipped cream: whiter than honey milk, with a grey "?"
 const UNDOS = 3;
-const TILT = 1.05; // rad, about 60°
+const LIFT = 16; // a picked mug rises this much; the pour starts from there
 
 interface Play { board: Board; par: number; moves: number; undos: number; added: boolean; history: { board: Board; moves: number }[] }
 const fresh = (n: number): Play => { const { n: _n, par, colors: _c, ...board } = levelAt(n); return { board, par, moves: 0, undos: UNDOS, added: false, history: [] }; };
@@ -45,9 +45,13 @@ const INTRO: Record<number, "cs.newOrders" | "cs.newFoam" | "cs.newIce"> = { 2: 
 /** no legal pour at all (ice may still melt only by pouring, so a frozen board with no pours is stuck too) */
 const stuck = (b: Board) => !b.cups.some((_, f) => b.cups.some((__, to) => pour(b, f, to)));
 
-interface Geo { cw: number; ch: number; pos: { x: number; y: number }[]; shelves: { y: number; x: number; w: number }[]; h: number }
-/** vessel_layout.json (1024 space): liquid box x 234–716, fill 165–898, the mug stands on y 969, topping anchor (473, 142) */
-const V = { x0: 234 / 1024, x1: 716 / 1024, top: 165 / 1024, bottom: 898 / 1024, foot: 969 / 1024, topX: 473 / 1024, topY: 142 / 1024 };
+interface Geo { cw: number; ch: number; pos: { x: number; y: number }[]; shelves: { y: number; x: number; w: number }[]; h: number; w: number }
+/** vessel_layout.json (1024 space): liquid box x 234–716, fill 165–898, the mug stands on y 969, topping anchor (473, 142),
+ *  rim centre y 111, pour spouts (230 | 714, 114) */
+const V = {
+  x0: 234 / 1024, x1: 716 / 1024, top: 165 / 1024, bottom: 898 / 1024, foot: 969 / 1024, topX: 473 / 1024, topY: 142 / 1024,
+  rimY: 111 / 1024, spL: 230 / 1024, spR: 714 / 1024, spY: 114 / 1024,
+};
 /** mugs in rows of 3 or 4 on shelves, centred; a mug cell is square (the image has transparent margins) */
 function layout(n: number, W: number, maxH: number): Geo {
   const cols = n <= 3 ? n : n <= 6 ? 3 : n === 9 ? 3 : 4;
@@ -66,7 +70,7 @@ function layout(n: number, W: number, maxH: number): Geo {
     // the plank top (35% of the shelf picture, ui_layout cupBaselineY) under the mugs' foot
     shelves.push({ y: r * rowH + 14 + ch * V.foot - shelfH * 0.35, x: 8, w: W - 16 });
   }
-  return { cw, ch, pos, shelves, h: rows * rowH + 14 };
+  return { cw, ch, pos, shelves, h: rows * rowH + 14, w: W };
 }
 
 /** liquid box inside a mug cell of size w × h (square) */
@@ -81,11 +85,10 @@ function Layer({ color, hidden, h }: { color: number; hidden: boolean; h: number
 }
 
 /** the glass picture over the liquid; liquid is passed as children, clipped to the liquid box */
-function Glass({ w, h, children, glow }: { w: number; h: number; children?: React.ReactNode; glow?: boolean }) {
+function Glass({ w, h, children }: { w: number; h: number; children?: React.ReactNode }) {
   const i = inner(w, h);
   return (
     <View style={{ width: w, height: h }}>
-      {glow ? <View pointerEvents="none" style={{ position: "absolute", left: i.left - w * 0.08, right: i.right - w * 0.08, top: i.top - h * 0.08, bottom: i.bottom - h * 0.02, borderRadius: w * 0.12, backgroundColor: "rgba(255,210,122,0.45)" }} /> : null}
       <View style={{ position: "absolute", left: i.left, right: i.right, top: i.top, bottom: i.bottom, overflow: "hidden", borderBottomLeftRadius: w * 0.07, borderBottomRightRadius: w * 0.07 }}>
         {children}
       </View>
@@ -95,19 +98,36 @@ function Glass({ w, h, children, glow }: { w: number; h: number; children?: Reac
 }
 
 /** a mug on the shelf. `extra` is a block of drink being poured in (animated height). */
-function Mug({ cup, hidden, ice, w, h, selected, extra, onPress, index }: {
-  cup: Cup; hidden: number; ice: number; w: number; h: number; selected: boolean; index: number;
+function Mug({ cup, hidden, ice, w, h, selected, extra, onPress, index, shake }: {
+  cup: Cup; hidden: number; ice: number; w: number; h: number; selected: boolean; index: number; shake: number;
   extra?: { color: number; h: Animated.AnimatedInterpolation<number> | Animated.Value }; onPress: () => void;
 }) {
-  const lift = useRef(new Animated.Value(0)).current;
-  useEffect(() => { Animated.spring(lift, { toValue: selected ? -14 : 0, useNativeDriver: false, speed: 30, bounciness: 8 }).start(); }, [selected, lift]);
   const i = inner(w, h);
   const done = complete(cup);
+  const lift = useRef(new Animated.Value(0)).current;
+  useEffect(() => { Animated.spring(lift, { toValue: selected ? -LIFT : 0, useNativeDriver: true, speed: 22, bounciness: 7 }).start(); }, [selected, lift]);
+  // a drink that just got finished: its topping drops in and the mug hops
+  const pop = useRef(new Animated.Value(done ? 1 : 0)).current;
+  const wasDone = useRef(done);
+  useEffect(() => {
+    if (done && !wasDone.current) { pop.setValue(0); Animated.spring(pop, { toValue: 1, useNativeDriver: true, friction: 5, tension: 90 }).start(); }
+    if (!done) pop.setValue(0);
+    wasDone.current = done;
+  }, [done, pop]);
+  // that won't fit: a short head shake
+  const sx = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    if (!shake) return;
+    sx.setValue(0);
+    Animated.timing(sx, { toValue: 1, duration: 320, easing: Easing.linear, useNativeDriver: true }).start();
+  }, [shake, sx]);
+  const shakeX = sx.interpolate({ inputRange: [0, 0.15, 0.35, 0.55, 0.75, 1], outputRange: [0, -6, 5, -4, 2, 0] });
+  const hop = pop.interpolate({ inputRange: [0, 0.35, 0.7, 1], outputRange: [0, -10, 0, 0], extrapolate: "clamp" });
   const a11y = cup.length ? cup.map((c, k) => (k < hidden ? t("cs.hidden") : tx(`cs.d${c}`))).join(", ") : t("cs.empty");
   return (
     <Press onPress={onPress} scaleTo={0.97} haptic={false} accessibilityRole="button" accessibilityLabel={t("cs.mugA11y", { i: index + 1, layers: a11y })} accessibilityState={{ selected }}>
-      <Animated.View style={{ transform: [{ translateY: lift }] }}>
-        <Glass w={w} h={h} glow={selected}>
+      <Animated.View style={{ transform: [{ translateX: shakeX }, { translateY: Animated.add(lift, hop) }] }}>
+        <Glass w={w} h={h}>
           <View style={{ position: "absolute", left: 0, right: 0, bottom: 0, flexDirection: "column-reverse" }}>
             {cup.map((c, k) => <Layer key={k} color={c} hidden={k < hidden} h={i.u} />)}
             {extra ? <Layer color={extra.color} hidden={false} h={extra.h} /> : null}
@@ -119,9 +139,16 @@ function Mug({ cup, hidden, ice, w, h, selected, extra, onPress, index }: {
             </View>
           ) : null}
         </Glass>
-        {done ? (TOPPER[cup[0]]
-          ? <Image source={TOPPER[cup[0]]} style={{ position: "absolute", left: w * V.topX - w * 0.2, top: h * V.topY - w * 0.3, width: w * 0.4, height: w * 0.4 }} />
-          : <Image source={ART.check} style={{ position: "absolute", top: 0, left: w / 2 - 12, width: 24, height: 24 }} />) : null}
+        {done ? (
+          <Animated.View pointerEvents="none" style={{
+            position: "absolute", left: 0, top: 0, width: w, height: h, opacity: pop.interpolate({ inputRange: [0, 0.25], outputRange: [0, 1], extrapolate: "clamp" }),
+            transform: [{ translateY: pop.interpolate({ inputRange: [0, 1], outputRange: [-h * 0.3, 0] }) }],
+          }}>
+            {TOPPER[cup[0]]
+              ? <Animated.Image source={TOPPER[cup[0]]} style={{ position: "absolute", left: w * V.topX - w * 0.2, top: h * V.topY - w * 0.3, width: w * 0.4, height: w * 0.4, transform: [{ scale: pop.interpolate({ inputRange: [0, 1], outputRange: [0.4, 1] }) }] }} />
+              : <Image source={ART.check} style={{ position: "absolute", top: 0, left: w / 2 - 12, width: 24, height: 24 }} />}
+          </Animated.View>
+        ) : null}
       </Animated.View>
     </Press>
   );
@@ -141,6 +168,8 @@ export default function CocoaSortScreen({ level, onWin, onExit, flakes }: { leve
   const [pouring, setPouring] = useState<Pouring | null>(null);
   const [intro, setIntro] = useState<string | null>(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
+  const [shk, setShk] = useState({ i: -1, n: 0 });
+  const shakeMug = (i: number) => setShk((v) => ({ i, n: v.n + 1 }));
   const p = useRef(new Animated.Value(0)).current;
   const levelRef = useRef(0);
   levelRef.current = n ?? 0;
@@ -177,7 +206,7 @@ export default function CocoaSortScreen({ level, onWin, onExit, flakes }: { leve
   const choose = (i: number) => {
     if (!play || pouring || isWon(play.board)) return;
     const b = play.board;
-    if (b.ice[i] > 0) { hError(); setMsg(t("cs.hintIce", { n: b.ice[i] })); return; }
+    if (b.ice[i] > 0) { hError(); shakeMug(i); setMsg(t("cs.hintIce", { n: b.ice[i] })); return; }
     if (sel === null) {
       if (!b.cups[i].length) { setMsg(t("cs.hintPick")); return; }
       if (complete(b.cups[i])) { setMsg(t("cs.hintDone")); return; }
@@ -188,7 +217,7 @@ export default function CocoaSortScreen({ level, onWin, onExit, flakes }: { leve
     if (!m) {
       // tapping another pourable mug switches the selection
       if (b.cups[i].length && !complete(b.cups[i])) { hLight(); setSel(i); setMsg(t("cs.hintTarget")); return; }
-      hError(); setMsg(t("cs.hintNo")); return;
+      hError(); shakeMug(i); setMsg(t("cs.hintNo")); return;
     }
     setSel(null); setMsg(t("cs.hintPick"));
     // the board shows the cups as they were while the copy pours; the target's top shows the source's colour block growing
@@ -196,10 +225,11 @@ export default function CocoaSortScreen({ level, onWin, onExit, flakes }: { leve
     if (reduce) { finishPour(pr); return; }
     setPouring(pr);
     p.setValue(0);
+    // easing is baked into the pour track (usePourTrack), the clock runs linearly
     Animated.sequence([
-      Animated.timing(p, { toValue: 1, duration: 320, easing: Easing.inOut(Easing.quad), useNativeDriver: false }),
-      Animated.timing(p, { toValue: 2, duration: 520 + 140 * m.count, easing: Easing.linear, useNativeDriver: false }),
-      Animated.timing(p, { toValue: 3, duration: 280, easing: Easing.inOut(Easing.quad), useNativeDriver: false }),
+      Animated.timing(p, { toValue: 1, duration: 420, easing: Easing.linear, useNativeDriver: false }),
+      Animated.timing(p, { toValue: 2, duration: 480 + 170 * m.count, easing: Easing.linear, useNativeDriver: false }),
+      Animated.timing(p, { toValue: 3, duration: 380, easing: Easing.linear, useNativeDriver: false }),
     ]).start(() => finishPour(pr));
   };
 
@@ -218,6 +248,15 @@ export default function CocoaSortScreen({ level, onWin, onExit, flakes }: { leve
   const next = () => { if (n !== null) setN(n + 1); };
   const restart = () => { if (n !== null && !pouring) { setPlay(fresh(n)); setSel(null); setMsg(t("cs.hintPick")); } };
 
+  // the win card waits a moment so the last topping can land
+  const wonNow = !!board && isWon(board);
+  const [winUp, setWinUp] = useState(false);
+  useEffect(() => {
+    if (!wonNow || pouring) { setWinUp(false); return; }
+    const id = setTimeout(() => setWinUp(true), reduce ? 0 : 800);
+    return () => clearTimeout(id);
+  }, [wonNow, pouring, reduce]);
+
   if (n === null || !play || !board) return <View style={{ flex: 1, backgroundColor: "#3B2418" }} />;
   const won = isWon(board);
   const st = stars(play.moves, play.par);
@@ -227,21 +266,27 @@ export default function CocoaSortScreen({ level, onWin, onExit, flakes }: { leve
       <Image source={BG} style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]} resizeMode="cover" />
       <View style={[StyleSheet.absoluteFill, { backgroundColor: "rgba(40,22,14,0.12)" }]} />
       <View style={{ flex: 1, paddingTop: insets.top + 8, paddingBottom: insets.bottom + 12, paddingHorizontal: 12 }}>
-        {/* top bar: close · title plaque · moves */}
-        <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
-          <Press onPress={leave} style={styles.close} accessibilityRole="button" accessibilityLabel={t("game.exit")}>
-            <Image source={ART.close} style={{ width: 22, height: 22, tintColor: "#4A2C12" }} />
-          </Press>
-          <View style={{ flex: 1, alignItems: "center" }}>
+        {/* top bar: the plaque is centred on the screen, not between the buttons, so nothing in it moves when numbers change */}
+        <View style={{ height: 96 }}>
+          <View pointerEvents="none" style={{ position: "absolute", left: 0, right: 0, top: 0, alignItems: "center" }}>
             <View style={styles.plaque}>
-              <Image source={PLAQUE} style={{ position: "absolute", left: 0, top: 0, width: 240, height: 80 }} resizeMode="stretch" />
-              <Text style={[F.black, { fontSize: 20, color: "#4A2C12" }]} numberOfLines={1}>{t("cs.title")}</Text>
+              <Image source={PLAQUE} style={{ position: "absolute", left: 0, top: 0, width: 220, height: 74 }} resizeMode="stretch" />
+              <Text style={[F.black, { fontSize: 19, color: "#4A2C12" }]} numberOfLines={1}>{t("cs.title")}</Text>
             </View>
-            <View style={styles.levelPill}><Text style={[F.xbold, { fontSize: 13, color: "#4A2C12" }]}>{t("cs.level", { n: n + 1 })}</Text></View>
+            <View style={styles.levelPill}>
+              <Text style={[F.xbold, { fontSize: 13, color: "#4A2C12", fontVariant: ["tabular-nums"] }]}>{t("cs.level", { n: n + 1 })}  ·  {t("cs.moves", { n: play.moves })}</Text>
+            </View>
           </View>
-          <View style={styles.moves}><Text style={[F.black, { fontSize: 14, color: "#FFF1DA" }]}>{t("cs.moves", { n: play.moves })}</Text></View>
+          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            <Press onPress={leave} style={styles.close} accessibilityRole="button" accessibilityLabel={t("game.exit")}>
+              <Image source={ART.close} style={{ width: 22, height: 22, tintColor: "#4A2C12" }} />
+            </Press>
+            <Press onPress={restart} style={styles.close} accessibilityRole="button" accessibilityLabel={t("cs.restart")}>
+              <Text style={[F.black, { fontSize: 24, color: "#4A2C12", lineHeight: 28 }]}>↻</Text>
+            </Press>
+          </View>
         </View>
-        <View style={{ alignItems: "center", marginTop: 6 }}><Stars n={st} size={24} /></View>
+        <View style={{ alignItems: "center" }}><Stars n={st} size={24} /></View>
 
         {/* Zhuzha's order ticket */}
         {shape(n).orders ? (
@@ -270,11 +315,13 @@ export default function CocoaSortScreen({ level, onWin, onExit, flakes }: { leve
               {board.cups.map((cup, i) => {
                 const pr = pouring;
                 const shown = pr ? pr.before : board;
-                const extra = pr && pr.to === i ? { color: pr.color, h: p.interpolate({ inputRange: [0, 1, 2, 3], outputRange: [0, 0, pr.count * inner(geo.cw, geo.ch).u, pr.count * inner(geo.cw, geo.ch).u] }) } : undefined;
+                const full = pr ? pr.count * inner(geo.cw, geo.ch).u : 0;
+                // the target's new block grows a moment after the stream starts (same timing as the stream in usePourTrack)
+                const extra = pr && pr.to === i ? { color: pr.color, h: p.interpolate({ inputRange: [0, 1.08, 1.95, 3], outputRange: [0, 0, full, full], extrapolate: "clamp" }) } : undefined;
                 return (
                   <View key={i} style={{ position: "absolute", left: geo.pos[i].x, top: geo.pos[i].y, opacity: pr && pr.from === i ? 0 : 1 }}>
                     <Mug cup={shown.cups[i]} hidden={shown.hidden[i]} ice={shown.ice[i]} w={geo.cw} h={geo.ch} index={i}
-                      selected={sel === i} extra={extra} onPress={() => choose(i)} />
+                      selected={sel === i} extra={extra} onPress={() => choose(i)} shake={shk.i === i ? shk.n : 0} />
                   </View>
                 );
               })}
@@ -283,17 +330,17 @@ export default function CocoaSortScreen({ level, onWin, onExit, flakes }: { leve
           ) : null}
         </View>
 
-        <View style={styles.status}><Txt v="small" color="#FFF1DA" center>{msg}</Txt></View>
-        <View style={{ flexDirection: "row", gap: 10, marginTop: 10 }}>
+        {/* fixed height: a longer hint must not change the shelf area (its height sizes the mugs) */}
+        <View style={{ height: 54, alignItems: "center", justifyContent: "center" }}>
+          <View style={styles.status}><Txt v="small" color="#FFF1DA" center numberOfLines={2}>{msg}</Txt></View>
+        </View>
+        <View style={{ flexDirection: "row", gap: 10, marginTop: 6 }}>
           <GameButton style={{ flex: 1 }} color="purple" title={t("cs.undo", { n: play.undos })} disabled={!play.undos || !play.history.length || !!pouring} onPress={undo} />
           <GameButton style={{ flex: 1 }} color="purple" title={t("cs.addMug", { n: play.added ? 0 : 1 })} disabled={play.added || won || !!pouring} onPress={addMug} />
         </View>
-        <Press onPress={restart} style={{ alignSelf: "center", paddingVertical: 8, paddingHorizontal: 16 }} accessibilityRole="button">
-          <Txt v="small" color="#FFF1DA">↻ {t("cs.restart")}</Txt>
-        </Press>
       </View>
 
-      <Overlay visible={won && !pouring} dismissable={false} glow>
+      <Overlay visible={won && !pouring && winUp} dismissable={false} glow>
         <View style={{ alignItems: "center", gap: 10 }}>
           <Mascot size={88} />
           <Txt v="h2" center>{t("cs.win")}</Txt>
@@ -320,46 +367,126 @@ export default function CocoaSortScreen({ level, onWin, onExit, flakes }: { leve
   );
 }
 
-/** the lifted copy of the source mug: moves over the target, tilts, drains its top block, and comes back */
+/* ── the pour ──────────────────────────────────────────────────────────────────────────────────────────────────────
+ * Everything is a function of the progress q: 0–1 the lifted mug flies over the target on a small arc and starts tilting,
+ * 1–2 it pours, 2–3 it flies back. Poses are computed in JS and sampled into keyframes for Animated.
+ * The liquid keeps its volume: the surface in the tilted glass is the horizontal line under which the glass box holds the
+ * drink (polygon clipping), and while pouring the tilt is the one at which the remaining drink just reaches the lip, so
+ * the stream always leaves from the drink's surface. The spout (vessel_layout pourSpoutLeft/Right) stays over the target. */
+const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
+const span = (a: number, b: number, q: number) => clamp01((q - a) / (b - a));
+const easeIO = (t: number) => (t < 0.5 ? 2 * t * t : 1 - (2 - 2 * t) ** 2 / 2);
+const rotP = (x: number, y: number, th: number) => ({ x: x * Math.cos(th) - y * Math.sin(th), y: x * Math.sin(th) + y * Math.cos(th) });
+type Pt = { x: number; y: number };
+/** area of the polygon below the horizontal line y = c (screen y grows down) */
+function areaBelow(poly: Pt[], c: number) {
+  const out: Pt[] = [];
+  poly.forEach((a, k) => {
+    const b = poly[(k + 1) % poly.length];
+    if (a.y >= c) out.push(a);
+    if (a.y >= c !== b.y >= c) out.push({ x: a.x + ((c - a.y) / (b.y - a.y)) * (b.x - a.x), y: c });
+  });
+  let s = 0;
+  out.forEach((a, k) => { const b = out[(k + 1) % out.length]; s += a.x * b.y - b.x * a.y; });
+  return Math.abs(s) / 2;
+}
+const STEPS = 20; // keyframes per phase
+
+function usePourTrack(pr: Pouring, geo: Geo) {
+  return useMemo(() => {
+    const s = geo.cw; // a mug cell is square
+    const src = geo.pos[pr.from], dst = geo.pos[pr.to];
+    const i = inner(s, s);
+    const hw = (s * (V.x1 - V.x0)) / 2, hh = (CAP * i.u) / 2; // the liquid box, centred on its own centre
+    const W = 2 * hw;
+    const box = (th: number) => [[-hw, -hh], [hw, -hh], [hw, hh], [-hw, hh]].map(([x, y]) => rotP(x, y, th));
+    /** the surface (relative to the box centre) under which the tilted box holds `vol` layers */
+    const level = (th: number, vol: number) => {
+      const poly = box(th), ys = poly.map((q) => q.y), need = vol * i.u * W;
+      let lo = Math.min(...ys), hi = Math.max(...ys);
+      if (vol <= 0) return hi;
+      for (let k = 0; k < 16; k++) { const m = (lo + hi) / 2; if (areaBelow(poly, m) > need) lo = m; else hi = m; }
+      return (lo + hi) / 2;
+    };
+    /** the tilt at which `vol` layers just reach the lip on the pouring side */
+    const reach = (vol: number, dir: number) => {
+      let lo = 0, hi = 1.45;
+      for (let k = 0; k < 16; k++) {
+        const m = (lo + hi) / 2, th = dir * m;
+        if (areaBelow(box(th), rotP(dir * hw, -hh, th).y) > vol * i.u * W) lo = m; else hi = m;
+      }
+      return (lo + hi) / 2;
+    };
+    const cup = pr.before.cups[pr.from], keep = cup.length - pr.count;
+    const aS = Math.max(0.5, reach(cup.length, -1)), aE = Math.max(aS + 0.15, reach(keep, -1));
+    // the spout stays over the target's mouth, a bit above its rim
+    const P = { x: dst.x + (s * (V.x0 + V.x1)) / 2, y: dst.y + s * (V.rimY - 0.07) };
+    const spout = (dir: number) => ({ x: s * ((dir < 0 ? V.spL : V.spR) - 0.5), y: s * (V.spY - 0.5) });
+    const pose = (a: number, dir: number) => { const r = rotP(spout(dir).x, spout(dir).y, dir * a); return { x: P.x - r.x, y: P.y - r.y }; };
+    // pour over the left rim (the handle side goes up, the mug hangs right of the target); mirrored when there's no room
+    const dir = Math.max(pose(aS, -1).x, pose(aE, -1).x) + s * 0.42 > geo.w ? 1 : -1;
+    const a0 = dir < 0 ? aS : Math.max(0.5, reach(cup.length, 1));
+    const a1 = Math.min(1.45, Math.max(a0, reach(keep, dir))); // the tilt the pour ends with, where the way back starts
+    const rest = { x: src.x + s / 2, y: src.y + s / 2 }, lifted = { x: rest.x, y: rest.y - LIFT };
+    const vol = (q: number) => (q <= 1 ? cup.length : q <= 2 ? keep + pr.count * (1 - span(1, 1.9, q)) : keep);
+    const tilt = (q: number) => q <= 1 ? a0 * easeIO(span(0.15, 1, q))
+      : q <= 2 ? Math.min(1.45, Math.max(a0, reach(vol(q), dir)))
+      : a1 * (1 - easeIO(span(2, 2.7, q)));
+    const centre = (q: number, a: number) => {
+      if (q > 1 && q <= 2) return pose(a, dir);
+      const [from, to, e, arc] = q <= 1 ? [lifted, pose(a0, dir), easeIO(q), s * 0.22] : [pose(a1, dir), rest, easeIO(q - 2), s * 0.12];
+      return { x: from.x + (to.x - from.x) * e, y: from.y + (to.y - from.y) * e - arc * Math.sin(Math.PI * e) };
+    };
+    // the target: its new block grows a moment after the stream starts; surface in board coordinates
+    const nTo = pr.before.cups[pr.to].length;
+    const fillAt = (q: number) => pr.count * i.u * span(1.08, 1.95, q);
+    const surface = (q: number) => dst.y + s - i.bottom - nTo * i.u - fillAt(q);
+
+    const qs = Array.from({ length: 3 * STEPS + 1 }, (_, k) => k / STEPS);
+    const frames = qs.map((q) => {
+      const a = tilt(q), th = dir * a, c = centre(q, a), v = vol(q), sf = surface(q);
+      return {
+        rot: (th * 180) / Math.PI, x: c.x - rest.x, y: c.y - rest.y,
+        // layer tops (relative to the box centre): the poured block, then the kept ones from the top down
+        tops: [level(th, v), ...Array.from({ length: keep }, (_, j) => level(th, keep - j))],
+        streamTop: P.y + (sf - P.y) * span(1.9, 1.98, q), streamBot: P.y + (sf - P.y) * span(1, 1.08, q), surface: sf,
+      };
+    });
+    const track = (get: (f: (typeof frames)[number]) => number) => ({ inputRange: qs, outputRange: frames.map(get), extrapolate: "clamp" as const });
+    const deg = (get: (f: (typeof frames)[number]) => number) => ({ inputRange: qs, outputRange: frames.map((f) => `${get(f)}deg`), extrapolate: "clamp" as const });
+    return { s, hh, P, keep, cup, track, deg };
+  }, [pr, geo]);
+}
+
+/** the lifted copy of the source mug and the stream */
 function Flying({ pr, geo, p }: { pr: Pouring; geo: Geo; p: Animated.Value }) {
-  const { cw: w, ch: h } = geo;
-  const src = geo.pos[pr.from], dst = geo.pos[pr.to];
-  const i = inner(w, h);
-  const tx = dst.x + w / 2, ty = dst.y + h * 0.05;
-  // the lip corner (top, on the pouring side) relative to the mug centre after rotation; the mug hangs left of the target
-  // and tips clockwise, unless there's no room on the left
-  const lip = (dir: number) => {
-    const a = dir * TILT, cx = dir * w / 2, cy = -h / 2;
-    return { a, x: cx * Math.cos(a) - cy * Math.sin(a), y: cx * Math.sin(a) + cy * Math.cos(a) };
-  };
-  const right = lip(1);
-  const { a, x: lipX, y: lipY } = tx - right.x - w / 2 < 0 ? lip(-1) : right;
-  const endCx = tx - lipX, endCy = ty - h * 0.4 - lipY;
-  const dx = endCx - (src.x + w / 2), dy = endCy - (src.y + h / 2);
-  const along = { inputRange: [0, 1, 2, 3], extrapolate: "clamp" as const };
-  const X = p.interpolate({ ...along, outputRange: [0, dx, dx, 0] });
-  const Y = p.interpolate({ ...along, outputRange: [0, dy, dy, 0] });
-  const R = p.interpolate({ ...along, outputRange: [0, a, a, 0] });
-  const rot = R.interpolate({ inputRange: [-Math.PI, Math.PI], outputRange: ["-180deg", "180deg"] });
-  const counter = R.interpolate({ inputRange: [-Math.PI, Math.PI], outputRange: ["180deg", "-180deg"] });
-  const cup = pr.before.cups[pr.from];
-  const keep = cup.slice(0, cup.length - pr.count);
-  const drain = p.interpolate({ ...along, outputRange: [pr.count * i.u, pr.count * i.u, 0, 0] });
-  const streamO = p.interpolate({ inputRange: [0, 1, 1.08, 1.9, 2, 3], outputRange: [0, 0, 1, 1, 0, 0] });
-  // target surface after the pour, for the stream's length
-  const surf = dst.y + h - i.bottom - (pr.before.cups[pr.to].length + pr.count) * i.u;
-  const lipAbsY = endCy + lipY;
+  const { s, hh, P, keep, cup, track, deg } = usePourTrack(pr, geo);
+  const src = geo.pos[pr.from];
+  const sw = Math.max(5, s * 0.065);
+  const sTop = p.interpolate(track((f) => f.streamTop));
+  const sH = p.interpolate(track((f) => Math.max(0, f.streamBot - f.streamTop)));
+  const on = p.interpolate({ inputRange: [0, 0.98, 1, 2, 2.02, 3], outputRange: [0, 0, 1, 1, 0, 0], extrapolate: "clamp" });
+  const ripple = p.interpolate({ inputRange: [0, 1.08, 1.2, 1.85, 1.98, 3], outputRange: [0, 0, 1, 1, 0, 0], extrapolate: "clamp" });
+  // the liquid box inside the counter-rotated frame: its centre sits at (s, s + hh) of the oversized frame
+  const top = (k: number) => p.interpolate(track((f) => s + hh + f.tops[k]));
   return (
     <>
-      <Animated.View pointerEvents="none" style={{ position: "absolute", left: tx - 3, top: lipAbsY, width: 6, height: Math.max(8, surf - lipAbsY), borderRadius: 3, backgroundColor: DRINK[pr.color], opacity: streamO }} />
-      <Animated.View pointerEvents="none" style={{ position: "absolute", left: src.x, top: src.y, transform: [{ translateX: X }, { translateY: Y }, { rotate: rot }], ...shadow }}>
-        <Glass w={w} h={h}>
-          {/* liquid counter-rotated about the glass centre so its surface stays level; oversized so the tilted glass stays filled */}
-          <Animated.View style={{ position: "absolute", left: -w, right: -w, top: -h, bottom: -h, transform: [{ rotate: counter }] }}>
-            <View style={{ position: "absolute", left: 0, right: 0, bottom: h, flexDirection: "column-reverse", paddingHorizontal: w * 0.6 }}>
-              {keep.map((c, k) => <Layer key={k} color={c} hidden={k < pr.before.hidden[pr.from]} h={i.u} />)}
-              <Layer color={pr.color} hidden={false} h={drain} />
-            </View>
+      <Animated.View pointerEvents="none" style={{ position: "absolute", left: P.x - sw / 2, top: sTop, width: sw, height: sH, borderRadius: sw / 2, backgroundColor: DRINK[pr.color], opacity: on, overflow: "hidden" }}>
+        <View style={{ position: "absolute", left: sw * 0.22, top: 0, bottom: 0, width: sw * 0.22, borderRadius: sw, backgroundColor: "rgba(255,255,255,0.4)" }} />
+      </Animated.View>
+      <Animated.View pointerEvents="none" style={{ position: "absolute", left: P.x - s * 0.17, width: s * 0.34, height: s * 0.07, borderRadius: s, backgroundColor: "rgba(255,255,255,0.4)", opacity: ripple, transform: [{ translateY: p.interpolate(track((f) => f.surface - s * 0.035)) }] }} />
+      <Animated.View pointerEvents="none" style={{
+        position: "absolute", left: src.x, top: src.y, ...shadow, shadowOpacity: 0.3, shadowRadius: 14,
+        transform: [{ translateX: p.interpolate(track((f) => f.x)) }, { translateY: p.interpolate(track((f) => f.y)) }, { rotate: p.interpolate(deg((f) => f.rot)) }],
+      }}>
+        <Glass w={s} h={s}>
+          {/* screen-aligned frame (counter-rotated about the liquid box centre): horizontal bands, each from its top down */}
+          <Animated.View style={{ position: "absolute", left: -s, right: -s, top: -s, bottom: -s, transform: [{ rotate: p.interpolate(deg((f) => -f.rot)) }] }}>
+            <Animated.View style={{ position: "absolute", left: 0, right: 0, bottom: 0, top: top(0), backgroundColor: DRINK[pr.color] }} />
+            {Array.from({ length: keep }, (_, j) => {
+              const c = keep - 1 - j; // kept layer index from the bottom
+              return <Animated.View key={j} style={{ position: "absolute", left: 0, right: 0, bottom: 0, top: top(j + 1), backgroundColor: c < pr.before.hidden[pr.from] ? FOAM : DRINK[cup[c]], borderTopWidth: 1, borderTopColor: "rgba(255,255,255,0.35)" }} />;
+            })}
           </Animated.View>
         </Glass>
       </Animated.View>
@@ -369,9 +496,8 @@ function Flying({ pr, geo, p }: { pr: Pouring; geo: Geo; p: Animated.Value }) {
 
 const styles = StyleSheet.create({
   close: { width: 44, height: 44, borderRadius: 14, backgroundColor: "#FFF4E2", alignItems: "center", justifyContent: "center", ...shadow },
-  plaque: { width: 240, height: 80, alignItems: "center", justifyContent: "center", paddingHorizontal: 50 },
-  levelPill: { marginTop: -16, paddingHorizontal: 14, paddingVertical: 2, borderRadius: 10, backgroundColor: "#F6E2BC", borderWidth: 1.5, borderColor: "#D9AE6E" },
-  moves: { paddingHorizontal: 12, paddingVertical: 9, borderRadius: 14, backgroundColor: "#2F3A78", borderWidth: 1.5, borderColor: "#5463B8" },
+  plaque: { width: 220, height: 74, alignItems: "center", justifyContent: "center", paddingHorizontal: 46 },
+  levelPill: { marginTop: -14, paddingHorizontal: 14, paddingVertical: 3, borderRadius: 10, backgroundColor: "#F6E2BC", borderWidth: 1.5, borderColor: "#D9AE6E" },
   order: { flexDirection: "row", alignItems: "center", gap: 8, marginTop: 8, alignSelf: "center", paddingVertical: 4, paddingRight: 14, paddingLeft: 6, borderRadius: 16, backgroundColor: "#FFF4E2", borderWidth: 1.5, borderColor: "#E2B878", minWidth: 200 },
   dot: { width: 20, height: 20, borderRadius: 6, alignItems: "center", justifyContent: "center" },
   status: { alignSelf: "center", paddingHorizontal: 16, paddingVertical: 8, borderRadius: 16, backgroundColor: "rgba(60,32,18,0.72)", borderWidth: 1, borderColor: "rgba(255,220,170,0.35)" },
